@@ -1,17 +1,32 @@
 """
-Bloque 0 - Estado Primordial
-=============================
+Bloque 0 - Estado Primordial S₀
+================================
 
-Define el estado inicial del universo antes del primer colapso.
+Define el estado inicial del universo antes del primer colapso,
+fundamentado en la DUALIDAD TENSIONAL MASA-ESPACIO.
 
-En el estado primordial:
+En el estado primordial S₀:
     - Mp0 = 1.0 (masa potencial normalizada)
     - Ep0 = 1e-10 (energía primordial mínima)
-    - Tensión = Mp0/Ep0 = 10^10 (máxima tensión)
+    - Φ_ten = Mp0/Ep0 = 10¹⁰ (Campo de Adrián - tensión máxima)
     - P_ME(S0) ≈ +1.0 (la masa domina completamente)
+    - k_pre = 6.307 (tasa de colapso pregeométrica)
 
-El modelo describe cómo esta tensión inicial se libera a través de
-múltiples colapsos, transformando masa potencial en energía.
+ONTOLOGÍA TENSIONAL:
+    La dualidad MASA-ESPACIO constituye el sustrato ontológico primordial.
+    El Campo de Adrián (Φ_ten) captura la tensión entre estos dos aspectos
+    complementarios de la realidad física.
+
+    La evolución cósmica se describe como el flujo desde:
+    - Estado inicial: Φ_ten → ∞ (masa pura, S=S₀)
+    - Estado final: Φ_ten → 0 (espacio puro, S=S₄)
+
+CAMPO DE ADRIÁN:
+    Φ_ten(S) = Mp(S)/Ep(S)
+
+    Este campo tensorial describe cómo la masa potencial primordial
+    se transforma progresivamente en energía-espacio a través de
+    los colapsos entrópicos sucesivos.
 
 Autor: Adrián Martínez Estellés
 Copyright (c) 2024. Todos los derechos reservados.
@@ -30,7 +45,7 @@ from numpy.typing import NDArray
 
 
 # =============================================================================
-# Constantes Fundamentales del Modelo
+# Constantes Fundamentales del Modelo MCMC
 # =============================================================================
 
 # Masa potencial primordial (normalizada a 1)
@@ -39,31 +54,77 @@ Mp0: float = 1.0
 # Energía primordial (prácticamente cero, pero no exactamente)
 Ep0: float = 1e-10
 
+# Tasa de colapso pregeométrica
+K_PRE: float = 6.307
+
+# Campo de Adrián inicial (tensión máxima)
+PHI_TEN_0: float = Mp0 / Ep0  # = 10^10
+
 # Sellos entrópicos: puntos de transición en la evolución
+# Representan los "momentos" ontológicos de la evolución cósmica
 SELLOS: Dict[str, float] = {
-    "S0": 0.000,  # Estado primordial
-    "S1": 0.010,  # Primera transición
-    "S2": 0.100,  # Segunda transición
+    "S0": 0.000,  # Estado primordial - masa pura
+    "S1": 0.010,  # Primera transición - inicio de colapsos
+    "S2": 0.100,  # Segunda transición - estructura emergente
     "S3": 1.000,  # Tercera transición (era actual aproximada)
-    "S4": 1.001,  # Estado final/futuro
+    "S4": 1.001,  # Estado final - energía domina
 }
 
 # Lista ordenada de sellos para iteración
 SELLOS_ORDEN: List[str] = ["S0", "S1", "S2", "S3", "S4"]
 
+# Nombres descriptivos de los sellos
+NOMBRES_SELLOS: Dict[str, str] = {
+    "S0": "Estado Primordial",
+    "S1": "Primera Transición",
+    "S2": "Segunda Transición",
+    "S3": "Era Actual",
+    "S4": "Estado Final",
+}
+
 
 # =============================================================================
-# Funciones Fundamentales
+# Funciones Fundamentales del Campo Tensional
 # =============================================================================
+
+def calcular_Phi_ten(Mp: float, Ep: float) -> float:
+    """
+    Calcula el Campo de Adrián (Φ_ten).
+
+    Φ_ten = Mp / Ep
+
+    Este campo tensorial es la cantidad fundamental que describe
+    la dualidad MASA-ESPACIO en el modelo MCMC. Representa la
+    "tensión ontológica" entre los dos aspectos primordiales.
+
+    Propiedades:
+        - Φ_ten → ∞ cuando Ep → 0 (masa pura, estado primordial)
+        - Φ_ten = 1 cuando Mp = Ep (equilibrio tensional)
+        - Φ_ten → 0 cuando Mp → 0 (espacio puro, estado final)
+
+    El Campo de Adrián es equivalente a la tensión masa-energía
+    pero enfatiza su carácter de campo ontológico fundamental.
+
+    Args:
+        Mp: Masa potencial
+        Ep: Energía (espacio)
+
+    Returns:
+        Φ_ten: Campo de Adrián (adimensional)
+    """
+    if Ep <= 0:
+        raise ValueError("La energía debe ser positiva")
+    return Mp / Ep
+
 
 def calcular_tension(Mp: float, Ep: float) -> float:
     """
-    Calcula la tensión masa-energía.
+    Calcula la tensión masa-energía (alias del Campo de Adrián).
+
+    Tensión = Φ_ten = Mp / Ep
 
     La tensión representa el desequilibrio entre masa potencial
     y energía liberada. En el estado primordial es máxima.
-
-    Tensión = Mp / Ep
 
     Args:
         Mp: Masa potencial
@@ -72,28 +133,33 @@ def calcular_tension(Mp: float, Ep: float) -> float:
     Returns:
         Tensión (adimensional)
     """
-    if Ep <= 0:
-        raise ValueError("La energía debe ser positiva")
-    return Mp / Ep
+    return calcular_Phi_ten(Mp, Ep)
 
 
 def calcular_P_ME(Mp: float, Ep: float) -> float:
     """
-    Calcula la polarización masa-energía.
+    Calcula la polarización masa-espacio P_ME.
 
     P_ME = (Mp - Ep) / (Mp + Ep)
 
+    Esta es la forma normalizada del Campo de Adrián, acotada en [-1, +1].
+    Representa la "polarización" del campo tensional.
+
     Propiedades:
-        - P_ME → +1 cuando Mp >> Ep (masa domina)
-        - P_ME → -1 cuando Ep >> Mp (energía domina)
-        - P_ME = 0 cuando Mp = Ep (equilibrio)
+        - P_ME → +1 cuando Mp >> Ep (masa domina, S → S₀)
+        - P_ME → -1 cuando Ep >> Mp (espacio domina, S → S₄)
+        - P_ME = 0 cuando Mp = Ep (equilibrio tensional)
+
+    Relación con Φ_ten:
+        P_ME = (Φ_ten - 1) / (Φ_ten + 1)
+        Φ_ten = (1 + P_ME) / (1 - P_ME)
 
     Esta es la variable fundamental que describe la evolución
     del universo desde +1 (primordial) hacia -1 (futuro).
 
     Args:
         Mp: Masa potencial
-        Ep: Energía
+        Ep: Energía (espacio)
 
     Returns:
         Polarización P_ME en [-1, +1]
@@ -104,6 +170,25 @@ def calcular_P_ME(Mp: float, Ep: float) -> float:
     return (Mp - Ep) / total
 
 
+def Phi_ten_desde_P_ME(P_ME: float) -> float:
+    """
+    Calcula Φ_ten a partir de P_ME.
+
+    Φ_ten = (1 + P_ME) / (1 - P_ME)
+
+    Args:
+        P_ME: Polarización masa-espacio en [-1, +1)
+
+    Returns:
+        Campo de Adrián Φ_ten
+    """
+    if P_ME >= 1.0:
+        return np.inf
+    if P_ME <= -1.0:
+        return 0.0
+    return (1 + P_ME) / (1 - P_ME)
+
+
 # =============================================================================
 # Clase Principal
 # =============================================================================
@@ -111,25 +196,36 @@ def calcular_P_ME(Mp: float, Ep: float) -> float:
 @dataclass
 class EstadoPrimordial:
     """
-    Representa el estado primordial del universo (Sello S0).
+    Representa el estado primordial del universo (Sello S₀).
 
-    En este estado:
-        - La masa potencial es máxima (Mp = Mp0)
-        - La energía es mínima (Ep ≈ 0)
-        - La tensión es máxima (≈ 10^10)
-        - P_ME ≈ +1
+    En el estado primordial:
+        - La masa potencial es máxima (Mp = Mp0 = 1.0)
+        - La energía es mínima (Ep = Ep0 ≈ 10⁻¹⁰)
+        - El Campo de Adrián es máximo (Φ_ten ≈ 10¹⁰)
+        - La polarización es máxima (P_ME ≈ +1)
+        - La tasa de colapso pregeométrica es k_pre = 6.307
 
-    El universo evoluciona desde aquí mediante colapsos sucesivos
-    que convierten masa potencial en energía.
+    DUALIDAD TENSIONAL MASA-ESPACIO:
+        El estado primordial representa el polo "masa pura" de la
+        dualidad ontológica fundamental. El universo evoluciona
+        desde aquí hacia el polo "espacio puro" a través de los
+        colapsos entrópicos sucesivos.
+
+    CAMPO DE ADRIÁN:
+        Φ_ten = Mp/Ep captura la tensión entre masa y espacio.
+        En S₀: Φ_ten → ∞ (masa domina completamente)
+        En S₄: Φ_ten → 0 (espacio domina completamente)
 
     Attributes:
         Mp: Masa potencial actual
-        Ep: Energía actual
+        Ep: Energía (espacio) actual
         sello: Sello entrópico actual
+        k_pre: Tasa de colapso pregeométrica
     """
     Mp: float = Mp0
     Ep: float = Ep0
     sello: str = "S0"
+    k_pre: float = K_PRE
 
     # Historial de evolución
     historial: List[Dict[str, float]] = field(default_factory=list)
@@ -148,21 +244,41 @@ class EstadoPrimordial:
         """Registra el estado actual en el historial."""
         self.historial.append({
             "sello": self.sello,
+            "nombre": self.nombre_sello,
             "S": SELLOS.get(self.sello, 0.0),
             "Mp": self.Mp,
             "Ep": self.Ep,
-            "tension": self.tension,
+            "Phi_ten": self.Phi_ten,
             "P_ME": self.P_ME,
+            "k_pre": self.k_pre,
         })
 
     @property
+    def Phi_ten(self) -> float:
+        """
+        Campo de Adrián (tensión ontológica).
+
+        Φ_ten = Mp / Ep
+
+        Este es el campo fundamental que describe la dualidad
+        MASA-ESPACIO en el modelo MCMC.
+        """
+        return calcular_Phi_ten(self.Mp, self.Ep)
+
+    @property
     def tension(self) -> float:
-        """Tensión actual del sistema."""
-        return calcular_tension(self.Mp, self.Ep)
+        """Tensión actual del sistema (alias de Phi_ten)."""
+        return self.Phi_ten
 
     @property
     def P_ME(self) -> float:
-        """Polarización masa-energía actual."""
+        """
+        Polarización masa-espacio actual.
+
+        P_ME = (Mp - Ep) / (Mp + Ep)
+
+        Forma normalizada del Campo de Adrián en [-1, +1].
+        """
         return calcular_P_ME(self.Mp, self.Ep)
 
     @property
@@ -174,6 +290,11 @@ class EstadoPrimordial:
     def energia_total(self) -> float:
         """Energía total conservada: E_total = Mp + Ep = Mp0 + Ep0."""
         return self.Mp + self.Ep
+
+    @property
+    def nombre_sello(self) -> str:
+        """Nombre descriptivo del sello actual."""
+        return NOMBRES_SELLOS.get(self.sello, "Desconocido")
 
     def evolucionar_a_sello(self, nuevo_sello: str, epsilon: float) -> None:
         """
@@ -233,16 +354,19 @@ class EstadoPrimordial:
         return cls(Mp=Mp0, Ep=Ep0, sello="S0")
 
     def resumen(self) -> str:
-        """Genera un resumen del estado actual."""
+        """Genera un resumen del estado actual con el Campo de Adrián."""
         return (
-            f"Estado Primordial MCMC\n"
-            f"{'='*40}\n"
-            f"Sello: {self.sello} (S = {self.S:.4f})\n"
-            f"Mp = {self.Mp:.6f}\n"
-            f"Ep = {self.Ep:.6e}\n"
-            f"Tensión = {self.tension:.2e}\n"
-            f"P_ME = {self.P_ME:+.6f}\n"
-            f"Energía total = {self.energia_total:.6f}\n"
+            f"Estado Primordial MCMC - Dualidad Tensional MASA-ESPACIO\n"
+            f"{'='*55}\n"
+            f"Sello: {self.sello} - {self.nombre_sello} (S = {self.S:.4f})\n"
+            f"{'='*55}\n"
+            f"  Mp (Masa potencial)    = {self.Mp:.6f}\n"
+            f"  Ep (Energía/Espacio)   = {self.Ep:.6e}\n"
+            f"  Φ_ten (Campo de Adrián) = {self.Phi_ten:.2e}\n"
+            f"  P_ME (Polarización)    = {self.P_ME:+.6f}\n"
+            f"  k_pre (Tasa colapso)   = {self.k_pre:.3f}\n"
+            f"{'='*55}\n"
+            f"  Energía total conservada = {self.energia_total:.6f}\n"
         )
 
 

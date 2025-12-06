@@ -266,18 +266,86 @@ class TestIntegracion(unittest.TestCase):
         self.assertLess(P_final, -0.9)
 
 
+class TestQubitTensorial(unittest.TestCase):
+    """Tests para el Qubit Tensorial (validación cuántica)."""
+
+    def test_estado_normalizado(self):
+        """El estado debe estar normalizado."""
+        from mcmc_core.qubit_tensorial import QubitTensorial
+        for eps in [0.0, 0.25, 0.5, 0.75, 1.0]:
+            qt = QubitTensorial(epsilon=max(0.001, min(0.999, eps)))
+            self.assertTrue(qt.verificar_normalizacion())
+
+    def test_concurrencia_limites(self):
+        """C(0)=0, C(0.5)=1, C(1)=0."""
+        from mcmc_core.qubit_tensorial import concurrencia_desde_epsilon
+        self.assertAlmostEqual(concurrencia_desde_epsilon(0.0), 0.0, places=4)
+        self.assertAlmostEqual(concurrencia_desde_epsilon(0.5), 1.0, places=4)
+        self.assertAlmostEqual(concurrencia_desde_epsilon(1.0), 0.0, places=4)
+
+    def test_P_ME_cuantico(self):
+        """P_ME cuántico debe coincidir con el clásico."""
+        from mcmc_core.qubit_tensorial import QubitTensorial
+        qt = QubitTensorial(epsilon=0.3)
+        P_esperado = 1 - 2 * 0.3
+        self.assertAlmostEqual(qt.P_ME_cuantico, P_esperado, places=6)
+
+    def test_fidelidad_bell(self):
+        """Fidelidad máxima con Bell en equilibrio."""
+        from mcmc_core.qubit_tensorial import QubitTensorial
+        qt = QubitTensorial.equilibrio()
+        self.assertAlmostEqual(qt.fidelidad_con_bell(), 1.0, places=4)
+
+
+class TestSpinNetwork(unittest.TestCase):
+    """Tests para Spin Network (conexión LQG)."""
+
+    def test_construccion_red(self):
+        """La red debe construirse correctamente."""
+        from mcmc_core.spin_network_lqg import SpinNetwork
+        red = SpinNetwork(L=5, D=2, epsilon=0.5)
+        self.assertEqual(red.n_nodos, 25)
+        self.assertGreater(red.n_enlaces, 0)
+
+    def test_area_enlace_positiva(self):
+        """Área cuántica debe ser positiva."""
+        from mcmc_core.spin_network_lqg import area_enlace
+        A = area_enlace(0.5)
+        self.assertGreater(A, 0)
+
+    def test_fraccion_activa(self):
+        """Fracción activa debe estar en [0, 1]."""
+        from mcmc_core.spin_network_lqg import SpinNetwork
+        for eps in [0.2, 0.5, 0.8]:
+            red = SpinNetwork(L=10, D=2, epsilon=eps)
+            self.assertGreaterEqual(red.fraccion_activa, 0)
+            self.assertLessEqual(red.fraccion_activa, 1)
+
+    def test_percolacion_alta_densidad(self):
+        """Alta densidad debe percolr con alta probabilidad."""
+        from mcmc_core.spin_network_lqg import SpinNetwork
+        # ε = 0.9 debería percolr casi siempre
+        red = SpinNetwork(L=10, D=2, epsilon=0.9)
+        # Solo verificamos que no falla, la percolación es probabilística
+        _ = red.percola()
+
+
 def run_all_tests():
     """Ejecuta todos los tests."""
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
 
-    # Añadir todos los tests
+    # Añadir todos los tests de los bloques principales
     suite.addTests(loader.loadTestsFromTestCase(TestBloque0))
     suite.addTests(loader.loadTestsFromTestCase(TestBloque1))
     suite.addTests(loader.loadTestsFromTestCase(TestBloque2))
     suite.addTests(loader.loadTestsFromTestCase(TestBloque3))
     suite.addTests(loader.loadTestsFromTestCase(TestBloque4))
     suite.addTests(loader.loadTestsFromTestCase(TestIntegracion))
+
+    # Añadir tests de validación cuántica
+    suite.addTests(loader.loadTestsFromTestCase(TestQubitTensorial))
+    suite.addTests(loader.loadTestsFromTestCase(TestSpinNetwork))
 
     # Ejecutar
     runner = unittest.TextTestRunner(verbosity=2)
