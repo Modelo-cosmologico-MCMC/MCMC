@@ -1,0 +1,13 @@
+# Modelo Cosmológico de Múltiples Colapsos (MCMC)
+# Autor: Adrián Martínez Estellés
+# Copyright (c) 2024. Todos los derechos reservados.
+
+# Dependencias principales
+numpy>=1.20.0
+scipy>=1.7.0
+
+# Visualización (opcional)
+matplotlib>=3.4.0
+
+# Testing (opcional)
+pytest>=6.0.0
