@@ -280,7 +280,65 @@ from .circuito_cuantico import (
     ZZ_ESPERADO,
 )
 
-__version__ = "2.2.0"
+# Datos Observacionales
+from .datos_observacionales import (
+    # Constantes
+    C_LIGHT, H0_FIDUCIAL,
+    # Planck 2018
+    DatosPlanck2018, PLANCK_2018,
+    # BAO
+    PuntoBAO,
+    BAO_6DFGS, BAO_MGS, BAO_BOSS_DR12, BAO_EBOSS_DR16, BAO_DESI_2024,
+    BAO_ALL,
+    # SPARC
+    GalaxiaSPARCCompleta, SPARC_CATALOG,
+    # GAIA
+    DatosGAIA, GAIA_DR3,
+    # Supernovas
+    PuntoSN, PANTHEON_PLUS_SUBSET,
+    # H0
+    MedicionH0, H0_MEDICIONES,
+    # Funciones de utilidad
+    calcular_r_d_fiducial,
+    calcular_D_V,
+    calcular_chi2_BAO,
+    calcular_chi2_SN,
+    calcular_D_L_LCDM,
+    tension_H0,
+    resumen_datos,
+)
+
+# Ontología ECV y MCV
+from .ontologia_ecv_mcv import (
+    # Constantes ECV
+    EPSILON_ECV, Z_TRANS, DELTA_Z, S_BB, S_0, P_ENTROPIC,
+    # Constantes MCV
+    RHO_STAR, R_STAR, S_STAR, ALPHA_RHO, ALPHA_R, NORM_FACTOR_MCV,
+    # Fricción
+    ETA_FRICTION, GAMMA_FRICTION, RHO_CRIT_FRICTION,
+    # Funciones ECV
+    S_of_z, F_transition, rho_ECV, Omega_ECV, Lambda_rel,
+    E_MCMC_ECV, E_MCMC_Lambda_rel, H_MCMC_ECV,
+    distancia_comovil_ECV, distancia_luminosidad_ECV,
+    modulo_distancia_ECV, distancia_volumen_ECV,
+    # Funciones MCV
+    S_local, rho_0_MCV, r_core_MCV, r_core_from_mass,
+    perfil_MCV_Burkert, perfil_MCV_isotermico,
+    masa_encerrada_MCV_Burkert, masa_encerrada_MCV_isotermico,
+    perfil_Zhao_MCV,
+    # Fricción entrópica
+    ParametrosFriccion, FriccionEntropicaMCV,
+    # Velocidad circular
+    velocidad_circular_MCV, velocidad_circular_MCV_calibrado, velocidad_NFW_standard,
+    # LCDM para comparación
+    E_LCDM_standard, H_LCDM_standard,
+    distancia_comovil_LCDM, distancia_luminosidad_LCDM,
+    modulo_distancia_LCDM, distancia_volumen_LCDM,
+    # Verificación
+    verificar_ECV, verificar_MCV, verificar_friccion,
+)
+
+__version__ = "2.5.0"
 __author__ = "Adrián Martínez Estellés"
 __email__ = "adrianmartinezestelles92@gmail.com"
 __license__ = "Propietaria - Ver LICENSE"
@@ -382,4 +440,120 @@ __all__ = [
     "testigo_bell", "violacion_CHSH",
     "simular_medicion", "evolucionar_circuito",
     "EPSILON_CALIBRADO", "THETA_RY", "P_ME_ESPERADO", "ZZ_ESPERADO",
+
+    # Datos Observacionales
+    "C_LIGHT", "H0_FIDUCIAL",
+    "DatosPlanck2018", "PLANCK_2018",
+    "PuntoBAO",
+    "BAO_6DFGS", "BAO_MGS", "BAO_BOSS_DR12", "BAO_EBOSS_DR16", "BAO_DESI_2024",
+    "BAO_ALL",
+    "GalaxiaSPARCCompleta", "SPARC_CATALOG",
+    "DatosGAIA", "GAIA_DR3",
+    "PuntoSN", "PANTHEON_PLUS_SUBSET",
+    "MedicionH0", "H0_MEDICIONES",
+    "calcular_r_d_fiducial", "calcular_D_V",
+    "calcular_chi2_BAO", "calcular_chi2_SN", "calcular_D_L_LCDM",
+    "tension_H0", "resumen_datos",
+
+    # Ontología ECV y MCV
+    "EPSILON_ECV", "Z_TRANS", "DELTA_Z", "S_BB", "S_0", "P_ENTROPIC",
+    "RHO_STAR", "R_STAR", "S_STAR", "ALPHA_RHO", "ALPHA_R",
+    "ETA_FRICTION", "GAMMA_FRICTION", "RHO_CRIT_FRICTION",
+    "S_of_z", "F_transition", "rho_ECV", "Omega_ECV", "Lambda_rel",
+    "E_MCMC_ECV", "E_MCMC_Lambda_rel", "H_MCMC_ECV",
+    "distancia_comovil_ECV", "distancia_luminosidad_ECV",
+    "modulo_distancia_ECV", "distancia_volumen_ECV",
+    "S_local", "rho_0_MCV", "r_core_MCV", "r_core_from_mass",
+    "perfil_MCV_Burkert", "perfil_MCV_isotermico",
+    "masa_encerrada_MCV_Burkert", "masa_encerrada_MCV_isotermico",
+    "perfil_Zhao_MCV",
+    "ParametrosFriccion", "FriccionEntropicaMCV",
+    "velocidad_circular_MCV", "velocidad_NFW_standard",
+    "E_LCDM_standard", "H_LCDM_standard",
+    "distancia_comovil_LCDM", "distancia_luminosidad_LCDM",
+    "modulo_distancia_LCDM", "distancia_volumen_LCDM",
+    "verificar_ECV", "verificar_MCV", "verificar_friccion",
+
+    # SPARC Zhao MCMC
+    "ParametrosZhaoMCMC", "PARAMS_ZHAO", "PerfilZhaoMCMC", "PerfilNFW",
+    "AjustadorSPARC", "test_SPARC_Zhao_MCMC", "verificar_SPARC_Zhao",
+
+    # GAIA Zhao MCMC
+    "ParametrosMWMCMC", "PARAMS_MW", "AjustadorGAIA", "test_GAIA_Zhao_MCMC",
+
+    # CLASS-MCMC
+    "ParametrosCLASS", "PARAMS_CLASS",
+    "E_MCMC_full", "H_MCMC_full",
+    "calcular_D_MCMC", "calcular_f_MCMC",
+    "calcular_sigma8_MCMC", "calcular_S8_MCMC",
+    "P_k_MCMC", "calcular_Pk_array",
+    "C_l_TT_approx", "calcular_Cl_array",
+    "theta_star_MCMC", "l_acoustic_MCMC",
+    "comparar_con_LCDM", "test_CLASS_MCMC",
+
+    # N-body Cronos
+    "ParametrosCronosNBody", "PARAMS_CRONOS",
+    "lapse_function", "friccion_entropica", "radio_core_cronos",
+    "perfil_Cronos", "IntegradorCronos",
+    "analizar_halo_cronos", "test_NBody_Cronos",
+
+    # Lensing MCV
+    "ParametrosLensing", "PARAMS_LENSING",
+    "Sigma_crit", "Sigma_NFW", "Sigma_Zhao",
+    "kappa_NFW", "kappa_Zhao", "gamma_tangencial",
+    "calcular_S8_lensing", "test_Lensing_MCV",
+
+    # DESI Y3
+    "PuntoDESI", "DESI_Y3_DATA",
+    "calcular_chi2_DESI", "calcular_chi2_LCDM_DESI",
+    "ajustar_epsilon_z_trans", "comparar_DESI_detallado",
+    "analizar_tensiones_DESI", "test_DESI_Y3",
 ]
+
+# SPARC Zhao MCMC (late import to avoid circular)
+from .sparc_zhao import (
+    ParametrosZhaoMCMC, PARAMS_ZHAO,
+    PerfilZhaoMCMC, PerfilNFW,
+    AjustadorSPARC,
+    test_SPARC_Zhao_MCMC, verificar_SPARC_Zhao,
+    # GAIA (Vía Láctea)
+    ParametrosMWMCMC, PARAMS_MW,
+    AjustadorGAIA,
+    test_GAIA_Zhao_MCMC,
+)
+
+# CLASS-MCMC
+from .class_mcmc import (
+    ParametrosCLASS, PARAMS_CLASS,
+    E_MCMC_full, H_MCMC_full,
+    calcular_D_MCMC, calcular_f_MCMC,
+    calcular_sigma8_MCMC, calcular_S8_MCMC,
+    P_k_MCMC, calcular_Pk_array,
+    C_l_TT_approx, calcular_Cl_array,
+    theta_star_MCMC, l_acoustic_MCMC,
+    comparar_con_LCDM, test_CLASS_MCMC,
+)
+
+# N-body Cronos
+from .nbody_cronos import (
+    ParametrosCronosNBody, PARAMS_CRONOS,
+    lapse_function, friccion_entropica, radio_core_cronos,
+    perfil_Cronos, IntegradorCronos,
+    analizar_halo_cronos, test_NBody_Cronos,
+)
+
+# Lensing MCV
+from .lensing_mcv import (
+    ParametrosLensing, PARAMS_LENSING,
+    Sigma_crit, Sigma_NFW, Sigma_Zhao,
+    kappa_NFW, kappa_Zhao, gamma_tangencial,
+    calcular_S8_lensing, test_Lensing_MCV,
+)
+
+# DESI Y3
+from .desi_y3 import (
+    PuntoDESI, DESI_Y3_DATA,
+    calcular_chi2_DESI, calcular_chi2_LCDM_DESI,
+    ajustar_epsilon_z_trans, comparar_DESI_detallado,
+    analizar_tensiones_DESI, test_DESI_Y3,
+)
