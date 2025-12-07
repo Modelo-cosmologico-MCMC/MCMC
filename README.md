@@ -29,8 +29,8 @@ El modelo se estructura en **5 bloques**:
 S0 = 0.000  (Estado primordial)
 S1 = 0.010  (Primera transición)
 S2 = 0.100  (Segunda transición)
-S3 = 1.000  (Era actual)
-S4 = 1.001  (Estado final)
+S3 = 1.000  (Tercera Transición)
+S4 = 1.001  (Big bang Observable)
 ```
 
 ### Ecuaciones Fundamentales
