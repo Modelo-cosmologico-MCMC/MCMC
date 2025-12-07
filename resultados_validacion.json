@@ -1,0 +1,79 @@
+{
+  "version": "2.2.0",
+  "timestamp": "2025-12-07T02:10:08.655210",
+  "resumen": {
+    "total_tests": 38,
+    "tests_pasados": 35,
+    "porcentaje": "92.1%"
+  },
+  "bloques": [
+    {
+      "nombre": "Bloque 0: Estado Primordial",
+      "tests": "5/5",
+      "chi2": null,
+      "metricas": {
+        "tension_inicial": 10000000000.0,
+        "P_ME_inicial": 0.9999999998,
+        "error_conservacion": 1.000000082740371e-10
+      }
+    },
+    {
+      "nombre": "Bloque 1: Pregeometr\u00eda",
+      "tests": "5/5",
+      "chi2": null,
+      "metricas": {
+        "k_min": 2.1519376931045855,
+        "k_max": 10.462062306895417,
+        "epsilon_S4": 1.0,
+        "integral_total": 6.313340683086128
+      }
+    },
+    {
+      "nombre": "Bloque 2: Cosmolog\u00eda",
+      "tests": "7/7",
+      "chi2": 0.2650820840763166,
+      "metricas": {
+        "diff_z_alto": 3.31378423870916e-08,
+        "edad_universo": 13.769108326321245,
+        "Lambda_rel_0": 1.02,
+        "tension_H0_sigma": 4.887561225309663,
+        "reduccion_H0_objetivo": 0.56,
+        "D_L_z1": 6780.714148647769
+      }
+    },
+    {
+      "nombre": "Bloque 3: N-Body (SPARC)",
+      "tests": "6/8",
+      "chi2": 5458279.67564676,
+      "metricas": {
+        "rho_Burkert_0": 100000000.0,
+        "r_core_1e11": 1.8,
+        "chi2_NFW_DDO154": 4197667.427878228,
+        "chi2_Burkert_DDO154": 106275.46507660716,
+        "chi2_NFW_NGC2403": 68587243.70630953,
+        "chi2_Burkert_NGC2403": 10810283.886216912
+      }
+    },
+    {
+      "nombre": "Bloque 4: Lattice Gauge",
+      "tests": "7/8",
+      "chi2": 0.06229599630956917,
+      "metricas": {
+        "beta_S4": 6.4524187090179845,
+        "E_min_pre": 10.0,
+        "E_min_S4": 111.51186323694829,
+        "E_QCD_S4": 3.038,
+        "ratio_glueball": 1.7766081871345027
+      }
+    },
+    {
+      "nombre": "Validaci\u00f3n Cu\u00e1ntica",
+      "tests": "5/5",
+      "chi2": null,
+      "metricas": {
+        "concurrencia_eq": 1.0,
+        "P_ME_cuantico": 0.0
+      }
+    }
+  ]
+}
