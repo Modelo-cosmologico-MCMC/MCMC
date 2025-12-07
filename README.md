@@ -149,7 +149,7 @@ python tests/test_mcmc.py
 
 ### Bloque 0: Estado Primordial
 - **Mp0 = 1.0**: Masa potencial normalizada
-- **Ep0 = 10⁻¹⁰**: Energía primordial mínima
+- **Ep0 = 10⁻¹⁰**: Espacio primordial mínimo
 - **Tensión = 10¹⁰**: Máxima tensión inicial
 - **P_ME ≈ +1**: Masa domina completamente
 
