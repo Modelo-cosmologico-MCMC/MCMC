@@ -42,6 +42,8 @@ from mcmc_core import (
     # SPARC Zhao MCMC
     ParametrosZhaoMCMC, PARAMS_ZHAO, PerfilZhaoMCMC,
     AjustadorSPARC, test_SPARC_Zhao_MCMC,
+    # GAIA Zhao MCMC
+    AjustadorGAIA, test_GAIA_Zhao_MCMC,
     # ΛCDM para comparación
     E_LCDM_standard, H_LCDM_standard,
     distancia_comovil_LCDM, distancia_luminosidad_LCDM,
@@ -312,80 +314,38 @@ def test_SPARC_MCV() -> Dict:
 
 
 # =============================================================================
-# TEST 5: GAIA CON MCV
+# TEST 5: GAIA CON PERFIL ZHAO MCMC
 # =============================================================================
 
 def test_GAIA_MCV() -> Dict:
     """
-    Valida cinemática de la Vía Láctea con MCV calibrado.
+    Valida cinemática de la Vía Láctea con Perfil Zhao MCMC (γ=0.51).
+
+    Usa el perfil Zhao refinado con:
+    - γ=0.51 (cored) en lugar de NFW (γ=1)
+    - S_loc como parámetro libre ajustado
+    - Componentes bariónicas (disco + bulbo)
+    - Fricción entrópica (Ley de Cronos)
+
+    Objetivo: Mejor que NFW y modelo plano
     """
-    print("\n" + "="*60)
-    print("  TEST 5: Cinemática Vía Láctea GAIA (MCV calibrado)")
-    print("="*60)
+    # Usar la función test_GAIA_Zhao_MCMC del módulo sparc_zhao
+    result = test_GAIA_Zhao_MCMC(verbose=True)
 
-    R_sol = GAIA_DR3.R_sol
-    V_sol = GAIA_DR3.V_sol
-    R_data = GAIA_DR3.R_data
-    V_data = GAIA_DR3.V_circ
-    V_err = GAIA_DR3.V_circ_err
-
-    # Masa MW estimada desde V_sol
-    r_eff_MW = 3.0  # kpc (radio efectivo aproximado del disco)
-    M_MW = V_sol**2 * 10 * r_eff_MW / G_GRAV
-
-    S_loc = S_local(M_MW)
-    r_c = r_core_MCV(S_loc)
-
-    print(f"\n  Parámetros solares:")
-    print(f"    R☉ = {R_sol:.3f} kpc")
-    print(f"    V☉ = {V_sol:.1f} km/s")
-
-    print(f"\n  MCV Vía Láctea (calibrado):")
-    print(f"    M_MW ≈ {M_MW:.2e} M☉")
-    print(f"    S_loc = {S_loc:.3f}")
-    print(f"    r_core = {r_c:.2f} kpc")
-
-    chi2_flat = 0.0
-    chi2_mcv = 0.0
-
-    print(f"\n  {'R (kpc)':>8} {'V_obs':>8} {'V_flat':>8} {'V_MCV':>8}")
-    print("  " + "-"*40)
-
-    for i, R in enumerate(R_data):
-        V_o = V_data[i]
-        err = V_err[i]
-
-        # Modelo plano
-        V_flat_model = V_sol
-
-        # Modelo MCV calibrado a V_sol
-        V_mcv = velocidad_circular_MCV_calibrado(
-            R, V_sol, r_eff_MW,
-            include_friction=True
-        )
-
-        chi2_flat += ((V_flat_model - V_o) / err)**2
-        chi2_mcv += ((V_mcv - V_o) / err)**2
-
-        print(f"  {R:8.1f} {V_o:8.1f} {V_flat_model:8.1f} {V_mcv:8.1f}")
-
-    print(f"\n  Resultados Vía Láctea (MCV):")
-    print(f"    χ²_flat = {chi2_flat:.1f}")
-    print(f"    χ²_MCV = {chi2_mcv:.1f}")
-
-    # El modelo Burkert debe dar mejor ajuste que flat en las afueras
-    mejora = 100 * (chi2_flat - chi2_mcv) / chi2_flat if chi2_flat > 0 else 0
-    print(f"    Mejora: {mejora:.1f}%")
-
+    # Adaptar el formato de salida para compatibilidad
     return {
-        "R_sol": R_sol,
-        "V_sol": V_sol,
-        "r_core_MCV": r_c,
-        "chi2_flat": chi2_flat,
-        "chi2_MCV": chi2_mcv,
-        "mejora": mejora,
+        "R_sol": GAIA_DR3.R_sol,
+        "V_sol": GAIA_DR3.V_sol,
+        "S_loc": result['S_loc'],
+        "r_s": result['r_s'],
+        "rho_0": result['rho_0'],
+        "chi2_flat": result['chi2_flat'],
+        "chi2_NFW": result['chi2_NFW'],
+        "chi2_MCV": result['chi2_MCMC'],
+        "mejora_vs_NFW": result['mejora_vs_nfw'],
+        "mejora_vs_flat": result['mejora_vs_flat'],
         "rho_DM_local": GAIA_DR3.rho_DM_local,
-        "passed": True  # Validación cualitativa
+        "passed": result['passed']
     }
 
 
@@ -637,6 +597,19 @@ def verificar_criterios(resultados: Dict) -> Dict:
     print(f"    MCMC < NFW: {chi2_mcv:.1f} < {chi2_nfw:.1f} -> {'PASS' if criterios['sparc_mejor_nfw'] else 'FAIL'}")
     print(f"    Mejora > 40%: {mejora_sparc:.1f}% -> {'PASS' if criterios['sparc_mejora_40'] else 'FAIL'}")
 
+    # Criterio GAIA (Zhao γ=0.51)
+    chi2_gaia_mcmc = resultados["GAIA"]["chi2_MCV"]
+    chi2_gaia_nfw = resultados["GAIA"]["chi2_NFW"]
+    chi2_gaia_flat = resultados["GAIA"]["chi2_flat"]
+    mejora_gaia = resultados["GAIA"]["mejora_vs_NFW"]
+
+    criterios["gaia_mejor_nfw"] = chi2_gaia_mcmc < chi2_gaia_nfw
+    criterios["gaia_mejor_flat"] = chi2_gaia_mcmc < chi2_gaia_flat
+
+    print(f"\n  GAIA (Perfil Zhao γ=0.51):")
+    print(f"    MCMC < NFW: {chi2_gaia_mcmc:.1f} < {chi2_gaia_nfw:.1f} -> {'PASS' if criterios['gaia_mejor_nfw'] else 'FAIL'}")
+    print(f"    MCMC < flat: {chi2_gaia_mcmc:.1f} < {chi2_gaia_flat:.1f} -> {'PASS' if criterios['gaia_mejor_flat'] else 'FAIL'}")
+
     # Criterio r_core
     print(f"\n  r_core(M) (Ley de Cronos):")
     criterios["r_core_rango"] = True
@@ -707,7 +680,7 @@ def ejecutar_validacion_ontologica() -> Dict:
         "SNe": "Supernovas Ia (24, ECV)",
         "H0_tension": "Tensión H0 (ECV)",
         "SPARC": "SPARC (5 gal, Zhao γ=0.51)",
-        "GAIA": "GAIA DR3 (MCV)",
+        "GAIA": "GAIA DR3 (Zhao γ=0.51)",
         "S8_tension": "Tensión S8 (fricción)",
         "edad_universo": "Edad Universo (ECV)",
         "bloques": "Bloques Ontológicos (5)"

@@ -1,6 +1,6 @@
 {
   "version": "2.4.0",
-  "timestamp": "2025-12-07T17:56:08.994888",
+  "timestamp": "2025-12-07T18:09:24.028852",
   "ontologia": {
     "ECV": {
       "epsilon": 0.012,
@@ -25,6 +25,8 @@
     "sne_competitivo": true,
     "sparc_mejor_nfw": true,
     "sparc_mejora_40": true,
+    "gaia_mejor_nfw": true,
+    "gaia_mejor_flat": true,
     "r_core_rango": true
   },
   "BAO": {
@@ -123,10 +125,14 @@
   "GAIA": {
     "R_sol": 8.178,
     "V_sol": 220.0,
-    "r_core_MCV": 2.190748195906304,
+    "S_loc": 0.2,
+    "r_s": 6.077262343458991,
+    "rho_0": 43271660.47762365,
     "chi2_flat": 16.893125,
-    "chi2_MCV": 448.0411092060352,
-    "mejora": -2552.2097551875995,
+    "chi2_NFW": 10.420899242836837,
+    "chi2_MCV": 4.129398297711409,
+    "mejora_vs_NFW": 60.373877517816965,
+    "mejora_vs_flat": 75.55574650805336,
     "rho_DM_local": 0.013,
     "passed": true
   },

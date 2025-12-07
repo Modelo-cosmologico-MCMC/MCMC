@@ -477,6 +477,9 @@ __all__ = [
     # SPARC Zhao MCMC
     "ParametrosZhaoMCMC", "PARAMS_ZHAO", "PerfilZhaoMCMC", "PerfilNFW",
     "AjustadorSPARC", "test_SPARC_Zhao_MCMC", "verificar_SPARC_Zhao",
+
+    # GAIA Zhao MCMC
+    "ParametrosMWMCMC", "PARAMS_MW", "AjustadorGAIA", "test_GAIA_Zhao_MCMC",
 ]
 
 # SPARC Zhao MCMC (late import to avoid circular)
@@ -485,4 +488,8 @@ from .sparc_zhao import (
     PerfilZhaoMCMC, PerfilNFW,
     AjustadorSPARC,
     test_SPARC_Zhao_MCMC, verificar_SPARC_Zhao,
+    # GAIA (Vía Láctea)
+    ParametrosMWMCMC, PARAMS_MW,
+    AjustadorGAIA,
+    test_GAIA_Zhao_MCMC,
 )

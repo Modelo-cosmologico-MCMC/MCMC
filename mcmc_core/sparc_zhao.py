@@ -540,3 +540,298 @@ def verificar_SPARC_Zhao():
 
 if __name__ == "__main__":
     verificar_SPARC_Zhao()
+
+
+# =============================================================================
+# AJUSTADOR GAIA (VÍA LÁCTEA)
+# =============================================================================
+
+@dataclass
+class ParametrosMWMCMC:
+    """Parámetros del perfil Zhao para la Vía Láctea."""
+    # Pendientes del perfil Zhao (como en SPARC)
+    gamma: float = 0.51
+    alpha: float = 2.0
+    beta: float = 3.0
+
+    # Escalas de la Vía Láctea
+    rho_star: float = 8e6   # M☉/kpc³ (densidad de referencia)
+    r_star: float = 8.0     # kpc (radio de escala ~ R☉)
+    S_star: float = 0.5     # Entropía de referencia
+
+    # Exponentes entrópicos
+    alpha_rho: float = 0.25  # ρ_0 ∝ S_loc^(-α_ρ)
+    alpha_r: float = 0.3     # r_s ∝ S_loc^(α_r)
+
+    # Fricción entrópica
+    eta_friction: float = 0.08
+
+    # Componente bariónica MW (simplificado)
+    M_disk: float = 5e10    # M☉
+    R_disk: float = 2.5     # kpc (escala exponencial)
+    M_bulge: float = 1e10   # M☉
+    R_bulge: float = 0.5    # kpc
+
+
+PARAMS_MW = ParametrosMWMCMC()
+
+
+class AjustadorGAIA:
+    """
+    Ajusta la curva de rotación de la Vía Láctea usando perfil Zhao MCMC.
+
+    La Vía Láctea tiene una curva de rotación que:
+    - Es plana o ligeramente creciente hasta R ~ 8 kpc
+    - Decrece suavemente a R > 10 kpc
+
+    El perfil Zhao con γ=0.51 captura esta morfología.
+    """
+
+    def __init__(self, params: ParametrosMWMCMC = None):
+        self.params = params or PARAMS_MW
+        # Usar parámetros Zhao adaptados a MW
+        zhao_params = ParametrosZhaoMCMC(
+            gamma=self.params.gamma,
+            alpha=self.params.alpha,
+            beta=self.params.beta,
+            rho_star=self.params.rho_star,
+            r_star=self.params.r_star,
+            S_star=self.params.S_star,
+            alpha_rho=self.params.alpha_rho,
+            alpha_r=self.params.alpha_r,
+            eta_friction=self.params.eta_friction
+        )
+        self.zhao = PerfilZhaoMCMC(zhao_params)
+
+    def v_disk_MW(self, R: float) -> float:
+        """
+        Velocidad circular del disco exponencial de la MW.
+        V_disk² = G*M_disk*R²/(R+R_d)³ * [I0*K0 - I1*K1]
+        Aproximación simplificada.
+        """
+        M_d = self.params.M_disk
+        R_d = self.params.R_disk
+        y = R / (2 * R_d)
+        # Aproximación Freeman (1970)
+        factor = 4.0 * y**2 if y < 0.5 else (1 - np.exp(-2*y) * (1 + 2*y))
+        v_sq = G_GRAV * M_d * factor / R
+        return np.sqrt(max(v_sq, 0))
+
+    def v_bulge_MW(self, R: float) -> float:
+        """
+        Velocidad circular del bulbo (perfil de Hernquist simplificado).
+        """
+        M_b = self.params.M_bulge
+        R_b = self.params.R_bulge
+        M_enc = M_b * R**2 / (R + R_b)**2
+        return np.sqrt(G_GRAV * M_enc / R) if R > 0.01 else 0
+
+    def velocidad_total_MW(self, R: float, S_loc: float, rho_scale: float,
+                           include_friction: bool = True) -> float:
+        """
+        Velocidad circular total de la Vía Láctea.
+
+        V²_tot = V²_bulge + V²_disk + V²_halo
+        """
+        # Parámetros de halo desde S_loc
+        rho_0 = self.zhao.rho_0_from_Sloc(S_loc) * rho_scale
+        r_s = self.zhao.r_s_from_Sloc(S_loc)
+
+        # Componente de halo (MCV Zhao)
+        if include_friction:
+            v_halo = self.zhao.velocidad_con_friccion(R, rho_0, r_s)
+        else:
+            v_halo = self.zhao.velocidad_circular(R, rho_0, r_s)
+
+        # Componentes bariónicas
+        v_disk = self.v_disk_MW(R)
+        v_bulge = self.v_bulge_MW(R)
+
+        v_total = np.sqrt(v_bulge**2 + v_disk**2 + v_halo**2)
+
+        return v_total
+
+    def chi2_MW(self, params_fit: np.ndarray, R_data: np.ndarray,
+                V_data: np.ndarray, V_err: np.ndarray) -> float:
+        """
+        Calcula χ² para la curva de rotación MW.
+
+        Args:
+            params_fit: [S_loc, rho_scale]
+        """
+        S_loc = params_fit[0]
+        rho_scale = params_fit[1] if len(params_fit) > 1 else 1.0
+
+        # Límites físicos
+        if S_loc <= 0.1 or S_loc > 2.0:
+            return 1e10
+        if rho_scale <= 0.01 or rho_scale > 50:
+            return 1e10
+
+        chi2 = 0.0
+
+        for i, R in enumerate(R_data):
+            v_obs = V_data[i]
+            err = V_err[i]
+
+            if err <= 0:
+                err = 5.0
+
+            v_pred = self.velocidad_total_MW(R, S_loc, rho_scale)
+            chi2 += ((v_pred - v_obs) / err)**2
+
+        return chi2
+
+    def ajustar_MW(self, R_data: np.ndarray, V_data: np.ndarray,
+                   V_err: np.ndarray) -> Dict:
+        """
+        Ajusta los parámetros S_loc y rho_scale para la MW.
+        """
+        bounds = [(0.2, 1.8), (0.1, 30)]
+        x0 = [0.6, 3.0]
+
+        result = minimize(
+            self.chi2_MW,
+            x0,
+            args=(R_data, V_data, V_err),
+            bounds=bounds,
+            method='L-BFGS-B'
+        )
+
+        S_loc_opt = result.x[0]
+        rho_scale_opt = result.x[1]
+        chi2_mcmc = result.fun
+
+        # Parámetros de halo resultantes
+        rho_0_opt = self.zhao.rho_0_from_Sloc(S_loc_opt) * rho_scale_opt
+        r_s_opt = self.zhao.r_s_from_Sloc(S_loc_opt)
+
+        return {
+            'S_loc': S_loc_opt,
+            'rho_scale': rho_scale_opt,
+            'rho_0': rho_0_opt,
+            'r_s': r_s_opt,
+            'chi2': chi2_mcmc,
+            'n_puntos': len(R_data),
+            'chi2_red': chi2_mcmc / (len(R_data) - 2) if len(R_data) > 2 else chi2_mcmc
+        }
+
+    def chi2_flat(self, R_data: np.ndarray, V_data: np.ndarray,
+                  V_err: np.ndarray, V_flat: float = 220.0) -> float:
+        """χ² para modelo de curva plana (comparación)."""
+        chi2 = 0.0
+        for i, R in enumerate(R_data):
+            v_obs = V_data[i]
+            err = V_err[i] if V_err[i] > 0 else 5.0
+            chi2 += ((V_flat - v_obs) / err)**2
+        return chi2
+
+    def chi2_NFW_MW(self, R_data: np.ndarray, V_data: np.ndarray,
+                    V_err: np.ndarray, M_vir: float = 1e12, c: float = 12) -> float:
+        """χ² para NFW estándar (comparación)."""
+        nfw = PerfilNFW(M_vir, c)
+        chi2 = 0.0
+
+        for i, R in enumerate(R_data):
+            v_obs = V_data[i]
+            err = V_err[i] if V_err[i] > 0 else 5.0
+
+            v_halo = nfw.velocidad_circular(R)
+            v_disk = self.v_disk_MW(R)
+            v_bulge = self.v_bulge_MW(R)
+            v_pred = np.sqrt(v_bulge**2 + v_disk**2 + v_halo**2)
+
+            chi2 += ((v_pred - v_obs) / err)**2
+
+        return chi2
+
+
+def test_GAIA_Zhao_MCMC(verbose: bool = True) -> Dict:
+    """
+    Test de la curva de rotación de la Vía Láctea con perfil Zhao MCMC.
+
+    Datos: GAIA DR3 + espectroscopía (R = 4-15 kpc)
+    """
+    # Datos GAIA DR3
+    R_data = np.array([4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0])
+    V_data = np.array([220, 228, 232, 230, 229, 228, 225, 220, 215, 210, 205, 200])
+    V_err = np.array([15, 10, 8, 6, 5, 5, 6, 7, 8, 10, 12, 15])
+
+    if verbose:
+        print("\n" + "="*65)
+        print("  TEST GAIA: Curva de Rotación MW con Zhao MCMC (γ=0.51)")
+        print("="*65)
+
+    ajustador = AjustadorGAIA()
+
+    # Ajustar MCMC
+    fit_result = ajustador.ajustar_MW(R_data, V_data, V_err)
+    chi2_mcmc = fit_result['chi2']
+
+    # Comparación con NFW
+    chi2_nfw = ajustador.chi2_NFW_MW(R_data, V_data, V_err)
+
+    # Comparación con modelo plano
+    chi2_flat = ajustador.chi2_flat(R_data, V_data, V_err)
+
+    mejora_vs_nfw = 100 * (chi2_nfw - chi2_mcmc) / chi2_nfw if chi2_nfw > 0 else 0
+    mejora_vs_flat = 100 * (chi2_flat - chi2_mcmc) / chi2_flat if chi2_flat > 0 else 0
+
+    if verbose:
+        print(f"\n  Parámetros óptimos:")
+        print(f"    S_loc = {fit_result['S_loc']:.3f}")
+        print(f"    ρ_scale = {fit_result['rho_scale']:.2f}")
+        print(f"    r_s (Zhao) = {fit_result['r_s']:.2f} kpc")
+        print(f"    ρ_0 = {fit_result['rho_0']:.2e} M☉/kpc³")
+
+        print(f"\n  Comparación χ²:")
+        print(f"    χ²_flat = {chi2_flat:.1f}")
+        print(f"    χ²_NFW = {chi2_nfw:.1f}")
+        print(f"    χ²_MCMC = {chi2_mcmc:.1f}")
+
+        print(f"\n  Mejoras:")
+        print(f"    vs NFW: {mejora_vs_nfw:.1f}%")
+        print(f"    vs flat: {mejora_vs_flat:.1f}%")
+
+        # Mostrar curva de rotación
+        print(f"\n  {'R (kpc)':>8} {'V_obs':>8} {'V_flat':>8} {'V_NFW':>8} {'V_MCMC':>8}")
+        print("  " + "-"*48)
+
+        nfw = PerfilNFW(1e12, 12)
+        for i, R in enumerate(R_data):
+            v_obs = V_data[i]
+            v_flat = 220
+
+            # NFW + bariones
+            v_nfw_halo = nfw.velocidad_circular(R)
+            v_disk = ajustador.v_disk_MW(R)
+            v_bulge = ajustador.v_bulge_MW(R)
+            v_nfw = np.sqrt(v_bulge**2 + v_disk**2 + v_nfw_halo**2)
+
+            # MCMC
+            v_mcmc = ajustador.velocidad_total_MW(
+                R, fit_result['S_loc'], fit_result['rho_scale']
+            )
+
+            print(f"  {R:8.1f} {v_obs:8.1f} {v_flat:8.1f} {v_nfw:8.1f} {v_mcmc:8.1f}")
+
+    # Criterio de éxito: mejor que flat Y mejor que NFW
+    passed = chi2_mcmc < chi2_flat and chi2_mcmc < chi2_nfw
+
+    if verbose:
+        status = "✓ PASS" if passed else "✗ FAIL"
+        print(f"\n  Estado: {status}")
+
+    return {
+        'chi2_flat': chi2_flat,
+        'chi2_NFW': chi2_nfw,
+        'chi2_MCMC': chi2_mcmc,
+        'S_loc': fit_result['S_loc'],
+        'rho_scale': fit_result['rho_scale'],
+        'r_s': fit_result['r_s'],
+        'rho_0': fit_result['rho_0'],
+        'mejora_vs_nfw': mejora_vs_nfw,
+        'mejora_vs_flat': mejora_vs_flat,
+        'n_puntos': len(R_data),
+        'passed': passed
+    }
