@@ -86,6 +86,56 @@ from .bloque2_cosmologia import (
     H0, OMEGA_M, OMEGA_LAMBDA, DELTA_LAMBDA,
 )
 
+# Bloque 3: N-Body y Formación de Estructuras
+from .bloque3_nbody import (
+    # Funciones ontológicas
+    k_S,
+    Mp_frac,
+    Ep_frac,
+    P_ME as P_ME_nbody,
+    S_to_z,
+    z_to_S,
+    Lambda_rel,
+    H_MCMC,
+    H_MCMC_kpc_gyr,
+    # Fricción entrópica
+    ParametrosCronos,
+    FriccionEntropica,
+    # Perfiles de densidad
+    ParametrosHalo,
+    PerfilDensidad,
+    perfil_NFW,
+    perfil_Burkert,
+    perfil_Zhao_MCMC,
+    radio_core_MCMC,
+    densidad_central_Burkert,
+    # Integrador Cronos
+    ConfiguracionCronos,
+    ParticulaCronos,
+    ResultadoSimulacion,
+    IntegradorCronos,
+    # Análisis de halos
+    Halo,
+    AnalizadorHalos,
+    # Comparación SPARC
+    GalaxiaSPARC,
+    ComparadorSPARC,
+    cargar_datos_SPARC_ejemplo,
+    # Función de masa
+    funcion_masa_MCMC,
+    ratio_MCMC_LCDM,
+    # Validación ontológica
+    ValidadorOntologico,
+    # Constantes
+    RHO_CRONOS as RHO_CRONOS_NBODY,
+    ALPHA_LAPSE,
+    BETA_ETA,
+    GAMMA_FRICCION,
+    PHI0_ADRIAN,
+    LAMBDA_PHI,
+    G_NEWTON,
+)
+
 # Validación Cuántica: Qubit Tensorial
 from .qubit_tensorial import (
     QubitTensorial,
@@ -171,7 +221,7 @@ from .circuito_cuantico import (
     ZZ_ESPERADO,
 )
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 __author__ = "Adrián Martínez Estellés"
 __email__ = "adrianmartinezestelles92@gmail.com"
 __license__ = "Propietaria - Ver LICENSE"
@@ -197,6 +247,22 @@ __all__ = [
     "distancia_luminosidad", "distancia_comovil", "distancia_angular",
     "modulo_distancia", "edad_universo", "tiempo_lookback",
     "H0", "OMEGA_M", "OMEGA_LAMBDA", "DELTA_LAMBDA",
+
+    # Bloque 3: N-Body y Estructuras
+    "k_S", "Mp_frac", "Ep_frac", "P_ME_nbody",
+    "S_to_z", "z_to_S", "Lambda_rel", "H_MCMC", "H_MCMC_kpc_gyr",
+    "ParametrosCronos", "FriccionEntropica",
+    "ParametrosHalo", "PerfilDensidad",
+    "perfil_NFW", "perfil_Burkert", "perfil_Zhao_MCMC",
+    "radio_core_MCMC", "densidad_central_Burkert",
+    "ConfiguracionCronos", "ParticulaCronos", "ResultadoSimulacion",
+    "IntegradorCronos",
+    "Halo", "AnalizadorHalos",
+    "GalaxiaSPARC", "ComparadorSPARC", "cargar_datos_SPARC_ejemplo",
+    "funcion_masa_MCMC", "ratio_MCMC_LCDM",
+    "ValidadorOntologico",
+    "RHO_CRONOS_NBODY", "ALPHA_LAPSE", "BETA_ETA", "GAMMA_FRICCION",
+    "PHI0_ADRIAN", "LAMBDA_PHI", "G_NEWTON",
 
     # Qubit Tensorial
     "QubitTensorial",
