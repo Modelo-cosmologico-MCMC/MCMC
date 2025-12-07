@@ -61,6 +61,9 @@ from .bloque1_pregeometria import (
     K0, A1, A2, A3,
 )
 
+# Alias para compatibilidad
+FasePregeometrica = Pregeometria
+
 # Bloque 2: Cosmología
 from .bloque2_cosmologia import (
     CosmologiaMCMC,
@@ -139,6 +142,7 @@ __all__ = [
 
     # Bloque 1: Pregeometría
     "Pregeometria",
+    "FasePregeometrica",  # Alias
     "tasa_colapso_k",
     "integral_entropica",
     "integral_total",
