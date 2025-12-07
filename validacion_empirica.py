@@ -444,7 +444,8 @@ def validar_bloque_3() -> ResultadoBloque:
     try:
         friccion = FriccionEntropica()
         rho_test = np.array([1e-3, 1.0, 1e3]) * RHO_CRONOS
-        eta_vals = [friccion.calcular(r) for r in rho_test]
+        # El método es eta(), no calcular()
+        eta_vals = [friccion.eta(r) for r in rho_test]
         assert all(e >= 0 for e in eta_vals), "Fricción negativa"
         resultado.tests_pasados += 1
         resultado.detalles.append("✓ η(ρ) ≥ 0 ∀ρ")
@@ -541,16 +542,14 @@ def validar_bloque_3() -> ResultadoBloque:
 
     # Test 8: Perfil Zhao-MCMC depende de S
     try:
-        # Check function signature - may need different args
-        from mcmc_core.bloque3_nbody import ParametrosHalo
-        params1 = ParametrosHalo(M_vir=1e11, z=0.0, S=0.5)
-        params2 = ParametrosHalo(M_vir=1e11, z=0.0, S=1.0)
-
-        rho1 = perfil_Zhao_MCMC(1.0, params1)
-        rho2 = perfil_Zhao_MCMC(1.0, params2)
+        # perfil_Zhao_MCMC(r, rho_s, r_s, S_local, alpha, beta)
+        rho1 = perfil_Zhao_MCMC(1.0, rho_s=1e6, r_s=10.0, S_local=0.5)
+        rho2 = perfil_Zhao_MCMC(1.0, rho_s=1e6, r_s=10.0, S_local=1.0)
         assert rho1 != rho2, "Zhao-MCMC no depende de S"
         resultado.tests_pasados += 1
-        resultado.detalles.append("✓ Zhao-MCMC: γ(S) variable")
+        resultado.metricas["rho_Zhao_S05"] = rho1
+        resultado.metricas["rho_Zhao_S10"] = rho2
+        resultado.detalles.append(f"✓ Zhao-MCMC: γ(S) variable (ρ varía {abs(rho2-rho1)/rho1:.1%})")
     except Exception as e:
         resultado.detalles.append(f"✗ Zhao-MCMC: {e}")
 
@@ -645,11 +644,13 @@ def validar_bloque_4() -> ResultadoBloque:
     # Test 6: Simulador Monte Carlo
     try:
         config = ConfiguracionLattice(L=4, d=4, grupo=GrupoGauge.SU2, S=S4)
-        sim = SimuladorMonteCarlo(config, algoritmo=AlgoritmoMC.METROPOLIS)
+        lattice = ReticulaYangMills(config)
+        sim = SimuladorMonteCarlo(lattice, algoritmo=AlgoritmoMC.METROPOLIS)
 
         # Termalizar brevemente
         sim.termalizar(n_sweeps=5)
-        P = sim.medir_plaqueta()
+        # El método está en lattice, no en sim
+        P = lattice.promedio_plaqueta()
 
         assert 0 < P <= 1, f"Plaqueta fuera de rango: {P}"
         resultado.tests_pasados += 1

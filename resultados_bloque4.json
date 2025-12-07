@@ -1,0 +1,148 @@
+{
+  "escaneo": {
+    "timestamp": "2025-12-07T11:03:31.194857",
+    "parametros": {
+      "L": 4,
+      "n_configs": 30
+    },
+    "puntos": [
+      {
+        "S": 0.9,
+        "E_onto": 10.0,
+        "E_qcd": 3.038,
+        "beta": 11019.232897403339,
+        "grupos": {
+          "SU2": {
+            "plaqueta": 1.0,
+            "mass_gap": null,
+            "aceptacion": 0.0
+          },
+          "SU3": {
+            "plaqueta": 1.0,
+            "mass_gap": null,
+            "aceptacion": 0.0
+          }
+        }
+      },
+      {
+        "S": 0.95,
+        "E_onto": 10.0,
+        "E_qcd": 3.038,
+        "beta": 80.20657955128863,
+        "grupos": {
+          "SU2": {
+            "plaqueta": 1.0,
+            "mass_gap": null,
+            "aceptacion": 0.0
+          },
+          "SU3": {
+            "plaqueta": 1.0,
+            "mass_gap": null,
+            "aceptacion": 0.0
+          }
+        }
+      },
+      {
+        "S": 0.99,
+        "E_onto": 10.000000237547956,
+        "E_qcd": 3.038,
+        "beta": 7.359140914229524,
+        "grupos": {
+          "SU2": {
+            "plaqueta": 1.0,
+            "mass_gap": null,
+            "aceptacion": 0.0
+          },
+          "SU3": {
+            "plaqueta": 1.0,
+            "mass_gap": null,
+            "aceptacion": 0.0
+          }
+        }
+      },
+      {
+        "S": 1.0,
+        "E_onto": 67.625,
+        "E_qcd": 3.038,
+        "beta": 6.5,
+        "grupos": {
+          "SU2": {
+            "plaqueta": 1.0,
+            "mass_gap": null,
+            "aceptacion": 0.0
+          },
+          "SU3": {
+            "plaqueta": 1.0,
+            "mass_gap": null,
+            "aceptacion": 0.0
+          }
+        }
+      },
+      {
+        "S": 1.001,
+        "E_onto": 111.51186323694829,
+        "E_qcd": 3.038,
+        "beta": 6.4524187090179845,
+        "grupos": {
+          "SU2": {
+            "plaqueta": 1.0,
+            "mass_gap": null,
+            "aceptacion": 0.0
+          },
+          "SU3": {
+            "plaqueta": 1.0,
+            "mass_gap": null,
+            "aceptacion": 0.0
+          }
+        }
+      }
+    ],
+    "metricas": {
+      "E_onto_S4": 111.51186323694829,
+      "E_qcd_S4": 3.038,
+      "ratio_vs_glueball": 1.7766081871345027,
+      "beta_S4": 6.4524187090179845,
+      "m_glueball_ref": 1.71
+    }
+  },
+  "grupos_gut": {
+    "SU2": {
+      "plaqueta": 1.0,
+      "N": 2
+    },
+    "SU3": {
+      "plaqueta": 1.0,
+      "N": 3
+    },
+    "SU5": {
+      "plaqueta": 1.0,
+      "N": 5
+    }
+  },
+  "comparacion_qcd": {
+    "QCD_referencia": {
+      "m_0++": 1.71,
+      "m_0++_err": 0.1,
+      "Lambda_QCD": 0.217
+    },
+    "MCMC_prediccion": {
+      "E_qcd_S4": 3.038,
+      "E_onto_S4": 111.51186323694829,
+      "beta_S4": 6.4524187090179845
+    },
+    "compatibilidad": {
+      "ratio_E_qcd/m_glueball": 1.7766081871345027,
+      "desviacion_sigma": 13.279999999999998,
+      "compatible_1sigma": false,
+      "compatible_2sigma": false,
+      "compatible_3sigma": false,
+      "orden_magnitud_correcto": true
+    }
+  },
+  "criterios": {
+    "plateau_S3_S4": false,
+    "ratio_en_rango": true,
+    "transicion_sigmoidal": true,
+    "beta_decrece": true
+  }
+}
