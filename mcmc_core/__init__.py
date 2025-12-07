@@ -480,6 +480,34 @@ __all__ = [
 
     # GAIA Zhao MCMC
     "ParametrosMWMCMC", "PARAMS_MW", "AjustadorGAIA", "test_GAIA_Zhao_MCMC",
+
+    # CLASS-MCMC
+    "ParametrosCLASS", "PARAMS_CLASS",
+    "E_MCMC_full", "H_MCMC_full",
+    "calcular_D_MCMC", "calcular_f_MCMC",
+    "calcular_sigma8_MCMC", "calcular_S8_MCMC",
+    "P_k_MCMC", "calcular_Pk_array",
+    "C_l_TT_approx", "calcular_Cl_array",
+    "theta_star_MCMC", "l_acoustic_MCMC",
+    "comparar_con_LCDM", "test_CLASS_MCMC",
+
+    # N-body Cronos
+    "ParametrosCronosNBody", "PARAMS_CRONOS",
+    "lapse_function", "friccion_entropica", "radio_core_cronos",
+    "perfil_Cronos", "IntegradorCronos",
+    "analizar_halo_cronos", "test_NBody_Cronos",
+
+    # Lensing MCV
+    "ParametrosLensing", "PARAMS_LENSING",
+    "Sigma_crit", "Sigma_NFW", "Sigma_Zhao",
+    "kappa_NFW", "kappa_Zhao", "gamma_tangencial",
+    "calcular_S8_lensing", "test_Lensing_MCV",
+
+    # DESI Y3
+    "PuntoDESI", "DESI_Y3_DATA",
+    "calcular_chi2_DESI", "calcular_chi2_LCDM_DESI",
+    "ajustar_epsilon_z_trans", "comparar_DESI_detallado",
+    "analizar_tensiones_DESI", "test_DESI_Y3",
 ]
 
 # SPARC Zhao MCMC (late import to avoid circular)
@@ -492,4 +520,40 @@ from .sparc_zhao import (
     ParametrosMWMCMC, PARAMS_MW,
     AjustadorGAIA,
     test_GAIA_Zhao_MCMC,
+)
+
+# CLASS-MCMC
+from .class_mcmc import (
+    ParametrosCLASS, PARAMS_CLASS,
+    E_MCMC_full, H_MCMC_full,
+    calcular_D_MCMC, calcular_f_MCMC,
+    calcular_sigma8_MCMC, calcular_S8_MCMC,
+    P_k_MCMC, calcular_Pk_array,
+    C_l_TT_approx, calcular_Cl_array,
+    theta_star_MCMC, l_acoustic_MCMC,
+    comparar_con_LCDM, test_CLASS_MCMC,
+)
+
+# N-body Cronos
+from .nbody_cronos import (
+    ParametrosCronosNBody, PARAMS_CRONOS,
+    lapse_function, friccion_entropica, radio_core_cronos,
+    perfil_Cronos, IntegradorCronos,
+    analizar_halo_cronos, test_NBody_Cronos,
+)
+
+# Lensing MCV
+from .lensing_mcv import (
+    ParametrosLensing, PARAMS_LENSING,
+    Sigma_crit, Sigma_NFW, Sigma_Zhao,
+    kappa_NFW, kappa_Zhao, gamma_tangencial,
+    calcular_S8_lensing, test_Lensing_MCV,
+)
+
+# DESI Y3
+from .desi_y3 import (
+    PuntoDESI, DESI_Y3_DATA,
+    calcular_chi2_DESI, calcular_chi2_LCDM_DESI,
+    ajustar_epsilon_z_trans, comparar_DESI_detallado,
+    analizar_tensiones_DESI, test_DESI_Y3,
 )

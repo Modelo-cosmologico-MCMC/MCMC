@@ -103,29 +103,28 @@ class PerfilZhaoMCMC:
             S_loc = 0.01
         return self.p.r_star * (S_loc / self.p.S_star)**self.p.alpha_r
 
-    def densidad(self, r: float, rho_0: float, r_s: float) -> float:
+    def densidad(self, r, rho_0: float, r_s: float):
         """
-        Perfil de densidad Zhao.
+        Perfil de densidad Zhao - vectorizado.
 
         ρ(r) = ρ_0 / [(r/r_s)^γ * (1 + (r/r_s)^α)^((β-γ)/α)]
         """
-        if r < 1e-6:
-            r = 1e-6
-        if r_s < 1e-6:
-            r_s = 1e-6
+        r_arr = np.atleast_1d(r)
+        r_arr = np.maximum(r_arr, 1e-6)
+        r_s = max(r_s, 1e-6)
 
-        x = r / r_s
+        x = r_arr / r_s
         gamma = self.p.gamma
         alpha = self.p.alpha
         beta = self.p.beta
 
         # Evitar singularidad en r=0 cuando γ>0
-        if x < 1e-10:
-            x = 1e-10
+        x = np.maximum(x, 1e-10)
 
         denominador = (x**gamma) * (1 + x**alpha)**((beta - gamma) / alpha)
+        result = rho_0 / denominador
 
-        return rho_0 / denominador
+        return result.item() if np.ndim(r) == 0 else result
 
     def masa_encerrada(self, r: float, rho_0: float, r_s: float) -> float:
         """
@@ -191,12 +190,13 @@ class PerfilNFW:
         f_c = np.log(1 + c) - c / (1 + c)
         self.rho_s = M_vir / (4 * np.pi * self.r_s**3 * f_c)
 
-    def densidad(self, r: float) -> float:
-        """ρ_NFW(r) = ρ_s / [(r/r_s)(1 + r/r_s)²]"""
-        x = r / self.r_s
-        if x < 1e-10:
-            x = 1e-10
-        return self.rho_s / (x * (1 + x)**2)
+    def densidad(self, r):
+        """ρ_NFW(r) = ρ_s / [(r/r_s)(1 + r/r_s)²] - vectorized"""
+        r_arr = np.atleast_1d(r)
+        x = r_arr / self.r_s
+        x = np.maximum(x, 1e-10)  # Evitar singularidad en r=0
+        result = self.rho_s / (x * (1 + x)**2)
+        return result.item() if np.ndim(r) == 0 else result
 
     def masa_encerrada(self, r: float) -> float:
         """M(<r) para NFW (forma analítica)."""
