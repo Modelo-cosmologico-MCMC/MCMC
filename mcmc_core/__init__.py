@@ -338,7 +338,7 @@ from .ontologia_ecv_mcv import (
     verificar_ECV, verificar_MCV, verificar_friccion,
 )
 
-__version__ = "2.4.0"
+__version__ = "2.5.0"
 __author__ = "Adrián Martínez Estellés"
 __email__ = "adrianmartinezestelles92@gmail.com"
 __license__ = "Propietaria - Ver LICENSE"
@@ -473,4 +473,16 @@ __all__ = [
     "distancia_comovil_LCDM", "distancia_luminosidad_LCDM",
     "modulo_distancia_LCDM", "distancia_volumen_LCDM",
     "verificar_ECV", "verificar_MCV", "verificar_friccion",
+
+    # SPARC Zhao MCMC
+    "ParametrosZhaoMCMC", "PARAMS_ZHAO", "PerfilZhaoMCMC", "PerfilNFW",
+    "AjustadorSPARC", "test_SPARC_Zhao_MCMC", "verificar_SPARC_Zhao",
 ]
+
+# SPARC Zhao MCMC (late import to avoid circular)
+from .sparc_zhao import (
+    ParametrosZhaoMCMC, PARAMS_ZHAO,
+    PerfilZhaoMCMC, PerfilNFW,
+    AjustadorSPARC,
+    test_SPARC_Zhao_MCMC, verificar_SPARC_Zhao,
+)

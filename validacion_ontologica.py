@@ -39,6 +39,9 @@ from mcmc_core import (
     velocidad_circular_MCV, velocidad_circular_MCV_calibrado, velocidad_NFW_standard,
     FriccionEntropicaMCV, ParametrosFriccion,
     NORM_FACTOR_MCV,
+    # SPARC Zhao MCMC
+    ParametrosZhaoMCMC, PARAMS_ZHAO, PerfilZhaoMCMC,
+    AjustadorSPARC, test_SPARC_Zhao_MCMC,
     # ΛCDM para comparación
     E_LCDM_standard, H_LCDM_standard,
     distancia_comovil_LCDM, distancia_luminosidad_LCDM,
@@ -278,106 +281,33 @@ def test_H0_tension_ECV() -> Dict:
 
 
 # =============================================================================
-# TEST 4: SPARC CON MCV Y FRICCIÓN
+# TEST 4: SPARC CON PERFIL ZHAO MCMC
 # =============================================================================
 
 def test_SPARC_MCV() -> Dict:
     """
-    Valida curvas de rotación SPARC con MCV calibrado y Ley de Cronos.
+    Valida curvas de rotación SPARC con Perfil Zhao MCMC (γ=0.51).
 
-    Usa velocidad_circular_MCV_calibrado que ajusta cada halo a su V_flat
-    observada, manteniendo la forma del perfil Burkert con r_core ontológico.
+    Usa el perfil Zhao refinado con:
+    - γ=0.51 (cored) en lugar de NFW (γ=1)
+    - S_loc como parámetro libre por galaxia
+    - Calibración bariónica Υ_* para disco y bulbo
+    - Fricción entrópica (Ley de Cronos)
+
+    Objetivo: Mejora > 40% sobre NFW
     """
-    print("\n" + "="*60)
-    print("  TEST 4: Curvas de Rotación SPARC (MCV calibrado + Ley de Cronos)")
-    print("="*60)
+    # Usar la función test_SPARC_Zhao_MCMC del módulo sparc_zhao
+    result = test_SPARC_Zhao_MCMC(SPARC_CATALOG[:5], ajustar_barionico=False, verbose=True)
 
-    chi2_nfw = 0.0
-    chi2_mcv = 0.0
-    n_total = 0
-    resultados = []
-
-    for gal in SPARC_CATALOG[:5]:  # Primeras 5 galaxias
-        print(f"\n  {gal.nombre} (V_flat = {gal.V_flat} km/s):")
-
-        # Estimar masa del halo desde V_flat
-        M_halo = (gal.V_flat**2 * 10 * gal.r_eff) / G_GRAV
-
-        # Parámetros MCV
-        S_loc = S_local(M_halo)
-        r_c = r_core_MCV(S_loc)
-
-        chi2_gal_nfw = 0.0
-        chi2_gal_mcv = 0.0
-
-        for i, r in enumerate(gal.r_data):
-            v_obs = gal.v_obs[i]
-            err = gal.v_err[i]
-
-            # MCV calibrado con fricción (normalizado a V_flat)
-            v_mcv = velocidad_circular_MCV_calibrado(
-                r, gal.V_flat, gal.r_eff,
-                v_gas=gal.v_gas[i],
-                v_disk=gal.v_disk[i],
-                v_bulge=gal.v_bul[i],
-                include_friction=True
-            )
-
-            # NFW estándar (para comparación)
-            v_nfw = velocidad_NFW_standard(
-                r, M_halo, c=10,
-                v_gas=gal.v_gas[i],
-                v_disk=gal.v_disk[i],
-                v_bulge=gal.v_bul[i]
-            )
-
-            chi2_gal_mcv += ((v_mcv - v_obs) / err)**2
-            chi2_gal_nfw += ((v_nfw - v_obs) / err)**2
-
-        n_pts = len(gal.r_data)
-        chi2_nfw += chi2_gal_nfw
-        chi2_mcv += chi2_gal_mcv
-        n_total += n_pts
-
-        chi2_red_nfw = chi2_gal_nfw / (n_pts - 2) if n_pts > 2 else chi2_gal_nfw
-        chi2_red_mcv = chi2_gal_mcv / (n_pts - 2) if n_pts > 2 else chi2_gal_mcv
-
-        mejora_gal = 100 * (chi2_gal_nfw - chi2_gal_mcv) / chi2_gal_nfw if chi2_gal_nfw > 0 else 0
-
-        print(f"    S_loc = {S_loc:.3f}")
-        print(f"    r_core (MCV) = {r_c:.2f} kpc")
-        print(f"    χ²_NFW = {chi2_gal_nfw:.1f} (red: {chi2_red_nfw:.2f})")
-        print(f"    χ²_MCV = {chi2_gal_mcv:.1f} (red: {chi2_red_mcv:.2f})")
-        print(f"    Mejora: {mejora_gal:.0f}%")
-
-        resultados.append({
-            "galaxia": gal.nombre,
-            "M_halo": M_halo,
-            "S_loc": S_loc,
-            "r_core": r_c,
-            "chi2_NFW": chi2_gal_nfw,
-            "chi2_MCV": chi2_gal_mcv,
-            "mejora": mejora_gal
-        })
-
-    mejora_total = 100 * (chi2_nfw - chi2_mcv) / chi2_nfw if chi2_nfw > 0 else 0
-
-    print(f"\n  Resumen SPARC (5 galaxias):")
-    print(f"    χ²_total NFW = {chi2_nfw:.1f}")
-    print(f"    χ²_total MCV = {chi2_mcv:.1f}")
-    print(f"    Mejora MCV: {mejora_total:.1f}%")
-
-    # Criterio: MCV debe superar NFW (mejora > 0)
-    passed = chi2_mcv < chi2_nfw
-
+    # Adaptar el formato de salida para compatibilidad
     return {
-        "chi2_NFW": chi2_nfw,
-        "chi2_MCV": chi2_mcv,
-        "n_galaxias": len(resultados),
-        "n_puntos": n_total,
-        "mejora_percent": mejora_total,
-        "resultados": resultados,
-        "passed": passed
+        "chi2_NFW": result['chi2_NFW'],
+        "chi2_MCV": result['chi2_MCMC'],  # MCV = MCMC (Zhao)
+        "n_galaxias": result['n_galaxias'],
+        "n_puntos": result['n_puntos'],
+        "mejora_percent": result['mejora_percent'],
+        "resultados": result['resultados'],
+        "passed": result['passed']
     }
 
 
@@ -695,17 +625,17 @@ def verificar_criterios(resultados: Dict) -> Dict:
     print(f"    χ² reducido < 1.5: {chi2_red_sne:.3f} -> {'PASS' if criterios['sne_chi2_red'] else 'FAIL'}")
     print(f"    MCMC ≤ ΛCDM*1.1: {chi2_sne_ecv:.1f} ≤ {chi2_sne_lcdm*1.1:.1f} -> {'PASS' if criterios['sne_competitivo'] else 'FAIL'}")
 
-    # Criterio SPARC
+    # Criterio SPARC (Zhao γ=0.51)
     chi2_mcv = resultados["SPARC"]["chi2_MCV"]
     chi2_nfw = resultados["SPARC"]["chi2_NFW"]
     mejora_sparc = resultados["SPARC"]["mejora_percent"]
 
     criterios["sparc_mejor_nfw"] = chi2_mcv < chi2_nfw
-    criterios["sparc_mejora_30"] = mejora_sparc > 30
+    criterios["sparc_mejora_40"] = mejora_sparc > 40
 
-    print(f"\n  SPARC:")
-    print(f"    MCV < NFW: {chi2_mcv:.1f} < {chi2_nfw:.1f} -> {'PASS' if criterios['sparc_mejor_nfw'] else 'FAIL'}")
-    print(f"    Mejora > 30%: {mejora_sparc:.1f}% -> {'PASS' if criterios['sparc_mejora_30'] else 'FAIL'}")
+    print(f"\n  SPARC (Perfil Zhao γ=0.51):")
+    print(f"    MCMC < NFW: {chi2_mcv:.1f} < {chi2_nfw:.1f} -> {'PASS' if criterios['sparc_mejor_nfw'] else 'FAIL'}")
+    print(f"    Mejora > 40%: {mejora_sparc:.1f}% -> {'PASS' if criterios['sparc_mejora_40'] else 'FAIL'}")
 
     # Criterio r_core
     print(f"\n  r_core(M) (Ley de Cronos):")
@@ -738,7 +668,7 @@ def ejecutar_validacion_ontologica() -> Dict:
     print("#   VALIDACIÓN ONTOLÓGICA: MCMC con ECV + MCV + Ley de Cronos" + " "*6 + "#")
     print("#" + " "*68 + "#")
     print("#"*70)
-    print(f"\n    Versión: mcmc_core 2.4.0")
+    print(f"\n    Versión: mcmc_core 2.5.0")
     print(f"    Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
     print("\n  Parámetros ontológicos:")
@@ -776,7 +706,7 @@ def ejecutar_validacion_ontologica() -> Dict:
         "BAO": "BAO (31 puntos, ECV)",
         "SNe": "Supernovas Ia (24, ECV)",
         "H0_tension": "Tensión H0 (ECV)",
-        "SPARC": "SPARC (5 gal, MCV+Cronos)",
+        "SPARC": "SPARC (5 gal, Zhao γ=0.51)",
         "GAIA": "GAIA DR3 (MCV)",
         "S8_tension": "Tensión S8 (fricción)",
         "edad_universo": "Edad Universo (ECV)",
@@ -793,7 +723,7 @@ def ejecutar_validacion_ontologica() -> Dict:
     print("\n  Métricas clave:")
     print(f"    χ²_BAO (ECV): {resultados['BAO']['chi2_ecv']:.1f}")
     print(f"    χ²_SNe (ECV): {resultados['SNe']['chi2_ecv']:.1f} (red: {resultados['SNe']['chi2_red_ecv']:.3f})")
-    print(f"    χ²_SPARC MCV: {resultados['SPARC']['chi2_MCV']:.1f} (mejora {resultados['SPARC']['mejora_percent']:.0f}%)")
+    print(f"    χ²_SPARC Zhao: {resultados['SPARC']['chi2_MCV']:.1f} (mejora {resultados['SPARC']['mejora_percent']:.0f}% vs NFW)")
     print(f"    Tensión H0: {resultados['H0_tension']['sigma_LCDM']:.1f}σ → {resultados['H0_tension']['sigma_ECV']:.1f}σ")
     print(f"    Tensión S8: reducida {resultados['S8_tension']['reduccion_DES']:.0f}%")
 
