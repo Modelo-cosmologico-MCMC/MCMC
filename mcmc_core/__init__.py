@@ -280,7 +280,35 @@ from .circuito_cuantico import (
     ZZ_ESPERADO,
 )
 
-__version__ = "2.2.0"
+# Datos Observacionales
+from .datos_observacionales import (
+    # Constantes
+    C_LIGHT, H0_FIDUCIAL,
+    # Planck 2018
+    DatosPlanck2018, PLANCK_2018,
+    # BAO
+    PuntoBAO,
+    BAO_6DFGS, BAO_MGS, BAO_BOSS_DR12, BAO_EBOSS_DR16, BAO_DESI_2024,
+    BAO_ALL,
+    # SPARC
+    GalaxiaSPARCCompleta, SPARC_CATALOG,
+    # GAIA
+    DatosGAIA, GAIA_DR3,
+    # Supernovas
+    PuntoSN, PANTHEON_PLUS_SUBSET,
+    # H0
+    MedicionH0, H0_MEDICIONES,
+    # Funciones de utilidad
+    calcular_r_d_fiducial,
+    calcular_D_V,
+    calcular_chi2_BAO,
+    calcular_chi2_SN,
+    calcular_D_L_LCDM,
+    tension_H0,
+    resumen_datos,
+)
+
+__version__ = "2.3.0"
 __author__ = "Adrián Martínez Estellés"
 __email__ = "adrianmartinezestelles92@gmail.com"
 __license__ = "Propietaria - Ver LICENSE"
@@ -382,4 +410,18 @@ __all__ = [
     "testigo_bell", "violacion_CHSH",
     "simular_medicion", "evolucionar_circuito",
     "EPSILON_CALIBRADO", "THETA_RY", "P_ME_ESPERADO", "ZZ_ESPERADO",
+
+    # Datos Observacionales
+    "C_LIGHT", "H0_FIDUCIAL",
+    "DatosPlanck2018", "PLANCK_2018",
+    "PuntoBAO",
+    "BAO_6DFGS", "BAO_MGS", "BAO_BOSS_DR12", "BAO_EBOSS_DR16", "BAO_DESI_2024",
+    "BAO_ALL",
+    "GalaxiaSPARCCompleta", "SPARC_CATALOG",
+    "DatosGAIA", "GAIA_DR3",
+    "PuntoSN", "PANTHEON_PLUS_SUBSET",
+    "MedicionH0", "H0_MEDICIONES",
+    "calcular_r_d_fiducial", "calcular_D_V",
+    "calcular_chi2_BAO", "calcular_chi2_SN", "calcular_D_L_LCDM",
+    "tension_H0", "resumen_datos",
 ]
