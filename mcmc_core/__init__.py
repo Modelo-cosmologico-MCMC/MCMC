@@ -15,7 +15,7 @@ MÓDULOS PRINCIPALES (5 BLOQUES):
     - bloque1_pregeometria: Tasa de colapso k(S), integral entrópica
     - bloque2_cosmologia: Ecuaciones de Friedmann modificadas MCMC
     - bloque3_nbody (simulations): Fricción entrópica, perfiles Burkert
-    - bloque4_ym_lattice (lattice): Mass gap, Yang-Mills
+    - bloque4_lattice_gauge: Mass gap ontológico, Yang-Mills en retícula
 
 MÓDULOS DE VALIDACIÓN CUÁNTICA:
     - qubit_tensorial: Estado cuántico |Φ(S)⟩ = α|00⟩ + β|11⟩
@@ -136,6 +136,65 @@ from .bloque3_nbody import (
     G_NEWTON,
 )
 
+# Bloque 4: Lattice Gauge y Mass Gap Ontológico
+from .bloque4_lattice_gauge import (
+    # Clases ontológicas
+    OntologiaMCMCLattice,
+    CriterioValidacion,
+    ResultadoValidacion,
+    crear_ontologia_default,
+    validar_ontologia,
+    tabla_sellos,
+
+    # Funciones ontológicas
+    beta_MCMC,
+    S_tensional,
+    E_min_ontologico,
+    E_min_QCD_scale,
+    campo_adrian,
+    transicion_higgs,
+
+    # Constantes ontológicas
+    BETA_0, BETA_1, B_S, LAMBDA_TENS,
+    E_PLANCK, M_HIGGS, TAU_TRANSITION, M_GLUEBALL_0PP,
+    ALPHA_H,
+)
+
+# Renombrar para evitar conflicto con LAMBDA_QCD del legacy module
+from .bloque4_lattice_gauge import LAMBDA_QCD as LAMBDA_QCD_GAUGE
+
+# Yang-Mills Lattice
+from .bloque4_lattice_gauge.lattice import (
+    # Grupos y algoritmos
+    GrupoGauge,
+    AlgoritmoMC,
+    AlgebraLie,
+    ConfiguracionLattice,
+    ReticulaYangMills,
+    SimuladorMonteCarlo,
+    crear_simulacion_MCMC,
+
+    # Correladores y mass gap
+    OperadorGlueball,
+    Correlador,
+    ResultadoMassGap,
+    calcular_correlador,
+    extraer_mass_gap,
+    medir_mass_gap,
+    masa_efectiva,
+    encontrar_plateau,
+    A_LATTICE_FM,
+    SCALE_FACTOR,
+
+    # Escaneo entrópico
+    ConfiguracionEscaneo,
+    PuntoEscaneo,
+    ResultadoEscaneo,
+    EscaneoEntropico,
+    escaneo_rapido,
+    escaneo_completo,
+)
+
 # Validación Cuántica: Qubit Tensorial
 from .qubit_tensorial import (
     QubitTensorial,
@@ -221,7 +280,7 @@ from .circuito_cuantico import (
     ZZ_ESPERADO,
 )
 
-__version__ = "2.1.0"
+__version__ = "2.2.0"
 __author__ = "Adrián Martínez Estellés"
 __email__ = "adrianmartinezestelles92@gmail.com"
 __license__ = "Propietaria - Ver LICENSE"
@@ -263,6 +322,24 @@ __all__ = [
     "ValidadorOntologico",
     "RHO_CRONOS_NBODY", "ALPHA_LAPSE", "BETA_ETA", "GAMMA_FRICCION",
     "PHI0_ADRIAN", "LAMBDA_PHI", "G_NEWTON",
+
+    # Bloque 4: Lattice Gauge y Mass Gap
+    "OntologiaMCMCLattice", "CriterioValidacion", "ResultadoValidacion",
+    "crear_ontologia_default", "validar_ontologia", "tabla_sellos",
+    "beta_MCMC", "S_tensional", "E_min_ontologico", "E_min_QCD_scale",
+    "campo_adrian", "transicion_higgs",
+    "BETA_0", "BETA_1", "B_S", "LAMBDA_TENS",
+    "E_PLANCK", "M_HIGGS", "LAMBDA_QCD_GAUGE", "ALPHA_H",
+    "TAU_TRANSITION", "M_GLUEBALL_0PP",
+    "GrupoGauge", "AlgoritmoMC", "AlgebraLie",
+    "ConfiguracionLattice", "ReticulaYangMills", "SimuladorMonteCarlo",
+    "crear_simulacion_MCMC",
+    "OperadorGlueball", "Correlador", "ResultadoMassGap",
+    "calcular_correlador", "extraer_mass_gap", "medir_mass_gap",
+    "masa_efectiva", "encontrar_plateau",
+    "A_LATTICE_FM", "SCALE_FACTOR",
+    "ConfiguracionEscaneo", "PuntoEscaneo", "ResultadoEscaneo",
+    "EscaneoEntropico", "escaneo_rapido", "escaneo_completo",
 
     # Qubit Tensorial
     "QubitTensorial",

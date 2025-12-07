@@ -13,10 +13,35 @@ import numpy as np
 import sys
 import os
 import unittest
+import importlib.util
 
 # Añadir directorio padre al path
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+MCMC_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, MCMC_DIR)
 
+# Importar simulations del nivel superior
+from simulations import (
+    friccion_entropica, perfil_burkert, radio_core,
+    ALPHA_FRICCION, RHO_CRITICA
+)
+
+# Importar lattice legacy directamente del archivo bloque4_ym_lattice.py
+# para evitar conflicto con mcmc_core/bloque4_lattice_gauge/lattice
+_lattice_file = os.path.join(MCMC_DIR, "lattice", "bloque4_ym_lattice.py")
+_spec = importlib.util.spec_from_file_location("bloque4_ym_lattice_legacy", _lattice_file)
+_bloque4 = importlib.util.module_from_spec(_spec)
+sys.modules["bloque4_ym_lattice_legacy"] = _bloque4
+_spec.loader.exec_module(_bloque4)
+
+beta_MCMC = _bloque4.beta_MCMC
+mass_gap = _bloque4.mass_gap
+su2_elemento_aleatorio = _bloque4.su2_elemento_aleatorio
+BETA_0 = _bloque4.BETA_0
+BETA_1 = _bloque4.BETA_1
+B_S = _bloque4.B_S
+LAMBDA_QCD = _bloque4.LAMBDA_QCD
+
+# Ahora importar mcmc_core
 from mcmc_core.bloque0_estado_primordial import (
     EstadoPrimordial, SELLOS, Mp0, Ep0,
     calcular_P_ME, calcular_tension,
@@ -29,14 +54,6 @@ from mcmc_core.bloque1_pregeometria import (
 from mcmc_core.bloque2_cosmologia import (
     CosmologiaMCMC, E_LCDM, E_MCMC, Lambda_relativo,
     H0, OMEGA_M, OMEGA_LAMBDA, DELTA_LAMBDA
-)
-from simulations.bloque3_nbody import (
-    friccion_entropica, perfil_burkert, radio_core,
-    ALPHA_FRICCION, RHO_CRITICA
-)
-from lattice.bloque4_ym_lattice import (
-    beta_MCMC, mass_gap, su2_elemento_aleatorio,
-    BETA_0, BETA_1, B_S, LAMBDA_QCD
 )
 
 
