@@ -308,7 +308,37 @@ from .datos_observacionales import (
     resumen_datos,
 )
 
-__version__ = "2.3.0"
+# Ontología ECV y MCV
+from .ontologia_ecv_mcv import (
+    # Constantes ECV
+    EPSILON_ECV, Z_TRANS, DELTA_Z, S_BB, S_0, P_ENTROPIC,
+    # Constantes MCV
+    RHO_STAR, R_STAR, S_STAR, ALPHA_RHO, ALPHA_R, NORM_FACTOR_MCV,
+    # Fricción
+    ETA_FRICTION, GAMMA_FRICTION, RHO_CRIT_FRICTION,
+    # Funciones ECV
+    S_of_z, F_transition, rho_ECV, Omega_ECV, Lambda_rel,
+    E_MCMC_ECV, E_MCMC_Lambda_rel, H_MCMC_ECV,
+    distancia_comovil_ECV, distancia_luminosidad_ECV,
+    modulo_distancia_ECV, distancia_volumen_ECV,
+    # Funciones MCV
+    S_local, rho_0_MCV, r_core_MCV, r_core_from_mass,
+    perfil_MCV_Burkert, perfil_MCV_isotermico,
+    masa_encerrada_MCV_Burkert, masa_encerrada_MCV_isotermico,
+    perfil_Zhao_MCV,
+    # Fricción entrópica
+    ParametrosFriccion, FriccionEntropicaMCV,
+    # Velocidad circular
+    velocidad_circular_MCV, velocidad_circular_MCV_calibrado, velocidad_NFW_standard,
+    # LCDM para comparación
+    E_LCDM_standard, H_LCDM_standard,
+    distancia_comovil_LCDM, distancia_luminosidad_LCDM,
+    modulo_distancia_LCDM, distancia_volumen_LCDM,
+    # Verificación
+    verificar_ECV, verificar_MCV, verificar_friccion,
+)
+
+__version__ = "2.4.0"
 __author__ = "Adrián Martínez Estellés"
 __email__ = "adrianmartinezestelles92@gmail.com"
 __license__ = "Propietaria - Ver LICENSE"
@@ -424,4 +454,23 @@ __all__ = [
     "calcular_r_d_fiducial", "calcular_D_V",
     "calcular_chi2_BAO", "calcular_chi2_SN", "calcular_D_L_LCDM",
     "tension_H0", "resumen_datos",
+
+    # Ontología ECV y MCV
+    "EPSILON_ECV", "Z_TRANS", "DELTA_Z", "S_BB", "S_0", "P_ENTROPIC",
+    "RHO_STAR", "R_STAR", "S_STAR", "ALPHA_RHO", "ALPHA_R",
+    "ETA_FRICTION", "GAMMA_FRICTION", "RHO_CRIT_FRICTION",
+    "S_of_z", "F_transition", "rho_ECV", "Omega_ECV", "Lambda_rel",
+    "E_MCMC_ECV", "E_MCMC_Lambda_rel", "H_MCMC_ECV",
+    "distancia_comovil_ECV", "distancia_luminosidad_ECV",
+    "modulo_distancia_ECV", "distancia_volumen_ECV",
+    "S_local", "rho_0_MCV", "r_core_MCV", "r_core_from_mass",
+    "perfil_MCV_Burkert", "perfil_MCV_isotermico",
+    "masa_encerrada_MCV_Burkert", "masa_encerrada_MCV_isotermico",
+    "perfil_Zhao_MCV",
+    "ParametrosFriccion", "FriccionEntropicaMCV",
+    "velocidad_circular_MCV", "velocidad_NFW_standard",
+    "E_LCDM_standard", "H_LCDM_standard",
+    "distancia_comovil_LCDM", "distancia_luminosidad_LCDM",
+    "modulo_distancia_LCDM", "distancia_volumen_LCDM",
+    "verificar_ECV", "verificar_MCV", "verificar_friccion",
 ]

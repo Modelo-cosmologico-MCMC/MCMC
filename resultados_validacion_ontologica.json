@@ -1,0 +1,151 @@
+{
+  "version": "2.4.0",
+  "timestamp": "2025-12-07T17:34:35.026576",
+  "ontologia": {
+    "ECV": {
+      "epsilon": 0.012,
+      "z_trans": 8.9
+    },
+    "MCV": {
+      "alpha_r": 0.35,
+      "r_star": 1.8
+    },
+    "friction": {
+      "eta_0": 0.15,
+      "gamma": 1.5
+    }
+  },
+  "resumen": {
+    "total_tests": 8,
+    "tests_pasados": 7,
+    "porcentaje": "88%"
+  },
+  "criterios": {
+    "sne_chi2_red": false,
+    "sne_competitivo": true,
+    "sparc_mejor_nfw": false,
+    "sparc_mejora_30": false,
+    "r_core_rango": true
+  },
+  "BAO": {
+    "chi2_ecv": 53.63469726856347,
+    "chi2_lcdm": 54.33894783498353,
+    "chi2_red_ecv": 1.8494723196056368,
+    "chi2_red_lcdm": 1.8737568218959837,
+    "n_puntos": 31,
+    "mejora_percent": 1.2960327619127354,
+    "passed": true
+  },
+  "SNe": {
+    "chi2_ecv": 191.11704435090743,
+    "chi2_lcdm": 205.1334009892725,
+    "chi2_red_ecv": 8.6871383795867,
+    "chi2_red_lcdm": 9.324245499512386,
+    "n_puntos": 24,
+    "mejora_percent": 6.832800787570454,
+    "passed": true
+  },
+  "H0_tension": {
+    "H0_SH0ES": 73.04,
+    "H0_Planck": 67.36,
+    "H0_ECV_eff": 67.63615837789608,
+    "Lambda_rel_0": 1.0119998315075904,
+    "sigma_LCDM": 4.8470939579172,
+    "sigma_ECV": 4.611430999303061,
+    "reduccion_percent": 4.8619432728183245,
+    "passed": true
+  },
+  "SPARC": {
+    "chi2_NFW": 257.76303731078127,
+    "chi2_MCV": 7645.786973533796,
+    "n_galaxias": 5,
+    "n_puntos": 57,
+    "mejora_percent": -2866.2076662742684,
+    "resultados": [
+      {
+        "galaxia": "DDO 154",
+        "M_halo": 7702231520.223153,
+        "S_loc": 0.44446509498597053,
+        "r_core": 1.9192593952852983,
+        "chi2_NFW": 41.000959788518884,
+        "chi2_MCV": 108.40646533379633,
+        "mejora": -164.399823547917
+      },
+      {
+        "galaxia": "DDO 168",
+        "M_halo": 12656903765.690378,
+        "S_loc": 0.467098799685635,
+        "r_core": 1.952915970943273,
+        "chi2_NFW": 18.553280659514243,
+        "chi2_MCV": 41.50849613713152,
+        "mejora": -123.72591079112306
+      },
+      {
+        "galaxia": "IC 2574",
+        "M_halo": 36521385402.13854,
+        "S_loc": 0.5193148335642843,
+        "r_core": 2.0267083131593413,
+        "chi2_NFW": 42.23878200535396,
+        "chi2_MCV": 1059.7235927597214,
+        "mejora": -2408.8876677963785
+      },
+      {
+        "galaxia": "NGC 2403",
+        "M_halo": 128981868898.1869,
+        "S_loc": 0.5891540534287948,
+        "r_core": 2.1182177289376503,
+        "chi2_NFW": 35.74358355551192,
+        "chi2_MCV": 2607.048815987567,
+        "mejora": -7193.7533304087
+      },
+      {
+        "galaxia": "NGC 3198",
+        "M_halo": 235355648535.56488,
+        "S_loc": 0.6256745155981738,
+        "r_core": 2.1632786158107793,
+        "chi2_NFW": 120.22643130188224,
+        "chi2_MCV": 3829.0996033155798,
+        "mejora": -3084.9066481071136
+      }
+    ],
+    "passed": false
+  },
+  "GAIA": {
+    "R_sol": 8.178,
+    "V_sol": 220.0,
+    "r_core_MCV": 2.190748195906304,
+    "chi2_flat": 16.893125,
+    "chi2_MCV": 448.0411092060352,
+    "mejora": -2552.2097551875995,
+    "rho_DM_local": 0.013,
+    "passed": true
+  },
+  "S8_tension": {
+    "S8_Planck": 0.832,
+    "S8_DES": 0.776,
+    "S8_KiDS": 0.759,
+    "S8_MCV": 0.8214759399469596,
+    "eta_eff": 0.012649110640673518,
+    "sigma_DES_LCDM": 2.6167081556895844,
+    "sigma_DES_MCV": 2.124951124051052,
+    "sigma_KiDS_LCDM": 2.674513064882686,
+    "sigma_KiDS_MCV": 2.288941337383144,
+    "reduccion_DES": 18.792964380429314,
+    "reduccion_KiDS": 14.416520620603313,
+    "passed": true
+  },
+  "edad_universo": {
+    "t0_Planck": 13.797,
+    "t0_LCDM": 13.800290298336193,
+    "t0_ECV": 13.775659802728292,
+    "diff_Gyr": 0.02134019727170866,
+    "sigma": 0.927834663987333,
+    "passed": true
+  },
+  "bloques": {
+    "tests_pasados": 5,
+    "tests_total": 5,
+    "porcentaje": 100.0,
+    "passed": true
+  }
+}
