@@ -97,6 +97,13 @@ from .bubble_corrections import (
     test_BubbleCorrections,
 )
 
+# GW Background (Fondo de Ondas Gravitacionales del Retroceso Entropico)
+from .gw_background_mcmc import (
+    GWBackgroundMCMC,
+    ParametrosGW_MCMC,
+    test_GW_Background_MCMC,
+)
+
 # All exported classes
 __all__ = [
     # ISW-LSS
@@ -142,12 +149,16 @@ __all__ = [
     'BURBUJA_VOID_TIPICO',
     'BURBUJA_CUMULO',
     'test_BubbleCorrections',
+    # GW Background
+    'GWBackgroundMCMC',
+    'ParametrosGW_MCMC',
+    'test_GW_Background_MCMC',
 ]
 
 
 def run_all_validations(verbose: bool = True) -> dict:
     """
-    Execute all validation tests for the 8 advanced modules.
+    Execute all validation tests for the 9 advanced modules.
 
     Returns:
         dict: Results for each module with pass/fail status
@@ -161,7 +172,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 1. ISW-LSS
     if verbose:
-        print("\n[1/8] ISW-LSS Cross-Correlation...")
+        print("\n[1/9] ISW-LSS Cross-Correlation...")
     try:
         passed = test_ISW_LSS_MCMC()
         results['isw_lss'] = {'passed': passed}
@@ -175,7 +186,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 2. CMB Lensing
     if verbose:
-        print("\n[2/8] CMB Lensing C_L^phiphi...")
+        print("\n[2/9] CMB Lensing C_L^phiphi...")
     try:
         passed = test_CMB_Lensing_MCMC()
         results['cmb_lensing'] = {'passed': passed}
@@ -189,7 +200,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 3. DESI Y3
     if verbose:
-        print("\n[3/8] DESI Y3 Real Data...")
+        print("\n[3/9] DESI Y3 Real Data...")
     try:
         passed = test_DESI_Y3_MCMC()
         results['desi_y3'] = {'passed': passed}
@@ -203,7 +214,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 4. N-body Cronos
     if verbose:
-        print("\n[4/8] N-body Box-100 Cronos...")
+        print("\n[4/9] N-body Box-100 Cronos...")
     try:
         passed = test_NBody_Box100()
         results['nbody_cronos'] = {'passed': passed}
@@ -217,7 +228,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 5. Zoom MW
     if verbose:
-        print("\n[5/8] Zoom-in MW Subhalos...")
+        print("\n[5/9] Zoom-in MW Subhalos...")
     try:
         passed = test_Zoom_MW_Cronos()
         results['zoom_mw'] = {'passed': passed}
@@ -231,7 +242,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 6. JWST High-z
     if verbose:
-        print("\n[6/8] JWST High-z Galaxies...")
+        print("\n[6/9] JWST High-z Galaxies...")
     try:
         passed = test_JWST_HighZ_MCMC()
         results['jwst_highz'] = {'passed': passed}
@@ -245,7 +256,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 7. MCV-Black Holes (Burbujas Entropicas)
     if verbose:
-        print("\n[7/8] MCV-Black Holes (Burbujas Entropicas)...")
+        print("\n[7/9] MCV-Black Holes (Burbujas Entropicas)...")
     try:
         passed = test_MCV_BH()
         results['mcv_bh'] = {'passed': passed}
@@ -259,7 +270,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 8. Bubble Corrections (Transito de Fotones)
     if verbose:
-        print("\n[8/8] Bubble Corrections (Transito de Fotones)...")
+        print("\n[8/9] Bubble Corrections (Transito de Fotones)...")
     try:
         passed = test_BubbleCorrections()
         results['bubble_corrections'] = {'passed': passed}
@@ -268,6 +279,20 @@ def run_all_validations(verbose: bool = True) -> dict:
             print(f"      {status}")
     except Exception as e:
         results['bubble_corrections'] = {'passed': False, 'error': str(e)}
+        if verbose:
+            print(f"      ERROR: {e}")
+
+    # 9. GW Background (Fondo de Ondas Gravitacionales)
+    if verbose:
+        print("\n[9/9] GW Background (Ondas Gravitacionales)...")
+    try:
+        passed = test_GW_Background_MCMC()
+        results['gw_background'] = {'passed': passed}
+        if verbose:
+            status = "PASS" if passed else "FAIL"
+            print(f"      {status}")
+    except Exception as e:
+        results['gw_background'] = {'passed': False, 'error': str(e)}
         if verbose:
             print(f"      ERROR: {e}")
 
