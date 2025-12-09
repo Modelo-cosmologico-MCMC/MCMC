@@ -104,6 +104,26 @@ from .gw_background_mcmc import (
     test_GW_Background_MCMC,
 )
 
+# First Principles Derivation (Derivacion de α y β)
+from .first_principles_derivation import (
+    DerivacionPrimerosPrincipios,
+    derivar_alpha_primera_principios,
+    derivar_beta_primera_principios,
+    parametros_actualizados_MCV_BH,
+    test_first_principles_derivation,
+)
+
+# GW Mergers (Fusiones de Objetos Compactos - LIGO/Virgo)
+from .gw_mergers_mcmc import (
+    GWMergersMCMC,
+    ParametrosGW_Mergers,
+    TipoFusion,
+    EventoGW,
+    EVENTOS_LIGO,
+    predicciones_detectores_futuros,
+    test_GW_Mergers_MCMC,
+)
+
 # All exported classes
 __all__ = [
     # ISW-LSS
@@ -153,12 +173,26 @@ __all__ = [
     'GWBackgroundMCMC',
     'ParametrosGW_MCMC',
     'test_GW_Background_MCMC',
+    # First Principles Derivation
+    'DerivacionPrimerosPrincipios',
+    'derivar_alpha_primera_principios',
+    'derivar_beta_primera_principios',
+    'parametros_actualizados_MCV_BH',
+    'test_first_principles_derivation',
+    # GW Mergers
+    'GWMergersMCMC',
+    'ParametrosGW_Mergers',
+    'TipoFusion',
+    'EventoGW',
+    'EVENTOS_LIGO',
+    'predicciones_detectores_futuros',
+    'test_GW_Mergers_MCMC',
 ]
 
 
 def run_all_validations(verbose: bool = True) -> dict:
     """
-    Execute all validation tests for the 9 advanced modules.
+    Execute all validation tests for the 11 advanced modules.
 
     Returns:
         dict: Results for each module with pass/fail status
@@ -172,7 +206,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 1. ISW-LSS
     if verbose:
-        print("\n[1/9] ISW-LSS Cross-Correlation...")
+        print("\n[1/11] ISW-LSS Cross-Correlation...")
     try:
         passed = test_ISW_LSS_MCMC()
         results['isw_lss'] = {'passed': passed}
@@ -186,7 +220,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 2. CMB Lensing
     if verbose:
-        print("\n[2/9] CMB Lensing C_L^phiphi...")
+        print("\n[2/11] CMB Lensing C_L^phiphi...")
     try:
         passed = test_CMB_Lensing_MCMC()
         results['cmb_lensing'] = {'passed': passed}
@@ -200,7 +234,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 3. DESI Y3
     if verbose:
-        print("\n[3/9] DESI Y3 Real Data...")
+        print("\n[3/11] DESI Y3 Real Data...")
     try:
         passed = test_DESI_Y3_MCMC()
         results['desi_y3'] = {'passed': passed}
@@ -214,7 +248,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 4. N-body Cronos
     if verbose:
-        print("\n[4/9] N-body Box-100 Cronos...")
+        print("\n[4/11] N-body Box-100 Cronos...")
     try:
         passed = test_NBody_Box100()
         results['nbody_cronos'] = {'passed': passed}
@@ -228,7 +262,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 5. Zoom MW
     if verbose:
-        print("\n[5/9] Zoom-in MW Subhalos...")
+        print("\n[5/11] Zoom-in MW Subhalos...")
     try:
         passed = test_Zoom_MW_Cronos()
         results['zoom_mw'] = {'passed': passed}
@@ -242,7 +276,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 6. JWST High-z
     if verbose:
-        print("\n[6/9] JWST High-z Galaxies...")
+        print("\n[6/11] JWST High-z Galaxies...")
     try:
         passed = test_JWST_HighZ_MCMC()
         results['jwst_highz'] = {'passed': passed}
@@ -256,7 +290,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 7. MCV-Black Holes (Burbujas Entropicas)
     if verbose:
-        print("\n[7/9] MCV-Black Holes (Burbujas Entropicas)...")
+        print("\n[7/11] MCV-Black Holes (Burbujas Entropicas)...")
     try:
         passed = test_MCV_BH()
         results['mcv_bh'] = {'passed': passed}
@@ -270,7 +304,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 8. Bubble Corrections (Transito de Fotones)
     if verbose:
-        print("\n[8/9] Bubble Corrections (Transito de Fotones)...")
+        print("\n[8/11] Bubble Corrections (Transito de Fotones)...")
     try:
         passed = test_BubbleCorrections()
         results['bubble_corrections'] = {'passed': passed}
@@ -284,7 +318,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 9. GW Background (Fondo de Ondas Gravitacionales)
     if verbose:
-        print("\n[9/9] GW Background (Ondas Gravitacionales)...")
+        print("\n[9/11] GW Background (Ondas Gravitacionales)...")
     try:
         passed = test_GW_Background_MCMC()
         results['gw_background'] = {'passed': passed}
@@ -293,6 +327,34 @@ def run_all_validations(verbose: bool = True) -> dict:
             print(f"      {status}")
     except Exception as e:
         results['gw_background'] = {'passed': False, 'error': str(e)}
+        if verbose:
+            print(f"      ERROR: {e}")
+
+    # 10. First Principles Derivation (Derivacion de α y β)
+    if verbose:
+        print("\n[10/11] First Principles Derivation (α, β)...")
+    try:
+        passed = test_first_principles_derivation()
+        results['first_principles'] = {'passed': passed}
+        if verbose:
+            status = "PASS" if passed else "FAIL"
+            print(f"      {status}")
+    except Exception as e:
+        results['first_principles'] = {'passed': False, 'error': str(e)}
+        if verbose:
+            print(f"      ERROR: {e}")
+
+    # 11. GW Mergers (Fusiones LIGO/Virgo)
+    if verbose:
+        print("\n[11/11] GW Mergers (LIGO/Virgo)...")
+    try:
+        passed = test_GW_Mergers_MCMC()
+        results['gw_mergers'] = {'passed': passed}
+        if verbose:
+            status = "PASS" if passed else "FAIL"
+            print(f"      {status}")
+    except Exception as e:
+        results['gw_mergers'] = {'passed': False, 'error': str(e)}
         if verbose:
             print(f"      ERROR: {e}")
 
