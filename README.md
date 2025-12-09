@@ -46,13 +46,13 @@ k0 = 6.307, a1 = 0.15, a2 = 0.25, a3 = 0.35
 ε(S) = ∫k(s)ds / ∫k(s)ds|_{0→S4}
 ```
 
-**Masa y energía:**
+**Masa y espacio:**
 ```
 Mp(S) = Mp0 × (1 - ε)
 Ep(S) = Mp0 × ε
 ```
 
-**Polarización masa-energía:**
+**Polarización masa-espacio:**
 ```
 P_ME = (Mp - Ep) / (Mp + Ep)
 ```
