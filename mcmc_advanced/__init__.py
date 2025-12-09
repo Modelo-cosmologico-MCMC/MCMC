@@ -71,6 +71,19 @@ from .mcmc_jwst_highz import (
     test_JWST_HighZ_MCMC
 )
 
+# MCV-Black Holes (Burbujas Entropicas)
+from .mcv_bh_calibrated import (
+    MCV_AgujerosNegros,
+    CategoriaAgujerosNegros,
+    ParametrosBH,
+    SelloOntologico,
+    SELLOS,
+    EJEMPLOS_CANONICOS,
+    crear_BH_canonico,
+    analizar_por_categorias,
+    test_MCV_BH,
+)
+
 # All exported classes
 __all__ = [
     # ISW-LSS
@@ -96,6 +109,16 @@ __all__ = [
     'GalaxiaJWST',
     'JWST_SAMPLE',
     'test_JWST_HighZ_MCMC',
+    # MCV-Black Holes
+    'MCV_AgujerosNegros',
+    'CategoriaAgujerosNegros',
+    'ParametrosBH',
+    'SelloOntologico',
+    'SELLOS',
+    'EJEMPLOS_CANONICOS',
+    'crear_BH_canonico',
+    'analizar_por_categorias',
+    'test_MCV_BH',
 ]
 
 
@@ -115,7 +138,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 1. ISW-LSS
     if verbose:
-        print("\n[1/6] ISW-LSS Cross-Correlation...")
+        print("\n[1/7] ISW-LSS Cross-Correlation...")
     try:
         passed = test_ISW_LSS_MCMC()
         results['isw_lss'] = {'passed': passed}
@@ -129,7 +152,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 2. CMB Lensing
     if verbose:
-        print("\n[2/6] CMB Lensing C_L^phiphi...")
+        print("\n[2/7] CMB Lensing C_L^phiphi...")
     try:
         passed = test_CMB_Lensing_MCMC()
         results['cmb_lensing'] = {'passed': passed}
@@ -143,7 +166,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 3. DESI Y3
     if verbose:
-        print("\n[3/6] DESI Y3 Real Data...")
+        print("\n[3/7] DESI Y3 Real Data...")
     try:
         passed = test_DESI_Y3_MCMC()
         results['desi_y3'] = {'passed': passed}
@@ -157,7 +180,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 4. N-body Cronos
     if verbose:
-        print("\n[4/6] N-body Box-100 Cronos...")
+        print("\n[4/7] N-body Box-100 Cronos...")
     try:
         passed = test_NBody_Box100()
         results['nbody_cronos'] = {'passed': passed}
@@ -171,7 +194,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 5. Zoom MW
     if verbose:
-        print("\n[5/6] Zoom-in MW Subhalos...")
+        print("\n[5/7] Zoom-in MW Subhalos...")
     try:
         passed = test_Zoom_MW_Cronos()
         results['zoom_mw'] = {'passed': passed}
@@ -185,7 +208,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 6. JWST High-z
     if verbose:
-        print("\n[6/6] JWST High-z Galaxies...")
+        print("\n[6/7] JWST High-z Galaxies...")
     try:
         passed = test_JWST_HighZ_MCMC()
         results['jwst_highz'] = {'passed': passed}
@@ -194,6 +217,20 @@ def run_all_validations(verbose: bool = True) -> dict:
             print(f"      {status}")
     except Exception as e:
         results['jwst_highz'] = {'passed': False, 'error': str(e)}
+        if verbose:
+            print(f"      ERROR: {e}")
+
+    # 7. MCV-Black Holes (Burbujas Entropicas)
+    if verbose:
+        print("\n[7/7] MCV-Black Holes (Burbujas Entropicas)...")
+    try:
+        passed = test_MCV_BH()
+        results['mcv_bh'] = {'passed': passed}
+        if verbose:
+            status = "PASS" if passed else "FAIL"
+            print(f"      {status}")
+    except Exception as e:
+        results['mcv_bh'] = {'passed': False, 'error': str(e)}
         if verbose:
             print(f"      ERROR: {e}")
 
