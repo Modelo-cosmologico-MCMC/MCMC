@@ -84,6 +84,19 @@ from .mcv_bh_calibrated import (
     test_MCV_BH,
 )
 
+# Bubble Corrections (Transito de Fotones por Burbujas Temporales)
+from .bubble_corrections import (
+    BubbleCorrectionCalculator,
+    SMap3D,
+    TipoBurbuja,
+    ParametrosBurbuja,
+    ParametrosBubbleCorrection,
+    BURBUJA_VIA_LACTEA,
+    BURBUJA_VOID_TIPICO,
+    BURBUJA_CUMULO,
+    test_BubbleCorrections,
+)
+
 # All exported classes
 __all__ = [
     # ISW-LSS
@@ -119,12 +132,22 @@ __all__ = [
     'crear_BH_canonico',
     'analizar_por_categorias',
     'test_MCV_BH',
+    # Bubble Corrections
+    'BubbleCorrectionCalculator',
+    'SMap3D',
+    'TipoBurbuja',
+    'ParametrosBurbuja',
+    'ParametrosBubbleCorrection',
+    'BURBUJA_VIA_LACTEA',
+    'BURBUJA_VOID_TIPICO',
+    'BURBUJA_CUMULO',
+    'test_BubbleCorrections',
 ]
 
 
 def run_all_validations(verbose: bool = True) -> dict:
     """
-    Execute all validation tests for the 6 advanced modules.
+    Execute all validation tests for the 8 advanced modules.
 
     Returns:
         dict: Results for each module with pass/fail status
@@ -138,7 +161,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 1. ISW-LSS
     if verbose:
-        print("\n[1/7] ISW-LSS Cross-Correlation...")
+        print("\n[1/8] ISW-LSS Cross-Correlation...")
     try:
         passed = test_ISW_LSS_MCMC()
         results['isw_lss'] = {'passed': passed}
@@ -152,7 +175,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 2. CMB Lensing
     if verbose:
-        print("\n[2/7] CMB Lensing C_L^phiphi...")
+        print("\n[2/8] CMB Lensing C_L^phiphi...")
     try:
         passed = test_CMB_Lensing_MCMC()
         results['cmb_lensing'] = {'passed': passed}
@@ -166,7 +189,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 3. DESI Y3
     if verbose:
-        print("\n[3/7] DESI Y3 Real Data...")
+        print("\n[3/8] DESI Y3 Real Data...")
     try:
         passed = test_DESI_Y3_MCMC()
         results['desi_y3'] = {'passed': passed}
@@ -180,7 +203,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 4. N-body Cronos
     if verbose:
-        print("\n[4/7] N-body Box-100 Cronos...")
+        print("\n[4/8] N-body Box-100 Cronos...")
     try:
         passed = test_NBody_Box100()
         results['nbody_cronos'] = {'passed': passed}
@@ -194,7 +217,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 5. Zoom MW
     if verbose:
-        print("\n[5/7] Zoom-in MW Subhalos...")
+        print("\n[5/8] Zoom-in MW Subhalos...")
     try:
         passed = test_Zoom_MW_Cronos()
         results['zoom_mw'] = {'passed': passed}
@@ -208,7 +231,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 6. JWST High-z
     if verbose:
-        print("\n[6/7] JWST High-z Galaxies...")
+        print("\n[6/8] JWST High-z Galaxies...")
     try:
         passed = test_JWST_HighZ_MCMC()
         results['jwst_highz'] = {'passed': passed}
@@ -222,7 +245,7 @@ def run_all_validations(verbose: bool = True) -> dict:
 
     # 7. MCV-Black Holes (Burbujas Entropicas)
     if verbose:
-        print("\n[7/7] MCV-Black Holes (Burbujas Entropicas)...")
+        print("\n[7/8] MCV-Black Holes (Burbujas Entropicas)...")
     try:
         passed = test_MCV_BH()
         results['mcv_bh'] = {'passed': passed}
@@ -231,6 +254,20 @@ def run_all_validations(verbose: bool = True) -> dict:
             print(f"      {status}")
     except Exception as e:
         results['mcv_bh'] = {'passed': False, 'error': str(e)}
+        if verbose:
+            print(f"      ERROR: {e}")
+
+    # 8. Bubble Corrections (Transito de Fotones)
+    if verbose:
+        print("\n[8/8] Bubble Corrections (Transito de Fotones)...")
+    try:
+        passed = test_BubbleCorrections()
+        results['bubble_corrections'] = {'passed': passed}
+        if verbose:
+            status = "PASS" if passed else "FAIL"
+            print(f"      {status}")
+    except Exception as e:
+        results['bubble_corrections'] = {'passed': False, 'error': str(e)}
         if verbose:
             print(f"      ERROR: {e}")
 
