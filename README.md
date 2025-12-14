@@ -1,9 +1,11 @@
 # Modelo Cosmologico de Multiples Colapsos (MCMC)
 
-**Autor:** Adrian Martinez Estelles
-**Copyright:** (c) 2024. Todos los derechos reservados.
-**Contacto:** adrianmartinezestelles92@gmail.com
-**Version:** 2.2.0
+| Campo | Valor |
+|-------|-------|
+| **Autor** | Adrian Martinez Estelles |
+| **Copyright** | (c) 2024. Todos los derechos reservados |
+| **Contacto** | adrianmartinezestelles92@gmail.com |
+| **Version** | 2.2.0 |
 
 ---
 
@@ -222,7 +224,7 @@ print(f"Radio del nucleo: {r_c:.2f} kpc")
 ```python
 from mcmc_advanced import run_all_validations
 
-# Ejecutar los 18 tests
+# Ejecutar los 19 tests
 results = run_all_validations(verbose=True)
 print(f"Passed: {results['summary']['passed']}/{results['summary']['total']}")
 ```
