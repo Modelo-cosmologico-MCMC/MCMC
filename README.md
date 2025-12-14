@@ -115,6 +115,11 @@ MCMC/
 ├── examples/                     # Ejemplos de uso
 ├── docs/                         # Documentacion tecnica
 └── data/                         # Datos de validacion
+S0 = 0.000  (Estado primordial)
+S1 = 0.010  (Primera transición)
+S2 = 0.100  (Segunda transición)
+S3 = 1.000  (Tercera Transición)
+S4 = 1.001  (Big bang Observable)
 ```
 
 ---
@@ -154,12 +159,14 @@ Xi = |nabla(rho_m/rho_s)|
 ### Componentes Ontologicas
 
 **MCV (Materia de Curvatura Variable):**
+**Masa y espacio:**
 ```
 rho_MCV = rho_vac * (1 + alpha * Xi^beta)
 gamma_Zhao = 0.51 (perfil de densidad)
 ```
 
 **ECV (Energia de Curvatura Variable):**
+**Polarización masa-espacio:**
 ```
 Lambda_rel(z) = 1 + epsilon * tanh((z_trans - z)/Delta_z)
 epsilon = 0.012, z_trans = 8.9, Delta_z = 1.5
@@ -293,6 +300,11 @@ test_DESI_Y3_MCMC()
 ## Conexiones Teoricas
 
 ### LQG (Gravedad Cuantica de Lazos)
+### Bloque 0: Estado Primordial
+- **Mp0 = 1.0**: Masa potencial normalizada
+- **Ep0 = 10⁻¹⁰**: Espacio primordial mínimo
+- **Tensión = 10¹⁰**: Máxima tensión inicial
+- **P_ME ≈ +1**: Masa domina completamente
 
 ```
 Area gap: A_gap = 4*sqrt(3)*pi*gamma*l_P^2
