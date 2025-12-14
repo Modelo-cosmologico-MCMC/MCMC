@@ -3,7 +3,7 @@
 **Autor:** Adrian Martinez Estelles
 **Copyright:** (c) 2024. Todos los derechos reservados.
 **Contacto:** adrianmartinezestelles92@gmail.com
-**Version:** 2.1.0
+**Version:** 2.2.0
 
 ---
 
@@ -14,13 +14,13 @@ El Modelo Cosmologico de Multiples Colapsos (MCMC) es un marco teorico que descr
 - **MCV (Materia de Curvatura Variable):** Modifica la dinamica gravitacional a escalas galacticas
 - **ECV (Energia de Curvatura Variable):** Modifica Lambda(z) a escalas cosmologicas
 
-El modelo se estructura en **5 bloques fundamentales** y **18 modulos de validacion avanzada**.
+El modelo se estructura en **5 bloques fundamentales** y **19 modulos de validacion avanzada**.
 
 ---
 
 ## Validacion Empirica Completa
 
-### Resultados Clave (18/18 tests)
+### Resultados Clave (19/19 tests)
 
 | Observable | LCDM | MCMC | Mejora |
 |------------|------|------|--------|
@@ -52,7 +52,8 @@ El modelo se estructura en **5 bloques fundamentales** y **18 modulos de validac
 | 15 | pregeometric_inflation | Inflacion Pre-geometrica | PASS |
 | 16 | mcmc_unified_framework | Marco Teorico Unificado | PASS |
 | 17 | quantum_effects_mcmc | Efectos Cuanticos (Qubit Tensorial) | PASS |
-| 18 | mcmc_vacuum_experiments | Diseno Experimental Vacio | PASS |
+| 18 | mcmc_growth_fsigma8 | Growth Rate fsigma8(z) | PASS |
+| 19 | mcmc_vacuum_experiments | Diseno Experimental Vacio | PASS |
 
 ### Ejecutar Validacion Completa
 
@@ -72,7 +73,7 @@ MCMC/
 │   ├── bloque1_pregeometria.py
 │   └── bloque2_cosmologia.py
 │
-├── mcmc_advanced/                # Validacion avanzada (18 modulos)
+├── mcmc_advanced/                # Validacion avanzada (19 modulos)
 │   ├── __init__.py
 │   ├── mcmc_isw_lss.py
 │   ├── mcmc_cmb_lensing.py
@@ -91,7 +92,16 @@ MCMC/
 │   ├── pregeometric_inflation.py
 │   ├── mcmc_unified_framework.py
 │   ├── quantum_effects_mcmc.py
+│   ├── mcmc_growth_fsigma8.py
 │   └── mcmc_vacuum_experiments.py
+│
+├── class_mcmc/                   # CLASS Boltzmann code integration
+│   ├── README.md
+│   └── param_mcmc.ini
+│
+├── camb_mcmc/                    # CAMB Boltzmann code integration
+│   ├── README.md
+│   └── params_mcmc.ini
 │
 ├── lattice/                      # Yang-Mills lattice gauge
 │   └── bloque4_ym_lattice.py

@@ -5,7 +5,7 @@ MCMC Advanced Validation Modules
 Modulos avanzados para validacion del modelo cosmologico MCMC
 con correcciones ontologicas ECV (Lambda(z)) y MCV (Zhao gamma=0.51).
 
-Modules (18 total):
+Modules (19 total):
 -------------------
 1. mcmc_isw_lss: ISW-LSS Cross-Correlation C_ell^Tg
 2. mcmc_cmb_lensing: CMB Lensing C_L^phiphi
@@ -24,7 +24,8 @@ Modules (18 total):
 15. pregeometric_inflation: Inflacion Pre-geometrica
 16. mcmc_unified_framework: Marco Teorico Unificado
 17. quantum_effects_mcmc: Efectos Cuanticos (Qubit Tensorial)
-18. mcmc_vacuum_experiments: Diseno Experimental Vacio (Casimir, Qubits, Atomico)
+18. mcmc_growth_fsigma8: Growth Rate fσ₈(z)
+19. mcmc_vacuum_experiments: Diseno Experimental Vacio (Casimir, Qubits, Atomico)
 
 Parameters:
 -----------
@@ -40,7 +41,7 @@ Usage:
 >>> result = isw.validate()
 """
 
-__version__ = "2.1.0"
+__version__ = "2.2.0"
 __author__ = "MCMC Cosmology Team"
 
 # ISW-LSS Cross-Correlation
@@ -206,6 +207,15 @@ from .quantum_effects_mcmc import (
     test_Quantum_Effects_MCMC,
 )
 
+# Growth Rate fσ₈(z)
+from .mcmc_growth_fsigma8 import (
+    GrowthRateMCMC,
+    ComparacionModelos,
+    PuntoFsigma8,
+    DATOS_FSIGMA8,
+    test_Growth_Fsigma8_MCMC,
+)
+
 # Vacuum Experiments (Diseno Experimental para Deteccion MCV)
 from .mcmc_vacuum_experiments import (
     MCMCCalibration,
@@ -337,6 +347,12 @@ __all__ = [
     'EfectosCuanticosCMB',
     'TunelamientoCosmico',
     'test_Quantum_Effects_MCMC',
+    # Growth Rate fσ₈(z)
+    'GrowthRateMCMC',
+    'ComparacionModelos',
+    'PuntoFsigma8',
+    'DATOS_FSIGMA8',
+    'test_Growth_Fsigma8_MCMC',
     # Vacuum Experiments
     'MCMCCalibration',
     'OntologicalAnalysis',
@@ -356,13 +372,13 @@ __all__ = [
 
 def run_all_validations(verbose: bool = True) -> dict:
     """
-    Execute all validation tests for the 18 advanced modules.
+    Execute all validation tests for the 19 advanced modules.
 
     Returns:
         dict: Results for each module with pass/fail status
     """
     results = {}
-    total_tests = 18
+    total_tests = 19
 
     if verbose:
         print("=" * 70)
@@ -607,9 +623,23 @@ def run_all_validations(verbose: bool = True) -> dict:
         if verbose:
             print(f"      ERROR: {e}")
 
-    # 18. Vacuum Experiments (Diseno Experimental)
+    # 18. Growth Rate fσ₈(z)
     if verbose:
-        print(f"\n[18/{total_tests}] Vacuum Experiments (Diseno Experimental)...")
+        print(f"\n[18/{total_tests}] Growth Rate fσ₈(z)...")
+    try:
+        passed = test_Growth_Fsigma8_MCMC()
+        results['growth_fsigma8'] = {'passed': passed}
+        if verbose:
+            status = "PASS" if passed else "FAIL"
+            print(f"      {status}")
+    except Exception as e:
+        results['growth_fsigma8'] = {'passed': False, 'error': str(e)}
+        if verbose:
+            print(f"      ERROR: {e}")
+
+    # 19. Vacuum Experiments (Diseno Experimental)
+    if verbose:
+        print(f"\n[19/{total_tests}] Vacuum Experiments (Diseno Experimental)...")
     try:
         passed = test_MCMC_Vacuum_Experiments()
         results['vacuum_experiments'] = {'passed': passed}
