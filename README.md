@@ -69,33 +69,63 @@ python -c "from mcmc_advanced import run_all_validations; run_all_validations()"
 
 ```
 MCMC/
-├── mcmc_core/                    # Bloques fundamentales
+├── mcmc_core/                    # Bloques fundamentales y ontologia (24 modulos)
 │   ├── __init__.py
-│   ├── bloque0_estado_primordial.py
-│   ├── bloque1_pregeometria.py
-│   └── bloque2_cosmologia.py
+│   │
+│   │   # Bloques Fundamentales
+│   ├── bloque0_estado_primordial.py   # Estado de tension maxima
+│   ├── bloque1_pregeometria.py        # Fase pre-geometrica
+│   ├── bloque2_cosmologia.py          # Friedmann modificado
+│   ├── bloque3_nbody.py               # Simulaciones N-cuerpos
+│   │
+│   │   # Ontologia MCMC
+│   ├── ontologia_ecv_mcv.py           # ECV + MCV completo
+│   ├── ley_cronos.py                  # Ley de Cronos (dilatacion temporal)
+│   ├── spin_network_lqg.py            # Redes de spin LQG
+│   ├── fase_pregeometrica.py          # Fase pre-geometrica detallada
+│   │
+│   │   # Integraciones
+│   ├── class_mcmc.py                  # Wrapper CLASS
+│   ├── sparc_zhao.py                  # Perfiles Zhao/SPARC
+│   ├── desi_y3.py                     # Datos DESI Y3
+│   ├── nbody_cronos.py                # N-body con Cronos
+│   ├── lensing_mcv.py                 # Lensing con MCV
+│   ├── datos_observacionales.py       # Datos observacionales
+│   │
+│   │   # Efectos Cuanticos
+│   ├── qubit_tensorial.py             # Qubit tensorial
+│   ├── circuito_cuantico.py           # Circuitos cuanticos
+│   │
+│   │   # Bloque 4: Lattice Gauge
+│   └── bloque4_lattice_gauge/
+│       ├── bloque4_main.py            # Yang-Mills lattice principal
+│       ├── mcmc_ontology_lattice.py   # Ontologia lattice
+│       └── lattice/
+│           ├── yang_mills_lattice.py  # Gauge fields
+│           ├── correlators_massgap.py # Mass gap
+│           └── lattice_sscan.py       # S-scan
 │
 ├── mcmc_advanced/                # Validacion avanzada (19 modulos)
 │   ├── __init__.py
-│   ├── mcmc_isw_lss.py
-│   ├── mcmc_cmb_lensing.py
-│   ├── mcmc_desi_y3_real.py
-│   ├── mcmc_nbody_box100.py
-│   ├── mcmc_zoom_MW.py
-│   ├── mcmc_jwst_highz.py
-│   ├── mcv_bh_calibrated.py
-│   ├── bubble_corrections.py
-│   ├── gw_background_mcmc.py
-│   ├── first_principles_derivation.py
-│   ├── gw_mergers_mcmc.py
-│   ├── entropy_map_3d.py
-│   ├── mcmc_lqg_bridge.py
-│   ├── cosmic_cycle_mcmc.py
-│   ├── pregeometric_inflation.py
-│   ├── mcmc_unified_framework.py
-│   ├── quantum_effects_mcmc.py
-│   ├── mcmc_growth_fsigma8.py
-│   └── mcmc_vacuum_experiments.py
+│   ├── mcmc_isw_lss.py               # ISW-LSS Cross-Correlation
+│   ├── mcmc_cmb_lensing.py           # CMB Lensing
+│   ├── mcmc_desi_y3_real.py          # DESI Year 3 BAO
+│   ├── mcmc_nbody_box100.py          # N-body Box 100 Mpc
+│   ├── mcmc_zoom_MW.py               # Zoom-in Milky Way
+│   ├── mcmc_jwst_highz.py            # JWST High-z
+│   ├── mcv_bh_calibrated.py          # MCV-Black Holes
+│   ├── bubble_corrections.py         # Transito de fotones
+│   ├── gw_background_mcmc.py         # Fondo GW
+│   ├── first_principles_derivation.py # Derivacion alpha/beta
+│   ├── gw_mergers_mcmc.py            # Fusiones GW
+│   ├── entropy_map_3d.py             # Mapa entropia 3D
+│   ├── mcmc_lqg_bridge.py            # Bridge LQG
+│   ├── cosmic_cycle_mcmc.py          # Ciclo cosmico
+│   ├── pregeometric_inflation.py     # Inflacion pre-geometrica
+│   ├── mcmc_unified_framework.py     # Marco unificado
+│   ├── quantum_effects_mcmc.py       # Efectos cuanticos
+│   ├── mcmc_growth_fsigma8.py        # Growth rate fsigma8
+│   └── mcmc_vacuum_experiments.py    # Experimentos vacio
 │
 ├── class_mcmc/                   # CLASS Boltzmann code integration
 │   ├── README.md
@@ -104,12 +134,6 @@ MCMC/
 ├── camb_mcmc/                    # CAMB Boltzmann code integration
 │   ├── README.md
 │   └── params_mcmc.ini
-│
-├── lattice/                      # Yang-Mills lattice gauge
-│   └── bloque4_ym_lattice.py
-│
-├── simulations/                  # N-body simulations
-│   └── bloque3_nbody.py
 │
 ├── tests/                        # Test suite
 ├── examples/                     # Ejemplos de uso
@@ -171,6 +195,17 @@ gamma_Zhao = 0.51 (perfil de densidad)
 Lambda_rel(z) = 1 + epsilon * tanh((z_trans - z)/Delta_z)
 epsilon = 0.012, z_trans = 8.9, Delta_z = 1.5
 ```
+
+### Modulos Ontologicos (mcmc_core/)
+
+| Modulo | Descripcion | Ecuaciones Clave |
+|--------|-------------|------------------|
+| ontologia_ecv_mcv.py | ECV + MCV completo | Lambda_rel(z), rho_MCV(r) |
+| ley_cronos.py | Dilatacion temporal | dtau/dt = exp(-Xi) |
+| spin_network_lqg.py | Redes de spin LQG | A(j) = 8*pi*gamma*l_P^2*sqrt(j(j+1)) |
+| fase_pregeometrica.py | Fase pre-Big Bang | S < S4 = 1.001 |
+| qubit_tensorial.py | Efectos cuanticos | Coherencia tensorial |
+| circuito_cuantico.py | Circuitos cuanticos | Gates entropicos |
 
 ---
 
