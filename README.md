@@ -165,11 +165,11 @@ S4 = 1.001  (Big bang Observable)
 ### Sellos Entropicos
 
 ```
-S1 = 1.0     (Planck, z ~ 10^32)
-S2 = 10.0    (QCD, z ~ 10^12)
-S3 = 25.0    (EW, z ~ 10^15)
+S1 = 0.001     (Planck, z ~ 10^32)
+S2 = 0.01    (QCD, z ~ 10^12)
+S3 = 0.1    (EW, z ~ 10^15)
 S4 = 1.001   (Pre-geometrico)
-S5 = 80.0    (Recombinacion, z ~ 1100)
+S5 = 5.0    (Recombinacion, z ~ 1100)
 S0 = 90.0    (Estado actual, z = 0)
 ```
 
