@@ -33,20 +33,27 @@ from scipy.integrate import solve_ivp
 
 
 # =============================================================================
-# Constantes
+# Constantes - Alineadas con mcmc_core/bloque3_nbody.py
 # =============================================================================
 
-# Parámetro de fricción entrópica
-ALPHA_FRICCION: float = 0.1
+# Densidad crítica de Cronos (M☉/kpc³) - Calibrada
+RHO_CRONOS: float = 277.5
 
-# Densidad crítica del universo (M☉/kpc³)
-RHO_CRITICA: float = 1.4e11  # Aproximadamente 10^-26 kg/m³
+# Parámetro de lapse para dilatación temporal
+ALPHA_LAPSE: float = 1.0
+
+# Exponente de fricción entrópica: η(ρ) ∝ (ρ/ρc)^β
+BETA_ETA: float = 1.5
 
 # Constante gravitacional en unidades astrofísicas (kpc³/(M☉ Gyr²))
-G_ASTRO: float = 4.498e-6
+G_ASTRO: float = 4.302e-6  # Corregido para consistencia
 
 # Masa solar característica
 M_CHAR: float = 1e11  # M☉
+
+# Relación masa-núcleo calibrada
+R_STAR: float = 1.8      # kpc
+ALPHA_R: float = 0.35    # r_core ∝ M^α_r
 
 
 # =============================================================================
@@ -55,35 +62,44 @@ M_CHAR: float = 1e11  # M☉
 
 def friccion_entropica(
     rho: float,
-    alpha: float = ALPHA_FRICCION,
-    rho_c: float = RHO_CRITICA
+    alpha: float = ALPHA_LAPSE,
+    rho_c: float = RHO_CRONOS,
+    beta: float = BETA_ETA
 ) -> float:
     """
-    Calcula el coeficiente de fricción entrópica.
+    Calcula el coeficiente de fricción entrópica (Ley de Cronos).
 
-    η(ρ) = α × (ρ/ρc)^1.5
+    η(ρ) = α × (ρ/ρc)^β
 
     Esta fricción emerge de la entropía del campo tensional
     y actúa sobre la materia oscura, suavizando las cúspides
     centrales de los halos.
 
+    Parámetros calibrados:
+        - α = 1.0 (parámetro de lapse)
+        - ρc = 277.5 M☉/kpc³ (densidad crítica de Cronos)
+        - β = 1.5 (exponente de fricción)
+
     Args:
         rho: Densidad local (M☉/kpc³)
-        alpha: Parámetro de acoplamiento
-        rho_c: Densidad crítica
+        alpha: Parámetro de lapse
+        rho_c: Densidad crítica de Cronos
+        beta: Exponente de fricción
 
     Returns:
-        η: Coeficiente de fricción (1/Gyr)
+        η: Coeficiente de fricción (Gyr⁻¹)
     """
     if rho <= 0:
         return 0.0
-    return alpha * (rho / rho_c) ** 1.5
+    return alpha * (rho / rho_c) ** beta
 
 
 def fuerza_friccion(
     velocidad: NDArray[np.float64],
     rho: float,
-    alpha: float = ALPHA_FRICCION
+    alpha: float = ALPHA_LAPSE,
+    rho_c: float = RHO_CRONOS,
+    beta: float = BETA_ETA
 ) -> NDArray[np.float64]:
     """
     Calcula la fuerza de fricción entrópica.
@@ -93,12 +109,14 @@ def fuerza_friccion(
     Args:
         velocidad: Vector velocidad (kpc/Gyr)
         rho: Densidad local (M☉/kpc³)
-        alpha: Parámetro de fricción
+        alpha: Parámetro de lapse
+        rho_c: Densidad crítica de Cronos
+        beta: Exponente de fricción
 
     Returns:
         Vector fuerza de fricción
     """
-    eta = friccion_entropica(rho, alpha)
+    eta = friccion_entropica(rho, alpha, rho_c, beta)
     return -eta * velocidad
 
 
@@ -161,22 +179,32 @@ def perfil_nfw(
     return rho_s / (x * (1 + x)**2)
 
 
-def radio_core(M_halo: float) -> float:
+def radio_core(M_halo: float, z: float = 0.0) -> float:
     """
     Calcula el radio del núcleo según la relación masa-núcleo MCMC.
 
-    r_core(M) = 1.8 × (M/10^11 M☉)^0.35 kpc
+    r_core(M,z) = r★ × (M/M★)^α_r × (1+z)^β_r
+
+    Con parámetros calibrados:
+        - r★ = 1.8 kpc
+        - M★ = 10¹¹ M☉
+        - α_r = 0.35
+        - β_r = -0.5 (evolución con redshift)
 
     Esta relación emerge de la fricción entrópica y explica
     la diversidad de perfiles de rotación en galaxias.
 
     Args:
         M_halo: Masa del halo (M☉)
+        z: Redshift (default=0)
 
     Returns:
         r_core en kpc
     """
-    return 1.8 * (M_halo / M_CHAR) ** 0.35
+    BETA_R = -0.5  # Exponente de redshift
+    factor_masa = (M_halo / M_CHAR) ** ALPHA_R
+    factor_z = (1 + z) ** BETA_R
+    return R_STAR * factor_masa * factor_z
 
 
 def masa_encerrada_burkert(r: float, rho_0: float, r_c: float) -> float:
@@ -284,7 +312,7 @@ class SimulacionNBody:
     particulas: List[Particula] = field(default_factory=list)
     rho_0: float = 1e8  # M☉/kpc³
     r_c: float = 2.0    # kpc
-    alpha: float = ALPHA_FRICCION
+    alpha: float = ALPHA_LAPSE
     dt: float = 0.001   # Gyr
     historial: List[Dict] = field(default_factory=list)
 
@@ -294,7 +322,7 @@ class SimulacionNBody:
         n_particulas: int,
         M_total: float,
         r_max: float = 50.0,
-        alpha: float = ALPHA_FRICCION
+        alpha: float = ALPHA_LAPSE
     ) -> SimulacionNBody:
         """
         Crea simulación con distribución inicial de halo.
@@ -502,9 +530,9 @@ def _test_nbody():
     """Verifica la implementación N-body."""
 
     # Test 1: Fricción entrópica positiva
-    eta = friccion_entropica(RHO_CRITICA)
-    assert eta >= 0, f"Fricción debe ser >= 0"
-    assert eta == ALPHA_FRICCION, f"η(ρc) debe ser α"
+    eta = friccion_entropica(RHO_CRONOS)
+    assert eta >= 0, f"Friccion debe ser >= 0"
+    assert eta == ALPHA_LAPSE, f"eta(rho_c) debe ser alpha"
 
     # Test 2: Perfil Burkert finito en r=0
     rho_0 = 1e8
@@ -526,7 +554,7 @@ def _test_nbody():
     sim = SimulacionNBody.crear_halo_inicial(
         n_particulas=10,
         M_total=1e11,
-        alpha=ALPHA_FRICCION
+        alpha=ALPHA_LAPSE
     )
     sim.simular(t_total=0.01, guardar_cada=5)
     assert len(sim.historial) > 0, "Debe guardar historial"
@@ -549,7 +577,7 @@ if __name__ == "__main__":
     sim = SimulacionNBody.crear_halo_inicial(
         n_particulas=100,
         M_total=1e11,  # 10^11 M☉
-        alpha=ALPHA_FRICCION
+        alpha=ALPHA_LAPSE
     )
 
     print(f"  Partículas: {sim.n_particulas}")

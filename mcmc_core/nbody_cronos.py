@@ -59,20 +59,26 @@ KMS_TO_KPC_GYR = 1.0227  # km/s → kpc/Gyr
 
 @dataclass
 class ParametrosCronosNBody:
-    """Parámetros de la Ley de Cronos para N-body."""
-    # Dilatación temporal
-    alpha_0: float = 0.15      # Amplitud de dilatación máxima
-    rho_cronos: float = 1e8    # M☉/kpc³ - densidad característica
-    beta_lapse: float = 0.5    # Exponente de lapse: α = 1 - α_0*(ρ/ρ_c)^β
+    """
+    Parámetros de la Ley de Cronos para N-body.
 
-    # Fricción entrópica
-    eta_0: float = 0.10        # Coeficiente de fricción base
-    gamma_friction: float = 0.5 # Exponente de densidad
-    rho_friction: float = 1e7   # Densidad de referencia para fricción
+    NOTA: Estos parámetros están alineados con mcmc_core/bloque3_nbody.py
+    y mcmc_core/ley_cronos.py para garantizar consistencia ontológica.
+    """
+    # Dilatación temporal - Fórmula: Δt/Δt₀ = 1 + (ρ/ρc)^β / α
+    alpha_lapse: float = 1.0        # Parámetro de lapse (ALPHA_LAPSE)
+    rho_cronos: float = 277.5       # M☉/kpc³ - Densidad crítica de Cronos (RHO_CRONOS)
+    beta_lapse: float = 1.5         # Exponente de dilatación (BETA_ETA)
 
-    # Núcleo cored
-    r_core_base: float = 1.0   # kpc - radio core base
-    alpha_core: float = 0.25   # Exponente: r_core ∝ M^α_core
+    # Fricción entrópica - Fórmula: η(ρ) = α × (ρ/ρc)^β
+    eta_0: float = 1.0              # Coeficiente de fricción (igual a alpha_lapse)
+    gamma_friction: float = 1.5     # Exponente de densidad (igual a beta_lapse)
+    rho_friction: float = 277.5     # Densidad de referencia (igual a rho_cronos)
+
+    # Núcleo cored - Relación masa-núcleo calibrada
+    r_core_base: float = 1.8        # kpc - Radio característico (R_STAR)
+    alpha_core: float = 0.35        # Exponente: r_core ∝ M^α_r (ALPHA_R)
+    beta_core: float = -0.5         # Exponente de redshift (BETA_R)
 
 
 PARAMS_CRONOS = ParametrosCronosNBody()
@@ -84,24 +90,27 @@ PARAMS_CRONOS = ParametrosCronosNBody()
 
 def lapse_function(rho: float, params: ParametrosCronosNBody = None) -> float:
     """
-    Función lapse α(ρ): dilatación temporal local.
+    Factor de dilatación temporal según la Ley de Cronos.
 
-    α(ρ) = 1 - α_0 * (ρ/ρ_c)^β
+    Δt/Δt₀ = 1 + (ρ/ρc)^β / α
 
-    donde α_0 es la dilatación máxima y ρ_c es la densidad característica.
+    El factor devuelto indica cuánto se "estira" el tiempo coordinado
+    respecto al tiempo propio en una región de densidad ρ.
 
     El tiempo propio se relaciona con el tiempo coordenado como:
-    dτ = α(ρ) * dt
+    dτ = dt / factor_dilatacion
 
-    En regiones densas (ρ >> ρ_c): α → 1 - α_0 (tiempo más lento)
-    En regiones vacías (ρ << ρ_c): α → 1 (tiempo normal)
+    En regiones densas (ρ >> ρ_c): factor >> 1 (tiempo más lento)
+    En regiones vacías (ρ << ρ_c): factor → 1 (tiempo normal)
+
+    NOTA: Esta fórmula es consistente con mcmc_core/ley_cronos.py:dilatacion_temporal()
 
     Args:
         rho: Densidad local en M☉/kpc³
         params: Parámetros de Cronos
 
     Returns:
-        α(ρ) ∈ (1-α_0, 1]
+        Factor de dilatación Δt/Δt₀ ≥ 1
     """
     p = params or PARAMS_CRONOS
 
@@ -110,19 +119,22 @@ def lapse_function(rho: float, params: ParametrosCronosNBody = None) -> float:
 
     ratio = rho / p.rho_cronos
 
-    # Limitamos para evitar α < 0
-    lapse = 1 - p.alpha_0 * ratio**p.beta_lapse
-    return max(lapse, 1 - p.alpha_0)
+    # Fórmula de dilatación: Δt/Δt₀ = 1 + (ρ/ρc)^β / α
+    factor = 1.0 + (ratio ** p.beta_lapse) / p.alpha_lapse
+
+    return factor
 
 
 def friccion_entropica(rho: float, v: np.ndarray,
                        params: ParametrosCronosNBody = None) -> np.ndarray:
     """
-    Fricción entrópica F_friction = -η(ρ) * v
+    Fricción entrópica según la Ley de Cronos.
 
-    La fricción es proporcional a la velocidad y aumenta con la densidad.
+    F_friction = -η(ρ) × v
 
-    η(ρ) = η_0 * (ρ/ρ_f)^γ
+    donde η(ρ) = α × (ρ/ρc)^β
+
+    Esta fórmula es consistente con mcmc_core/bloque3_nbody.py:FriccionEntropica.eta()
 
     Args:
         rho: Densidad local en M☉/kpc³
@@ -130,40 +142,50 @@ def friccion_entropica(rho: float, v: np.ndarray,
         params: Parámetros de Cronos
 
     Returns:
-        Aceleración de fricción en km/s/Gyr
+        Aceleración de fricción en kpc/Gyr²
     """
     p = params or PARAMS_CRONOS
 
     if rho <= 0:
         return np.zeros_like(v)
 
-    # Coeficiente de fricción dependiente de densidad
-    eta = p.eta_0 * (rho / p.rho_friction)**p.gamma_friction
-
-    # Límite superior para evitar fricción excesiva
-    eta = min(eta, 0.5)  # Máximo 50% de reducción por Gyr
+    # Coeficiente de fricción según fórmula ontológica: η = α × (ρ/ρc)^β
+    ratio = rho / p.rho_friction
+    eta = p.eta_0 * (ratio ** p.gamma_friction)
 
     return -eta * v * KMS_TO_KPC_GYR  # Convertir a kpc/Gyr²
 
 
-def radio_core_cronos(M_halo: float, params: ParametrosCronosNBody = None) -> float:
+def radio_core_cronos(M_halo: float, z: float = 0.0,
+                      params: ParametrosCronosNBody = None) -> float:
     """
     Radio core predicho por la Ley de Cronos.
 
-    r_core = r_c0 * (M_halo / 10^10 M☉)^α_core
+    r_core(M,z) = r★ × (M/M★)^α_r × (1+z)^β_r
 
-    Los halos más masivos tienen núcleos más grandes.
+    Con parámetros calibrados:
+        - r★ = 1.8 kpc (r_core_base)
+        - M★ = 10¹¹ M☉
+        - α_r = 0.35 (alpha_core)
+        - β_r = -0.5 (beta_core)
+
+    Esta fórmula es consistente con mcmc_core/ley_cronos.py:radio_core()
 
     Args:
         M_halo: Masa del halo en M☉
+        z: Redshift (default=0)
         params: Parámetros de Cronos
 
     Returns:
         Radio core en kpc
     """
     p = params or PARAMS_CRONOS
-    M_ref = 1e10  # M☉
-    return p.r_core_base * (M_halo / M_ref)**p.alpha_core
+    M_ref = 1e11  # M☉ (M_STAR)
+
+    factor_masa = (M_halo / M_ref) ** p.alpha_core
+    factor_z = (1 + z) ** p.beta_core
+
+    return p.r_core_base * factor_masa * factor_z
 
 
 # =============================================================================
@@ -354,17 +376,20 @@ class IntegradorCronos:
         """
         Avanza la simulación un paso temporal dt (en Gyr).
 
-        Usa integrador leapfrog con dilatación temporal.
+        Usa integrador leapfrog con dilatación temporal de Cronos.
+
+        El tiempo propio es: dt_propio = dt_coordinado / factor_dilatacion
+        En regiones densas, dt_propio < dt → la evolución es más lenta.
         """
         for p in self.particulas:
             # Densidad local para dilatación
             rho_local = self.calcular_densidad(p.posicion)
 
-            # Factor lapse (tiempo propio / tiempo coordenado)
-            alpha = lapse_function(rho_local, self.params)
+            # Factor de dilatación (tiempo coordinado / tiempo propio)
+            factor_dilatacion = lapse_function(rho_local, self.params)
 
-            # Paso temporal dilatado
-            dt_propio = dt * alpha
+            # Paso temporal propio (menor en regiones densas)
+            dt_propio = dt / factor_dilatacion
 
             # Leapfrog: kick
             accel = self.calcular_aceleracion(p.posicion, p.velocidad)
@@ -510,11 +535,11 @@ def test_NBody_Cronos(verbose: bool = True) -> Dict:
 
     # 1. Test de función lapse
     if verbose:
-        print(f"\n  1. Función Lapse α(ρ):")
-        print(f"     Parámetros: α_0={params.alpha_0}, ρ_c={params.rho_cronos:.0e}")
-        for rho in [1e6, 1e7, 1e8, 1e9]:
-            alpha = lapse_function(rho, params)
-            print(f"     α({rho:.0e}) = {alpha:.3f} (dilatación {100*(1-alpha):.1f}%)")
+        print(f"\n  1. Factor de Dilatacion Temporal:")
+        print(f"     Parametros: alpha={params.alpha_lapse}, rho_c={params.rho_cronos:.1f}")
+        for rho in [10, 100, 277.5, 1000]:
+            factor = lapse_function(rho, params)
+            print(f"     Dt/Dt0({rho:.1f}) = {factor:.3f} (tiempo local {100/factor:.1f}% del coordinado)")
 
     # 2. Test de radio core
     if verbose:
@@ -548,13 +573,13 @@ def test_NBody_Cronos(verbose: bool = True) -> Dict:
     # Criterios de éxito
     passed = True
 
-    # α debe estar en rango físico
-    alpha_test = lapse_function(1e8, params)
-    passed &= (0.5 < alpha_test < 1.0)
+    # Factor de dilatacion debe ser >= 1 (tiempo mas lento en regiones densas)
+    factor_test = lapse_function(277.5, params)  # En rho = rho_cronos
+    passed &= (factor_test >= 1.0)
 
     # r_core debe escalar con masa
-    r_c_10 = radio_core_cronos(1e10, params)
-    r_c_12 = radio_core_cronos(1e12, params)
+    r_c_10 = radio_core_cronos(1e10, z=0.0, params=params)
+    r_c_12 = radio_core_cronos(1e12, z=0.0, params=params)
     passed &= (r_c_12 > r_c_10)
 
     # Densidad central Cronos < NFW
@@ -568,9 +593,12 @@ def test_NBody_Cronos(verbose: bool = True) -> Dict:
 
     return {
         'params': {
-            'alpha_0': params.alpha_0,
+            'alpha_lapse': params.alpha_lapse,
             'rho_cronos': params.rho_cronos,
-            'eta_0': params.eta_0
+            'beta_lapse': params.beta_lapse,
+            'eta_0': params.eta_0,
+            'r_core_base': params.r_core_base,
+            'alpha_core': params.alpha_core
         },
         'comparacion': comparacion,
         'historial': historial,
