@@ -31,7 +31,7 @@ Lambda_rel(z) = 1 + epsilon * tanh((z_trans - z)/Delta_z)
 
 Parametros calibrados:
 - `epsilon = 0.012` (amplitud de variacion)
-- `z_trans = 8.9` (redshift de transicion)
+- `z_trans = 1.0` (redshift de transicion, ontologia MCMC)
 - `Delta_z = 1.5` (anchura de transicion)
 
 **Efectos observables:**
@@ -133,7 +133,7 @@ A_EPRL = sum_j (2j+1) * {6j}^2 * exp(-j(j+1)*hbar/(8*pi*gamma^2*A_P))
 ### 6.1 Fases del Ciclo
 
 ```
-S_max (1000) -> Big Bang -> Expansion -> S_0 (90) -> S_min (0.009) -> Reconversion -> S_max
+S_max (100) -> Big Bang -> Expansion -> S_0 (90) -> S_min (0.009) -> Reconversion -> S_max
 ```
 
 ### 6.2 Duracion del Ciclo

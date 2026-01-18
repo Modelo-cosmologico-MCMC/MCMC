@@ -16,7 +16,7 @@ de los potenciales gravitatorios:
 
 En el MCMC:
 - La ECV emerge dinámicamente mediante ρ_id(z)
-- La transición suave en z_trans ≈ 8.9 modifica la amplitud ISW
+- La transición suave en z_trans ≈ 1.0 modifica la amplitud ISW
 - El canal latente ρ_lat produce un ISW ligeramente diferente
 
 Predicción MCMC:
@@ -47,7 +47,7 @@ C_LIGHT = 299792.458  # km/s
 # Parámetros MCMC calibrados
 MCMC_PARAMS = {
     'epsilon': 0.012,
-    'z_trans': 8.9,
+    'z_trans': 1.0,  # Ontologia MCMC
     'Delta_z': 1.5,
     'H0': 67.4,
     'Omega_m': 0.315,
@@ -66,7 +66,7 @@ class ParametrosISWLSS:
     H0: float = 67.4
     Omega_m: float = 0.315
     epsilon: float = 0.012
-    z_trans: float = 8.9
+    z_trans: float = 1.0  # Ontologia MCMC
     Delta_z: float = 1.5
     sigma8: float = 0.811
     n_s: float = 0.965

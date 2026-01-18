@@ -100,7 +100,7 @@ class ParametrosDESI:
     Omega_m: float = 0.315
     r_d: float = 147.09
     epsilon: float = 0.012
-    z_trans: float = 8.9
+    z_trans: float = 1.0  # Ontologia MCMC
     Delta_z: float = 1.5
 
 
@@ -479,7 +479,7 @@ def test_DESI_Y3_MCMC():
     print("\n[3] χ² inicial:")
     chi2_MCMC = desi.chi2_MCMC()
     chi2_LCDM = desi.chi2_LCDM()
-    print(f"    χ²_MCMC (ε=0.012, z_t=8.9) = {chi2_MCMC:.2f}")
+    print(f"    χ²_MCMC (ε=0.012, z_t=1.0) = {chi2_MCMC:.2f}")
     print(f"    χ²_ΛCDM = {chi2_LCDM:.2f}")
 
     # Test 4: Ajuste global

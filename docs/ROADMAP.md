@@ -75,7 +75,7 @@
 
 ### 3.3 Resultados Esperados
 - [ ] epsilon = 0.012 +/- ?
-- [ ] z_trans = 8.9 +/- ?
+- [ ] z_trans = 1.0 +/- ? (ontologia MCMC)
 - [ ] gamma_Zhao = 0.51 +/- ?
 
 ---

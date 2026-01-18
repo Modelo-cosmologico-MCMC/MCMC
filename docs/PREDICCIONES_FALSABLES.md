@@ -14,7 +14,7 @@ El modelo MCMC es cientifico porque hace predicciones especificas que pueden ser
 |------------|------------|----------------|-------------|
 | delta_H(z<3)/H | < 0.3% | > 1% | DESI, Euclid |
 | H(z=2)/H_LCDM(z=2) | 0.997 | < 0.99 o > 1.01 | DESI BAO |
-| Transicion z_trans | 8.9 +/- 2 | < 5 o > 15 | Quasars alto z |
+| Transicion z_trans | 1.0 | < 0.5 o > 2 | SNe + BAO |
 
 **Criterio de falsacion:** Si observaciones futuras muestran delta_H/H > 1% para z < 3, el modelo ECV queda refutado.
 

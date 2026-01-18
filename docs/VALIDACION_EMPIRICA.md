@@ -253,7 +253,7 @@ Conversion S <-> j_max: Error < 3%
 
 Ciclo cosmico completo:
 ```
-S_max = 1000 -> S_0 = 90 -> S_min = 0.009
+S_max = 100 -> S_0 = 90 -> S_min = 0.009 (ontologia MCMC)
 t_ciclo ~ 10^67 Gyr
 ```
 

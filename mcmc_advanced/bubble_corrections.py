@@ -63,7 +63,7 @@ T_HUBBLE = 13.8       # Gyr (edad Hubble)
 
 # Parametros MCMC calibrados
 EPSILON_MCMC = 0.012      # Acoplamiento ECV
-Z_TRANS = 8.9             # Redshift de transicion
+Z_TRANS = 1.0             # Redshift de transicion (ontologia MCMC)
 DELTA_Z = 1.5             # Anchura de transicion
 LAMBDA_S = 0.5            # Coeficiente adimensional para Xi
 LAMBDA_C = 50.0           # Escala Cronos (Ec. 38)

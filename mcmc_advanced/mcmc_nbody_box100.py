@@ -51,7 +51,7 @@ RHO_CRIT_0 = 2.775e11
 # Parámetros MCMC calibrados
 MCMC_PARAMS = {
     'epsilon': 0.012,
-    'z_trans': 8.9,
+    'z_trans': 1.0,  # Ontologia MCMC
     'Delta_z': 1.5,
     'alpha_cronos': 0.15,
     'eta_friction': 0.05,

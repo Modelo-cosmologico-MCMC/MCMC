@@ -18,7 +18,7 @@ Modify `equations.f90`:
 module MCMC_params
     implicit none
     real(dl) :: epsilon_mcmc = 0.012_dl
-    real(dl) :: z_trans_mcmc = 8.9_dl
+    real(dl) :: z_trans_mcmc = 1.0_dl  ! Ontologia MCMC
     real(dl) :: delta_z_mcmc = 1.5_dl
 end module MCMC_params
 
@@ -48,7 +48,7 @@ For CAMB Python:
 ```python
 import camb
 
-def get_results_mcmc(epsilon=0.012, z_trans=8.9, delta_z=1.5):
+def get_results_mcmc(epsilon=0.012, z_trans=1.0, delta_z=1.5):
     pars = camb.CAMBparams()
     pars.set_cosmology(H0=67.36, ombh2=0.02237, omch2=0.1200)
     pars.InitPower.set_params(As=2.1e-9, ns=0.9649)
