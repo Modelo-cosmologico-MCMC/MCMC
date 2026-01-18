@@ -107,9 +107,9 @@ Donde `rho_Pl = c^5 / (hbar * G^2) = 5.16e96 kg/m^3`
 A_gap = 4 * sqrt(3) * pi * gamma * l_P^2
 ```
 
-Con parametro de Immirzi `gamma = 0.2375`:
-- `A_gap = 1.35e-69 m^2`
-- `A_gap/A_P = 5.17`
+Con parametro de Immirzi `gamma = 0.274` (Bekenstein-Hawking):
+- `A_gap = 1.56e-69 m^2`
+- `A_gap/A_P = 5.97`
 
 ### 5.2 Conversion S <-> j_max
 

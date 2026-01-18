@@ -564,7 +564,7 @@ red.interpretar_transicion_geometrica()
 | Parámetro | Valor | Descripción |
 |-----------|-------|-------------|
 | ε_residual | 0.0112 | Fracción masa residual |
-| γ_Immirzi | 0.2375 | Parámetro LQG |
+| γ_Immirzi | 0.274 | Parámetro LQG (Bekenstein-Hawking) |
 | θ_RY | 2.93 rad | Ángulo rotación circuito |
 
 ---
