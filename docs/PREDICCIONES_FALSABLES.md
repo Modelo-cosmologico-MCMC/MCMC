@@ -149,7 +149,7 @@ El modelo MCMC es cientifico porque hace predicciones especificas que pueden ser
 
 | Prediccion | Valor MCMC | Rango falsador | Criterio |
 |------------|------------|----------------|----------|
-| gamma_Immirzi | 0.2375 | != valor LQG | Consistencia teorica |
+| gamma_Immirzi | 0.274 | != valor LQG | Consistencia teorica |
 | Area gap ratio | 5.17 | < 4 o > 7 | Calculo LQG |
 
 **Criterio de falsacion:** Si calculo riguroso de LQG da gamma incompatible.

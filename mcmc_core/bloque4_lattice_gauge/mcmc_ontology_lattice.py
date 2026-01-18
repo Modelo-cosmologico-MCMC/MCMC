@@ -41,9 +41,9 @@ from scipy.integrate import quad
 
 # Sellos entrópicos
 S0: float = 0.000
-S1: float = 0.010
-S2: float = 0.100
-S3: float = 1.000
+S1: float = 0.009
+S2: float = 0.099
+S3: float = 0.999
 S4: float = 1.001  # Big Bang
 
 # Parámetros de colapso calibrados (Bloque 1)

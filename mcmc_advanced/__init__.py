@@ -32,7 +32,7 @@ Parameters:
 ECV: epsilon=0.012, z_trans=8.9, Delta_z=1.5
 MCV: gamma_zhao=0.51, alpha=2, beta=3
 Cronos: alpha_cronos=0.15, eta_friction=0.05
-LQG: gamma_immirzi=0.2375
+LQG: gamma_immirzi=0.274
 
 Usage:
 ------

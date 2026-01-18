@@ -66,8 +66,8 @@ A_PLANCK: float = L_PLANCK**2
 # Volumen de Planck (m³)
 V_PLANCK: float = L_PLANCK**3
 
-# Factor γ de Immirzi (valor canónico LQG)
-GAMMA_IMMIRZI: float = 0.2375
+# Factor γ de Immirzi (fijado via entropia Bekenstein-Hawking)
+GAMMA_IMMIRZI: float = 0.274
 
 # Umbral de percolación para red cuadrada 2D
 P_C_2D: float = 0.5

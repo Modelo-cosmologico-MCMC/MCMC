@@ -52,9 +52,9 @@ A3: float = 0.3439  # Reducción V₂D → V₃D
 
 # Sellos entrópicos
 S0: float = 0.000
-S1: float = 0.010
-S2: float = 0.100
-S3: float = 1.000
+S1: float = 0.009
+S2: float = 0.099
+S3: float = 0.999
 S4: float = 1.001
 
 # Fracción residual de masa (cristalizada en S₄)
@@ -392,7 +392,7 @@ class FasePregeometrica:
             f"Fase Pre-Geométrica MCMC\n"
             f"{'='*60}\n"
             f"Rango: S ∈ [0, {S4}]\n"
-            f"Sellos: S₀=0, S₁=0.01, S₂=0.1, S₃=1.0, S₄=1.001\n"
+            f"Sellos: S₀=0, S₁=0.009, S₂=0.099, S₃=0.999, S₄=1.001\n"
             f"{'='*60}\n"
             f"Parámetros calibrados:\n"
             f"  k₀ = {self.k0:.4f} Gyr⁻¹\n"
