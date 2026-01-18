@@ -25,7 +25,7 @@ MÓDULOS DE VALIDACIÓN CUÁNTICA:
     - circuito_cuantico: Validación experimental (Qiskit)
 
 ONTOLOGÍA MCMC:
-    - Sellos entrópicos: S0=0.000, S1=0.010, S2=0.100, S3=1.000, S4=1.001
+    - Sellos entrópicos: S0=0.000, S1=0.009, S2=0.099, S3=0.999, S4=1.001
     - Campo de Adrián: Φ_ten(S) = Mp(S)/Ep(S)
     - Polarización masa-espacio: P_ME = (Mp - Ep)/(Mp + Ep)
     - Trayectoria: P_ME evoluciona de +1 (masa domina) a -1 (espacio domina)

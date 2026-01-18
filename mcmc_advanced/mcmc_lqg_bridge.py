@@ -16,7 +16,7 @@ CORRESPONDENCIAS CLAVE:
 -----------------------
 1. Area Gap: La unidad minima de area en LQG
    A_gap = 4 * sqrt(3) * pi * gamma * l_P^2
-   donde gamma ~ 0.2375 es el parametro de Immirzi
+   donde gamma = 0.274 es el parametro de Immirzi (Bekenstein-Hawking)
 
 2. Entropia de Horizonte: En LQG, S_BH = A / (4 * l_P^2) (Bekenstein-Hawking)
    modificada por correcciones logaritmicas
@@ -62,8 +62,8 @@ C_LIGHT = 299792458.0           # m/s
 L_PLANCK = np.sqrt(HBAR * G_NEWTON / C_LIGHT**3)  # ~ 1.616e-35 m
 A_PLANCK = L_PLANCK**2                             # ~ 2.61e-70 m²
 
-# Parametro de Immirzi (valor canonico LQG)
-GAMMA_IMMIRZI = 0.2375          # Fijado por entropia de BH
+# Parametro de Immirzi (Bekenstein-Hawking)
+GAMMA_IMMIRZI = 0.274           # Fijado por entropia de BH
 
 # Area gap LQG
 # A_gap = 4 * sqrt(3) * pi * gamma * l_P^2
