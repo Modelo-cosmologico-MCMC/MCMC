@@ -343,7 +343,7 @@ class TestIntegration:
         assert isw.epsilon == lens.epsilon == desi.epsilon == 0.012
 
         # Check z_trans consistency
-        assert isw.z_trans == lens.z_trans == desi.z_trans == 8.9
+        assert isw.z_trans == lens.z_trans == desi.z_trans == 1.0
 
     def test_all_validations_pass(self):
         """Test that all 6 validations pass their criteria."""

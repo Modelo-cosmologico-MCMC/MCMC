@@ -16,7 +16,7 @@ The main modification is in `background.c`:
 
 // Add MCMC parameters
 double epsilon_mcmc = 0.012;
-double z_trans_mcmc = 8.9;
+double z_trans_mcmc = 1.0;  // Ontologia MCMC
 double delta_z_mcmc = 1.5;
 
 // Lambda_rel function
@@ -43,7 +43,7 @@ rho_lambda = pba->Omega0_lambda * pow(pba->H0, 2) * L_rel;
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | epsilon_mcmc | ECV amplitude | 0.012 |
-| z_trans_mcmc | Transition redshift | 8.9 |
+| z_trans_mcmc | Transition redshift | 1.0 |
 | delta_z_mcmc | Transition width | 1.5 |
 
 ## Configuration Files

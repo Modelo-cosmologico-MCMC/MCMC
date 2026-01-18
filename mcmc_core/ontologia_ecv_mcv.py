@@ -23,7 +23,7 @@ from typing import Tuple, Optional
 
 # Parámetros ECV (Energía Cuántica Virtual)
 EPSILON_ECV = 0.012      # Parámetro de transición
-Z_TRANS = 8.9            # Redshift de transición (época de reionización)
+Z_TRANS = 1.0            # Redshift de transición (según ontología MCMC)
 DELTA_Z = 1.5            # Anchura de transición
 S_BB = 1.001             # Entropía en el Big Bang (S₄)
 S_0 = 0.999              # Entropía actual (cerca de S₃)

@@ -43,7 +43,7 @@ C_LIGHT = 299792.458  # km/s
 # Parámetros MCMC calibrados
 MCMC_PARAMS = {
     'epsilon': 0.012,
-    'z_trans': 8.9,
+    'z_trans': 1.0,  # Ontologia MCMC
     'Delta_z': 1.5,
     'H0': 67.4,
     'Omega_m': 0.315,
@@ -64,7 +64,7 @@ class ParametrosCMBLensing:
     sigma8: float = 0.811
     n_s: float = 0.965
     epsilon: float = 0.012
-    z_trans: float = 8.9
+    z_trans: float = 1.0  # Ontologia MCMC
     Delta_z: float = 1.5
     z_star: float = 1089.0  # Redshift del último scattering
 

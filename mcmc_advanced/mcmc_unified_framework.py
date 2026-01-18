@@ -72,7 +72,7 @@ T_UNIVERSO_GYR = 13.8
 # Entropia MCMC
 S_PLANCK = 1.0               # S en escala de Planck (sello S1)
 S_0 = 90.0                   # Entropia actual z=0
-S_MAX = 1000.0               # Entropia maxima
+S_MAX = 100.0                # Entropia maxima (ontologia MCMC)
 S_MIN = 0.009                # Entropia minima
 
 # Parametros de acoplamiento

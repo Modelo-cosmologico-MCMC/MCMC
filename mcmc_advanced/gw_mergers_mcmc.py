@@ -80,7 +80,7 @@ class ParametrosGW_Mergers:
     """
     # ECV (correccion a Lambda)
     epsilon_ECV: float = 0.012
-    z_trans: float = 8.9
+    z_trans: float = 1.0  # Ontologia MCMC
     Delta_z: float = 1.5
 
     # Friccion entropica

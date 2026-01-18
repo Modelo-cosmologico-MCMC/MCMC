@@ -397,7 +397,7 @@ from mcmc_core.desi_y3 import (
 )
 
 # χ² con parámetros actuales
-chi2_mcmc = calcular_chi2_DESI(epsilon=0.012, z_trans=8.9)
+chi2_mcmc = calcular_chi2_DESI(epsilon=0.012, z_trans=1.0)
 chi2_lcdm = calcular_chi2_LCDM_DESI()
 print(f"χ²_MCMC = {chi2_mcmc:.2f}")
 print(f"χ²_ΛCDM = {chi2_lcdm:.2f}")
@@ -546,7 +546,7 @@ red.interpretar_transicion_geometrica()
 | Parámetro | Valor | Descripción |
 |-----------|-------|-------------|
 | ε | 0.012 | Amplitud de modificación Λ |
-| z_trans | 8.9 | Redshift de transición |
+| z_trans | 1.0 | Redshift de transición (ontología MCMC) |
 | Δz | 1.5 | Anchura de transición |
 
 ### 5.3 Parámetros MCV/Cronos

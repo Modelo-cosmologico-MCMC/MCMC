@@ -114,7 +114,7 @@ class ParametrosGW_MCMC:
 
     # Parametros MCMC
     epsilon_MCMC: float = 0.012
-    z_trans: float = 8.9
+    z_trans: float = 1.0  # Ontologia MCMC
     Delta_z: float = 1.5
 
 

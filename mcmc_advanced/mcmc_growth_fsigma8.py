@@ -29,7 +29,7 @@ SIGMA8_0 = 0.811
 
 # Parámetros MCMC
 EPSILON = 0.012
-Z_TRANS = 8.9
+Z_TRANS = 1.0  # Ontologia MCMC
 DELTA_Z = 1.5
 
 

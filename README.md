@@ -127,7 +127,7 @@ W(z) = (1 - tanh((z - z_trans)/Delta_z)) / 2
 
 **Parametros calibrados:**
 - epsilon = 0.012 +/- 0.003
-- z_trans = 8.9 +/- 0.4
+- z_trans = 1.0 (transicion tardia, ontologia MCMC)
 - Delta_z = 1.5
 
 **Densidad efectiva de energia oscura:**
@@ -174,7 +174,7 @@ Cada salto Delta_S = 10^-3 corresponde a Delta_j = 1 (incremento unitario de esp
 | Parametro | Valor | Origen |
 |-----------|-------|--------|
 | epsilon | 0.012 +/- 0.003 | Ajuste BAO + SNe |
-| z_trans | 8.9 +/- 0.4 | Transicion ECV |
+| z_trans | 1.0 | Transicion ECV (ontologia MCMC) |
 | Delta_z | 1.5 | Anchura transicion |
 | gamma_Zhao | 0.51 +/- 0.05 | Ajuste SPARC |
 | alpha_Cronos | 0.15 +/- 0.03 | Calibracion N-body |

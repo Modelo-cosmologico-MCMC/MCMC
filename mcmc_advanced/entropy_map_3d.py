@@ -64,7 +64,7 @@ C_LIGHT = 299792.458            # km/s
 
 # Parametros MCMC
 EPSILON_ECV = 0.012             # Parametro de transicion ECV
-Z_TRANS = 8.9                   # Redshift de transicion
+Z_TRANS = 1.0                   # Redshift de transicion (ontologia MCMC)
 DELTA_Z = 1.5                   # Anchura de transicion
 
 # Entropia

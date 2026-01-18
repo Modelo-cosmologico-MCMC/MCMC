@@ -16,7 +16,7 @@ Datos DESI Y3 (arXiv:2404.03002):
 
 El modelo MCMC predice desviaciones sutiles de ΛCDM debido a:
 - Λ_rel(z) ≈ 1 + ε*tanh((z_trans - z)/Δz)
-- Efectos mayores a z > z_trans ≈ 8.9
+- Efectos mayores a z > z_trans ≈ 1.0
 
 Autor: Adrián Martínez Estellés
 Copyright (c) 2024. Todos los derechos reservados.

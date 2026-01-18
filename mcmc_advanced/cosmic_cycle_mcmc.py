@@ -48,7 +48,7 @@ warnings.filterwarnings('ignore')
 # =============================================================================
 
 # Entropia en unidades MCMC
-S_MAX = 1000.0          # Entropia maxima (estado primordial)
+S_MAX = 100.0           # Entropia maxima (ontologia MCMC)
 S_MIN = 0.009           # Entropia minima (sello S1, Planck)
 S_0 = 90.0              # Entropia actual (z=0)
 S_BB = 1.001            # Entropia en el Big Bang (sello S4)
