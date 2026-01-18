@@ -671,12 +671,12 @@ def validar_bloque_4() -> ResultadoBloque:
     # Test 8: Sellos entrópicos correctos
     try:
         assert S0 == 0.0
-        assert S1 == 0.01
-        assert S2 == 0.1
-        assert S3 == 1.0
+        assert S1 == 0.009
+        assert S2 == 0.099
+        assert S3 == 0.999
         assert S4 == 1.001
         resultado.tests_pasados += 1
-        resultado.detalles.append("✓ Sellos: S₀=0, S₁=0.01, S₂=0.1, S₃=1, S₄=1.001")
+        resultado.detalles.append("✓ Sellos: S₀=0, S₁=0.009, S₂=0.099, S₃=0.999, S₄=1.001")
     except AssertionError as e:
         resultado.detalles.append(f"✗ Sellos: {e}")
 

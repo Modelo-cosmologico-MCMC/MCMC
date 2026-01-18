@@ -77,7 +77,7 @@ S_MIN = 0.009                # Entropia minima
 
 # Parametros de acoplamiento
 XI_MCMC = 0.01               # Acoplamiento S-gravedad
-GAMMA_IMMIRZI = 0.2375       # Parametro de Immirzi (LQG)
+GAMMA_IMMIRZI = 0.274        # Parametro de Immirzi (LQG, Bekenstein-Hawking)
 
 
 # =============================================================================
