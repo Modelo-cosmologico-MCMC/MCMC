@@ -338,7 +338,25 @@ from .ontologia_ecv_mcv import (
     verificar_ECV, verificar_MCV, verificar_friccion,
 )
 
-__version__ = "2.5.0"
+# Validación Estadística Robusta
+from .validacion_estadistica import (
+    # Constantes
+    G_KPC_KMS2_MSUN, H0_FIDUCIAL as H0_FIDUCIAL_VALID,
+    # SNe Ia con marginalización
+    mu_theory_noM, mu_MCMC, mu_LCDM,
+    sigma_mu_peculiar, add_peculiar_velocity_to_cov,
+    chi2_sne_marginalized_M, chi2_sne_simple,
+    validar_sne_ia_robusto, ResultadoSNeIa,
+    # SPARC con perfiles corregidos
+    v_circ_from_Menc, menc_burkert, v_burkert_dm,
+    menc_nfw, v_nfw_dm,
+    v_model_total, chi2_rotation_curve,
+    ajustar_curva_rotacion_sparc, ResultadoSPARC,
+    # Datos de prueba
+    generar_datos_sne_ejemplo, generar_galaxia_sparc_ejemplo,
+)
+
+__version__ = "2.6.0"  # Bump for robust validation
 __author__ = "Adrián Martínez Estellés"
 __email__ = "adrianmartinezestelles92@gmail.com"
 __license__ = "Propietaria - Ver LICENSE"
