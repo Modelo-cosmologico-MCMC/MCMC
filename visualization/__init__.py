@@ -1,0 +1,1 @@
+"""Visualizaciones del MCMC."""

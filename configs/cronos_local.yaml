@@ -1,0 +1,15 @@
+simulation:
+  name: cronos_local
+  L_box_Mpc_h: 25.0
+  N_per_dim: 512
+  use_case: "Curvas de rotación, halos"
+
+cronos:
+  alpha_cronos: 0.030
+  rho_c0: 200.0
+  zeta_cronos: 0.015
+  delta_S: 1.0e-3
+
+initial_conditions:
+  z_init: 49.0
+  seed: 42
