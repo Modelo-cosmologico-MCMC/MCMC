@@ -62,6 +62,20 @@ E_F2 = 0.4881           # Eigenvalor Dirac familia F2
 E_F3 = 0.9431           # Eigenvalor Dirac familia F3
 K_NORM = 679.14         # Normalización Δm_eff [GeV] (calibrada en C4)
 
+# --- Δm_eff calibrados por sello (Tratado, Tabla P3) ---
+# Estos valores son los CANÓNICOS del modelo. La fórmula numérica
+# Δm_eff = sqrt(V''_total)/(m_P · K_norm) sólo reproduce el ancla C4
+# porque K_norm se calibra ahí (donde β_4=1e7 hace despreciable I_dD).
+# En C1 y C2 las VEVs en GeV están a escala Planck/GUT y la fórmula
+# requiere normalización S-space — los valores calibrados son los
+# que entran en el cálculo final de |T_n^(i)| y de la fórmula maestra.
+DELTA_M_EFF_CAL = {
+    "C1": 0.0100,   # ínfimo en escala Planck (fija m_P(C1) ~ 0.99)
+    "C2": 0.1001,   # escala GUT (β_2 cuártico despreciable, kinético calibrado)
+    "C3": 2.5647,   # escala EW (β_3 ~ kinético comparables)
+    "C4": 5.2680,   # escala QCD (β_4 cuártico domina; ancla de K_norm)
+}
+
 # --- Higgs y mass gap ---
 M_HIGGS_MCMC = 125.44   # GeV (predicción)
 M_HIGGS_PDG  = 125.25   # GeV

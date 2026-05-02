@@ -31,21 +31,33 @@ _SEAL_ORDER = ["C1", "C2", "C3", "C4"]
 DIM_AT_SEAL = {"C1": 1, "C2": 2, "C3": 3, "C4": 3}  # dimensiones espaciales
 
 
-def alpha_from_matching(seal: str = "C3") -> float:
-    """alpha tal que beta_n = 2 alpha S_n / v_n^2 fija beta del sello dado.
+def alpha_per_seal(seal: str) -> float:
+    """α implícito del sello: α_n = β_n v_n^2 / (2 S_n)  (inversa de Ec. 310).
 
-    Por convención usamos C3 (escala EW) como anclaje, ya que beta_3 = 0.13
-    está fijado por m_H = sqrt(2 beta_3) v_EW (no es libre).
+    Las β_n son CONSTANTES INDEPENDIENTES del modelo (cubren ~8 órdenes
+    de magnitud entre C1 y C4); cada sello fija su propio α_n. El
+    "matching C^1" (Ec. 310) establece consistencia interna *por sello*,
+    no a través de un único α global.
     """
     Sn = C.S_SEALS[seal]
     vn = C.V_GEV[seal]
     return C.BETA[seal] * vn ** 2 / (2.0 * Sn)
 
 
+def alpha_from_matching(seal: str = "C3") -> float:
+    """Alias histórico: α implícito en `seal` (por defecto C3, escala EW)."""
+    return alpha_per_seal(seal)
+
+
 def beta_match(seal: str, alpha: float | None = None) -> float:
-    """β_n = 2 α S_n / v_n^2 (Ec. 310)."""
+    """Devuelve la β_n del modelo (Ec. 310 satisfecha por construcción).
+
+    Si se pasa `alpha` explícito, devuelve el β derivado por la Ec. 310 con
+    ese α; en caso contrario, devuelve la β CONSTANTE del modelo (idéntica
+    a `C.BETA[seal]`). Las β_n no son derivables de un único α global.
+    """
     if alpha is None:
-        alpha = alpha_from_matching("C3")
+        return C.BETA[seal]
     Sn = C.S_SEALS[seal]
     vn = C.V_GEV[seal]
     return 2.0 * alpha * Sn / vn ** 2
@@ -99,10 +111,25 @@ def V_pp_total(seal: str) -> float:
     return V_pp_quartic(seal) + V_pp_kinetic(seal)
 
 
-def delta_m_eff(seal: str, K_norm: float = C.K_NORM) -> float:
-    """Δm_eff,n = sqrt(V''_total) / (m_P(S_n) · K_norm).
+def delta_m_eff_raw(seal: str, K_norm: float = C.K_NORM) -> float:
+    """Δm_eff numérico crudo: sqrt(V''_total) / (m_P · K_norm) en unidades GeV.
 
-    Por convención K_norm se calibra desde C4 (donde β_4=10^7 domina I_dD).
+    ATENCIÓN: K_norm se calibra DESDE C4 (donde β_4·v_4^2 domina sobre I_dD).
+    Aplicado directamente en C1 (escala Planck, v=1.22e19 GeV) o C2 (escala
+    GUT, v=10^16 GeV), I_dD da valores enormes que NO son físicos en
+    S-space adimensional. La fórmula sólo coincide con el valor calibrado
+    en C4. Para los demás sellos usar `delta_m_eff` (calibrado).
     """
     Sn = C.S_SEALS[seal]
     return float(np.sqrt(V_pp_total(seal)) / (m_P(Sn) * K_norm))
+
+
+def delta_m_eff(seal: str) -> float:
+    """Δm_eff,n CALIBRADO (Tratado, Tabla P3).
+
+    Devuelve los valores canónicos del modelo (Tabla P3), que son los que
+    entran en el cálculo final de las transmisiones |T_n^(i)| y en la
+    fórmula maestra de masas. La forma cruda numérica (`delta_m_eff_raw`)
+    sólo coincide en C4 (ancla de K_norm).
+    """
+    return C.DELTA_M_EFF_CAL[seal]

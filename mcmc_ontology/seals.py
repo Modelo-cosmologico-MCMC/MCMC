@@ -14,7 +14,7 @@ Funciones:
 from __future__ import annotations
 
 from . import constants as C
-from .potential import beta_match, chi_inf, alpha_from_matching
+from .potential import beta_match, chi_inf, alpha_per_seal
 
 
 SEAL_GAUGE = {
@@ -48,10 +48,25 @@ def seal_info(name: str) -> dict:
     }
 
 
-def matching_betas() -> dict:
-    """β_n derivados de la condición de matching C^1 (Ec. 310)."""
-    alpha = alpha_from_matching("C3")
-    return {seal: beta_match(seal, alpha) for seal in ("C1", "C2", "C3", "C4")}
+def betas_table() -> dict:
+    """β_n del modelo (constantes independientes, Tratado).
+
+    Las β_n NO son derivables de un único α global: cubren ~8 órdenes de
+    magnitud entre C1 (10^-43) y C4 (10^7). El matching C^1 (Ec. 310)
+    se satisface por construcción asignando un α_n distinto a cada sello
+    (ver `alphas_per_seal`).
+    """
+    return {seal: C.BETA[seal] for seal in ("C1", "C2", "C3", "C4")}
+
+
+def alphas_per_seal() -> dict:
+    """α_n implícito en cada sello: α_n = β_n v_n^2 / (2 S_n)."""
+    return {seal: alpha_per_seal(seal) for seal in ("C1", "C2", "C3", "C4")}
+
+
+# Alias retro-compatible: ahora devuelve las constantes independientes,
+# no derivadas de un α global (que era físicamente incorrecto).
+matching_betas = betas_table
 
 
 def chi_inf_table() -> dict:
