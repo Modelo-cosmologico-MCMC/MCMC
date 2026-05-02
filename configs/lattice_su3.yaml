@@ -1,0 +1,17 @@
+lattice:
+  group: SU(3)
+  beta: 6.0
+  L: 24
+  T: 48
+  smearing: APE
+  cooling_steps: 30
+
+mcmc:
+  lambda_IR: 0.05    # GeV — escala IR del Campo de Adrián
+  delta_S:   1.0e-3
+  k_norm_GeV: 679.14
+
+operators:
+  - 0++
+  - 2++
+  - 0-+
