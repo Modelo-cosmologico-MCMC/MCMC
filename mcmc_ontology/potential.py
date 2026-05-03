@@ -168,8 +168,8 @@ def Ep_initial() -> float:
     return 0.5 * (1.0 - C.V0_NORM)
 
 
-def V_pre(Phi: np.ndarray | float, S: float, alpha: float | None = None,
-          lam_pre: float = C.LAMBDA_PRE) -> np.ndarray | float:
+def V_pre(Phi, S: float, alpha: float | None = None,
+          lam_pre: float = C.LAMBDA_PRE):
     """Potencial pre-geométrico en V₀D (Ec. 20).
 
         V_pre(Φ; S) = [β₀(Φ² - v₀²)² - γ₀ Φ] · Θ_{λ_pre}(S - S_{0.001})
