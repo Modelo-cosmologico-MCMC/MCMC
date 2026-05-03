@@ -43,6 +43,23 @@ GAMMA_LQG  = 0.274     # Parámetro de Immirzi
 EPSILON_0  = 0.012     # δ₀ ≡ ε (imperfección primordial, ajuste global)
 Z_TRANS    = 8.9       # Redshift de transición cosmológica
 
+# --- Tramo pre-geométrico n=0 (Ecs. 20-26) ---
+# δ₀ ≡ v₀ en unidades adimensionales (v₀_norm).
+# En GeV: V0_GEV = δ₀ · v₁ (anclaje a la escala Planck).
+S_PRE      = 0.001     # S_{0.001}: nacimiento V₀D, sello C₀
+V0_NORM    = EPSILON_0 # v₀ adimensional ≡ δ₀
+V0_GEV     = EPSILON_0 * 1.22e19  # v₀ en GeV
+LAMBDA_PRE = 1e-4      # λ_pre ∈ [1e-5, 5e-4]; valor central
+# β₀, γ₀ se calculan dinámicamente en potential.py (Ecs. 24-25):
+#   β₀ = 2 α_S · S_{0.001} / v₀²
+#   γ₀ = -α_S · S_{0.001} · v₀²
+
+# --- Tensión primordial T₀ y umbrales T_crit^(n) (Ecs. 440-445) ---
+# T₀ = M_p·c²·δ₀² = E_p·δ₀² ≈ 1.22e15 GeV
+M_PL_GEV   = 1.22e19
+T0_GEV     = M_PL_GEV * EPSILON_0 ** 2     # ≈ 1.76e15 GeV
+# T_crit^(n) = T₀/4 · S_n/ΔS · (v_n/v_1)^2  (Ec. 445)
+
 # --- Perfil m_P(S) ---
 MP_0  = 0.99   # m_P en C1 (S = 0.009)
 MP_EQ = 0.50   # m_P en C4 (S = 1.001)
@@ -70,7 +87,8 @@ K_NORM = 679.14         # Normalización Δm_eff [GeV] (calibrada en C4)
 # requiere normalización S-space — los valores calibrados son los
 # que entran en el cálculo final de |T_n^(i)| y de la fórmula maestra.
 DELTA_M_EFF_CAL = {
-    "C1": 0.0100,   # ínfimo en escala Planck (fija m_P(C1) ~ 0.99)
+    "C1": 0.0100,   # estimación: ΔS × m_P(C1); F1 emerge en C1, sin
+                    # pre-emergencia anterior — no entra en la fórmula maestra.
     "C2": 0.1001,   # escala GUT (β_2 cuártico despreciable, kinético calibrado)
     "C3": 2.5647,   # escala EW (β_3 ~ kinético comparables)
     "C4": 5.2680,   # escala QCD (β_4 cuártico domina; ancla de K_norm)

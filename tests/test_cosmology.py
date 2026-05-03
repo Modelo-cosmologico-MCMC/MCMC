@@ -39,3 +39,19 @@ def test_epsilon_value():
 
 def test_delta_BIC_negative():
     assert C.DELTA_BIC < -5.0
+
+
+def test_w_id_near_minus_one():
+    """w_id(z) ≈ -1 (sector de energía oscura ~ Λ con dinámica leve)."""
+    from cosmology.background import w_id
+    z = np.linspace(0.0, 5.0, 20)
+    w = w_id(z)
+    assert np.all(np.isfinite(w))
+    # No debe alejarse mucho de -1 con la parametrización fiducial.
+    assert np.all(np.abs(w + 1.0) < 0.5)
+
+
+def test_cs2_id():
+    """c²_s,id = 1 (Tratado §6.7)."""
+    from cosmology.background import cs2_id
+    assert cs2_id() == 1.0

@@ -76,3 +76,26 @@ def rho_lat(z: np.ndarray | float, S: float = C.S_SEALS["S_actual"],
     z = np.asarray(z, dtype=float)
     s_frac = 1.0 - S / C.S_SEALS["S_max"]  # proporcional al Mp restante
     return rho_lat_0 * s_frac * (1.0 + z) ** 0.0
+
+
+def w_id(z: np.ndarray | float, S: float = C.S_SEALS["S_actual"],
+         rho_id_0: float = 0.65, eps_z: float = 1e-3) -> np.ndarray | float:
+    """Ecuación de estado efectiva del sector ECV (Tratado, §6.7):
+
+        w_id(z) = -1 + (1/3) · d ln ρ_id / d ln(1+z)
+
+    Calculada por diferenciación numérica de ρ_id(z;S).
+    """
+    z = np.asarray(z, dtype=float)
+    rp = rho_id(z + eps_z, S=S, rho_id_0=rho_id_0)
+    rm = rho_id(np.maximum(z - eps_z, 0.0), S=S, rho_id_0=rho_id_0)
+    # d ln ρ / d ln(1+z) = ((1+z) / ρ) · dρ/dz
+    drho = (rp - rm) / (2.0 * eps_z)
+    rho = rho_id(z, S=S, rho_id_0=rho_id_0)
+    dlnrho_dln1pz = (1.0 + z) / rho * drho
+    return -1.0 + dlnrho_dln1pz / 3.0
+
+
+def cs2_id() -> float:
+    """Velocidad del sonido del sector oscuro c²_s,id = 1 (Tratado, §6.7)."""
+    return 1.0

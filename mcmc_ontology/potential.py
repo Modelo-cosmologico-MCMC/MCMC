@@ -133,3 +133,83 @@ def delta_m_eff(seal: str) -> float:
     sólo coincide en C4 (ancla de K_norm).
     """
     return C.DELTA_M_EFF_CAL[seal]
+
+
+# ============================================================
+# Tramo pre-geométrico n=0 (Ecs. 20-26 del Tratado)
+# ============================================================
+
+
+def beta0(alpha: float | None = None) -> float:
+    """β₀ = 2 α_S · S_{0.001} / v₀²    (Ec. 24).
+
+    Si `alpha` es None se usa α_S = α_per_seal('C1') por consistencia
+    con la cascada (cualquier α_S coherente con un sello del modelo).
+    """
+    if alpha is None:
+        alpha = alpha_per_seal("C1")
+    return 2.0 * alpha * C.S_PRE / C.V0_NORM ** 2
+
+
+def gamma0(alpha: float | None = None) -> float:
+    """γ₀ = -α_S · S_{0.001} · v₀²    (Ec. 25)."""
+    if alpha is None:
+        alpha = alpha_per_seal("C1")
+    return -alpha * C.S_PRE * C.V0_NORM ** 2
+
+
+def Mp_initial() -> float:
+    """M_p^(0) = ½(1 + v₀)    (Ec. 23)."""
+    return 0.5 * (1.0 + C.V0_NORM)
+
+
+def Ep_initial() -> float:
+    """E_p^(0) = ½(1 - v₀)    (Ec. 23)."""
+    return 0.5 * (1.0 - C.V0_NORM)
+
+
+def V_pre(Phi: np.ndarray | float, S: float, alpha: float | None = None,
+          lam_pre: float = C.LAMBDA_PRE) -> np.ndarray | float:
+    """Potencial pre-geométrico en V₀D (Ec. 20).
+
+        V_pre(Φ; S) = [β₀(Φ² - v₀²)² - γ₀ Φ] · Θ_{λ_pre}(S - S_{0.001})
+
+    Activado por una función escalón suave en torno a S_{0.001}.
+    """
+    Phi = np.asarray(Phi, dtype=float)
+    b0 = beta0(alpha)
+    g0 = gamma0(alpha)
+    base = b0 * (Phi ** 2 - C.V0_NORM ** 2) ** 2 - g0 * Phi
+    return base * step(S, C.S_PRE, lam_pre)
+
+
+def V_total(Phi: np.ndarray | float, S: float, alpha: float | None = None,
+            lam: float = C.LAMBDA_ONT, lam_pre: float = C.LAMBDA_PRE,
+            V0: float = 0.0) -> np.ndarray | float:
+    """V_total = α_S·S·Φ² + V_pre(Φ;S) + V_geo(Φ;S)  (Ec. principal generalizada)."""
+    return V(Phi, S, alpha=alpha, lam=lam, V0=V0) + V_pre(Phi, S, alpha=alpha, lam_pre=lam_pre)
+
+
+def k_pre(S: float, alpha: float | None = None,
+          Phi_star: float | None = None) -> float:
+    """Tasa de colapso k_pre(S) = ∂_S V_pre(Φ*; S) / V_pre(Φ*; S)   (Ec. 449).
+
+    Para S < S₁ y Φ* ≈ v₀ se aproxima al valor de saturación λ_pre
+    (Ec. 450).
+    """
+    if Phi_star is None:
+        Phi_star = C.V0_NORM
+    eps = 1e-6
+    Vp = float(V_pre(Phi_star, S, alpha=alpha))
+    Vp_dS = float(V_pre(Phi_star, S + eps, alpha=alpha))
+    if abs(Vp) < 1e-30:
+        return float(C.LAMBDA_PRE)
+    return float((Vp_dS - Vp) / eps / Vp)
+
+
+def lambda_pre() -> float:
+    """λ_pre — tasa asintótica del colapso pre-geométrico (Ec. 450).
+
+    λ_pre ∈ [1e-5, 5e-4]; valor central tabulado en `constants.LAMBDA_PRE`.
+    """
+    return C.LAMBDA_PRE

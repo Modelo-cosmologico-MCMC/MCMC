@@ -21,7 +21,9 @@ from mcmc_ontology import constants as C
 from .B3_wkb import transmission
 from .M1_qcd_running import K_QCD
 from .M2_ckm import V_CKM_factor, EMERGENCE_SEAL
-from .P4_gut_quarks import yukawa_gut, yukawa_dominant, neutrino_mass
+from .P4_gut_quarks import (
+    yukawa_gut, yukawa_dominant, neutrino_mass, color_factor_at_seal,
+)
 
 
 _SEALS = ("C1", "C2", "C3", "C4")
@@ -74,12 +76,15 @@ def fermion_mass(fermion: str) -> float:
         family = FERMION_FAMILY[fermion]
         return neutrino_mass(family)
     family = FERMION_FAMILY[fermion]
+    ftype = FERMION_TYPE[fermion]
     total = 0.0
     for seal in _SEALS:
         T = transmission(family, seal)
         theta = _theta(seal, fermion)
-        ckm = V_CKM_factor(seal, fermion) if FERMION_TYPE[fermion] != "lepton" else 1.0
-        total += T * theta * ckm
+        ckm = V_CKM_factor(seal, fermion) if ftype != "lepton" else 1.0
+        # Factor de color ξ_c sólo para quarks en C4 (Ec. 487-488)
+        color = color_factor_at_seal(seal, ftype)
+        total += T * theta * ckm * color
     return float(total * C.V_EW)
 
 

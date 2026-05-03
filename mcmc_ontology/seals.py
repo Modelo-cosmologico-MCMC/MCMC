@@ -72,3 +72,16 @@ matching_betas = betas_table
 def chi_inf_table() -> dict:
     """Fracción de sellado latente para n=1..4 (Ec. 312)."""
     return {f"chi_inf_{n}": chi_inf(n) for n in (1, 2, 3, 4)}
+
+
+def T_crit_table() -> dict[str, float]:
+    """Umbrales críticos T_crit^(n) (Ec. 445, Tabla 67 del Tratado).
+
+        T_crit^(n) = T₀/4 · S_n/ΔS · (v_n/v_1)^2
+    """
+    v1 = C.V_GEV["C1"]
+    return {
+        seal: (C.T0_GEV / 4.0) * (C.S_SEALS[seal] / C.DELTA_S)
+              * (C.V_GEV[seal] / v1) ** 2
+        for seal in ("C1", "C2", "C3", "C4")
+    }
