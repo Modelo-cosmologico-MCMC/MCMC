@@ -42,13 +42,24 @@ def test_delta_BIC_negative():
 
 
 def test_w_id_near_minus_one():
-    """w_id(z) ≈ -1 (sector de energía oscura ~ Λ con dinámica leve)."""
+    """w_id(z) admite cruce phantom suave |w+1| ≤ ε/3 ≈ 0.05.
+
+    El MCMC predice w_id < -1 cerca de z_trans (cruce phantom emergente
+    del Campo de Adrián). No es un error, es una predicción.
+    """
     from cosmology.background import w_id
-    z = np.linspace(0.0, 5.0, 20)
+    z = np.linspace(0.0, 50.0, 200)
     w = w_id(z)
     assert np.all(np.isfinite(w))
-    # No debe alejarse mucho de -1 con la parametrización fiducial.
-    assert np.all(np.abs(w + 1.0) < 0.5)
+    # |w+1| pequeño (cruce phantom sub-percentual)
+    assert np.all(np.abs(w + 1.0) < 0.05)
+
+
+def test_w_id_limits_lambda_like():
+    """w_id → -1 para z ≪ z_trans y z ≫ z_trans (límites Λ-like)."""
+    from cosmology.background import w_id
+    assert abs(w_id(0.0) + 1.0) < 0.01
+    assert abs(w_id(50.0) + 1.0) < 0.01
 
 
 def test_cs2_id():

@@ -9,5 +9,7 @@ from . import S_map
 from . import potential
 from . import clifford_algebra
 from . import seals
+from . import lqg_geometry
 
-__all__ = ["constants", "S_map", "potential", "clifford_algebra", "seals"]
+__all__ = ["constants", "S_map", "potential", "clifford_algebra", "seals",
+           "lqg_geometry"]

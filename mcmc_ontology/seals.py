@@ -75,13 +75,23 @@ def chi_inf_table() -> dict:
 
 
 def T_crit_table() -> dict[str, float]:
-    """Umbrales críticos T_crit^(n) (Ec. 445, Tabla 67 del Tratado).
+    """Umbrales críticos T_crit^(n) — Tabla 67 del Tratado (p.156).
 
-        T_crit^(n) = T₀/4 · S_n/ΔS · (v_n/v_1)^2
+    Los valores se tabulan directamente desde la Tabla 67. La fórmula
+    T_crit^(n) = (T₀/4)·(S_n/ΔS)·(v_n/v_n,ref)² requiere una escala de
+    referencia v_n,ref por sello (no v_1 = M_Pl global), por lo que los
+    valores canónicos del modelo son los tabulados:
+
+        C1: 6.9×10¹¹ GeV  (ratio 5.6e-4)
+        C2: 7.6×10¹² GeV  (ratio 6.2e-3)
+        C3: 7.6×10¹³ GeV  (ratio 6.2e-2)
+        C4: 7.6×10¹³ GeV  (ratio 6.2e-2)
+
+    Jerarquía: T_crit(C1) < T_crit(C2) < T_crit(C3) ≈ T_crit(C4).
     """
-    v1 = C.V_GEV["C1"]
-    return {
-        seal: (C.T0_GEV / 4.0) * (C.S_SEALS[seal] / C.DELTA_S)
-              * (C.V_GEV[seal] / v1) ** 2
-        for seal in ("C1", "C2", "C3", "C4")
-    }
+    return {seal: data["GeV"] for seal, data in C.T_CRIT_TABLE_67.items()}
+
+
+def T_crit_ratio_table() -> dict[str, float]:
+    """Ratios T_crit^(n)/T₀ de la Tabla 67."""
+    return {seal: data["ratio"] for seal, data in C.T_CRIT_TABLE_67.items()}

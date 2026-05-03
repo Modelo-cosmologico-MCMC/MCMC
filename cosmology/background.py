@@ -59,15 +59,15 @@ def rho_b(z: np.ndarray | float, Omega_b: float = 0.0489) -> np.ndarray | float:
 
 
 def rho_id(z: np.ndarray | float, S: float = C.S_SEALS["S_actual"],
-           rho_id_0: float = 0.65) -> np.ndarray | float:
+           rho_id_0: float = 0.65, eps: float = C.EPSILON_0) -> np.ndarray | float:
     """Energía cuántica virtual (ECV).
 
     Modelo operativo: ρ_id_0 + δρ proporcional a la conversión Mp→Ep.
-    En S=S_actual → ≈ 0.65 (post-ajuste).
+    Modulación dinámica con amplitud ε ≡ δ₀ = 0.012 (consistente con
+    Λ_rel(z) y con la predicción de cruce phantom sub-percentual de w_id).
     """
     z = np.asarray(z, dtype=float)
-    s_frac = S / C.S_SEALS["S_max"]
-    return rho_id_0 * (1.0 + 0.05 * np.tanh((C.Z_TRANS - z) / 1.0)) * (1.0 + 0.0 * s_frac)
+    return rho_id_0 * (1.0 + eps * np.tanh((C.Z_TRANS - z) / 1.0))
 
 
 def rho_lat(z: np.ndarray | float, S: float = C.S_SEALS["S_actual"],
@@ -80,11 +80,21 @@ def rho_lat(z: np.ndarray | float, S: float = C.S_SEALS["S_actual"],
 
 def w_id(z: np.ndarray | float, S: float = C.S_SEALS["S_actual"],
          rho_id_0: float = 0.65, eps_z: float = 1e-3) -> np.ndarray | float:
-    """Ecuación de estado efectiva del sector ECV (Tratado, §6.7):
+    """Ecuación de estado efectiva del sector ECV/oscuro (Tratado §6.7):
 
         w_id(z) = -1 + (1/3) · d ln ρ_id / d ln(1+z)
 
-    Calculada por diferenciación numérica de ρ_id(z;S).
+    COMPORTAMIENTO ESPERADO (predicción del MCMC, no error):
+      · w_id ≈ -1 para z ≪ z_trans y z ≫ z_trans  (límites Λ-like)
+      · w_id ≈ -1 - ε/3 · |sech²(...)| en z ≈ z_trans  (cruce phantom suave)
+      · |w_id + 1| ≤ ε/3 ≈ 0.004  (amplitud sub-percentual)
+
+    El cruce phantom NO viola energía: emerge del Campo de Adrián como
+    campo escalar efectivo. Es una predicción observacional del MCMC
+    distinguible de ΛCDM en surveys futuros (Euclid, DESI).
+
+    c²_s,id = 1 (velocidad del sonido del sector oscuro, sin
+    inestabilidades Jeans).
     """
     z = np.asarray(z, dtype=float)
     rp = rho_id(z + eps_z, S=S, rho_id_0=rho_id_0)

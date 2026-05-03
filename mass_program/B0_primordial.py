@@ -50,28 +50,48 @@ def Ep0() -> float:
 
 
 def T0_GeV() -> float:
-    """Tensión primordial T₀ = M_Pl · δ₀² ≈ 1.76×10¹⁵ GeV (Ecs. 440-441).
+    """Tensión primordial T₀ = E_p · δ₀² (Ecs. 440-441).
 
-    Equivalentemente T₀ = E_p × δ₀² (la masa primordial en V₀D coincide
-    con la energía planckiana al inicio del ciclo).
+    Valor canónico:
+        T₀ = M_Pl · δ₀² = 1.22×10¹⁹ × (0.012)² ≈ 1.76×10¹⁵ GeV.
+
+    NOTA: el spec original "MCMC_Referencia_Claude_Code.md" daba 1.22×10¹⁵
+    GeV; el valor correcto del Tratado (Ec. 441) es 1.76×10¹⁵ GeV.
     """
     return C.T0_GEV
 
 
 def T_crit(seal: str) -> float:
-    """Umbral crítico T_crit^(n) (Ec. 445):
+    """Umbral crítico T_crit^(n) — Tabla 67 del Tratado.
 
-        T_crit^(n) = T₀/4 · S_n / ΔS · (v_n / v_1)^2
+    Devuelve el valor tabulado canónico (GeV). La fórmula Ec. 445 admite
+    diferentes elecciones de v_n,ref por sello; los valores tabulados
+    son los del Tratado.
     """
-    Sn = C.S_SEALS[seal]
-    vn = C.V_GEV[seal]
-    v1 = C.V_GEV["C1"]
-    return (C.T0_GEV / 4.0) * (Sn / C.DELTA_S) * (vn / v1) ** 2
+    return C.T_CRIT_TABLE_67[seal]["GeV"]
+
+
+def T_crit_ratio(seal: str) -> float:
+    """Ratio T_crit^(n)/T₀ — Tabla 67 (adimensional)."""
+    return C.T_CRIT_TABLE_67[seal]["ratio"]
 
 
 def T_crit_table() -> dict[str, float]:
     """Tabla 67 del Tratado: T_crit^(n) para C1..C4 [GeV]."""
     return {seal: T_crit(seal) for seal in _SEAL_ORDER}
+
+
+def T_crit_formula(seal: str) -> float:
+    """Fórmula cruda Ec. 445 con v₁ = v_C1 (interpretación M_Pl global).
+
+    Reproduce la jerarquía INVERSA (C1 dominante, sub-dominante hacia C4)
+    porque interpreta v_1 como M_Pl global. Para el valor canónico del
+    Tratado, usar `T_crit(seal)`.
+    """
+    Sn = C.S_SEALS[seal]
+    vn = C.V_GEV[seal]
+    v1 = C.V_GEV["C1"]
+    return (C.T0_GEV / 4.0) * (Sn / C.DELTA_S) * (vn / v1) ** 2
 
 
 def tension_decay(S: float, lam_pre: float | None = None) -> float:

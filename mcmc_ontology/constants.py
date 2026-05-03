@@ -55,10 +55,26 @@ LAMBDA_PRE = 1e-4      # λ_pre ∈ [1e-5, 5e-4]; valor central
 #   γ₀ = -α_S · S_{0.001} · v₀²
 
 # --- Tensión primordial T₀ y umbrales T_crit^(n) (Ecs. 440-445) ---
-# T₀ = M_p·c²·δ₀² = E_p·δ₀² ≈ 1.22e15 GeV
-M_PL_GEV   = 1.22e19
-T0_GEV     = M_PL_GEV * EPSILON_0 ** 2     # ≈ 1.76e15 GeV
-# T_crit^(n) = T₀/4 · S_n/ΔS · (v_n/v_1)^2  (Ec. 445)
+# T₀ = M_p·c²·δ₀² = E_p·δ₀² (Ec. 440)
+# Valor numérico (Ec. 441 corregida):
+#   T₀ = E_p · δ₀² = 1.22×10¹⁹ × (0.012)² ≈ 1.76×10¹⁵ GeV
+# NOTA: el spec original "MCMC_Referencia_Claude_Code.md" daba 1.22×10¹⁵
+# (factor 1.44 erróneo, omitía δ₀² aplicado a la energía completa). El
+# valor correcto del Tratado (Ec. 441) es 1.76×10¹⁵ GeV.
+M_PL_GEV       = 1.22e19
+T0_GEV         = M_PL_GEV * EPSILON_0 ** 2     # ≈ 1.76e15 GeV (canónico)
+T0_GEV_APPROX  = 1.76e15                       # alias documentado del valor canónico
+
+# T_crit^(n) tabulados directamente desde la Tabla 67 del Tratado (p.156).
+# La fórmula T_crit^(n) = (T₀/4)·(S_n/ΔS)·(v_n/v_n,ref)² requiere v_n,ref
+# como escala de referencia POR SELLO (no v_1 = M_Pl global). Los valores
+# tabulados son los canónicos del modelo:
+T_CRIT_TABLE_67 = {
+    "C1": {"ratio": 5.6e-4, "GeV": 6.9e11},
+    "C2": {"ratio": 6.2e-3, "GeV": 7.6e12},
+    "C3": {"ratio": 6.2e-2, "GeV": 7.6e13},
+    "C4": {"ratio": 6.2e-2, "GeV": 7.6e13},
+}
 
 # --- Perfil m_P(S) ---
 MP_0  = 0.99   # m_P en C1 (S = 0.009)

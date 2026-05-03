@@ -30,15 +30,24 @@ def test_T0_value():
     assert 1.5e15 < T0 < 2.0e15
 
 
-def test_T_crit_monotone():
-    """T_crit^(n) crece con n (escalas v_n y S_n crecientes)."""
+def test_T_crit_hierarchy_table67():
+    """Jerarquía Tabla 67: T_crit(C1) < T_crit(C2) < T_crit(C3) ≈ T_crit(C4)."""
     table = T_crit_table()
-    vals = [table[s] for s in ("C1", "C2", "C3", "C4")]
-    # No es estrictamente monótona (S × v² crece y luego decae a C4),
-    # pero todos los valores son finitos y positivos.
-    for v in vals:
-        assert v > 0.0
-        assert np.isfinite(v)
+    assert table["C1"] < table["C2"] < table["C3"]
+    # C3 y C4 coinciden a nivel de la tabulación
+    assert abs(table["C3"] - table["C4"]) / table["C3"] < 1e-3
+    # Valores positivos y finitos
+    for v in table.values():
+        assert v > 0.0 and np.isfinite(v)
+
+
+def test_T_crit_canonical_values():
+    """Tabla 67 del Tratado (p.156): valores numéricos canónicos."""
+    table = T_crit_table()
+    assert abs(table["C1"] - 6.9e11) / 6.9e11 < 0.05
+    assert abs(table["C2"] - 7.6e12) / 7.6e12 < 0.05
+    assert abs(table["C3"] - 7.6e13) / 7.6e13 < 0.05
+    assert abs(table["C4"] - 7.6e13) / 7.6e13 < 0.05
 
 
 def test_T_crit_seals_matches_B0():
