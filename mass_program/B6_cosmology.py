@@ -11,7 +11,7 @@ from mcmc_ontology import constants as C
 
 
 def global_fit_results() -> dict:
-    """Valores de referencia de la Tabla 17 del corpus (no salidas del código)."""
+    """Valores de referencia de la Tabla 17 del corpus v32 (no salidas del código)."""
     return {
         "H0_kms_Mpc":  (C.H0_MCMC, C.H0_ERR),
         "Omega_m":     (0.300, 0.015),

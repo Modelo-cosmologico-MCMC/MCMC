@@ -13,8 +13,8 @@ Potencial:
               + sum_{n=1..4} (beta_n / 4) (Phi^2 - v_n^2)^2
                               · 1/2 [1 + tanh((S - S_n)/lambda)]
 
-Condiciones de matching C^1 (Ec. 310):  beta_n = 2 alpha S_n / v_n^2.
-Curvatura total en el vacío Phi* = v_n (Ec. P3):
+Condiciones de matching C^1 (Ec. 310, v32):  beta_n = 2 alpha S_n / v_n^2.
+Curvatura total en el vacío Phi* = v_n (Ec. P3, v32):
 
     V''_total(v_n) = 8 beta_n v_n^2 + d_n (m_P(S_n) v_n sqrt(d_n))^2
 
@@ -48,7 +48,7 @@ def alpha_from_matching(seal: str = "C3") -> float:
 
 
 def beta_match(seal: str, alpha: float | None = None) -> float:
-    """β_n = 2 α S_n / v_n^2 (Ec. 310)."""
+    """β_n = 2 α S_n / v_n^2 (Ec. 310, v32)."""
     if alpha is None:
         alpha = alpha_from_matching("C3")
     Sn = C.S_SEALS[seal]
@@ -57,7 +57,7 @@ def beta_match(seal: str, alpha: float | None = None) -> float:
 
 
 def chi_inf(n: int) -> float:
-    """Fracción de sellado latente χ∞_n = 1 - S_{n-1}/S_n  (Ec. 312)."""
+    """Fracción de sellado latente χ∞_n = 1 - S_{n-1}/S_n  (Ec. 312, v32)."""
     if n == 1:
         return 0.0
     Sn  = C.S_SEALS[_SEAL_ORDER[n - 1]]
@@ -100,7 +100,7 @@ def V_pp_kinetic(seal: str) -> float:
 
 
 def V_pp_total(seal: str) -> float:
-    """V''_total(v_n) = V''_quartic + V''_kinetic (Ec. P3)."""
+    """V''_total(v_n) = V''_quartic + V''_kinetic (Ec. P3, v32)."""
     return V_pp_quartic(seal) + V_pp_kinetic(seal)
 
 

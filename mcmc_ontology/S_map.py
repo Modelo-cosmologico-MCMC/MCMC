@@ -79,6 +79,6 @@ def z_to_a(z: np.ndarray | float) -> np.ndarray | float:
 
 
 def alpha3_inv(S: np.ndarray | float) -> np.ndarray | float:
-    """α₃⁻¹(S) por interpolación lineal sobre la Tabla 41 del Tratado."""
+    """α₃⁻¹(S) interpolado de la Tabla 41 (Tratado Unificado v32)."""
     table = np.asarray(C.ALPHA3_INV_TABLE)
     return np.interp(np.asarray(S, dtype=float), table[:, 0], table[:, 1])

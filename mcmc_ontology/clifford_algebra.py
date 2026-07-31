@@ -8,7 +8,8 @@ Cl(n,0) de este módulo procede del corpus anterior.
 
 Régimen pre-geométrico (S < 1.001): Cl(n,0) Euclidiano, amplitudes REALES.
 Régimen post-geométrico (S ≥ 1.001): Cl(1,3) Minkowski, signatura Lorentziana.
-La transición se realiza por una "rotación de Wick tensional" (Ec. 408).
+La transición se realiza por una "rotación de Wick tensional"
+(Ec. 408, Tratado Unificado v32).
 """
 
 from __future__ import annotations
@@ -53,7 +54,7 @@ def dirac_gamma_minkowski() -> list[np.ndarray]:
 
 def wick_angle(S: float, S_birth: float | None = None,
                width: float = C.LAMBDA_ONT) -> float:
-    """θ_W(S) = (π/2) Θ_λ(S - S_{1.001}) — Ec. 408.
+    """θ_W(S) = (π/2) Θ_λ(S - S_{1.001}) — Ec. 408, v32.
 
     Función suave (tanh) con grosor `width`.
     """

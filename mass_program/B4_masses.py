@@ -1,15 +1,22 @@
-"""B4 — Fórmula maestra de masas fermiónicas (Tratado, Ec. 600 ss).
+"""B4 — Fórmula maestra de masas fermiónicas (Ec. 600 ss, Tratado Unificado v32).
 
     m_f = [Σ_{n=1..4} |T_n^(fam(f))| · ϑ_n^(f) · V_CKM(n,f)] · v_EW
 
-donde ϑ_n^(f) tiene tres regímenes:
+Es la realización operativa del Funcional del Camino (v35, Def. 12.3):
+    m_i = Σ_n c_in · ϑ_n · v_n
+con los pesos c_in tabulados en T_UNIVERSAL (entradas calibradas).
+
+ϑ_n^(f) tiene tres regímenes:
 
   · n < n_e(f):  ϑ = y_f^(EW) · K_QCD(EW → C_n)        (pre-emergente)
   · n = n_e(f):  ϑ = y_f^(EW)                          (emergencia)
   · n > n_e(f):  ϑ = y_dominante,n^(tipo)              (post-emergente)
 
-Resultado calibrado con M1 (running QCD) + M2 (CKM): 12/12 fermiones
-con desviación PDG menor al 5% (excepto τ al 5.9%, predicción genuina).
+Resultado calibrado con M1 (running QCD) + M2 (CKM): 12/12 fermiones con
+desviación PDG menor al 6% (Tabla 12.1 del tratado, valores del corpus).
+ESTATUTO (v35, 12.5): mientras los c_in no se deriven de primeros
+principios (frente abierto nº 7), este espectro es «un ajuste exitoso
+cuyo carácter predictivo está por establecer».
 """
 
 from __future__ import annotations
@@ -84,7 +91,7 @@ def fermion_mass(fermion: str) -> float:
 
 
 def predict_fermion_masses() -> dict[str, dict]:
-    """Tabla completa: predicción MCMC vs PDG.
+    """Tabla completa: valores MCMC vs PDG (Tabla 12.1, valores del corpus).
 
     Devuelve dict {fermion: {m_MCMC, m_PDG, dev_pct}}.
     """

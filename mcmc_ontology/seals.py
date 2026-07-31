@@ -54,11 +54,11 @@ def seal_info(name: str) -> dict:
 
 
 def matching_betas() -> dict:
-    """β_n derivados de la condición de matching C^1 (Ec. 310)."""
+    """β_n derivados de la condición de matching C^1 (Ec. 310, v32)."""
     alpha = alpha_from_matching("C3")
     return {seal: beta_match(seal, alpha) for seal in ("C1", "C2", "C3", "C4")}
 
 
 def chi_inf_table() -> dict:
-    """Fracción de sellado latente para n=1..4 (Ec. 312)."""
+    """Fracción de sellado latente para n=1..4 (Ec. 312, v32)."""
     return {f"chi_inf_{n}": chi_inf(n) for n in (1, 2, 3, 4)}

@@ -28,7 +28,7 @@ def test_s0_victoria():
 
 
 def test_chi_inf():
-    """Fracción de sellado latente χ∞_n (Ec. 312)."""
+    """Fracción de sellado latente χ∞_n (Ec. 312, v32)."""
     assert chi_inf(1) == 0.0
     assert abs(chi_inf(2) - (1 - 0.009 / 0.099)) < 1e-9
     assert abs(chi_inf(3) - (1 - 0.099 / 0.999)) < 1e-9
