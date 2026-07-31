@@ -1,5 +1,8 @@
 """Potencial tensional escalonado V(Phi_Ad; S).
 
+Realiza los axiomas 1-4 (unidad dual, imperfección, tensión, Camino) del
+Tratado de Fundamentos (v35, §1.2) en la forma escalonada del Unificado.
+
 Lagrangiano del Campo de Adrián:
 
     L = 1/2 (∂Phi)^2 - V(Phi, S) + κ Phi tr(F F)

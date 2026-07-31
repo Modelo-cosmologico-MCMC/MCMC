@@ -1,5 +1,8 @@
 """Mapa S ↔ t ↔ z ↔ a.
 
+Realiza los axiomas 6 (atemporalidad pre-geométrica) y 7 (Ley de Cronos)
+del Tratado de Fundamentos (v35, §1.2).
+
 S es el índice entrópico (parámetro de estructuración tensional). NO es tiempo.
 El tiempo emerge SOLO en S ≥ 1.001 mediante la Ley de Cronos:
 

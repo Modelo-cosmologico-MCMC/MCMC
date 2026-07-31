@@ -1,4 +1,10 @@
-"""Álgebras de Clifford por régimen ontológico (Tabla 4 del Tratado).
+"""Álgebras de Clifford por régimen ontológico (Tabla 4, Tratado Unificado v32).
+
+Realiza los axiomas 5-6 (sellos, tramo euclidiano) del Tratado de
+Fundamentos (v35, §1.2). Nota v35 (§5.1): el álgebra de trabajo del tramo
+d-dimensional es C(d+1,0) — d generadores espaciales más el generador
+entrópico γS — y la cadena es C(2,0)→C(3,0)→C(4,0)→C(3,1); el etiquetado
+Cl(n,0) de este módulo procede del corpus anterior.
 
 Régimen pre-geométrico (S < 1.001): Cl(n,0) Euclidiano, amplitudes REALES.
 Régimen post-geométrico (S ≥ 1.001): Cl(1,3) Minkowski, signatura Lorentziana.

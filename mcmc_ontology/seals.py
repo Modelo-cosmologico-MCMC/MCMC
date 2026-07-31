@@ -1,5 +1,8 @@
 """Sellos ontológicos C0..C4 — eventos de colapso entrópico.
 
+Realiza el axioma 5 (colapsos y sellos) del Tratado de Fundamentos
+(v35, §1.2).
+
 Cada sello marca:
   · una transición dimensional (Vn-1 D → Vn D),
   · un cambio en el grupo gauge,
