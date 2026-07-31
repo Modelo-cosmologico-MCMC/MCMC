@@ -1,4 +1,4 @@
-"""M2 — Mezcla CKM (Ec. 600, cascada SO(10)).
+"""M2 — Mezcla CKM (Ec. 600, Tratado Unificado v32; cascada SO(10)).
 
 Convención base:
     U_d = I  (down diagonal exacto)

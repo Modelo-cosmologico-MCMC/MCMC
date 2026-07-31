@@ -13,11 +13,18 @@ C3 — Túnel secuencial pre-emergencia:
     |T_n^(i)|_pre = Π_{k=n}^{n_e(i)-1} exp(-κ_k · ΔS_k / λ)
     κ_k = sqrt(m_P(S_k)^2 - E_{F_{k+1}}^2)
 
-Calibración (Tratado, Tabla 3):
+Calibración (Tratado Unificado v32, Tabla 3):
     κ_gap_12 = -ln(4.3e-4) / (0.090/0.01) ≈ 0.8613
     κ_gap_23 = -ln(2.1e-3) / (0.900/0.01) ≈ 0.0685
     E_F2 = sqrt(m_P(C1)^2 - κ_12^2) ≈ 0.4881
     E_F3 = sqrt(m_P(C2)^2 - κ_23^2) ≈ 0.9431
+
+ESTATUTO (Tratado de Fundamentos v35, 12.5 y frente abierto nº 7):
+los coeficientes |T_n| de T_UNIVERSAL son ENTRADAS calibradas (Tabla 3
+del corpus), no derivaciones. El cálculo WKB de los pesos c_in desde
+primeros principios es uno de los siete frentes abiertos del tratado;
+hasta que se complete, este módulo verifica la consistencia de la
+calibración, no deriva las barreras.
 """
 
 from __future__ import annotations
@@ -55,10 +62,11 @@ def E_F3() -> float:
 
 
 def transmission(family: str, seal: str) -> float:
-    """|T_n^(family)| individual (Tabla 3 del Tratado).
+    """|T_n^(family)| individual (Tabla 3, Tratado Unificado v32).
 
-    Devuelve directamente la tabla de transmisiones tabulada (universal,
-    sin parámetros libres adicionales una vez calibrados κ y E_F).
+    Devuelve directamente la tabla de transmisiones tabulada. Los valores
+    son entradas calibradas del corpus, no derivaciones (frente abierto
+    nº 7 del Tratado de Fundamentos).
     """
     n = _SEALS.index(seal)
     return C.T_UNIVERSAL[family][n]

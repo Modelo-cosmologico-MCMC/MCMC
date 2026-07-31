@@ -1,13 +1,13 @@
 """M1 — Running QCD entrópico.
 
-Flujo entrópico (Ec. 847):
+Flujo entrópico (Ec. 847, Tratado Unificado v32):
     d g_i^{-2} / d S = b_i / (8π² λ)
 con b_1=-41/10, b_2=+19/6, b_3=+7.
 
 RGE 1-loop QCD (n_f=6, b0=7, γ_m=4):
     K_QCD(S1→S2) = [α_s(S2) / α_s(S1)]^(4/7)
 
-α_s(S) = 1 / α_s^{-1}(S), interpolado de la Tabla 41 del Tratado.
+α_s(S) = 1 / α_s^{-1}(S), interpolado de la Tabla 41 (Tratado Unificado v32).
 
 Efecto principal: el pre-emergente del quark u en C2 usa
 y_u^(GUT) = y_u × K_QCD(EW→GUT) = y_u × 0.5645, eliminando la

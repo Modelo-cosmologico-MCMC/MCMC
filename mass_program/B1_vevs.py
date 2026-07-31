@@ -2,6 +2,11 @@
 
 Pesos naïve (logarítmicos) y efectivos, con correcciones de curvatura
 P3 y QCD running (M1).
+
+Nota de versión: V_GEV (Planck/GUT/EW/QCD por sello) es la asignación
+del Tratado Unificado (v32, bloque LEGACY_V32 de constants.py). En la
+v35, v3 = 246 GeV está sellada por V3+1D (S=1.001) y la escala QCD
+emerge en S3 = 1.000 (D.1); Planck/GUT no tienen umbral asignado.
 """
 
 from __future__ import annotations

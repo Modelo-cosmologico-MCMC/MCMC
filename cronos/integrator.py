@@ -1,4 +1,9 @@
-"""Integrador Leapfrog Kick-Drift-Kick adaptado a S.
+"""Integrador Leapfrog Kick-Drift-Kick adaptado a S — ESQUEMA v32, SUPERADO.
+
+La v35 (cap. 11, Obs. 11.4) sustituye este esquema por Cronos v3
+(cronos/cronos_v3.py): a este kick le falta la lapse, la fricción no
+lleva compuerta Θ(ρ̇) y falta la fuerza +c²∇ε_c. Se conserva como
+referencia del corpus anterior.
 
 Cronos integra en el índice entrópico S en vez de t o a:
 

@@ -1,13 +1,14 @@
 """B2 — N_gen = 3 algebraico, modos espinoriales F1, F2, F3.
 
-La estructura algebraica Cl(3,0) en V₃D admite exactamente tres modos
-espinoriales independientes. Esto fija N_gen = 3 SIN introducir parámetros
-libres.
+N_gen = 3 se sigue de la dimensión del módulo espinorial de la Cadena de
+Álgebras en V3+1D (Tratado de Fundamentos v35, Prop. 12.4): es un
+resultado estructural — álgebra, no ajuste.
 
-Cada familia emerge en un sello concreto:
-  F1 emerge en C1 (S=0.009): tau, t, b, nu_tau
-  F2 emerge en C2 (S=0.099): mu,  c, s, nu_mu
-  F3 emerge en C3 (S=0.999): e,   u, d, nu_e
+La asociación de cada familia a un sello de emergencia (F1↔C1, F2↔C2,
+F3↔C3, con los fermiones de FAMILY_FERMIONS) es la presentación del
+Tratado Unificado (v32) que este módulo implementa; en la v35 la
+supervivencia de cada modo a través de los sellos la codifican los pesos
+c_in del Funcional del Camino (Def. 12.3).
 """
 
 from mcmc_ontology import constants as C

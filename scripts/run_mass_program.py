@@ -5,13 +5,14 @@ from __future__ import annotations
 
 from mass_program.B4_masses import predict_fermion_masses, neutrino_sum_eV
 from mass_program.B5_higgs import higgs_mass
+from mcmc_ontology import constants as C
 
 
 def main() -> None:
     print("=" * 60)
     print(" MCMC — Programa de masas")
     print("=" * 60)
-    print(f"\nHiggs: m_H = {higgs_mass():.3f} GeV   (PDG: 125.25)")
+    print(f"\nHiggs: m_H = {higgs_mass():.3f} GeV   (PDG: {C.M_HIGGS_PDG})")
     print(f"\nΣ m_ν = {neutrino_sum_eV():.3e} eV  (cota Planck+DESI: 0.12)\n")
 
     res = predict_fermion_masses()

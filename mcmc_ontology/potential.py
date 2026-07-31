@@ -1,5 +1,8 @@
 """Potencial tensional escalonado V(Phi_Ad; S).
 
+Realiza los axiomas 1-4 (unidad dual, imperfección, tensión, Camino) del
+Tratado de Fundamentos (v35, §1.2) en la forma escalonada del Unificado.
+
 Lagrangiano del Campo de Adrián:
 
     L = 1/2 (∂Phi)^2 - V(Phi, S) + κ Phi tr(F F)
@@ -10,8 +13,8 @@ Potencial:
               + sum_{n=1..4} (beta_n / 4) (Phi^2 - v_n^2)^2
                               · 1/2 [1 + tanh((S - S_n)/lambda)]
 
-Condiciones de matching C^1 (Ec. 310):  beta_n = 2 alpha S_n / v_n^2.
-Curvatura total en el vacío Phi* = v_n (Ec. P3):
+Condiciones de matching C^1 (Ec. 310, v32):  beta_n = 2 alpha S_n / v_n^2.
+Curvatura total en el vacío Phi* = v_n (Ec. P3, v32):
 
     V''_total(v_n) = 8 beta_n v_n^2 + d_n (m_P(S_n) v_n sqrt(d_n))^2
 
@@ -34,8 +37,10 @@ DIM_AT_SEAL = {"C1": 1, "C2": 2, "C3": 3, "C4": 3}  # dimensiones espaciales
 def alpha_from_matching(seal: str = "C3") -> float:
     """alpha tal que beta_n = 2 alpha S_n / v_n^2 fija beta del sello dado.
 
-    Por convención usamos C3 (escala EW) como anclaje, ya que beta_3 = 0.13
-    está fijado por m_H = sqrt(2 beta_3) v_EW (no es libre).
+    Por convención usamos C3 como anclaje, con beta_3 = 0.13 (λ_H del
+    empalme C¹). La derivación de beta_3 independiente de m_H es el frente
+    abierto nº 7 del Tratado de Fundamentos (Obs. 12.2): mientras no exista,
+    beta_3 es un valor calibrado, no una constante derivada.
     """
     Sn = C.S_SEALS[seal]
     vn = C.V_GEV[seal]
@@ -43,7 +48,7 @@ def alpha_from_matching(seal: str = "C3") -> float:
 
 
 def beta_match(seal: str, alpha: float | None = None) -> float:
-    """β_n = 2 α S_n / v_n^2 (Ec. 310)."""
+    """β_n = 2 α S_n / v_n^2 (Ec. 310, v32)."""
     if alpha is None:
         alpha = alpha_from_matching("C3")
     Sn = C.S_SEALS[seal]
@@ -52,7 +57,7 @@ def beta_match(seal: str, alpha: float | None = None) -> float:
 
 
 def chi_inf(n: int) -> float:
-    """Fracción de sellado latente χ∞_n = 1 - S_{n-1}/S_n  (Ec. 312)."""
+    """Fracción de sellado latente χ∞_n = 1 - S_{n-1}/S_n  (Ec. 312, v32)."""
     if n == 1:
         return 0.0
     Sn  = C.S_SEALS[_SEAL_ORDER[n - 1]]
@@ -95,7 +100,7 @@ def V_pp_kinetic(seal: str) -> float:
 
 
 def V_pp_total(seal: str) -> float:
-    """V''_total(v_n) = V''_quartic + V''_kinetic (Ec. P3)."""
+    """V''_total(v_n) = V''_quartic + V''_kinetic (Ec. P3, v32)."""
     return V_pp_quartic(seal) + V_pp_kinetic(seal)
 
 

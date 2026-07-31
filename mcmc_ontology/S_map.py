@@ -1,5 +1,8 @@
 """Mapa S ↔ t ↔ z ↔ a.
 
+Realiza los axiomas 6 (atemporalidad pre-geométrica) y 7 (Ley de Cronos)
+del Tratado de Fundamentos (v35, §1.2).
+
 S es el índice entrópico (parámetro de estructuración tensional). NO es tiempo.
 El tiempo emerge SOLO en S ≥ 1.001 mediante la Ley de Cronos:
 
@@ -50,9 +53,11 @@ def s_to_a(S: np.ndarray | float, S_today: float | None = None) -> np.ndarray | 
 
     Aproximación operativa: a(S) = exp(integral d ln a / dS).
     Para uso heurístico fuera del integrador completo de Cronos.
+    El default S_today = 95.0 es la parametrización del Unificado
+    (bloque LEGACY_V32 en constants.py); la v35 no la contiene.
     """
     if S_today is None:
-        S_today = C.S_SEALS["S_actual"]
+        S_today = 95.0  # valor operativo v32 (LEGACY_V32)
     S4 = C.S_SEALS["C4"]
     S_arr = np.asarray(S, dtype=float)
     out = np.where(
@@ -74,6 +79,6 @@ def z_to_a(z: np.ndarray | float) -> np.ndarray | float:
 
 
 def alpha3_inv(S: np.ndarray | float) -> np.ndarray | float:
-    """α₃⁻¹(S) por interpolación lineal sobre la Tabla 41 del Tratado."""
+    """α₃⁻¹(S) interpolado de la Tabla 41 (Tratado Unificado v32)."""
     table = np.asarray(C.ALPHA3_INV_TABLE)
     return np.interp(np.asarray(S, dtype=float), table[:, 0], table[:, 1])

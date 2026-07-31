@@ -1,14 +1,18 @@
 """Sellos ontológicos C0..C4 — eventos de colapso entrópico.
 
-Cada sello marca:
-  · una transición dimensional (Vn-1 D → Vn D),
-  · un cambio en el grupo gauge,
-  · la emergencia de una familia fermiónica F_n.
+Realiza el axioma 5 (colapsos y sellos) del Tratado de Fundamentos
+(v35, §1.2).
+
+NOTA DE VERSIÓN: la asociación sello → (gauge, familia fermiónica) de este
+módulo es la presentación del Tratado Unificado (v32). En la v35 (Tabla
+F.1) S₀,₀₉₉ y S₀,₉₉₉ son los sellos de c y de c² — no emergencias de
+familias — y la supervivencia por sello la codifican los pesos c_in del
+Funcional del Camino (Def. 12.3). Ver README, «Cronología tensional».
 
 Funciones:
-  · seal_info(name): dict con S, V, beta, dimensión, gauge, familia.
-  · matching_betas(): verifica las condiciones C^1 (Ec. 310).
-  · chi_inf_table(): fracción de sellado latente χ∞_n (Ec. 312).
+  · seal_info(name): dict con S, V, beta, dimensión, gauge, familia (v32).
+  · matching_betas(): verifica las condiciones C^1 (Ec. 310, v32).
+  · chi_inf_table(): fracción de sellado latente χ∞_n (Ec. 312, v32).
 """
 
 from __future__ import annotations
@@ -17,6 +21,7 @@ from . import constants as C
 from .potential import beta_match, chi_inf, alpha_from_matching
 
 
+# Asignaciones v32 (ver nota de versión en el docstring del módulo):
 SEAL_GAUGE = {
     "C0": "—",
     "C1": "—",
@@ -49,11 +54,11 @@ def seal_info(name: str) -> dict:
 
 
 def matching_betas() -> dict:
-    """β_n derivados de la condición de matching C^1 (Ec. 310)."""
+    """β_n derivados de la condición de matching C^1 (Ec. 310, v32)."""
     alpha = alpha_from_matching("C3")
     return {seal: beta_match(seal, alpha) for seal in ("C1", "C2", "C3", "C4")}
 
 
 def chi_inf_table() -> dict:
-    """Fracción de sellado latente para n=1..4 (Ec. 312)."""
+    """Fracción de sellado latente para n=1..4 (Ec. 312, v32)."""
     return {f"chi_inf_{n}": chi_inf(n) for n in (1, 2, 3, 4)}
