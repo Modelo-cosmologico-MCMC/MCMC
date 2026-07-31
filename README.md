@@ -1,11 +1,17 @@
 # MCMC — Modelo Cosmológico de Múltiples Colapsos
 
-> **Estado de versión (julio 2026).** Esta implementación sigue el *Tratado Unificado*
-> (v32, marzo 2026). El registro canónico vigente del modelo es el **Tratado de
-> Fundamentos** (v35, junio 2026, DOI [10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373)),
-> que refunda el MCMC sobre ocho axiomas ontológicos. La alineación del código con la
-> v35 está en curso y se documenta commit a commit; hasta completarse, los valores y
-> etiquetas de este repositorio pueden diferir del tratado vigente.
+[![CI](https://github.com/Modelo-cosmologico-MCMC/MCMC/actions/workflows/ci.yml/badge.svg)](https://github.com/Modelo-cosmologico-MCMC/MCMC/actions/workflows/ci.yml)
+
+> **Estado de versión (julio 2026).** Esta implementación está alineada con el
+> **Tratado de Fundamentos** (v35, junio 2026, DOI [10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373)),
+> registro canónico vigente del modelo, que lo refunda sobre ocho axiomas
+> ontológicos. La alineación desde el *Tratado Unificado* (v32) se completó en
+> julio de 2026 y está documentada commit a commit, incluida una revisión
+> adversarial del núcleo numérico. Las constantes están organizadas por estatuto
+> epistémico (Apéndice F), los valores de referencia del corpus se declaran como
+> tales —no como salidas del código—, la parametrización superada se conserva en
+> el bloque `LEGACY_V32`, y la integración continua mantiene esos criterios como
+> guardias permanentes.
 > Enlace permanente a la última versión del tratado: [10.5281/zenodo.14167831](https://doi.org/10.5281/zenodo.14167831).
 
 Implementación de referencia en Python del **Modelo Cosmológico de Múltiples

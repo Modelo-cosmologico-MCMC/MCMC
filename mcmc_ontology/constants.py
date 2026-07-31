@@ -204,8 +204,8 @@ LEGACY_V32 = {
     # Índice entrópico "actual" y máximo de la formulación anterior
     # (retirados también del sitio web). Consumidores: cosmology/background
     # (rho_id/rho_lat), mcmc_ontology/S_map (s_to_a), cronos/rho_id_table.
-    "S_actual": 95.0,
-    "S_max":   150.0,
+    "S_actual": 95.0,   # LEGACY_V32
+    "S_max":   150.0,   # LEGACY_V32
 }
 
 # VEVs por sello [GeV] — asignación v32. La v35 NO asigna Planck/GUT a

@@ -5,7 +5,6 @@ from __future__ import annotations
 import numpy as np
 import matplotlib.pyplot as plt
 
-from mcmc_ontology import constants as C
 from mass_program.B4_masses import predict_fermion_masses
 
 

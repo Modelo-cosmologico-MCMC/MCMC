@@ -48,6 +48,11 @@ packages = [
     "visualization",
 ]
 
+[tool.ruff.lint]
+# E701/E702 (varias sentencias por línea) se ignoran: el estilo compacto
+# es deliberado en varios módulos y no afecta a la corrección.
+ignore = ["E701", "E702"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]

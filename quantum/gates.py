@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from .qudit import D, basis
+from .qudit import D
 
 
 # Umbrales de disparo en S (v35 C.2 — coinciden con la Ley de la Década):

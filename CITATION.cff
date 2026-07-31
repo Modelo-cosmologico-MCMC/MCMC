@@ -7,7 +7,7 @@ authors:
     given-names: "Adrián"
     orcid: "https://orcid.org/0009-0009-4314-9642"
 license: Apache-2.0
-repository-code: "https://github.com/Modelo-cosmologico-MCMC/MCMC_unificado"
+repository-code: "https://github.com/Modelo-cosmologico-MCMC/MCMC"
 references:
   - type: article
     title: "Modelo Cosmológico de Múltiples Colapsos (MCMC) — Tratado de Fundamentos"
