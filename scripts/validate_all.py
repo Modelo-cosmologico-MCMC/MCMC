@@ -19,7 +19,7 @@ def main() -> None:
 
     print("\n--- Higgs (identidad SM calibrada — Obs. 12.2, no predicción) ---")
     print(f"  m_H = {higgs_mass():.3f} GeV")
-    print(f"  β3 (calibración inversa desde m_H) = {beta3_calibrated_from_higgs():.4f}")
+    print(f"  β3 calibrado desde m_H medida (PDG) = {beta3_calibrated_from_higgs():.4f}")
 
     print("\n--- K_QCD(EW → GUT) ---")
     print(f"  K = {K_EW_to_GUT():.4f}  (esperado ≈ 0.5645)")

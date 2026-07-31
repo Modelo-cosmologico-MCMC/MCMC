@@ -17,7 +17,9 @@ del tratado). Este módulo usa los valores del tratado.
 
 Mass gap (Tratado Unificado v32, Ec. 62):
     E_min = k · ΔS,   k ≡ M_Pl c^2,   ΔS = 1e-3
-En S = 1.001:  E_min(C4) = m_H ≈ 125 GeV.
+mass_gap() devuelve k·ΔS = 1.22e19 · 1e-3 = 1.22e16 GeV; la
+identificación del corpus E_min ≈ m_H requiere el reescalado por los
+VEVs (ver lattice/mass_gap.py), que NO está implementado aquí.
 """
 
 from __future__ import annotations
@@ -47,11 +49,15 @@ def mass_gap(S: float | None = None, k: float = M_PL_GEV) -> float:
     return k * C.DELTA_S
 
 
-def beta3_calibrated_from_higgs() -> float:
-    """Calibración inversa: β3 = (m_H / v3)² / 2.
+def beta3_calibrated_from_higgs(m_H: float | None = None) -> float:
+    """Calibración inversa: β3 = (m_H / v3)² / 2, con m_H la masa MEDIDA.
 
     Es la operación que la Obs. 12.2 identifica como circular: parte de la
-    masa medida del Higgs. Se conserva como utilidad de calibración, no
-    como verificación ni como derivación independiente (frente abierto nº 7).
+    masa medida del Higgs (por defecto, el valor PDG) para obtener el
+    coeficiente. Se conserva como utilidad de calibración, no como
+    verificación ni como derivación independiente (frente abierto nº 7).
+    Con m_H = 125.25 (PDG) devuelve 0.1296 ≈ 0.13.
     """
-    return 0.5 * (higgs_mass() / C.V3_GEV) ** 2
+    if m_H is None:
+        m_H = C.M_HIGGS_PDG
+    return 0.5 * (m_H / C.V3_GEV) ** 2
