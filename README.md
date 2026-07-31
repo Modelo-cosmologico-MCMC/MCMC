@@ -116,6 +116,16 @@ usar m_H como entrada (Tratado de Fundamentos, Obs. 12.2; frente abierto nº 7).
 pytest tests/
 ```
 
+## Cómo citar
+
+Ver `CITATION.cff` (GitHub genera la cita automáticamente). Registro
+canónico vigente: **Tratado de Fundamentos** (v35),
+DOI [10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373).
+DOI de concepto de la serie (siempre la última versión):
+[10.5281/zenodo.14167831](https://doi.org/10.5281/zenodo.14167831).
+No citar como vigentes los depósitos superados (v29, v32).
+ORCID de referencia: [0009-0009-4314-9642](https://orcid.org/0009-0009-4314-9642).
+
 ## Licencia
 
-Ver `LICENSE`.
+Apache License 2.0 — ver `LICENSE`.

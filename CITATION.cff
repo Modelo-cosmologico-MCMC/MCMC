@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "Si usas este código, cita el repositorio y el Tratado de Fundamentos (referencia abajo)."
+title: "MCMC — Modelo Cosmológico de Múltiples Colapsos (implementación de referencia)"
+type: software
+authors:
+  - family-names: "Martínez Estellés"
+    given-names: "Adrián"
+    orcid: "https://orcid.org/0009-0009-4314-9642"
+license: Apache-2.0
+repository-code: "https://github.com/Modelo-cosmologico-MCMC/MCMC_unificado"
+references:
+  - type: article
+    title: "Modelo Cosmológico de Múltiples Colapsos (MCMC) — Tratado de Fundamentos"
+    doi: "10.5281/zenodo.20765373"
+    authors:
+      - family-names: "Martínez Estellés"
+        given-names: "Adrián"
+        orcid: "https://orcid.org/0009-0009-4314-9642"
+  - type: generic
+    title: "Serie MCMC en Zenodo (DOI de concepto — redirige siempre a la última versión)"
+    doi: "10.5281/zenodo.14167831"
+    authors:
+      - family-names: "Martínez Estellés"
+        given-names: "Adrián"
