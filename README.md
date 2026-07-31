@@ -25,7 +25,7 @@ cronos/           N-body en S, fricción entrópica, halos cored
 lattice/          Mass gap E_min = k·ΔS, espectro glueball SU(3)
 quantum/          Qudit d=5, H_MCMC ontológico, simulación QuTiP
 visualization/    Animaciones, espectro de masas, plots cosmológicos
-data/             Datos observacionales de referencia
+data/             Datos observacionales (vacío; poblar con scripts/download_data.py)
 configs/          Parámetros CLASS/CAMB y simulaciones
 tests/            Tests unitarios y de integración
 notebooks/        Notebooks de análisis
@@ -92,9 +92,11 @@ bloque `LEGACY_V32` de `constants.py`.
 **Estos valores NO son salidas de este código**: proceden de los ajustes
 documentados en el corpus del modelo (v32). Los directorios de `data/` están
 vacíos; reproducirlos requiere cargar los catálogos observacionales reales
-en `data/` y ejecutar el ajuste bayesiano de producción.
-Hasta entonces se usan como valores fiduciales de referencia
-(`CORPUS_REFERENCE` en `mcmc_ontology/constants.py`).
+(`python scripts/download_data.py all`) y ejecutar el ajuste bayesiano de
+producción. Hasta entonces se usan como valores fiduciales de referencia
+(`CORPUS_REFERENCE` en `mcmc_ontology/constants.py`). Cuando el ajuste corra
+sobre los datos reales, sus salidas (con su metodología) podrán sustituir a
+esta tabla — antes no.
 
 | Observable    | Corpus MCMC         | PDG / ΛCDM       |
 |---------------|---------------------|------------------|
