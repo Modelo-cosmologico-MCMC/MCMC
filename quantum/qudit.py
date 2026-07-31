@@ -1,9 +1,10 @@
-"""Qudit ontológico d=5 — representación analógica del MCMC.
+"""Qudit ontológico d=5 — representación analógica del MCMC (v35, C.1).
 
-Base computacional:
+Base computacional de 5 niveles (Tratado de Fundamentos, C.1):
     |S0⟩ ↔ V0D, |S1⟩ ↔ V1D, |S2⟩ ↔ V2D, |S3⟩ ↔ V3D, |S4⟩ ↔ V3+1D
 
-Estado general: |ψ⟩ = Σ c_n |Sn⟩,  Σ |c_n|^2 = 1.
+Estado general: |ψ⟩ = Σ c_n |Sn⟩,  Σ |c_n|^2 = 1. H_ten es diagonal con
+E0 < … < E4; las compuertas condicionales viven en quantum.gates.
 """
 
 from __future__ import annotations

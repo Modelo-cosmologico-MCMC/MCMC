@@ -1,14 +1,19 @@
-"""Simulación QuTiP del qudit MCMC.
+"""Simulación QuTiP del qudit MCMC (Tratado de Fundamentos v35, C.1-C.2).
 
-Fidelidades de transición esperadas (10^4 trayectorias, QuTiP 4.7):
+La tabla EXPECTED_FIDELITIES contiene VALORES ESPERADOS DEL CORPUS
+(10^4 trayectorias, QuTiP 4.7) — no salidas verificadas de este código:
+sin QuTiP instalado, `simulate_transitions` devuelve la tabla tal cual.
 
-| Transición  | Fidelidad |
-|-------------|-----------|
-| S0 → S1     | 0.981     |
-| S1 → S2     | 0.975     |
-| S2 → S3     | 0.969     |
-| S3 → S4     | 0.958     |
-| Global F    | 0.939     |
+| Transición  | Fidelidad (corpus) |
+|-------------|--------------------|
+| S0 → S1     | 0.981              |
+| S1 → S2     | 0.975              |
+| S2 → S3     | 0.969              |
+| S3 → S4     | 0.958              |
+| Global F    | 0.939              |
+
+Predicción falsable del tratado (C.2): patrón decreciente de fidelidades
+F0 > F1 > F2 > F3, con máxima superposición en la fase intermedia.
 """
 
 from __future__ import annotations
