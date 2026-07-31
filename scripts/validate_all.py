@@ -5,20 +5,21 @@ from __future__ import annotations
 
 from mass_program.B3_wkb import verify_calibration
 from mass_program.B4_masses import predict_fermion_masses
-from mass_program.B5_higgs import higgs_mass
+from mass_program.B5_higgs import higgs_mass, beta3_calibrated_from_higgs
 from mass_program.M1_qcd_running import K_EW_to_GUT
 from cosmology.background import H_of_z, Lambda_rel
 from quantum.qutip_simulation import simulate_transitions
 
 
 def main() -> None:
-    print("--- WKB calibration ---")
+    print("--- Consistencia de la calibración WKB (pesos = entradas, no derivaciones) ---")
     for k, v in verify_calibration().items():
         ok = "OK" if v[2] else "FAIL"
         print(f"  {k:<10s}  computed={v[0]:.4f}  nominal={v[1]:.4f}  [{ok}]")
 
-    print("\n--- Higgs ---")
+    print("\n--- Higgs (identidad SM calibrada — Obs. 12.2, no predicción) ---")
     print(f"  m_H = {higgs_mass():.3f} GeV")
+    print(f"  β3 (calibración inversa desde m_H) = {beta3_calibrated_from_higgs():.4f}")
 
     print("\n--- K_QCD(EW → GUT) ---")
     print(f"  K = {K_EW_to_GUT():.4f}  (esperado ≈ 0.5645)")
