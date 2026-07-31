@@ -93,28 +93,45 @@ de los sellos la codifican los pesos c_in del **Funcional del Camino**
 eran presentación del Tratado Unificado (v32) y se conservan solo en el
 bloque `LEGACY_V32` de `constants.py`.
 
-## Valores de referencia del corpus
+## Resultados del ajuste de producción (julio 2026)
 
-**Estos valores NO son salidas de este código**: proceden de los ajustes
-documentados en el corpus del modelo (v32). Los directorios de `data/` están
-vacíos; reproducirlos requiere cargar los catálogos observacionales reales
-(`python scripts/download_data.py all`) y ejecutar el ajuste bayesiano de
-producción. Hasta entonces se usan como valores fiduciales de referencia
-(`CORPUS_REFERENCE` en `mcmc_ontology/constants.py`). Cuando el ajuste corra
-sobre los datos reales, sus salidas (con su metodología) podrán sustituir a
-esta tabla — antes no.
+Primer ajuste bayesiano de este repositorio sobre **datos reales**
+(`scripts/run_production_fit.py`, semilla 42, 32 walkers × 4000 pasos,
+convergencia verificada por autocorrelación): 31 puntos H(z) de cronómetros
+cósmicos + 6 medidas BAO del consenso BOSS DR12 (r_d fiducial 147.09 Mpc,
+fijo) + 1371 SNe de Pantheon+ con covarianza completa (M_B marginalizada
+analíticamente; sin ancla cefeida). ΛCDM se ajustó sobre **los mismos datos
+con la misma maquinaria** (ε = 0 exacto, Prop. A.1); priors del Apéndice F.
 
-| Observable    | Corpus MCMC         | PDG / ΛCDM       |
-|---------------|---------------------|------------------|
-| m_H           | ≃ 125.3 GeV ¹       | 125.25 GeV       |
-| H₀            | 69.8 ± 1.1 km/s/Mpc | 67.7 ± 0.7       |
-| σ₈            | 0.805               | 0.830            |
-| ΔBIC vs ΛCDM  | −6.1                | —                |
-| Σm_ν          | 4.6×10⁻⁵ eV         | < 0.12 eV        |
+| Parámetro | MCMC (k=4) | ΛCDM (k=2) |
+|---|---|---|
+| H₀ [km/s/Mpc] | 66.1 ± 1.7 | 66.6 ± 1.3 |
+| Ω_m | 0.344 ± 0.026 | 0.340 ± 0.024 |
+| ε | 0.014 −0.038/+0.042 — **compatible con 0** | ≡ 0 |
+| z_trans | 9.2 ± 4.7 (dominado por el prior) | — |
 
-¹ m_H = √(2·β3)·v3 es la identidad del Modelo Estándar con λ_H = β3: el acuerdo
-numérico no constituye por sí solo una predicción mientras β3 no se derive sin
-usar m_H como entrada (Tratado de Fundamentos, Obs. 12.2; frente abierto nº 7).
+χ² total en el máximo: 1226.07 (MCMC) frente a 1226.03 (ΛCDM).
+**ΔAIC = +4.0 y ΔBIC = +14.5 (positivo favorece a ΛCDM)**: con estos tres
+catálogos y esta metodología, los dos parámetros extra del MCMC no mejoran el
+ajuste y los criterios de información favorecen a ΛCDM. El resultado se
+publica tal cual — el compromiso del proyecto es con el contraste, no con el
+desenlace.
+
+Informe completo, fórmulas y cadenas: `results/2026-07-31_production_fit/`.
+Reproducción determinista: `python scripts/download_data.py all &&
+python scripts/run_production_fit.py`.
+
+**Relación con el corpus.** Los valores del corpus v32 (H₀ = 69.8, σ₈ = 0.805,
+ΔBIC = −6.1 a favor del MCMC) permanecen documentados como referencia
+histórica en `CORPUS_REFERENCE` (`mcmc_ontology/constants.py`): proceden de
+ajustes con likelihoods que esta corrida mínima no incluye (CMB completo,
+fσ₈, lentes) y su reconciliación con el resultado de arriba es trabajo
+abierto. σ₈ no está constreñido por los datos de esta corrida.
+
+Sobre m_H ≃ 125.3 GeV: es la identidad del Modelo Estándar con λ_H = β3 y no
+constituye por sí sola una predicción mientras β3 no se derive sin usar m_H
+como entrada (Obs. 12.2; frente abierto nº 7). Σm_ν ≈ 4.6×10⁻⁵ eV (seesaw
+tensional, muy por debajo de la cota < 0.12 eV).
 
 ## Tests
 

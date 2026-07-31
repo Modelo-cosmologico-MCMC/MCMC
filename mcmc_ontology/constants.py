@@ -174,10 +174,14 @@ FAMILY_FERMIONS = {
 # =====================================================================
 # VALORES DE REFERENCIA DEL CORPUS (NO salidas de este código)
 # =====================================================================
-# Proceden de los ajustes documentados en el corpus (v32). Reproducirlos
-# requiere cargar los datos observacionales reales en data/ (ver README).
-# Mientras data/ esté vacío, este repositorio NO puede producirlos: se
-# usan como valores fiduciales de referencia, nunca como resultados.
+# Proceden de los ajustes documentados en el corpus (v32). Se conservan
+# como valores fiduciales (defaults de H_of_z, wrappers, B6) y como
+# referencia histórica. NOTA (jul-2026): el primer ajuste de producción
+# de este repositorio sobre datos reales (CC+BAO+SNe; ver README y
+# results/2026-07-31_production_fit/) obtuvo H0 = 66.1 ± 1.7 y ΔBIC =
+# +14.5 A FAVOR de ΛCDM con esa metodología mínima; la reconciliación
+# con estos valores del corpus (que usan likelihoods más ricos: CMB,
+# fσ8, lentes) es trabajo abierto.
 CORPUS_REFERENCE = {
     "H0": 69.8,          # km/s/Mpc (corpus; tratado v35 A.6: "~69-70")
     "H0_err": 1.1,
