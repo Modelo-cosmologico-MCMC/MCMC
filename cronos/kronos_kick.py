@@ -1,7 +1,12 @@
-"""Fricción entrópica local y factor de kick Cronos.
+"""Fricción entrópica local y factor de kick Cronos — ESQUEMA v32, SUPERADO.
 
     f_kick = 1 / (1 + (ρ_local / ρ_c0)^1.5 / α_cronos)
     a_fric = -(ρ_local / ρ_c0)^1.5 / α_cronos · H_a · v
+
+La v35 (Cor. 11.3a) reemplaza esta fricción siempre activa por la
+fricción con compuerta Γ = (3/2)(ρ̇/ρ)ε_c·Θ(ρ̇), que se apaga al
+virializar (cronos/cronos_v3.py). α_cronos NO es la Amplitud de Cronos
+α0⁻¹ de la ec. 11.5.
 """
 
 from __future__ import annotations
