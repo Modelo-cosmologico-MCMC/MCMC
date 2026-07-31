@@ -22,6 +22,12 @@ env/
 data/**/*.fits
 data/**/*.hdf5
 data/**/*.npz
+# Catálogos descargados/generados por scripts/download_data.py — nunca
+# se versionan: la cadena es descargar→verificar (checksums en el script).
+data/**/*.dat
+data/**/*.cov
+data/**/*.txt
+data/**/*.zip
 *.pkl
 *.npy
 chains/
