@@ -58,21 +58,27 @@ def rho_b(z: np.ndarray | float, Omega_b: float = 0.0489) -> np.ndarray | float:
     return Omega_b * (1.0 + z) ** 3
 
 
-def rho_id(z: np.ndarray | float, S: float = C.S_SEALS["S_actual"],
+def rho_id(z: np.ndarray | float, S: float = 95.0,
            rho_id_0: float = 0.65) -> np.ndarray | float:
-    """Energía cuántica virtual (ECV).
+    """Energía cuántica virtual (ECV) — forma operativa v32.
 
     Modelo operativo: ρ_id_0 + δρ proporcional a la conversión Mp→Ep.
-    En S=S_actual → ≈ 0.65 (post-ajuste).
+    Los defaults S=95.0 y el máximo 150.0 son la parametrización del
+    Unificado (bloque LEGACY_V32 en constants.py); la v35 no la contiene.
+    Nota: la dependencia en S está desactivada (factor 0.0) — la forma
+    de dos canales de la v35 (A.1) está pendiente de implementación.
     """
     z = np.asarray(z, dtype=float)
-    s_frac = S / C.S_SEALS["S_max"]
+    s_frac = S / 150.0  # normalización v32 (LEGACY_V32)
     return rho_id_0 * (1.0 + 0.05 * np.tanh((C.Z_TRANS - z) / 1.0)) * (1.0 + 0.0 * s_frac)
 
 
-def rho_lat(z: np.ndarray | float, S: float = C.S_SEALS["S_actual"],
+def rho_lat(z: np.ndarray | float, S: float = 95.0,
             rho_lat_0: float = 0.05) -> np.ndarray | float:
-    """Masa cuántica virtual (MCV) — Mp residual no procesada."""
+    """Masa cuántica virtual (MCV) — Mp residual no procesada (forma v32).
+
+    Defaults de la parametrización del Unificado (LEGACY_V32).
+    """
     z = np.asarray(z, dtype=float)
-    s_frac = 1.0 - S / C.S_SEALS["S_max"]  # proporcional al Mp restante
+    s_frac = 1.0 - S / 150.0  # proporcional al Mp restante (LEGACY_V32)
     return rho_lat_0 * s_frac * (1.0 + z) ** 0.0

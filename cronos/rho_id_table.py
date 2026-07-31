@@ -14,7 +14,9 @@ def build_table(z_grid: np.ndarray | None = None,
     if z_grid is None:
         z_grid = np.linspace(0.0, 30.0, 121)
     if S_grid is None:
-        S_grid = np.linspace(C.S_SEALS["C4"], C.S_SEALS["S_max"], 121)
+        # Rango S del esquema v32: de C4 (1.001) al máximo 150.0 de la
+        # parametrización del Unificado (bloque LEGACY_V32 en constants.py).
+        S_grid = np.linspace(C.S_SEALS["C4"], 150.0, 121)
     z_grid = np.asarray(z_grid, dtype=float)
     S_grid = np.asarray(S_grid, dtype=float)
     grid = np.zeros((len(z_grid), len(S_grid)))

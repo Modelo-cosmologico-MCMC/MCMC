@@ -31,8 +31,11 @@ M_PL_GEV = 1.22e19  # M_Pl·c^2 en GeV
 
 
 def higgs_mass() -> float:
-    """m_H = sqrt(2 β_3) · v3 — identidad del SM con λ_H = β3 (Obs. 12.2)."""
-    return math.sqrt(2.0 * C.BETA["C3"]) * C.V_GEV["C3"]
+    """m_H = sqrt(2 β_3) · v3 — identidad del SM con λ_H = β3 (Obs. 12.2).
+
+    v3 = 246 GeV sellada por V3+1D (v35 F.4).
+    """
+    return math.sqrt(2.0 * C.BETA["C3"]) * C.V3_GEV
 
 
 def mass_gap(S: float | None = None, k: float = M_PL_GEV) -> float:
@@ -51,4 +54,4 @@ def beta3_calibrated_from_higgs() -> float:
     masa medida del Higgs. Se conserva como utilidad de calibración, no
     como verificación ni como derivación independiente (frente abierto nº 7).
     """
-    return 0.5 * (higgs_mass() / C.V_GEV["C3"]) ** 2
+    return 0.5 * (higgs_mass() / C.V3_GEV) ** 2

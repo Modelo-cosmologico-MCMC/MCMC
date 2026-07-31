@@ -53,9 +53,11 @@ def s_to_a(S: np.ndarray | float, S_today: float | None = None) -> np.ndarray | 
 
     Aproximación operativa: a(S) = exp(integral d ln a / dS).
     Para uso heurístico fuera del integrador completo de Cronos.
+    El default S_today = 95.0 es la parametrización del Unificado
+    (bloque LEGACY_V32 en constants.py); la v35 no la contiene.
     """
     if S_today is None:
-        S_today = C.S_SEALS["S_actual"]
+        S_today = 95.0  # valor operativo v32 (LEGACY_V32)
     S4 = C.S_SEALS["C4"]
     S_arr = np.asarray(S, dtype=float)
     out = np.where(
