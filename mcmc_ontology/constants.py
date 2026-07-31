@@ -85,13 +85,26 @@ ALPHA_CRONOS = 0.030
 RHO_C0       = 200.0
 ZETA_CRONOS  = 0.015
 
-# --- Resultados ajuste global ---
-H0_MCMC     = 69.8      # km/s/Mpc
-H0_ERR      = 1.1
-SIGMA8_MCMC = 0.805
-S8_MCMC     = 0.795
-DELTA_BIC   = -6.1
-DELTA_CHI2  = -12.3
+# --- VALORES DE REFERENCIA DEL CORPUS (NO salidas de este código) ---
+# Proceden de los ajustes documentados en el corpus (v32). Reproducirlos
+# requiere cargar los datos observacionales reales en data/ (ver README).
+# Mientras data/ esté vacío, este repositorio NO puede producirlos: se
+# usan como valores fiduciales de referencia, nunca como resultados.
+CORPUS_REFERENCE = {
+    "H0": 69.8,          # km/s/Mpc (corpus; tratado v35 A.6: "~69-70")
+    "H0_err": 1.1,
+    "sigma8": 0.805,     # (corpus)
+    "S8": 0.795,         # (corpus)
+    "delta_BIC": -6.1,   # (corpus; pendiente de reproducción con datos reales)
+    "delta_chi2": -12.3, # (corpus; ídem)
+}
+# Alias planos consumidos por cosmology/, mass_program/B6 y tests.
+H0_MCMC     = CORPUS_REFERENCE["H0"]
+H0_ERR      = CORPUS_REFERENCE["H0_err"]
+SIGMA8_MCMC = CORPUS_REFERENCE["sigma8"]
+S8_MCMC     = CORPUS_REFERENCE["S8"]
+DELTA_BIC   = CORPUS_REFERENCE["delta_BIC"]
+DELTA_CHI2  = CORPUS_REFERENCE["delta_chi2"]
 
 # --- Yukawa GUT y_ij^(0) — Ec. 844-845 ---
 # Filas: tipo fermiónico; columnas: F1, F2, F3 (sellos de emergencia)

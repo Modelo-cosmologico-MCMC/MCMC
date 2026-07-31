@@ -1,7 +1,9 @@
-"""B6 — Resultados cosmológicos del ajuste global.
+"""B6 — Valores cosmológicos de referencia del corpus.
 
-Re-exporta los resultados clave del ajuste bayesiano: H₀, σ₈, S₈,
-ΔBIC, ΔAIC, ε ≡ δ₀ y z_trans. Las funciones físicas H(z), ρ_id(z),
+Re-exporta los VALORES DE REFERENCIA del ajuste global documentado en el
+corpus (v32): H₀, σ₈, S₈, ΔBIC, ε ≡ δ₀ y z_trans. NO son salidas de este
+código: reproducirlos requiere los datos observacionales reales en `data/`
+y el ajuste bayesiano de producción. Las funciones físicas H(z), ρ_id(z),
 Λ_rel(z) viven en `cosmology.background`.
 """
 
@@ -9,7 +11,7 @@ from mcmc_ontology import constants as C
 
 
 def global_fit_results() -> dict:
-    """Resumen de la Tabla 17 (ajuste global)."""
+    """Valores de referencia de la Tabla 17 del corpus (no salidas del código)."""
     return {
         "H0_kms_Mpc":  (C.H0_MCMC, C.H0_ERR),
         "Omega_m":     (0.300, 0.015),
@@ -23,7 +25,11 @@ def global_fit_results() -> dict:
 
 
 def tensions() -> dict:
-    """Tensiones cosmológicas aliviadas por MCMC."""
+    """Estimaciones de tensiones cosmológicas según el corpus (v32).
+
+    Las sigmas y la etiqueta de evidencia son valores de referencia del
+    corpus, escritos a mano: este código no las calcula.
+    """
     return {
         "H0_tension_LCDM_sigma":  4.0,
         "H0_tension_MCMC_sigma":  2.0,

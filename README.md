@@ -64,9 +64,16 @@ print(predict_fermion_masses())     # tabla 12/12 fermiones
 | C₃    | 0.999  | Sello V₂D, emerge F₃ (e,u,d,ν_e)    | GSM                          |
 | C₄    | 1.001  | Big Bang, nace el tiempo, Higgs     | SM completo                  |
 
-## Resultados principales
+## Valores de referencia del corpus
 
-| Observable    | MCMC                | PDG / ΛCDM       |
+**Estos valores NO son salidas de este código**: proceden de los ajustes
+documentados en el corpus del modelo (v32). Los directorios de `data/` están
+vacíos; reproducirlos requiere cargar los catálogos observacionales reales
+en `data/` y ejecutar el ajuste bayesiano de producción.
+Hasta entonces se usan como valores fiduciales de referencia
+(`CORPUS_REFERENCE` en `mcmc_ontology/constants.py`).
+
+| Observable    | Corpus MCMC         | PDG / ΛCDM       |
 |---------------|---------------------|------------------|
 | m_H           | ≃ 125.3 GeV ¹       | 125.25 GeV       |
 | H₀            | 69.8 ± 1.1 km/s/Mpc | 67.7 ± 0.7       |
