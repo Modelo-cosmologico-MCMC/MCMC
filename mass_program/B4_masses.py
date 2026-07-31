@@ -12,8 +12,11 @@ con los pesos c_in tabulados en T_UNIVERSAL (entradas calibradas).
   · n = n_e(f):  ϑ = y_f^(EW)                          (emergencia)
   · n > n_e(f):  ϑ = y_dominante,n^(tipo)              (post-emergente)
 
-Resultado calibrado con M1 (running QCD) + M2 (CKM): 12/12 fermiones con
-desviación PDG menor al 6% (Tabla 12.1 del tratado, valores del corpus).
+Resultado calibrado con M1 (running QCD) + M2 (CKM): esta implementación
+reproduce los 9 fermiones cargados con desviación PDG ≲ 2.5% salvo
+τ (≈ 6%) y s (≈ 10%); la Tabla 12.1 del tratado (valores del corpus)
+reporta desviaciones ≤ 6%. Ejecutar scripts/run_mass_program.py para la
+tabla real de este código.
 ESTATUTO (v35, 12.5): mientras los c_in no se deriven de primeros
 principios (frente abierto nº 7), este espectro es «un ajuste exitoso
 cuyo carácter predictivo está por establecer».
