@@ -34,8 +34,10 @@ DIM_AT_SEAL = {"C1": 1, "C2": 2, "C3": 3, "C4": 3}  # dimensiones espaciales
 def alpha_from_matching(seal: str = "C3") -> float:
     """alpha tal que beta_n = 2 alpha S_n / v_n^2 fija beta del sello dado.
 
-    Por convención usamos C3 (escala EW) como anclaje, ya que beta_3 = 0.13
-    está fijado por m_H = sqrt(2 beta_3) v_EW (no es libre).
+    Por convención usamos C3 como anclaje, con beta_3 = 0.13 (λ_H del
+    empalme C¹). La derivación de beta_3 independiente de m_H es el frente
+    abierto nº 7 del Tratado de Fundamentos (Obs. 12.2): mientras no exista,
+    beta_3 es un valor calibrado, no una constante derivada.
     """
     Sn = C.S_SEALS[seal]
     vn = C.V_GEV[seal]

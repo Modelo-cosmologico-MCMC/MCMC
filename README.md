@@ -50,7 +50,7 @@ from mcmc_ontology import constants as C
 from mass_program.B4_masses import predict_fermion_masses
 from mass_program.B5_higgs import higgs_mass
 
-print(higgs_mass())                 # 125.44 GeV
+print(higgs_mass())                 # ≈ 125.4 GeV (el tratado publica 125.3 — Obs. 12.2)
 print(predict_fermion_masses())     # tabla 12/12 fermiones
 ```
 
@@ -68,11 +68,15 @@ print(predict_fermion_masses())     # tabla 12/12 fermiones
 
 | Observable    | MCMC                | PDG / ΛCDM       |
 |---------------|---------------------|------------------|
-| m_H           | 125.44 GeV          | 125.25 GeV       |
+| m_H           | ≃ 125.3 GeV ¹       | 125.25 GeV       |
 | H₀            | 69.8 ± 1.1 km/s/Mpc | 67.7 ± 0.7       |
 | σ₈            | 0.805               | 0.830            |
 | ΔBIC vs ΛCDM  | −6.1                | —                |
 | Σm_ν          | 4.6×10⁻⁵ eV         | < 0.12 eV        |
+
+¹ m_H = √(2·β3)·v3 es la identidad del Modelo Estándar con λ_H = β3: el acuerdo
+numérico no constituye por sí solo una predicción mientras β3 no se derive sin
+usar m_H como entrada (Tratado de Fundamentos, Obs. 12.2; frente abierto nº 7).
 
 ## Tests
 

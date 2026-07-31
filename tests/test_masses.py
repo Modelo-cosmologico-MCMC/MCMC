@@ -8,9 +8,13 @@ from mass_program.B5_higgs import higgs_mass
 
 
 def test_higgs_mass():
-    """m_H = sqrt(2 β_3) v_EW ≈ 125.44 GeV."""
+    """m_H = sqrt(2 β_3) · v3 ≃ 125.3 GeV (tratado, Prop. 12.1).
+
+    El cómputo exacto da sqrt(0.26)·246 = 125.436; el tratado publica
+    125.3 (redondeo propio). La tolerancia de 0.2 GeV cubre ambos.
+    """
     m = higgs_mass()
-    assert abs(m - 125.44) < 0.2
+    assert abs(m - C.M_HIGGS_MCMC) < 0.2
 
 
 def test_higgs_vs_pdg():

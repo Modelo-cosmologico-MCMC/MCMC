@@ -31,7 +31,8 @@ V_GEV = {
 BETA = {
     "C1": 1e-43,
     "C2": 1e-35,
-    "C3": 0.130,    # = 1/2 (m_H / v_EW)^2  — NO libre
+    "C3": 0.13,     # λ_H del empalme C¹ (v35 F.3); la derivación independiente
+                    # de m_H está pendiente — frente abierto nº 7, Obs. 12.2
     "C4": 1e7,
 }
 
@@ -63,7 +64,9 @@ E_F3 = 0.9431           # Eigenvalor Dirac familia F3
 K_NORM = 679.14         # Normalización Δm_eff [GeV] (calibrada en C4)
 
 # --- Higgs y mass gap ---
-M_HIGGS_MCMC = 125.44   # GeV (predicción)
+M_HIGGS_MCMC = 125.3    # GeV — valor publicado por el tratado (v35, Prop. 12.1);
+                        # el cómputo exacto sqrt(2·0.13)·246 da 125.436. Ver la
+                        # auditoría de circularidad en mass_program/B5_higgs.py.
 M_HIGGS_PDG  = 125.25   # GeV
 
 # --- Running QCD (Tabla 41 del Tratado) ---
