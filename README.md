@@ -18,7 +18,7 @@ mass gap lattice, simulación cuántica de qudits y visualización.
 ## Estructura
 
 ```
-mcmc_ontology/    Ontología pura: constantes, S-map, potencial, Clifford, sellos
+mcmc_ontology/    Ontología pura: axiomas (v35 §1.2), constantes, S-map, potencial, Clifford, sellos
 mass_program/     B0–B6, P3, P4, M1 (running QCD), M2 (CKM)
 cosmology/        H(z), ρ_id, ρ_lat, Λ_rel, ajuste bayesiano
 cronos/           N-body en S, fricción entrópica, halos cored
@@ -54,15 +54,38 @@ print(higgs_mass())                 # ≈ 125.4 GeV (el tratado publica 125.3 �
 print(predict_fermion_masses())     # tabla 12/12 fermiones
 ```
 
-## Sellos ontológicos
+## Cronología tensional (Tabla F.1, Tratado de Fundamentos v35)
 
-| Sello | S      | Evento                              | Gauge                        |
-|-------|--------|-------------------------------------|------------------------------|
-| C₀    | 0.001  | Colapso puntual, V₀D                | —                            |
-| C₁    | 0.009  | Sello V₀D, emerge F₁ (τ,t,b,ν_τ)    | —                            |
-| C₂    | 0.099  | Sello V₁D, emerge F₂ (μ,c,s,ν_μ)    | SO(10)→GPS                   |
-| C₃    | 0.999  | Sello V₂D, emerge F₃ (e,u,d,ν_e)    | GSM                          |
-| C₄    | 1.001  | Big Bang, nace el tiempo, Higgs     | SM completo                  |
+| S        | Rasgo dominante                                        |
+|----------|--------------------------------------------------------|
+| S₀       | Unidad dual Mp/Ep, sin espacio ni tiempo               |
+| S₀,₀₀₁   | Emergencia Mp/Ep, V0D, proto-gravedad                  |
+| S₀,₀₁₀   | V1D, partícula/antipartícula, energía dinámica         |
+| S₀,₀₉₉   | **Sello de c** (Cota de Delivery)                      |
+| S₀,₁₀₀   | V2D, giro y rotación                                   |
+| S₀,₉₉₉   | **Sello de c²** (preparación volumétrica)              |
+| S₁,₀₀₀   | Colapso V3D, gravedad como curvatura                   |
+| S₁,₀₀₁   | V3+1D, mass gap mínimo, Ley de Cronos, ΦAd → ΦH        |
+
+**Ley de la Década** (Prop. 8.1): con λ = 10 y ΔS = 10⁻³,
+
+```
+S_k^col = λ^(k−2) − ΔS   (k = 0,1,2 → colapsos 1D, 2D, 3D)
+S_Florencia = λ⁰ + ΔS
+→ 0.009, 0.099, 0.999, 1.001
+```
+
+Los cuatro umbrales se reducen a tres datos: la razón λ, el calibre ΔS y la
+regla de ±1 cuanto (anticipación/confirmación). El exponente de Victoria es
+s0 = π/ln(10) ≈ 1.3644 (derivado para λ = 10). En código:
+`mcmc_ontology.constants.decade_thresholds()` y `S0_VICTORIA`.
+
+Nota v35: los sellos S₀,₀₉₉ y S₀,₉₉₉ son sellos de *c* y de *c²*, no
+emergencias de familias fermiónicas; la supervivencia de cada modo a través
+de los sellos la codifican los pesos c_in del **Funcional del Camino**
+(Def. 12.3). La asociación familia↔sello y las escalas Planck/GUT por sello
+eran presentación del Tratado Unificado (v32) y se conservan solo en el
+bloque `LEGACY_V32` de `constants.py`.
 
 ## Valores de referencia del corpus
 
