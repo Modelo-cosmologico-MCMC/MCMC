@@ -1,5 +1,13 @@
 # MCMC — Modelo Cosmológico de Múltiples Colapsos
 
+> **Estado de versión (julio 2026).** Esta implementación sigue el *Tratado Unificado*
+> (v32, marzo 2026). El registro canónico vigente del modelo es el **Tratado de
+> Fundamentos** (v35, junio 2026, DOI [10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373)),
+> que refunda el MCMC sobre ocho axiomas ontológicos. La alineación del código con la
+> v35 está en curso y se documenta commit a commit; hasta completarse, los valores y
+> etiquetas de este repositorio pueden diferir del tratado vigente.
+> Enlace permanente a la última versión del tratado: [10.5281/zenodo.14167831](https://doi.org/10.5281/zenodo.14167831).
+
 Implementación de referencia en Python del **Modelo Cosmológico de Múltiples
 Colapsos (MCMC)**, basado en el *Tratado Unificado* (2025-2026) de
 Adrián Martínez Estellés. El repositorio reproduce la ontología completa del
