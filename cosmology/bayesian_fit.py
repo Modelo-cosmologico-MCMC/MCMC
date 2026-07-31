@@ -221,6 +221,65 @@ def log_prob(theta: Sequence[float], data: HzData,
     return lp + ll
 
 
+# ---------------------------------------------------------------------
+# ΛCDM sobre los mismos datos (comparación justa) y criterios de información
+# ---------------------------------------------------------------------
+
+def theta_lcdm_to_mcmc(theta2: Sequence[float]) -> tuple:
+    """(H0, Ωm) de ΛCDM → (H0, Ωm, ε=0, z_trans) del MCMC.
+
+    Con ε = 0 el fondo es EXACTAMENTE ΛCDM (Prop. A.1, verificado en
+    tests/test_recovery_limit.py), así que ΛCDM se ajusta con la misma
+    maquinaria — misma integración de distancias, mismos likelihoods,
+    misma marginalización de M_B — y la comparación es justa.
+    """
+    H0, Om = theta2
+    return (H0, Om, 0.0, C.Z_TRANS)
+
+
+def log_prior_lcdm(theta2: Sequence[float]) -> float:
+    H0, Om = theta2
+    if not (60.0 < H0 < 80.0):
+        return -np.inf
+    if not (0.20 < Om < 0.40):
+        return -np.inf
+    return -0.5 * ((H0 - PRIOR_H0_MEAN) / PRIOR_H0_SIGMA) ** 2
+
+
+def log_prob_lcdm(theta2: Sequence[float], data: HzData,
+                  sne: SNeData | None = None,
+                  bao: BAOData | None = None) -> float:
+    lp = log_prior_lcdm(theta2)
+    if not np.isfinite(lp):
+        return -np.inf
+    theta = theta_lcdm_to_mcmc(theta2)
+    ll = log_like_Hz(theta, data)
+    if sne is not None:
+        ll += log_like_sne(theta, sne)
+    if bao is not None:
+        ll += log_like_bao(theta, bao)
+    return lp + ll
+
+
+def information_criteria(k: int, n: int, loglike_max: float) -> dict:
+    """AIC y BIC con la fórmula explícita.
+
+        AIC = 2k − 2·ln(L_max)
+        BIC = k·ln(n) − 2·ln(L_max)
+
+    k = nº de parámetros ajustados del modelo, n = nº total de puntos de
+    datos. La constante M_B de SNe se marginaliza analíticamente en ambos
+    modelos por igual y no se cuenta en k de ninguno.
+    """
+    return {
+        "k": k,
+        "n": n,
+        "loglike_max": loglike_max,
+        "AIC": 2.0 * k - 2.0 * loglike_max,
+        "BIC": k * np.log(n) - 2.0 * loglike_max,
+    }
+
+
 def run_emcee(data: HzData, nwalkers: int = 32, nsteps: int = 2000,
               seed: int = 42, sne: SNeData | None = None,
               bao: BAOData | None = None):
