@@ -26,10 +26,11 @@ mass gap lattice, simulación cuántica de qudits y visualización.
 ```
 mcmc_ontology/    Ontología pura: axiomas (v35 §1.2), constantes, S-map, potencial, Clifford, sellos
 mass_program/     B0–B6, P3, P4, M1 (running QCD), M2 (CKM)
-cosmology/        H(z), ρ_id, ρ_lat, Λ_rel, ajuste bayesiano
-cronos/           N-body en S, fricción entrópica, halos cored
-lattice/          Mass gap E_min = k·ΔS, espectro glueball SU(3)
-quantum/          Qudit d=5, H_MCMC ontológico, simulación QuTiP
+cosmology/        H(z), Λ_rel, canales v35 (Ap. A), ajuste bayesiano y de producción
+cronos/           Cronos v3 (cap. 11) + ciclo PM del Ap. B: paso entrópico,
+                  Poisson modificado, canales, colapso reproducible
+lattice/          Mass gap (D.5-D.6), β(S) entrópico, mapa Sₙ→jₙ, spinfoam (D.4)
+quantum/          Qudit d=5 (C.1), compuertas Û(θ) (C.2-C.3), Lindblad (C.4), Γn/Γ0 (C.5)
 visualization/    Animaciones, espectro de masas, plots cosmológicos
 data/             Datos observacionales (vacío; poblar con scripts/download_data.py)
 configs/          Parámetros CLASS/CAMB y simulaciones
@@ -132,6 +133,28 @@ Sobre m_H ≃ 125.3 GeV: es la identidad del Modelo Estándar con λ_H = β3 y n
 constituye por sí sola una predicción mientras β3 no se derive sin usar m_H
 como entrada (Obs. 12.2; frente abierto nº 7). Σm_ν ≈ 4.6×10⁻⁵ eV (seesaw
 tensional, muy por debajo de la cota < 0.12 eV).
+
+## Simulaciones (Apéndice B / frente abierto nº 5)
+
+El ciclo Cronos-KDK del Apéndice B está implementado en malla PM mínima:
+paso temporal entrópico (ec. B.3, η=0.025), Poisson modificado (ec. B.2),
+refresco de canales tensionales y dilatación local (B.3), con la fricción
+de compuerta del cap. 11. La demo reproducible:
+
+```bash
+python scripts/run_halo_collapse.py
+```
+
+corre un par A/B de semilla idéntica (B.5/B.6) y exhibe la **firma
+falsable de la fig. 11.1**: la compuerta activa durante el colapso y
+apagada al virializar (el control newtoniano da Γ≡0).
+
+**Alcance declarado**: esto NO es Gadget-4-Cronos (la variante de
+producción del tratado con árbol octal, MPI y cajas 512³–1024³ de B.4,
+cuyas configuraciones están en `configs/cronos_*.yaml`). Las validaciones
+del corpus (núcleo de 2.3 kpc, SPARC RMSE 12%→4.5%, subhalos −45%) siguen
+**pendientes de reproducción** con el esquema corregido — es el frente
+abierto nº 5 (§13.6/cap. 14.5).
 
 ## Tests
 

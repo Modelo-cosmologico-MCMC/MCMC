@@ -40,6 +40,21 @@ def main() -> None:
     for k, v in fids.items():
         print(f"  {k}: F = {v}")
 
+    print("\n--- Simulación (Apéndice B): mini-ciclo Cronos-KDK ---")
+    import numpy as np
+    from cronos.simulation import CronosPM
+    rng = np.random.default_rng(0)
+    pos = rng.uniform(0, 10.0, size=(64, 3))
+    pos[:32] = 5.0 + rng.normal(scale=0.8, size=(32, 3))
+    sim = CronosPM(pos, np.zeros((64, 3)), np.ones(64), grid_n=8,
+                   box=10.0, alpha0_inv=1e-7, rho_c=1.0)
+    diag = None
+    for _ in range(4):
+        diag = sim.step(dt=0.01)
+    ok = np.all(np.isfinite(sim.pos)) and np.isfinite(diag["v_rms"])
+    print(f"  4 pasos KDK (B.3): rho_max={diag['rho_max']:.3f}  "
+          f"Gamma_max={diag['Gamma_max']:.2e}  [{'OK' if ok else 'FAIL'}]")
+
 
 if __name__ == "__main__":
     main()
