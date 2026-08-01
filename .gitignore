@@ -32,3 +32,10 @@ data/**/*.zip
 *.npy
 chains/
 output/
+
+# Catálogos descargados/generados (se obtienen con scripts/download_data.py)
+data/pantheon/*.dat
+data/pantheon/*.cov
+data/boss_eboss/*.txt
+data/planck2018/*.txt
+data/sparc/*.zip

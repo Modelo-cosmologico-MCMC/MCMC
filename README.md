@@ -125,12 +125,39 @@ Informe completo, fórmulas y cadenas: `results/2026-07-31_production_fit/`.
 Reproducción determinista: `python scripts/download_data.py all &&
 python scripts/run_production_fit.py`.
 
+### La corrida de la reconciliación (v2, cinco bloques — agosto 2026)
+
+La pregunta que dejó abierta la v1 —¿reaparece la ventaja del corpus cuando
+entran los likelihoods que sondean la transición?— está respondida:
+`scripts/run_production_fit2.py` añade la **geometría comprimida del CMB**
+(R, l_A, ω_b; Chen, Huang & Wang 2019) y el **crecimiento fσ₈** (11 puntos
+RSD, ODE exacta de D(a)), n = 1422, MCMC k=6 frente a ΛCDM k=4, convergencia
+50·τ verificada (24×8000 pasos, semilla 42):
+
+| Parámetro | MCMC (k=6) | ΛCDM (k=4) |
+|---|---|---|
+| H₀ | 67.1 ± 1.5 | 67.6 ± 0.7 |
+| Ω_m | 0.323 ± 0.016 | 0.318 ± 0.009 |
+| ε | 0.015 −0.039/+0.043 — **compatible con 0** | ≡ 0 |
+| σ₈ | 0.802 ± 0.029 | 0.800 ± 0.030 |
+
+χ² total 1235.04 vs 1235.03 (idéntico bloque a bloque, incluidos CMB y fσ₈);
+**ΔAIC = +4.0, ΔBIC = +14.5 a favor de ΛCDM** — el mismo veredicto que la
+v1: la penalización por parsimonia decide porque los parámetros extra no
+compran nada. **La ventaja del corpus no reaparece con fondo + geometría +
+crecimiento.** Lo que queda fuera de esta corrida: el espectro C_ℓ completo
+y la lente débil (el CMB entra comprimido y diagonal; z*/r_s por
+Hu–Sugiyama, sesgo ~0.3% idéntico en ambos modelos). Informe y cadenas:
+`results/2026-08-01_production_fit_v2/`.
+
 **Relación con el corpus.** Los valores del corpus v32 (H₀ = 69.8, σ₈ = 0.805,
 ΔBIC = −6.1 a favor del MCMC) permanecen documentados como referencia
-histórica en `CORPUS_REFERENCE` (`mcmc_ontology/constants.py`): proceden de
-ajustes con likelihoods que esta corrida mínima no incluye (CMB completo,
-fσ₈, lentes) y su reconciliación con el resultado de arriba es trabajo
-abierto. σ₈ no está constreñido por los datos de esta corrida.
+histórica en `CORPUS_REFERENCE` (`mcmc_ontology/constants.py`). Tras la v2,
+la reconciliación queda acotada con precisión: la ventaja que el corpus
+reportaba tendría que proceder del C_ℓ completo, de la lente débil o de su
+propia metodología — ya no del fondo, la geometría comprimida ni el
+crecimiento, donde ambos modelos son indistinguibles y ε sale compatible
+con cero. H₀ intermedio (~69–70) y σ₈ reducido no emergen en esta corrida.
 
 Sobre m_H ≃ 125.3 GeV: es la identidad del Modelo Estándar con λ_H = β3 y no
 constituye por sí sola una predicción mientras β3 no se derive sin usar m_H
