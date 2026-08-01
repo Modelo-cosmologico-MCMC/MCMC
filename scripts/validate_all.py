@@ -55,6 +55,10 @@ def main() -> None:
     print(f"  4 pasos KDK (B.3): rho_max={diag['rho_max']:.3f}  "
           f"Gamma_max={diag['Gamma_max']:.2e}  [{'OK' if ok else 'FAIL'}]")
 
+    print()
+    from validation.appendix_h import run_all
+    run_all(verbose=True)
+
 
 if __name__ == "__main__":
     main()

@@ -40,12 +40,14 @@ all = ["qutip>=4.7", "camb>=1.5", "pytest>=7.4"]
 [tool.setuptools]
 packages = [
     "mcmc_ontology",
+    "core",
     "mass_program",
     "cosmology",
     "cronos",
     "lattice",
     "quantum",
     "visualization",
+    "validation",
 ]
 
 [tool.ruff.lint]

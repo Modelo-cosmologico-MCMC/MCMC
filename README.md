@@ -25,6 +25,9 @@ mass gap lattice, simulación cuántica de qudits y visualización.
 
 ```
 mcmc_ontology/    Ontología pura: axiomas (v35 §1.2), constantes, S-map, potencial, Clifford, sellos
+core/             La cadena deductiva ejecutable (caps. 2-10): Plano Dual, Basal,
+                  Flujo, Florencia, RP (juguete), Discriminante, Gea, Victoria
+validation/       Suite espejo del apéndice H (verificaciones + controles negativos)
 mass_program/     B0–B6, P3, P4, M1 (running QCD), M2 (CKM)
 cosmology/        H(z), Λ_rel, canales v35 (Ap. A), ajuste bayesiano y de producción
 cronos/           Cronos v3 (cap. 11) + ciclo PM del Ap. B: paso entrópico,
@@ -133,6 +136,28 @@ Sobre m_H ≃ 125.3 GeV: es la identidad del Modelo Estándar con λ_H = β3 y n
 constituye por sí sola una predicción mientras β3 no se derive sin usar m_H
 como entrada (Obs. 12.2; frente abierto nº 7). Σm_ν ≈ 4.6×10⁻⁵ eV (seesaw
 tensional, muy por debajo de la cota < 0.12 eV).
+
+## La cadena deductiva ejecutable (`core/`)
+
+Los capítulos 2–10 del tratado están implementados como código cuyo
+principio de diseño es: **cada módulo implementa las definiciones de su
+capítulo y sus tests verifican los teoremas**. La ley de escala
+T₀ = c̄·δ₀³ se mide (exponente ajustado = 3); la Monotonía del Camino
+(Teo. 4.5) y la Exclusión (Lema 4.7) se comprueban sobre trayectorias —
+«la flecha del tiempo se demuestra, no se postula» tiene test; la
+Rotación de Florencia produce la firma (−,+,+,+) girando un solo
+generador; el Discriminante se fusiona en la espinodal y el walking
+diverge al acercarse a ella; el Sello de Newton recupera GR exactamente;
+y el Ciclo de Victoria itera en espiral con ν>0 o cae al Silencio con
+ν<0. Donde el tratado declara condicional (signo de Lydia, ventana de
+Atlas, Conjetura de los Residuos, RP espinorial), el módulo **expone el
+parámetro con su condición — nunca lo resuelve en silencio**.
+
+La suite espejo del apéndice H (`validation/appendix_h.py`, invocada al
+final de `validate_all.py`) ejecuta las verificaciones de signo de
+§13.5, los tres límites de recuperación y sus **controles negativos** —
+el caso que debe fallar y falla — con salida en el formato del tratado:
+qué queda demostrado, qué condicional, qué refutable.
 
 ## Simulaciones (Apéndice B / frente abierto nº 5)
 
