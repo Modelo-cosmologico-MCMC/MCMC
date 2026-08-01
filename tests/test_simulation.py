@@ -164,3 +164,18 @@ def test_load_configs():
         assert "simulation" in cfg and "cronos" in cfg
         assert cfg["simulation"]["L_box_Mpc_h"] > 0
         assert cfg["cronos"]["delta_S"] == 1e-3
+
+
+# ------------------------- demo de colapso ------------------------------
+
+def test_halo_collapse_demo_smoke():
+    """La demo del frente 5 corre en miniatura y el control da Γ=0."""
+    import importlib
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+    demo = importlib.import_module("run_halo_collapse")
+    _, hist_a = demo.run(0.0, seed=11, steps=4)
+    _, hist_b = demo.run(1e-7, seed=11, steps=4)
+    assert max(h["Gamma_max"] for h in hist_a) == 0.0
+    assert all(np.isfinite(h["rho_max"]) for h in hist_b)
