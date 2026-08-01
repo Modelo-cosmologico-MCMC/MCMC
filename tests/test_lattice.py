@@ -41,3 +41,25 @@ def test_lqg_area_monotone_in_j():
 def test_seal_area_table_complete():
     table = seal_area_table()
     assert set(table) == set(SEAL_TO_SPIN)
+
+
+def test_vertex_amplitude_ratio():
+    """D.4: A_v crece con j; cociente (2j_n+1)/(2j_prev+1) elevado a ΔN."""
+    from lattice.wilson_entropic import vertex_amplitude_ratio, partition_ratio
+    r = vertex_amplitude_ratio(1.5, 0.5, delta_N=1.0)
+    assert abs(r - 2.0) < 1e-12  # (2·1.5+1)/(2·0.5+1) = 4/2
+    assert vertex_amplitude_ratio(2.5, 1.5) > 1.0
+    assert abs(partition_ratio(1e-3) - np.exp(1e-3)) < 1e-15
+
+
+def test_E_min_lattice_step_at_higgs():
+    """D.6: E_min(S) tiene escalón en ~1.0 y post-escalón = sqrt(2β3)·v3
+    con la elección φ*²=v3²(1+2/3), α=0 (identidad de la Prop. 12.1)."""
+    from lattice.mass_gap import E_min_lattice
+    below = E_min_lattice(0.5)
+    above = E_min_lattice(1.001)
+    assert below < 1e-3 * above          # escalón: casi nulo antes
+    expected = np.sqrt(2.0 * 0.13) * C.V3_GEV
+    assert abs(above - expected) / expected < 0.02
+    # 125.436 GeV: la identidad del Higgs (con su auditoría, Obs. 12.2)
+    assert abs(above - 125.436) < 0.5

@@ -66,3 +66,22 @@ def seal_spin(S_n: float) -> float:
 def seal_area_table() -> dict[float, float]:
     """Tabla S_n → A(j_n) para los cuatro sellos de la Década."""
     return {S_n: lqg_area(j) for S_n, j in SEAL_TO_SPIN.items()}
+
+
+def vertex_amplitude_ratio(j_n: float, j_prev: float,
+                           delta_N: float = 1.0) -> float:
+    """Cociente de amplitudes de vértice EPRL-FK entre umbrales (v35, D.4):
+
+        A_v^(n)/A_v^(n−1) ~ [(2j_n + 1)/(2j_{n−1} + 1)]^{ΔN_n}
+
+    Añadir área (mayor j) multiplica los microestados; el cociente
+    reproduce la ley de Bekenstein (elasticidad ~1e-3 según el corpus).
+    """
+    return float(((2.0 * j_n + 1.0) / (2.0 * j_prev + 1.0)) ** delta_N)
+
+
+def partition_ratio(dS: float = C.DELTA_S, k_b: float = 1.0) -> float:
+    """Z_n/Z_{n−1} ≈ e^{+ΔS/k_b} — crecimiento de la función de
+    partición por salto entrópico (v35, ec. D.4)."""
+    import math
+    return math.exp(dS / k_b)
