@@ -22,6 +22,33 @@ def step_operator(n: int) -> np.ndarray:
     return np.outer(basis(n + 1), basis(n))
 
 
+def H_ten(energies: np.ndarray | None = None) -> np.ndarray:
+    """Hamiltoniano tensional diagonal (v35, ec. C.2):
+
+        H_ten = Σ_n E_n |Sn⟩⟨Sn|,   E0 < E1 < E2 < E3 < E4
+
+    La tensión acumulada antes de cada colapso. Por defecto E_n = n+1.
+    """
+    if energies is None:
+        energies = np.arange(1.0, D + 1.0)
+    energies = np.asarray(energies, dtype=float)
+    if energies.shape != (D,):
+        raise ValueError(f"Se requieren {D} energías")
+    if not np.all(np.diff(energies) > 0):
+        raise ValueError("Las energías deben ser crecientes: E0 < ... < E4")
+    return np.diag(energies).astype(complex)
+
+
+def dimension_operator() -> np.ndarray:
+    """Operador de conteo dimensional (v35, C.1):
+
+        D̂ = Σ_n n·|Sn⟩⟨Sn|
+
+    Su valor esperado sigue el conteo de dimensiones emergidas.
+    """
+    return np.diag(np.arange(D, dtype=float)).astype(complex)
+
+
 def tensorial_operator(n: int) -> np.ndarray:
     """T_n: canal tensorial — operador hermitiano local en el nivel n."""
     return np.outer(basis(n), basis(n))

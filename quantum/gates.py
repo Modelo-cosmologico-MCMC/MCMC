@@ -58,3 +58,32 @@ def apply_gate_at_S(state: np.ndarray, n: int, S: float) -> np.ndarray:
     if S >= GATE_THRESHOLDS_S[n]:
         return X_collapse(n) @ state
     return state
+
+
+def U_collapse(n: int, theta: float) -> np.ndarray:
+    """Unitaria condicional de colapso (v35, ec. C.3):
+
+        Û_{n→n+1}(θ) = exp[−i·θ·(|S_{n+1}⟩⟨S_n| + h.c.)]
+
+    Rotación en el subespacio {|Sn⟩, |S_{n+1}⟩}: con θ = π/2 transfiere
+    toda la población (X_collapse salvo fase −i). θ_n(t) se activa solo
+    al superar el umbral doble: τ_n ≥ τ_crit Y S_local ≥ S_min(n) (C.2).
+    """
+    if not 0 <= n < D - 1:
+        raise ValueError("U_collapse: 0 ≤ n < D-1")
+    U = np.eye(D, dtype=complex)
+    c, s = np.cos(theta), np.sin(theta)
+    U[n, n] = c
+    U[n + 1, n + 1] = c
+    U[n, n + 1] = -1j * s
+    U[n + 1, n] = -1j * s
+    return U
+
+
+def gate_condition(tau: float, tau_crit: float, S_local: float,
+                   S_min: float) -> bool:
+    """Condición doble de disparo de la v35 (C.2):
+
+        τ_n(t) ≥ τ_crit  Y  S_local ≥ S_min(n)
+    """
+    return tau >= tau_crit and S_local >= S_min
