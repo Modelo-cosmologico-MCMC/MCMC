@@ -40,8 +40,8 @@ def _checks() -> list[dict]:
                          and np.all(res["S_production_rate"] >= 0.0)))
     # control: el flujo invertido (ascenso) viola la monotonía
     phi = np.array([0.3, 0.1])
-    from core.dual_plane import to_dual
     from core.basal import V0
+    from core.dual_plane import to_dual
     c0 = to_dual(phi[0], phi[1])
     v_before = float(V0(c0["rho"], c0["chi"], 0.05))
     phi_up = phi + 1e-3 * grad_V(phi, 0.05)      # ascenso deliberado
@@ -81,7 +81,7 @@ def _checks() -> list[dict]:
         "control negativo")
 
     # ---- 6. Ley de Cronos débil (Def. 11.1) -----------------------------
-    from cronos.cronos_v3 import lapse, gate_friction
+    from cronos.cronos_v3 import gate_friction, lapse
     rho_dense = np.array([100.0])
     N_ok = lapse(np.zeros(1), rho_dense, 1e-7, 1.0)
     add("N < 1 en regiones densas (signo corregido)",

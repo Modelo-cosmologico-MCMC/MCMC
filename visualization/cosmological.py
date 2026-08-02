@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 from cosmology.background import H_of_z, Lambda_rel
 from cosmology.perturbations import f_sigma8

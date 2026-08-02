@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from .basal import quasi_cancellation_ok, c_bar
+from .basal import c_bar, quasi_cancellation_ok
 from .victoria import fertility_condition, lydia_gain
 
 # Región O(1) de las constantes de forma (F.2: m̄, b̄, ē = O(1), C0 > 0)

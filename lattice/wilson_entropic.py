@@ -23,7 +23,6 @@ import numpy as np
 
 from mcmc_ontology import constants as C
 
-
 S3_QCD = 1.000  # Sello V3D: emergencia de la escala QCD (v35 D.1)
 
 # Prop. D.1 — sellos de la Década ↔ espines LQG:

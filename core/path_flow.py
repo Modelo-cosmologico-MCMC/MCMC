@@ -27,7 +27,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from .basal import scaled_params, M_BAR, B_BAR, E_BAR, C0_DEFAULT
+from .basal import B_BAR, C0_DEFAULT, E_BAR, M_BAR, scaled_params
 
 
 def grad_V(phi: np.ndarray, delta0: float, m_bar: float = M_BAR,

@@ -8,7 +8,7 @@ a ΛCDM como límite exacto, no como aproximación.
 
 import numpy as np
 
-from cosmology.background import H_of_z, Lambda_rel, OMEGA_M0, OMEGA_R0, OMEGA_L0
+from cosmology.background import OMEGA_L0, OMEGA_M0, OMEGA_R0, H_of_z, Lambda_rel
 
 
 def H_lcdm(z, H0, Omega_m=OMEGA_M0, Omega_r=OMEGA_R0):

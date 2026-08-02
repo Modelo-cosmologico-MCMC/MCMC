@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 from mass_program.B3_wkb import transmission_table
 

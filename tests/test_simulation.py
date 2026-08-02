@@ -3,12 +3,11 @@
 import numpy as np
 import pytest
 
-from cronos.timestep import entropic_timestep, global_timestep, ETA_CRONOS
-from cronos.poisson import solve_poisson, gradient
-from cronos.channels import refresh_channels, local_dilation
-from cronos.simulation import CronosPM, cic_deposit, cic_gather
+from cronos.channels import local_dilation, refresh_channels
 from cronos.config import load_config
-
+from cronos.poisson import gradient, solve_poisson
+from cronos.simulation import CronosPM, cic_deposit, cic_gather
+from cronos.timestep import ETA_CRONOS, entropic_timestep, global_timestep
 
 # ------------------------- paso entrópico (B.3) -------------------------
 

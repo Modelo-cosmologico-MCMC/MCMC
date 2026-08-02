@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 from mass_program.B4_masses import predict_fermion_masses
 

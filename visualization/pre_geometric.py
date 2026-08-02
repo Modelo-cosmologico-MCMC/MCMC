@@ -6,8 +6,8 @@ y los sucesivos colapsos C0..C4. La salida puede exportarse a HTML interactivo.
 
 from __future__ import annotations
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.animation import FuncAnimation
 
 from mcmc_ontology import constants as C

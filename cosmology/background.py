@@ -30,7 +30,6 @@ import numpy as np
 
 from mcmc_ontology import constants as C
 
-
 # Densidades fraccionales fiduciales (referencia del corpus)
 OMEGA_M0 = 0.300
 OMEGA_R0 = 9.2e-5      # radiación + neutrinos relativistas

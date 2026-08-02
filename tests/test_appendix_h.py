@@ -1,7 +1,7 @@
 """La suite espejo del apéndice H, como test: todo verde y los
 condicionales expuestos, no resueltos."""
 
-from validation.appendix_h import run_all, CONDITIONALS
+from validation.appendix_h import CONDITIONALS, run_all
 
 
 def test_mirror_suite_all_green():

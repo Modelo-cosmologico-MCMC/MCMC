@@ -4,8 +4,12 @@ import numpy as np
 
 from mcmc_ontology import constants as C
 from mcmc_ontology.potential import (
-    V, beta_match, alpha_from_matching, chi_inf,
-    V_pp_total, delta_m_eff,
+    V,
+    V_pp_total,
+    alpha_from_matching,
+    beta_match,
+    chi_inf,
+    delta_m_eff,
 )
 
 

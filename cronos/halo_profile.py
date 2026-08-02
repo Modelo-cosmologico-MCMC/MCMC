@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import numpy as np
 
-
 # Parámetros de calibración fiducial (consistentes con SPARC + halos masivos)
 R_STAR = 5.0          # kpc
 M_STAR = 1e10         # M_sun

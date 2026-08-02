@@ -5,8 +5,14 @@ import numpy as np
 import mass_program.B7_empalme as B7
 from core.basal import c_bar
 from core.delta0_circle import (
-    LAMBDA_H_SEAL, delta0_H, W_max_required, attractor_analytic,
-    attractor_numeric, consistency_factors, closure_test, landscape_scan,
+    LAMBDA_H_SEAL,
+    W_max_required,
+    attractor_analytic,
+    attractor_numeric,
+    closure_test,
+    consistency_factors,
+    delta0_H,
+    landscape_scan,
 )
 
 D_MIN = 1e-4          # suelo de activación para los tests

@@ -34,7 +34,7 @@ dependencies = [
 [project.optional-dependencies]
 quantum = ["qutip>=4.7"]
 cosmology = ["camb>=1.5", "classy>=3.0"]
-dev = ["pytest>=7.4", "pytest-cov>=4.1", "ruff>=0.1"]
+dev = ["pytest>=7.4", "pytest-cov>=4.1", "ruff==0.15.8"]
 all = ["qutip>=4.7", "camb>=1.5", "pytest>=7.4"]
 
 [tool.setuptools]
@@ -51,6 +51,14 @@ packages = [
 ]
 
 [tool.ruff.lint]
+# CONTRATO DE LINT EXPLÍCITO: las reglas activas se declaran aquí para
+# que el resultado no dependa del conjunto por defecto de cada versión
+# de ruff (la deriva CI-vs-local que rompió el lint en ago-2026). El CI
+# fija además la versión de ruff (ver .github/workflows/ci.yml).
+# I = orden de imports; ISC = concatenación implícita (incluye ISC004 en
+# ruff modernos); C4 = colecciones; RUF007/PLR0124 = pares sucesivos y
+# comparación consigo mismo.
+extend-select = ["I", "ISC", "C4", "RUF007", "PLR0124"]
 # E701/E702 (varias sentencias por línea) se ignoran: el estilo compacto
 # es deliberado en varios módulos y no afecta a la corrección.
 ignore = ["E701", "E702"]

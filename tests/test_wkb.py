@@ -6,11 +6,16 @@ siendo autoconsistente, NO que los pesos estén derivados de primeros
 principios (frente abierto nº 7 del Tratado de Fundamentos).
 """
 
-from mcmc_ontology import constants as C
 from mass_program.B3_wkb import (
-    transmission, kappa_gap_12, kappa_gap_23, E_F2, E_F3,
-    sequential_tunnel, verify_calibration,
+    E_F2,
+    E_F3,
+    kappa_gap_12,
+    kappa_gap_23,
+    sequential_tunnel,
+    transmission,
+    verify_calibration,
 )
+from mcmc_ontology import constants as C
 
 
 def test_regression_kappa_gap_12():

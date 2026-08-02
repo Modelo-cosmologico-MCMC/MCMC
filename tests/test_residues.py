@@ -1,8 +1,12 @@
 """Tests del contraste de los Residuos (frente nº 6, Conj. 9.6 / H.2.5)."""
 
 from cosmology.residues_test import (
-    predicted_ratio, tension_sigma, within_bbn_bound, sign_favored, report,
     BBN_REFERENCE,
+    predicted_ratio,
+    report,
+    sign_favored,
+    tension_sigma,
+    within_bbn_bound,
 )
 
 

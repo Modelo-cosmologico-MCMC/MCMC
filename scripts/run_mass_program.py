@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from mass_program.B4_masses import predict_fermion_masses, neutrino_sum_eV
+from mass_program.B4_masses import neutrino_sum_eV, predict_fermion_masses
 from mass_program.B5_higgs import higgs_mass
 from mcmc_ontology import constants as C
 

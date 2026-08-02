@@ -16,7 +16,6 @@ import numpy as np
 
 from .qudit import D
 
-
 # Umbrales de disparo en S (v35 C.2 — coinciden con la Ley de la Década):
 GATE_THRESHOLDS_S = {
     0: 0.009,   # X̂0→1

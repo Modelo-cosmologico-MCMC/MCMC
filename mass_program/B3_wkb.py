@@ -34,7 +34,6 @@ import numpy as np
 from mcmc_ontology import constants as C
 from mcmc_ontology.S_map import m_P
 
-
 _SEALS = ("C1", "C2", "C3", "C4")
 _FAMILY_EMERGENCE_INDEX = {"F1": 0, "F2": 1, "F3": 2}  # índice 0-based en _SEALS
 

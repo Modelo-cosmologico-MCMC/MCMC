@@ -24,10 +24,11 @@ from __future__ import annotations
 import numpy as np
 
 from mcmc_ontology import constants as C
-from .poisson import solve_poisson, gradient
-from .timestep import entropic_timestep
-from .channels import refresh_channels, local_dilation
+
+from .channels import local_dilation, refresh_channels
 from .cronos_v3 import gate_friction
+from .poisson import gradient, solve_poisson
+from .timestep import entropic_timestep
 
 
 def cic_deposit(pos: np.ndarray, mass: np.ndarray, n: int,
@@ -93,8 +94,8 @@ class CronosPM:
         self.alpha0_inv = alpha0_inv
         self.zeta0 = zeta0
         self.rho_star = rho_star
-        self.rates = dict(kappa_lat=kappa_lat, Gamma_lat=Gamma_lat,
-                          eta_dir=eta_dir, Gamma_act=Gamma_act)
+        self.rates = {"kappa_lat": kappa_lat, "Gamma_lat": Gamma_lat,
+                      "eta_dir": eta_dir, "Gamma_act": Gamma_act}
         self.rho_id = np.zeros((grid_n, grid_n, grid_n))
         self.rho_lat = np.zeros((grid_n, grid_n, grid_n))
         self.rho_m = cic_deposit(self.pos, self.mass, grid_n, box)

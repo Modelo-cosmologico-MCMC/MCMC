@@ -6,9 +6,9 @@ de constants.py (consistencia interna, no contraste observacional).
 
 import numpy as np
 
-from mcmc_ontology import constants as C
 from cosmology.background import H_of_z, Lambda_rel
 from cosmology.perturbations import f_sigma8
+from mcmc_ontology import constants as C
 
 
 def test_regression_H0_in_range():

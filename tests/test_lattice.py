@@ -2,10 +2,15 @@
 
 import numpy as np
 
-from mcmc_ontology import constants as C
 from lattice.wilson_entropic import (
-    beta_S, lqg_area, seal_spin, seal_area_table, SEAL_TO_SPIN, S3_QCD,
+    S3_QCD,
+    SEAL_TO_SPIN,
+    beta_S,
+    lqg_area,
+    seal_area_table,
+    seal_spin,
 )
+from mcmc_ontology import constants as C
 
 
 def test_beta_S_at_seal():
@@ -45,7 +50,7 @@ def test_seal_area_table_complete():
 
 def test_vertex_amplitude_ratio():
     """D.4: A_v crece con j; cociente (2j_n+1)/(2j_prev+1) elevado a ΔN."""
-    from lattice.wilson_entropic import vertex_amplitude_ratio, partition_ratio
+    from lattice.wilson_entropic import partition_ratio, vertex_amplitude_ratio
     r = vertex_amplitude_ratio(1.5, 0.5, delta_N=1.0)
     assert abs(r - 2.0) < 1e-12  # (2·1.5+1)/(2·0.5+1) = 4/2
     assert vertex_amplitude_ratio(2.5, 1.5) > 1.0

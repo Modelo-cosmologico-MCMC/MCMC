@@ -41,10 +41,14 @@ from __future__ import annotations
 import numpy as np
 
 from .basal import (
-    M_BAR, B_BAR, E_BAR, C0_DEFAULT, T0_analytic,
+    B_BAR,
+    C0_DEFAULT,
+    E_BAR,
+    M_BAR,
+    T0_analytic,
 )
-from .victoria import iterate_cycles, lydia_gain, memory_mode_mass_sq
 from .fertility_map import delta_saturation, fertility_fraction
+from .victoria import iterate_cycles, lydia_gain, memory_mode_mass_sq
 
 # λ_H del cierre del empalme (H.8 / convenio 12.1; = BETA3_CONVENIO_12_1
 # de mass_program/B7 — core no importa mass_program, el valor se declara):

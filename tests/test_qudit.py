@@ -2,9 +2,9 @@
 
 import numpy as np
 
-from quantum.qudit import basis, state, fidelity, D
+from quantum.gates import GATE_THRESHOLDS_S, X_collapse, apply_gate_at_S
 from quantum.hamiltonian import H_MCMC
-from quantum.gates import X_collapse, GATE_THRESHOLDS_S, apply_gate_at_S
+from quantum.qudit import D, basis, fidelity, state
 
 
 def test_gate_thresholds_are_decade():

@@ -1,14 +1,18 @@
 """Tests del apéndice C de la v35: H_ten, D̂, Û(θ), Lindblad y Γn/Γ0."""
 
+from itertools import pairwise
+
 import numpy as np
 import pytest
 
-from quantum.qudit import basis, D
-from quantum.hamiltonian import H_ten, dimension_operator
-from quantum.gates import U_collapse, gate_condition, X_collapse
 from quantum.decoherence import (
-    evolve, fidelity_with, gamma_ratio,
+    evolve,
+    fidelity_with,
+    gamma_ratio,
 )
+from quantum.gates import U_collapse, X_collapse, gate_condition
+from quantum.hamiltonian import H_ten, dimension_operator
+from quantum.qudit import D, basis
 from quantum.qutip_simulation import EXPECTED_FIDELITIES
 
 
@@ -84,4 +88,4 @@ def test_expected_fidelities_v35_pattern():
     vals = [EXPECTED_FIDELITIES[k] for k in
             ("S0->S1", "S1->S2", "S2->S3", "S3->S4")]
     assert vals == [0.981, 0.976, 0.968, 0.961]
-    assert all(a > b for a, b in zip(vals, vals[1:]))
+    assert all(a > b for a, b in pairwise(vals))

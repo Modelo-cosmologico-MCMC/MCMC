@@ -23,7 +23,8 @@ from __future__ import annotations
 import numpy as np
 
 from mcmc_ontology import constants as C
-from .kronos_kick import kick_factor, friction_acceleration
+
+from .kronos_kick import friction_acceleration, kick_factor
 
 
 def C_of_S(S: float, C0: float = 1.0, alpha: float = 1.0) -> float:

@@ -3,7 +3,13 @@
 import numpy as np
 
 from cosmology.dark_channels import (
-    S_of_z, f_steps, Omega_channel, H2_normalized, w_id, w_lat, w_DE,
+    H2_normalized,
+    Omega_channel,
+    S_of_z,
+    f_steps,
+    w_DE,
+    w_id,
+    w_lat,
 )
 
 
@@ -24,8 +30,8 @@ def test_f_steps_single_step():
 def test_H2_recovers_lcdm_without_steps():
     """Prop. A.1: sin escalones, (A.4) == ΛCDM con Ω_Λ = Ω_id0 + Ω_lat0."""
     z = np.linspace(0.0, 1100.0, 200)
-    kw = dict(Omega_b0=0.0489, Omega_cdm0=0.2511, Omega_r0=9.2e-5,
-              Omega_id0=0.65, Omega_lat0=0.05, Omega_k0=0.0)
+    kw = {"Omega_b0": 0.0489, "Omega_cdm0": 0.2511, "Omega_r0": 9.2e-5,
+          "Omega_id0": 0.65, "Omega_lat0": 0.05, "Omega_k0": 0.0}
     h2 = H2_normalized(z, **kw)
     zp1 = 1.0 + z
     h2_lcdm = 0.30 * zp1 ** 3 + 9.2e-5 * zp1 ** 4 + 0.70

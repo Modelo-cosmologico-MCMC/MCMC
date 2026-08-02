@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import numpy as np
 
-from mcmc_ontology import constants as C
 from cosmology.background import rho_id
+from mcmc_ontology import constants as C
 
 
 def build_table(z_grid: np.ndarray | None = None,

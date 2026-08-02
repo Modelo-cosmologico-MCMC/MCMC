@@ -4,14 +4,25 @@ import numpy as np
 import pytest
 
 from core.gea import (
-    G_newton, G_cosmo, newton_seal_ratio, cs2_atlas, atlas_healthy,
-    residues_prediction, STATUS_ATLAS, STATUS_RESIDUOS,
+    STATUS_ATLAS,
+    STATUS_RESIDUOS,
+    G_cosmo,
+    G_newton,
+    atlas_healthy,
+    cs2_atlas,
+    newton_seal_ratio,
+    residues_prediction,
 )
 from core.victoria import (
-    memory_mode_mass_sq, lydia_gain, lydia_exponent, fertility_condition,
-    return_map, iterate_cycles, is_silence, STATUS_LYDIA,
+    STATUS_LYDIA,
+    fertility_condition,
+    is_silence,
+    iterate_cycles,
+    lydia_exponent,
+    lydia_gain,
+    memory_mode_mass_sq,
+    return_map,
 )
-
 
 # ------------------------------ Cap. 9 -----------------------------------
 

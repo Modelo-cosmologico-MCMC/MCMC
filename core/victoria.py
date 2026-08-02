@@ -34,7 +34,8 @@ from __future__ import annotations
 import numpy as np
 
 from mcmc_ontology import constants as C
-from .basal import scaled_params, kappa_plus, M_BAR, B_BAR, E_BAR, C0_DEFAULT
+
+from .basal import B_BAR, C0_DEFAULT, E_BAR, M_BAR, kappa_plus, scaled_params
 
 STATUS_LYDIA = ("condicional (F.2): ν > 0 ⟺ γR·ē > m̄²; γR pendiente de la "
                 "microdinámica del reinicio (frente abierto nº 4)")

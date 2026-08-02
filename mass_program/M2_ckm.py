@@ -16,7 +16,6 @@ from __future__ import annotations
 
 from mcmc_ontology import constants as C
 
-
 # Fermión dominante por sello y tipo
 DOMINANT = {
     "C1": {"up": "t", "down": "b", "lepton": "tau", "nu": "nu_tau"},

@@ -51,8 +51,9 @@ def simulate_transitions(n_traj: int = 10_000, seed: int = 0) -> dict:
     Si QuTiP no está disponible, devuelve los valores esperados tabulados.
     """
     try:
-        import qutip as qt  # type: ignore
         import numpy as np
+        import qutip as qt  # type: ignore
+
         from .hamiltonian import H_MCMC
 
         H = qt.Qobj(H_MCMC())

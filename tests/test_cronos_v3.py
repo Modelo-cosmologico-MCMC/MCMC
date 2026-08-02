@@ -9,10 +9,15 @@ import numpy as np
 import pytest
 
 from cronos.cronos_v3 import (
-    ALPHA0_INV_MAX, check_alpha0_inv, epsilon_c, lapse,
-    gate_friction, gate_friction_freefall, extra_force, kdk_step_v3,
+    ALPHA0_INV_MAX,
+    check_alpha0_inv,
+    epsilon_c,
+    extra_force,
+    gate_friction,
+    gate_friction_freefall,
+    kdk_step_v3,
+    lapse,
 )
-
 
 ALPHA = 1e-7   # dentro de la cota
 RHO_C = 200.0
@@ -88,11 +93,11 @@ def test_kdk_friction_damps_velocity():
     n = 4
     x0 = np.zeros((n, 3))
     u0 = np.ones((n, 3))
-    kwargs = dict(
-        Phi_N=np.zeros(n), grad_Phi_N=np.zeros((n, 3)),
-        rho=np.full(n, 100.0 * RHO_C), grad_eps_c=np.zeros((n, 3)),
-        rho_c=RHO_C,
-    )
+    kwargs = {
+        "Phi_N": np.zeros(n), "grad_Phi_N": np.zeros((n, 3)),
+        "rho": np.full(n, 100.0 * RHO_C), "grad_eps_c": np.zeros((n, 3)),
+        "rho_c": RHO_C,
+    }
     _, u_col = kdk_step_v3(x0.copy(), u0.copy(), 1.0,
                            rho_dot=np.full(n, 100.0), alpha0_inv=ALPHA,
                            **kwargs)

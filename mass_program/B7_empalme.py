@@ -39,8 +39,8 @@ from __future__ import annotations
 
 import numpy as np
 
+from core.basal import B_BAR, C0_DEFAULT, M_BAR, V0, kappa_plus
 from mcmc_ontology import constants as C
-from core.basal import V0, kappa_plus, M_BAR, B_BAR, C0_DEFAULT
 
 # Los dos convenios, explícitos:
 BETA3_CONVENIO_12_1 = 0.130          # β3 ≡ λ_H  (ec. 12.1; canónico aquí)

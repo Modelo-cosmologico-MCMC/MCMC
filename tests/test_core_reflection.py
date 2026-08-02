@@ -4,8 +4,11 @@ import numpy as np
 
 from core.basal import V0
 from core.reflection_positivity import (
-    transfer_kernel, rp_min_eigenvalue, rp_holds, measure_normalizable,
     STATUS_WILSON,
+    measure_normalizable,
+    rp_holds,
+    rp_min_eigenvalue,
+    transfer_kernel,
 )
 
 

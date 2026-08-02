@@ -4,16 +4,24 @@ y el Mecanismo del Discriminante (cap. 8)."""
 import numpy as np
 import pytest
 
-from mcmc_ontology import constants as C
-from core.florencia import (
-    chain_generators, florencia_rotation, signature, all_anticommute,
-    euclidean_symbol,
-)
 from core.decade import (
-    discriminant_basal, fixed_points, radial_flow_rhs, walk_period,
-    s0_from_lambda, lambda_from_s0, spinodal_crossing, metastability_bound,
+    discriminant_basal,
+    fixed_points,
+    lambda_from_s0,
+    metastability_bound,
+    radial_flow_rhs,
+    s0_from_lambda,
+    spinodal_crossing,
+    walk_period,
 )
-
+from core.florencia import (
+    all_anticommute,
+    chain_generators,
+    euclidean_symbol,
+    florencia_rotation,
+    signature,
+)
+from mcmc_ontology import constants as C
 
 # --------------------------- caps. 5-6 -----------------------------------
 
