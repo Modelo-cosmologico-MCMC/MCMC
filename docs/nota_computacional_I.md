@@ -1,0 +1,222 @@
+# Nota computacional I del programa MCMC
+
+**La ecuación de cierre del círculo de δ₀, la naturalidad de δ_H y los
+contrastes de producción**
+
+- **Autor**: Adrián Martínez Estellés — ORCID
+  [0009-0009-4314-9642](https://orcid.org/0009-0009-4314-9642)
+- **Fecha**: 2 de agosto de 2026
+- **Código**: [github.com/Modelo-cosmologico-MCMC/MCMC](https://github.com/Modelo-cosmologico-MCMC/MCMC),
+  Apache-2.0, release v0.2.0 (DOI del código: pendiente de la primera
+  release con integración Zenodo)
+- **Obra de referencia**: *Tratado de Fundamentos* (v35, junio 2026),
+  DOI [10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373);
+  serie con DOI de concepto
+  [10.5281/zenodo.14167831](https://doi.org/10.5281/zenodo.14167831)
+
+**Abstract (English).** We report the original results of the MCMC
+verification program — the executable implementation of the *Tratado de
+Fundamentos* (v35). Iterating the Victoria return map with the Ceiling
+inside the fertile region shows that its attractor is the Ceiling itself,
+δ∞ = (W_max/c̄)^{1/3}, independent of the restart gain and of the initial
+imperfection. This yields a consistency equation not present in the
+treatise: the δ₀ circle closes if and only if W_max = c̄·δ_H³ ≈ 1.65×10⁻⁴,
+linking Thm. 10.6 to the Higgs splice (eq. H.8) through a single number the
+treatise declares but does not quantify. A Monte Carlo over the fertile
+O(1) landscape shows δ_H = O(0.05) is generic (median 0.054, 90% within
+[0.037, 0.116]) and bounded below by δ_H ≳ 0.033 — no O(1) shape closes the
+splice at 0.012, structurally retiring the v32 identification δ₀ ≡ ε_Λ.
+We also report two production Bayesian fits on public data (ΔBIC = +14.5
+favoring ΛCDM in both, published as-is), one passed observational contrast
+(G_cosmo/G_N − 1 ≈ −1.8% vs. the BBN bound, 0.32σ), and the half-step of
+front 5 (gate friction closes exactly at virialization in the minimal PM
+mesh; the cored-core verdict requires production resolution). Unfavorable
+and favorable outcomes are reported with identical weight.
+
+**Resumen.** Esta nota documenta los resultados ORIGINALES del programa de
+verificación computacional del MCMC — los que nacieron del código y no
+están en el tratado — junto con su estatuto exacto: qué demuestran, qué
+condicionan y qué no afirman. Todos los números provienen de cadenas y
+resultados versionados en el repositorio, reproducibles con los comandos
+de la §6.
+
+---
+
+## 1. Propósito y contrato de honestidad
+
+El repositorio MCMC implementa el *Tratado de Fundamentos* (v35) como
+cadena deductiva ejecutable: cada módulo de `core/` implementa las
+definiciones de su capítulo y sus tests verifican los teoremas; donde el
+tratado declara un condicional, el módulo expone el parámetro con su
+condición — nunca lo resuelve en silencio. El contrato de trabajo: cada
+commit deja el repositorio afirmando exactamente lo que hace; los
+desenlaces desfavorables se publican en portada con el mismo tono que los
+favorables. Esta nota hereda ese contrato.
+
+## 2. Métodos
+
+Implementación de referencia en Python (NumPy/emcee), 173 tests, CI con
+guardias de honestidad (frases prohibidas verificadas por grep en cada
+push) y contrato de lint declarado. Datos observacionales públicos con
+SHA-256 fijados (Pantheon+; compilaciones de cronómetros cósmicos, BAO
+DR12, fσ8 y geometría comprimida de Planck con referencia por punto).
+Los resultados de producción viven versionados en `results/` con semilla,
+convergencia y salvedades declaradas en cada informe.
+
+## 3. Resultados originales del programa
+
+### 3.1 La ecuación de cierre del círculo de δ₀
+
+El empalme C¹ (ec. H.8) mide, sin la masa del Higgs como entrada, el δ₀
+que cierra en m_H ≃ 125.3 GeV: **δ_H = 0.130/√(b̄²−4C₀m̄²) ≈ 0.0581** con
+las formas fiduciales (la relación es no circular: un test verifica que
+perturbar el valor PDG no altera el cálculo). Iterando el mapa de retorno
+de Victoria (`core/victoria.py`) con Techo en la región fértil:
+
+> **El atractor es el Techo**: δ∞ = (W_max/c̄)^{1/3}, independiente de γR
+> y de la imperfección inicial (desde 0.012 se alcanza en 4 vueltas).
+
+De ahí la ecuación de consistencia, original de este programa:
+
+> **El círculo se cierra ⟺ W_max = c̄·δ_H³ ≈ 1.652×10⁻⁴** (formas
+> fiduciales, c̄ = 0.8408).
+
+La ecuación liga el Teo. 10.6 (el atractor de Victoria) con la ec. H.8
+(el empalme del Higgs) a través del único número que el tratado declara
+pero no cuantifica. **Estatuto**: condición falsable, no resultado — el
+control negativo lo demuestra (con W_max/2 el atractor es 0.0461 ≠ δ_H).
+Tres desenlaces cuando el frente 4 derive W_max de la microdinámica del
+reinicio: ≈1.65×10⁻⁴ cierra la cadena; otro valor deja empalme y Victoria
+en tensión cuantificada (publicable igualmente); mientras tanto, es la
+predicción condicional más nítida del programa. Consecuencias
+verificadas si δ₀ = δ_H: T₀ escala ×113.7 (Prop. 3.4) y m_θ² ×51.7
+(ec. 10.1). La fertilidad (ν > 0) no depende de δ₀ (ec. H.7); la
+contención W_max ≥ c̄·δ_H³ queda cartografiada como curva por paisaje.
+
+### 3.2 La naturalidad de δ_H y la cota inferior
+
+Monte Carlo sobre el paisaje O(1) fértil (40 000 muestras; fracción
+fértil 0.720 con γ_max = 3 declarado):
+
+- **δ_H = O(0.05) es genérico**: mediana 0.054, 90 % central en
+  [0.037, 0.116]. El valor que el Higgs exige cae en el centro de la
+  distribución que las formas naturales del Basal producen por defecto —
+  una propiedad de naturalidad que el tratado no reclamó y ahora está
+  medida.
+- **δ_H ≳ 0.033 en toda la región O(1)**: el discriminante acota el
+  mínimo alcanzable; ninguna forma O(1) cierra el empalme en 0.012. La
+  identificación δ₀ ≡ ε_Λ heredada de la v32 no es solo dudosa: es
+  estructuralmente imposible dentro del paisaje natural del propio
+  modelo. La regla canónica (no identificar δ₀ con ε_Λ) queda demostrada
+  desde dentro.
+
+### 3.3 Los ajustes de producción (v1 y v2) — el desenlace desfavorable
+
+Dos ajustes bayesianos sobre datos públicos, con ΛCDM ajustado por la
+misma maquinaria (ε = 0 exacto, Prop. A.1) y criterios de información
+explícitos:
+
+| Ajuste | Datos (n) | ΔAIC | ΔBIC (MCMC − ΛCDM) |
+|---|---|---|---|
+| v1 (jul 2026) | CC + BAO + SNe (1408) | +4.03 | **+14.53** |
+| v2 «la reconciliación» (ago 2026) | + CMB comprimido + fσ8 (1422) | +4.01 | **+14.53** |
+
+Positivo favorece a ΛCDM. En v2 (24×8000 pasos, convergencia 50·τ):
+ε = 0.015 −0.039/+0.043 — compatible con cero y con el 0.012 del corpus
+(sin necesidad, no excluida); H₀ = 67.1 ± 1.5 y σ₈ = 0.802 ± 0.029,
+planckianos. **La reconciliación queda respondida**: la ventaja del
+corpus (ΔBIC = −6.1) no reaparece al añadir los dos bloques de los que
+procedía; solo podría residir en el C_ℓ completo, la lente débil o su
+metodología. Los valores del corpus son referencia histórica, no
+citables como vigentes. Salvedades declaradas en los informes: z*/r_s
+por Hu–Sugiyama (~0.3 % en l_A, idéntico en ambos modelos), CMB diagonal,
+r_d fiducial en BAO, M_B marginalizada.
+
+### 3.4 El contraste BBN (frente 6) — ganado
+
+La Conjetura de los Residuos (ec. 9.5) predice G_cosmo/G_N − 1 ≃
+−(3/2)·ε_K ≈ −1.8 %. Frente a la cota de nucleosíntesis vigente
+G_BBN/G₀ = 0.99 +0.06/−0.05 a 2σ (Alvey, Sabti, Escudero & Fairbairn
+2020, Eur. Phys. J. C 80, 148; arXiv:1910.10730): la predicción cae
+dentro, **a 0.32σ del valor central, que además favorece su signo**. Es
+el único contraste observacional ya superado por el modelo; se volvería
+decisivo si las cotas llegan al 1–2 %. Estatuto: conjetura declarada
+(9.6), frente abierto nº 6.
+
+### 3.5 El medio paso del frente 5 — el instrumento dijo la verdad
+
+En la malla PM mínima (par A/B de semilla idéntica, α₀⁻¹ en la cota de
+la ec. 11.5): el colapso frío aislado emerge cuspy en ambas corridas
+(NFW preferida, 0.32 vs 0.04–0.06 dex), la diferencia A/B es <1 % y los
+radios de escala caen bajo la celda — **la malla no puede discriminar el
+veredicto del núcleo**, que queda en producción, como el frente declara.
+La compuerta sí habló: en el halo aislado virializado la mediana de Γ
+del tramo final es **cero exacto** (Γ = 0 en el 57 % de los pasos) y la
+forma antigua sin compuerta persiste (el control negativo de H.2.5).
+Hallazgo de validez documentado: ρ_c debe ser el umbral de colapso
+(~200× la media); con ρ_c ~ media, ε_c alcanza O(1) — fuera del régimen
+débil de la Def. 11.1 — y la fricción condensa el halo en un punto
+(artefacto verificado antes de descartarse). Certificado de régimen
+publicado: ε_c máx = 3×10⁻⁵ ≪ 1.
+
+## 4. Lo que estos resultados NO afirman
+
+- El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
+  con un número esperando ser derivado (frente 4).
+- Los ajustes v1/v2 **no muestran alivio** de las tensiones H₀/S₈; el
+  fondo queda certificado como límite de recuperación de ΛCDM.
+- m_H ≃ 125.3 GeV **no es una predicción** mientras β₃ no se derive sin
+  el Higgs medido como entrada (Obs. 12.2; el empalme acota el frente,
+  no lo cierra: el valor de β₃ con (M₀², B, C₀) sellados sigue
+  condicional).
+- El núcleo cored, los cinco órdenes de H.2.5 y las validaciones SPARC
+  del corpus siguen **pendientes de producción** (frente 5).
+- λ = 10 sigue calibrado (frente 2); el signo de ν, condicional
+  (frente 4); la RP no estacionaria, abierta (frente 1).
+
+## 5. Prioridades que esta nota deja planteadas
+
+1. Derivar W_max desde la microdinámica del reinicio (frente 4) — decide
+   el círculo; valor esperado 1.652×10⁻⁴.
+2. Núcleo cored en cajas de producción (frente 5).
+3. Residuos al 1–2 % de precisión futura (el contraste ganado se vuelve
+   decisivo).
+4. Frentes E (flujo KLS para λ) y F (RP no estacionaria).
+
+Para una eventual v36 del tratado: blindar los tres épsilon (ε residuo,
+ε_Λ transición, ε_K gravitatorio — parámetros distintos; δ₀ es input de
+ciclo sin valor asignado) y cuantificar W_max o declarar la ecuación de
+cierre como predicción condicional del modelo.
+
+## 6. Reproducibilidad
+
+```bash
+pip install -e ".[dev]"
+pytest tests/                          # 173 tests
+python scripts/validate_all.py         # suite espejo del apéndice H
+python scripts/run_delta0_circle.py    # §3.1-3.2 (semilla 20260802)
+python scripts/download_data.py all    # datos con SHA-256 fijados
+python scripts/run_production_fit.py --nsteps 8000   # §3.3 v1
+python scripts/run_production_fit2.py --nsteps 8000  # §3.3 v2
+python -c "from cosmology.residues_test import report; print(report())"  # §3.4
+python scripts/run_profile_shape.py    # §3.5
+```
+
+Desenlaces versionados: `results/2026-07-31_production_fit/`,
+`results/2026-08-01_production_fit_v2/`, `results/2026-08-01_fertility/`,
+`results/2026-08-01_empalme_wkb/`, `results/2026-08-02_delta0_circle/`,
+`results/2026-08-02_profile_shape/`.
+
+## Referencias
+
+- Martínez Estellés, A. (2026). *Modelo Cosmológico de Múltiples
+  Colapsos (MCMC) — Tratado de Fundamentos* (v35).
+  DOI 10.5281/zenodo.20765373.
+- Alvey, J., Sabti, N., Escudero, M. & Fairbairn, M. (2020). *Improved
+  BBN constraints on the variation of the gravitational constant*.
+  Eur. Phys. J. C 80, 148. arXiv:1910.10730.
+- Scolnic, D. et al. (2022). ApJ 938, 113; Brout, D. et al. (2022). ApJ
+  938, 110 (Pantheon+). Alam, S. et al. (2017). MNRAS 470, 2617 (BOSS
+  DR12). Chen, L., Huang, Q.-G. & Wang, K. (2019). JCAP 02, 028
+  (geometría comprimida de Planck 2018). Compilaciones de cronómetros
+  cósmicos y fσ8: referencias por punto en `scripts/download_data.py`.

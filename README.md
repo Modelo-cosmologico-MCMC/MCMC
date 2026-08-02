@@ -281,6 +281,13 @@ python scripts/validate_all.py    # WKB, masses, cosmology + Appendix-H mirror
 Ver `CITATION.cff` (GitHub genera la cita automáticamente). Registro
 canónico vigente: **Tratado de Fundamentos** (v35),
 DOI [10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373).
+
+Los resultados originales del programa (la ecuación de cierre del
+círculo de δ₀, la naturalidad de δ_H, los ajustes de producción y el
+contraste BBN) están documentados con su estatuto exacto en la
+**[Nota computacional I](docs/nota_computacional_I.md)** — preparada
+para su depósito citable en Zenodo junto a la release v0.2.0 (ver
+`CHANGELOG.md`).
 DOI de concepto de la serie (siempre la última versión):
 [10.5281/zenodo.14167831](https://doi.org/10.5281/zenodo.14167831).
 No citar como vigentes los depósitos superados (v29, v32).
