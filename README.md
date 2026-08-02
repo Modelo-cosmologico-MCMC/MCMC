@@ -251,6 +251,31 @@ verificado, no física). Desenlace en `results/2026-08-02_profile_shape/`.
 pytest tests/
 ```
 
+## English orientation
+
+This repository makes the *Tratado de Fundamentos* (v35, June 2026, DOI
+[10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373))
+executable. Design principle: each `core/` module implements the
+definitions of its treatise chapter and its tests verify the theorems;
+conditional results are exposed as parameters with their condition, never
+silently resolved; unfavorable outcomes are published front-page with the
+same tone as favorable ones. Honest headlines as of August 2026: the
+production Bayesian fits on real data (CC+BAO+SNe, then + compressed CMB
++ fσ8) give **ΔBIC = +14.5 favoring ΛCDM** (ε compatible with 0) — while
+the Residues contrast (G_cosmo/G_N − 1 ≈ −1.8% vs. the BBN bound) is
+**passed** at ~0.3σ; the C¹ splice measures δ₀* ≈ 0.0581 without the
+Higgs mass as input; and the δ₀ circle reduces to a consistency equation
+W_max = c̄·δ_H³ whose value awaits open front #4.
+
+**Start here (English guided tour, runs offline in ~1 min):**
+[`notebooks/tour_deductive_chain_en.ipynb`](notebooks/tour_deductive_chain_en.ipynb)
+
+```bash
+pip install -e ".[dev]"
+pytest tests/                     # the full suite
+python scripts/validate_all.py    # WKB, masses, cosmology + Appendix-H mirror
+```
+
 ## Cómo citar
 
 Ver `CITATION.cff` (GitHub genera la cita automáticamente). Registro
