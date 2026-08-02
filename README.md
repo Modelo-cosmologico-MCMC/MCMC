@@ -226,6 +226,25 @@ del corpus (núcleo de 2.3 kpc, SPARC RMSE 12%→4.5%, subhalos −45%) siguen
 **pendientes de reproducción** con el esquema corregido — es el frente
 abierto nº 5 (§13.6/cap. 14.5).
 
+### Medio paso del frente nº 5 (ronda 5 — agosto 2026)
+
+`cronos/profile_fit.py` + `python scripts/run_profile_shape.py` miden lo
+que la malla mínima puede medir, y lo declaran: (1) el **perfil
+emergente** del colapso aislado (par A/B de semilla idéntica) ajustado
+en forma a cored ρ₀[1+(r/r_c)²]⁻¹ vs NFW — a esta resolución ambas
+corridas emergen cuspy (NFW-like) y la diferencia A/B con α0⁻¹ dentro
+de la cota es < 1%: el veredicto del núcleo (r < celda) es de
+producción; (2) la **compuerta de Cronos (H.2.5)**: en el halo aislado
+virializado Γ = 0 exacto en la mayoría del tramo final (mediana 0; el
+residuo máximo es ruido de cáscara), la caída conservadora es de ~1.5–2
+órdenes, y el **control negativo** — la forma sin compuerta (11.3b) —
+persiste (~0.25 órdenes), como dice H.2.5 del esquema antiguo. Los
+valores ≈4×10⁻⁴→≈7×10⁻⁹ del tratado son de su simulación de producción.
+Hallazgo de validez declarado: ρ_c debe ser el umbral de colapso (~200×
+la media); con ρ_c ~ media, ε_c alcanza O(1), fuera del régimen débil
+de la Def. 11.1, y la fricción condensa el halo en un punto (artefacto
+verificado, no física). Desenlace en `results/2026-08-02_profile_shape/`.
+
 ## Tests
 
 ```bash
