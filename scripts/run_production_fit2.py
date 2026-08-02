@@ -33,16 +33,25 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from mcmc_ontology import constants as C  # noqa: E402
+from run_production_fit import run_sampler, save_chain, summarize  # noqa: E402
+
 from cosmology.bayesian_fit import (  # noqa: E402
-    load_Hz_data, load_bao_data, load_sne_data,
-    log_like_Hz, log_like_sne, log_like_bao, log_prior, log_prior_lcdm,
     information_criteria,
+    load_bao_data,
+    load_Hz_data,
+    load_sne_data,
+    log_like_bao,
+    log_like_Hz,
+    log_like_sne,
+    log_prior,
+    log_prior_lcdm,
 )
 from cosmology.extended_likelihoods import (  # noqa: E402
-    cmb_compressed_loglike, rsd_loglike, load_fsigma8_data,
+    cmb_compressed_loglike,
+    load_fsigma8_data,
+    rsd_loglike,
 )
-from run_production_fit import save_chain, run_sampler, summarize  # noqa: E402
+from mcmc_ontology import constants as C  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "output"
 
@@ -168,34 +177,34 @@ def main() -> None:
 
     rep = [
         "# Ajuste de producción v2 — cinco bloques (la reconciliación)\n",
-        f"Datos: {datasets} (n = {n_points}). Semilla {opts.seed}, "
-        f"{opts.nwalkers} walkers × {opts.nsteps}, descarte {burn}, thin 4.",
-        "ΛCDM con la misma maquinaria (ε=0 exacto, Prop. A.1). Salvedades "
-        "declaradas: z*/r_s por Hu–Sugiyama (sesgo ~0.3% en l_A, idéntico "
-        "en ambos modelos); CMB diagonal sin correlaciones; r_d fiducial "
-        "en BAO; SNe sin ancla (M_B marginalizada en ambos).\n",
+        (f"Datos: {datasets} (n = {n_points}). Semilla {opts.seed}, "
+         f"{opts.nwalkers} walkers × {opts.nsteps}, descarte {burn}, thin 4."),
+        ("ΛCDM con la misma maquinaria (ε=0 exacto, Prop. A.1). Salvedades "
+         "declaradas: z*/r_s por Hu–Sugiyama (sesgo ~0.3% en l_A, idéntico "
+         "en ambos modelos); CMB diagonal sin correlaciones; r_d fiducial "
+         "en BAO; SNe sin ancla (M_B marginalizada en ambos).\n"),
         "## Posteriores (mediana ± 1σ)\n",
         "### MCMC (k = 6)\n\n| Parámetro | Mediana | −/+ 1σ |\n|---|---|---|",
         *summarize(flat_m, names_m),
-        f"\nAceptación {acc_m:.2f}; τ: {tau_m}; "
-        f"convergencia {'OK' if ok_m else 'INSUFICIENTE'}\n",
+        (f"\nAceptación {acc_m:.2f}; τ: {tau_m}; "
+         f"convergencia {'OK' if ok_m else 'INSUFICIENTE'}\n"),
         "### ΛCDM (k = 4)\n\n| Parámetro | Mediana | −/+ 1σ |\n|---|---|---|",
         *summarize(flat_l, names_l),
-        f"\nAceptación {acc_l:.2f}; τ: {tau_l}; "
-        f"convergencia {'OK' if ok_l else 'INSUFICIENTE'}\n",
+        (f"\nAceptación {acc_l:.2f}; τ: {tau_l}; "
+         f"convergencia {'OK' if ok_l else 'INSUFICIENTE'}\n"),
         "## χ² por bloque (máximo a posteriori de cada modelo)\n",
         "| Bloque | χ² MCMC | χ² ΛCDM |\n|---|---|---|",
         *[f"| {k} | {-2*ll_m[k]:.2f} | {-2*ll_l[k]:.2f} |" for k in ll_m],
         "\n## Criterios de información\n",
         f"AIC = 2k − 2lnL; BIC = k·ln(n) − 2lnL; k=6 vs k=4; n={n_points}.\n",
         "| Modelo | k | ln L_max | AIC | BIC |\n|---|---|---|---|---|",
-        f"| MCMC | 6 | {ll_m['total']:.2f} | {ic_m['AIC']:.2f} | "
-        f"{ic_m['BIC']:.2f} |",
-        f"| ΛCDM | 4 | {ll_l['total']:.2f} | {ic_l['AIC']:.2f} | "
-        f"{ic_l['BIC']:.2f} |",
-        f"\n**ΔAIC (MCMC − ΛCDM) = {d_aic:+.2f}; "
-        f"ΔBIC = {d_bic:+.2f}** (negativo favorece al MCMC). "
-        "El resultado se publica sea cual sea.\n",
+        (f"| MCMC | 6 | {ll_m['total']:.2f} | {ic_m['AIC']:.2f} | "
+         f"{ic_m['BIC']:.2f} |"),
+        (f"| ΛCDM | 4 | {ll_l['total']:.2f} | {ic_l['AIC']:.2f} | "
+         f"{ic_l['BIC']:.2f} |"),
+        (f"\n**ΔAIC (MCMC − ΛCDM) = {d_aic:+.2f}; "
+         f"ΔBIC = {d_bic:+.2f}** (negativo favorece al MCMC). "
+         "El resultado se publica sea cual sea.\n"),
         f"Cadenas: `{p_m.name}`, `{p_l.name}`.\n",
     ]
     OUT.mkdir(exist_ok=True)

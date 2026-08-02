@@ -3,9 +3,14 @@
 import numpy as np
 
 from cosmology.extended_likelihoods import (
-    z_star_hu_sugiyama, sound_horizon, comoving_to_zstar,
-    cmb_compressed_loglike, growth_D_f, fsigma8_model, rsd_loglike,
     CMB_OBS,
+    cmb_compressed_loglike,
+    comoving_to_zstar,
+    fsigma8_model,
+    growth_D_f,
+    rsd_loglike,
+    sound_horizon,
+    z_star_hu_sugiyama,
 )
 
 THETA_LCDM = (67.4, 0.315, 0.0, 8.9)

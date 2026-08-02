@@ -82,19 +82,19 @@ def main() -> None:
 
     lines = [
         "# Colapso reproducible con Cronos v3 (frente abierto nº 5)\n",
-        f"Par A/B de semilla idéntica {opts.seed} (v35, B.5/B.6); "
-        f"{opts.steps} pasos; α0⁻¹ = {opts.alpha0_inv:g} "
-        "(dentro de la cota de la ec. 11.5).\n",
+        (f"Par A/B de semilla idéntica {opts.seed} (v35, B.5/B.6); "
+         f"{opts.steps} pasos; α0⁻¹ = {opts.alpha0_inv:g} "
+         "(dentro de la cota de la ec. 11.5).\n"),
         "| Magnitud | Valor |\n|---|---|",
         f"| Γ_max del control (A, α0⁻¹=0) | {gam_a_max:.3e} |",
         f"| Paso del pico de densidad del halo | {i_peak} / {opts.steps} |",
         f"| Pasos de colapso con Γ_halo > 0 | {n_on_collapse} / {i_peak} |",
         f"| Pasos post-pico con Γ_halo = 0 | {n_off_after} / {opts.steps - i_peak} |",
-        "\nFirma falsable (fig. 11.1): la compuerta Γ = (3/2)(ρ̇/ρ)ε_c·Θ(ρ̇) "
-        "está activa mientras el halo colapsa y se apaga al virializar; el "
-        "control newtoniano da Γ≡0 y el esquema v32 la mantenía siempre "
-        "activa. La medición en producción (Gadget-4-Cronos, cajas de B.4) "
-        "es el frente nº 5.\n",
+        ("\nFirma falsable (fig. 11.1): la compuerta Γ = (3/2)(ρ̇/ρ)ε_c·Θ(ρ̇) "
+         "está activa mientras el halo colapsa y se apaga al virializar; el "
+         "control newtoniano da Γ≡0 y el esquema v32 la mantenía siempre "
+         "activa. La medición en producción (Gadget-4-Cronos, cajas de B.4) "
+         "es el frente nº 5.\n"),
     ]
     OUT.mkdir(exist_ok=True)
     report = OUT / "halo_collapse_report.md"

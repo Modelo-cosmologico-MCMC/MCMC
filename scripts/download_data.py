@@ -44,16 +44,16 @@ DATA = Path(__file__).resolve().parent.parent / "data"
 DOWNLOADS = {
     "pantheon": [
         (
-            "https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/"
-            "main/Pantheon%2B_Data/4_DISTANCES_AND_COVAR/Pantheon%2BSH0ES.dat",
+            ("https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/"
+             "main/Pantheon%2B_Data/4_DISTANCES_AND_COVAR/Pantheon%2BSH0ES.dat"),
             DATA / "pantheon" / "PantheonPlusSH0ES.dat",
             # Verificado el 31-jul-2026 (579 283 bytes):
             "1cb0fc379ef066afdc2ffd1857681cc478024570d8a3eba284fb645775198cf8",
         ),
         (
-            "https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/"
-            "main/Pantheon%2B_Data/4_DISTANCES_AND_COVAR/"
-            "Pantheon%2BSH0ES_STAT%2BSYS.cov",
+            ("https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/"
+             "main/Pantheon%2B_Data/4_DISTANCES_AND_COVAR/"
+             "Pantheon%2BSH0ES_STAT%2BSYS.cov"),
             DATA / "pantheon" / "PantheonPlusSH0ES_STATSYS.cov",
             # Verificado el 31-jul-2026 (33 284 960 bytes):
             "abf806d966485e64afdb359c87bffc0ecc00d05eff0a31ced66f247385df0fdc",

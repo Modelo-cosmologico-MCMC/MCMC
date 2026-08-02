@@ -12,7 +12,10 @@ from __future__ import annotations
 import numpy as np
 
 from cosmology.bayesian_fit import (
-    synthetic_selftest_dataset, load_Hz_data, load_bao_data, run_emcee,
+    load_bao_data,
+    load_Hz_data,
+    run_emcee,
+    synthetic_selftest_dataset,
 )
 
 

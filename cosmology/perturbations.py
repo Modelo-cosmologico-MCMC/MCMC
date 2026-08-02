@@ -11,7 +11,8 @@ import numpy as np
 from scipy.integrate import odeint
 
 from mcmc_ontology import constants as C
-from .background import H_of_z, OMEGA_M0
+
+from .background import OMEGA_M0, H_of_z
 
 
 def growth_factor(a_grid: np.ndarray, Omega_m: float = OMEGA_M0,

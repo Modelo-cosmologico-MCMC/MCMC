@@ -3,11 +3,11 @@
 
 from __future__ import annotations
 
+from cosmology.background import H_of_z, Lambda_rel
 from mass_program.B3_wkb import verify_calibration
 from mass_program.B4_masses import predict_fermion_masses
-from mass_program.B5_higgs import higgs_mass, beta3_calibrated_from_higgs
+from mass_program.B5_higgs import beta3_calibrated_from_higgs, higgs_mass
 from mass_program.M1_qcd_running import K_EW_to_GUT
-from cosmology.background import H_of_z, Lambda_rel
 from quantum.qutip_simulation import simulate_transitions
 
 
@@ -42,6 +42,7 @@ def main() -> None:
 
     print("\n--- Simulación (Apéndice B): mini-ciclo Cronos-KDK ---")
     import numpy as np
+
     from cronos.simulation import CronosPM
     rng = np.random.default_rng(0)
     pos = rng.uniform(0, 10.0, size=(64, 3))

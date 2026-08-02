@@ -63,6 +63,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Ruff
+        # Versión FIJADA: el conjunto de reglas por defecto de ruff crece
+        # entre versiones y "pip install ruff" (última) hacía divergir el
+        # CI del entorno local. El contrato de reglas vive en pyproject
+        # ([tool.ruff.lint], extend-select); la versión, aquí.
         run: |
-          pip install ruff
+          pip install "ruff==0.15.8"
           ruff check . --output-format=github

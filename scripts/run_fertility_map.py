@@ -20,7 +20,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from core.fertility_map import fertility_fraction, O1_RANGE  # noqa: E402
+from core.fertility_map import O1_RANGE, fertility_fraction  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "results" / "2026-08-01_fertility"
 

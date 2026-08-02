@@ -27,6 +27,8 @@ logarítmicos de ambas formas.
 
 from __future__ import annotations
 
+from itertools import pairwise
+
 import numpy as np
 
 from .cronos_v3 import gate_friction, gate_friction_freefall
@@ -114,7 +116,7 @@ def radial_profile(pos: np.ndarray, mass: np.ndarray, center: np.ndarray,
     edges = np.geomspace(r_lo, r_hi, n_bins + 1)
     rho, r_mid, count = [], [], []
     n_empty = 0
-    for a, b in zip(edges[:-1], edges[1:]):
+    for a, b in pairwise(edges):
         sel = (r >= a) & (r < b)
         if not sel.any():
             n_empty += 1

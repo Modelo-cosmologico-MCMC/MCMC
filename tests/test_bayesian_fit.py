@@ -2,13 +2,20 @@
 
 import numpy as np
 
-from mcmc_ontology import constants as C
 from cosmology.bayesian_fit import (
-    synthetic_selftest_dataset, log_prior, log_like_Hz, log_prob,
-    comoving_distance, distance_modulus, BAOData, log_like_bao,
-    theta_lcdm_to_mcmc, log_prob_lcdm, information_criteria,
+    BAOData,
+    comoving_distance,
+    distance_modulus,
+    information_criteria,
+    log_like_bao,
+    log_like_Hz,
+    log_prior,
+    log_prob,
+    log_prob_lcdm,
+    synthetic_selftest_dataset,
+    theta_lcdm_to_mcmc,
 )
-
+from mcmc_ontology import constants as C
 
 THETA0 = (C.H0_MCMC, 0.300, C.EPSILON_0, C.Z_TRANS)
 

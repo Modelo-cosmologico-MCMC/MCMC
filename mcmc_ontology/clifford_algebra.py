@@ -18,7 +18,6 @@ import numpy as np
 
 from . import constants as C
 
-
 # --- Matrices de Pauli (base de Cl(n,0) en dim baja) ---
 sigma0 = np.eye(2, dtype=complex)
 sigma1 = np.array([[0, 1], [1, 0]], dtype=complex)

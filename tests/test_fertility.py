@@ -2,10 +2,12 @@
 
 import numpy as np
 
-from core.fertility_map import (
-    sample_shapes, fertility_fraction, delta_saturation,
-)
 from core.basal import quasi_cancellation_ok
+from core.fertility_map import (
+    delta_saturation,
+    fertility_fraction,
+    sample_shapes,
+)
 
 
 def test_sampled_shapes_are_viable():

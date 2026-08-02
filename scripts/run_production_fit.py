@@ -34,12 +34,19 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from mcmc_ontology import constants as C  # noqa: E402
 from cosmology.bayesian_fit import (  # noqa: E402
-    load_Hz_data, load_bao_data, load_sne_data,
-    log_prob, log_prob_lcdm, log_like_Hz, log_like_sne, log_like_bao,
-    theta_lcdm_to_mcmc, information_criteria,
+    information_criteria,
+    load_bao_data,
+    load_Hz_data,
+    load_sne_data,
+    log_like_bao,
+    log_like_Hz,
+    log_like_sne,
+    log_prob,
+    log_prob_lcdm,
+    theta_lcdm_to_mcmc,
 )
+from mcmc_ontology import constants as C  # noqa: E402
 
 OUT = Path(__file__).resolve().parent.parent / "output"
 

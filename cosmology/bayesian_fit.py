@@ -27,6 +27,7 @@ from typing import Sequence
 import numpy as np
 
 from mcmc_ontology import constants as C
+
 from .background import H_of_z
 
 _DATA_DIR = Path(__file__).resolve().parent.parent / "data"

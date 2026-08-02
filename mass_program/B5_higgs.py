@@ -28,7 +28,6 @@ import math
 
 from mcmc_ontology import constants as C
 
-
 M_PL_GEV = 1.22e19  # M_Pl·c^2 en GeV
 
 

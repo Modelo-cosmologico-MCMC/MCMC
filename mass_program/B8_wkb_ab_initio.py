@@ -34,7 +34,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from core.basal import scaled_params, M_BAR, B_BAR, C0_DEFAULT
+from core.basal import B_BAR, C0_DEFAULT, M_BAR, scaled_params
 
 # Espectro de la Tabla 12.1 (valores del corpus, GeV) para la escalera:
 MASS_LADDER_GEV = {

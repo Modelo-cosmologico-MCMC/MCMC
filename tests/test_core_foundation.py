@@ -7,16 +7,26 @@ negativos comprueban el caso que debe fallar y falla.
 import numpy as np
 import pytest
 
-from core.dual_plane import (
-    to_dual, from_polar, dual_reflection, is_physical, on_diagonal,
-    THETA_DIAGONAL,
-)
 from core.basal import (
-    V0, scaled_params, quasi_cancellation_ok, discriminant, kappa_plus,
-    c_bar, T0_analytic, T0_numeric, chi_residue,
+    V0,
+    T0_analytic,
+    T0_numeric,
+    c_bar,
+    chi_residue,
+    discriminant,
+    kappa_plus,
+    quasi_cancellation_ok,
+    scaled_params,
 )
-from core.path_flow import grad_V, flow, exits_to_mass_pole
-
+from core.dual_plane import (
+    THETA_DIAGONAL,
+    dual_reflection,
+    from_polar,
+    is_physical,
+    on_diagonal,
+    to_dual,
+)
+from core.path_flow import exits_to_mass_pole, flow, grad_V
 
 # ------------------------------ Cap. 2 -----------------------------------
 
@@ -123,8 +133,8 @@ def test_monotonia_identity():
     g = grad_V(phi, delta0=0.05)
     # En el interior (sin proyección), un paso de Euler:
     d_sigma = 1e-6
-    from core.dual_plane import to_dual
     from core.basal import V0 as V
+    from core.dual_plane import to_dual
     c0 = to_dual(phi[0], phi[1])
     v0 = V(c0["rho"], c0["chi"], 0.05)
     phi1 = phi - d_sigma * g

@@ -21,7 +21,6 @@ import numpy as np
 from mcmc_ontology import constants as C
 from mcmc_ontology.S_map import alpha3_inv
 
-
 # Coeficientes RGE 1-loop SM
 B_COEFF = {"U1": -41.0 / 10.0, "SU2": 19.0 / 6.0, "SU3": 7.0}
 GAMMA_M_QCD = 4.0  # dimensión anómala de masa, n_f=6

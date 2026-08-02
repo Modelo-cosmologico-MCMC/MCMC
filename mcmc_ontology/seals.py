@@ -18,8 +18,7 @@ Funciones:
 from __future__ import annotations
 
 from . import constants as C
-from .potential import beta_match, chi_inf, alpha_from_matching
-
+from .potential import alpha_from_matching, beta_match, chi_inf
 
 # Asignaciones v32 (ver nota de versión en el docstring del módulo):
 SEAL_GAUGE = {

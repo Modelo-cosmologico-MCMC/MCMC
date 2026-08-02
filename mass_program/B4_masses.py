@@ -28,9 +28,8 @@ from mcmc_ontology import constants as C
 
 from .B3_wkb import transmission
 from .M1_qcd_running import K_QCD
-from .M2_ckm import V_CKM_factor, EMERGENCE_SEAL
-from .P4_gut_quarks import yukawa_gut, yukawa_dominant, neutrino_mass
-
+from .M2_ckm import EMERGENCE_SEAL, V_CKM_factor
+from .P4_gut_quarks import neutrino_mass, yukawa_dominant, yukawa_gut
 
 _SEALS = ("C1", "C2", "C3", "C4")
 # Familia de cada fermión

@@ -1,15 +1,20 @@
 """Tests del frente nº 7: empalme C¹ (B7) y WKB ab initio (B8) — H.2.4."""
 
+from itertools import pairwise
+
 import numpy as np
 import pytest
 
-from mcmc_ontology import constants as C
 import mass_program.B7_empalme as B7
 from mass_program.B8_wkb_ab_initio import (
-    MASS_LADDER_GEV, barrier, W_integral, survival_weight, kappa_minimum,
+    MASS_LADDER_GEV,
+    W_integral,
+    barrier,
+    kappa_minimum,
     ladder,
+    survival_weight,
 )
-
+from mcmc_ontology import constants as C
 
 # ------------------------------ B7 ---------------------------------------
 
@@ -68,7 +73,7 @@ def test_W_decreasing_in_E():
     bar = barrier(DELTA0)
     Es = np.linspace(0.05, 0.9, 6) * bar["V_max"]
     Ws = [W_integral(E, DELTA0, kappa=1.0) for E in Es]
-    assert all(a > b for a, b in zip(Ws, Ws[1:]))
+    assert all(a > b for a, b in pairwise(Ws))
 
 
 def test_exponential_sensitivity():
@@ -98,7 +103,7 @@ def test_ladder_monotone_with_mass():
     lad = ladder(DELTA0)["E"]
     by_mass = sorted(MASS_LADDER_GEV, key=MASS_LADDER_GEV.get, reverse=True)
     depths = [lad[k] for k in by_mass]
-    assert all(a > b for a, b in zip(depths, depths[1:]))
+    assert all(a > b for a, b in pairwise(depths))
     assert min(lad, key=lad.get) == "nu_tau"
     assert max(lad, key=lad.get) == "t"
 

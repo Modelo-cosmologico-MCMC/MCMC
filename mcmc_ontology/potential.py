@@ -29,7 +29,6 @@ import numpy as np
 from . import constants as C
 from .S_map import m_P
 
-
 _SEAL_ORDER = ["C1", "C2", "C3", "C4"]
 DIM_AT_SEAL = {"C1": 1, "C2": 2, "C3": 3, "C4": 3}  # dimensiones espaciales
 

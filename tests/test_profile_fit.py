@@ -3,12 +3,17 @@ compuerta H.2.5 en la malla PM mínima."""
 
 import numpy as np
 
-from cronos.simulation import CronosPM
 from cronos.profile_fit import (
-    spherical_clump_ic, track_region_density, gate_histories,
-    halo_center, radial_profile, fit_shape, shape_comparison,
+    fit_shape,
     friction_drop,
+    gate_histories,
+    halo_center,
+    radial_profile,
+    shape_comparison,
+    spherical_clump_ic,
+    track_region_density,
 )
+from cronos.simulation import CronosPM
 
 R = np.geomspace(0.1, 5.0, 15)
 

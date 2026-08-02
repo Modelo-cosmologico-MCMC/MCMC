@@ -20,13 +20,17 @@ import argparse
 import sys
 from pathlib import Path
 
-
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from core.basal import c_bar  # noqa: E402
 from core.delta0_circle import (  # noqa: E402
-    delta0_H, W_max_required, attractor_numeric, consistency_factors,
-    closure_test, landscape_scan, STATUS_CIRCLE,
+    STATUS_CIRCLE,
+    W_max_required,
+    attractor_numeric,
+    closure_test,
+    consistency_factors,
+    delta0_H,
+    landscape_scan,
 )
 from core.fertility_map import O1_RANGE  # noqa: E402
 

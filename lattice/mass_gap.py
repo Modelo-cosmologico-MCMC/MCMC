@@ -17,7 +17,6 @@ import numpy as np
 
 from mcmc_ontology import constants as C
 
-
 M_PL_GEV = 1.22e19
 
 

@@ -11,8 +11,8 @@ Ver `mcmc_ontology.potential` para las primitivas.
 
 from mcmc_ontology import constants as C
 from mcmc_ontology.potential import (
-    V_pp_quartic,
     V_pp_kinetic,
+    V_pp_quartic,
     V_pp_total,
     delta_m_eff,
 )
