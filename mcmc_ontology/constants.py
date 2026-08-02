@@ -19,9 +19,26 @@ import math
 # =====================================================================
 # INPUTS genuinos (lo único libre — v35 F.4)
 # =====================================================================
-EPSILON_0 = 0.012      # δ₀ ≡ ε (imperfección heredada, input de ciclo;
-                       # atractor δ₀* por Teo. 10.6; calibre εΛ = 0.012±0.003
-                       # en la transición de Λ_rel, v35 A.3)
+# δ₀ — la imperfección primordial, input de ciclo. La v35 (F.2) la lista
+# como «input de ciclo; atractor δ₀* (Teo. 10.6)» SIN asignarle valor
+# numérico. REGLA CANÓNICA (ronda 5): no identificar δ₀ con ε_Λ en
+# ningún material — la identificación δ₀ ≡ ε = 0.012 era herencia
+# operativa del v32. La v35 separa cuatro símbolos: ε (residuo del
+# colapso, rango [1e-8, 1e-3]), ε_Λ (amplitud de la transición de Λ_rel,
+# 0.012 ± 0.003, A.3), ε_K (residuo gravitatorio ≈ 0.012, ec. 9.5) y δ₀
+# (input de ciclo). Este módulo NO define constante numérica para δ₀:
+# el empalme C¹ (H.2.4, mass_program/B7) lo MIDE — δ₀* ≈ 0.0581 con
+# formas fiduciales — y core/delta0_circle.py analiza su condición de
+# cierre. Las constantes de forma O(1) (m̄, b̄, ē, C0) viven en
+# core/basal.py (v35 F.2).
+
+EPSILON_0 = 0.012      # ε_Λ — amplitud de la transición de Λ_rel:
+                       # 0.012 ± 0.003 (v35 A.3/F.3), consumida por
+                       # cosmology/ como `eps`. CALIBRADA contra
+                       # observación (ajuste v2 propio: ε = 0.015
+                       # −0.039/+0.043). NO identificar con δ₀ (regla
+                       # canónica; el nombre EPSILON_0 se conserva por
+                       # los consumidores).
 
 # =====================================================================
 # SELLADOS por consistencia interna (no ajustables — v35 F.4)

@@ -1,7 +1,8 @@
 """Programa de masas del MCMC.
 
 Bloques:
-  B0 — Imperfección primordial δ₀ ≡ ε.
+  B0 — Imperfección primordial δ₀ (la identificación v32 con ε está
+       superada: regla canónica — no identificar δ₀ con ε_Λ).
   B1 — VEVs por sello, pesos ϑ_n.
   B2 — Modos espinoriales / N_gen = 3.
   B3 — WKB espinorial → |T_n^(i)|.

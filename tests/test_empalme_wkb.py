@@ -43,7 +43,8 @@ def test_no_higgs_input():
 
 def test_closure_requires_delta_star():
     """El desenlace cuantificado: λ_Ad(δ0*) = 0.130 con δ0* ≈ 0.0581;
-    con δ0 = ε = 0.012 el empalme da m_H ≈ 57 GeV, no 125.3."""
+    con δ0 = 0.012 (el valor de ε_Λ que el v32 identificaba con δ0)
+    el empalme da m_H ≈ 57 GeV, no 125.3."""
     d0_star = B7.delta0_required()
     assert abs(d0_star - 0.0581) < 5e-4
     assert abs(B7.sealed_curvature_lambda(d0_star) - 0.130) < 1e-12

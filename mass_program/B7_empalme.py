@@ -26,8 +26,9 @@ parte del cálculo.
 
 RESULTADO (el desenlace se publica sea cual sea, y es este):
 con las formas fiduciales O(1) (m̄=1, b̄=3, C0=1) el cierre numérico
-λ_Ad = 0.130 exige δ0 ≈ 0.0581 — NO el δ0 = ε = 0.012 calibrado en
-cosmología, con el que λ_Ad ≈ 0.0268 (m_H ≈ 57 GeV). El frente queda
+λ_Ad = 0.130 exige δ0 ≈ 0.0581 — NO el 0.012 de ε_Λ que el v32
+identificaba con δ0 (identificación superada — regla canónica), con el
+que λ_Ad ≈ 0.0268 (m_H ≈ 57 GeV). El frente queda
 ACOTADO cuantitativamente: la relación de empalme es no circular y está
 implementada; el valor numérico de β3 con (M0², B, C0) sellados sigue
 siendo CONDICIONAL, exactamente como declara el Estado de H.2.4. La

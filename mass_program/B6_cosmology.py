@@ -1,7 +1,8 @@
 """B6 — Valores cosmológicos de referencia del corpus.
 
 Re-exporta los VALORES DE REFERENCIA del ajuste global documentado en el
-corpus (v32): H₀, σ₈, S₈, ΔBIC, ε ≡ δ₀ y z_trans. NO son salidas de este
+corpus (v32): H₀, σ₈, S₈, ΔBIC, ε (la amplitud ε_Λ de la transición; NO
+se identifica con δ₀ — regla canónica) y z_trans. NO son salidas de este
 código: reproducirlos requiere los datos observacionales reales en `data/`
 y el ajuste bayesiano de producción. Las funciones físicas H(z), ρ_id(z),
 Λ_rel(z) viven en `cosmology.background`.
