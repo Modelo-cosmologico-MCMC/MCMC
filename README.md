@@ -186,6 +186,24 @@ final de `validate_all.py`) ejecuta las verificaciones de signo de
 el caso que debe fallar y falla — con salida en el formato del tratado:
 qué queda demostrado, qué condicional, qué refutable.
 
+### El círculo de δ₀ (ronda 5 — agosto 2026)
+
+El empalme C¹ (H.2.4) mide δ_H ≈ 0.0581 con formas fiduciales; el
+Teo. 10.6 da al retorno de Victoria un atractor δ₀*. ¿Son el mismo
+número? `core/delta0_circle.py` lo calcula: **en toda la región fértil
+el atractor es el Techo, δ∞ = (W_max/c̄)^{1/3}** — independiente de γR
+y del δ inicial (desde 0.012 sube en 4 vueltas). El círculo se cierra
+⟺ **W_max = c̄·δ_H³ ≈ 1.65×10⁻⁴**: una ecuación de consistencia que
+liga el Teo. 10.6 con la ec. H.8 y **transfiere la pregunta a W_max**,
+que el tratado no cuantifica (frente abierto nº 4) — el cálculo no
+cierra ni rompe el círculo, y ambos desenlaces siguen abiertos. Sobre
+el paisaje O(1) fértil, δ_H = O(0.05) es genérico (mediana 0.054,
+5–95% en [0.037, 0.116]) y **ninguna forma O(1) cierra el empalme en
+δ₀ = 0.012** — refuerzo independiente de la regla canónica que separa
+δ₀ de ε_Λ. Si δ₀ = δ_H: T₀ escala ×114 y m_θ² ×52 (consecuencias a
+rastrear). Reproducción: `python scripts/run_delta0_circle.py`;
+desenlace en `results/2026-08-02_delta0_circle/`.
+
 ## Simulaciones (Apéndice B / frente abierto nº 5)
 
 El ciclo Cronos-KDK del Apéndice B está implementado en malla PM mínima:
