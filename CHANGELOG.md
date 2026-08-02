@@ -30,9 +30,17 @@ estado en que afirme exactamente lo que hace»).
   simulación PM mínima del apéndice B con par A/B reproducible.
 - Notebook en inglés con salidas ejecutadas; orientación en inglés en el
   README; nota computacional I en `docs/`.
+- **Frente E (flujo KLS)**: la ley del walking medida (el «≃» de la
+  ec. 8.4 cuantificado; divergencia −1/2), el Cruce de Victoria como
+  bifurcación dinámica y el retraso ∝ ritmo^(−1/3) (resultado del
+  programa); λ = 10 sigue calibrado (frente 2).
+- **Frente F (RP no estacionaria)**: la hipótesis real es la simetría
+  especular, no la estacionariedad — el running monótono viola la
+  reflexión ingenua y la reflexión modificada restaura la positividad
+  exacta; el sector de Wilson sigue abierto (frente 1).
 - CI con guardias de honestidad y contrato de lint declarado (reglas en
   `pyproject.toml`, versión de ruff fijada).
-- 173 tests en verde.
+- 189 tests en verde.
 
 ## v0.1.0 — 30 de julio de 2026 (migración v32 → v35)
 

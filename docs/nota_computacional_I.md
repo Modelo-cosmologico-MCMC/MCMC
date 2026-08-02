@@ -55,7 +55,7 @@ favorables. Esta nota hereda ese contrato.
 
 ## 2. Métodos
 
-Implementación de referencia en Python (NumPy/emcee), 173 tests, CI con
+Implementación de referencia en Python (NumPy/emcee), 189 tests, CI con
 guardias de honestidad (frases prohibidas verificadas por grep en cada
 push) y contrato de lint declarado. Datos observacionales públicos con
 SHA-256 fijados (Pantheon+; compilaciones de cronómetros cósmicos, BAO
@@ -181,7 +181,17 @@ publicado: ε_c máx = 3×10⁻⁵ ≪ 1.
 2. Núcleo cored en cajas de producción (frente 5).
 3. Residuos al 1–2 % de precisión futura (el contraste ganado se vuelve
    decisivo).
-4. Frentes E (flujo KLS para λ) y F (RP no estacionaria).
+4. Los medios pasos de los frentes E y F quedaron ejecutados el mismo
+   día de esta nota: el flujo KLS integrado mide la ley del walking
+   (el «≃» de la ec. 8.4 cuantificado, divergencia −1/2, y el retraso
+   del colapso ∝ ritmo^(−1/3) tras el Cruce — resultado del programa),
+   y el juguete de RP no estacionaria establece que la hipótesis real
+   es la simetría especular del perfil, no la estacionariedad: el
+   running monótono viola la reflexión ingenua y reflejar también el
+   perfil restaura la positividad exacta. λ = 10 (frente 2) y el
+   sector de Wilson (frente 1) siguen abiertos, como declara el
+   tratado. Desenlaces en `results/2026-08-02_kls_flow/` y
+   `results/2026-08-02_rp_nonstationary/`.
 
 Para una eventual v36 del tratado: blindar los tres épsilon (ε residuo,
 ε_Λ transición, ε_K gravitatorio — parámetros distintos; δ₀ es input de
@@ -200,12 +210,15 @@ python scripts/run_production_fit.py --nsteps 8000   # §3.3 v1
 python scripts/run_production_fit2.py --nsteps 8000  # §3.3 v2
 python -c "from cosmology.residues_test import report; print(report())"  # §3.4
 python scripts/run_profile_shape.py    # §3.5
+python scripts/run_kls_flow.py         # §5.4 (frente E)
+python scripts/run_rp_nonstationary.py # §5.4 (frente F)
 ```
 
 Desenlaces versionados: `results/2026-07-31_production_fit/`,
 `results/2026-08-01_production_fit_v2/`, `results/2026-08-01_fertility/`,
 `results/2026-08-01_empalme_wkb/`, `results/2026-08-02_delta0_circle/`,
-`results/2026-08-02_profile_shape/`.
+`results/2026-08-02_profile_shape/`, `results/2026-08-02_kls_flow/`,
+`results/2026-08-02_rp_nonstationary/`.
 
 ## Referencias
 
