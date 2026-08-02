@@ -186,6 +186,19 @@ final de `validate_all.py`) ejecuta las verificaciones de signo de
 el caso que debe fallar y falla — con salida en el formato del tratado:
 qué queda demostrado, qué condicional, qué refutable.
 
+### RP no estacionaria (frente F — agosto 2026)
+
+`core/rp_nonstationary.py` mide, en la cadena escalar de juguete, la
+pregunta del frente nº 1 (Teo. 7.4): la RP **no** exige acoplos
+constantes — cualquier perfil especular respecto de la loncha la
+sostiene exactamente (forma XᵀX; cero numérico con perfiles
+aleatorios) — pero el **running monótono** en S la viola con la
+reflexión ingenua (violación continua y creciente con el gradiente,
+curva medida), y **reflejar también el perfil la restaura exactamente**.
+La hipótesis real es la simetría especular, no la estacionariedad; si
+el sector espinorial de Wilson admite esa reflexión modificada sigue
+abierto, como el tratado declara. `results/2026-08-02_rp_nonstationary/`.
+
 ### El flujo KLS integrado (frente E — agosto 2026)
 
 `core/kls_flow.py` integra el flujo radial (ec. 8.3) y **mide** la ley

@@ -10,6 +10,7 @@ el módulo expone el parámetro y lo dice — nunca lo resuelve en silencio.
     path_flow.py              Cap. 4  — la dinámica (Monotonía, Exclusión)
     florencia.py              Cap. 5-6 — la Cadena de Álgebras y el giro
     reflection_positivity.py  Cap. 7  — la condición del presente (juguete)
+    rp_nonstationary.py       Cap. 7  — RP con acoplos corriendo (frente F)
     decade.py                 Cap. 8  — Discriminante y flujo log-periódico
     kls_flow.py               Cap. 8  — el flujo KLS integrado (frente E)
     gea.py                    Cap. 9  — Gea / Sello de Newton / Atlas
