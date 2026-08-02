@@ -1,8 +1,13 @@
 """Perfiles de halo del MCMC: cored (no cuspy).
 
-r_core(M, z) = r* · (M/M*)^α_r · ((1+z)/(1+z*))^β_r
+r_core(M, z) = r* · (M/M*)^α_r · ((1+z)/(1+z*))^β_r  (v35, B.5:
+«la física de núcleo se tabula como r_core(M,z)... calibrada frente a
+SPARC»). Versus el perfil NFW cuspy de ΛCDM estándar.
 
-Versus el perfil NFW cuspy de ΛCDM estándar.
+ESTATUTO: los parámetros de abajo son calibración fiducial; las
+validaciones del corpus (núcleo 2.3 kpc en halo de 1e11 M_sun, RMSE
+SPARC 12%→4.5%, subhalos −45%) se obtuvieron con el esquema anterior y
+están PENDIENTES de reproducción con Cronos v3 (frente abierto nº 5).
 """
 
 from __future__ import annotations

@@ -24,8 +24,6 @@ cuyo carácter predictivo está por establecer».
 
 from __future__ import annotations
 
-import numpy as np
-
 from mcmc_ontology import constants as C
 
 from .B3_wkb import transmission

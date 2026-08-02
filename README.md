@@ -1,11 +1,17 @@
 # MCMC — Modelo Cosmológico de Múltiples Colapsos
 
-> **Estado de versión (julio 2026).** Esta implementación sigue el *Tratado Unificado*
-> (v32, marzo 2026). El registro canónico vigente del modelo es el **Tratado de
-> Fundamentos** (v35, junio 2026, DOI [10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373)),
-> que refunda el MCMC sobre ocho axiomas ontológicos. La alineación del código con la
-> v35 está en curso y se documenta commit a commit; hasta completarse, los valores y
-> etiquetas de este repositorio pueden diferir del tratado vigente.
+[![CI](https://github.com/Modelo-cosmologico-MCMC/MCMC/actions/workflows/ci.yml/badge.svg)](https://github.com/Modelo-cosmologico-MCMC/MCMC/actions/workflows/ci.yml)
+
+> **Estado de versión (julio 2026).** Esta implementación está alineada con el
+> **Tratado de Fundamentos** (v35, junio 2026, DOI [10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373)),
+> registro canónico vigente del modelo, que lo refunda sobre ocho axiomas
+> ontológicos. La alineación desde el *Tratado Unificado* (v32) se completó en
+> julio de 2026 y está documentada commit a commit, incluida una revisión
+> adversarial del núcleo numérico. Las constantes están organizadas por estatuto
+> epistémico (Apéndice F), los valores de referencia del corpus se declaran como
+> tales —no como salidas del código—, la parametrización superada se conserva en
+> el bloque `LEGACY_V32`, y la integración continua mantiene esos criterios como
+> guardias permanentes.
 > Enlace permanente a la última versión del tratado: [10.5281/zenodo.14167831](https://doi.org/10.5281/zenodo.14167831).
 
 Implementación de referencia en Python del **Modelo Cosmológico de Múltiples
@@ -19,11 +25,15 @@ mass gap lattice, simulación cuántica de qudits y visualización.
 
 ```
 mcmc_ontology/    Ontología pura: axiomas (v35 §1.2), constantes, S-map, potencial, Clifford, sellos
+core/             La cadena deductiva ejecutable (caps. 2-10): Plano Dual, Basal,
+                  Flujo, Florencia, RP (juguete), Discriminante, Gea, Victoria
+validation/       Suite espejo del apéndice H (verificaciones + controles negativos)
 mass_program/     B0–B6, P3, P4, M1 (running QCD), M2 (CKM)
-cosmology/        H(z), ρ_id, ρ_lat, Λ_rel, ajuste bayesiano
-cronos/           N-body en S, fricción entrópica, halos cored
-lattice/          Mass gap E_min = k·ΔS, espectro glueball SU(3)
-quantum/          Qudit d=5, H_MCMC ontológico, simulación QuTiP
+cosmology/        H(z), Λ_rel, canales v35 (Ap. A), ajuste bayesiano y de producción
+cronos/           Cronos v3 (cap. 11) + ciclo PM del Ap. B: paso entrópico,
+                  Poisson modificado, canales, colapso reproducible
+lattice/          Mass gap (D.5-D.6), β(S) entrópico, mapa Sₙ→jₙ, spinfoam (D.4)
+quantum/          Qudit d=5 (C.1), compuertas Û(θ) (C.2-C.3), Lindblad (C.4), Γn/Γ0 (C.5)
 visualization/    Animaciones, espectro de masas, plots cosmológicos
 data/             Datos observacionales (vacío; poblar con scripts/download_data.py)
 configs/          Parámetros CLASS/CAMB y simulaciones
@@ -87,33 +97,183 @@ de los sellos la codifican los pesos c_in del **Funcional del Camino**
 eran presentación del Tratado Unificado (v32) y se conservan solo en el
 bloque `LEGACY_V32` de `constants.py`.
 
-## Valores de referencia del corpus
+## Resultados del ajuste de producción (julio 2026)
 
-**Estos valores NO son salidas de este código**: proceden de los ajustes
-documentados en el corpus del modelo (v32). Los directorios de `data/` están
-vacíos; reproducirlos requiere cargar los catálogos observacionales reales
-(`python scripts/download_data.py all`) y ejecutar el ajuste bayesiano de
-producción. Hasta entonces se usan como valores fiduciales de referencia
-(`CORPUS_REFERENCE` en `mcmc_ontology/constants.py`). Cuando el ajuste corra
-sobre los datos reales, sus salidas (con su metodología) podrán sustituir a
-esta tabla — antes no.
+Primer ajuste bayesiano de este repositorio sobre **datos reales**
+(`scripts/run_production_fit.py`, semilla 42, 32 walkers × 4000 pasos,
+convergencia verificada por autocorrelación): 31 puntos H(z) de cronómetros
+cósmicos + 6 medidas BAO del consenso BOSS DR12 (r_d fiducial 147.09 Mpc,
+fijo) + 1371 SNe de Pantheon+ con covarianza completa (M_B marginalizada
+analíticamente; sin ancla cefeida). ΛCDM se ajustó sobre **los mismos datos
+con la misma maquinaria** (ε = 0 exacto, Prop. A.1); priors del Apéndice F.
 
-| Observable    | Corpus MCMC         | PDG / ΛCDM       |
-|---------------|---------------------|------------------|
-| m_H           | ≃ 125.3 GeV ¹       | 125.25 GeV       |
-| H₀            | 69.8 ± 1.1 km/s/Mpc | 67.7 ± 0.7       |
-| σ₈            | 0.805               | 0.830            |
-| ΔBIC vs ΛCDM  | −6.1                | —                |
-| Σm_ν          | 4.6×10⁻⁵ eV         | < 0.12 eV        |
+| Parámetro | MCMC (k=4) | ΛCDM (k=2) |
+|---|---|---|
+| H₀ [km/s/Mpc] | 66.1 ± 1.7 | 66.6 ± 1.3 |
+| Ω_m | 0.344 ± 0.026 | 0.340 ± 0.024 |
+| ε | 0.014 −0.038/+0.042 — **compatible con 0** | ≡ 0 |
+| z_trans | 9.2 ± 4.7 (dominado por el prior) | — |
 
-¹ m_H = √(2·β3)·v3 es la identidad del Modelo Estándar con λ_H = β3: el acuerdo
-numérico no constituye por sí solo una predicción mientras β3 no se derive sin
-usar m_H como entrada (Tratado de Fundamentos, Obs. 12.2; frente abierto nº 7).
+χ² total en el máximo: 1226.07 (MCMC) frente a 1226.03 (ΛCDM).
+**ΔAIC = +4.0 y ΔBIC = +14.5 (positivo favorece a ΛCDM)**: con estos tres
+catálogos y esta metodología, los dos parámetros extra del MCMC no mejoran el
+ajuste y los criterios de información favorecen a ΛCDM. El resultado se
+publica tal cual — el compromiso del proyecto es con el contraste, no con el
+desenlace.
+
+Informe completo, fórmulas y cadenas: `results/2026-07-31_production_fit/`.
+Reproducción determinista: `python scripts/download_data.py all &&
+python scripts/run_production_fit.py`.
+
+### La corrida de la reconciliación (v2, cinco bloques — agosto 2026)
+
+La pregunta que dejó abierta la v1 —¿reaparece la ventaja del corpus cuando
+entran los likelihoods que sondean la transición?— está respondida:
+`scripts/run_production_fit2.py` añade la **geometría comprimida del CMB**
+(R, l_A, ω_b; Chen, Huang & Wang 2019) y el **crecimiento fσ₈** (11 puntos
+RSD, ODE exacta de D(a)), n = 1422, MCMC k=6 frente a ΛCDM k=4, convergencia
+50·τ verificada (24×8000 pasos, semilla 42):
+
+| Parámetro | MCMC (k=6) | ΛCDM (k=4) |
+|---|---|---|
+| H₀ | 67.1 ± 1.5 | 67.6 ± 0.7 |
+| Ω_m | 0.323 ± 0.016 | 0.318 ± 0.009 |
+| ε | 0.015 −0.039/+0.043 — **compatible con 0** | ≡ 0 |
+| σ₈ | 0.802 ± 0.029 | 0.800 ± 0.030 |
+
+χ² total 1235.04 vs 1235.03 (idéntico bloque a bloque, incluidos CMB y fσ₈);
+**ΔAIC = +4.0, ΔBIC = +14.5 a favor de ΛCDM** — el mismo veredicto que la
+v1: la penalización por parsimonia decide porque los parámetros extra no
+compran nada. **La ventaja del corpus no reaparece con fondo + geometría +
+crecimiento.** Lo que queda fuera de esta corrida: el espectro C_ℓ completo
+y la lente débil (el CMB entra comprimido y diagonal; z*/r_s por
+Hu–Sugiyama, sesgo ~0.3% idéntico en ambos modelos). Informe y cadenas:
+`results/2026-08-01_production_fit_v2/`.
+
+**Relación con el corpus.** Los valores del corpus v32 (H₀ = 69.8, σ₈ = 0.805,
+ΔBIC = −6.1 a favor del MCMC) permanecen documentados como referencia
+histórica en `CORPUS_REFERENCE` (`mcmc_ontology/constants.py`). Tras la v2,
+la reconciliación queda acotada con precisión: la ventaja que el corpus
+reportaba tendría que proceder del C_ℓ completo, de la lente débil o de su
+propia metodología — ya no del fondo, la geometría comprimida ni el
+crecimiento, donde ambos modelos son indistinguibles y ε sale compatible
+con cero. H₀ intermedio (~69–70) y σ₈ reducido no emergen en esta corrida.
+
+Sobre m_H ≃ 125.3 GeV: es la identidad del Modelo Estándar con λ_H = β3 y no
+constituye por sí sola una predicción mientras β3 no se derive sin usar m_H
+como entrada (Obs. 12.2; frente abierto nº 7). Σm_ν ≈ 4.6×10⁻⁵ eV (seesaw
+tensional, muy por debajo de la cota < 0.12 eV).
+
+## La cadena deductiva ejecutable (`core/`)
+
+Los capítulos 2–10 del tratado están implementados como código cuyo
+principio de diseño es: **cada módulo implementa las definiciones de su
+capítulo y sus tests verifican los teoremas**. La ley de escala
+T₀ = c̄·δ₀³ se mide (exponente ajustado = 3); la Monotonía del Camino
+(Teo. 4.5) y la Exclusión (Lema 4.7) se comprueban sobre trayectorias —
+«la flecha del tiempo se demuestra, no se postula» tiene test; la
+Rotación de Florencia produce la firma (−,+,+,+) girando un solo
+generador; el Discriminante se fusiona en la espinodal y el walking
+diverge al acercarse a ella; el Sello de Newton recupera GR exactamente;
+y el Ciclo de Victoria itera en espiral con ν>0 o cae al Silencio con
+ν<0. Donde el tratado declara condicional (signo de Lydia, ventana de
+Atlas, Conjetura de los Residuos, RP espinorial), el módulo **expone el
+parámetro con su condición — nunca lo resuelve en silencio**.
+
+La suite espejo del apéndice H (`validation/appendix_h.py`, invocada al
+final de `validate_all.py`) ejecuta las verificaciones de signo de
+§13.5, los tres límites de recuperación y sus **controles negativos** —
+el caso que debe fallar y falla — con salida en el formato del tratado:
+qué queda demostrado, qué condicional, qué refutable.
+
+### El círculo de δ₀ (ronda 5 — agosto 2026)
+
+El empalme C¹ (H.2.4) mide δ_H ≈ 0.0581 con formas fiduciales; el
+Teo. 10.6 da al retorno de Victoria un atractor δ₀*. ¿Son el mismo
+número? `core/delta0_circle.py` lo calcula: **en toda la región fértil
+el atractor es el Techo, δ∞ = (W_max/c̄)^{1/3}** — independiente de γR
+y del δ inicial (desde 0.012 sube en 4 vueltas). El círculo se cierra
+⟺ **W_max = c̄·δ_H³ ≈ 1.65×10⁻⁴**: una ecuación de consistencia que
+liga el Teo. 10.6 con la ec. H.8 y **transfiere la pregunta a W_max**,
+que el tratado no cuantifica (frente abierto nº 4) — el cálculo no
+cierra ni rompe el círculo, y ambos desenlaces siguen abiertos. Sobre
+el paisaje O(1) fértil, δ_H = O(0.05) es genérico (mediana 0.054,
+5–95% en [0.037, 0.116]) y **ninguna forma O(1) cierra el empalme en
+δ₀ = 0.012** — refuerzo independiente de la regla canónica que separa
+δ₀ de ε_Λ. Si δ₀ = δ_H: T₀ escala ×114 y m_θ² ×52 (consecuencias a
+rastrear). Reproducción: `python scripts/run_delta0_circle.py`;
+desenlace en `results/2026-08-02_delta0_circle/`.
+
+## Simulaciones (Apéndice B / frente abierto nº 5)
+
+El ciclo Cronos-KDK del Apéndice B está implementado en malla PM mínima:
+paso temporal entrópico (ec. B.3, η=0.025), Poisson modificado (ec. B.2),
+refresco de canales tensionales y dilatación local (B.3), con la fricción
+de compuerta del cap. 11. La demo reproducible:
+
+```bash
+python scripts/run_halo_collapse.py
+```
+
+corre un par A/B de semilla idéntica (B.5/B.6) y exhibe la **firma
+falsable de la fig. 11.1**: la compuerta activa durante el colapso y
+apagada al virializar (el control newtoniano da Γ≡0).
+
+**Alcance declarado**: esto NO es Gadget-4-Cronos (la variante de
+producción del tratado con árbol octal, MPI y cajas 512³–1024³ de B.4,
+cuyas configuraciones están en `configs/cronos_*.yaml`). Las validaciones
+del corpus (núcleo de 2.3 kpc, SPARC RMSE 12%→4.5%, subhalos −45%) siguen
+**pendientes de reproducción** con el esquema corregido — es el frente
+abierto nº 5 (§13.6/cap. 14.5).
+
+### Medio paso del frente nº 5 (ronda 5 — agosto 2026)
+
+`cronos/profile_fit.py` + `python scripts/run_profile_shape.py` miden lo
+que la malla mínima puede medir, y lo declaran: (1) el **perfil
+emergente** del colapso aislado (par A/B de semilla idéntica) ajustado
+en forma a cored ρ₀[1+(r/r_c)²]⁻¹ vs NFW — a esta resolución ambas
+corridas emergen cuspy (NFW-like) y la diferencia A/B con α0⁻¹ dentro
+de la cota es < 1%: el veredicto del núcleo (r < celda) es de
+producción; (2) la **compuerta de Cronos (H.2.5)**: en el halo aislado
+virializado Γ = 0 exacto en la mayoría del tramo final (mediana 0; el
+residuo máximo es ruido de cáscara), la caída conservadora es de ~1.5–2
+órdenes, y el **control negativo** — la forma sin compuerta (11.3b) —
+persiste (~0.25 órdenes), como dice H.2.5 del esquema antiguo. Los
+valores ≈4×10⁻⁴→≈7×10⁻⁹ del tratado son de su simulación de producción.
+Hallazgo de validez declarado: ρ_c debe ser el umbral de colapso (~200×
+la media); con ρ_c ~ media, ε_c alcanza O(1), fuera del régimen débil
+de la Def. 11.1, y la fricción condensa el halo en un punto (artefacto
+verificado, no física). Desenlace en `results/2026-08-02_profile_shape/`.
 
 ## Tests
 
 ```bash
 pytest tests/
+```
+
+## English orientation
+
+This repository makes the *Tratado de Fundamentos* (v35, June 2026, DOI
+[10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373))
+executable. Design principle: each `core/` module implements the
+definitions of its treatise chapter and its tests verify the theorems;
+conditional results are exposed as parameters with their condition, never
+silently resolved; unfavorable outcomes are published front-page with the
+same tone as favorable ones. Honest headlines as of August 2026: the
+production Bayesian fits on real data (CC+BAO+SNe, then + compressed CMB
++ fσ8) give **ΔBIC = +14.5 favoring ΛCDM** (ε compatible with 0) — while
+the Residues contrast (G_cosmo/G_N − 1 ≈ −1.8% vs. the BBN bound) is
+**passed** at ~0.3σ; the C¹ splice measures δ₀* ≈ 0.0581 without the
+Higgs mass as input; and the δ₀ circle reduces to a consistency equation
+W_max = c̄·δ_H³ whose value awaits open front #4.
+
+**Start here (English guided tour, runs offline in ~1 min):**
+[`notebooks/tour_deductive_chain_en.ipynb`](notebooks/tour_deductive_chain_en.ipynb)
+
+```bash
+pip install -e ".[dev]"
+pytest tests/                     # the full suite
+python scripts/validate_all.py    # WKB, masses, cosmology + Appendix-H mirror
 ```
 
 ## Cómo citar

@@ -1,0 +1,19 @@
+# Caja LSS (v35, Apéndice B.4): 500-1000 h^-1 Mpc, ~1024^3.
+# Corrida de producción del frente abierto nº 5 — pendiente de ejecución
+# con Gadget-4-Cronos (no ejecutable con la malla PM de este repositorio).
+simulation:
+  L_box_Mpc_h: 750.0
+  N_per_dim: 1024
+  use_case: "BAO, P(k) a gran escala, recuento de subestructura"
+
+cronos:
+  alpha_cronos: 0.030   # esquema v32 (ver constants.py); NO es alpha0_inv
+  rho_c0: 200.0
+  zeta_cronos: 0.015
+  delta_S: 1.0e-3
+  eta_timestep: 0.025   # η del paso entrópico (v35, ec. B.3)
+
+initial_conditions:
+  z_init: 99.0
+  seed: 20260731
+  generator: "Music / N-GenIC con P(k) de CLASS/CAMB-MCMC (v35, B.4)"

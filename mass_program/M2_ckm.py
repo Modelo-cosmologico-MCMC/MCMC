@@ -48,7 +48,6 @@ def V_CKM_factor(seal: str, fermion: str) -> float:
         return 1.0
     f_type = "up" if fermion in {"t", "c", "u"} else "down"
     dom = DOMINANT[seal][f_type]
-    key = tuple(sorted((fermion, dom)))
     # Reordenar a (up, down) para usar tabla CKM
     if fermion in {"t", "c", "u"}:
         u_q, d_q = fermion, dom

@@ -40,13 +40,20 @@ all = ["qutip>=4.7", "camb>=1.5", "pytest>=7.4"]
 [tool.setuptools]
 packages = [
     "mcmc_ontology",
+    "core",
     "mass_program",
     "cosmology",
     "cronos",
     "lattice",
     "quantum",
     "visualization",
+    "validation",
 ]
+
+[tool.ruff.lint]
+# E701/E702 (varias sentencias por línea) se ignoran: el estilo compacto
+# es deliberado en varios módulos y no afecta a la corrección.
+ignore = ["E701", "E702"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

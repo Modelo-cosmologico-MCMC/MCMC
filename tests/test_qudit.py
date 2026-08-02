@@ -2,8 +2,9 @@
 
 import numpy as np
 
-from quantum.gates import GATE_THRESHOLDS_S, apply_gate_at_S
-from quantum.qudit import basis as qbasis
+from quantum.qudit import basis, state, fidelity, D
+from quantum.hamiltonian import H_MCMC
+from quantum.gates import X_collapse, GATE_THRESHOLDS_S, apply_gate_at_S
 
 
 def test_gate_thresholds_are_decade():
@@ -13,17 +14,11 @@ def test_gate_thresholds_are_decade():
 
 def test_apply_gate_at_S_fires_only_at_threshold():
     """X̂0→1 no dispara antes de S=0.009 y sí a partir de él."""
-    psi = qbasis(0)
+    psi = basis(0)
     before = apply_gate_at_S(psi, 0, S=0.005)
     after = apply_gate_at_S(psi, 0, S=0.009)
-    assert np.allclose(before, qbasis(0))
-    assert np.allclose(after, qbasis(1))
-
-import numpy as np
-
-from quantum.qudit import basis, state, fidelity, D
-from quantum.hamiltonian import H_MCMC
-from quantum.gates import X_collapse
+    assert np.allclose(before, basis(0))
+    assert np.allclose(after, basis(1))
 
 
 def test_basis_dim():

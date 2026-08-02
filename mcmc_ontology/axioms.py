@@ -42,19 +42,28 @@ AXIOMS: dict[int, tuple[str, str]] = {
         "no está garantizado: se gana."),
 }
 
-# Realización de cada axioma en el paquete / el tratado (referencia cruzada).
+# Realización EJECUTABLE de cada axioma (módulo que lo implementa y test
+# que verifica su teorema — la cadena deductiva como código, ronda 3).
 REALIZATION: dict[int, str] = {
-    1: "Plano Dual Mp/Ep — mcmc_ontology.potential (Potencial Basal); v35 §2-3",
-    2: "δ₀ ≡ EPSILON_0 (input de ciclo) — mcmc_ontology.constants; v35 §3, Teo. 10.6",
-    3: "T₀ = c̄·δ₀³ — v35 §3.4 (estructura de vacíos)",
-    4: "Flujo del Camino, monotonía — v35 §4.5; potencial escalonado V(Φ;S)",
-    5: "Sellos S_n y Ley de la Década — mcmc_ontology.constants (S_SEALS), "
-       "mcmc_ontology.seals; v35 Prop. 8.1, Tabla F.1",
-    6: "Tramo euclidiano C(d+1,0) — mcmc_ontology.clifford_algebra; v35 §5.1-5.2",
-    7: "Nacimiento del tiempo en S=1.001 — mcmc_ontology.S_map (s_to_t_rel), "
-       "cronos/; v35 §7 (Rotación de Florencia), cap. 11 (Ley de Cronos)",
-    8: "Ciclo de Victoria, s0 = π/ln(10) — v35 §10 (Retorno de Victoria); "
-       "frente abierto nº 4",
+    1: "Plano Dual (ρ,θ,χ,ς) — core.dual_plane (Defs. 2.1-2.2; tests: "
+       "reflexión Z₂, diagonal dual); v35 §2",
+    2: "δ₀ input de ciclo con escalado canónico (3.2) — core.basal."
+       "scaled_params (test: rigidez marginal M0² ∝ δ0²); v35 §3",
+    3: "T₀ = c̄·δ₀³ — core.basal.T0_numeric (test: exponente 3 medido; "
+       "T0=0 ⟺ δ0=0); v35 Prop. 3.4",
+    4: "Flujo del Camino — core.path_flow (tests: Monotonía Teo. 4.5, "
+       "Exclusión Lema 4.7, salida al polo de masa Prop. 3.5); v35 §4",
+    5: "Sellos y Ley de la Década — constants.decade_thresholds "
+       "(Prop. 8.1) y core.decade (Discriminante, Def. 8.4/Prop. 8.5, "
+       "Cruce de Victoria); v35 §8, Tabla F.1",
+    6: "Tramo euclidiano C(d+1,0) — core.florencia.chain_generators "
+       "(tests: firmas +1, elipticidad Lema 5.2); v35 §5",
+    7: "Nacimiento del tiempo — core.florencia.florencia_rotation "
+       "(test: γ⁰=iγS, firma (−,+,+,+), un solo giro); Ley de Cronos: "
+       "mcmc_ontology.S_map, cronos/ (cap. 11); v35 §6",
+    8: "Ciclo de Victoria — core.victoria (tests: m_θ² ∝ δ0^{5/2}, "
+       "espiral con ν>0, Silencio con ν<0; ν EXPUESTO como condicional, "
+       "frente nº 4); v35 §10, H.2.3",
 }
 
 

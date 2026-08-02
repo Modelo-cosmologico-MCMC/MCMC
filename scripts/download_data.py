@@ -47,21 +47,23 @@ DOWNLOADS = {
             "https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/"
             "main/Pantheon%2B_Data/4_DISTANCES_AND_COVAR/Pantheon%2BSH0ES.dat",
             DATA / "pantheon" / "PantheonPlusSH0ES.dat",
-            None,  # fijar tras la primera descarga verificada
+            # Verificado el 31-jul-2026 (579 283 bytes):
+            "1cb0fc379ef066afdc2ffd1857681cc478024570d8a3eba284fb645775198cf8",
         ),
         (
             "https://raw.githubusercontent.com/PantheonPlusSH0ES/DataRelease/"
             "main/Pantheon%2B_Data/4_DISTANCES_AND_COVAR/"
             "Pantheon%2BSH0ES_STAT%2BSYS.cov",
             DATA / "pantheon" / "PantheonPlusSH0ES_STATSYS.cov",
-            None,
+            # Verificado el 31-jul-2026 (33 284 960 bytes):
+            "abf806d966485e64afdb359c87bffc0ecc00d05eff0a31ced66f247385df0fdc",
         ),
     ],
     "sparc": [
         (
             "http://astroweb.cwru.edu/SPARC/Rotmod_LTG.zip",
             DATA / "sparc" / "Rotmod_LTG.zip",
-            None,
+            None,  # pendiente: fijar en la primera descarga verificada
         ),
     ],
 }
@@ -123,6 +125,30 @@ BAO_TABLE = """\
 0.61  DH_over_rd  20.86  0.45
 """
 
+# --- Crecimiento fσ8: compilación RSD (referencias por punto) ---
+FSIGMA8_TABLE = """\
+# Crecimiento fσ8(z) — compilación RSD de la literatura.
+# Columnas: z  fsigma8  sigma
+# Refs por bloque: 6dFGS: Beutler et al. 2012 (MNRAS 423, 3430);
+#   SDSS MGS: Howlett et al. 2015 (MNRAS 449, 848);
+#   BOSS DR12: Alam et al. 2017 (MNRAS 470, 2617);
+#   WiggleZ: Blake et al. 2012 (MNRAS 425, 405);
+#   VIPERS: Pezzotta et al. 2017 (A&A 604, A33);
+#   FastSound: Okumura et al. 2016 (PASJ 68, 38);
+#   eBOSS QSO: Hou et al. 2021 (MNRAS 500, 1201).
+0.067  0.423  0.055
+0.15   0.53   0.16
+0.38   0.497  0.045
+0.44   0.413  0.080
+0.51   0.458  0.038
+0.60   0.390  0.063
+0.61   0.436  0.034
+0.73   0.437  0.072
+0.80   0.470  0.080
+1.40   0.482  0.116
+1.48   0.462  0.045
+"""
+
 # --- Planck 2018: geometría comprimida (desviación declarada arriba) ---
 PLANCK_TABLE = """\
 # Planck 2018 TT,TE,EE+lowE — geometría comprimida.
@@ -167,6 +193,7 @@ def write_compiled_tables() -> None:
     targets = {
         DATA / "boss_eboss" / "hz_cc.txt": CC_TABLE,
         DATA / "boss_eboss" / "bao_dr12.txt": BAO_TABLE,
+        DATA / "boss_eboss" / "fsigma8.txt": FSIGMA8_TABLE,
         DATA / "planck2018" / "compressed_geometry.txt": PLANCK_TABLE,
     }
     for path, content in targets.items():

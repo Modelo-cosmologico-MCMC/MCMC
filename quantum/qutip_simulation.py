@@ -1,29 +1,34 @@
-"""Simulación QuTiP del qudit MCMC (Tratado de Fundamentos v35, C.1-C.2).
+"""Simulación QuTiP del qudit MCMC (Tratado de Fundamentos v35, C.1-C.5).
 
-La tabla EXPECTED_FIDELITIES contiene VALORES ESPERADOS DEL CORPUS
-(10^4 trayectorias, QuTiP 4.7) — no salidas verificadas de este código:
-sin QuTiP instalado, `simulate_transitions` devuelve la tabla tal cual.
+La tabla EXPECTED_FIDELITIES contiene VALORES ESPERADOS DEL TRATADO
+(v35 C.4: mcsolve, 10^4 trayectorias) — no salidas verificadas de este
+código: sin QuTiP instalado, `simulate_transitions` devuelve la tabla
+tal cual.
 
-| Transición  | Fidelidad (corpus) |
-|-------------|--------------------|
-| S0 → S1     | 0.981              |
-| S1 → S2     | 0.975              |
-| S2 → S3     | 0.969              |
-| S3 → S4     | 0.958              |
-| Global F    | 0.939              |
+| Transición  | Fidelidad (v35, C.4) |
+|-------------|----------------------|
+| S0 → S1     | 0.981                |
+| S1 → S2     | 0.976                |
+| S2 → S3     | 0.968                |
+| S3 → S4     | 0.961                |
 
-Predicción falsable del tratado (C.2): patrón decreciente de fidelidades
-F0 > F1 > F2 > F3, con máxima superposición en la fase intermedia.
+Nota de versión: el corpus v32 tabulaba 0.981/0.975/0.969/0.958 con una
+fidelidad global de 0.939; la v35 (C.4) publica 0.981/0.976/0.968/0.961
+y no declara valor global. Este módulo usa los valores vigentes.
+
+Predicción falsable del tratado (C.4-C.5): patrón decreciente de
+fidelidades F0 > F1 > F2 > F3 — las transiciones de mayor n sufren más
+decoherencia tensional por el factor η_void(Sn) — con la máxima
+superposición en la fase intermedia de la conversión Mp → Ep.
 """
 
 from __future__ import annotations
 
 EXPECTED_FIDELITIES = {
     "S0->S1": 0.981,
-    "S1->S2": 0.975,
-    "S2->S3": 0.969,
-    "S3->S4": 0.958,
-    "global": 0.939,
+    "S1->S2": 0.976,
+    "S2->S3": 0.968,
+    "S3->S4": 0.961,
 }
 
 HARDWARE = {

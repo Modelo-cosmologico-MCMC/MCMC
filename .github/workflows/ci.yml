@@ -1,0 +1,68 @@
+# Integración continua del MCMC
+#
+# Ejecuta la suite completa en cada push y pull request, sobre las tres
+# versiones de Python soportadas. El badge para el README:
+#
+#   [![CI](https://github.com/Modelo-cosmologico-MCMC/MCMC/actions/workflows/ci.yml/badge.svg)](https://github.com/Modelo-cosmologico-MCMC/MCMC/actions/workflows/ci.yml)
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Suite de tests
+        run: pytest tests/ -v
+
+      - name: Criterios de honestidad
+        # Los criterios de aceptación de la migración, como guardia permanente:
+        # si alguna reformulación futura reintroduce una sobreafirmación,
+        # el CI falla. Se comprueban sobre código y documentación.
+        run: |
+          ! grep -rn "sin parámetros libres" --include="*.py" --include="*.md" .
+          ! grep -rn "125\.44\b" --include="*.py" --include="*.md" --include="*.ini" . | grep -v "125.436"
+          ! grep -rn "S_actual\|S_max" --include="*.py" . | grep -v "LEGACY_V32\|legacy"
+
+      - name: Validación integral
+        run: python scripts/validate_all.py
+
+      - name: Likelihood sobre catálogos compilados (contraste mínimo)
+        # Genera las tablas pequeñas (cronómetros + BAO, con referencias)
+        # y evalúa el log-posterior sobre ellas: el contraste con datos
+        # reales entra en el CI en su versión mínima.
+        run: |
+          python scripts/download_data.py boss_eboss
+          python -c "from cosmology.bayesian_fit import load_Hz_data, load_bao_data, log_prob; d = load_Hz_data(); b = load_bao_data(); lp = log_prob((67.4, 0.30, 0.012, 8.9), d, bao=b); assert lp > -200, f'log-posterior degenerado: {lp}'; print(f'OK: log-posterior sobre {len(d.z)} CC + {len(b.z)} BAO = {lp:.2f}')"
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Ruff
+        run: |
+          pip install ruff
+          ruff check . --output-format=github

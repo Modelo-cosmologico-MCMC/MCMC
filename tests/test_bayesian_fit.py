@@ -6,6 +6,7 @@ from mcmc_ontology import constants as C
 from cosmology.bayesian_fit import (
     synthetic_selftest_dataset, log_prior, log_like_Hz, log_prob,
     comoving_distance, distance_modulus, BAOData, log_like_bao,
+    theta_lcdm_to_mcmc, log_prob_lcdm, information_criteria,
 )
 
 
@@ -54,3 +55,27 @@ def test_log_like_bao_evaluates():
     )
     ll = log_like_bao(THETA0, bao)
     assert np.isfinite(ll)
+
+
+def test_lcdm_same_machinery():
+    """ΛCDM (ε=0) sobre los mismos datos con la misma maquinaria:
+    log_prob_lcdm(H0, Om) == likelihood del MCMC con ε = 0 (Prop. A.1),
+    salvo los términos de prior de ε/z_trans que ΛCDM no tiene."""
+    data = synthetic_selftest_dataset(n=16, seed=2)
+    theta2 = (67.4, 0.30)
+    theta4 = theta_lcdm_to_mcmc(theta2)
+    assert theta4[2] == 0.0
+    ll_l = log_prob_lcdm(theta2, data)
+    ll_m_like = log_like_Hz(theta4, data)
+    prior_H0 = -0.5 * ((67.4 - 67.4) / 5.0) ** 2
+    assert abs(ll_l - (prior_H0 + ll_m_like)) < 1e-12
+
+
+def test_information_criteria_formulas():
+    """AIC = 2k − 2lnL; BIC = k·ln(n) − 2lnL, con k y n explícitos."""
+    ic = information_criteria(k=4, n=100, loglike_max=-50.0)
+    assert ic["AIC"] == 2 * 4 - 2 * (-50.0)
+    assert abs(ic["BIC"] - (4 * np.log(100) + 100.0)) < 1e-12
+    # La penalización BIC por 2 parámetros extra con n=100 es 2·ln(100):
+    ic2 = information_criteria(k=2, n=100, loglike_max=-50.0)
+    assert abs((ic["BIC"] - ic2["BIC"]) - 2 * np.log(100)) < 1e-12
