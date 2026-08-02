@@ -186,6 +186,18 @@ final de `validate_all.py`) ejecuta las verificaciones de signo de
 el caso que debe fallar y falla — con salida en el formato del tratado:
 qué queda demostrado, qué condicional, qué refutable.
 
+### El flujo KLS integrado (frente E — agosto 2026)
+
+`core/kls_flow.py` integra el flujo radial (ec. 8.3) y **mide** la ley
+del walking: el «≃» de la ec. 8.4 queda cuantificado (error 3×10⁻⁵ a
+Ω/x_R=10⁻³), la divergencia en la espinodal da exponente −0.4997
+(esperado −1/2), y el Cruce de Victoria (Obs. 8.6) corre como
+bifurcación dinámica — el colapso se dispara **después** del cruce
+D=0, con un retraso ∝ ritmo^(−1/3) (silla-nodo con deriva; resultado
+del programa, no del tratado) y control negativo sin hundimiento.
+Lo que no hace: derivar λ=10 — eso exige las β-funciones de los
+acoplos (frente 2, declarado). `results/2026-08-02_kls_flow/`.
+
 ### El círculo de δ₀ (ronda 5 — agosto 2026)
 
 El empalme C¹ (H.2.4) mide δ_H ≈ 0.0581 con formas fiduciales; el
