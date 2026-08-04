@@ -186,6 +186,31 @@ final de `validate_all.py`) ejecuta las verificaciones de signo de
 el caso que debe fallar y falla — con salida en el formato del tratado:
 qué queda demostrado, qué condicional, qué refutable.
 
+### RP no estacionaria (frente F — agosto 2026)
+
+`core/rp_nonstationary.py` mide, en la cadena escalar de juguete, la
+pregunta del frente nº 1 (Teo. 7.4): la RP **no** exige acoplos
+constantes — cualquier perfil especular respecto de la loncha la
+sostiene exactamente (forma XᵀX; cero numérico con perfiles
+aleatorios) — pero el **running monótono** en S la viola con la
+reflexión ingenua (violación continua y creciente con el gradiente,
+curva medida), y **reflejar también el perfil la restaura exactamente**.
+La hipótesis real es la simetría especular, no la estacionariedad; si
+el sector espinorial de Wilson admite esa reflexión modificada sigue
+abierto, como el tratado declara. `results/2026-08-02_rp_nonstationary/`.
+
+### El flujo KLS integrado (frente E — agosto 2026)
+
+`core/kls_flow.py` integra el flujo radial (ec. 8.3) y **mide** la ley
+del walking: el «≃» de la ec. 8.4 queda cuantificado (error 3×10⁻⁵ a
+Ω/x_R=10⁻³), la divergencia en la espinodal da exponente −0.4997
+(esperado −1/2), y el Cruce de Victoria (Obs. 8.6) corre como
+bifurcación dinámica — el colapso se dispara **después** del cruce
+D=0, con un retraso ∝ ritmo^(−1/3) (silla-nodo con deriva; resultado
+del programa, no del tratado) y control negativo sin hundimiento.
+Lo que no hace: derivar λ=10 — eso exige las β-funciones de los
+acoplos (frente 2, declarado). `results/2026-08-02_kls_flow/`.
+
 ### El círculo de δ₀ (ronda 5 — agosto 2026)
 
 El empalme C¹ (H.2.4) mide δ_H ≈ 0.0581 con formas fiduciales; el
@@ -281,6 +306,13 @@ python scripts/validate_all.py    # WKB, masses, cosmology + Appendix-H mirror
 Ver `CITATION.cff` (GitHub genera la cita automáticamente). Registro
 canónico vigente: **Tratado de Fundamentos** (v35),
 DOI [10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373).
+
+Los resultados originales del programa (la ecuación de cierre del
+círculo de δ₀, la naturalidad de δ_H, los ajustes de producción y el
+contraste BBN) están documentados con su estatuto exacto en la
+**[Nota computacional I](docs/nota_computacional_I.md)** — preparada
+para su depósito citable en Zenodo junto a la release v0.2.0 (ver
+`CHANGELOG.md`).
 DOI de concepto de la serie (siempre la última versión):
 [10.5281/zenodo.14167831](https://doi.org/10.5281/zenodo.14167831).
 No citar como vigentes los depósitos superados (v29, v32).

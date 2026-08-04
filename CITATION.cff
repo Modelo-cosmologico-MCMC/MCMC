@@ -7,6 +7,8 @@ authors:
     given-names: "Adrián"
     orcid: "https://orcid.org/0009-0009-4314-9642"
 license: Apache-2.0
+version: 0.2.0
+date-released: "2026-08-02"
 repository-code: "https://github.com/Modelo-cosmologico-MCMC/MCMC"
 references:
   - type: article
