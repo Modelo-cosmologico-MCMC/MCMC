@@ -233,7 +233,11 @@ cierra ni rompe el círculo, y ambos desenlaces siguen abiertos. Sobre
 el paisaje O(1) fértil, δ_H = O(0.05) es genérico (mediana 0.054,
 5–95% en [0.037, 0.116]) y **ninguna forma O(1) cierra el empalme en
 δ₀ = 0.012** — refuerzo independiente de la regla canónica que separa
-δ₀ de ε_Λ. Si δ₀ = δ_H: T₀ escala ×114 y m_θ² ×52 (consecuencias a
+δ₀ de ε_Λ. El análisis de sensibilidad a priors (v35.1;
+`results/2026-08-04_landscape_priors/`) separa lo robusto de lo
+fiducial: la inaccesibilidad del 0.012 es analítica (vale para todo
+prior sobre los dominios O(1)) y el orden pocas×10⁻² es robusto; la
+mediana precisa depende del prior y del rango de b̄, y así se declara. Si δ₀ = δ_H: T₀ escala ×114 y m_θ² ×52 (consecuencias a
 rastrear). Reproducción: `python scripts/run_delta0_circle.py`;
 desenlace en `results/2026-08-02_delta0_circle/`.
 

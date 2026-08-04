@@ -118,6 +118,19 @@ fértil 0.720 con γ_max = 3 declarado):
   modelo. La regla canónica (no identificar δ₀ con ε_Λ) queda demostrada
   desde dentro.
 
+**Robustez frente a priors (análisis de sensibilidad, 4-ago-2026;
+tarea nacida de la auditoría v35.1).** El barrido priors (uniforme,
+log-uniforme, normal) × dominios O(1) × extensión de b̄ × filtro fértil
+(`results/2026-08-04_landscape_priors/`) separa lo robusto de lo
+fiducial: la **inaccesibilidad del 0.012 es analítica** — la cota de
+dominio δ_H ≥ λ_H/√(b_max²−4·C0_lo·m_lo²) supera 0.012 en todas las
+configuraciones, para cualquier prior — y el orden de magnitud
+δ_H = pocas×10⁻² es robusto (medianas 0.028–0.113); la **mediana
+precisa 0.054 es la lectura fiducial**, no un invariante del paisaje
+(en la configuración sin extensión de b̄, 0.0581 cae bajo el p5). La
+afirmación de naturalidad queda así condicionada: genérico el orden,
+fiducial el centrado.
+
 ### 3.3 Los ajustes de producción (v1 y v2) — el desenlace desfavorable
 
 Dos ajustes bayesianos sobre datos públicos, con ΛCDM ajustado por la
