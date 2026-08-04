@@ -11,7 +11,9 @@ estado más coherente con la geometría local.
 
 Fidelidad: F(t) = ⟨Ψ0|ρ(t)|Ψ0⟩ ≈ exp(−∫ Γ_ont dt').
 
-Firma falsable en hardware (ec. C.5):
+Firma de consistencia del canal parametrizado en hardware (ec. C.5;
+v35.1, E10 — acota ξ_ten del circuito implementado, no valida el
+origen cosmológico de sus parámetros):
 
     Γn/Γ0 = 1 + ξ_ten · η_void(Sn) · En/E4
 
@@ -60,7 +62,7 @@ def fidelity_with(rho: np.ndarray, psi0: np.ndarray) -> float:
 
 def gamma_ratio(n: int, xi_ten: float, eta_void_n: float,
                 E_n: float, E_4: float) -> float:
-    """Γn/Γ0 = 1 + ξ_ten·η_void(Sn)·En/E4 — firma falsable (ec. C.5).
+    """Γn/Γ0 = 1 + ξ_ten·η_void(Sn)·En/E4 — firma de consistencia del canal (ec. C.5; v35.1, E10).
 
     Con ξ_ten = 0 no hay exceso ontológico y todas las tasas coinciden:
     la ausencia del patrón en hardware acota ξ_ten superiormente.

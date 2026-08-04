@@ -22,7 +22,7 @@ Con D(σ) hundiéndose a ritmo 1e-3: el flujo sigue adiabáticamente el vacío x
 
 ## 4. El retraso del colapso (resultado del programa)
 
-Retraso ∝ rate^(-0.330) sobre dos décadas — la ley −1/3 de la bifurcación silla-nodo con deriva (teoría de bifurcaciones dinámicas; NO está en el tratado y se declara como resultado del programa). Consecuencia falsable dentro del modelo: el disparo de cada colapso de la Década no es instantáneo en el cruce — lleva un retraso universal fijado por el ritmo del flujo de acoplos.
+Retraso ∝ rate^(-0.330) sobre dos décadas — la ley −1/3 de la bifurcación silla-nodo con deriva (teoría de bifurcaciones dinámicas; NO está en el tratado y se declara como resultado del programa). Formulación CONDICIONAL correcta: SI la microdinámica real del cruce se reduce a una silla-nodo con deriva lenta (la forma normal aquí integrada), ENTONCES el disparo de cada colapso lleva un retraso ∝ ritmo^(−1/3); la condición de pertenencia a esa forma normal es derivable y queda pendiente.
 
 ## Estatuto (frente 2)
 

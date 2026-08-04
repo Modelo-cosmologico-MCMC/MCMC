@@ -1,11 +1,19 @@
 """La suite espejo del apéndice H (v35, H.1/H.3 y §13.5).
 
-Cada verificación de signo de §13.5 se ejecuta acompañada de su CONTROL
+ESTATUTO (v35.1, E8): estas son COMPROBACIONES INTERNAS DE CONSISTENCIA
+DE LA IMPLEMENTACIÓN — identidades, signos, límites de recuperación y
+controles negativos. Establecen que el formalismo hace lo que declara;
+no establecen, por sí mismas, que el ansatz sea físicamente verdadero,
+que sus parámetros procedan de la naturaleza, ni que la extrapolación
+al continuo sea válida.
+
+Cada comprobación de signo de §13.5 se ejecuta acompañada de su CONTROL
 NEGATIVO — el caso que debe fallar y falla («las filas de control son
 fallos intencionados que confirman la rigidez de la construcción»,
-Tabla H.1). Los resultados condicionales NO se verifican como si
-estuvieran resueltos: se listan expuestos con su condición, como hace
-H.3 (lo demostrado, lo condicional, lo refutable).
+Tabla H.1): los controles muestran que las guardias detectan
+violaciones deliberadas de hipótesis. Los resultados condicionales NO
+se comprueban como si estuvieran resueltos: se listan expuestos con su
+condición, como hace H.3 (lo demostrado, lo condicional, lo refutable).
 
 Uso:  from validation.appendix_h import run_all;  run_all(verbose=True)
 """

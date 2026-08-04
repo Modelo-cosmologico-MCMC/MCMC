@@ -27,8 +27,9 @@ O(1) landscape shows δ_H = O(0.05) is generic (median 0.054, 90% within
 [0.037, 0.116]) and bounded below by δ_H ≳ 0.033 — no O(1) shape closes the
 splice at 0.012, structurally retiring the v32 identification δ₀ ≡ ε_Λ.
 We also report two production Bayesian fits on public data (ΔBIC = +14.5
-favoring ΛCDM in both, published as-is), one passed observational contrast
-(G_cosmo/G_N − 1 ≈ −1.8% vs. the BBN bound, 0.32σ), and the half-step of
+favoring ΛCDM in both, published as-is), one observational consistency
+check passed (G_cosmo/G_N − 1 ≈ −1.8% vs. the BBN bound, 0.32σ — no
+detection, no sign significance; v35.1, E13), and the half-step of
 front 5 (gate friction closes exactly at virialization in the minimal PM
 mesh; the cored-core verdict requires production resolution). Unfavorable
 and favorable outcomes are reported with identical weight.
@@ -46,9 +47,11 @@ de la §6.
 
 El repositorio MCMC implementa el *Tratado de Fundamentos* (v35) como
 cadena deductiva ejecutable: cada módulo de `core/` implementa las
-definiciones de su capítulo y sus tests verifican los teoremas; donde el
-tratado declara un condicional, el módulo expone el parámetro con su
-condición — nunca lo resuelve en silencio. El contrato de trabajo: cada
+definiciones de su capítulo y sus tests verifican identidades, límites
+y consecuencias numéricas de los teoremas y ansätze implementados —
+comprobación interna de la implementación, no demostración física
+(v35.1, E8); donde el tratado declara un condicional, el módulo expone
+el parámetro con su condición — nunca lo resuelve en silencio. El contrato de trabajo: cada
 commit deja el repositorio afirmando exactamente lo que hace; los
 desenlaces desfavorables se publican en portada con el mismo tono que los
 favorables. Esta nota hereda ese contrato.
@@ -76,7 +79,12 @@ de Victoria (`core/victoria.py`) con Techo en la región fértil:
 > **El atractor es el Techo**: δ∞ = (W_max/c̄)^{1/3}, independiente de γR
 > y de la imperfección inicial (desde 0.012 se alcanza en 4 vueltas).
 
-De ahí la ecuación de consistencia, original de este programa:
+De ahí la ecuación de consistencia. Matiz de autoría (auditoría
+v35.1): los ingredientes están en el tratado — el Lema 10.3 ya deriva
+δ_sat = (W_max/c̄)^{1/3} y H.8 da δ_H; la aportación del programa es la
+CONEXIÓN (igualar δ_sat con δ_H como condición de cierre) y la
+observación de que γR desaparece del punto fijo, consecuencia directa
+de la forma saturada del mapa:
 
 > **El círculo se cierra ⟺ W_max = c̄·δ_H³ ≈ 1.652×10⁻⁴** (formas
 > fiduciales, c̄ = 0.8408).
@@ -110,6 +118,19 @@ fértil 0.720 con γ_max = 3 declarado):
   modelo. La regla canónica (no identificar δ₀ con ε_Λ) queda demostrada
   desde dentro.
 
+**Robustez frente a priors (análisis de sensibilidad, 4-ago-2026;
+tarea nacida de la auditoría v35.1).** El barrido priors (uniforme,
+log-uniforme, normal) × dominios O(1) × extensión de b̄ × filtro fértil
+(`results/2026-08-04_landscape_priors/`) separa lo robusto de lo
+fiducial: la **inaccesibilidad del 0.012 es analítica** — la cota de
+dominio δ_H ≥ λ_H/√(b_max²−4·C0_lo·m_lo²) supera 0.012 en todas las
+configuraciones, para cualquier prior — y el orden de magnitud
+δ_H = pocas×10⁻² es robusto (medianas 0.028–0.113); la **mediana
+precisa 0.054 es la lectura fiducial**, no un invariante del paisaje
+(en la configuración sin extensión de b̄, 0.0581 cae bajo el p5). La
+afirmación de naturalidad queda así condicionada: genérico el orden,
+fiducial el centrado.
+
 ### 3.3 Los ajustes de producción (v1 y v2) — el desenlace desfavorable
 
 Dos ajustes bayesianos sobre datos públicos, con ΛCDM ajustado por la
@@ -132,16 +153,19 @@ citables como vigentes. Salvedades declaradas en los informes: z*/r_s
 por Hu–Sugiyama (~0.3 % en l_A, idéntico en ambos modelos), CMB diagonal,
 r_d fiducial en BAO, M_B marginalizada.
 
-### 3.4 El contraste BBN (frente 6) — ganado
+### 3.4 El contraste BBN (frente 6) — consistencia superada
 
 La Conjetura de los Residuos (ec. 9.5) predice G_cosmo/G_N − 1 ≃
 −(3/2)·ε_K ≈ −1.8 %. Frente a la cota de nucleosíntesis vigente
 G_BBN/G₀ = 0.99 +0.06/−0.05 a 2σ (Alvey, Sabti, Escudero & Fairbairn
 2020, Eur. Phys. J. C 80, 148; arXiv:1910.10730): la predicción cae
-dentro, **a 0.32σ del valor central, que además favorece su signo**. Es
-el único contraste observacional ya superado por el modelo; se volvería
-decisivo si las cotas llegan al 1–2 %. Estatuto: conjetura declarada
-(9.6), frente abierto nº 6.
+dentro, a 0.32σ del valor central. A este nivel de significancia **no
+hay detección ni preferencia de signo** (v35.1, E13): el resultado es
+una **consistencia superada** — el contraste podía excluir el valor
+predicho y no lo excluye —, declarada sin significancia; la
+coincidencia de lado con el central (ambos < 1) es descriptiva. Se
+volvería decisivo si las cotas llegan al 1–2 %. Estatuto: conjetura
+declarada (9.6), frente abierto nº 6, refutable (vivo).
 
 ### 3.5 El medio paso del frente 5 — el instrumento dijo la verdad
 
@@ -179,8 +203,8 @@ publicado: ε_c máx = 3×10⁻⁵ ≪ 1.
 1. Derivar W_max desde la microdinámica del reinicio (frente 4) — decide
    el círculo; valor esperado 1.652×10⁻⁴.
 2. Núcleo cored en cajas de producción (frente 5).
-3. Residuos al 1–2 % de precisión futura (el contraste ganado se vuelve
-   decisivo).
+3. Residuos al 1–2 % de precisión futura (la consistencia superada se
+   volvería decisiva).
 4. Los medios pasos de los frentes E y F quedaron ejecutados el mismo
    día de esta nota: el flujo KLS integrado mide la ley del walking
    (el «≃» de la ec. 8.4 cuantificado, divergencia −1/2, y el retraso
@@ -193,10 +217,12 @@ publicado: ε_c máx = 3×10⁻⁵ ≪ 1.
    tratado. Desenlaces en `results/2026-08-02_kls_flow/` y
    `results/2026-08-02_rp_nonstationary/`.
 
-Para una eventual v36 del tratado: blindar los tres épsilon (ε residuo,
-ε_Λ transición, ε_K gravitatorio — parámetros distintos; δ₀ es input de
-ciclo sin valor asignado) y cuantificar W_max o declarar la ecuación de
-cierre como predicción condicional del modelo.
+La v35.1 (fe de erratas epistemológica, 4 de agosto de 2026) adoptó el
+blindaje como convenio C6 — los CUATRO épsilon: δ₀ (input, sin valor
+asignado), ε_Λ (transición), ε_K (Sello de Newton) y ε_c(ρ) (Cronos) —
+junto con las reclasificaciones E1–E13 (`docs/erratas_v35.1.md`). Para
+la v36 queda: cuantificar W_max o declarar la ecuación de cierre como
+predicción condicional del modelo.
 
 ## 6. Reproducibilidad
 

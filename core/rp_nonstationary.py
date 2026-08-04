@@ -1,6 +1,7 @@
 """RP con acoplos no estacionarios — el juguete del frente nº 1 (v35, §13.4).
 
-El Teo. 7.4 deja CONDICIONAL la positividad por reflexión del sector
+La Prop. 7.4 (reclasificada de Teorema en v35.1, E3) deja CONDICIONAL
+la positividad por reflexión del sector
 espinorial de Wilson con acoplos no estacionarios. Este módulo NO toca
 ese sector: construye el análogo escalar exacto de la pregunta — una
 cadena 1D cuyos acoplos (masa por sitio, enlace J) DEPENDEN de la

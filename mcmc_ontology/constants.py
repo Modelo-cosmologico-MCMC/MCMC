@@ -23,10 +23,14 @@ import math
 # como «input de ciclo; atractor δ₀* (Teo. 10.6)» SIN asignarle valor
 # numérico. REGLA CANÓNICA (ronda 5): no identificar δ₀ con ε_Λ en
 # ningún material — la identificación δ₀ ≡ ε = 0.012 era herencia
-# operativa del v32. La v35 separa cuatro símbolos: ε (residuo del
-# colapso, rango [1e-8, 1e-3]), ε_Λ (amplitud de la transición de Λ_rel,
-# 0.012 ± 0.003, A.3), ε_K (residuo gravitatorio ≈ 0.012, ec. 9.5) y δ₀
-# (input de ciclo). Este módulo NO define constante numérica para δ₀:
+# operativa del v32. El convenio C6 (v35.1, E9) blinda los CUATRO
+# épsilon como objetos distintos: δ₀ (input de ciclo, sin valor
+# asignado), ε_Λ (amplitud de la transición de Λ_rel, 0.012 ± 0.003,
+# A.3), ε_K (residuo del Sello de Newton ≈ 0.012, ec. 9.5) y ε_c(ρ)
+# (corrección local de Cronos, cap. 11); además F.3 lista ε (residuo de
+# descarga, [1e-8, 1e-3]). Se reserva δ₀* para el atractor (Teo. 10.6)
+# y δ_H para el empalme (H.8). Este módulo NO define constante numérica
+# para δ₀:
 # el empalme C¹ (H.2.4, mass_program/B7) lo MIDE — δ₀* ≈ 0.0581 con
 # formas fiduciales — y core/delta0_circle.py analiza su condición de
 # cierre. Las constantes de forma O(1) (m̄, b̄, ē, C0) viven en
@@ -177,8 +181,11 @@ PDG_MASSES_GEV = {
 # =====================================================================
 # ESTRUCTURALES (v35)
 # =====================================================================
-N_GEN = 3   # Ngen = 3: dimensión del módulo espinorial de la Cadena de
-            # Álgebras en V3+1D (v35, Prop. 12.4). Álgebra, no ajuste.
+N_GEN = 3   # Ngen = 3: IDENTIFICACIÓN estructural con la dimensión del
+            # módulo espinorial de la Cadena de Álgebras en V3+1D
+            # (v35 Prop. 12.4; reclasificada en v35.1, E4: la
+            # derivación que excluya otras multiplicidades queda
+            # pendiente — sub-frente del frente 7).
 
 # Mapa familia → fermiones (presentación v32; en v35 la supervivencia por
 # sello la codifican los pesos c_in del Funcional del Camino, Def. 12.3):
