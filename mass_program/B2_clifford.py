@@ -1,8 +1,10 @@
 """B2 — N_gen = 3 algebraico, modos espinoriales F1, F2, F3.
 
-N_gen = 3 se sigue de la dimensión del módulo espinorial de la Cadena de
-Álgebras en V3+1D (Tratado de Fundamentos v35, Prop. 12.4): es un
-resultado estructural — álgebra, no ajuste.
+N_gen = 3 se identifica con la dimensión del módulo espinorial de la
+Cadena de Álgebras en V3+1D (v35, Prop. 12.4; en v35.1, E4, se
+reclasifica como IDENTIFICACIÓN estructural: la derivación que excluya
+otras multiplicidades de sabor queda pendiente — sub-frente del
+frente 7).
 
 La asociación de cada familia a un sello de emergencia (F1↔C1, F2↔C2,
 F3↔C3, con los fermiones de FAMILY_FERMIONS) es la presentación del

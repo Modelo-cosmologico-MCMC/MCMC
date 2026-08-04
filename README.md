@@ -12,6 +12,10 @@
 > tales —no como salidas del código—, la parametrización superada se conserva en
 > el bloque `LEGACY_V32`, y la integración continua mantiene esos criterios como
 > guardias permanentes.
+> **v35.1 (4 de agosto de 2026)**: fe de erratas epistemológica del
+> tratado — reclasificaciones E1–E13 y convenio C6 de los cuatro
+> épsilon (`docs/erratas_v35.1.md`); donde v35 y v35.1 difieran sobre
+> el estatuto de una afirmación, prevalece la v35.1.
 > Enlace permanente a la última versión del tratado: [10.5281/zenodo.14167831](https://doi.org/10.5281/zenodo.14167831).
 
 Implementación de referencia en Python del **Modelo Cosmológico de Múltiples
@@ -168,7 +172,10 @@ tensional, muy por debajo de la cota < 0.12 eV).
 
 Los capítulos 2–10 del tratado están implementados como código cuyo
 principio de diseño es: **cada módulo implementa las definiciones de su
-capítulo y sus tests verifican los teoremas**. La ley de escala
+capítulo y sus tests verifican identidades, límites y consecuencias
+numéricas de los teoremas y ansätze implementados** — comprobación
+interna de la implementación, no demostración física (v35.1, E8). La
+ley de escala
 T₀ = c̄·δ₀³ se mide (exponente ajustado = 3); la Monotonía del Camino
 (Teo. 4.5) y la Exclusión (Lema 4.7) se comprueban sobre trayectorias —
 «la flecha del tiempo se demuestra, no se postula» tiene test; la
@@ -207,7 +214,8 @@ del walking: el «≃» de la ec. 8.4 queda cuantificado (error 3×10⁻⁵ a
 (esperado −1/2), y el Cruce de Victoria (Obs. 8.6) corre como
 bifurcación dinámica — el colapso se dispara **después** del cruce
 D=0, con un retraso ∝ ritmo^(−1/3) (silla-nodo con deriva; resultado
-del programa, no del tratado) y control negativo sin hundimiento.
+del programa, no del tratado — condicional: vale SI la microdinámica
+real se reduce a esa forma normal) y control negativo sin hundimiento.
 Lo que no hace: derivar λ=10 — eso exige las β-funciones de los
 acoplos (frente 2, declarado). `results/2026-08-02_kls_flow/`.
 
@@ -281,14 +289,18 @@ pytest tests/
 This repository makes the *Tratado de Fundamentos* (v35, June 2026, DOI
 [10.5281/zenodo.20765373](https://doi.org/10.5281/zenodo.20765373))
 executable. Design principle: each `core/` module implements the
-definitions of its treatise chapter and its tests verify the theorems;
-conditional results are exposed as parameters with their condition, never
+definitions of its treatise chapter and its tests verify identities,
+limits and numerical consequences of the implemented theorems and
+ansätze — internal consistency checks of the implementation, not
+physical demonstrations (v35.1, E8); conditional results are exposed as
+parameters with their condition, never
 silently resolved; unfavorable outcomes are published front-page with the
 same tone as favorable ones. Honest headlines as of August 2026: the
 production Bayesian fits on real data (CC+BAO+SNe, then + compressed CMB
 + fσ8) give **ΔBIC = +14.5 favoring ΛCDM** (ε compatible with 0) — while
-the Residues contrast (G_cosmo/G_N − 1 ≈ −1.8% vs. the BBN bound) is
-**passed** at ~0.3σ; the C¹ splice measures δ₀* ≈ 0.0581 without the
+the Residues check (G_cosmo/G_N − 1 ≈ −1.8% vs. the BBN bound) is a
+**consistency passed** at ~0.3σ — no detection, no sign significance
+(v35.1, E13); the C¹ splice measures δ_H ≈ 0.0581 without the
 Higgs mass as input; and the δ₀ circle reduces to a consistency equation
 W_max = c̄·δ_H³ whose value awaits open front #4.
 

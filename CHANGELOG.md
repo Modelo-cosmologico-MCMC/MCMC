@@ -7,22 +7,27 @@ estado en que afirme exactamente lo que hace»).
 ## v0.2.0 — 2 de agosto de 2026 (rondas 2–5)
 
 - **Cadena deductiva ejecutable** (`core/`, caps. 2–10): cada módulo
-  implementa las definiciones de su capítulo y sus tests verifican los
-  teoremas; condicionales expuestos, nunca resueltos en silencio. Suite
-  espejo del apéndice H con controles negativos (`validation/`).
+  implementa las definiciones de su capítulo y sus tests verifican
+  identidades, límites y consecuencias numéricas de los teoremas y
+  ansätze implementados (comprobación interna, no demostración física —
+  v35.1, E8); condicionales expuestos, nunca resueltos en silencio.
+  Suite espejo del apéndice H con controles negativos (`validation/`).
 - **Ajustes de producción v1 y v2** sobre datos públicos con checksums:
   ΔBIC = +14.5 a favor de ΛCDM en ambos, publicado en portada;
   ε = 0.015 −0.039/+0.043 (compatible con 0); la ventaja del corpus no
   reaparece (la reconciliación respondida).
-- **Frente 6 (Residuos) ganado**: −1.8 % dentro de la cota BBN
-  (Alvey et al. 2020), a 0.32σ, signo favorecido.
+- **Frente 6 (Residuos), consistencia superada**: −1.8 % dentro de la
+  cota BBN (Alvey et al. 2020), a 0.32σ — sin significancia de signo
+  (v35.1, E13); refutable (vivo).
 - **Frente 7 ejecutado**: empalme C¹ no circular (δ_H ≈ 0.0581 medido
   sin m_H como entrada) + WKB ab initio (una sola κ cubre 13 órdenes).
 - **El círculo de δ₀ (ronda 5)**: el atractor de Victoria es el Techo;
-  ecuación de cierre W_max = c̄·δ_H³ ≈ 1.65×10⁻⁴ (original del
-  programa); naturalidad de δ_H (mediana 0.054) y cota δ_H ≳ 0.033.
+  ecuación de cierre W_max = c̄·δ_H³ ≈ 1.65×10⁻⁴ — los ingredientes
+  están en el tratado (Lema 10.3 + H.8); la aportación del programa es
+  la conexión δ_sat = δ_H y que γR desaparece del punto fijo;
+  naturalidad de δ_H (mediana 0.054) y cota δ_H ≳ 0.033.
 - **Regla canónica**: retirada la identificación δ₀ ≡ ε_Λ de todo el
-  código (los tres épsilon de F.3/F.4 separados).
+  código (los cuatro épsilon del convenio C6 — v35.1, E9 — separados).
 - **Medio paso del frente 5**: compuerta H.2.5 con mediana Γ = 0 exacta
   en el halo virializado aislado y control negativo; el veredicto del
   núcleo queda declarado como inaccesible a esta resolución.

@@ -31,7 +31,8 @@ from __future__ import annotations
 import numpy as np
 
 STATUS_WILSON = ("condicional (§13.4): la RP del sector espinorial de "
-                 "Wilson (Teo. 7.4) no se toca aquí — frente abierto nº 1 "
+                 "Wilson (Prop. 7.4 — reclasificada de Teorema en "
+                 "v35.1, E3) no se toca aquí — frente abierto nº 1 "
                  "para acoplos no estacionarios")
 
 

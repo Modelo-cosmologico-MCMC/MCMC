@@ -1,9 +1,11 @@
 """core — La cadena deductiva ejecutable (Tratado de Fundamentos v35, caps. 2-10).
 
 Principio de diseño: cada módulo implementa las definiciones de su
-capítulo y sus tests verifican los teoremas. Donde el tratado demuestra,
-el test comprueba numéricamente; donde el tratado declara condicional,
-el módulo expone el parámetro y lo dice — nunca lo resuelve en silencio.
+capítulo y sus tests verifican identidades, límites y consecuencias
+numéricas de los teoremas y ansätze implementados — COMPROBACIÓN
+INTERNA de la implementación, no demostración física (v35.1, E8).
+Donde el tratado declara condicional, el módulo expone el parámetro y
+lo dice — nunca lo resuelve en silencio.
 
     dual_plane.py             Cap. 2  — el escenario (ρ, θ, χ, ς)
     basal.py                  Cap. 3  — el paisaje (V0, T0 = c̄·δ0³)

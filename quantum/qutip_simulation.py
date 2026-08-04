@@ -16,10 +16,12 @@ Nota de versión: el corpus v32 tabulaba 0.981/0.975/0.969/0.958 con una
 fidelidad global de 0.939; la v35 (C.4) publica 0.981/0.976/0.968/0.961
 y no declara valor global. Este módulo usa los valores vigentes.
 
-Predicción falsable del tratado (C.4-C.5): patrón decreciente de
-fidelidades F0 > F1 > F2 > F3 — las transiciones de mayor n sufren más
-decoherencia tensional por el factor η_void(Sn) — con la máxima
-superposición en la fase intermedia de la conversión Mp → Ep.
+Firma de consistencia del canal parametrizado (C.4-C.5; v35.1, E10):
+patrón decreciente de fidelidades F0 > F1 > F2 > F3 — las transiciones
+de mayor n sufren más decoherencia tensional por el factor η_void(Sn).
+Un hardware que reproduzca el patrón verifica la implementación del
+circuito y la consistencia del canal parametrizado; NO valida por sí
+mismo el origen cosmológico de sus parámetros.
 """
 
 from __future__ import annotations

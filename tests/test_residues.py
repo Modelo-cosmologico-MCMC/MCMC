@@ -4,7 +4,7 @@ from cosmology.residues_test import (
     BBN_REFERENCE,
     predicted_ratio,
     report,
-    sign_favored,
+    sign_coincides,
     tension_sigma,
     within_bbn_bound,
 )
@@ -21,10 +21,12 @@ def test_within_bbn_at_point_three_sigma():
     assert abs(tension_sigma() - 0.32) < 0.05
 
 
-def test_sign_favored():
-    """H.2.5: el central BBN (0.99 < 1) favorece el signo de la
-    predicción (también < 1)."""
-    assert sign_favored()
+def test_sign_coincides_without_significance():
+    """El central BBN (0.99 < 1) está del mismo lado que la predicción
+    (también < 1): coincidencia descriptiva, declarada SIN
+    significancia a ~0.3σ (v35.1, E13)."""
+    assert sign_coincides()
+    assert "sin significancia" in report()
 
 
 def test_report_carries_citation():
