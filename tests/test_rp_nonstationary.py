@@ -76,3 +76,33 @@ def test_violation_curve_monotone():
 def test_status_declares_open_front():
     assert "frente abierto nº 1" in STATUS_NONSTATIONARY
     assert "Wilson" in STATUS_NONSTATIONARY
+
+
+def test_precedence_condition_executable():
+    """K(S) = K(ϑS), ejecutable (propuesta v36): los perfiles
+    especulares la cumplen; el running monótono no."""
+    from core.rp_nonstationary import (
+        PRECEDENCE_REFORMULATED,
+        is_mirror_symmetric,
+    )
+    m2_sym, J_sym = mirrored_profile([0.7, 1.3, 0.9], 1.1, [0.8, 1.2, 0.6])
+    assert is_mirror_symmetric(m2_sym, J_sym)
+    m2_run, J_run = running_profile(3, g_m2=0.2)
+    assert not is_mirror_symmetric(m2_run, J_run)
+    # el caso estacionario es especular trivial:
+    m2_c, J_c = running_profile(3, g_m2=0.0)
+    assert is_mirror_symmetric(m2_c, J_c)
+    assert "K(S) = K(" in PRECEDENCE_REFORMULATED
+
+
+def test_precedence_condition_implies_rp():
+    """Coherencia del juguete: todo perfil que cumple la condición
+    especular da RP (barrido aleatorio)."""
+    from core.rp_nonstationary import is_mirror_symmetric
+    rng = np.random.default_rng(31)
+    for _ in range(5):
+        m2, J = mirrored_profile(rng.uniform(0.5, 2.0, size=3),
+                                 rng.uniform(0.5, 2.0),
+                                 rng.uniform(0.5, 1.5, size=3))
+        assert is_mirror_symmetric(m2, J)
+        assert rp_min_eig_nonstationary(PHI, m2, J) > -1e-12

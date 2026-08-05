@@ -41,13 +41,13 @@ BBN_REFERENCE = ("Alvey, Sabti, Escudero & Fairbairn (2020), "
                  "Eur. Phys. J. C 80, 148; arXiv:1910.10730")
 
 
-def predicted_ratio(eps_K: float = C.EPSILON_0) -> float:
+def predicted_ratio(eps_K: float = C.EPSILON_K) -> float:
     """G_cosmo/G_N predicho: 1 − (3/2)·ε_K (ec. 9.5). Con ε_K = 0.012:
     0.982 (−1.8%)."""
     return 1.0 - 1.5 * eps_K
 
 
-def tension_sigma(eps_K: float = C.EPSILON_0) -> float:
+def tension_sigma(eps_K: float = C.EPSILON_K) -> float:
     """Desviación de la predicción respecto del central BBN, en σ.
 
     Se usa el error del lado correspondiente (asimétrico), convertido de
@@ -59,14 +59,14 @@ def tension_sigma(eps_K: float = C.EPSILON_0) -> float:
     return abs(pred - BBN_RATIO_CENTRAL) / (err_2s / 2.0)
 
 
-def within_bbn_bound(eps_K: float = C.EPSILON_0) -> bool:
+def within_bbn_bound(eps_K: float = C.EPSILON_K) -> bool:
     """¿Cae la predicción dentro de la cota BBN a 2σ?"""
     pred = predicted_ratio(eps_K)
     return (BBN_RATIO_CENTRAL - BBN_ERR_DOWN_2SIGMA
             <= pred <= BBN_RATIO_CENTRAL + BBN_ERR_UP_2SIGMA)
 
 
-def sign_coincides(eps_K: float = C.EPSILON_0) -> bool:
+def sign_coincides(eps_K: float = C.EPSILON_K) -> bool:
     """¿Está el central BBN del mismo lado de 1 que la predicción?
     Coincidencia DESCRIPTIVA, sin significancia a ~0.3σ (v35.1, E13):
     no es una preferencia de signo."""
@@ -74,7 +74,7 @@ def sign_coincides(eps_K: float = C.EPSILON_0) -> bool:
     return (pred - 1.0) * (BBN_RATIO_CENTRAL - 1.0) > 0.0
 
 
-def report(eps_K: float = C.EPSILON_0) -> str:
+def report(eps_K: float = C.EPSILON_K) -> str:
     """El contraste en una línea, con su cita."""
     return (f"G_cosmo/G_N predicho = {predicted_ratio(eps_K):.3f} "
             f"({100.0 * (predicted_ratio(eps_K) - 1.0):+.1f}%); cota BBN "
