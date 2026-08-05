@@ -15,6 +15,7 @@ lo dice — nunca lo resuelve en silencio.
     rp_nonstationary.py       Cap. 7  — RP con acoplos corriendo (frente F)
     decade.py                 Cap. 8  — Discriminante y flujo log-periódico
     kls_flow.py               Cap. 8  — el flujo KLS integrado (frente E)
+    victoria_exponent.py      §14.2   — matriz de estabilidad (frente 2)
     gea.py                    Cap. 9  — Gea / Sello de Newton / Atlas
     victoria.py               Cap. 10 — el cierre del ciclo (Lydia, suelo)
     delta0_circle.py          Cap. 10 + H.8 — el círculo de δ₀ (ronda 5)
