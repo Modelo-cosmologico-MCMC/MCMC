@@ -99,20 +99,24 @@ def m_H_predicted(delta0: float, m_bar: float = M_BAR, b_bar: float = B_BAR,
 def delta0_required(target_lambda: float = BETA3_CONVENIO_12_1,
                     m_bar: float = M_BAR, b_bar: float = B_BAR,
                     C0: float = C0_DEFAULT) -> float:
-    """El δ0 que el cierre exige: λ_Ad(δ0) = target ⟹ δ0* =
-    target/√(b̄²−4C0m̄²). Con las formas fiduciales: δ0* ≈ 0.0581."""
+    """El δ0 que el cierre exige — es δ_H (C6): el valor REQUERIDO
+    por el cuártico observado bajo las formas elegidas, λ_Ad(δ_H) =
+    target ⟹ δ_H = target/√(b̄²−4C0m̄²) ≈ 0.0581 (fiducial). NO es el
+    atractor δ₀* de Victoria (Teo. 10.6): δ_H = δ₀* sería el cierre
+    del círculo, no nomenclatura. El nombre delta0_required se
+    conserva por los consumidores."""
     disc = b_bar ** 2 - 4.0 * C0 * m_bar ** 2
     return target_lambda / float(np.sqrt(disc))
 
 
-def audit_report(delta0_cosmo: float = C.EPSILON_0) -> str:
+def audit_report(delta0_cosmo: float = C.EPSILON_LAMBDA) -> str:
     """El desenlace del empalme, cuantificado y publicable tal cual."""
     lam_at_eps = sealed_curvature_lambda(delta0_cosmo)
     d0_star = delta0_required()
     return (
         f"Empalme C¹ (H.8), sin m_H como entrada: λ_Ad(δ0={delta0_cosmo}) = "
         f"{lam_at_eps:.4f} → m_H = {m_H_predicted(delta0_cosmo):.1f} GeV "
-        f"(≠ 125.3). El cierre λ_Ad = 0.130 exige δ0* = {d0_star:.4f} con "
+        f"(≠ 125.3). El cierre λ_Ad = 0.130 exige δ_H = {d0_star:.4f} con "
         "las formas fiduciales O(1). CONCLUSIÓN: relación no circular "
         "implementada; el valor numérico de β3 con (M0²,B,C0) sellados "
         "sigue CONDICIONAL (Estado de H.2.4) — el frente queda acotado: "

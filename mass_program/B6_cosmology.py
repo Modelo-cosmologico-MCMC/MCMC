@@ -16,7 +16,7 @@ def global_fit_results() -> dict:
     return {
         "H0_kms_Mpc":  (C.H0_MCMC, C.H0_ERR),
         "Omega_m":     (0.300, 0.015),
-        "epsilon":     (C.EPSILON_0, 0.003),
+        "epsilon":     (C.EPSILON_LAMBDA, 0.003),
         "z_trans":     (C.Z_TRANS, 0.4),
         "sigma8":      C.SIGMA8_MCMC,
         "S8":          C.S8_MCMC,

@@ -4,7 +4,7 @@ Cadena escalar de 2·3+1 sitios, funcionales de la loncha ±1, contracción exac
 
 ## 1. La no-estacionariedad no rompe la RP
 
-Perfiles aleatorios ESPECULARES respecto de la loncha (acoplos distintos sitio a sitio): min eig = -2.3e-16, -1.8e-16, -2.3e-16 — cero numérico. Mecanismo: M = diag(v)·LᵀW₀L·diag(v) es una forma XᵀX. La hipótesis que la RP necesita es la simetría especular del perfil, no su constancia.
+Perfiles aleatorios ESPECULARES respecto de la loncha (acoplos distintos sitio a sitio): min eig = -2.3e-16, -1.8e-16, -2.3e-16 — cero numérico. Mecanismo: M = diag(v)·LᵀW₀L·diag(v) es una forma XᵀX. La simetría especular del perfil es condición SUFICIENTE para la RP (la necesidad no está demostrada); la constancia no es la condición operativa.
 
 ## 2. El running monótono la viola (medido)
 
@@ -32,4 +32,4 @@ La violación es continua (minúscula a g pequeño) y crece monótonamente con e
 
 Con g = 0.4 (violación -3.08e-01), reflejar TAMBIÉN el perfil de acoplos da min eig = -2.0e-16 — positividad exacta. La versión escalar de la pregunta real del frente 1: ¿admite el sector de Wilson una reflexión modificada así? Queda donde el tratado lo deja: abierta.
 
-Estatuto: condicional (§13.4, frente abierto nº 1): el juguete escalar mide que la RP exige simetría especular del perfil, no estacionariedad — con running monótono la reflexión ingenua la pierde; la RP del sector espinorial de Wilson no se toca aquí.
+Estatuto: condicional (§13.4, frente abierto nº 1): en el juguete escalar la simetría especular del perfil es condición SUFICIENTE para la RP (la necesidad no está demostrada: puede haber perfiles no especulares accidentalmente positivos); los perfiles monótonos estudiados rompen la reflexión ingenua; la RP del sector espinorial de Wilson no se toca aquí.

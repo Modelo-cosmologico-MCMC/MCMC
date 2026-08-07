@@ -57,13 +57,13 @@ def f_sigma8(z: np.ndarray, sigma8_0: float = C.SIGMA8_MCMC,
     return f * sigma8_0 * Dz
 
 
-def mu_modifier(a: np.ndarray | float, eps: float = C.EPSILON_0) -> np.ndarray | float:
+def mu_modifier(a: np.ndarray | float, eps: float = C.EPSILON_LAMBDA) -> np.ndarray | float:
     """Modulador µ(a) de la ecuación de Poisson efectiva."""
     a = np.asarray(a, dtype=float)
     return 1.0 + eps * (1.0 - a)
 
 
-def eta_modifier(a: np.ndarray | float, eps: float = C.EPSILON_0) -> np.ndarray | float:
+def eta_modifier(a: np.ndarray | float, eps: float = C.EPSILON_LAMBDA) -> np.ndarray | float:
     """Modulador η(a) ≡ Ψ/Φ."""
     a = np.asarray(a, dtype=float)
     return 1.0 - 0.5 * eps * (1.0 - a)

@@ -37,7 +37,7 @@ OMEGA_L0 = 1.0 - OMEGA_M0 - OMEGA_R0
 
 
 def Lambda_rel(z: np.ndarray | float,
-               eps: float = C.EPSILON_0,
+               eps: float = C.EPSILON_LAMBDA,
                z_trans: float = C.Z_TRANS,
                dz: float = C.DZ_TRANS) -> np.ndarray | float:
     """Densidad fraccional de Λ relativa con transición suave (v35 A.3).
@@ -54,7 +54,7 @@ def H_of_z(z: np.ndarray | float,
            H0: float = C.H0_MCMC,
            Omega_m: float = OMEGA_M0,
            Omega_r: float = OMEGA_R0,
-           eps: float = C.EPSILON_0,
+           eps: float = C.EPSILON_LAMBDA,
            z_trans: float = C.Z_TRANS,
            dz: float = C.DZ_TRANS) -> np.ndarray | float:
     """H(z) en km/s/Mpc con Λ_rel dinámico (v35 A.2/A.3)."""

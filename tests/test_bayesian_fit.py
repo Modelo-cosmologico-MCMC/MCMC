@@ -17,7 +17,7 @@ from cosmology.bayesian_fit import (
 )
 from mcmc_ontology import constants as C
 
-THETA0 = (C.H0_MCMC, 0.300, C.EPSILON_0, C.Z_TRANS)
+THETA0 = (C.H0_MCMC, 0.300, C.EPSILON_LAMBDA, C.Z_TRANS)
 
 
 def test_selftest_dataset_shapes():

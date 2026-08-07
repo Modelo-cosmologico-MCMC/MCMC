@@ -17,7 +17,7 @@ cada ruta citada existe.
 | Monotonía y Exclusión | Cap. 4 | `core/path_flow.py` | `tests/test_core_foundation.py` | interna demostrada |
 | Cadena de Álgebras y Florencia | Caps. 5-6 | `core/florencia.py` | `tests/test_core_florencia_decade.py` | interna demostrada (firma −+++) |
 | RP escalar | Cap. 7 (Teo. 7.1) | `core/reflection_positivity.py` | `tests/test_core_reflection.py` | juguete demostrado |
-| RP no estacionaria | §7.5 (Prop. 7.4, E3) | `core/rp_nonstationary.py` | `tests/test_rp_nonstationary.py` | juguete; Wilson abierto (frente 1) |
+| RP no estacionaria | §7.5 (Prop. 7.4, E3) | `core/rp_nonstationary.py` | `tests/test_rp_nonstationary.py` | juguete (especularidad suficiente, necesidad no demostrada); Wilson abierto (frente 1) |
 | Década y Discriminante | Cap. 8 | `core/decade.py` | `tests/test_core_florencia_decade.py` | interna demostrada; λ=10 calibrado |
 | Flujo KLS integrado | Cap. 8 (frente E) | `core/kls_flow.py` | `tests/test_kls_flow.py` | resultado numérico (−1/2; −1/3 condicional) |
 | Matriz de estabilidad | §14.2 (frente 2) | `core/victoria_exponent.py` | `tests/test_victoria_exponent.py` | instrumentado; β de Fokker-Planck pendientes |
@@ -38,7 +38,7 @@ cada ruta citada existe.
 | Funcional del Camino (masas) | Cap. 12 | `mass_program/B4_masses.py` | `tests/test_masses.py` | calibrado; carácter predictivo por establecer (12.5) |
 | Higgs y auditoría | Prop. 12.1 / Obs. 12.2 | `mass_program/B5_higgs.py` | `tests/test_masses.py` | identidad SM calibrada, no predicción |
 | Ngen = 3 | Prop. 12.4 → E4 | `mass_program/B2_clifford.py` | — | identificación estructural, sin test dedicado (hueco declarado; sub-frente del 7) |
-| Empalme C¹ y WKB ab initio | H.2.4 (frente 7) | `mass_program/B7_empalme.py` | `tests/test_empalme_wkb.py` | no circular; valor de β₃ condicional |
+| Empalme C¹ y WKB ab initio | H.2.4 (frente 7) | `mass_program/B7_empalme.py` | `tests/test_empalme_wkb.py` | no circular; mide δ_H (≠ δ₀*, C6); valor de β₃ condicional |
 | WKB calibrado (v32) | Tabla 3 v32 | `mass_program/B3_wkb.py` | `tests/test_wkb.py` | entradas calibradas, no derivación |
 | Mass gap en retículo | Ap. D | `lattice/mass_gap.py` | `tests/test_lattice.py` | piso espectral efectivo (E10), no Yang-Mills |
 | Qudit y decoherencia | Ap. C | `quantum/qutip_simulation.py` | `tests/test_quantum_v35.py` | firma de consistencia del canal (E10) |

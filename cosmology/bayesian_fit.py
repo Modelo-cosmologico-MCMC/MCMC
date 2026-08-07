@@ -6,7 +6,7 @@ de covarianza (Pantheon+) y BAO (D_M/r_d, D_H/r_d).
 
 Priors alineados con la tabla F.3/F.4 del Tratado de Fundamentos (v35):
     H0      ~ N(67.4, 5²)
-    ε       ~ gaussiano débil centrado en EPSILON_0 (εΛ = 0.012 ± 0.003
+    ε       ~ gaussiano débil centrado en EPSILON_LAMBDA (εΛ = 0.012 ± 0.003
               es el valor de la transición, A.3; el prior del ajuste es
               deliberadamente más ancho)
     z_trans ~ gaussiano débil centrado en Z_TRANS (8.9 ± 0.4 en A.3)
@@ -170,7 +170,7 @@ def log_prior(theta: Sequence[float]) -> float:
     # v35 F.4: H0 ~ N(67.4, 5²)
     lp = -0.5 * ((H0 - PRIOR_H0_MEAN) / PRIOR_H0_SIGMA) ** 2
     # Gaussianos débiles centrados en los valores calibrados de constants:
-    lp += -0.5 * ((eps - C.EPSILON_0) / 0.05) ** 2
+    lp += -0.5 * ((eps - C.EPSILON_LAMBDA) / 0.05) ** 2
     lp += -0.5 * ((z_trans - C.Z_TRANS) / 5.0) ** 2
     return lp
 
@@ -288,7 +288,7 @@ def run_emcee(data: HzData, nwalkers: int = 32, nsteps: int = 2000,
     import emcee  # type: ignore
 
     rng = np.random.default_rng(seed)
-    p0_center = np.array([C.H0_MCMC, 0.300, C.EPSILON_0, C.Z_TRANS])
+    p0_center = np.array([C.H0_MCMC, 0.300, C.EPSILON_LAMBDA, C.Z_TRANS])
     p0 = p0_center + 1e-3 * rng.normal(size=(nwalkers, 4))
     sampler = emcee.EnsembleSampler(
         nwalkers, 4, log_prob, args=(data, sne, bao)

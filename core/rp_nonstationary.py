@@ -21,13 +21,15 @@ LO QUE EL JUGUETE ESTABLECE:
    positividad: el autovalor mínimo se hace negativo y la violación
    crece con el gradiente g (medida, sin ley simple reclamada).
 
-Lectura honesta para el frente 1: el juguete muestra que la hipótesis
-que la RP necesita no es estacionariedad sino SIMETRÍA ESPECULAR del
-perfil respecto de la loncha; con acoplos corriendo en S, la pregunta
-real del frente es si el sector de Wilson admite una reflexión
-modificada (que refleje también el perfil) — aquí la versión escalar de
-esa reflexión modificada restaura la positividad exactamente (punto 1).
-El sector espinorial queda donde el tratado lo deja: abierto.
+Lectura honesta para el frente 1: el juguete muestra que la
+estacionariedad no es la condición operativa — la SIMETRÍA ESPECULAR
+del perfil es SUFICIENTE para la RP (K(S) = K(ϑS) ⟹ RP; la necesidad
+NO está demostrada: puede haber perfiles no especulares accidentalmente
+positivos). Con acoplos corriendo en S, la pregunta real del frente es
+si el sector de Wilson admite una reflexión modificada (que refleje
+también el perfil) — aquí la versión escalar de esa reflexión
+modificada restaura la positividad exactamente (punto 1). El sector
+espinorial queda donde el tratado lo deja: abierto.
 """
 
 from __future__ import annotations
@@ -35,10 +37,12 @@ from __future__ import annotations
 import numpy as np
 
 STATUS_NONSTATIONARY = (
-    "condicional (§13.4, frente abierto nº 1): el juguete escalar mide "
-    "que la RP exige simetría especular del perfil, no estacionariedad "
-    "— con running monótono la reflexión ingenua la pierde; la RP del "
-    "sector espinorial de Wilson no se toca aquí"
+    "condicional (§13.4, frente abierto nº 1): en el juguete escalar la "
+    "simetría especular del perfil es condición SUFICIENTE para la RP "
+    "(la necesidad no está demostrada: puede haber perfiles no "
+    "especulares accidentalmente positivos); los perfiles monótonos "
+    "estudiados rompen la reflexión ingenua; la RP del sector "
+    "espinorial de Wilson no se toca aquí"
 )
 
 # Reformulación del Lema de Precedencia (PROPUESTA PARA LA v36, nacida
@@ -51,17 +55,18 @@ STATUS_NONSTATIONARY = (
 # reflexión ingenua → RP rota; reflejado junto con el campo → RP
 # restaurada. Alcance: juguete escalar hasta resolver Wilson.
 PRECEDENCE_REFORMULATED = (
-    "propuesta v36 (desde el juguete escalar): la hipótesis del Lema "
-    "de Precedencia pasa de ∂_S K = 0 (estacionariedad) a K(S) = K(ϑS) "
-    "(simetría especular respecto de la loncha); el sellado exacto es "
-    "suficiente pero no necesario"
+    "propuesta v36 (desde el juguete escalar): la condición operativa "
+    "del Lema de Precedencia pasa de ∂_S K = 0 (estacionariedad) a "
+    "K(S) = K(ϑS) (simetría especular respecto de la loncha), como "
+    "condición SUFICIENTE — el sellado exacto es suficiente pero no "
+    "necesario, y la necesidad de la simetría no está demostrada"
 )
 
 
 def is_mirror_symmetric(m2_profile, J_profile, tol: float = 1e-12) -> bool:
     """La condición K(S) = K(ϑS), ejecutable: ¿es el perfil de acoplos
-    especular respecto de la loncha (sitio 0)? Es la hipótesis real que
-    la RP del juguete necesita (no la estacionariedad)."""
+    especular respecto de la loncha (sitio 0)? Es condición SUFICIENTE
+    para la RP del juguete (la necesidad no está demostrada)."""
     m2 = np.asarray(list(m2_profile), dtype=float)
     J = np.asarray(list(J_profile), dtype=float)
     if len(J) != len(m2) - 1 or len(m2) % 2 == 0:
@@ -98,7 +103,7 @@ def chain_rp_matrix(phi_grid: np.ndarray, m2_profile, J_profile,
         raise ValueError("m2_profile debe tener longitud impar ≥ 3")
     idx0 = n_side
     phi = np.asarray(phi_grid, dtype=float)
-    W = [np.exp(-V_site(phi, m)) for m in m2]
+    W = [np.exp(-V_site(phi, m, lam4)) for m in m2]
     L = [np.exp(J * np.outer(phi, phi)) for J in Js]
 
     tau_m = np.ones_like(phi)                    # cola −n .. −2

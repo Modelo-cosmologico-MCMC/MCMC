@@ -54,6 +54,12 @@ jobs:
           ! grep -rn "álgebra, no ajuste\|consecuencia algebraica, no" --include="*.py" --include="*.md" .
           ! grep -rn "alivia las tensiones\|alivio de las tensiones\|relieves the .* tension" --include="*.py" --include="*.md" --include="*.ipynb" .
 
+      - name: Guardia C6 — EPSILON_0 deprecado
+        # ε_Λ vive en EPSILON_LAMBDA; el alias EPSILON_0 (nombre v32)
+        # solo puede existir en constants.py. Nuevos usos fallan aquí.
+        run: |
+          ! grep -rn "EPSILON_0" --include="*.py" --include="*.ipynb" . | grep -v "mcmc_ontology/constants.py"
+
       - name: Validación integral
         run: python scripts/validate_all.py
 
