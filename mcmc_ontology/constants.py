@@ -110,6 +110,13 @@ M_HIGGS_MCMC = 125.3    # GeV — valor publicado por el tratado (v35, Prop. 12.
 Z_TRANS = 8.9          # Redshift de transición de Λ_rel: 8.9 ± 0.4 (v35 A.3)
 DZ_TRANS = 1.5         # Ancho Δz de la transición tanh (v35 A.3)
 
+EPSILON_K = 0.012      # ε_K — residuo del Sello de Newton, ε_K ≡
+                       # λK(S_act) − 1 ≈ 0.012 (v35 §9.5/F.4). PARÁMETRO
+                       # PROPIO por el convenio C6 (v35.1, E9): la
+                       # coincidencia numérica con ε_Λ no implica
+                       # identidad conceptual — el contraste de los
+                       # Residuos (frente 6) lo consume como suyo.
+
 LAMBDA_ONT = 0.01      # Grosor ontológico del sello [S-units] (v32)
 
 # Perfil m_P(S) (v32):

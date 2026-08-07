@@ -44,6 +44,16 @@ jobs:
           ! grep -rn "125\.44\b" --include="*.py" --include="*.md" --include="*.ini" . | grep -v "125.436"
           ! grep -rn "S_actual\|S_max" --include="*.py" . | grep -v "LEGACY_V32\|legacy"
 
+      - name: Guardias de lenguaje v35.1
+        # Las frases retiradas por la fe de erratas (E4, E6, E8, E13)
+        # no pueden reaparecer. docs/erratas_v35.1.md queda excluida:
+        # cita el texto corregido como registro de la corrección.
+        run: |
+          ! grep -rn "signo favorecido\|favorece su signo\|sign favored" --include="*.py" --include="*.md" --include="*.ipynb" . | grep -v "erratas_v35.1"
+          ! grep -rn "verifican los teoremas\|verify the theorems" --include="*.py" --include="*.md" --include="*.ipynb" .
+          ! grep -rn "álgebra, no ajuste\|consecuencia algebraica, no" --include="*.py" --include="*.md" .
+          ! grep -rn "alivia las tensiones\|alivio de las tensiones\|relieves the .* tension" --include="*.py" --include="*.md" --include="*.ipynb" .
+
       - name: Validación integral
         run: python scripts/validate_all.py
 

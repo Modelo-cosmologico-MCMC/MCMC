@@ -329,6 +329,14 @@ contraste BBN) están documentados con su estatuto exacto en la
 **[Nota computacional I](docs/nota_computacional_I.md)** — preparada
 para su depósito citable en Zenodo junto a la release v0.2.0 (ver
 `CHANGELOG.md`).
+
+La **[matriz de trazabilidad](docs/matriz_trazabilidad.md)**
+(manuscrito ↔ código ↔ test ↔ estatuto, 32 filas) es EJECUTABLE:
+`tests/test_traceability.py` verifica que toda ruta citada existe y
+que ningún estatuto reclama más que su categoría v35.1. Las
+correspondencias filosóficas nuevas E.18/E.19 (propuesta para el
+Apéndice E de la v36) están en
+[docs/correspondencias_E18_E19.md](docs/correspondencias_E18_E19.md).
 DOI de concepto de la serie (siempre la última versión):
 [10.5281/zenodo.14167831](https://doi.org/10.5281/zenodo.14167831).
 No citar como vigentes los depósitos superados (v29, v32).

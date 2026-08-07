@@ -65,7 +65,7 @@ def atlas_healthy(lambda_K: float) -> bool:
     return cs2_atlas(lambda_K) > 0.0
 
 
-def residues_prediction(eps_K: float = C.EPSILON_0) -> float:
+def residues_prediction(eps_K: float = C.EPSILON_K) -> float:
     """Conjetura 9.6 (ec. 9.5): G_cosmo/G_N − 1 ≃ −(3/2)·εK.
 
     Con εK = ε = 0.012 del ajuste: ≈ −1.8%. ES CONJETURA (no resultado

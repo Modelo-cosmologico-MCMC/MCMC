@@ -183,6 +183,22 @@ débil de la Def. 11.1 — y la fricción condensa el halo en un punto
 (artefacto verificado antes de descartarse). Certificado de régimen
 publicado: ε_c máx = 3×10⁻⁵ ≪ 1.
 
+### 3.6 El frente 2 instrumentado (ec. 14.2)
+
+La matriz de estabilidad del flujo de acoplos en el cuello espinodal —
+el objeto que §14.2 declara como la tarea del frente 2 — queda
+instrumentada (`core/victoria_exponent.py`): las dos rutas al exponente
+de Victoria (espectral, s0 = |Im μ(M)|, y dinámica, el periodo del
+walking medido en el flujo integrado) coinciden con error ~10⁻¹⁴; con
+ansatz O(1) declarado, la cascada DSI es **genérica** (~67 % de las
+matrices complejifican sus exponentes, con independencia de la escala
+del ansatz) pero **λ = 10 es una selección medible, no una
+consecuencia**: la banda ±10 % de s0 = π/ln10 captura solo unas
+unidades por ciento, y esa fracción depende además de la escala del
+ansatz. Las β reales (jerarquía de Fokker-Planck, Def. 4.4) siguen
+siendo el hueco declarado; el módulo está listo para consumirlas.
+Desenlace en `results/2026-08-05_victoria_exponent/`.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

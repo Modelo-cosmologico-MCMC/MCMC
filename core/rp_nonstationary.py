@@ -41,10 +41,43 @@ STATUS_NONSTATIONARY = (
     "sector espinorial de Wilson no se toca aquí"
 )
 
+# Reformulación del Lema de Precedencia (PROPUESTA PARA LA v36, nacida
+# de este juguete; el enunciado del tratado no se toca): el presente no
+# exige que las reglas estén congeladas — exige que el antes y el
+# después sean compatibles bajo la reflexión que define la loncha. La
+# condición pasa de la estacionariedad ∂_S K = 0 a la simetría
+# K(S) = K(ϑS). Los cuatro casos, medidos aquí: perfil constante
+# (especular trivial) → RP; variable pero especular → RP; monótono con
+# reflexión ingenua → RP rota; reflejado junto con el campo → RP
+# restaurada. Alcance: juguete escalar hasta resolver Wilson.
+PRECEDENCE_REFORMULATED = (
+    "propuesta v36 (desde el juguete escalar): la hipótesis del Lema "
+    "de Precedencia pasa de ∂_S K = 0 (estacionariedad) a K(S) = K(ϑS) "
+    "(simetría especular respecto de la loncha); el sellado exacto es "
+    "suficiente pero no necesario"
+)
+
+
+def is_mirror_symmetric(m2_profile, J_profile, tol: float = 1e-12) -> bool:
+    """La condición K(S) = K(ϑS), ejecutable: ¿es el perfil de acoplos
+    especular respecto de la loncha (sitio 0)? Es la hipótesis real que
+    la RP del juguete necesita (no la estacionariedad)."""
+    m2 = np.asarray(list(m2_profile), dtype=float)
+    J = np.asarray(list(J_profile), dtype=float)
+    if len(J) != len(m2) - 1 or len(m2) % 2 == 0:
+        raise ValueError("Perfil mal formado (ver chain_rp_matrix)")
+    return bool(np.all(np.abs(m2 - m2[::-1]) <= tol)
+                and np.all(np.abs(J - J[::-1]) <= tol))
+
 
 def V_site(phi: np.ndarray, m2: float, lam4: float = 0.05) -> np.ndarray:
-    """Potencial de sitio con masa corriente: V = ½m²φ² + λ₄φ⁴
-    (λ₄ > 0 mantiene la medida normalizable para m² de cualquier signo)."""
+    """Potencial de sitio con masa corriente: V = ½m²φ² + λ₄φ⁴.
+
+    λ₄ (lam4) es el REGULARIZADOR CUÁRTICO del juguete — mantiene la
+    medida normalizable para m² de cualquier signo; su valor 0.05 es de
+    demostración. NOTA C6 (v35.1, E9 extendido): λ₄ no guarda relación
+    alguna con λ (la razón de la Década) ni con λ_H = 0.130 (el
+    cuártico del Higgs) — colisión de notación evitada por declaración."""
     return 0.5 * m2 * phi ** 2 + lam4 * phi ** 4
 
 

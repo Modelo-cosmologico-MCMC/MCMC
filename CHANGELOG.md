@@ -39,10 +39,20 @@ estado en que afirme exactamente lo que hace»).
   ec. 8.4 cuantificado; divergencia −1/2), el Cruce de Victoria como
   bifurcación dinámica y el retraso ∝ ritmo^(−1/3) (resultado del
   programa); λ = 10 sigue calibrado (frente 2).
+- **Frente 2 instrumentado** (ec. 14.2): dos rutas coincidentes al
+  exponente de Victoria (espectro ⟺ walking integrado, error ~1e-14);
+  con ansatz O(1), la cascada DSI es genérica (~67 %) pero λ = 10 es
+  una selección medible — las β de Fokker-Planck (Def. 4.4) son el
+  hueco declarado.
 - **Frente F (RP no estacionaria)**: la hipótesis real es la simetría
   especular, no la estacionariedad — el running monótono viola la
   reflexión ingenua y la reflexión modificada restaura la positividad
   exacta; el sector de Wilson sigue abierto (frente 1).
+- **Matriz de trazabilidad ejecutable** (manuscrito ↔ código ↔ test ↔
+  estatuto, con huecos declarados) verificada por test; guardias de
+  lenguaje v35.1 en el CI (E4/E6/E8/E13); Lema de Precedencia
+  reformulado K(S)=K(ϑS) como condición ejecutable y correspondencias
+  E.18/E.19 propuestas para la v36.
 - CI con guardias de honestidad y contrato de lint declarado (reglas en
   `pyproject.toml`, versión de ruff fijada).
 - 189 tests en verde.
