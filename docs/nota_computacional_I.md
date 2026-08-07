@@ -199,6 +199,27 @@ ansatz. Las β reales (jerarquía de Fokker-Planck, Def. 4.4) siguen
 siendo el hueco declarado; el módulo está listo para consumirlas.
 Desenlace en `results/2026-08-05_victoria_exponent/`.
 
+### 3.7 La Circulación de Victoria — la obstrucción de gradiente y el giro mínimo (F2A–F2D)
+
+La propuesta v36 «dos niveles del Camino» queda instrumentada
+(`core/victoria_circulation.py`, `results/2026-08-07_victoria_circulation/`):
+en la clase declarada β = (−G⁻¹+J)·∇C — que conserva la monotonía del
+Axioma 4 exactamente, dC/dlnS = −∇CᵀG⁻¹∇C ≤ 0, porque xᵀJx = 0 — el
+**teorema de obstrucción** establece que J = 0 ⟹ espectro real ⟹
+s0 = 0 (500/500 sorteos + argumento de similitud): dentro de esa
+clase, **la DSI de la Década exige circulación**. La circulación
+mínima α_c y el giro α_Victoria que produce s0 = π/ln 10 quedan
+medidos y clavados contra sus formas cerradas 2D (error < 10⁻⁶):
+α_c = 0 con hessiano isótropo y α_c = |h1−h2|/(2√(h1h2)) con
+anisotropía — el paisaje anisótropo encarece el giro. La proyección
+tangencial al cuello (P_T = I − nnᵀ, n = ∇D/|∇D|) separa el walking
+del cruce, y una tercera ruta a s0 (cruces por cero de la señal, sin
+espectro de M) coincide con la espectral y la dinámica en 1.364376.
+**Estatuto**: α_Victoria es un mapa sobre (G, H, J₀) declarados, no
+una constante de la naturaleza; las β reales (Fokker-Planck, Def. 4.4)
+deciden el punto del mapa, y fuentes de no-gradiente fuera de la clase
+declarada no quedan cubiertas.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

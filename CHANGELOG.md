@@ -56,7 +56,15 @@ estado en que afirme exactamente lo que hace»).
   E.18/E.19 propuestas para la v36.
 - CI con guardias de honestidad y contrato de lint declarado (reglas en
   `pyproject.toml`, versión de ruff fijada).
-- 189 tests en verde.
+- **La Circulación de Victoria (F2A–F2D, propuesta v36 «dos niveles
+  del Camino»)**: teorema de obstrucción como control negativo
+  (gradiente puro ⟹ espectro real ⟹ s0 = 0; dentro de la clase
+  β = (−G⁻¹+J)∇C, s0 ≠ 0 exige J ≠ 0), α_c y α_Victoria clavados
+  contra sus formas cerradas 2D, proyección tangencial a la espinodal
+  (P_T·M·P_T separa walking de cruce) y tercer estimador de s0 por
+  señal sin espectro de M — tres rutas coincidentes en π/ln 10.
+  α_Victoria es un mapa sobre (H, J₀) declarados, no una constante.
+- 222 tests en verde.
 
 ## v0.1.0 — 30 de julio de 2026 (migración v32 → v35)
 
