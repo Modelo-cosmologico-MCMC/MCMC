@@ -44,10 +44,11 @@ estado en que afirme exactamente lo que hace»).
   con ansatz O(1), la cascada DSI es genérica (~67 %) pero λ = 10 es
   una selección medible — las β de Fokker-Planck (Def. 4.4) son el
   hueco declarado.
-- **Frente F (RP no estacionaria)**: la hipótesis real es la simetría
-  especular, no la estacionariedad — el running monótono viola la
-  reflexión ingenua y la reflexión modificada restaura la positividad
-  exacta; el sector de Wilson sigue abierto (frente 1).
+- **Frente F (RP no estacionaria)**: la simetría especular del perfil
+  es condición SUFICIENTE para la RP en el juguete (necesidad no
+  demostrada) — el running monótono viola la reflexión ingenua y la
+  reflexión modificada restaura la positividad exacta; el sector de
+  Wilson sigue abierto (frente 1).
 - **Matriz de trazabilidad ejecutable** (manuscrito ↔ código ↔ test ↔
   estatuto, con huecos declarados) verificada por test; guardias de
   lenguaje v35.1 en el CI (E4/E6/E8/E13); Lema de Precedencia

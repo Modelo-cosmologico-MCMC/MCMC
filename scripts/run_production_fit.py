@@ -126,7 +126,7 @@ def main() -> None:
     # --- MCMC (4 parámetros) ---
     print(f"emcee MCMC: {opts.nwalkers} walkers x {opts.nsteps} pasos "
           f"(semilla {opts.seed})...")
-    s_m = run_sampler(log_prob, np.array([C.H0_MCMC, 0.300, C.EPSILON_0,
+    s_m = run_sampler(log_prob, np.array([C.H0_MCMC, 0.300, C.EPSILON_LAMBDA,
                                           C.Z_TRANS]),
                       4, (data, sne, bao), opts.nwalkers, opts.nsteps,
                       opts.seed)

@@ -133,7 +133,7 @@ def main() -> None:
 
     print(f"emcee MCMC k=6: {opts.nwalkers}x{opts.nsteps} (semilla {opts.seed})")
     s_m = run_sampler(log_prob_mcmc6,
-                      np.array([C.H0_MCMC, 0.31, C.EPSILON_0, C.Z_TRANS,
+                      np.array([C.H0_MCMC, 0.31, C.EPSILON_LAMBDA, C.Z_TRANS,
                                 0.02236, 0.81]),
                       6, (), opts.nwalkers, opts.nsteps, opts.seed)
     flat_m = s_m.get_chain(discard=burn, thin=4, flat=True)

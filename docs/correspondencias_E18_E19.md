@@ -37,8 +37,9 @@ equilibrio que ya no existe.
 ## E.19 — La integridad como simetría especular
 
 **Estructura matemática.** La positividad por reflexión conservada por
-un perfil especular: la hipótesis real no es la estacionariedad
-(∂_S K = 0) sino la simetría K(S) = K(ϑS) — el perfil constante es el
+un perfil especular: la condición operativa no es la estacionariedad
+(∂_S K = 0) sino la simetría K(S) = K(ϑS), suficiente en el juguete
+(necesidad no demostrada) — el perfil constante es el
 caso especular trivial; el variable pero especular conserva la
 positividad; el monótono sin reflexión modificada la rompe; el
 reflejado junto con el campo la restaura exactamente. (Alcance: juguete

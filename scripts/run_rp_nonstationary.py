@@ -2,7 +2,8 @@
 """Frente F: RP con acoplos no estacionarios — el juguete del frente nº 1.
 
 Mide, en la cadena escalar 1D con acoplos dependientes de la posición:
-(1) que la RP exige simetría especular del perfil, no estacionariedad;
+(1) que la simetría especular del perfil es condición SUFICIENTE
+    para la RP (la estacionariedad no es la condición operativa);
 (2) la curva de violación bajo running monótono (m² y J);
 (3) que la reflexión modificada (reflejar también el perfil) restaura
     la positividad exactamente.
@@ -88,7 +89,7 @@ def main() -> None:
         ax.set_xlabel("gradiente del running g")
         ax.set_ylabel("autovalor mínimo normalizado")
         ax.set_title("RP no estacionaria (frente nº 1): la simetría "
-                     "especular es la hipótesis real")
+                     "especular es suficiente")
         ax.legend(fontsize=8)
         fig.tight_layout()
         fig.savefig(OUT / "rp_nonstationary.png", dpi=140)
@@ -112,8 +113,9 @@ def main() -> None:
         "(acoplos distintos sitio a sitio): min eig = "
         + ", ".join(f"{v:+.1e}" for v in mirrored_eigs)
         + " — cero numérico. Mecanismo: M = diag(v)·LᵀW₀L·diag(v) es "
-        "una forma XᵀX. La hipótesis que la RP necesita es la simetría "
-        "especular del perfil, no su constancia.\n\n"
+        "una forma XᵀX. La simetría especular del perfil es condición "
+        "SUFICIENTE para la RP (la necesidad no está demostrada); la "
+        "constancia no es la condición operativa.\n\n"
         "## 2. El running monótono la viola (medido)\n\n"
         "El caso físico — acoplos que corren con S — con la reflexión "
         "ingenua (que no refleja el perfil):\n\n"

@@ -40,7 +40,7 @@ def test_fsigma8_finite():
 def test_regression_epsilon_value():
     """ε_Λ (amplitud de la transición) sigue siendo el valor calibrado
     del corpus. NO se identifica con δ₀ (regla canónica, ronda 5)."""
-    assert abs(C.EPSILON_0 - 0.012) < 1e-9
+    assert abs(C.EPSILON_LAMBDA - 0.012) < 1e-9
 
 
 def test_regression_delta_BIC_reference():

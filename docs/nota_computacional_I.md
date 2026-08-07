@@ -225,10 +225,11 @@ Desenlace en `results/2026-08-05_victoria_exponent/`.
    día de esta nota: el flujo KLS integrado mide la ley del walking
    (el «≃» de la ec. 8.4 cuantificado, divergencia −1/2, y el retraso
    del colapso ∝ ritmo^(−1/3) tras el Cruce — resultado del programa),
-   y el juguete de RP no estacionaria establece que la hipótesis real
-   es la simetría especular del perfil, no la estacionariedad: el
-   running monótono viola la reflexión ingenua y reflejar también el
-   perfil restaura la positividad exacta. λ = 10 (frente 2) y el
+   y el juguete de RP no estacionaria establece que la simetría
+   especular del perfil es condición SUFICIENTE para la RP (la
+   necesidad no está demostrada): el running monótono viola la
+   reflexión ingenua y reflejar también el perfil restaura la
+   positividad exacta. λ = 10 (frente 2) y el
    sector de Wilson (frente 1) siguen abiertos, como declara el
    tratado. Desenlaces en `results/2026-08-02_kls_flow/` y
    `results/2026-08-02_rp_nonstationary/`.

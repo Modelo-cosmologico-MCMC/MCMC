@@ -106,3 +106,21 @@ def test_precedence_condition_implies_rp():
                                  rng.uniform(0.5, 1.5, size=3))
         assert is_mirror_symmetric(m2, J)
         assert rp_min_eig_nonstationary(PHI, m2, J) > -1e-12
+
+
+def test_lam4_is_not_dead_argument():
+    """λ₄ tiene efecto computacional (el bug del argumento muerto,
+    cazado en revisión externa, no puede volver)."""
+    from core.rp_nonstationary import chain_rp_matrix
+    m2, J = running_profile(3, g_m2=0.0)
+    M1 = chain_rp_matrix(PHI, m2, J, lam4=0.01)
+    M2 = chain_rp_matrix(PHI, m2, J, lam4=0.10)
+    assert not np.allclose(M1, M2)
+
+
+def test_mirror_rp_survives_positive_lam4():
+    """La RP especular sobrevive a cualquier λ₄ > 0 (el mecanismo XᵀX
+    no depende del regularizador)."""
+    for lam4 in (0.01, 0.05, 0.2):
+        m2, J = mirrored_profile([0.7, 1.3, 0.9], 1.1, [0.8, 1.2, 0.6])
+        assert rp_min_eig_nonstationary(PHI, m2, J, lam4=lam4) > -1e-12

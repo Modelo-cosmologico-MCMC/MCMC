@@ -30,19 +30,26 @@ import math
 # (corrección local de Cronos, cap. 11); además F.3 lista ε (residuo de
 # descarga, [1e-8, 1e-3]). Se reserva δ₀* para el atractor (Teo. 10.6)
 # y δ_H para el empalme (H.8). Este módulo NO define constante numérica
-# para δ₀:
-# el empalme C¹ (H.2.4, mass_program/B7) lo MIDE — δ₀* ≈ 0.0581 con
-# formas fiduciales — y core/delta0_circle.py analiza su condición de
-# cierre. Las constantes de forma O(1) (m̄, b̄, ē, C0) viven en
-# core/basal.py (v35 F.2).
+# para δ₀. El empalme C¹ (H.2.4, mass_program/B7) MIDE δ_H ≈ 0.0581 con
+# formas fiduciales — el valor REQUERIDO por el cuártico observado del
+# Higgs bajo las formas elegidas, NO el atractor: δ_H ≠ δ₀* hasta que
+# Victoria derive independientemente el mismo valor (esa igualdad SERÍA
+# el cierre del círculo, no una identidad de nomenclatura —
+# core/delta0_circle.py analiza su condición). Las constantes de forma
+# O(1) (m̄, b̄, ē, C0) viven en core/basal.py (v35 F.2).
 
-EPSILON_0 = 0.012      # ε_Λ — amplitud de la transición de Λ_rel:
-                       # 0.012 ± 0.003 (v35 A.3/F.3), consumida por
-                       # cosmology/ como `eps`. CALIBRADA contra
-                       # observación (ajuste v2 propio: ε = 0.015
-                       # −0.039/+0.043). NO identificar con δ₀ (regla
-                       # canónica; el nombre EPSILON_0 se conserva por
-                       # los consumidores).
+EPSILON_LAMBDA = 0.012  # ε_Λ — amplitud de la transición de Λ_rel:
+                        # 0.012 ± 0.003 (v35 A.3/F.3), consumida por
+                        # cosmology/ como `eps`. CALIBRADA contra
+                        # observación (ajuste v2 propio: ε = 0.015
+                        # −0.039/+0.043). NO identificar con δ₀ (regla
+                        # canónica, C6).
+
+EPSILON_0 = EPSILON_LAMBDA  # Alias histórico DEPRECADO (nombre v32).
+                            # Todos los consumidores están migrados a
+                            # EPSILON_LAMBDA; la guardia de CI impide
+                            # nuevos usos de EPSILON_0 fuera de este
+                            # módulo.
 
 # =====================================================================
 # SELLADOS por consistencia interna (no ajustables — v35 F.4)

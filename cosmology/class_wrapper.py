@@ -14,7 +14,7 @@ from mcmc_ontology import constants as C
 
 def mcmc_class_params(H0: float = C.H0_MCMC,
                       Omega_m: float = 0.300,
-                      eps: float = C.EPSILON_0,
+                      eps: float = C.EPSILON_LAMBDA,
                       z_trans: float = C.Z_TRANS) -> dict:
     """Parámetros para un run CLASS con Λ_rel(z) y growth modificado."""
     return {
