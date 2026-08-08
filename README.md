@@ -103,6 +103,17 @@ bloque `LEGACY_V32` de `constants.py`.
 
 ## Resultados del ajuste de producción (julio 2026)
 
+> **Nota de estatuto (ago-2026, `legacy_pre_normalization`)**: los
+> ajustes v1 y v2 de esta sección son anteriores a la corrección de
+> normalización del fondo (H(0) = H0 exacto y clausura plana por
+> llamada — ver `cosmology/background.py` y
+> `tests/test_physical_invariants.py`). La comparación diferencial
+> ΔAIC/ΔBIC usó la misma maquinaria en ambos modelos y sigue siendo
+> informativa; los posteriores absolutos llevan el sesgo (~0.4 % en
+> H(0) fiducial). Repetición pendiente en la rama
+> `fix/background-normalization-desi`; notas de estatuto en cada
+> directorio de `results/`.
+
 Primer ajuste bayesiano de este repositorio sobre **datos reales**
 (`scripts/run_production_fit.py`, semilla 42, 32 walkers × 4000 pasos,
 convergencia verificada por autocorrelación): 31 puntos H(z) de cronómetros
