@@ -21,6 +21,7 @@ cada ruta citada existe.
 | Década y Discriminante | Cap. 8 | `core/decade.py` | `tests/test_core_florencia_decade.py` | interna demostrada; λ=10 calibrado |
 | Flujo KLS integrado | Cap. 8 (frente E) | `core/kls_flow.py` | `tests/test_kls_flow.py` | resultado numérico (−1/2; −1/3 condicional) |
 | Matriz de estabilidad | §14.2 (frente 2) | `core/victoria_exponent.py` | `tests/test_victoria_exponent.py` | instrumentado; β de Fokker-Planck pendientes |
+| Circulación de Victoria (F2A–F2D) | propuesta v36 §I (frente 2) | `core/victoria_circulation.py` | `tests/test_victoria_circulation.py` | condicional (clase declarada; β reales pendientes — Def. 4.4) |
 | Gea, Sello de Newton, Atlas | Cap. 9 | `core/gea.py` | `tests/test_core_gea_victoria.py` | sello exacto; Atlas condicional |
 | Contraste de los Residuos | Conj. 9.6 (frente 6) | `cosmology/residues_test.py` | `tests/test_residues.py` | consistencia superada (E13); refutable vivo |
 | Ciclo de Victoria | Cap. 10 | `core/victoria.py` | `tests/test_core_gea_victoria.py` | condicional (signo de ν, frente 4) |

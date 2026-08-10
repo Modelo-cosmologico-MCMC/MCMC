@@ -24,7 +24,7 @@ Implementación de la propuesta v36 «dos niveles del Camino»: el flujo fundame
 - Circulación tangencial: s0(M) = 2.000 → s0(P_T·M·P_T) = 2.000
 - Circulación cruce: s0(M) = 2.000 → s0(P_T·M·P_T) = 0.000
 
-La proyección P_T = I − nnᵀ (n = ∇D/|∇D| en el cuello) separa el walking tangencial a la espinodal del cruce del discriminante: solo la circulación tangencial sobrevive a P_T·M·P_T.
+En el ejemplo construido (G = H = I), la proyección P_T = I − nnᵀ (n = ∇D/|∇D| en el cuello) separa el walking tangencial a la espinodal del cruce del discriminante: solo la circulación tangencial sobrevive a P_T·M·P_T. Con H genérica la separación NO es exacta — la circulación del plano de cruce puede sobrevivir a P_T si H acopla n al plano tangente (P_T·J_cruce·H·P_T = −t₁·(nᵀH·P_T) ≠ 0) —: es una propiedad del caso construido, no de P_T en general (la limitación queda ejecutable en el test).
 
 ## F2D. Tres rutas independientes al exponente
 

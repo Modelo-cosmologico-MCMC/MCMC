@@ -4,6 +4,23 @@ Formato: cada versión lista lo que el repositorio AFIRMA tras ella —
 el contrato de honestidad manda («cada commit deja el repositorio en un
 estado en que afirme exactamente lo que hace»).
 
+## Sin publicar — agosto de 2026
+
+- **La Circulación de Victoria (F2A–F2D, propuesta v36 «dos niveles
+  del Camino», 7-ago)**: teorema de obstrucción como control negativo
+  (gradiente puro ⟹ espectro real ⟹ s0 = 0; dentro de la clase
+  β = (−G⁻¹+J)∇C, s0 ≠ 0 exige J ≠ 0), α_c y α_Victoria como PRIMER
+  arranque/cruce resueltos a la malla del barrido (s0(α) no es
+  monótona en general: puede ser re-entrante) y clavados contra sus
+  formas cerradas 2D, proyección tangencial a la espinodal (en el
+  ejemplo construido G = H = I, P_T·M·P_T separa walking de cruce; con
+  H genérica la separación no es exacta — limitación ejecutable en el
+  test) y tercer estimador de s0 por señal sin espectro de M, con
+  guardias de amplitud y semiperiodo que sostienen el control negativo
+  — tres rutas coincidentes en π/ln 10. α_Victoria es un mapa sobre
+  (H, J₀) declarados, no una constante.
+- 227 tests en verde en esta rama.
+
 ## v0.2.0 — 2 de agosto de 2026 (rondas 2–5)
 
 - **Cadena deductiva ejecutable** (`core/`, caps. 2–10): cada módulo
@@ -56,15 +73,7 @@ estado en que afirme exactamente lo que hace»).
   E.18/E.19 propuestas para la v36.
 - CI con guardias de honestidad y contrato de lint declarado (reglas en
   `pyproject.toml`, versión de ruff fijada).
-- **La Circulación de Victoria (F2A–F2D, propuesta v36 «dos niveles
-  del Camino»)**: teorema de obstrucción como control negativo
-  (gradiente puro ⟹ espectro real ⟹ s0 = 0; dentro de la clase
-  β = (−G⁻¹+J)∇C, s0 ≠ 0 exige J ≠ 0), α_c y α_Victoria clavados
-  contra sus formas cerradas 2D, proyección tangencial a la espinodal
-  (P_T·M·P_T separa walking de cruce) y tercer estimador de s0 por
-  señal sin espectro de M — tres rutas coincidentes en π/ln 10.
-  α_Victoria es un mapa sobre (H, J₀) declarados, no una constante.
-- 222 tests en verde.
+- 189 tests en verde.
 
 ## v0.1.0 — 30 de julio de 2026 (migración v32 → v35)
 

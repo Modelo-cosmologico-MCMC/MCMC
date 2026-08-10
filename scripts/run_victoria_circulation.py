@@ -5,9 +5,10 @@ Cuatro medidas, con el alcance declarado:
 (F2A) el teorema de obstrucción como control negativo — gradiente puro
       (J = 0, G ≻ 0, H simétrica) ⟹ espectro real ⟹ s0 = 0;
 (F2B) el mapa α_c(κ) y α_Victoria(κ) sobre la familia declarada
-      M(α) = (−I + α·J₀)·H con H = diag(1, κ) (+ modo real), clavado
+      M(α) = (−I + α·J₀)·H con H = diag(1, κ) — 2D estricto —, clavado
       contra las formas cerradas 2D;
-(F2C) la separación tangencial/cruce en el cuello espinodal;
+(F2C) la separación tangencial/cruce en el cuello espinodal, exacta
+      en el ejemplo construido (G = H = I);
 (F2D) la tercera ruta (señal, sin espectro de M) sobre la matriz
       fiducial, junto a la espectral y la dinámica.
 
@@ -112,7 +113,8 @@ def main() -> None:
                    marker="s", s=28, zorder=3)
         ax.set_xlabel("anisotropía κ del hessiano declarado H = diag(1, κ)")
         ax.set_ylabel("α (circulación)")
-        ax.set_title("La Década exige giro: α_c > 0 con paisaje anisótropo;"
+        ax.set_title("La Década exige giro (en la clase declarada): α_c > 0 "
+                     "con paisaje anisótropo;"
                      "\nα_Victoria es un mapa, no una constante")
         ax.legend(fontsize=8)
         fig.tight_layout()
@@ -153,10 +155,15 @@ def main() -> None:
         + "\n".join(
             f"- Circulación {name}: s0(M) = {s_f:.3f} → s0(P_T·M·P_T) = "
             f"{s_t:.3f}" for name, s_f, s_t in s_pairs)
-        + "\n\nLa proyección P_T = I − nnᵀ (n = ∇D/|∇D| en el cuello) "
-        "separa el walking tangencial a la espinodal del cruce del "
-        "discriminante: solo la circulación tangencial sobrevive a "
-        "P_T·M·P_T.\n\n"
+        + "\n\nEn el ejemplo construido (G = H = I), la proyección "
+        "P_T = I − nnᵀ (n = ∇D/|∇D| en el cuello) separa el walking "
+        "tangencial a la espinodal del cruce del discriminante: solo "
+        "la circulación tangencial sobrevive a P_T·M·P_T. Con H "
+        "genérica la separación NO es exacta — la circulación del "
+        "plano de cruce puede sobrevivir a P_T si H acopla n al plano "
+        "tangente (P_T·J_cruce·H·P_T = −t₁·(nᵀH·P_T) ≠ 0) —: es una "
+        "propiedad del caso construido, no de P_T en general (la "
+        "limitación queda ejecutable en el test).\n\n"
         "## F2D. Tres rutas independientes al exponente\n\n"
         f"Sobre la matriz fiducial (par 0.3 ± i·π/ln10 + modo real "
         f"acoplado): espectral {r['s0_spectral']:.6f} | dinámica "

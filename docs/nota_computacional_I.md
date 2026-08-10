@@ -206,15 +206,21 @@ La propuesta v36 «dos niveles del Camino» queda instrumentada
 en la clase declarada β = (−G⁻¹+J)·∇C — que conserva la monotonía del
 Axioma 4 exactamente, dC/dlnS = −∇CᵀG⁻¹∇C ≤ 0, porque xᵀJx = 0 — el
 **teorema de obstrucción** establece que J = 0 ⟹ espectro real ⟹
-s0 = 0 (500/500 sorteos + argumento de similitud): dentro de esa
-clase, **la DSI de la Década exige circulación**. La circulación
-mínima α_c y el giro α_Victoria que produce s0 = π/ln 10 quedan
-medidos y clavados contra sus formas cerradas 2D (error < 10⁻⁶):
-α_c = 0 con hessiano isótropo y α_c = |h1−h2|/(2√(h1h2)) con
-anisotropía — el paisaje anisótropo encarece el giro. La proyección
-tangencial al cuello (P_T = I − nnᵀ, n = ∇D/|∇D|) separa el walking
-del cruce, y una tercera ruta a s0 (cruces por cero de la señal, sin
-espectro de M) coincide con la espectral y la dinámica en 1.364376.
+s0 = 0 (500/500 sorteos en el script; el test de CI re-ejecuta 200;
+más el argumento de similitud): dentro de esa clase, **la DSI de la
+Década exige circulación**. La circulación mínima α_c y el giro
+α_Victoria que produce s0 = π/ln 10 quedan medidos — como PRIMER
+arranque/cruce resuelto a la malla del barrido, porque s0(α) no es
+monótona en general — y clavados contra sus formas cerradas 2D
+(error < 10⁻⁶): α_c = 0 con hessiano isótropo y
+α_c = |h1−h2|/(2√(h1h2)) con anisotropía — el paisaje anisótropo
+encarece el giro. La proyección tangencial al cuello (P_T = I − nnᵀ,
+n = ∇D/|∇D|) separa el walking del cruce en el ejemplo construido
+(G = H = I); con H genérica la separación no es exacta (limitación
+ejecutable en el test). Una tercera ruta a s0 (cruces por cero de la
+señal, sin espectro de M, con guardias de amplitud y semiperiodo que
+sostienen el control negativo) coincide con la espectral y la
+dinámica en 1.364376.
 **Estatuto**: α_Victoria es un mapa sobre (G, H, J₀) declarados, no
 una constante de la naturaleza; las β reales (Fokker-Planck, Def. 4.4)
 deciden el punto del mapa, y fuentes de no-gradiente fuera de la clase

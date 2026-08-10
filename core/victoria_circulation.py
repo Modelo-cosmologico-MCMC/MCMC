@@ -27,8 +27,13 @@ F2B. CIRCULACIÓN MÍNIMA: en la familia M(α) = (−G⁻¹ + α·J₀)H se mide
      clavarla (comprobación interna).
 
 F2C. GEOMETRÍA DE LA ESPINODAL: n = ∇D/|∇D| en el cuello, P_T = I−nnᵀ,
-     M_T = P_T·M·P_T — separa la circulación tangencial al cuello de la
-     que cruza el discriminante.
+     M_T = P_T·M·P_T. En el ejemplo construido (G = H = I) la
+     proyección separa exactamente la circulación tangencial al cuello
+     de la que cruza el discriminante; con H genérica la separación NO
+     es exacta — P_T·J_cruce·H·P_T = −t₁·(nᵀH·P_T) ≠ 0 si H acopla n
+     al plano tangente — de modo que es una propiedad del caso
+     construido, no de P_T en general (la limitación queda ejecutable
+     en tests/test_victoria_circulation.py).
 
 F2D. TERCER ESTIMADOR INDEPENDIENTE: s0 medido sobre la SEÑAL de la
      trayectoria (cruces por cero interpolados de la proyección
@@ -115,12 +120,31 @@ def _s0_of_alpha(G, H, J0, alpha: float) -> float:
 
 
 def alpha_threshold(G: np.ndarray, H: np.ndarray, J0: np.ndarray,
-                    alpha_max: float = 50.0, tol: float = 1e-10) -> float:
-    """α_c: la circulación mínima que complejifica el espectro
-    (bisección sobre el primer cruce s0 > 0)."""
-    lo, hi = 0.0, float(alpha_max)
-    if _s0_of_alpha(G, H, J0, hi) <= tol:
-        raise ValueError("Sin complejificación hasta alpha_max")
+                    alpha_max: float = 50.0, tol: float = 1e-10,
+                    n_scan: int = 2000) -> float:
+    """α_c: el PRIMER α que complejifica el espectro, resuelto a la
+    malla n_scan (barrido en [0, α_max] para acotar el primer arranque
+    s0 > 0, y bisección dentro de ese tramo).
+
+    El barrido es necesario: en la clase declarada {α : s0(α) > 0}
+    puede ser RE-ENTRANTE (en dimensión impar el espectro puede
+    re-realificarse a α grande), así que comprobar solo s0(α_max)
+    declararía «sin complejificación» donde sí la hay, y bisecar sin
+    acotar puede devolver un umbral no mínimo. Condición expuesta, no
+    resuelta en silencio: arranques en tramos más finos que
+    α_max/n_scan quedan fuera de la resolución declarada."""
+    alphas = np.linspace(0.0, float(alpha_max), int(n_scan) + 1)
+    hits = [i for i, a in enumerate(alphas)
+            if _s0_of_alpha(G, H, J0, a) > tol]
+    if not hits:
+        raise ValueError(
+            "Sin complejificación detectada en la malla hasta alpha_max "
+            f"(n_scan = {n_scan}; arranques más finos que α_max/n_scan "
+            "no quedan excluidos)")
+    i = hits[0]
+    if i == 0:
+        return 0.0
+    lo, hi = float(alphas[i - 1]), float(alphas[i])
     while hi - lo > 1e-12 * max(1.0, hi):
         mid = 0.5 * (lo + hi)
         if _s0_of_alpha(G, H, J0, mid) > tol:
@@ -132,13 +156,27 @@ def alpha_threshold(G: np.ndarray, H: np.ndarray, J0: np.ndarray,
 
 def alpha_victoria(G: np.ndarray, H: np.ndarray, J0: np.ndarray,
                    s0_target: float = S0_TARGET,
-                   alpha_max: float = 50.0) -> float:
-    """α_Victoria: min{α : s0(α) = s0_target} — cuánta circulación hace
-    falta, en la familia declarada, para el exponente de la Década."""
-    a_c = alpha_threshold(G, H, J0, alpha_max)
-    lo, hi = a_c, float(alpha_max)
-    if _s0_of_alpha(G, H, J0, hi) < s0_target:
-        raise ValueError("s0_target inalcanzable hasta alpha_max")
+                   alpha_max: float = 50.0, n_scan: int = 2000) -> float:
+    """α_Victoria: el PRIMER α con s0(α) = s0_target, resuelto a la
+    malla n_scan — cuánta circulación hace falta, en la familia
+    declarada, para el exponente de la Década.
+
+    Como en alpha_threshold, s0(α) NO es monótona en general (puede
+    superar el objetivo, recaer y volver a cruzarlo), así que se barre
+    la malla para acotar el PRIMER cruce y se biseca en ese tramo;
+    cruces más finos que α_max/n_scan quedan fuera de la resolución
+    declarada."""
+    alphas = np.linspace(0.0, float(alpha_max), int(n_scan) + 1)
+    hits = [i for i, a in enumerate(alphas)
+            if _s0_of_alpha(G, H, J0, a) >= s0_target]
+    if not hits:
+        raise ValueError(
+            "s0_target no alcanzado en la malla hasta alpha_max "
+            f"(n_scan = {n_scan})")
+    i = hits[0]
+    if i == 0:
+        return 0.0
+    lo, hi = float(alphas[i - 1]), float(alphas[i])
     while hi - lo > 1e-12 * max(1.0, hi):
         mid = 0.5 * (lo + hi)
         if _s0_of_alpha(G, H, J0, mid) >= s0_target:
@@ -166,8 +204,13 @@ def tangential_projector(n: np.ndarray) -> np.ndarray:
 
 def tangential_part(M: np.ndarray,
                     n: np.ndarray | None = None) -> np.ndarray:
-    """M_T = P_T·M·P_T — la dinámica tangencial al cuello: separa
-    evolucionar A LO LARGO de la espinodal de cruzarla."""
+    """M_T = P_T·M·P_T — la dinámica tangencial al cuello.
+
+    En el ejemplo construido (G = H = I) separa exactamente evolucionar
+    A LO LARGO de la espinodal de cruzarla; con H genérica la
+    separación no es exacta (la circulación del plano de cruce puede
+    sobrevivir a P_T si H acopla n al tangente) — propiedad del caso
+    construido, no de P_T en general."""
     if n is None:
         n = spinodal_normal()
     P = tangential_projector(n)
@@ -177,13 +220,24 @@ def tangential_part(M: np.ndarray,
 # ---------- F2D: tercer estimador (señal, sin espectro de M) ----------
 
 def s0_signal(M: np.ndarray, t_max: float = 500.0, dt: float = 5e-3,
-              seed: int = 0, transient: float = 0.2) -> float:
+              seed: int = 0, transient: float = 0.2,
+              amp_floor: float = 1e-9,
+              min_half_steps: float = 3.0) -> float:
     """s0 medido sobre la SEÑAL: se integra dδ/dt = M·δ (RK4), se
     renormaliza δ (quita la envolvente), se proyecta sobre una
     dirección fija y se mide el semiperiodo medio entre cruces por
     cero interpolados: s0 = π/⟨semiperiodo⟩. No consulta el espectro
     de M. Mide el par DOMINANTE; si la señal no oscila (gradiente
-    puro), devuelve 0.0."""
+    puro), devuelve 0.0.
+
+    Dos guardias sostienen ese control negativo (sin ellas, un
+    gradiente puro convergido puede registrar un falso s0 = π/dt: el
+    iterado renormalizado cae en un 2-ciclo de coma flotante de
+    amplitud ~1 ulp que cruza la media en cada paso): (i) amplitud
+    pico-a-pico de la señal retenida < amp_floor ⟹ no hay oscilación,
+    devuelve 0.0; (ii) semiperiodo medido ≤ min_half_steps·dt ⟹ ruido
+    a la resolución del integrador, devuelve 0.0. Ambos umbrales
+    expuestos como parámetros."""
     M = np.asarray(M, float)
     rng = np.random.default_rng(seed)
     delta = rng.standard_normal(M.shape[0])
@@ -203,6 +257,8 @@ def s0_signal(M: np.ndarray, t_max: float = 500.0, dt: float = 5e-3,
         xs[k + 1] = c @ delta
     i0 = int(transient * n_steps)
     x = xs[i0:] - xs[i0:].mean()
+    if float(x.max() - x.min()) < amp_floor:
+        return 0.0                    # guardia (i): sin oscilación real
     s = np.sign(x)
     idx = np.nonzero(s[:-1] * s[1:] < 0.0)[0]
     if idx.size < 2:
@@ -210,4 +266,6 @@ def s0_signal(M: np.ndarray, t_max: float = 500.0, dt: float = 5e-3,
     t = np.arange(x.size) * dt
     crossings = t[idx] - x[idx] * dt / (x[idx + 1] - x[idx])
     half = float(np.diff(crossings).mean())
+    if half <= min_half_steps * dt:
+        return 0.0                    # guardia (ii): ruido a resolución dt
     return float(np.pi / half)
