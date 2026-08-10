@@ -135,17 +135,24 @@ fiducial el centrado.
 
 Dos ajustes bayesianos sobre datos públicos, con ΛCDM ajustado por la
 misma maquinaria (ε = 0 exacto, Prop. A.1) y criterios de información
-explícitos:
+explícitos. Las corridas originales (jul/ago 2026) precedían a la
+corrección de normalización del fondo (H(0) = H0 exacto y clausura
+plana por llamada; en las corridas legacy el sesgo de F(0) era solo
+del brazo MCMC) y quedan etiquetadas `legacy_pre_normalization` en
+`results/`; la tabla cita la **repetición del 10-ago-2026 con el
+fondo corregido** (mismas semillas, datos y configuración), que
+confirma el veredicto:
 
-| Ajuste | Datos (n) | ΔAIC | ΔBIC (MCMC − ΛCDM) |
+| Ajuste (repetición 10-ago-2026) | Datos (n) | ΔAIC | ΔBIC (MCMC − ΛCDM) |
 |---|---|---|---|
-| v1 (jul 2026) | CC + BAO + SNe (1408) | +4.03 | **+14.53** |
-| v2 «la reconciliación» (ago 2026) | + CMB comprimido + fσ8 (1422) | +4.01 | **+14.53** |
+| v1 (legacy jul 2026: +4.03/+14.53) | CC + BAO + SNe (1408) | +4.00 | **+14.50** |
+| v2 «la reconciliación» (legacy ago 2026: +4.01/+14.53) | + CMB comprimido + fσ8 (1422) | +4.08 | **+14.60** |
 
 Positivo favorece a ΛCDM. En v2 (24×8000 pasos, convergencia 50·τ):
-ε = 0.015 −0.039/+0.043 — compatible con cero y con el 0.012 del corpus
-(sin necesidad, no excluida); H₀ = 67.1 ± 1.5 y σ₈ = 0.802 ± 0.029,
-planckianos. **La reconciliación queda respondida**: la ventaja del
+ε = 0.018 −0.041/+0.043 — compatible con cero y con el 0.012 del corpus
+(sin necesidad, no excluida); H₀ = 68.19 ± 0.40 y σ₈ = 0.799 ± 0.029,
+planckianos (posteriores ya sin el sesgo de normalización).
+**La reconciliación queda respondida**: la ventaja del
 corpus (ΔBIC = −6.1) no reaparece al añadir los dos bloques de los que
 procedía; solo podría residir en el C_ℓ completo, la lente débil o su
 metodología. Los valores del corpus son referencia histórica, no

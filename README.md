@@ -101,20 +101,22 @@ de los sellos la codifican los pesos c_in del **Funcional del Camino**
 eran presentación del Tratado Unificado (v32) y se conservan solo en el
 bloque `LEGACY_V32` de `constants.py`.
 
-## Resultados del ajuste de producción (julio 2026)
+## Resultados del ajuste de producción (repetidos con el fondo corregido, agosto 2026)
 
-> **Nota de estatuto (ago-2026, `legacy_pre_normalization`)**: los
-> ajustes v1 y v2 de esta sección son anteriores a la corrección de
-> normalización del fondo (H(0) = H0 exacto y clausura plana por
-> llamada — ver `cosmology/background.py` y
-> `tests/test_physical_invariants.py`). La comparación diferencial
-> ΔAIC/ΔBIC usó la misma maquinaria en ambos modelos y sigue siendo
-> informativa; los posteriores absolutos llevan el sesgo (~0.4 % en
-> H(0) fiducial). Repetición pendiente en la rama
-> `fix/background-normalization-desi`; notas de estatuto en cada
-> directorio de `results/`.
+> **Nota de estatuto (ago-2026)**: las corridas originales (jul/ago
+> 2026) eran anteriores a la corrección de normalización del fondo
+> (H(0) = H0 exacto y clausura plana por llamada — ver
+> `cosmology/background.py` y `tests/test_physical_invariants.py`) y
+> quedan etiquetadas `legacy_pre_normalization` en sus directorios de
+> `results/`. En ellas el sesgo de clausura era común a los dos brazos,
+> pero el de normalización F(0) era SOLO del brazo MCMC (con ε = 0 la
+> forma legacy es exacta), así que ε hacía doble papel — detalle en las
+> notas ESTADO. **La repetición con el fondo corregido (10-ago-2026,
+> mismas semillas, mismos datos, misma configuración) confirma el
+> veredicto diferencial** y sus posteriores son los citables; las
+> tablas de esta sección son las de la repetición.
 
-Primer ajuste bayesiano de este repositorio sobre **datos reales**
+Ajuste bayesiano sobre **datos reales**
 (`scripts/run_production_fit.py`, semilla 42, 32 walkers × 4000 pasos,
 convergencia verificada por autocorrelación): 31 puntos H(z) de cronómetros
 cósmicos + 6 medidas BAO del consenso BOSS DR12 (r_d fiducial 147.09 Mpc,
@@ -124,19 +126,20 @@ con la misma maquinaria** (ε = 0 exacto, Prop. A.1); priors del Apéndice F.
 
 | Parámetro | MCMC (k=4) | ΛCDM (k=2) |
 |---|---|---|
-| H₀ [km/s/Mpc] | 66.1 ± 1.7 | 66.6 ± 1.3 |
-| Ω_m | 0.344 ± 0.026 | 0.340 ± 0.024 |
-| ε | 0.014 −0.038/+0.042 — **compatible con 0** | ≡ 0 |
-| z_trans | 9.2 ± 4.7 (dominado por el prior) | — |
+| H₀ [km/s/Mpc] | 67.87 ± 0.68 | 67.88 ± 0.66 |
+| Ω_m | 0.326 ± 0.016 | 0.327 ± 0.016 |
+| ε | 0.017 −0.039/+0.042 — **compatible con 0** | ≡ 0 |
+| z_trans | 9.1 −4.3/+4.6 (dominado por el prior) | — |
 
-χ² total en el máximo: 1226.07 (MCMC) frente a 1226.03 (ΛCDM).
-**ΔAIC = +4.0 y ΔBIC = +14.5 (positivo favorece a ΛCDM)**: con estos tres
+χ² total en el máximo: 1226.03 (MCMC) frente a 1226.03 (ΛCDM).
+**ΔAIC = +4.00 y ΔBIC = +14.50 (positivo favorece a ΛCDM)**: con estos tres
 catálogos y esta metodología, los dos parámetros extra del MCMC no mejoran el
 ajuste y los criterios de información favorecen a ΛCDM. El resultado se
 publica tal cual — el compromiso del proyecto es con el contraste, no con el
 desenlace.
 
-Informe completo, fórmulas y cadenas: `results/2026-07-31_production_fit/`.
+Informe completo, fórmulas y cadenas: `results/2026-08-10_production_fit/`
+(corrida legacy conservada en `results/2026-07-31_production_fit/`).
 Reproducción determinista: `python scripts/download_data.py all &&
 python scripts/run_production_fit.py`.
 
@@ -151,19 +154,20 @@ RSD, ODE exacta de D(a)), n = 1422, MCMC k=6 frente a ΛCDM k=4, convergencia
 
 | Parámetro | MCMC (k=6) | ΛCDM (k=4) |
 |---|---|---|
-| H₀ | 67.1 ± 1.5 | 67.6 ± 0.7 |
-| Ω_m | 0.323 ± 0.016 | 0.318 ± 0.009 |
-| ε | 0.015 −0.039/+0.043 — **compatible con 0** | ≡ 0 |
-| σ₈ | 0.802 ± 0.029 | 0.800 ± 0.030 |
+| H₀ | 68.19 ± 0.40 | 68.17 ± 0.42 |
+| Ω_m | 0.312 ± 0.006 | 0.312 ± 0.007 |
+| ε | 0.018 −0.041/+0.043 — **compatible con 0** | ≡ 0 |
+| σ₈ | 0.799 ± 0.029 | 0.800 ± 0.030 |
 
-χ² total 1235.04 vs 1235.03 (idéntico bloque a bloque, incluidos CMB y fσ₈);
-**ΔAIC = +4.0, ΔBIC = +14.5 a favor de ΛCDM** — el mismo veredicto que la
-v1: la penalización por parsimonia decide porque los parámetros extra no
-compran nada. **La ventaja del corpus no reaparece con fondo + geometría +
+χ² total 1235.08 vs 1235.00 (equivalente bloque a bloque, incluidos CMB y
+fσ₈); **ΔAIC = +4.08, ΔBIC = +14.60 a favor de ΛCDM** — el mismo veredicto
+que la v1: la penalización por parsimonia decide porque los parámetros extra
+no compran nada. **La ventaja del corpus no reaparece con fondo + geometría +
 crecimiento.** Lo que queda fuera de esta corrida: el espectro C_ℓ completo
 y la lente débil (el CMB entra comprimido y diagonal; z*/r_s por
 Hu–Sugiyama, sesgo ~0.3% idéntico en ambos modelos). Informe y cadenas:
-`results/2026-08-01_production_fit_v2/`.
+`results/2026-08-10_production_fit_v2/` (corrida legacy conservada en
+`results/2026-08-01_production_fit_v2/`).
 
 **Relación con el corpus.** Los valores del corpus v32 (H₀ = 69.8, σ₈ = 0.805,
 ΔBIC = −6.1 a favor del MCMC) permanecen documentados como referencia
@@ -313,7 +317,11 @@ parameters with their condition, never
 silently resolved; unfavorable outcomes are published front-page with the
 same tone as favorable ones. Honest headlines as of August 2026: the
 production Bayesian fits on real data (CC+BAO+SNe, then + compressed CMB
-+ fσ8) give **ΔBIC = +14.5 favoring ΛCDM** (ε compatible with 0) — while
++ fσ8), **re-run on 2026-08-10 after a background-normalization fix**
+(H(0) = H0 now holds exactly for every admissible parameter — the
+original runs are kept as `legacy_pre_normalization` in `results/`),
+give **ΔBIC = +14.5/+14.6 favoring ΛCDM** (ε = 0.017 ± 0.04, compatible
+with 0, from the corrected, unbiased posteriors) — while
 the Residues check (G_cosmo/G_N − 1 ≈ −1.8% vs. the BBN bound) is a
 **consistency passed** at ~0.3σ — no detection, no sign significance
 (v35.1, E13); the C¹ splice measures δ_H ≈ 0.0581 without the

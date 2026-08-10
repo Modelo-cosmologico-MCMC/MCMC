@@ -15,19 +15,28 @@ Parametrización de la transición (A.3) — forma tanh, NORMALIZADA HOY:
     Ω_Λ_rel(z) = Ω_Λ0 · F(z)/F(0),      con lo que Ω_Λ_rel(0) = Ω_Λ0
     ε = 0.012 ± 0.003,  z_trans = 8.9 ± 0.4,  Δz ≈ 1.5
 
-CORRECCIÓN DE NORMALIZACIÓN (ago-2026, rama fix/background-normalization):
-la forma anterior anclaba Λ0 sin dividir por F(0) y fijaba Ω_Λ0 con
-Ω_m = 0.300 a nivel de módulo, de modo que (i) H(0) = H0·√F(0) ≈
-1.004·H0 incluso en el punto fiducial, y (ii) el modelo dejaba de ser
-plano al variar Ω_m en los ajustes. Hoy H_of_z impone la clausura plana
-POR LLAMADA (Ω_DE,0 = 1 − Ω_m − Ω_r; Ω_k = 0 declarado) y la transición
-está normalizada en z = 0, así que H(0) = H0 EXACTAMENTE para todo
-parámetro admisible — el invariante lo protege
-tests/test_physical_invariants.py. Los ajustes de producción v1/v2 son
-ANTERIORES a esta corrección (etiquetados legacy_pre_normalization en
-sus informes); su comparación diferencial ΔAIC/ΔBIC usó la misma
-maquinaria en ambos modelos, pero la repetición está pendiente en esta
-rama.
+CORRECCIÓN DE NORMALIZACIÓN (ago-2026, rama
+fix/background-normalization-desi): la forma anterior anclaba Λ0 en el
+punto MEDIO de la transición (F(z_trans) = 1, sin dividir por F(0)) y
+fijaba Ω_Λ0 con Ω_m = 0.300 a nivel de módulo, de modo que
+(i) H(0) = H0·√(1 + Ω_Λ0·(F(0) − 1)) ≈ 1.0042·H0 incluso en el punto
+fiducial (validate_all imprimía 70.09 con H0 = 69.8), y (ii) el modelo
+dejaba de ser plano al variar Ω_m en los ajustes — en las medianas de
+los posteriores legacy el sesgo combinado llegaba a ~1.8 % (v1) y
+~1.1 % (v2). Además, en los ajustes legacy el sesgo de F(0) era SOLO
+del brazo MCMC (el brazo ΛCDM corría con ε = 0 ⟹ F ≡ 1), así que ε
+hacía doble papel: amplitud de la transición y reescalado de H(0).
+Hoy H_of_z impone la clausura plana POR LLAMADA (Ω_DE,0 = 1 − Ω_m −
+Ω_r; Ω_k = 0 declarado) y la transición está normalizada en z = 0, así
+que H(0) = H0 EXACTAMENTE para todo parámetro admisible con dz > 0 —
+el invariante lo protege tests/test_physical_invariants.py y lo
+asserta scripts/validate_all.py. Los ajustes v1/v2 originales quedan
+etiquetados legacy_pre_normalization (nota ESTADO en sus directorios
+de results/); la REPETICIÓN con este fondo corregido está ejecutada
+(10-ago-2026, mismas semillas y configuración):
+results/2026-08-10_production_fit{,_v2}/ — el veredicto diferencial se
+mantiene (ΔAIC = +4.00/+4.08, ΔBIC = +14.50/+14.60 pro-ΛCDM; ε
+compatible con 0), ahora con posteriores absolutos sin el sesgo.
 
 (La forma lineal Λ0[1 + ε(z_trans − z)] que anunciaba una versión anterior
 de este docstring es la parametrización superada: el código siempre
@@ -64,8 +73,10 @@ def Lambda_rel(z: np.ndarray | float,
         Ω_Λ_rel(z) = Ω_Λ0 · F(z)/F(0)     ⟹  Ω_Λ_rel(0) = Ω_Λ0 exacto
 
     para TODO ε; ε conserva su papel de amplitud de la transición (el
-    ancla pasa de la meseta pre-transición a hoy). Con ε = 0, F ≡ 1 y
-    se recupera la constante exacta (Prop. A.1).
+    ancla pasa del punto medio z = z_trans, donde F = 1 en la forma
+    legacy, a hoy). Con ε = 0, F ≡ 1 y se recupera la constante exacta
+    (Prop. A.1). Requiere dz > 0 (dz ≤ 0 no es admisible: dz = 0
+    divide por cero y dz < 0 invertiría la transición).
     dz = Δz ≈ 1.5 según el Apéndice A.3 (antes 1.0, valor del corpus v32).
     """
     z = np.asarray(z, dtype=float)
@@ -85,8 +96,10 @@ def H_of_z(z: np.ndarray | float,
 
     Clausura plana POR LLAMADA (corrección ago-2026): Ω_DE,0 =
     1 − Ω_m − Ω_r (Ω_k = 0 declarado), con la transición normalizada en
-    z = 0 ⟹ H(0) = H0 exactamente para todo (Ω_m, ε, z_trans, dz)
-    admisible — el invariante que la ontología exige y el CI protege.
+    z = 0 ⟹ H(0) = H0 exactamente para todo (Ω_m, ε, z_trans) y todo
+    dz > 0 (el dominio declarado) — el invariante que la ontología
+    exige y el CI protege (suite de invariantes + assert en
+    validate_all).
     """
     z = np.asarray(z, dtype=float)
     Omega_DE0 = 1.0 - Omega_m - Omega_r

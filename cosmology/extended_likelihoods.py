@@ -103,7 +103,13 @@ def cmb_compressed_loglike(theta: tuple, omega_b: float) -> float:
 def growth_D_f(z_eval: np.ndarray, theta: tuple,
                n_grid: int = 400) -> tuple[np.ndarray, np.ndarray]:
     """D(z)/D(0) y f(z) = dlnD/dlna integrando la ODE exacta sobre el
-    H(z) del modelo (RK4 en ln a, malla fija — determinista y rápido)."""
+    H(z) del modelo (RK4 en ln a, malla fija — determinista y rápido).
+
+    Aproximación declarada: la radiación (Ω_r = 9.2e-5) entra en la
+    GEOMETRÍA H(z) — y, con la clausura por llamada, en Ω_DE,0 — pero
+    no como fuente de la ODE de crecimiento (solo materia agrupa);
+    es la aproximación estándar a z ≪ z_eq y afecta por igual a los
+    dos modelos comparados."""
     H0, Om, eps, z_trans = theta
     lna = np.linspace(np.log(1e-3), 0.0, n_grid)
     a = np.exp(lna)
