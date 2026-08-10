@@ -164,11 +164,14 @@ def main() -> None:
         "tangente (P_T·J_cruce·H·P_T = −t₁·(nᵀH·P_T) ≠ 0) —: es una "
         "propiedad del caso construido, no de P_T en general (la "
         "limitación queda ejecutable en el test).\n\n"
-        "## F2D. Tres rutas independientes al exponente\n\n"
+        "## F2D. Tres rutas coincidentes al exponente\n\n"
         f"Sobre la matriz fiducial (par 0.3 ± i·π/ln10 + modo real "
         f"acoplado): espectral {r['s0_spectral']:.6f} | dinámica "
         f"{r['s0_dynamic']:.6f} | señal (cruces por cero, sin espectro "
-        f"de M) {s_sig:.6f} — tres estimadores, un exponente.\n\n"
+        f"de M) {s_sig:.6f} — tres estimadores, un exponente. Solo la "
+        f"ruta de señal es libre de espectro: la dinámica usa eig(M) "
+        f"para aislar el modo (su MEDIDA del periodo es dinámica, su "
+        f"proyección no).\n\n"
         "## Estatuto\n\n"
         f"{STATUS_CIRCULATION}.\n",
         encoding="utf-8")
