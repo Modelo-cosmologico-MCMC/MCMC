@@ -199,6 +199,34 @@ ansatz. Las β reales (jerarquía de Fokker-Planck, Def. 4.4) siguen
 siendo el hueco declarado; el módulo está listo para consumirlas.
 Desenlace en `results/2026-08-05_victoria_exponent/`.
 
+<!-- 3.7 = la Circulación de Victoria (rama theory/front2-gradient-victoria) -->
+
+### 3.8 Sculptor contra el potencial débil (frente 5, medio paso 2)
+
+El potencial débil de la Ley de Cronos (Def. 11.1 + Prop. 11.2),
+Φ_eff = Φ_N − c²·ε_c(ρ), queda instrumentado con Jeans esférico y
+proyección (`dynamics/`, validado contra la identidad analítica del
+Plummer isótropo, error < 2×10⁻³) y confrontado con los datos globales
+de Sculptor (Walker et al. 2009; procedencia y pendientes declarados
+en `dynamics/dsph_data.py`). El resultado, publicado tal cual:
+**el término débil de Cronos no puede explicar la dispersión de
+Sculptor dentro de su propia cota** (ec. 11.5, c²ε_c ≲ |Φ_N|): solo
+estrellas dan σ_N = 2.1–3.6 km/s (Υ⋆ ∈ [1,3]); el techo con la cota
+saturada es √2·σ_N ≤ 5.1 km/s, frente a σ_obs ≈ 9–10; la amplitud
+A = α₀⁻¹/ρ_c^(3/2) que el sistema exige viola la cota ×8–×26 e
+implica ρ_c ≈ 0.7–2.1 M⊙/pc³ con α₀⁻¹ en su cota — una densidad de
+escala estelar que además discrepa en órdenes de magnitud de la
+receta que la malla PM del §3.5 necesitó (ρ_c ≈ umbral de colapso,
+~200× la media): la incógnita compartida del contraste cruzado 5E ya
+tiene dos medidas discrepantes. La carga explicativa de los dSph
+queda cuantificada para el sector ρ_id (M_1/2 ≈ 2×10⁷ M⊙ dentro de
+~260 pc, estimador de Wolf declarado), cuyo perfil a esa escala el
+tratado no deriva — hueco declarado. **Estatuto**: veredicto exacto
+dentro del montaje declarado (trazador Plummer, β constante, datos
+globales); el perfil binado σ_los(R), poblaciones múltiples y la
+ingesta de la tabla original son los pendientes del siguiente paso;
+5C (SPARC con la MISMA A) decidirá la falsación cruzada.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

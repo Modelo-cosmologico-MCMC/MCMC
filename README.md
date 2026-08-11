@@ -283,6 +283,30 @@ la media); con ρ_c ~ media, ε_c alcanza O(1), fuera del régimen débil
 de la Def. 11.1, y la fricción condensa el halo en un punto (artefacto
 verificado, no física). Desenlace en `results/2026-08-02_profile_shape/`.
 
+### Medio paso 2 del frente nº 5: Sculptor contra el potencial débil (agosto 2026)
+
+`dynamics/` + `python scripts/run_jeans_dsph.py` ejecutan los pasos
+5A/5B/5D de la secuencia del frente: una sola Φ_eff = Φ_N − c²·ε_c
+desde la Ley de Cronos (Def. 11.1 + Prop. 11.2), Jeans esférico con β
+constante y proyección — validados contra la identidad analítica del
+Plummer isótropo (error < 2×10⁻³) — confrontados con los datos
+globales de Sculptor (Walker et al. 2009; procedencia y pendientes en
+`dynamics/dsph_data.py`). **El desenlace, publicado tal cual: el
+término débil de Cronos no puede explicar la dispersión de Sculptor
+dentro de su propia cota (ec. 11.5)** — solo estrellas dan
+σ_N = 2.1–3.6 km/s (Υ⋆ ∈ [1,3]), el techo con la cota saturada es
+√2·σ_N ≤ 5.1 km/s frente a σ_obs ≈ 9–10 km/s, y la amplitud
+A = α₀⁻¹/ρ_c^(3/2) que el sistema exige viola la cota ×8–×26 (ρ_c
+implicado ≈ 0.7–2.1 M⊙/pc³, escala estelar — discrepante en órdenes
+de magnitud con la receta ρ_c ≈ umbral de colapso del medio paso 1:
+la incógnita compartida del contraste cruzado 5E ya tiene dos medidas
+en tensión). La carga explicativa queda cuantificada para el sector
+ρ_id: M_1/2 ≈ 2×10⁷ M⊙ dentro de ~260 pc (estimador de Wolf
+declarado), sin perfil derivado a esa escala — hueco declarado.
+Veredicto exacto dentro del montaje declarado (trazador Plummer,
+datos globales); perfil binado σ_los(R) y 5C (SPARC con la MISMA A):
+pendientes. Desenlace en `results/2026-08-10_jeans_dsph/`.
+
 ## Tests
 
 ```bash
