@@ -12,10 +12,20 @@ apagada en sistemas virializados — H.2.5):
     g_eff(r) = dΦ_eff/dr = G·M(<r)/r² − c²·dε_c/dr ≥ 0 (hacia dentro)
 
 El término −c²·ε_c es la «cara de campo débil de la MCV» (Cor. 11.3c):
-atracción adicional hacia los picos de densidad. La cota dura (11.5)
-α₀⁻¹ ≲ 1e-6 nace de exigir c²·ε_c ≲ |Φ_N| en halos con
-v_circ ~ 220 km/s: el término no puede dominar sobre la gravedad
-newtoniana donde ρ ~ ρ_c.
+atracción adicional hacia los picos de densidad.
+
+LAS DOS LECTURAS DE LA EC. (11.5) — condición expuesta, no resuelta:
+la justificación del tratado es la SUBDOMINANCIA («Para que no domine
+sobre la gravedad en halos, c²ε_c ≲ |Φ_N|», Cor. 11.3c), y de ahí el
+tratado deriva la desigualdad LITERAL α₀⁻¹ ≲ (v_circ/c)² ~ 1e-6
+evaluada en ρ ~ ρ_c con v_circ ~ 220 km/s. Las dos formulaciones NO
+son equivalentes cuando ρ_c es libre: (L) la literal acota solo el
+coeficiente α₀⁻¹ — cualquier amplitud A es realizable con α₀⁻¹
+pequeño y ρ_c pequeño —; (P) la de subdominancia es una condición
+punto a punto en cada sistema (c²ε_c(r) ≤ |Φ_N(r)|), el contenido
+físico del que la cota nace. Este módulo mide el cociente de
+dominancia (bound_saturation_ratio) y los análisis publican el
+veredicto BAJO CADA LECTURA por separado.
 
 CONDICIONALES EXPUESTOS (nunca resueltos en silencio):
 - α₀⁻¹: cota 1e-6 (reutiliza cronos.cronos_v3.check_alpha0_inv — una
@@ -117,9 +127,13 @@ def g_eff_plummer(r, M: float, a: float, A: float):
 
 
 def bound_saturation_ratio(r, M: float, a: float, A: float):
-    """max_r c²·ε_c/|Φ_N| — el cociente que la ec. (11.5) exige ≲ 1.
-    Con él se mide (a) la mayor amplitud A que respeta la cota con la
-    forma ρ^(3/2) del perfil, y (b) cuánto la viola la amplitud que un
+    """max_r c²·ε_c/|Φ_N| — el cociente de DOMINANCIA: la condición de
+    subdominancia de la que NACE la ec. (11.5) («para que no domine
+    sobre la gravedad en halos», Cor. 11.3c), leída punto a punto en el
+    sistema analizado (lectura P del docstring del módulo; la lectura
+    literal L acota solo α₀⁻¹ y no se mide aquí). Con él se calcula
+    (a) la mayor amplitud A subdominante con la forma ρ^(3/2) del
+    perfil, y (b) el factor de dominancia de la amplitud que un
     sistema exige (problema inverso)."""
     r = np.asarray(r, dtype=float)
     eps = epsilon_c_of_rho(plummer_density(r, M, a), A)

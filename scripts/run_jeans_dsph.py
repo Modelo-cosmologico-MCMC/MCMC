@@ -7,14 +7,18 @@ Programa de medida (todo publicado, sea cual sea el desenlace):
    Plummer isótropo (error relativo máximo, publicado).
 2. CONTROL (solo estrellas): σ_los newtoniana de Sculptor con
    Υ⋆ ∈ {1, 2, 3} — el déficit clásico frente a σ_obs.
-3. LA COTA (11.5) EN ACCIÓN: la mayor amplitud de Cronos que respeta
-   c²ε_c ≤ |Φ_N| (forma ρ^(3/2) del perfil) y la σ_los que alcanza;
-   más el techo absoluto de saturación puntual (Φ_eff = 2Φ_N ⟹ √2·σ_N).
+3. LA (11.5) EN ACCIÓN, BAJO SUS DOS LECTURAS DECLARADAS (docstring de
+   dynamics/weak_field.py): la mayor amplitud SUBDOMINANTE
+   (c²ε_c ≤ |Φ_N|, lectura P — el contenido del que la cota nace) y la
+   σ_los que alcanza; más el techo absoluto de saturación puntual
+   (Φ_eff = 2Φ_N ⟹ √2·σ_N).
 4. PROBLEMA INVERSO: la amplitud A_req = α₀⁻¹/ρ_c^(3/2) que Sculptor
-   EXIGE para σ_obs; el ρ_c implicado con α₀⁻¹ en su cota; y el factor
-   por el que A_req viola la ec. (11.5).
+   EXIGE para σ_obs; el ρ_c máximo compatible con α₀⁻¹ en su cota
+   (desigualdad unilateral — Sculptor mide A, no ρ_c); y el factor de
+   DOMINANCIA c²ε_c/|Φ_N| que A_req comporta.
 5. EL OBJETIVO PARA ρ_id: masa dinámica global (estimador estándar
-   M_1/2 ≈ 4·σ²·R_half/G, Wolf et al. 2010 — aproximación declarada)
+   M_1/2 ≈ 4·σ²·R_e/G = 3·σ²·r_1/2/G, Wolf et al. 2010 — masa dentro
+   del radio de media luz 3D r_1/2 ≈ (4/3)·R_e, aproximación declarada)
    frente a M⋆.
 6. Sensibilidades: Υ⋆ × σ_obs × β; R_half ± error.
 
@@ -31,6 +35,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from cronos.cronos_v3 import ALPHA0_INV_MAX  # noqa: E402
 from dynamics.dsph_data import (  # noqa: E402
     SCULPTOR,
     plummer_scale_from_Rhalf,
@@ -48,7 +53,6 @@ from dynamics.weak_field import (  # noqa: E402
 
 OUT = (Path(__file__).resolve().parent.parent / "results"
        / "2026-08-10_jeans_dsph")
-ALPHA0_INV_BOUND = 1e-6
 A_UNIT = 1e-13          # amplitud unitaria del problema inverso (lineal)
 
 
@@ -75,8 +79,8 @@ def analysis(M: float, a: float, sigma_obs: float, beta: float = 0.0):
     s2_bound = s2_N + (A_bound / A_UNIT) * dS2
 
     A_req = (sigma_obs ** 2 - s2_N) / dS2 * A_UNIT
-    viol = A_req / A_bound                     # factor de violación (11.5)
-    rho_c_req = (ALPHA0_INV_BOUND / A_req) ** (2.0 / 3.0)
+    viol = A_req / A_bound          # factor de dominancia c²ε_c/|Φ_N|
+    rho_c_req = (ALPHA0_INV_MAX / A_req) ** (2.0 / 3.0)
 
     return {
         "sigma_N": float(np.sqrt(s2_N)),
@@ -113,13 +117,14 @@ def main() -> None:
         b = analysis(M, a0, sigma_obs)
         rows.append((ups, b))
         print(f"2-4. Υ⋆={ups:.0f}: σ_N = {b['sigma_N']:.2f} | "
-              f"σ_max(11.5) = {b['sigma_bound']:.2f} | "
-              f"ρ_c(req, α₀⁻¹=1e-6) = {b['rho_c_req']:.2e} M⊙/pc³ | "
-              f"violación (11.5) ×{b['violation']:.0f}")
+              f"σ_max subdominante (P) = {b['sigma_bound']:.2f} | "
+              f"ρ_c máx (α₀⁻¹≤1e-6) = {b['rho_c_req']:.2e} M⊙/pc³ | "
+              f"dominancia exigida ×{b['violation']:.0f}")
 
     # 5. Objetivo para ρ_id (estimador de Wolf, aproximación declarada)
     M_dyn = 4.0 * sigma_obs ** 2 * a0 / G_PC
-    print(f"5. M_1/2 ≈ 4σ²R_half/G = {M_dyn:.2e} M⊙  "
+    print(f"5. M_1/2 ≈ 4σ²R_e/G = {M_dyn:.2e} M⊙ dentro de "
+          f"r_1/2 ≈ {4.0 / 3.0 * a0:.0f} pc "
           f"(M⋆(Υ=2) = {M2:.2e}; cociente {M_dyn / M2:.1f})")
 
     # 6. Sensibilidades
@@ -155,13 +160,13 @@ def main() -> None:
         ax.plot(RR, np.sqrt(s2N_R), lw=1.6,
                 label="solo estrellas (Υ⋆=2, newtoniano)")
         ax.plot(RR, np.sqrt(s2B_R), lw=1.6, ls="--",
-                label="Cronos máximo DENTRO de la cota (11.5)")
+                label="Cronos máximo subdominante (lectura P de 11.5)")
         ax.plot(RR, np.sqrt(s2Q_R), lw=1.6, ls=":",
-                label=f"amplitud exigida (viola (11.5) ×{b2['violation']:.0f})")
+                label=f"amplitud exigida (dominancia ×{b2['violation']:.0f}·|Φ_N|)")
         ax.set_xlabel("R [pc]")
         ax.set_ylabel("σ_los(R) [km/s]")
-        ax.set_title("Sculptor: el término débil de Cronos no alcanza "
-                     "σ_obs dentro de su propia cota")
+        ax.set_title("Sculptor: el término débil de Cronos solo alcanza σ_obs "
+                     "como potencial dominante\n(contra la justificación declarada de la ec. 11.5)")
         ax.legend(fontsize=8)
         fig.tight_layout()
         fig.savefig(OUT / "jeans_sculptor.png", dpi=140)
@@ -197,40 +202,59 @@ def main() -> None:
         f"isótropo con error relativo máximo {val_err:.1e} (test "
         f"permanente en `tests/test_jeans_dsph.py`).\n\n"
         "## 2-4. El resultado central (β = 0)\n\n"
-        "| Υ⋆ | σ_N (solo estrellas) | σ_max dentro de (11.5) | techo "
-        "puntual √2·σ_N | ρ_c exigido (α₀⁻¹=1e-6) [M⊙/pc³] | violación "
-        "de (11.5) |\n|---|---|---|---|---|---|\n"
+        "Las DOS LECTURAS de la ec. (11.5) — condición expuesta, no "
+        "resuelta (docstring de `dynamics/weak_field.py`): (L) la "
+        "desigualdad LITERAL acota solo α₀⁻¹ ≲ 1e-6, con ρ_c libre; "
+        "(P) la condición de SUBDOMINANCIA de la que el tratado la "
+        "deriva («para que no domine sobre la gravedad en halos, "
+        "c²ε_c ≲ |Φ_N|», Cor. 11.3c), leída punto a punto en el "
+        "sistema. No son equivalentes con ρ_c libre; el veredicto se "
+        "publica bajo cada una.\n\n"
+        "| Υ⋆ | σ_N (solo estrellas) | σ_max subdominante (P) | techo "
+        "puntual √2·σ_N | ρ_c máximo compatible (α₀⁻¹ ≤ 1e-6) "
+        "[M⊙/pc³] | dominancia exigida c²ε_c/|Φ_N| "
+        "|\n|---|---|---|---|---|---|\n"
         f"{tbl}\n\n"
         f"**Lectura.** (i) Solo estrellas: σ_N = "
         f"{rows[0][1]['sigma_N']:.2f}-{rows[-1][1]['sigma_N']:.2f} km/s "
         f"según Υ⋆ — el déficit clásico frente a σ_obs = {sigma_obs}. "
-        f"(ii) El término débil de Cronos −c²∇ε_c NO puede cerrarlo: su "
-        f"propia cota (ec. 11.5, c²ε_c ≲ |Φ_N|) limita la subida a "
-        f"√2·σ_N ≤ {max(b['sigma_pointwise_max'] for _, b in rows):.2f} "
-        f"km/s incluso saturada puntualmente — a "
+        f"(ii) BAJO LA LECTURA P, el término débil de Cronos NO puede "
+        f"cerrarlo: la subdominancia limita la subida a √2·σ_N ≤ "
+        f"{max(b['sigma_pointwise_max'] for _, b in rows):.2f} km/s "
+        f"incluso saturada puntualmente — a "
         f"{9.0 - max(b['sigma_pointwise_max'] for _, b in rows):.1f} "
-        f"km/s del borde inferior de la banda observada. (iii) La "
-        f"amplitud que Sculptor exige viola la cota por un factor "
+        f"km/s del borde inferior de la banda observada. (iii) BAJO LA "
+        f"LECTURA L no hay violación numérica de la desigualdad — la "
+        f"amplitud exigida A_req es realizable con α₀⁻¹ ≪ 1e-6 y ρ_c "
+        f"pequeño, y ε_c se mantiene ≪ 1 —, pero entonces el término "
+        f"debe ser el potencial DOMINANTE del sistema: c²ε_c = "
         f"×{min(b['violation'] for _, b in rows):.0f}-"
-        f"×{max(b['violation'] for _, b in rows):.0f} (según Υ⋆), y con "
-        f"α₀⁻¹ en su cota implica ρ_c = "
+        f"×{max(b['violation'] for _, b in rows):.0f}·|Φ_N| (según "
+        "Υ⋆), exactamente el régimen que la justificación declarada de "
+        "la (11.5) excluye. El hecho invariante entre lecturas: EL "
+        "TÉRMINO SOLO EXPLICA SCULPTOR DEJANDO DE SER UNA CORRECCIÓN "
+        "SUBDOMINANTE DE CAMPO DÉBIL. (iv) Con α₀⁻¹ en su cota, la "
+        f"exigencia se traduce en la cota superior unilateral ρ_c ≤ "
         f"{min(b['rho_c_req'] for _, b in rows):.1f}-"
-        f"{max(b['rho_c_req'] for _, b in rows):.1f} M⊙/pc³ — una "
-        "densidad de escala estelar, no cosmológica: como ε_c ∝ "
-        "ρ^(3/2), cualquier sistema con densidades muy por debajo de "
-        "ese ρ_c queda con ε_c despreciable, en tensión directa con el "
-        "paso 5C si el mismo término tuviera que actuar en discos.\n\n"
+        f"{max(b['rho_c_req'] for _, b in rows):.1f} M⊙/pc³ (columna 5; "
+        "para α₀⁻¹ menor, menor): Sculptor NO mide ρ_c — mide la "
+        "amplitud combinada A = α₀⁻¹/ρ_c^(3/2), la incógnita compartida "
+        "que el contraste 5E confrontará con SPARC.\n\n"
         "## 5. El objetivo que queda para ρ_id\n\n"
-        f"Masa dinámica global (estimador estándar M_1/2 ≈ 4σ²R_half/G, "
-        f"Wolf et al. 2010; aproximación declarada, insensible a β al "
-        f"primer orden): **{M_dyn:.1e} M⊙** frente a "
-        f"M⋆(Υ⋆=2) = {M2:.1e} M⊙ — cociente ≈ {M_dyn / M2:.0f}. En la "
-        "arquitectura del tratado, esa carga explicativa corresponde al "
-        "sector ρ_id (el perfil cored que el Apéndice A asigna a las "
-        "curvas de rotación), cuyo perfil a escala dSph NO está "
-        "derivado: hueco declarado del frente.\n\n"
+        f"Masa dinámica global (estimador estándar M_1/2 ≈ 4σ²R_e/G = "
+        f"3σ²r_1/2/G, Wolf et al. 2010; aproximación declarada, "
+        f"insensible a β al primer orden): **{M_dyn:.1e} M⊙** dentro "
+        f"del radio de media luz 3D r_1/2 ≈ (4/3)·R_e ≈ "
+        f"{4.0 / 3.0 * a0:.0f} pc (Plummer exacto: 1.305·a ≈ "
+        f"{1.3047 * a0:.0f} pc — NO dentro del R_half proyectado de "
+        f"{a0:.0f} pc), frente a M⋆(Υ⋆=2) = {M2:.1e} M⊙ — cociente "
+        f"≈ {M_dyn / M2:.0f}. En la arquitectura del tratado, esa carga "
+        "explicativa corresponde al sector ρ_id (el perfil cored que "
+        "el Apéndice A asigna a las curvas de rotación), cuyo perfil a "
+        "escala dSph NO está derivado: hueco declarado del frente.\n\n"
         "## 6. Sensibilidades (Υ⋆ = 2)\n\n"
-        "| variación | σ_N | σ_max (11.5) | ρ_c exigido | violación "
+        "| variación | σ_N | σ_max subdominante (P) | ρ_c máx. "
+        "compatible (α₀⁻¹ ≤ 1e-6) | dominancia exigida "
         "|\n|---|---|---|---|---|\n"
         f"{stbl}\n\n"
         "Las filas β = ±0.3 son idénticas POR TEOREMA, no por descuido: "
@@ -239,28 +263,35 @@ def main() -> None:
         "(teorema virial proyectado; verificado como test permanente). "
         "El efecto de β vive en el PERFIL σ_los(R) — inaccesible hasta "
         "la ingesta de los datos binados, pendiente declarado. El "
-        "veredicto (ii) es robusto en todo el barrido: la mayor σ_max "
-        "dentro de la cota queda por debajo de la banda observada en "
-        "todos los casos.\n\n"
+        "veredicto (ii)/(iii) es robusto en todo el barrido: la mayor "
+        "σ_max subdominante queda por debajo de la banda observada, y "
+        "la dominancia exigida es ≥ ×8, en todos los casos.\n\n"
         "## Estatuto\n\n"
         "condicional y de medio paso (frente 5): (a) el veredicto es "
         "EXACTO dentro del montaje declarado — trazador Plummer "
         "isótropo/β constante, datos globales (un número), fuente "
         "bariónica sola; el perfil binado σ_los(R), poblaciones "
         "múltiples y la ingesta de la tabla original quedan "
-        "pendientes (procedencia en dynamics/dsph_data.py); (b) lo que "
-        "queda falsado en este montaje es que el TÉRMINO DÉBIL DE "
-        "CRONOS explique los dSph dentro de su cota (11.5) — no el "
-        "modelo completo: el tratado asigna la fenomenología galáctica "
-        "a ρ_id, que este medio paso convierte en objetivo cuantitativo "
-        f"(M_1/2 ≈ {M_dyn:.1e} M⊙ dentro de ~{a0:.0f} pc); (c) el ρ_c "
-        "aquí exigido (escala estelar) discrepa en órdenes de magnitud "
-        "de la receta que la malla PM del programa necesitó (ρ_c ≈ "
-        "umbral de colapso ~200× la media — nota computacional I, "
-        "§3.5): la incógnita compartida del contraste 5E ya tiene dos "
-        "medidas discrepantes; (d) el paso 5C (SPARC, sistemas "
-        "rotacionales con la MISMA A) decidirá la falsación cruzada "
-        "5E.\n",
+        "pendientes (procedencia en dynamics/dsph_data.py); (b) lo "
+        "medido, bajo cada lectura declarada de la (11.5): bajo P "
+        "(subdominancia punto a punto) el término débil de Cronos "
+        "queda falsado como explicación de Sculptor en este montaje; "
+        "bajo L (desigualdad literal sobre α₀⁻¹, ρ_c libre) no hay "
+        "violación numérica, pero el término solo alcanza σ_obs "
+        "siendo el potencial dominante (×8-×26·|Φ_N|) — el régimen "
+        "que la justificación declarada de la cota excluye. En ningún "
+        "caso queda falsado el modelo completo: el tratado asigna la "
+        "fenomenología galáctica a ρ_id, que este medio paso convierte "
+        f"en objetivo cuantitativo (M_1/2 ≈ {M_dyn:.1e} M⊙ dentro de "
+        f"r_1/2 ≈ {4.0 / 3.0 * a0:.0f} pc); (c) Sculptor NO mide ρ_c "
+        "— mide la amplitud A = α₀⁻¹/ρ_c^(3/2); con α₀⁻¹ en su cota "
+        "eso da la cota superior unilateral ρ_c ≲ 1-2 M⊙/pc³, "
+        "COMPATIBLE con la receta de validez de la malla PM del §3.5 "
+        "(ρ_c ≈ umbral de colapso, en unidades de código y sin anclaje "
+        "físico en el repositorio — es un requisito de régimen, no una "
+        "medida): el contraste cruzado 5E sigue plenamente abierto; "
+        "(d) el paso 5C (SPARC, sistemas rotacionales con la MISMA A) "
+        "lo decidirá.\n",
         encoding="utf-8")
     print(f"Informe: {OUT / 'report.md'}")
 

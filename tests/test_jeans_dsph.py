@@ -166,3 +166,28 @@ def test_newtonian_dispersion_scale_for_sculptor_stars():
     s2 = sigma_los_sq_lum_avg(R_GRID, _nu(), g, R_max=2e3)
     assert 2.0 < np.sqrt(s2) < 6.0
     assert np.sqrt(s2) < 9.2 - 1.1   # el déficit no es marginal
+
+
+def test_published_verdict_regression():
+    """CANDADO de los números centrales publicados en
+    results/2026-08-10_jeans_dsph/report.md (Υ⋆ = 2, β = 0), con el
+    mismo montaje del script: σ_N ≈ 2.93 km/s, dominancia exigida
+    c²ε_c/|Φ_N| ≈ ×12, ρ_c máximo compatible (α₀⁻¹ = 1e-6)
+    ≈ 1.38 M⊙/pc³. Si el solucionador o los datos cambian, este test
+    obliga a regenerar el informe."""
+    from cronos.cronos_v3 import ALPHA0_INV_MAX
+
+    a0, sigma_obs, A_unit = 260.0, 9.2, 1e-13
+    r = np.geomspace(0.05, 120.0 * a0, 800)
+    nu = plummer_density(r, M_STAR, a0)
+    gN = plummer_g_newton(r, M_STAR, a0)
+    kw = {"R_max": 8.0 * a0, "u_max": 120.0 * a0}
+    s2_N = sigma_los_sq_lum_avg(r, nu, gN, **kw)
+    dS2 = sigma_los_sq_lum_avg(
+        r, nu, g_eff_plummer(r, M_STAR, a0, A_unit), **kw) - s2_N
+    A_req = (sigma_obs ** 2 - s2_N) / dS2 * A_unit
+    A_bound = A_unit / bound_saturation_ratio(r, M_STAR, a0, A_unit)
+    assert np.sqrt(s2_N) == pytest.approx(2.93, abs=0.02)
+    assert A_req / A_bound == pytest.approx(12.2, abs=0.5)
+    assert (ALPHA0_INV_MAX / A_req) ** (2.0 / 3.0) \
+        == pytest.approx(1.38, abs=0.05)

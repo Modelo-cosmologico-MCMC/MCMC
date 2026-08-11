@@ -208,24 +208,32 @@ El potencial débil de la Ley de Cronos (Def. 11.1 + Prop. 11.2),
 proyección (`dynamics/`, validado contra la identidad analítica del
 Plummer isótropo, error < 2×10⁻³) y confrontado con los datos globales
 de Sculptor (Walker et al. 2009; procedencia y pendientes declarados
-en `dynamics/dsph_data.py`). El resultado, publicado tal cual:
-**el término débil de Cronos no puede explicar la dispersión de
-Sculptor dentro de su propia cota** (ec. 11.5, c²ε_c ≲ |Φ_N|): solo
-estrellas dan σ_N = 2.1–3.6 km/s (Υ⋆ ∈ [1,3]); el techo con la cota
-saturada es √2·σ_N ≤ 5.1 km/s, frente a σ_obs ≈ 9–10; la amplitud
-A = α₀⁻¹/ρ_c^(3/2) que el sistema exige viola la cota ×8–×26 e
-implica ρ_c ≈ 0.7–2.1 M⊙/pc³ con α₀⁻¹ en su cota — una densidad de
-escala estelar que además discrepa en órdenes de magnitud de la
-receta que la malla PM del §3.5 necesitó (ρ_c ≈ umbral de colapso,
-~200× la media): la incógnita compartida del contraste cruzado 5E ya
-tiene dos medidas discrepantes. La carga explicativa de los dSph
-queda cuantificada para el sector ρ_id (M_1/2 ≈ 2×10⁷ M⊙ dentro de
-~260 pc, estimador de Wolf declarado), cuyo perfil a esa escala el
-tratado no deriva — hueco declarado. **Estatuto**: veredicto exacto
-dentro del montaje declarado (trazador Plummer, β constante, datos
-globales); el perfil binado σ_los(R), poblaciones múltiples y la
-ingesta de la tabla original son los pendientes del siguiente paso;
-5C (SPARC con la MISMA A) decidirá la falsación cruzada.
+en `dynamics/dsph_data.py`). El resultado, publicado tal cual BAJO
+LAS DOS LECTURAS DECLARADAS de la ec. (11.5) — la literal L (acota
+solo α₀⁻¹, ρ_c libre) y la de subdominancia P («para que no domine
+sobre la gravedad en halos», Cor. 11.3c), no equivalentes con ρ_c
+libre —: solo estrellas dan σ_N = 2.1–3.6 km/s (Υ⋆ ∈ [1,3]); **bajo
+P el término débil de Cronos queda falsado como explicación de
+Sculptor** (techo saturado √2·σ_N ≤ 5.1 km/s frente a σ_obs ≈ 9–10);
+bajo L no hay violación numérica de la desigualdad, pero el término
+solo alcanza σ_obs siendo el potencial DOMINANTE — c²ε_c =
+×8–×26·|Φ_N| —, el régimen que la justificación declarada de la cota
+excluye. El invariante entre lecturas: **el término solo explica
+Sculptor dejando de ser una corrección subdominante de campo débil**.
+Sculptor no mide ρ_c — mide la amplitud A = α₀⁻¹/ρ_c^(3/2); con α₀⁻¹
+en su cota, la exigencia es la desigualdad unilateral ρ_c ≲ 1–2
+M⊙/pc³, COMPATIBLE con la receta de validez de la malla PM del §3.5
+(ρ_c ≈ umbral de colapso — requisito de régimen en unidades de
+código, no una medida): el contraste cruzado 5E sigue plenamente
+abierto. La carga explicativa de los dSph queda cuantificada para el
+sector ρ_id (M_1/2 ≈ 2×10⁷ M⊙ dentro del radio de media luz 3D
+r_1/2 ≈ 347 pc, estimador de Wolf declarado), cuyo perfil a esa
+escala el tratado no deriva — hueco declarado. **Estatuto**:
+veredicto exacto dentro del montaje declarado (trazador Plummer, β
+constante, datos globales); el perfil binado σ_los(R), poblaciones
+múltiples y la ingesta de la tabla original son los pendientes del
+siguiente paso; 5C (SPARC con la MISMA A) decidirá la falsación
+cruzada.
 
 ## 4. Lo que estos resultados NO afirman
 

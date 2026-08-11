@@ -10,8 +10,15 @@ Universal Mass Profile for Dwarf Spheroidal Galaxies?»):
   Walker et al. 2009 es 9.2 km/s) — verificado en el rango;
 - R_half = 260 ± 39 pc (radio de media luz proyectado, perfil de
   Plummer; Walker et al. 2009) — verificado;
-- M_V ≈ −11.2 — verificado; L_V se DERIVA aquí con M_V_sol = 4.83:
-  L_V = 10^(−0.4·(M_V − 4.83)) ≈ 2.6e6 L_sol.
+- M_V ≈ −11.2 — verificado como valor presente en la literatura
+  reciente; L_V se DERIVA aquí con M_V_sol = 4.83:
+  L_V = 10^(−0.4·(M_V − 4.83)) ≈ 2.6e6 L_sol. MATIZ DECLARADO: la
+  propia compilación de Walker et al. 2009 tabula L_V ≈ 2.15-2.3e6
+  (≈ M_V −11.1), un 15-20 % menor; se adopta el valor MAYOR porque es
+  CONSERVADOR para el desenlace publicado (más luz ⟹ más masa estelar
+  ⟹ σ_N más alta ⟹ el déficit que el mecanismo debe explicar es
+  MENOR), y el barrido Υ⋆ ∈ [1, 3] (factor 3) absorbe de sobra la
+  diferencia.
 
 PENDIENTE DECLARADO: la ingesta de la tabla original legible por
 máquina (VizieR J/ApJ/704/1274) y del perfil binado σ_los(R) — los

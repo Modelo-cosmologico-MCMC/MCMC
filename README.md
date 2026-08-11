@@ -291,21 +291,28 @@ desde la Ley de Cronos (Def. 11.1 + Prop. 11.2), Jeans esférico con β
 constante y proyección — validados contra la identidad analítica del
 Plummer isótropo (error < 2×10⁻³) — confrontados con los datos
 globales de Sculptor (Walker et al. 2009; procedencia y pendientes en
-`dynamics/dsph_data.py`). **El desenlace, publicado tal cual: el
-término débil de Cronos no puede explicar la dispersión de Sculptor
-dentro de su propia cota (ec. 11.5)** — solo estrellas dan
-σ_N = 2.1–3.6 km/s (Υ⋆ ∈ [1,3]), el techo con la cota saturada es
-√2·σ_N ≤ 5.1 km/s frente a σ_obs ≈ 9–10 km/s, y la amplitud
-A = α₀⁻¹/ρ_c^(3/2) que el sistema exige viola la cota ×8–×26 (ρ_c
-implicado ≈ 0.7–2.1 M⊙/pc³, escala estelar — discrepante en órdenes
-de magnitud con la receta ρ_c ≈ umbral de colapso del medio paso 1:
-la incógnita compartida del contraste cruzado 5E ya tiene dos medidas
-en tensión). La carga explicativa queda cuantificada para el sector
-ρ_id: M_1/2 ≈ 2×10⁷ M⊙ dentro de ~260 pc (estimador de Wolf
-declarado), sin perfil derivado a esa escala — hueco declarado.
-Veredicto exacto dentro del montaje declarado (trazador Plummer,
-datos globales); perfil binado σ_los(R) y 5C (SPARC con la MISMA A):
-pendientes. Desenlace en `results/2026-08-10_jeans_dsph/`.
+`dynamics/dsph_data.py`). **El desenlace, publicado tal cual bajo las
+dos lecturas declaradas de la ec. (11.5)** (la literal L acota solo
+α₀⁻¹ con ρ_c libre; la de subdominancia P — «para que no domine sobre
+la gravedad en halos», Cor. 11.3c — es de la que la cota nace): solo
+estrellas dan σ_N = 2.1–3.6 km/s (Υ⋆ ∈ [1,3]); bajo P el término
+débil de Cronos queda falsado como explicación de Sculptor (techo
+√2·σ_N ≤ 5.1 km/s frente a σ_obs ≈ 9–10); bajo L no hay violación
+numérica de la desigualdad, pero el término solo alcanza σ_obs siendo
+el **potencial dominante** — c²ε_c = ×8–×26·|Φ_N| — el régimen que la
+justificación declarada de la cota excluye. El hecho invariante entre
+lecturas: **el término solo explica Sculptor dejando de ser una
+corrección subdominante de campo débil**. Sculptor no mide ρ_c — mide
+la amplitud A = α₀⁻¹/ρ_c^(3/2) (con α₀⁻¹ en su cota: ρ_c ≲ 1–2
+M⊙/pc³, desigualdad unilateral compatible con la receta de validez de
+la malla PM del medio paso 1 — el contraste cruzado 5E sigue
+plenamente abierto). La carga explicativa queda cuantificada para el
+sector ρ_id: M_1/2 ≈ 2×10⁷ M⊙ dentro del radio de media luz 3D
+r_1/2 ≈ 347 pc (estimador de Wolf declarado), sin perfil derivado a
+esa escala — hueco declarado. Veredicto exacto dentro del montaje
+declarado (trazador Plummer, datos globales); perfil binado σ_los(R)
+y 5C (SPARC con la MISMA A): pendientes. Desenlace en
+`results/2026-08-10_jeans_dsph/`.
 
 ## Tests
 

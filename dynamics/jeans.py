@@ -47,12 +47,12 @@ def sigma_r_sq_grid(r_grid: np.ndarray, nu: np.ndarray, g: np.ndarray,
     return s2
 
 
-def project_los(R: np.ndarray, r_of, nu_of, sig2_of,
+def project_los(R: np.ndarray, nu_of, sig2_of,
                 beta: float = 0.0, u_max: float = 1e4,
                 n_u: int = 600) -> tuple[np.ndarray, np.ndarray]:
     """(Σ(R), Σ·σ_los²(R)) con la sustitución r = √(R² + u²).
 
-    r_of/nu_of/sig2_of son llamables (interpolantes o formas cerradas);
+    nu_of/sig2_of son llamables (interpolantes o formas cerradas);
     u_max en pc debe cubrir el sistema (declarado en el llamador)."""
     R = np.atleast_1d(np.asarray(R, dtype=float))
     u = np.geomspace(1e-3, u_max, n_u)
@@ -77,7 +77,7 @@ def sigma_los_sq(R: np.ndarray, r_grid: np.ndarray, nu: np.ndarray,
     s2 = sigma_r_sq_grid(r_grid, nu, g, beta=beta)
     nu_of = lambda r: np.interp(r, r_grid, nu, right=0.0)  # noqa: E731
     s2_of = lambda r: np.interp(r, r_grid, s2, right=0.0)  # noqa: E731
-    Sig, Sig_s2 = project_los(R, None, nu_of, s2_of, beta=beta,
+    Sig, Sig_s2 = project_los(R, nu_of, s2_of, beta=beta,
                               u_max=u_max)
     with np.errstate(divide="ignore", invalid="ignore"):
         return np.where(Sig > 0.0, Sig_s2 / Sig, 0.0)
@@ -93,7 +93,7 @@ def sigma_los_sq_lum_avg(r_grid: np.ndarray, nu: np.ndarray,
     s2 = sigma_r_sq_grid(r_grid, nu, g, beta=beta)
     nu_of = lambda r: np.interp(r, r_grid, nu, right=0.0)  # noqa: E731
     s2_of = lambda r: np.interp(r, r_grid, s2, right=0.0)  # noqa: E731
-    Sig, Sig_s2 = project_los(R, None, nu_of, s2_of, beta=beta,
+    Sig, Sig_s2 = project_los(R, nu_of, s2_of, beta=beta,
                               u_max=u_max)
     num = np.trapezoid(Sig_s2 * 2.0 * np.pi * R, R)
     den = np.trapezoid(Sig * 2.0 * np.pi * R, R)

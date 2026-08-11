@@ -10,16 +10,21 @@ estado en que afirme exactamente lo que hace»).
   débil (5A/5B/5D)**. Una sola Φ_eff = Φ_N − c²·ε_c desde la Ley de
   Cronos (Def. 11.1 + Prop. 11.2), Jeans esférico con β constante y
   proyección validados contra la identidad analítica del Plummer
-  (error < 2e-3). El resultado, publicado tal cual: el término débil
-  de Cronos NO puede explicar la dispersión de Sculptor dentro de su
-  propia cota (ec. 11.5) — σ_max ≤ √2·σ_N ≤ 5.1 km/s frente a
-  σ_obs ≈ 9-10; la amplitud exigida viola la cota ×8-×26 e implica
-  ρ_c ~ 1 M⊙/pc³ (escala estelar). La carga explicativa queda,
-  cuantificada, en el sector ρ_id (M_1/2 ≈ 2e7 M⊙ en ~260 pc), cuyo
-  perfil a escala dSph no está derivado — hueco declarado. (α₀⁻¹, ρ_c)
-  solo entran por A = α₀⁻¹/ρ_c^(3/2): la MISMA A queda como contraste
-  cruzado 5E para SPARC (5C). Datos globales de Walker et al. 2009 con
-  procedencia y pendientes declarados (`dynamics/dsph_data.py`).
+  (error < 2e-3). El resultado, publicado tal cual bajo las DOS
+  lecturas declaradas de la ec. (11.5) (literal: solo α₀⁻¹, ρ_c
+  libre; subdominancia: c²ε_c ≲ |Φ_N|, de la que la cota nace): solo
+  estrellas dan σ_N = 2.1-3.6 km/s; bajo subdominancia el término
+  débil de Cronos queda falsado como explicación de Sculptor
+  (techo √2·σ_N ≤ 5.1 frente a σ_obs ≈ 9-10); bajo la literal no hay
+  violación numérica, pero el término solo alcanza σ_obs como
+  potencial DOMINANTE (c²ε_c = ×8-×26·|Φ_N|), el régimen que la
+  justificación de la cota excluye. Sculptor no mide ρ_c: mide
+  A = α₀⁻¹/ρ_c^(3/2) (con α₀⁻¹ en su cota, ρ_c ≲ 1-2 M⊙/pc³,
+  desigualdad unilateral — 5E sigue abierto). La carga explicativa
+  queda cuantificada en ρ_id (M_1/2 ≈ 2e7 M⊙ dentro de r_1/2 ≈ 347
+  pc), sin perfil derivado a escala dSph — hueco declarado. Datos
+  globales de Walker et al. 2009 con procedencia y pendientes
+  declarados (`dynamics/dsph_data.py`).
 
 ## v0.2.0 — 2 de agosto de 2026 (rondas 2–5)
 
