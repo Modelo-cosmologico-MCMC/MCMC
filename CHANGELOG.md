@@ -6,6 +6,23 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — agosto de 2026
 
+- **Frente 5, paso 5C estructural + objetivo ρ_id (14-ago)**. La
+  mitad del 5C que no necesita datos: en discos exponenciales el
+  término de Cronos tiene forma fija v_cronos² ∝ x·e^(−3x/2) (pico en
+  x = 2/3), así que aportar V km/s donde la discrepancia de masa vive
+  (x ≳ 3) cuesta ×5·V en x = 2/3 — un bulto interior que las curvas
+  bariónicas excluyen, PARA CUALQUIER amplitud A. Con la A concreta
+  que Sculptor midió, la malla declarada (Σ0 × R_d × ζ, LSB a HSB) da
+  v_cronos/v_bar hasta ×6.3 en el pico y 2-82 km/s en x = 4: bultos,
+  no curvas planas. Veredicto estructural 5E (parcial): el término
+  débil no puede ser el mecanismo galáctico común; la carga queda en
+  ρ_id, y Sculptor la fija como CURVA de degeneración ρ0(r_c)
+  medible (M_id(<347 pc) = 1.78e7 M⊙; en el r_c = 0.30 kpc del
+  corpus: ρ0 = 0.175 M⊙/pc³). Instrumento de perfiles binados listo
+  con autoprueba sintética (la ingesta de Walker+09 y del catálogo
+  SPARC sigue bloqueada por el proxy — pendiente declarado con el
+  hueco de checksum abierto).
+
 - **Frente 5, medio paso 2 (10-ago): Sculptor contra el potencial
   débil (5A/5B/5D)**. Una sola Φ_eff = Φ_N − c²·ε_c desde la Ley de
   Cronos (Def. 11.1 + Prop. 11.2), Jeans esférico con β constante y

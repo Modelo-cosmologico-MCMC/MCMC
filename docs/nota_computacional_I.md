@@ -235,6 +235,32 @@ múltiples y la ingesta de la tabla original son los pendientes del
 siguiente paso; 5C (SPARC con la MISMA A) decidirá la falsación
 cruzada.
 
+### 3.9 El 5C estructural y el objetivo ρ_id como curva
+
+La mitad del 5C que no necesita el catálogo (cuya ingesta sigue
+bloqueada por el proxy — pendiente declarado): en discos exponenciales
+el término de Cronos tiene FORMA fija, v_cronos²(R) =
+(3c²/2)·(R/R_d)·A·ρ(R)^(3/2) ∝ x·e^(−3x/2) con pico en x = 2/3 —
+identidad de la Def. 11.1, independiente de A, Σ0, R_d y ζ. De ahí la
+ley que decide: v²(x=4)/v²(pico) = 0.040, así que **aportar V km/s
+donde la discrepancia de masa vive (x ≳ 3) cuesta 5·V km/s de bulto
+en x = 2/3** — la región donde los discos HSB son bariónicos: ninguna
+amplitud A produce curvas planas con este término. Con la A que
+Sculptor midió (recalculada, no copiada: 6.2×10⁻⁷ para Υ⋆ = 2), la
+malla declarada que barre la población SPARC da v_cronos/v_bar hasta
+×6.3 en el pico interior y 2–82 km/s en x = 4 (bultos, no mesetas),
+con ε_c ≤ 5×10⁻⁶ (el régimen débil intacto: falla la fenomenología,
+no la expansión). **Veredicto estructural 5E (parcial)**: junto con
+el medio paso 2, el término débil de Cronos no puede ser el mecanismo
+galáctico común a presión y rotación; la carga es de ρ_id — y
+Sculptor la deja MEDIDA como curva de degeneración: con el perfil
+cored del corpus, M_id(<347 pc) = 1.78×10⁷ M⊙ define ρ0(r_c) (en el
+r_c = 0.30 kpc del corpus: ρ0 = 0.175 M⊙/pc³), la curva que cualquier
+derivación futura de ρ_id — o la relación rcore(M, z) de B.5
+calibrada en SPARC — debe atravesar. Instrumento de perfiles binados
+listo con autoprueba sintética declarada
+(`dynamics/binned_profile.py`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
