@@ -322,15 +322,20 @@ sigue bloqueada por el proxy — pendiente declarado con hueco de
 checksum): en discos exponenciales el término de Cronos tiene forma
 fija **v_cronos² ∝ x·e^(−3x/2)** (pico en x = 2/3; identidad de la
 Def. 11.1). La ley que decide: aportar V km/s donde la discrepancia de
-masa vive (x ≳ 3) cuesta **×5·V de bulto en x = 2/3** — la región
-bariónica de los discos HSB: ninguna amplitud A produce curvas planas
-con este término. Con la A que Sculptor midió, la malla declarada
-(LSB→HSB) da v_cronos/v_bar hasta ×6.3 en el pico y 2–82 km/s en
-x = 4 — bultos, no mesetas (ε_c ≤ 5×10⁻⁶: el régimen débil intacto).
+masa vive (x ≳ 3) cuesta **×5·V de bulto en x = 2/3** — ninguna
+amplitud A produce curvas planas con este término (que los discos
+internos densos son bariónicos, sin hueco para tal bulto, es el
+resultado estándar de la literatura: hipótesis declarada, sin ingesta
+— la confrontación por galaxia es el pendiente). Con la A que Sculptor
+exige, la malla declarada (Σ0 ∈ [50, 800] M⊙/pc²; los LSB reales
+bajan más — allí el término se hace despreciable y no explica nada)
+da v_cronos/v_bar hasta ×6.3 en el pico y 2–82 km/s en x = 4 —
+bultos donde el disco es denso, nada donde no lo es (ε_c ≤ 5×10⁻⁶:
+el régimen débil intacto).
 **Veredicto estructural 5E (parcial)**: el término débil no puede ser
 el mecanismo galáctico común; la carga es de ρ_id, y Sculptor la deja
 medida como curva de degeneración ρ0(r_c) (M_id(<347 pc) =
-1.78×10⁷ M⊙; en el r_c = 0.30 kpc del corpus, ρ0 = 0.175 M⊙/pc³) —
+1.78×10⁷ M⊙; en el r_c = 0.30 kpc del corpus, ρ0 = 0.176 M⊙/pc³) —
 la curva que cualquier derivación de ρ_id debe atravesar. Comparador
 de perfiles binados listo con autoprueba sintética
 (`dynamics/binned_profile.py`). Desenlace en

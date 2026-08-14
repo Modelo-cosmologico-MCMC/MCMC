@@ -244,18 +244,22 @@ el término de Cronos tiene FORMA fija, v_cronos²(R) =
 identidad de la Def. 11.1, independiente de A, Σ0, R_d y ζ. De ahí la
 ley que decide: v²(x=4)/v²(pico) = 0.040, así que **aportar V km/s
 donde la discrepancia de masa vive (x ≳ 3) cuesta 5·V km/s de bulto
-en x = 2/3** — la región donde los discos HSB son bariónicos: ninguna
-amplitud A produce curvas planas con este término. Con la A que
-Sculptor midió (recalculada, no copiada: 6.2×10⁻⁷ para Υ⋆ = 2), la
-malla declarada que barre la población SPARC da v_cronos/v_bar hasta
-×6.3 en el pico interior y 2–82 km/s en x = 4 (bultos, no mesetas),
+en x = 2/3** — ninguna amplitud A produce curvas planas con este
+término; que los discos internos densos son bariónicos (sin hueco
+para tal bulto) es el resultado estándar de la literatura, usado como
+HIPÓTESIS DECLARADA sin ingesta — la confrontación por galaxia es el
+pendiente. Con la A que Sculptor exige (recalculada, no copiada:
+6.2×10⁻⁷ para Υ⋆ = 2), la malla declarada (Σ0 ∈ [50, 800] M⊙/pc²;
+los LSB reales bajan más — allí el término se hace despreciable y no
+explica nada) da v_cronos/v_bar hasta ×6.3 en el pico interior y
+2–82 km/s en x = 4 (bultos donde el disco es denso, nada donde no),
 con ε_c ≤ 5×10⁻⁶ (el régimen débil intacto: falla la fenomenología,
 no la expansión). **Veredicto estructural 5E (parcial)**: junto con
 el medio paso 2, el término débil de Cronos no puede ser el mecanismo
 galáctico común a presión y rotación; la carga es de ρ_id — y
 Sculptor la deja MEDIDA como curva de degeneración: con el perfil
 cored del corpus, M_id(<347 pc) = 1.78×10⁷ M⊙ define ρ0(r_c) (en el
-r_c = 0.30 kpc del corpus: ρ0 = 0.175 M⊙/pc³), la curva que cualquier
+r_c = 0.30 kpc del corpus: ρ0 = 0.176 M⊙/pc³), la curva que cualquier
 derivación futura de ρ_id — o la relación rcore(M, z) de B.5
 calibrada en SPARC — debe atravesar. Instrumento de perfiles binados
 listo con autoprueba sintética declarada

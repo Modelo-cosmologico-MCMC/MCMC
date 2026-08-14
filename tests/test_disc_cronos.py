@@ -38,7 +38,9 @@ def test_freeman_curve_matches_numeric_integration():
     from scipy.special import j1
 
     def v_sq_numeric(R):
-        # v²(R) = R·∫ dk S(k)·J1(kR)·k, S(k) = 2πGΣ0/(1+(kR_d)²)^(3/2)
+        # v²(R) = R·∫ dk S(k)·J1(kR)·k, con
+        # S(k) = 2πG·Σ0·R_d²/(1+(kR_d)²)^(3/2)  (transformada de
+        # Hankel de Σ0·e^(−R/R_d); las unidades exigen el R_d²)
         def integrand(k):
             S = 2.0 * np.pi * G_PC * SIGMA0 * R_D ** 2 \
                 / (1.0 + (k * R_D) ** 2) ** 1.5
@@ -126,6 +128,52 @@ def test_sculptor_curve_subtracts_stellar_part():
         sculptor_rho_id_curve(np.array([300.0]), M_half=1e6,
                               M_star=5.2e6, a_plummer=260.0,
                               r_half_3d=347.0)
+
+
+def test_published_5c_regression():
+    """CANDADO de los números centrales publicados en
+    results/2026-08-14_sparc_structural/report.md: A_req por Υ⋆, la
+    caída de forma, los extremos de la malla y el objetivo ρ_id. Si
+    el solucionador o los datos cambian, obliga a regenerar el
+    informe."""
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent
+                           / "scripts"))
+    from run_sparc_structural import (
+        RD_GRID,
+        SIGMA0_GRID,
+        X_OUTER,
+        ZETA_GRID,
+        sculptor_A_req,
+    )
+    assert sculptor_A_req(1.0) == pytest.approx(1.853e-6, rel=2e-3)
+    A2 = sculptor_A_req(2.0)
+    assert A2 == pytest.approx(6.202e-7, rel=2e-3)
+    assert sculptor_A_req(3.0) == pytest.approx(3.186e-7, rel=2e-3)
+    assert outer_decline_ratio(X_OUTER) == pytest.approx(0.0404, abs=2e-3)
+
+    outs, inners = [], []
+    for S0 in SIGMA0_GRID:
+        for Rd in RD_GRID:
+            for z in ZETA_GRID:
+                R = np.linspace(0.05 * Rd, 8.0 * Rd, 1600)
+                v2b = v_bar_sq_freeman(R, S0, Rd)
+                v2c = v_cronos_sq(R, S0, Rd, z, A2)
+                i_pk = int(np.argmax(v2c))
+                inners.append(float(np.sqrt(v2c[i_pk] / v2b[i_pk])))
+                i_out = int(np.argmin(np.abs(R - X_OUTER * Rd)))
+                outs.append(float(np.sqrt(v2c[i_out])))
+    assert max(inners) == pytest.approx(6.32, abs=0.05)
+    assert min(outs) == pytest.approx(2.14, abs=0.05)
+    assert max(outs) == pytest.approx(81.55, abs=0.5)
+
+    m_id, _ = sculptor_rho_id_curve(
+        np.array([300.0]), M_half=4.0 * 9.2 ** 2 * 260.0 / G_PC,
+        M_star=5.2e6, a_plummer=260.0, r_half_3d=4.0 / 3.0 * 260.0)
+    assert m_id == pytest.approx(1.78e7, rel=2e-3)
+    assert float(rho0_required(300.0, m_id, 4.0 / 3.0 * 260.0)) \
+        == pytest.approx(0.176, abs=0.002)
 
 
 def test_binned_machinery_selftest_and_declared_absence():

@@ -43,7 +43,10 @@ from dynamics.dsph_data import (  # noqa: E402
     stellar_mass,
 )
 from dynamics.jeans import sigma_los_sq_lum_avg  # noqa: E402
-from dynamics.rho_id_target import sculptor_rho_id_curve  # noqa: E402
+from dynamics.rho_id_target import (  # noqa: E402
+    rho0_required,
+    sculptor_rho_id_curve,
+)
 from dynamics.weak_field import (  # noqa: E402
     G_PC,
     epsilon_c_of_rho,
@@ -106,7 +109,7 @@ def main() -> None:
                 v_out = float(np.sqrt(v2c[i_out]))
                 vbar_out = float(np.sqrt(v2b[i_out]))
                 eps_max = float(epsilon_c_of_rho(
-                    rho_midplane(R, S0, Rd, z), A2).max())
+                    rho_midplane(0.0, S0, Rd, z), A2))
                 rows.append((S0, Rd / 1000.0, z, frac_peak, v_out,
                              vbar_out, eps_max))
     tbl = "\n".join(
@@ -130,10 +133,10 @@ def main() -> None:
     r_c_grid = np.geomspace(50.0, 2000.0, 200)
     m_id_target, rho0_curve = sculptor_rho_id_curve(
         r_c_grid, M_half, M2, a0, r_half_3d)
-    i300 = int(np.argmin(np.abs(r_c_grid - 300.0)))
+    rho0_300 = float(rho0_required(300.0, m_id_target, r_half_3d))
     print(f"4. objetivo ρ_id: M_id(<{r_half_3d:.0f} pc) = "
-          f"{m_id_target:.2e} M⊙; en r_c = 0.30 kpc ⟹ ρ0 = "
-          f"{rho0_curve[i300]:.3f} M⊙/pc³")
+          f"{m_id_target:.2e} M⊙; en r_c = 0.30 kpc exacto ⟹ ρ0 = "
+          f"{rho0_300:.3f} M⊙/pc³")
 
     # Figuras
     try:
@@ -155,13 +158,14 @@ def main() -> None:
         ax1.set_xlabel("R [kpc]")
         ax1.set_ylabel("v [km/s]")
         ax1.set_title("5C estructural (∝ x·e^(−3x/2)): aportar fuera "
-                      "cuesta ×5 dentro —\nel bulto interior que las curvas "
-                      "bariónicas excluyen")
+                      "cuesta ×5 dentro —\nbulto interior incompatible con "
+                      "discos internos bariónicos (literatura; ingesta "
+                      "pendiente)")
         ax1.legend(fontsize=7)
         ax2.loglog(r_c_grid / 1000.0, rho0_curve, lw=1.6)
-        ax2.scatter([0.30], [rho0_curve[i300]], zorder=3,
+        ax2.scatter([0.30], [rho0_300], zorder=3,
                     label=f"r_c del corpus (0.30 kpc) ⟹ "
-                          f"ρ0 = {rho0_curve[i300]:.2f} M⊙/pc³")
+                          f"ρ0 = {rho0_300:.3f} M⊙/pc³")
         ax2.set_xlabel("r_c [kpc]")
         ax2.set_ylabel("ρ0 exigido [M⊙/pc³]")
         ax2.set_title("El objetivo ρ_id de Sculptor: curva de "
@@ -198,11 +202,17 @@ def main() -> None:
         "planas con v_bar cayendo): **ninguna amplitud A convierte "
         "este término en una curva plana exterior** — su forma decae "
         "más deprisa que la propia v_bar². Esto es una identidad del "
-        "término (ε_c alimentada por la ρ bariónica local), no un "
-        "ajuste.\n\n"
+        "término (ε_c alimentada por la ρ bariónica local en el disco "
+        "exponencial declarado), no un ajuste. Que la discrepancia de "
+        "masa vive en el exterior (curvas planas con v_bar cayendo) es "
+        "el resultado observacional estándar que motiva el frente — "
+        "sin ingesta aquí; hipótesis declarada.\n\n"
         "## 3. La A de Sculptor sobre la malla declarada de discos\n\n"
-        "Discos exponenciales (Σ0 × R_d × ζ = h/R_d declarados) que "
-        "barren la población SPARC de LSB a HSB; A = A_req(Υ⋆=2):\n\n"
+        "Discos exponenciales (Σ0 × R_d × ζ = h/R_d declarados) con "
+        "Σ0 ∈ [50, 800] M⊙/pc² — un RANGO DECLARADO, no el catálogo: "
+        "los LSB reales bajan de 50 (allí el término se hace pequeño "
+        "y el argumento (ii) no excluye; excluye el (i): tampoco "
+        "aporta nada). A = A_req(Υ⋆=2):\n\n"
         "| Σ0 [M⊙/pc²] | R_d [kpc] | ζ | v_cronos/v_bar en el pico | "
         "v_cronos(x=4) [km/s] | v_bar(x=4) [km/s] | ε_c máx |\n"
         "|---|---|---|---|---|---|---|\n"
@@ -211,18 +221,23 @@ def main() -> None:
         f"v_cronos²(x={X_OUTER:.0f})/v_cronos²(pico) = "
         f"{outer_decline_ratio(X_OUTER):.3f}, aportar V km/s donde la "
         f"discrepancia vive cuesta {1.0 / np.sqrt(outer_decline_ratio(X_OUTER)):.1f}·V km/s "
-        "en x = 2/3 — un bulto interior que ninguna curva observada "
-        "muestra (las regiones internas de los discos HSB son "
-        "bariónicas). Esto vale para CUALQUIER amplitud A. (ii) Con "
+        "en x = 2/3. Que las regiones internas de los discos masivos "
+        "son bariónicas (sin hueco para bultos de esa escala) es un "
+        "resultado ESTÁNDAR de la literatura de curvas de rotación — "
+        "SIN INGESTA en este repositorio: aquí es hipótesis declarada, "
+        "y su confrontación cuantitativa es lo que la ingesta SPARC "
+        "pendiente hará por galaxia. La ley de coste ×5, en cambio, es "
+        "identidad nuestra y vale para CUALQUIER amplitud A. (ii) Con "
         "la A concreta de Sculptor el término no es pequeño en "
         f"discos: v_cronos(x={X_OUTER:.0f}) va de {out_min:.1f} km/s "
-        f"(celda LSB) a {out_max:.1f} km/s (celda más densa), y en el "
-        f"pico interior llega a v_cronos/v_bar = {worst_inner:.2f} — "
-        "dominante también aquí, no solo en Sculptor: la A compartida "
-        "no produce curvas planas, produce bultos interiores "
-        "excluidos a simple vista. La confrontación por galaxia con "
-        "SPARC real (pendiente de ingesta) convertirá esto en cotas "
-        "superiores sobre A por sistema. (iii) ε_c ≤ "
+        f"(celda menos densa de la malla) a {out_max:.1f} km/s (la más "
+        f"densa), y en el pico interior llega a v_cronos/v_bar = "
+        f"{worst_inner:.2f} en las celdas densas (en las menos densas "
+        "baja de 1): la A compartida no produce curvas planas en "
+        "ninguna celda — produce bultos interiores donde el disco es "
+        "denso y nada donde no lo es. La confrontación por galaxia "
+        "con SPARC real (pendiente de ingesta) convertirá esto en "
+        "cotas superiores sobre A por sistema. (iii) ε_c ≤ "
         f"{max(r[6] for r in rows):.1e} en toda la malla (régimen "
         "débil de la Def. 11.1 intacto: lo que falla no es la validez "
         "de la expansión, es la fenomenología).\n\n"
@@ -231,12 +246,15 @@ def main() -> None:
         "mecanismo galáctico común — en dSphs solo alcanza σ_obs "
         "como potencial dominante (medio paso 2), y en discos la ley "
         "de forma (aportar fuera cuesta ×5 dentro) le impide producir "
-        "curvas planas con NINGUNA amplitud, mientras que la amplitud "
-        "concreta que Sculptor exige produciría bultos interiores "
-        "dominantes (×6 sobre v_bar) que las curvas internas "
-        "bariónicas excluyen. Coherente con la arquitectura del "
-        "tratado, que asigna la fenomenología galáctica a ρ_id; "
-        "queda el cruce cuantitativo con el catálogo real.\n\n"
+        "curvas planas con NINGUNA amplitud: en el extremo denso, la "
+        "amplitud que Sculptor exige produce bultos interiores "
+        "dominantes (×6 sobre v_bar) incompatibles con el carácter "
+        "bariónico interior que la literatura reporta (hipótesis "
+        "declarada, confrontación pendiente de ingesta); en el "
+        "extremo difuso, el término se hace despreciable y no explica "
+        "nada. Coherente con la arquitectura del tratado, que asigna "
+        "la fenomenología galáctica a ρ_id; queda el cruce "
+        "cuantitativo con el catálogo real.\n\n"
         "## 4. El objetivo ρ_id de Sculptor, como curva\n\n"
         f"M_1/2 = {M_half:.2e} M⊙ dentro de r_1/2 = {r_half_3d:.0f} "
         f"pc; parte estelar (Υ⋆=2, Plummer): la resta deja "
@@ -244,7 +262,8 @@ def main() -> None:
         "cored del corpus ρ_id = ρ0/(1+(r/r_c)²), Sculptor no fija "
         "(ρ0, r_c): fija la CURVA ρ0(r_c) (figura). En el r_c = 0.30 "
         "kpc que la tabla A del corpus usa para galaxias (presentación "
-        f"v32, no derivación): ρ0 = {rho0_curve[i300]:.2f} M⊙/pc³. "
+        f"v32, no derivación), evaluado exacto: ρ0 = {rho0_300:.3f} "
+        "M⊙/pc³. "
         "Cualquier derivación futura de ρ_id (o la relación "
         "rcore(M, z) de B.5 calibrada en SPARC) debe atravesar esta "
         "curva — el cruce 5E en el sector que el tratado sí señala "
