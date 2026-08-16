@@ -199,6 +199,72 @@ ansatz. Las β reales (jerarquía de Fokker-Planck, Def. 4.4) siguen
 siendo el hueco declarado; el módulo está listo para consumirlas.
 Desenlace en `results/2026-08-05_victoria_exponent/`.
 
+<!-- 3.7 = la Circulación de Victoria (rama theory/front2-gradient-victoria) -->
+
+### 3.8 Sculptor contra el potencial débil (frente 5, medio paso 2)
+
+El potencial débil de la Ley de Cronos (Def. 11.1 + Prop. 11.2),
+Φ_eff = Φ_N − c²·ε_c(ρ), queda instrumentado con Jeans esférico y
+proyección (`dynamics/`, validado contra la identidad analítica del
+Plummer isótropo, error < 2×10⁻³) y confrontado con los datos globales
+de Sculptor (Walker et al. 2009; procedencia y pendientes declarados
+en `dynamics/dsph_data.py`). El resultado, publicado tal cual BAJO
+LAS DOS LECTURAS DECLARADAS de la ec. (11.5) — la literal L (acota
+solo α₀⁻¹, ρ_c libre) y la de subdominancia P («para que no domine
+sobre la gravedad en halos», Cor. 11.3c), no equivalentes con ρ_c
+libre —: solo estrellas dan σ_N = 2.1–3.6 km/s (Υ⋆ ∈ [1,3]); **bajo
+P el término débil de Cronos queda falsado como explicación de
+Sculptor** (techo saturado √2·σ_N ≤ 5.1 km/s frente a σ_obs ≈ 9–10);
+bajo L no hay violación numérica de la desigualdad, pero el término
+solo alcanza σ_obs siendo el potencial DOMINANTE — c²ε_c =
+×8–×26·|Φ_N| —, el régimen que la justificación declarada de la cota
+excluye. El invariante entre lecturas: **el término solo explica
+Sculptor dejando de ser una corrección subdominante de campo débil**.
+Sculptor no mide ρ_c — mide la amplitud A = α₀⁻¹/ρ_c^(3/2); con α₀⁻¹
+en su cota, la exigencia es la desigualdad unilateral ρ_c ≲ 1–2
+M⊙/pc³, COMPATIBLE con la receta de validez de la malla PM del §3.5
+(ρ_c ≈ umbral de colapso — requisito de régimen en unidades de
+código, no una medida): el contraste cruzado 5E sigue plenamente
+abierto. La carga explicativa de los dSph queda cuantificada para el
+sector ρ_id (M_1/2 ≈ 2×10⁷ M⊙ dentro del radio de media luz 3D
+r_1/2 ≈ 347 pc, estimador de Wolf declarado), cuyo perfil a esa
+escala el tratado no deriva — hueco declarado. **Estatuto**:
+veredicto exacto dentro del montaje declarado (trazador Plummer, β
+constante, datos globales); el perfil binado σ_los(R), poblaciones
+múltiples y la ingesta de la tabla original son los pendientes del
+siguiente paso; 5C (SPARC con la MISMA A) decidirá la falsación
+cruzada.
+
+### 3.9 El 5C estructural y el objetivo ρ_id como curva
+
+La mitad del 5C que no necesita el catálogo (cuya ingesta sigue
+bloqueada por el proxy — pendiente declarado): en discos exponenciales
+el término de Cronos tiene FORMA fija, v_cronos²(R) =
+(3c²/2)·(R/R_d)·A·ρ(R)^(3/2) ∝ x·e^(−3x/2) con pico en x = 2/3 —
+identidad de la Def. 11.1, independiente de A, Σ0, R_d y ζ. De ahí la
+ley que decide: v²(x=4)/v²(pico) = 0.040, así que **aportar V km/s
+donde la discrepancia de masa vive (x ≳ 3) cuesta 5·V km/s de bulto
+en x = 2/3** — ninguna amplitud A produce curvas planas con este
+término; que los discos internos densos son bariónicos (sin hueco
+para tal bulto) es el resultado estándar de la literatura, usado como
+HIPÓTESIS DECLARADA sin ingesta — la confrontación por galaxia es el
+pendiente. Con la A que Sculptor exige (recalculada, no copiada:
+6.2×10⁻⁷ para Υ⋆ = 2), la malla declarada (Σ0 ∈ [50, 800] M⊙/pc²;
+los LSB reales bajan más — allí el término se hace despreciable y no
+explica nada) da v_cronos/v_bar hasta ×6.3 en el pico interior y
+2–82 km/s en x = 4 (bultos donde el disco es denso, nada donde no),
+con ε_c ≤ 5×10⁻⁶ (el régimen débil intacto: falla la fenomenología,
+no la expansión). **Veredicto estructural 5E (parcial)**: junto con
+el medio paso 2, el término débil de Cronos no puede ser el mecanismo
+galáctico común a presión y rotación; la carga es de ρ_id — y
+Sculptor la deja MEDIDA como curva de degeneración: con el perfil
+cored del corpus, M_id(<347 pc) = 1.78×10⁷ M⊙ define ρ0(r_c) (en el
+r_c = 0.30 kpc del corpus: ρ0 = 0.176 M⊙/pc³), la curva que cualquier
+derivación futura de ρ_id — o la relación rcore(M, z) de B.5
+calibrada en SPARC — debe atravesar. Instrumento de perfiles binados
+listo con autoprueba sintética declarada
+(`dynamics/binned_profile.py`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

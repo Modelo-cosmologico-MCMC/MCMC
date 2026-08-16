@@ -31,6 +31,8 @@ cada ruta citada existe.
 | Cronos v3 | Cap. 11 | `cronos/cronos_v3.py` | `tests/test_cronos_v3.py` | implementado; producción abierta (frente 5) |
 | Ciclo PM del Ap. B | Ap. B | `cronos/simulation.py` | `tests/test_simulation.py` | prototipo (no producción) |
 | Perfil y compuerta | H.2.5 (frente 5) | `cronos/profile_fit.py` | `tests/test_profile_fit.py` | compuerta reproducida; núcleo en producción |
+| Potencial débil y Jeans dSph | Def. 11.1 + Prop. 11.2 (frente 5, 5A/5B/5D) | `dynamics/weak_field.py` | `tests/test_jeans_dsph.py` | medio paso: veredicto exacto en el montaje declarado; perfil binado y 5C/5E pendientes |
+| 5C estructural y objetivo ρ_id | Cor. 11.3c + Ap. A (frente 5, 5C/5E) | `dynamics/disc_cronos.py` | `tests/test_disc_cronos.py` | parcial: ley de forma exacta; catálogo SPARC pendiente de ingesta (proxy) |
 | Fondo cosmológico | Ap. A | `cosmology/background.py` | `tests/test_recovery_limit.py` | límite de recuperación exacto (Prop. A.1) |
 | Ajustes de producción v1/v2 | A.6 → E5 | `cosmology/bayesian_fit.py` | `tests/test_bayesian_fit.py` | no favorecido (ΔBIC +14.5), publicado |
 | CMB comprimido y fσ8 | Ap. A (opción B) | `cosmology/extended_likelihoods.py` | `tests/test_extended_likelihoods.py` | salvedades declaradas (HS96, diagonal) |

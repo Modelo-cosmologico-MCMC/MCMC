@@ -4,6 +4,49 @@ Formato: cada versión lista lo que el repositorio AFIRMA tras ella —
 el contrato de honestidad manda («cada commit deja el repositorio en un
 estado en que afirme exactamente lo que hace»).
 
+## Sin publicar — agosto de 2026
+
+- **Frente 5, paso 5C estructural + objetivo ρ_id (14-ago)**. La
+  mitad del 5C que no necesita datos: en discos exponenciales el
+  término de Cronos tiene forma fija v_cronos² ∝ x·e^(−3x/2) (pico en
+  x = 2/3), así que aportar V km/s donde la discrepancia de masa vive
+  (x ≳ 3) cuesta ×5·V en x = 2/3, PARA CUALQUIER amplitud A — un
+  bulto interior incompatible con el carácter bariónico de los discos
+  internos densos que la literatura reporta (hipótesis declarada, sin
+  ingesta; la confrontación por galaxia es el pendiente). Con la A
+  concreta que Sculptor exige, la malla declarada (Σ0 ∈ [50, 800]
+  M⊙/pc² × R_d × ζ; los LSB reales bajan más — allí el término se
+  hace despreciable y no explica nada) da v_cronos/v_bar hasta ×6.3
+  en el pico y 2-82 km/s en x = 4: bultos donde el disco es denso,
+  nada donde no lo es. Veredicto estructural 5E (parcial): el término
+  débil no puede ser el mecanismo galáctico común; la carga queda en
+  ρ_id, y Sculptor la fija como CURVA de degeneración ρ0(r_c)
+  medible (M_id(<347 pc) = 1.78e7 M⊙; en el r_c = 0.30 kpc del
+  corpus: ρ0 = 0.176 M⊙/pc³). Instrumento de perfiles binados listo
+  con autoprueba sintética (la ingesta de Walker+09 y del catálogo
+  SPARC sigue bloqueada por el proxy — pendiente declarado con el
+  hueco de checksum abierto).
+
+- **Frente 5, medio paso 2 (10-ago): Sculptor contra el potencial
+  débil (5A/5B/5D)**. Una sola Φ_eff = Φ_N − c²·ε_c desde la Ley de
+  Cronos (Def. 11.1 + Prop. 11.2), Jeans esférico con β constante y
+  proyección validados contra la identidad analítica del Plummer
+  (error < 2e-3). El resultado, publicado tal cual bajo las DOS
+  lecturas declaradas de la ec. (11.5) (literal: solo α₀⁻¹, ρ_c
+  libre; subdominancia: c²ε_c ≲ |Φ_N|, de la que la cota nace): solo
+  estrellas dan σ_N = 2.1-3.6 km/s; bajo subdominancia el término
+  débil de Cronos queda falsado como explicación de Sculptor
+  (techo √2·σ_N ≤ 5.1 frente a σ_obs ≈ 9-10); bajo la literal no hay
+  violación numérica, pero el término solo alcanza σ_obs como
+  potencial DOMINANTE (c²ε_c = ×8-×26·|Φ_N|), el régimen que la
+  justificación de la cota excluye. Sculptor no mide ρ_c: mide
+  A = α₀⁻¹/ρ_c^(3/2) (con α₀⁻¹ en su cota, ρ_c ≲ 1-2 M⊙/pc³,
+  desigualdad unilateral — 5E sigue abierto). La carga explicativa
+  queda cuantificada en ρ_id (M_1/2 ≈ 2e7 M⊙ dentro de r_1/2 ≈ 347
+  pc), sin perfil derivado a escala dSph — hueco declarado. Datos
+  globales de Walker et al. 2009 con procedencia y pendientes
+  declarados (`dynamics/dsph_data.py`).
+
 ## v0.2.0 — 2 de agosto de 2026 (rondas 2–5)
 
 - **Cadena deductiva ejecutable** (`core/`, caps. 2–10): cada módulo

@@ -283,6 +283,64 @@ la media); con ρ_c ~ media, ε_c alcanza O(1), fuera del régimen débil
 de la Def. 11.1, y la fricción condensa el halo en un punto (artefacto
 verificado, no física). Desenlace en `results/2026-08-02_profile_shape/`.
 
+### Medio paso 2 del frente nº 5: Sculptor contra el potencial débil (agosto 2026)
+
+`dynamics/` + `python scripts/run_jeans_dsph.py` ejecutan los pasos
+5A/5B/5D de la secuencia del frente: una sola Φ_eff = Φ_N − c²·ε_c
+desde la Ley de Cronos (Def. 11.1 + Prop. 11.2), Jeans esférico con β
+constante y proyección — validados contra la identidad analítica del
+Plummer isótropo (error < 2×10⁻³) — confrontados con los datos
+globales de Sculptor (Walker et al. 2009; procedencia y pendientes en
+`dynamics/dsph_data.py`). **El desenlace, publicado tal cual bajo las
+dos lecturas declaradas de la ec. (11.5)** (la literal L acota solo
+α₀⁻¹ con ρ_c libre; la de subdominancia P — «para que no domine sobre
+la gravedad en halos», Cor. 11.3c — es de la que la cota nace): solo
+estrellas dan σ_N = 2.1–3.6 km/s (Υ⋆ ∈ [1,3]); bajo P el término
+débil de Cronos queda falsado como explicación de Sculptor (techo
+√2·σ_N ≤ 5.1 km/s frente a σ_obs ≈ 9–10); bajo L no hay violación
+numérica de la desigualdad, pero el término solo alcanza σ_obs siendo
+el **potencial dominante** — c²ε_c = ×8–×26·|Φ_N| — el régimen que la
+justificación declarada de la cota excluye. El hecho invariante entre
+lecturas: **el término solo explica Sculptor dejando de ser una
+corrección subdominante de campo débil**. Sculptor no mide ρ_c — mide
+la amplitud A = α₀⁻¹/ρ_c^(3/2) (con α₀⁻¹ en su cota: ρ_c ≲ 1–2
+M⊙/pc³, desigualdad unilateral compatible con la receta de validez de
+la malla PM del medio paso 1 — el contraste cruzado 5E sigue
+plenamente abierto). La carga explicativa queda cuantificada para el
+sector ρ_id: M_1/2 ≈ 2×10⁷ M⊙ dentro del radio de media luz 3D
+r_1/2 ≈ 347 pc (estimador de Wolf declarado), sin perfil derivado a
+esa escala — hueco declarado. Veredicto exacto dentro del montaje
+declarado (trazador Plummer, datos globales); perfil binado σ_los(R)
+y 5C (SPARC con la MISMA A): pendientes. Desenlace en
+`results/2026-08-10_jeans_dsph/`.
+
+### Paso 5C estructural y el objetivo ρ_id como curva (agosto 2026)
+
+`dynamics/disc_cronos.py` + `python scripts/run_sparc_structural.py`
+ejecutan la mitad del 5C que no necesita el catálogo (la ingesta SPARC
+sigue bloqueada por el proxy — pendiente declarado con hueco de
+checksum): en discos exponenciales el término de Cronos tiene forma
+fija **v_cronos² ∝ x·e^(−3x/2)** (pico en x = 2/3; identidad de la
+Def. 11.1). La ley que decide: aportar V km/s donde la discrepancia de
+masa vive (x ≳ 3) cuesta **×5·V de bulto en x = 2/3** — ninguna
+amplitud A produce curvas planas con este término (que los discos
+internos densos son bariónicos, sin hueco para tal bulto, es el
+resultado estándar de la literatura: hipótesis declarada, sin ingesta
+— la confrontación por galaxia es el pendiente). Con la A que Sculptor
+exige, la malla declarada (Σ0 ∈ [50, 800] M⊙/pc²; los LSB reales
+bajan más — allí el término se hace despreciable y no explica nada)
+da v_cronos/v_bar hasta ×6.3 en el pico y 2–82 km/s en x = 4 —
+bultos donde el disco es denso, nada donde no lo es (ε_c ≤ 5×10⁻⁶:
+el régimen débil intacto).
+**Veredicto estructural 5E (parcial)**: el término débil no puede ser
+el mecanismo galáctico común; la carga es de ρ_id, y Sculptor la deja
+medida como curva de degeneración ρ0(r_c) (M_id(<347 pc) =
+1.78×10⁷ M⊙; en el r_c = 0.30 kpc del corpus, ρ0 = 0.176 M⊙/pc³) —
+la curva que cualquier derivación de ρ_id debe atravesar. Comparador
+de perfiles binados listo con autoprueba sintética
+(`dynamics/binned_profile.py`). Desenlace en
+`results/2026-08-14_sparc_structural/`.
+
 ## Tests
 
 ```bash
