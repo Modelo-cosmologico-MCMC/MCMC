@@ -42,42 +42,24 @@ from dynamics.dsph_data import (  # noqa: E402
     plummer_scale_from_Rhalf,
     stellar_mass,
 )
-from dynamics.jeans import sigma_los_sq_lum_avg  # noqa: E402
 from dynamics.rho_id_target import (  # noqa: E402
     rho0_required,
     sculptor_rho_id_curve,
 )
+from dynamics.sculptor_transfer import sculptor_A_req  # noqa: E402
 from dynamics.weak_field import (  # noqa: E402
     G_PC,
     epsilon_c_of_rho,
-    g_eff_plummer,
-    plummer_density,
-    plummer_g_newton,
 )
 
 OUT = (Path(__file__).resolve().parent.parent / "results"
        / "2026-08-14_sparc_structural")
-A_UNIT = 1e-13
 
 # Malla declarada de discos: barre la población SPARC de LSB a HSB.
 SIGMA0_GRID = (50.0, 200.0, 800.0)      # M⊙/pc² (central)
 RD_GRID = (1000.0, 2000.0, 4000.0)      # pc
 ZETA_GRID = (0.1, 0.2)                  # h/R_d declarado
 X_OUTER = 4.0                           # R/R_d del «punto exterior»
-
-
-def sculptor_A_req(upsilon: float) -> float:
-    """A_req del medio paso 2, recalculada (misma maquinaria)."""
-    d = SCULPTOR
-    a0 = plummer_scale_from_Rhalf(d["R_half_pc"])
-    M = stellar_mass(d["L_V_Lsun"], upsilon)
-    r = np.geomspace(0.05, 120.0 * a0, 800)
-    nu = plummer_density(r, M, a0)
-    kw = {"R_max": 8.0 * a0, "u_max": 120.0 * a0}
-    s2_N = sigma_los_sq_lum_avg(r, nu, plummer_g_newton(r, M, a0), **kw)
-    dS2 = sigma_los_sq_lum_avg(
-        r, nu, g_eff_plummer(r, M, a0, A_UNIT), **kw) - s2_N
-    return float((d["sigma_los_kms"] ** 2 - s2_N) / dS2 * A_UNIT)
 
 
 def main() -> None:
