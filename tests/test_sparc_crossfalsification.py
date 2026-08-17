@@ -14,7 +14,10 @@ from dynamics.sculptor_transfer import frozen_config
 from dynamics.sparc_crossfalsification import (
     aggregate_summary,
     chi_square,
+    count_negative_total,
+    decide_verdict_arm,
     per_galaxy_row,
+    predeclared_subsets,
     predict_baryonic_curve,
     predict_cronos_fixed_A,
     predict_total_curve,
@@ -191,3 +194,64 @@ def test_report_reproducibility(tmp_path):
     assert (tmp_path / "a" / "report.md").read_bytes() \
         == (tmp_path / "b" / "report.md").read_bytes()
     assert a == b
+
+
+def test_negative_total_clip_is_declared_and_counted():
+    """El condicional del clip, expuesto: gas con signo puede dar
+    v_bar² + v_cronos² < 0; v_model = 0 ahí (elección preinscrita,
+    idéntica en M0 y M1) y el punto se CUENTA, no se descarta."""
+    vb2 = predict_baryonic_curve(np.array([-30.0]), np.array([5.0]),
+                                 np.array([0.0]), 0.5, 0.7)
+    assert vb2[0] < 0.0
+    vm = predict_total_curve(vb2, np.array([100.0]))
+    assert vm[0] == 0.0
+    assert count_negative_total(vb2, np.array([100.0])) == 1
+    assert count_negative_total(np.array([50.0]), np.array([1.0])) == 0
+
+
+def test_shape_diagnostics_rejects_unsorted_radii():
+    """La guardia de monotonía: radios no crecientes lanzan error en
+    vez de dejar que np.interp devuelva basura en silencio."""
+    Rbad = np.array([2000.0, 1000.0, 3000.0])
+    with pytest.raises(ValueError, match="crecientes"):
+        shape_diagnostics(Rbad, RD, np.ones(3), np.ones(3), np.ones(3))
+
+
+def test_validate_catalogue_rejects_nonmonotonic_per_galaxy():
+    """El validador implementa lo que su docstring promete: radios
+    decrecientes DENTRO de una galaxia se rechazan."""
+    with pytest.raises(ValueError, match="crecientes"):
+        validate_catalogue(np.array([2.0, 1.0]), np.ones(2),
+                           np.ones(2), np.array(["g1", "g1"]))
+
+
+def test_decide_verdict_arm_three_arms():
+    """La regla de decisión preinscrita, por sus tres brazos, con
+    resúmenes sintéticos."""
+    base = {"frac_improved": 0.2, "median_delta_chi2": 5.0,
+            "bootstrap": {"median_CI95": [2.0, 8.0]}}
+    assert decide_verdict_arm(base) == "systematic_worsening"
+    sup = {"frac_improved": 0.8, "median_delta_chi2": -4.0,
+           "bootstrap": {"median_CI95": [-7.0, -1.0]}}
+    assert decide_verdict_arm(sup) == "support"
+    ind = {"frac_improved": 0.5, "median_delta_chi2": 0.3,
+           "bootstrap": {"median_CI95": [-1.0, 2.0]}}
+    assert decide_verdict_arm(ind) == "indeterminate"
+
+
+def test_predeclared_subsets_never_use_delta_chi2():
+    """Los subconjuntos preinscritos se calculan SOLO de observables:
+    ninguna referencia a delta_chi2 en la selección (y el candado de
+    fuente lo vigila)."""
+    rows = [
+        {"quality_flag": 1, "Sigma_or_equivalent": 300.0,
+         "gas_dominated": False, "delta_chi2": 99.0},
+        {"quality_flag": 3, "Sigma_or_equivalent": 50.0,
+         "gas_dominated": True, "delta_chi2": -99.0},
+    ]
+    sub = predeclared_subsets(rows, sigma_median=150.0)
+    assert sub["full_sample"] == [0, 1]
+    assert sub["quality_sample"] == [0]
+    assert sub["HSB_subset"] == [0]
+    assert sub["LSB_subset"] == [1]
+    assert sub["gas_dominated_subset"] == [1]

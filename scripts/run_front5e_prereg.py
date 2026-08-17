@@ -109,6 +109,50 @@ PREDECLARED = {
         "ρ_id no se usa para reparar el 5E: M_id(<347 pc) = 1.78e7 "
         "M⊙ y la curva ρ0(r_c) (marcador exacto r_c = 300 pc, "
         "ρ0 = 0.176 M⊙/pc³) quedan como estaban."),
+    "decision_rule": {
+        "primary_statistic": "mediana(Δχ²) con CI95 bootstrap entre "
+                             "galaxias (semilla y n congelados) y "
+                             "fracción de galaxias mejoradas",
+        "systematic_worsening": "mediana(Δχ²) > 0 con CI95 excluyendo "
+                                "0 Y frac_improved < 1/3 ⟹ camino A "
+                                "del árbol de decisión",
+        "support": "mediana(Δχ²) < 0 con CI95 excluyendo 0 Y "
+                   "frac_improved > 1/2 ⟹ compatibilidad que exige "
+                   "validación fuera de muestra (LITTLE THINGS) antes "
+                   "de cualquier claim — camino B",
+        "indeterminate": "cualquier otro caso ⟹ parcial/indeciso; "
+                         "más datos antes de cualquier claim",
+        "implementation": "dynamics.sparc_crossfalsification."
+                          "decide_verdict_arm (testeada; fijada antes "
+                          "de ingerir datos)",
+    },
+    "declared_approximations": {
+        "chi2_diagonal": "errores por punto tratados como "
+                         "independientes; los sistemáticos "
+                         "correlacionados (distancia, inclinación) "
+                         "entran por las hipótesis de sensibilidad, "
+                         "no por la covarianza",
+        "negative_total_points": "con gas con signo, v_bar²+v_cronos² "
+                                 "puede ser < 0 en puntos interiores "
+                                 "gas-dominados: v_model = 0 ahí "
+                                 "(elección declarada, idéntica en M0 "
+                                 "y M1), puntos contados y publicados "
+                                 "por galaxia (n_negative_total), "
+                                 "ninguno descartado",
+        "ties": "Δχ² = 0 exacto no cuenta ni como mejora ni como "
+                "empeoramiento (las fracciones no suman 1 si hay "
+                "empates)",
+    },
+    "regeneration_note": (
+        "v2 (17-ago-2026): regenerada tras la revisión adversarial "
+        "del 5E — la v1 registraba code_commit ffdc77c9 (la base del "
+        "merge), ANTERIOR al commit que contiene el generador "
+        "(defecto confirmado); esta versión se genera en un commit "
+        "que sí lo contiene. La A NO cambió (6.201589e-7) y los "
+        "datos SIGUEN sin ingerirse: la propiedad "
+        "congelar-antes-de-datos se conserva. El sello histórico de "
+        "los campos congelados vive en "
+        "tests/test_front5e_lock.py::test_prereg_frozen_fields_pinned."),
 }
 
 

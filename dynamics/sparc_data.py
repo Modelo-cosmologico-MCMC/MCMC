@@ -67,18 +67,33 @@ def inspect_schema(path: Path, n_lines: int = 40) -> str:
             "```\n" + head + "\n```\n")
 
 
-def validate_catalogue(radii_kpc: np.ndarray, v_obs: np.ndarray,
+KPC_TO_PC = 1000.0
+# UNIDADES — contrato explícito: el catálogo SPARC publica radios en
+# kpc; el pipeline dinámico (dynamics/disc_cronos.py,
+# sparc_crossfalsification.py) trabaja en pc. La conversión es
+# responsabilidad del parser (R_pc = KPC_TO_PC · R_kpc) y quedará
+# registrada como columna DERIVADA en schema_report — nunca implícita.
+
+
+def validate_catalogue(radii: np.ndarray, v_obs: np.ndarray,
                        e_v: np.ndarray, galaxy_ids: np.ndarray) -> dict:
     """Validación física que el parser DEBERÁ aplicar a cada galaxia
     (testeada con fixtures sintéticos; los datos reales pertenecen al
     análisis reproducible, no a la unit suite):
 
-    - radios estrictamente positivos y crecientes por galaxia;
+    - radios estrictamente positivos y ESTRICTAMENTE CRECIENTES por
+      galaxia (np.interp aguas abajo exige orden ascendente y falla
+      en silencio si no — la guardia también vive en
+      shape_diagnostics);
     - errores de velocidad estrictamente positivos;
     - sin NaN en ninguna columna;
     - sin duplicados (galaxy_id, R).
+
+    `radii` va en las unidades del catálogo (kpc en SPARC); la
+    positividad y la monotonía no dependen de la unidad — la
+    conversión a pc es del parser (KPC_TO_PC, columna derivada).
     Devuelve el resumen; lanza ValueError si algo falla."""
-    r = np.asarray(radii_kpc, float)
+    r = np.asarray(radii, float)
     v = np.asarray(v_obs, float)
     e = np.asarray(e_v, float)
     g = np.asarray(galaxy_ids)
@@ -91,6 +106,11 @@ def validate_catalogue(radii_kpc: np.ndarray, v_obs: np.ndarray,
     keys = list(zip(g.tolist(), r.tolist()))
     if len(keys) != len(set(keys)):
         raise ValueError("duplicados (galaxia, R)")
+    for gal in np.unique(g):
+        rg = r[g == gal]
+        if rg.size > 1 and not np.all(np.diff(rg) > 0.0):
+            raise ValueError(
+                f"radios no crecientes dentro de la galaxia {gal!r}")
     return {"n_points": int(r.size),
             "n_galaxies": int(np.unique(g).size)}
 

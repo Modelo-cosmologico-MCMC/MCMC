@@ -1,7 +1,7 @@
 # Preinscripción del Frente 5E (antes de tocar SPARC)
 
-- **Commit**: `ffdc77c90e1ee76937493c9844e11c62a4d24eb2`
-- **Fecha (UTC)**: 2026-08-17T20:53:34.392825+00:00
+- **Commit**: `88a5721684c519f896054c3506b36db32061a8f8`
+- **Fecha (UTC)**: 2026-08-17T21:34:57.310051+00:00
 - **A transferida (Υ⋆ = 2)**: 6.201589e-07 (M⊙/pc³)^(−3/2) — calculada por `dynamics.sculptor_transfer.sculptor_A_req`, no copiada
 - **Sensibilidad declarada**: A(Υ⋆=1) = 1.853e-06, A(Υ⋆=3) = 3.186e-07
 - **β (Sculptor)**: 0.0; **R_half**: 260.0 pc; **σ_obs**: 9.2 km/s

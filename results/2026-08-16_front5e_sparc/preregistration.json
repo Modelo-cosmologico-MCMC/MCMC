@@ -1,7 +1,7 @@
 {
   "front": "5E — falsación cruzada Sculptor ↔ SPARC",
-  "preregistered_utc": "2026-08-17T20:53:34.392825+00:00",
-  "code_commit": "ffdc77c90e1ee76937493c9844e11c62a4d24eb2",
+  "preregistered_utc": "2026-08-17T21:34:57.310051+00:00",
+  "code_commit": "88a5721684c519f896054c3506b36db32061a8f8",
   "generating_function": "dynamics.sculptor_transfer.frozen_config (A: dynamics.sculptor_transfer.sculptor_A_req)",
   "A_units": "(M_sol/pc^3)^(-3/2); epsilon_c = A * rho^(3/2)",
   "eq_11_5_reading": "la transferencia de A es independiente de la lectura L/P de la ec. (11.5) — A_req es el problema inverso de Sculptor, no la cota; ambas lecturas declaradas en dynamics/weak_field.py",
@@ -66,5 +66,18 @@
     "if_5EB_works_and_5EA_fails": "la extensión bariónica es una hipótesis NUEVA a validar independientemente — no se reescribe el 5C",
     "if_data_unavailable": "5E observacional ABIERTO por ausencia de datos ingeridos; el resultado estructural 5C permanece y no se eleva a veredicto observacional"
   },
-  "rho_id_untouched": "ρ_id no se usa para reparar el 5E: M_id(<347 pc) = 1.78e7 M⊙ y la curva ρ0(r_c) (marcador exacto r_c = 300 pc, ρ0 = 0.176 M⊙/pc³) quedan como estaban."
+  "rho_id_untouched": "ρ_id no se usa para reparar el 5E: M_id(<347 pc) = 1.78e7 M⊙ y la curva ρ0(r_c) (marcador exacto r_c = 300 pc, ρ0 = 0.176 M⊙/pc³) quedan como estaban.",
+  "decision_rule": {
+    "primary_statistic": "mediana(Δχ²) con CI95 bootstrap entre galaxias (semilla y n congelados) y fracción de galaxias mejoradas",
+    "systematic_worsening": "mediana(Δχ²) > 0 con CI95 excluyendo 0 Y frac_improved < 1/3 ⟹ camino A del árbol de decisión",
+    "support": "mediana(Δχ²) < 0 con CI95 excluyendo 0 Y frac_improved > 1/2 ⟹ compatibilidad que exige validación fuera de muestra (LITTLE THINGS) antes de cualquier claim — camino B",
+    "indeterminate": "cualquier otro caso ⟹ parcial/indeciso; más datos antes de cualquier claim",
+    "implementation": "dynamics.sparc_crossfalsification.decide_verdict_arm (testeada; fijada antes de ingerir datos)"
+  },
+  "declared_approximations": {
+    "chi2_diagonal": "errores por punto tratados como independientes; los sistemáticos correlacionados (distancia, inclinación) entran por las hipótesis de sensibilidad, no por la covarianza",
+    "negative_total_points": "con gas con signo, v_bar²+v_cronos² puede ser < 0 en puntos interiores gas-dominados: v_model = 0 ahí (elección declarada, idéntica en M0 y M1), puntos contados y publicados por galaxia (n_negative_total), ninguno descartado",
+    "ties": "Δχ² = 0 exacto no cuenta ni como mejora ni como empeoramiento (las fracciones no suman 1 si hay empates)"
+  },
+  "regeneration_note": "v2 (17-ago-2026): regenerada tras la revisión adversarial del 5E — la v1 registraba code_commit ffdc77c9 (la base del merge), ANTERIOR al commit que contiene el generador (defecto confirmado); esta versión se genera en un commit que sí lo contiene. La A NO cambió (6.201589e-7) y los datos SIGUEN sin ingerirse: la propiedad congelar-antes-de-datos se conserva. El sello histórico de los campos congelados vive en tests/test_front5e_lock.py::test_prereg_frozen_fields_pinned."
 }

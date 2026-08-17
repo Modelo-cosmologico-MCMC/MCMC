@@ -5,9 +5,12 @@ desde la sesión de trabajo del Frente 5E, DESPUÉS de congelar la
 preinscripción (`results/2026-08-16_front5e_sparc/preregistration.json`,
 commit `ffdc77c9`):
 
-- `https://astroweb.cwru.edu/SPARC/Rotmod_LTG.zip` →
-  CONNECT 403 del proxy de salida («policy denial» registrado por el
-  gateway; host fuera de la lista blanca del entorno).
+- `astroweb.cwru.edu` (SPARC) → denegado en AMBOS esquemas: el
+  intento `http://` del 31-jul-2026 devolvió el aviso de lista blanca
+  del proxy («Host not in allowlist») y el `https://` del 17-ago-2026
+  devolvió CONNECT 403 («policy denial» registrado por el gateway).
+  El registro de descargas usa la URL `http://` canónica del sitio;
+  el bloqueo es por HOST, no por esquema.
 - `https://vizier.cds.unistra.fr/` (Walker et al. 2009,
   J/AJ/137/3100) → CONNECT 403 (ídem).
 
