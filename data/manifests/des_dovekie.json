@@ -1,0 +1,44 @@
+{
+  "dataset": "des_dovekie",
+  "source": "https://github.com/des-science/DES-SN5YR @ 4_DISTANCES_COVMAT",
+  "version": "c9a4fcafc4cbd19bd750dee47fc76194a45c181f",
+  "retrieved_utc": "2026-08-18T16:00:48.000914+00:00",
+  "citation": "DES Collaboration (DES-SN5YR / DES-Dovekie release)",
+  "state": "AVAILABLE",
+  "transformations": [
+    "copia literal del clone (subconjunto compacto de 4_DISTANCES_COVMAT; mocks de 1_SIMULATIONS y 5_COSMOLOGY quedan en el clone @ commit fijado — pending_ingest)",
+    "esquema confirmado: data/manifests/sne.schema_report.md"
+  ],
+  "files": [
+    {
+      "file": "DES-Dovekie_HD.csv",
+      "sha256": "2f57019d783eaa976df80a41b0054171a2d994ee9808d715ce850c2df5720aaf",
+      "bytes": 148002
+    },
+    {
+      "file": "DES-Dovekie_Metadata.csv",
+      "sha256": "45ad71f8470eaecfe2b386699ef66b26b0717c50f445d5f32941988d32c75388",
+      "bytes": 1269831
+    },
+    {
+      "file": "STAT+SYS.npz",
+      "sha256": "ffd3124b32148b1372bd95fda9299269f0352a9f8eee02d416c610e38495463b",
+      "bytes": 6244951
+    },
+    {
+      "file": "STATONLY.npz",
+      "sha256": "ba596d4f035530e53bf5bf2c24359e2dc00ef6449661a30c83bdbe50ae26f6b2",
+      "bytes": 19366
+    },
+    {
+      "file": "DES-Dovekie-SN_Likelihood.py",
+      "sha256": "78526c0e6013619e3586a5509be504f0bc5f0461d1e55a3d5bec0154353645ff",
+      "bytes": 7674
+    },
+    {
+      "file": "README.md",
+      "sha256": "7afa1b4c11f465d90eeb0352eb4ca0721f2baa856f545e16ac24af9aa067cf7e",
+      "bytes": 1680
+    }
+  ]
+}

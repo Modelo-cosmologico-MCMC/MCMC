@@ -1,0 +1,25 @@
+{
+  "dataset": "union3",
+  "source": "https://github.com/rubind/union3_release",
+  "version": "f5c387349b68f3535fdabf0fbc4f45cd407f9084",
+  "retrieved_utc": "2026-08-18T16:00:48.000312+00:00",
+  "citation": "Rubin et al. 2023 (Union3/UNITY, arXiv:2311.12098)",
+  "state": "AVAILABLE",
+  "transformations": [
+    "copia literal del clone",
+    "all_samples_union3_cosmo=2.npz (100 MB) NO commiteado por política de tamaño: obtener del clone en el commit fijado",
+    "esquema confirmado: data/manifests/sne.schema_report.md"
+  ],
+  "files": [
+    {
+      "file": "mu_mat_union3_cosmo=2_mu.fits",
+      "sha256": "ef98b7dde1025ee7134f3242aaea3f1f0ed3f2b29a718458c550a8e4e24d0349",
+      "bytes": 8640
+    },
+    {
+      "file": "BAO_results.txt",
+      "sha256": "83bbc8e6bb6e62d220ca90fb11e4f180bb33d08480821f1ba50b528c5b752f53",
+      "bytes": 1376
+    }
+  ]
+}

@@ -39,3 +39,14 @@ data/pantheon/*.cov
 data/boss_eboss/*.txt
 data/planck2018/*.txt
 data/sparc/*.zip
+
+# --- Capa de datos reproducibles (infra/observational-data-registry) ---
+# POLÍTICA: raw ≤ 10 MB COMMITEADO con manifest (sha256 computado);
+# mayores, por script con checksum fijado. Manifests y registro siempre.
+!data/sources.yaml
+!data/manifests/
+!data/manifests/**
+!data/raw/desi_dr2/*.txt
+!data/raw/union3/*
+!data/raw/union3_1/*
+!data/raw/des_dovekie/*
