@@ -1,0 +1,116 @@
+# Registro ÚNICO de fuentes observacionales del programa MCMC.
+#
+# CONTRATO (rama infra/observational-data-registry, 18-ago-2026):
+# - Todo fichero observacional entra al repositorio con fuente,
+#   versión, SHA256 y transformación trazable ANTES de tocar un
+#   likelihood. Los SHA256 nunca se escriben a mano: los computa
+#   scripts/data_registry.py al ingerir y quedan en
+#   data/manifests/<dataset>.json.
+# - POLÍTICA DE TAMAÑO: raw ≤ 10 MB se commitea (el repositorio debe
+#   poder ejecutar las fórmulas desde un clone limpio); mayores se
+#   obtienen por script con checksum fijado en el manifest.
+# - ESTADOS por dataset (en el manifest): AVAILABLE |
+#   DATA_UNAVAILABLE | INVALID_CHECKSUM | SCHEMA_UNVERIFIED.
+#   SCHEMA_UNVERIFIED significa: bytes presentes y verificados, pero
+#   el schema_report humano-legible aún no confirmó columnas/unidades
+#   — ningún likelihood puede consumirlo en ese estado.
+# - Los directorios legacy (data/pantheon, data/boss_eboss,
+#   data/planck2018) permanecen hasta migrar sus consumidores; sus
+#   checksums viven en scripts/download_data.py (fijados 31-jul-2026).
+
+datasets:
+  sparc:
+    role: galaxy_cross_falsification
+    host: astroweb.cwru.edu
+    raw_dir: data/raw/sparc
+    artifacts:
+      - SPARC_Lelli2016c.mrt
+      - MassModels_Lelli2016c.mrt
+      - Rotmod_LTG.zip
+      - RAR.mrt
+      - RARbins.mrt
+    citation: "Lelli, McGaugh & Schombert 2016 (AJ 152, 157)"
+    checksum: pending
+    state: DATA_UNAVAILABLE   # host denegado por el proxy (18-ago-2026)
+
+  walker2009:
+    role: dsph_kinematics
+    host: cdsarc.cds.unistra.fr
+    catalog: J/AJ/137/3100
+    raw_dir: data/raw/walker2009
+    artifacts:
+      - table2.dat   # Carina  (2400 registros según el ReadMe oficial)
+      - table3.dat   # Fornax  (3150)
+      - table4.dat   # Sculptor (1818)
+      - table5.dat   # Sextans (1487)
+      - ReadMe
+    citation: "Walker, Mateo & Olszewski 2009 (AJ 137, 3100)"
+    checksum: pending
+    state: DATA_UNAVAILABLE   # host denegado por el proxy (18-ago-2026)
+    note: >
+      datos ESTELARES individuales (RA/Dec, v_helio, error,
+      probabilidad de pertenencia) — σ_los(R) se derivará con
+      selección de miembros y binning PREINSCRITOS, no de bins de
+      figura.
+
+  desi_dr2_bao:
+    role: background_cosmology
+    source: github.com/CobayaSampler/bao_data   # enlazada por DESI como
+    subdir: desi_bao_dr2                        # likelihood BAO pública oficial
+    raw_dir: data/raw/desi_dr2
+    citation: >
+      DESI Collaboration 2025 (DR2 BAO, arXiv:2503.14738); datos de
+      likelihood distribuidos en CobayaSampler/bao_data
+    state: AVAILABLE          # ingerido de un clone git con commit fijado
+    bins:                     # identificadores OFICIALES (z_eff)
+      bgs: 0.295
+      lrg-z0: 0.510           # ≡ "LRG1" en documentación informal
+      lrg-z1: 0.706           # ≡ "LRG2"
+      lrgpluselg: 0.934
+      elg: 1.321
+      qso: 1.484
+      lya: 2.330
+
+  desi_dr2_chains:
+    role: background_cosmology_benchmark
+    host: data.desi.lbl.gov
+    path: public/papers/y3/bao-cosmo-params/
+    state: DATA_UNAVAILABLE   # host denegado por el proxy (18-ago-2026)
+    note: >
+      cadenas/best-fits oficiales para el benchmark ΛCDM propio vs
+      DESI oficial; el bundle Zenodo (~1.3 GB) solo para auditoría
+      profunda posterior.
+
+  pantheonplus:
+    role: supernova_distances
+    source: PantheonPlusSH0ES/DataRelease
+    raw_dir: data/pantheon    # legacy: ya descargado y verificado
+    state: AVAILABLE          # SHA256 fijados en download_data.py (31-jul-2026)
+    citation: "Scolnic et al. 2022 (ApJ 938, 113); Brout et al. 2022"
+
+  union3:
+    role: supernova_distances
+    source: rubind/union3_release
+    raw_dir: data/raw/union3
+    state: AVAILABLE          # ingerido @ f5c38734 (matriz μ 22 bins)
+    note: >
+      all_samples_union3_cosmo=2.npz (100 MB) NO commiteado por
+      política de tamaño — se obtiene del clone en el commit fijado
+      del manifest.
+
+  union3_1:
+    role: supernova_distances
+    source: rubind/union3_release
+    raw_dir: data/raw/union3_1
+    state: AVAILABLE          # dataset SEPARADO de union3 (no mezclar)
+    note: matrices μ UNITY1.7 y UNITY1.8 del mismo release
+
+  des_dovekie:
+    role: supernova_distances_and_mocks
+    source: des-science/DES-SN5YR
+    raw_dir: data/raw/des_dovekie
+    state: AVAILABLE          # HD + covarianzas + script oficial @ c9a4fcaf
+    note: >
+      4_DISTANCES_COVMAT/ y 5_COSMOLOGY/ para datos; 1_SIMULATIONS/
+      (25 mocks DES) para validar el pipeline ANTES de tocar datos —
+      observable calculable ≠ observable validado.
