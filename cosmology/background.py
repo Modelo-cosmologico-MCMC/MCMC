@@ -9,9 +9,34 @@ Friedmann tensional (A.2):
             + ρ_id(z) + ρ_lat(z)] − k(1+z)²/a0²
     Λ_rel(z) ≡ 8πG_eff·[ρ_id(z) + ρ_lat(z)]
 
-Parametrización de la transición (A.3) — forma tanh:
-    Λ_rel(z) = Λ0 · [1 + ε·tanh((z_trans − z)/Δz)],  z ≤ z_trans
+Parametrización de la transición (A.3) — forma tanh, NORMALIZADA HOY:
+
+    F(z) = 1 + ε·tanh((z_trans − z)/Δz)
+    Ω_Λ_rel(z) = Ω_Λ0 · F(z)/F(0),      con lo que Ω_Λ_rel(0) = Ω_Λ0
     ε = 0.012 ± 0.003,  z_trans = 8.9 ± 0.4,  Δz ≈ 1.5
+
+CORRECCIÓN DE NORMALIZACIÓN (ago-2026, rama
+fix/background-normalization-desi): la forma anterior anclaba Λ0 en el
+punto MEDIO de la transición (F(z_trans) = 1, sin dividir por F(0)) y
+fijaba Ω_Λ0 con Ω_m = 0.300 a nivel de módulo, de modo que
+(i) H(0) = H0·√(1 + Ω_Λ0·(F(0) − 1)) ≈ 1.0042·H0 incluso en el punto
+fiducial (validate_all imprimía 70.09 con H0 = 69.8), y (ii) el modelo
+dejaba de ser plano al variar Ω_m en los ajustes — en las medianas de
+los posteriores legacy el sesgo combinado llegaba a ~1.8 % (v1) y
+~1.1 % (v2). Además, en los ajustes legacy el sesgo de F(0) era SOLO
+del brazo MCMC (el brazo ΛCDM corría con ε = 0 ⟹ F ≡ 1), así que ε
+hacía doble papel: amplitud de la transición y reescalado de H(0).
+Hoy H_of_z impone la clausura plana POR LLAMADA (Ω_DE,0 = 1 − Ω_m −
+Ω_r; Ω_k = 0 declarado) y la transición está normalizada en z = 0, así
+que H(0) = H0 EXACTAMENTE para todo parámetro admisible con dz > 0 —
+el invariante lo protege tests/test_physical_invariants.py y lo
+asserta scripts/validate_all.py. Los ajustes v1/v2 originales quedan
+etiquetados legacy_pre_normalization (nota ESTADO en sus directorios
+de results/); la REPETICIÓN con este fondo corregido está ejecutada
+(10-ago-2026, mismas semillas y configuración):
+results/2026-08-10_production_fit{,_v2}/ — el veredicto diferencial se
+mantiene (ΔAIC = +4.00/+4.08, ΔBIC = +14.50/+14.60 pro-ΛCDM; ε
+compatible con 0), ahora con posteriores absolutos sin el sesgo.
 
 (La forma lineal Λ0[1 + ε(z_trans − z)] que anunciaba una versión anterior
 de este docstring es la parametrización superada: el código siempre
@@ -39,15 +64,25 @@ OMEGA_L0 = 1.0 - OMEGA_M0 - OMEGA_R0
 def Lambda_rel(z: np.ndarray | float,
                eps: float = C.EPSILON_LAMBDA,
                z_trans: float = C.Z_TRANS,
-               dz: float = C.DZ_TRANS) -> np.ndarray | float:
-    """Densidad fraccional de Λ relativa con transición suave (v35 A.3).
+               dz: float = C.DZ_TRANS,
+               Omega_L0: float = OMEGA_L0) -> np.ndarray | float:
+    """Densidad fraccional de Λ relativa con transición suave (v35 A.3),
+    normalizada en z = 0 (corrección ago-2026):
 
-        Ω_Λ_rel(z) = Ω_Λ0 · (1 + ε · tanh((z_trans - z) / dz))
+        F(z) = 1 + ε · tanh((z_trans - z) / dz)
+        Ω_Λ_rel(z) = Ω_Λ0 · F(z)/F(0)     ⟹  Ω_Λ_rel(0) = Ω_Λ0 exacto
 
+    para TODO ε; ε conserva su papel de amplitud de la transición (el
+    ancla pasa del punto medio z = z_trans, donde F = 1 en la forma
+    legacy, a hoy). Con ε = 0, F ≡ 1 y se recupera la constante exacta
+    (Prop. A.1). Requiere dz > 0 (dz ≤ 0 no es admisible: dz = 0
+    divide por cero y dz < 0 invertiría la transición).
     dz = Δz ≈ 1.5 según el Apéndice A.3 (antes 1.0, valor del corpus v32).
     """
     z = np.asarray(z, dtype=float)
-    return OMEGA_L0 * (1.0 + eps * np.tanh((z_trans - z) / dz))
+    F = 1.0 + eps * np.tanh((z_trans - z) / dz)
+    F0 = 1.0 + eps * np.tanh(z_trans / dz)
+    return Omega_L0 * F / F0
 
 
 def H_of_z(z: np.ndarray | float,
@@ -57,9 +92,19 @@ def H_of_z(z: np.ndarray | float,
            eps: float = C.EPSILON_LAMBDA,
            z_trans: float = C.Z_TRANS,
            dz: float = C.DZ_TRANS) -> np.ndarray | float:
-    """H(z) en km/s/Mpc con Λ_rel dinámico (v35 A.2/A.3)."""
+    """H(z) en km/s/Mpc con Λ_rel dinámico (v35 A.2/A.3).
+
+    Clausura plana POR LLAMADA (corrección ago-2026): Ω_DE,0 =
+    1 − Ω_m − Ω_r (Ω_k = 0 declarado), con la transición normalizada en
+    z = 0 ⟹ H(0) = H0 exactamente para todo (Ω_m, ε, z_trans) y todo
+    dz > 0 (el dominio declarado) — el invariante que la ontología
+    exige y el CI protege (suite de invariantes + assert en
+    validate_all).
+    """
     z = np.asarray(z, dtype=float)
-    OmL = Lambda_rel(z, eps=eps, z_trans=z_trans, dz=dz)
+    Omega_DE0 = 1.0 - Omega_m - Omega_r
+    OmL = Lambda_rel(z, eps=eps, z_trans=z_trans, dz=dz,
+                     Omega_L0=Omega_DE0)
     arg = Omega_m * (1.0 + z) ** 3 + Omega_r * (1.0 + z) ** 4 + OmL
     return H0 * np.sqrt(arg)
 

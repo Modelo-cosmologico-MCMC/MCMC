@@ -84,6 +84,28 @@ estado en que afirme exactamente lo que hace»).
   globales de Walker et al. 2009 con procedencia y pendientes
   declarados (`dynamics/dsph_data.py`).
 
+- **Corrección de normalización del fondo (10-ago)**: la forma legacy
+  de Λ_rel anclaba Λ0 en el punto medio de la transición (sin dividir
+  por F(0)) y congelaba Ω_Λ0 con Ω_m = 0.300 a nivel de módulo —
+  H(0) ≈ 1.0042·H0 en el punto fiducial (validate_all imprimía 70.09
+  con H0 = 69.8) y clausura no plana al variar Ω_m; en las corridas
+  legacy el sesgo de F(0) era SOLO del brazo MCMC (ε hacía doble
+  papel). Hoy: transición normalizada hoy (Ω_Λ_rel = Ω_Λ0·F(z)/F(0)) y
+  clausura plana por llamada ⟹ H(0) = H0 exacto para todo parámetro
+  admisible (dz > 0 declarado).
+- **Nivel 3 del CI — invariantes físicos**: suite
+  `tests/test_physical_invariants.py` sobre mallas de (Ω_m, ε, z_trans,
+  dz) que cubren los priors de los ajustes (ε negativos incluidos), y
+  `validate_all` ahora FALLA si H(0) ≠ H0 (el canal que estuvo verde
+  durante el bug).
+- **Repetición de los ajustes v1 y v2 con el fondo corregido**
+  (mismas semillas, datos y configuración): el veredicto diferencial
+  se confirma — ΔAIC = +4.00/+4.08, ΔBIC = +14.50/+14.60 pro-ΛCDM,
+  ε compatible con 0 — con posteriores absolutos ya sin sesgo
+  (`results/2026-08-10_production_fit{,_v2}/`); las corridas
+  originales quedan etiquetadas `legacy_pre_normalization` con la
+  asimetría del sesgo declarada.
+
 ## v0.2.0 — 2 de agosto de 2026 (rondas 2–5)
 
 - **Cadena deductiva ejecutable** (`core/`, caps. 2–10): cada módulo

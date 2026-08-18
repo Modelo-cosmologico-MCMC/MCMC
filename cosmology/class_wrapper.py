@@ -16,7 +16,14 @@ def mcmc_class_params(H0: float = C.H0_MCMC,
                       Omega_m: float = 0.300,
                       eps: float = C.EPSILON_LAMBDA,
                       z_trans: float = C.Z_TRANS) -> dict:
-    """Parámetros para un run CLASS con Λ_rel(z) y growth modificado."""
+    """Parámetros para un run CLASS con Λ_rel(z) y growth modificado.
+
+    Contrato de normalización (corrección ago-2026): el hook externo
+    (`background.c` modificado) debe implementar la forma NORMALIZADA
+    HOY, Ω_Λ_rel(z) = Ω_Λ0·F(z)/F(0) con F(z) = 1 + ε·tanh((z_t−z)/Δz)
+    y clausura plana Ω_Λ0 = 1 − Ω_m − Ω_r, igual que
+    cosmology/background.py — la forma sin dividir por F(0) viola
+    H(0) = H0 (ver tests/test_physical_invariants.py)."""
     return {
         "h": H0 / 100.0,
         "Omega_m": Omega_m,

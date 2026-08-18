@@ -27,6 +27,18 @@ def main() -> None:
     print("\n--- Cosmología ---")
     print(f"  H(0)        = {H_of_z(0.0):.2f} km/s/Mpc")
     print(f"  Ω_Λ(0)      = {Lambda_rel(0.0):.4f}")
+    # Invariante físico (nivel 3 del CI): este canal estuvo verde
+    # mientras H(0) valía 70.09 con H0 = 69.8 — ahora FALLA si el
+    # fondo viola su definición (H(0) = H0 para todo θ admisible).
+    from mcmc_ontology import constants as C
+    h0_dev = abs(float(H_of_z(0.0)) - C.H0_MCMC)
+    h0_dev_off = abs(float(H_of_z(0.0, Omega_m=0.35, eps=0.05))
+                     - C.H0_MCMC)
+    if max(h0_dev, h0_dev_off) > 1e-9:
+        raise SystemExit(
+            f"INVARIANTE VIOLADO: H(0) != H0 (desv. fiducial {h0_dev:.2e},"
+            f" fuera de fiducial {h0_dev_off:.2e})")
+    print("  invariante H(0) = H0 (fiducial y fuera de fiducial): OK")
 
     print("\n--- Espectro fermiónico ---")
     res = predict_fermion_masses()
