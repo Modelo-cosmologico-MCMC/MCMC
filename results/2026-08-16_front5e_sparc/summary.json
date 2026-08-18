@@ -1,0 +1,13 @@
+{
+  "front": "5E — falsación cruzada Sculptor ↔ SPARC",
+  "status": "DATA_UNAVAILABLE",
+  "A_frozen": 6.201588782789579e-07,
+  "verdict": "5E observacional ABIERTO por ausencia de datos ingeridos. El resultado estructural 5C permanece con su alcance declarado y NO se eleva a veredicto observacional. La A transferida queda congelada y publicada en la preinscripción; el pipeline completo está construido y testeado con fixtures sintéticos, listo para la ingesta.",
+  "blocking": "proxy de salida: astroweb.cwru.edu y vizier.cds.unistra.fr con CONNECT 403 (data/sparc/INGESTA_ESTADO.md)",
+  "rules_in_force": [
+    "checksums abiertos hasta la primera descarga real",
+    "sin fixtures observacionales",
+    "sin mirrors no verificados byte a byte",
+    "sin veredicto SPARC observacional"
+  ]
+}

@@ -265,6 +265,17 @@ calibrada en SPARC — debe atravesar. Instrumento de perfiles binados
 listo con autoprueba sintética declarada
 (`dynamics/binned_profile.py`).
 
+**El 5E queda preinscrito y congelado (16/17-ago)**: la amplitud
+transferida A = 6.201589×10⁻⁷ (M⊙/pc³)^(−3/2) se calculó con la
+función canónica ANTES de intentar la ingesta, con hipótesis
+primaria, estadísticos, cortes y alcance del veredicto
+precomprometidos (`results/2026-08-16_front5e_sparc/`), candados
+ejecutables contra tuning y pipeline puro testeado en sintético. Las
+fuentes (SPARC, VizieR) siguen denegadas por el proxy: **el 5E
+observacional está ABIERTO por ausencia de datos ingeridos** — regla
+de fallo preinscrita: sin fixtures, sin mirrors, sin veredicto
+observacional.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

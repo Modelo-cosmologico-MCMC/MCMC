@@ -63,9 +63,29 @@ DOWNLOADS = {
         (
             "http://astroweb.cwru.edu/SPARC/Rotmod_LTG.zip",
             DATA / "sparc" / "Rotmod_LTG.zip",
-            None,  # pendiente: fijar en la primera descarga verificada
+            None,  # ABIERTO: fijar solo tras la primera descarga real
+        ),
+        (
+            "http://astroweb.cwru.edu/SPARC/SPARC_Lelli2016c.mrt",
+            DATA / "sparc" / "SPARC_Lelli2016c.mrt",
+            None,  # ABIERTO: tabla maestra (Lelli, McGaugh & Schombert 2016)
         ),
     ],
+    "walker09": [
+        (
+            ("https://vizier.cds.unistra.fr/viz-bin/asu-tsv?"
+             "-source=J/AJ/137/3100&-out.all&-out.max=unlimited"),
+            DATA / "dsph" / "walker2009_vizier.tsv",
+            None,  # ABIERTO: fijar solo tras la primera descarga real
+        ),
+    ],
+}
+
+# Citas por dataset (van al manifest de procedencia):
+CITATIONS = {
+    "pantheon": "Scolnic et al. 2022 (ApJ 938, 113); Brout et al. 2022",
+    "sparc": "Lelli, McGaugh & Schombert 2016 (AJ 152, 157) — SPARC",
+    "walker09": "Walker, Mateo & Olszewski 2009 (AJ 137, 3100)",
 }
 
 # --- Cronómetros cósmicos: compilación estándar (31 puntos) ---
@@ -186,6 +206,41 @@ def download(url: str, dest: Path, expected_sha256: str | None) -> None:
         )
     else:
         print(f"[ok  ] {dest.name}: sha256 verificado")
+    return digest
+
+
+def write_manifest(dataset: str, url: str, dest: Path,
+                   digest: str) -> None:
+    """Manifest de procedencia, escrito SOLO tras una descarga real
+    (nunca se fabrica sin fichero): dataset, fuente, fecha UTC,
+    sha256, tamaño, cita y estatuto."""
+    import json
+    from datetime import datetime, timezone
+    man_path = dest.parent / "manifest.json"
+    entry = {
+        "dataset": dataset,
+        "source_url": url,
+        "file": dest.name,
+        "download_timestamp_utc":
+            datetime.now(timezone.utc).isoformat(),
+        "sha256": digest,
+        "file_size": dest.stat().st_size,
+        "citation": CITATIONS.get(dataset, "ver cabecera del fichero"),
+        "status": "descargado; checksum pendiente de fijar en "
+                  "DOWNLOADS si aún es None",
+    }
+    manifest = []
+    if man_path.exists():
+        manifest = json.loads(man_path.read_text(encoding="utf-8"))
+        manifest = [m for m in manifest if m.get("file") != dest.name]
+    manifest.append(entry)
+    man_path.write_text(json.dumps(manifest, ensure_ascii=False,
+                                   indent=2) + "\n", encoding="utf-8")
+    try:
+        shown = man_path.relative_to(DATA.parent)
+    except ValueError:
+        shown = man_path
+    print(f"[man ] {shown}")
 
 
 def write_compiled_tables() -> None:
@@ -210,7 +265,8 @@ def main(argv: list[str]) -> None:
         if what not in (key, "all"):
             continue
         for url, dest, sha in entries:
-            download(url, dest, sha)
+            digest = download(url, dest, sha)
+            write_manifest(key, url, dest, digest)
     print("\nHecho. Recuerda citar cada catálogo según su cabecera/licencia.")
 
 

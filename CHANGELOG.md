@@ -6,6 +6,24 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — agosto de 2026
 
+- **Frente 5E preinscrito y bloqueado por datos (16/17-ago)**. La
+  falsación cruzada Sculptor ↔ SPARC queda CONGELADA antes de tocar
+  SPARC: preinscripción computacional (A = 6.201589e-7 (M⊙/pc³)^(-3/2)
+  calculada por la función canónica en el commit del merge del PR #9,
+  con hipótesis, estadísticos, cortes, subconjuntos y alcance del
+  veredicto precomprometidos), configuración inmutable
+  (dataclass frozen) que el análisis recibe y no puede estimar,
+  candados ejecutables contra tuning (sin fit de A, sin A por
+  galaxia, sin selección por Δχ²), pipeline completo de funciones
+  puras (cuadratura, χ², B_inner/F_outer/ley ×5, bootstrap
+  congelado, A_fitted = False vigilado) testeado con fixtures
+  sintéticos sin red, e ingesta reproducible con manifest de
+  procedencia y checksum abierto. El reintento de las fuentes
+  (astroweb.cwru.edu, VizieR) devolvió CONNECT 403: **el 5E
+  observacional queda ABIERTO por ausencia de datos ingeridos**
+  (regla de fallo preinscrita — sin fixtures, sin mirrors, sin
+  veredicto observacional; el 5C estructural no se eleva).
+
 - **Frente 5, paso 5C estructural + objetivo ρ_id (14-ago)**. La
   mitad del 5C que no necesita datos: en discos exponenciales el
   término de Cronos tiene forma fija v_cronos² ∝ x·e^(−3x/2) (pico en
