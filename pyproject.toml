@@ -51,6 +51,12 @@ packages = [
     "validation",
 ]
 
+[tool.ruff]
+# Los ficheros bajo data/ son DATOS vendorizados (scripts oficiales de
+# releases incluidos): nunca se les aplica nuestro lint ni se modifican
+# — su integridad la vigila el manifest sha256.
+extend-exclude = ["data"]
+
 [tool.ruff.lint]
 # CONTRATO DE LINT EXPLÍCITO: las reglas activas se declaran aquí para
 # que el resultado no dependa del conjunto por defecto de cada versión

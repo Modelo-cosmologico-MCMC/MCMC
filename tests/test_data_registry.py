@@ -47,8 +47,9 @@ def test_manifests_have_computed_checksums():
 def test_verify_detects_corruption(tmp_path, monkeypatch):
     """INVALID_CHECKSUM: un byte cambiado se detecta y el fichero se
     aparta (.REJECTED) — con una copia sintética, sin tocar el raw."""
-    import data_registry as dr
     import shutil
+
+    import data_registry as dr
     fake_root = tmp_path
     (fake_root / "data" / "raw" / "desi_dr2").mkdir(parents=True)
     (fake_root / "data" / "manifests").mkdir(parents=True)

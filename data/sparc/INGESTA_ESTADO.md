@@ -1,4 +1,14 @@
-# ESTADO DE INGESTA: DATA_UNAVAILABLE (17-ago-2026)
+# ESTADO DE INGESTA: DATA_UNAVAILABLE (actualizado 18-ago-2026)
+
+ACTUALIZACIÓN 18-ago-2026 (rama infra/observational-data-registry):
+nueva sonda tras el merge del PR #10 — `astroweb.cwru.edu`,
+`cdsarc.cds.unistra.fr` y `data.desi.lbl.gov` SIGUEN denegados
+(HTTP 000/CONNECT 403 vía proxy). En cambio, la vía git de GitHub SÍ
+está abierta: DESI DR2 BAO (CobayaSampler/bao_data), Union3/3.1 y
+DES-Dovekie quedaron ingeridos con commit fijado y manifest — ver
+`data/sources.yaml` y `python scripts/data_registry.py status`.
+El 5E observacional sigue ABIERTO: depende exactamente de estos hosts.
+
 
 Reintento de la fuente primaria efectuado el 17-ago-2026 (~20:54 UTC)
 desde la sesión de trabajo del Frente 5E, DESPUÉS de congelar la

@@ -1,0 +1,23 @@
+{
+  "dataset": "pantheonplus",
+  "source": "https://github.com/PantheonPlusSH0ES/DataRelease (4_DISTANCES_AND_COVAR)",
+  "version": "descarga verificada 31-jul-2026 (checksums fijados en scripts/download_data.py)",
+  "retrieved_utc": "2026-08-18T16:00:49.807703+00:00",
+  "citation": "Scolnic et al. 2022 (ApJ 938, 113); Brout et al. 2022",
+  "state": "AVAILABLE",
+  "transformations": [
+    "sin transformación; consumido por cosmology/bayesian_fit.py desde jul-2026"
+  ],
+  "files": [
+    {
+      "file": "PantheonPlusSH0ES.dat",
+      "sha256": "1cb0fc379ef066afdc2ffd1857681cc478024570d8a3eba284fb645775198cf8",
+      "bytes": 579283
+    },
+    {
+      "file": "PantheonPlusSH0ES_STATSYS.cov",
+      "sha256": "abf806d966485e64afdb359c87bffc0ecc00d05eff0a31ced66f247385df0fdc",
+      "bytes": 33284960
+    }
+  ]
+}
