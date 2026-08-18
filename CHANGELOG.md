@@ -6,6 +6,25 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — agosto de 2026
 
+- **Frente 6A (18-ago): DESI DR2 BAO — likelihood validada, benchmark
+  superado a 0.08σ y contraste uniforme pro-ΛCDM**. El contrato
+  «datos ≠ likelihood ≠ modelo» cruzado con artefactos: guard runtime
+  require_available (manifest + estado + esquema + sha256 en cada
+  carga científica); equivalencia de χ² contra Cobaya 3.6.2
+  (max |Δχ²| = 1.85e-13, datos git-idénticos al pin v2.6 de Cobaya);
+  benchmark ΛCDM propio vs oficial (Ω_m = 0.2968 vs 0.2975 ± 0.0086 —
+  0.08σ, puerta predeclarada PASS) ANTES del MCMC; y el contraste con
+  r_d como calibración COMÚN (el MCMC no deriva la física
+  pre-recombinación): en DESI_ALL y los 7 leave-one-bin-out, Δχ² ∈
+  [−0.16, 0.00] y ΔBIC ∈ [+4.6, +5.1] pro-ΛCDM — veredicto UNIFORME,
+  ningún bin decisivo (incluido lrg-z1 ≡ LRG2), ε_Λ dominado por el
+  prior en todas las configuraciones. Razón estructural computada:
+  con z_trans = 8.9, la transición altera E(z ≤ 2.33) en ≤ 3e-5
+  relativo — BAO DR2 no es el test sensible de ε_Λ; lo que castiga es
+  la parsimonia. Mismo veredicto que v1/v2. Todo con candados de
+  regresión (results/2026-08-18_desi_dr2_background/).
+
+
 - **Frente 5E preinscrito y bloqueado por datos (16/17-ago)**. La
   falsación cruzada Sculptor ↔ SPARC queda CONGELADA antes de tocar
   SPARC: preinscripción computacional (A = 6.201589e-7 (M⊙/pc³)^(-3/2)

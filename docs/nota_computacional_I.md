@@ -276,6 +276,27 @@ observacional está ABIERTO por ausencia de datos ingeridos** — regla
 de fallo preinscrita: sin fixtures, sin mirrors, sin veredicto
 observacional.
 
+### 3.10 DESI DR2 BAO: benchmark y contraste (frente 6A)
+
+Con la capa de datos reproducibles (PR #11) y el guard runtime
+require_available, la likelihood BAO propia quedó validada contra la
+referencia externa fijada (Cobaya 3.6.2: máx |Δχ²| = 1.85×10⁻¹³ sobre
+vectores sintéticos; datos git-idénticos al pin v2.6) y el ΛCDM
+propio reprodujo el valor oficial publicado (Ω_m = 0.2968 −0.012/+0.012
+vs 0.2975 ± 0.0086, arXiv:2503.14738 — 0.08σ; puerta predeclarada
+PASS) ANTES de tocar el MCMC. El contraste (r_d como calibración
+común — el MCMC no deriva física pre-recombinación): **veredicto
+uniforme en DESI_ALL y los 7 leave-one-bin-out** — Δχ² ∈ [−0.16, 0],
+ΔBIC ∈ [+4.6, +5.1] pro-ΛCDM, ningún bin decisivo, ε_Λ dominado por
+el prior. Razón estructural computada: con z_trans = 8.9 la
+transición normalizada altera E(z ≤ 2.33) en ≤ 3×10⁻⁵ relativo — BAO
+DR2 constriñe la forma de la expansión donde el fondo del corpus es
+casi degenerado con ΛCDM; no es el test sensible de ε_Λ y lo que el
+dato castiga es la parsimonia. Mismo veredicto que los ajustes v1/v2.
+**Estatuto**: BAO-only; el cruce con cadenas oficiales completas
+pendiente del host bloqueado; SNe (mocks Dovekie primero) y
+combinaciones DESI+SNe son el siguiente paso del frente.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

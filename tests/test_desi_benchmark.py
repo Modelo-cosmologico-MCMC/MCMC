@@ -65,3 +65,25 @@ def test_rd_contract_documented_and_enforced():
     assert "rd_lcdm" not in src and "rd_mcmc" not in src
     # ambos log_prob usan la MISMA log_prior_common sobre H0rd:
     assert src.count("log_prior_common(Om, H0rd)") == 2
+
+
+def test_contrast_artifact_locks():
+    """CANDADO del contraste 6A.5 publicado: veredicto uniforme en
+    las 8 configuraciones (Δχ² ∈ [−0.2, 0]; ΔBIC ∈ [+4.5, +5.2]
+    pro-ΛCDM), ε dominado por el prior, y ningún bin decisivo."""
+    doc = json.loads((REPO / "results" / "2026-08-18_desi_dr2_background"
+                      / "contrast.json").read_text(encoding="utf-8"))
+    rows = doc["rows"]
+    assert len(rows) == 8
+    all_row = next(r for r in rows if r["config"] == "DESI_ALL")
+    assert all_row["chi2_lcdm"] == pytest.approx(10.284, abs=0.02)
+    assert all_row["chi2_mcmc"] == pytest.approx(10.224, abs=0.02)
+    assert all_row["delta_bic"] == pytest.approx(5.070, abs=0.05)
+    assert all_row["eps_median"] == pytest.approx(0.019, abs=0.003)
+    for r in rows:
+        assert -0.2 < r["delta_chi2"] <= 0.0, r["config"]
+        assert 4.5 < r["delta_bic"] < 5.2, r["config"]
+        assert abs(r["eps_median"] - 0.012) < 0.01, r["config"]
+        assert r["eps_minus"] + r["eps_plus"] > 0.07, r["config"]
+        assert abs(r["shift_omega_m_vs_ALL"]) < 0.01, r["config"]
+        assert r["conv_lcdm"] and r["conv_mcmc"], r["config"]
