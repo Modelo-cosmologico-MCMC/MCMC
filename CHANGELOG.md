@@ -6,23 +6,54 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — agosto de 2026
 
-- **Frente 6A (18-ago): DESI DR2 BAO — likelihood validada, benchmark
-  superado a 0.08σ y contraste uniforme pro-ΛCDM**. El contrato
-  «datos ≠ likelihood ≠ modelo» cruzado con artefactos: guard runtime
-  require_available (manifest + estado + esquema + sha256 en cada
-  carga científica); equivalencia de χ² contra Cobaya 3.6.2
-  (max |Δχ²| = 1.85e-13, datos git-idénticos al pin v2.6 de Cobaya);
-  benchmark ΛCDM propio vs oficial (Ω_m = 0.2968 vs 0.2975 ± 0.0086 —
-  0.08σ, puerta predeclarada PASS) ANTES del MCMC; y el contraste con
-  r_d como calibración COMÚN (el MCMC no deriva la física
-  pre-recombinación): en DESI_ALL y los 7 leave-one-bin-out, Δχ² ∈
-  [−0.16, 0.00] y ΔBIC ∈ [+4.6, +5.1] pro-ΛCDM — veredicto UNIFORME,
-  ningún bin decisivo (incluido lrg-z1 ≡ LRG2), ε_Λ dominado por el
-  prior en todas las configuraciones. Razón estructural computada:
-  con z_trans = 8.9, la transición altera E(z ≤ 2.33) en ≤ 3e-5
-  relativo — BAO DR2 no es el test sensible de ε_Λ; lo que castiga es
-  la parsimonia. Mismo veredicto que v1/v2. Todo con candados de
-  regresión (results/2026-08-18_desi_dr2_background/).
+- **Frente 6A (18/19-ago): DESI DR2 BAO — likelihood validada,
+  benchmark superado a 0.04σ y contraste uniforme pro-ΛCDM**. El
+  contrato «datos ≠ likelihood ≠ modelo» cruzado con artefactos:
+  guard runtime require_available (manifest + estado + esquema +
+  sha256 en cada carga científica); equivalencia de χ² contra Cobaya
+  3.6.2 (max |Δχ²| = 1.85e-13, identidad de datos COMPUTADA por
+  sha256: 16/16 ficheros idénticos a bao_data @ v2.6, el pin de
+  Cobaya); benchmark ΛCDM propio vs oficial ANTES del MCMC — con el
+  fondo normalizado, Ω_m ES la fracción de materia del ΛCDM plano:
+  0.2971 vs 0.2975 ± 0.0086 = 0.04σ, puerta predeclarada PASS; y el
+  contraste con r_d como calibración COMÚN (el MCMC no deriva la
+  física pre-recombinación): en DESI_ALL y los 7 leave-one-bin-out,
+  Δχ² ∈ [−0.33, −0.06] y ΔBIC ∈ [+4.47, +4.90] pro-ΛCDM — veredicto
+  UNIFORME, χ²_M como mínimo VERDADERO sobre el cierre del soporte
+  del prior (argmin en la frontera ε = −0.05, z_trans = 1 en las 8,
+  publicado), ningún bin decisivo en ninguno de los dos modelos
+  (incluido lrg-z1 ≡ LRG2), ε_Λ dominado por el prior TRUNCADO
+  (cociente de anchuras ≥ 0.99). Razón estructural computada en el
+  artefacto: con z_trans = 8.9 y la transición normalizada hoy,
+  ε = 0.05 altera E(z ≤ 2.33) en ≤ 4.3e-7 relativo sobre TODO el
+  rango, y el residuo χ² tras reabsorber (Ω_m, H0·rd) es 7.6e-11 —
+  BAO DR2 no es el test sensible de ε_Λ en esta parametrización; lo
+  que castiga es la parsimonia. Mismo veredicto que la repetición
+  v1/v2 con el fondo corregido. Candados que ATAN artefacto a código
+  (χ² recomputado offline en cada argmin publicado, ancla oficial
+  literal, estructural y prior truncado recomputados)
+  (results/2026-08-18_desi_dr2_background/).
+
+- **Revisión adversarial del frente 6A aplicada (19-ago)**: seis
+  lentes + un verificador independiente por hallazgo — 36
+  confirmados, 1 parcial, 0 refutados; el veredicto pro-ΛCDM
+  sobrevivió a todos, los números publicados no. Corregido: (1) la
+  ronda afirmaba correr sobre el fondo normalizado sin contenerlo —
+  la corrección (a29e89f) vivía en una rama sin fusionar; fusionada
+  aquí con su suite de invariantes (H(0) = H0 vigilado); (2) los
+  χ²_M publicados no eran mínimos del modelo (el refinado sin cotas
+  escapaba del soporte del prior) — ahora multistart acotado con
+  argmin y frontera publicados; (3) «semilla 42» no reproducía las
+  cadenas (emcee 3 usa el estado global de numpy, sin sembrar) —
+  ahora cadenas bit-idénticas y test de determinismo; (4) la «razón
+  estructural» publicaba el valor de UN punto (z = 2.33) como cota
+  del rango, y CHANGELOG/nota citaban un «≤ 3e-5» que no salía de
+  ningún cómputo — ahora máximo sobre la malla + residuo tras
+  reabsorber, en el artefacto y con candado; (5) la identidad de
+  datos y el «logpdf = 0 exacto» eran cadenas fijas — ahora
+  computados; (6) el packages path de Cobaya era una ruta efímera de
+  sesión — ahora COBAYA_PACKAGES_PATH + script de recreación
+  documentado y ejecutable.
 
 
 - **Frente 5E preinscrito y bloqueado por datos (16/17-ago)**. La
