@@ -50,3 +50,4 @@ data/sparc/*.zip
 !data/raw/union3/*
 !data/raw/union3_1/*
 !data/raw/des_dovekie/*
+external/
