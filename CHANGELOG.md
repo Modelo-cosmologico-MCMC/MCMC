@@ -6,6 +6,28 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — agosto de 2026
 
+- **Crosscheck JAX del fondo (19-ago, 6A prioridad 3): equivalencia
+  bajo puertas predeclaradas, y un integrador de producción cazado y
+  corregido**. Implementación INDEPENDIENTE en JAX (float64,
+  Gauss-Legendre espectral; cero imports de las implementaciones
+  NumPy — regla vigilada por test; solo fórmulas declaradas del
+  Ap. A + constantes físicas explícitas) de E, H, D_H, D_M, D_V,
+  D_L, μ, el mapa S↔z y el vector DESI + χ². Puertas predeclaradas:
+  max |ΔX/X| < 1e-8, RMS < 1e-10, |Δχ²| < 1e-8. La PRIMERA ejecución
+  (registro en crosscheck_pre_fix.json) midió el integrador DESI de
+  producción (trapecio + interp lineal) en 4.9e-8 — sobre la puerta —
+  con efecto ≤ 2.7e-6 en los χ² publicados (veredicto 6A robusto);
+  en vez de relajar la puerta se corrigió el integrador a O(h⁴)
+  (verificado a 5.8e-15 contra scipy.quad) y se regeneraron los
+  artefactos DESI: números publicados idénticos a 3 decimales.
+  Resultado final: bloques E/H/D_H y S↔z a precisión de máquina
+  (4e-16), vector DESI a 1.2e-14, |Δχ²| ≤ 6.9e-11 en los argmin
+  PUBLICADOS — TODAS las puertas PASS. El integrador SNe de
+  producción (trapecio 2048 puntos, rondas v1/v2 ya publicadas) se
+  midió en 3.0e-6 relativo (≤ 6.5e-6 mag en μ — despreciable frente
+  a σ_μ ~ 0.1): publicado como medición sin puerta, sin tocar una
+  ronda fusionada (results/2026-08-19_jax_crosscheck/).
+
 - **Frente 2 (19-ago): las β de Fokker-Planck derivadas — desenlace A
   en el punto preinscrito, y la revisión adversarial destapa la
   cascada en el régimen físico (adenda δ0)**. La reducción canónica

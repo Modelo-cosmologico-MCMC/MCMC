@@ -1,0 +1,149 @@
+{
+  "stage": "6A prioridad 3 — crosscheck JAX ↔ NumPy",
+  "code_commit": "1e5332cf3300a4cb7283a52915e40cd3bd15ad12",
+  "gates_declared": {
+    "max_rel": 1e-08,
+    "rms_rel": 1e-10,
+    "chi2_abs": 1e-08,
+    "block5": "sin puerta (medición publicada)"
+  },
+  "summary": {
+    "block1_max": 4.440892098500626e-16,
+    "block1_rms": 6.722428986778895e-17,
+    "block2_max": 2.220446049250313e-16,
+    "block2_rms": 1.0979426536895534e-16,
+    "block3_max": 1.2434497875801753e-14,
+    "block3_rms": 4.273776320336749e-15,
+    "block4_max_chi2_diff": 6.866684998385608e-11
+  },
+  "gates": {
+    "block1_background": true,
+    "block2_s_map": true,
+    "block3_desi_vector": true,
+    "block4_chi2": true
+  },
+  "all_gates_pass": true,
+  "block1_background": {
+    "fiducial_lcdm": {
+      "E": {
+        "max_rel": 2.220446049250313e-16,
+        "rms_rel": 6.306587885664746e-17
+      },
+      "H": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 6.722428986778895e-17
+      },
+      "DH": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 6.067765456752262e-17
+      }
+    },
+    "corpus_mcmc": {
+      "E": {
+        "max_rel": 2.220446049250313e-16,
+        "rms_rel": 6.148403750457655e-17
+      },
+      "H": {
+        "max_rel": 3.3306690738754696e-16,
+        "rms_rel": 6.138381895791515e-17
+      },
+      "DH": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 5.570490802012157e-17
+      }
+    },
+    "corner_lo": {
+      "E": {
+        "max_rel": 2.220446049250313e-16,
+        "rms_rel": 6.648756307896939e-17
+      },
+      "H": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 6.7040867179776e-17
+      },
+      "DH": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 5.99631745138055e-17
+      }
+    },
+    "corner_hi": {
+      "E": {
+        "max_rel": 2.220446049250313e-16,
+        "rms_rel": 6.583616466758545e-17
+      },
+      "H": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 6.611612127277011e-17
+      },
+      "DH": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 6.479930987341325e-17
+      }
+    }
+  },
+  "block2_s_map": {
+    "s_to_a": {
+      "max_rel": 2.220446049250313e-16,
+      "rms_rel": 1.0979426536895534e-16
+    },
+    "z_roundtrip": {
+      "max_abs": 0.0,
+      "rms_abs": 0.0
+    },
+    "S_roundtrip_max_abs": 2.1316282072803006e-14
+  },
+  "block3_desi_vector": {
+    "benchmark_argmin_lcdm": {
+      "max_rel": 1.2434497875801753e-14,
+      "rms_rel": 4.273776320336749e-15
+    },
+    "contrast_argmin_lcdm": {
+      "max_rel": 1.2434497875801753e-14,
+      "rms_rel": 4.273776320336749e-15
+    },
+    "contrast_argmin_mcmc": {
+      "max_rel": 1.2434497875801753e-14,
+      "rms_rel": 3.923660740106592e-15
+    },
+    "corner": {
+      "max_rel": 1.1324274851176597e-14,
+      "rms_rel": 3.694147367153566e-15
+    }
+  },
+  "block4_chi2": {
+    "benchmark_argmin_lcdm": {
+      "chi2_numpy": 10.284009526927186,
+      "chi2_jax": 10.284009526925052,
+      "abs_diff": 2.133404564119701e-12
+    },
+    "contrast_argmin_lcdm": {
+      "chi2_numpy": 10.284009526927186,
+      "chi2_jax": 10.284009526925052,
+      "abs_diff": 2.133404564119701e-12
+    },
+    "contrast_argmin_mcmc": {
+      "chi2_numpy": 10.057790582946009,
+      "chi2_jax": 10.05779058294391,
+      "abs_diff": 2.097877427331696e-12
+    },
+    "corner": {
+      "chi2_numpy": 3814.469483174758,
+      "chi2_jax": 3814.4694831748266,
+      "abs_diff": 6.866684998385608e-11
+    }
+  },
+  "block5_sne_production": {
+    "theta": [
+      67.87,
+      0.326,
+      0.017,
+      9.1
+    ],
+    "comoving_distance": {
+      "max_rel": 3.001576364125569e-06,
+      "rms_rel": 3.464147305458395e-07
+    },
+    "distance_modulus_max_abs_mag": 6.517830478003361e-06,
+    "note": "el integrador de producción (trapecio, 2048 puntos) se compara con Gauss-Legendre espectral: la diferencia ES su error de truncamiento, publicado sin puerta"
+  }
+}
