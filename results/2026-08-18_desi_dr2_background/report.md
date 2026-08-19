@@ -1,6 +1,6 @@
 # DESI DR2 BAO: benchmark ΛCDM y contraste con el fondo MCMC corregido (6A)
 
-Commit del contraste: `f6ff236e5ee9`; datos:
+Commit del contraste: `436f2eb1430f`; datos:
 `data/manifests/desi_dr2_bao.json` (ingesta `bb0c1c9`, cargada con
 `require_available` — manifest + estado + esquema + sha256 en tiempo
 de ejecución). Contrato de la ronda: **datos ingeridos ≠ likelihood

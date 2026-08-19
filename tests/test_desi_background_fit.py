@@ -41,14 +41,15 @@ def test_dv_identity():
     # bgs solo publica DV; verificamos contra DM/DH recalculados:
     Ei = float(E_of_z(0.295, 0.32))
     DH = C_KMS / (Ei * 15000.0)
-    from cosmology.desi_background_fit import Z_GRID
-    E = E_of_z(Z_GRID, 0.32)
-    invE = np.concatenate(([0.0],
-                           np.cumsum(0.5 * (1 / E[1:] + 1 / E[:-1])
-                                     * np.diff(Z_GRID))))
-    DM = C_KMS / 15000.0 * float(np.interp(0.295, Z_GRID, invE))
+    # referencia INDEPENDIENTE (scipy.quad adaptativo) — la versión
+    # anterior duplicaba el trapecio del integrador viejo dentro del
+    # test y se rompió, correctamente, al corregirlo a O(h⁴):
+    from scipy.integrate import quad
+    integral, _ = quad(lambda x: 1.0 / float(E_of_z(x, 0.32)),
+                       0.0, 0.295, epsabs=1e-14, epsrel=1e-13)
+    DM = C_KMS / 15000.0 * integral
     assert dv == pytest.approx((0.295 * DM ** 2 * DH) ** (1 / 3),
-                               rel=1e-12)
+                               rel=1e-10)
 
 
 def test_integration_accuracy_vs_quad():

@@ -1,6 +1,6 @@
 {
   "stage": "6A.2 + 6A.4",
-  "code_commit": "e343bb1e7f2a73081f50aa525dac72b122853017",
+  "code_commit": "436f2eb1430f5da22140d764b98704e07c86dfaa",
   "dataset_manifest": "data/manifests/desi_dr2_bao.json (bb0c1c9; require_available en carga)",
   "equivalence": {
     "status": "PASS",
@@ -22,12 +22,12 @@
     "config": "DESI_ALL (n = 13, k = 2)",
     "priors": "Ω_m ~ U(0.05, 0.7); H0rd ~ U(6000, 16000) km/s",
     "sampler": "emcee 32×4000, semilla global 42 (np.random.seed: cadenas bit-reproducibles), burn 1/2, thin 4; χ²_min por multistart acotado al soporte del prior (Powell + L-BFGS-B), argmin publicado",
-    "chi2_min": 10.28400728046132,
+    "chi2_min": 10.284009526927186,
     "argmin": {
-      "chi2": 10.28400728046132,
+      "chi2": 10.284009526927186,
       "theta": [
-        0.29713659513141744,
-        10154.908475363556
+        0.29713656414369694,
+        10154.90882336642
       ],
       "at_boundary": false
     },
