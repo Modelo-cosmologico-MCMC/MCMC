@@ -20,7 +20,8 @@ cada ruta citada existe.
 | RP no estacionaria | §7.5 (Prop. 7.4, E3) | `core/rp_nonstationary.py` | `tests/test_rp_nonstationary.py` | juguete (especularidad suficiente, necesidad no demostrada); Wilson abierto (frente 1) |
 | Década y Discriminante | Cap. 8 | `core/decade.py` | `tests/test_core_florencia_decade.py` | interna demostrada; λ=10 calibrado |
 | Flujo KLS integrado | Cap. 8 (frente E) | `core/kls_flow.py` | `tests/test_kls_flow.py` | resultado numérico (−1/2; −1/3 condicional) |
-| Matriz de estabilidad | §14.2 (frente 2) | `core/victoria_exponent.py` | `tests/test_victoria_exponent.py` | instrumentado; β de Fokker-Planck pendientes |
+| Matriz de estabilidad | §14.2 (frente 2) | `core/victoria_exponent.py` | `tests/test_victoria_exponent.py` | instrumentado; ansatz O(1): DSI genérica, λ = 10 selección |
+| β de Fokker-Planck (frente 2) | Def. 4.4 + §14.2 | `core/fokker_planck_beta.py` | `tests/test_front2_fp_beta.py` + `tests/test_front2_fp_lock.py` | desenlace A preinscrito: espectro real en la espinodal (sin cascada DSI) y dD/dt > 0 con el cierre canónico declarado; frente abierto con negativa concreta |
 | Gea, Sello de Newton, Atlas | Cap. 9 | `core/gea.py` | `tests/test_core_gea_victoria.py` | sello exacto; Atlas condicional |
 | Contraste de los Residuos | Conj. 9.6 (frente 6) | `cosmology/residues_test.py` | `tests/test_residues.py` | consistencia superada (E13); refutable vivo |
 | Ciclo de Victoria | Cap. 10 | `core/victoria.py` | `tests/test_core_gea_victoria.py` | condicional (signo de ν, frente 4) |

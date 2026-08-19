@@ -6,6 +6,27 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — agosto de 2026
 
+- **Frente 2 (19-ago): las β de Fokker-Planck derivadas — desenlace A
+  (desfavorable), publicado tal cual**. La reducción canónica de la
+  jerarquía de la Def. 4.4 (Polchinski d = 0 con cierres DECLARADOS:
+  a = b = ½, truncamiento cúbico con sistemático cuártico, sector η
+  O(δ0⁶), diccionario τ no derivable del corpus recogido) produce
+  β_M0² = −8aB − 2bM0⁴, β_B = −24aC0 − 8bM0²B, β_C0 = −6b(B²+2M0²C0),
+  validadas de punta a punta (jacobiano numérico, suavizado gaussiano
+  exacto, FP exacta vía Hopf-Cole). Los CUATRO desenlaces se
+  preinscribieron antes del primer autovalor; salió A: **en la
+  espinodal el espectro de M = ∂β/∂λ es enteramente real** (silla,
+  sin cascada DSI — el exponente de Victoria no emerge de esta β) y
+  **dD/dt = +28 > 0** (el flujo canónico sube el discriminante;
+  Obs. 8.6 exige hundirlo). Robusto en la ventana preinscrita
+  g ∈ [0.5, 2] y al truncamiento; único punto con rotación: el
+  extremo g = 10, también el único con dD/dt < 0 — rotación y
+  hundimiento solo aparecen juntos lejos del cierre canónico, y ni
+  allí s0 = π/ln10 sin diccionario ajustado (prohibido). λ = 10 sigue
+  siendo calibración; el frente queda abierto con una negativa
+  concreta y candada (results/2026-08-19_front2_fp_beta/, candados de
+  preinscripción, no-ajuste y recomputación en tests/).
+
 - **Frente 5E preinscrito y bloqueado por datos (16/17-ago)**. La
   falsación cruzada Sculptor ↔ SPARC queda CONGELADA antes de tocar
   SPARC: preinscripción computacional (A = 6.201589e-7 (M⊙/pc³)^(-3/2)

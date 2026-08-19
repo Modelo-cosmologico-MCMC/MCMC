@@ -105,6 +105,56 @@ def test_no_tuning_in_front_files():
             assert token not in src, f"{token} en {f.name}"
 
 
+def test_artifact_locks_and_recompute():
+    """CANDADO del desenlace publicado (fp_beta.json): DESENLACE A —
+    espectro real en el punto canónico (silla, sin cascada DSI),
+    dD/dt = +28 exacto (el flujo canónico sube D, contra Obs. 8.6),
+    ventana [0.5, 2] uniformemente real, único punto complejo en el
+    extremo g = 10 (donde además dD/dt < 0), cuártico también real.
+    Recomputa el espectro con el código vigente: si las β o el punto
+    cambian, esto falla."""
+    import pytest
+
+    from core.fokker_planck_beta import (
+        canonical_closure,
+        spinodal_canonical_point,
+        stability_matrix,
+        stability_matrix_quartic,
+    )
+    doc = json.loads((REPO / "results" / "2026-08-19_front2_fp_beta"
+                      / "fp_beta.json").read_text(encoding="utf-8"))
+    assert doc["outcome"] == "A"
+    c = doc["canonical"]
+    assert c["complex_pair"] is False
+    assert c["dD_dt"] == 28.0        # entero del álgebra: −80+36+72
+    # recomputación con el código vigente (artefacto ↔ código):
+    cl = canonical_closure()
+    M = cl.flow_sign * stability_matrix(*spinodal_canonical_point(),
+                                        a=cl.a, b=cl.b)
+    eigs = np.linalg.eigvals(M)
+    assert np.abs(eigs.imag).max() < 1e-12
+    assert np.allclose(sorted(eigs.real),
+                       sorted(c["eigenvalues_re"]), atol=1e-9)
+    assert sorted(c["eigenvalues_re"])[0] == pytest.approx(-18.6603,
+                                                           abs=1e-3)
+    assert sorted(c["eigenvalues_re"])[2] == pytest.approx(7.6668,
+                                                           abs=1e-3)
+    # barrido: ventana uniforme real; único complejo en g = 10:
+    cplx = [r for r in doc["scan"] if r["complex_pair"]]
+    assert len(cplx) == 1 and cplx[0]["g"] == 10.0
+    assert cplx[0]["s0_spectral"] == pytest.approx(5.8661, abs=1e-3)
+    assert cplx[0]["dD_dt"] < 0.0    # solo allí se hunde D (Obs. 8.6)
+    for r in doc["scan"]:
+        if 0.5 <= r["g"] <= 2.0:
+            assert r["complex_pair"] is False, r["g"]
+    # el sistemático cuártico no rescata la cascada:
+    Mq = cl.flow_sign * stability_matrix_quartic(
+        *spinodal_canonical_point(), 0.0, a=cl.a, b=cl.b)
+    assert np.abs(np.linalg.eigvals(Mq).imag).max() < 1e-12
+    assert doc["quartic_E4_0"]["complex_pair"] is False
+    assert doc["tau_star_for_lambda10"] is None
+
+
 def test_run_script_consumes_validated_machinery():
     """El barrido usa la maquinaria YA validada del frente 2
     (routes_coincide de core/victoria_exponent.py), no una extracción

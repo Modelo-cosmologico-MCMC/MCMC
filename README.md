@@ -218,7 +218,28 @@ D=0, con un retraso ∝ ritmo^(−1/3) (silla-nodo con deriva; resultado
 del programa, no del tratado — condicional: vale SI la microdinámica
 real se reduce a esa forma normal) y control negativo sin hundimiento.
 Lo que no hace: derivar λ=10 — eso exige las β-funciones de los
-acoplos (frente 2, declarado). `results/2026-08-02_kls_flow/`.
+acoplos (frente 2; su reducción canónica dio desenlace A — ver la
+sección siguiente). `results/2026-08-02_kls_flow/`.
+
+### Las β de Fokker-Planck (frente 2 — 19 agosto 2026): desenlace A
+
+`core/fokker_planck_beta.py` deriva las β de los acoplos del Basal
+desde la reducción canónica de la jerarquía de Fokker-Planck del
+Flujo del Camino (Def. 4.4): Polchinski en d = 0 con cierres
+DECLARADOS (a = b = ½, truncamiento cúbico, sector η despreciado
+O(δ0⁶), diccionario τ no derivable del corpus recogido). Los cuatro
+desenlaces se preinscribieron ANTES del primer autovalor; salió el
+desfavorable y se publica igual: **desenlace A — en la espinodal el
+espectro de M = ∂β/∂λ es enteramente real** (silla, sin cascada DSI:
+el exponente de Victoria NO emerge de esta β) **y dD/dt = +28 > 0**
+(el flujo canónico sube el discriminante, cuando la Obs. 8.6 exige
+hundirlo). Robusto en la ventana preinscrita g ∈ [0.5, 2] y frente al
+truncamiento (cuártico también real); el único punto del barrido con
+rotación es el extremo g = 10 — y es también el único con dD/dt < 0.
+λ = 10 sigue siendo una calibración; la carga queda, cuantificada,
+sobre cierres no canónicos o física fuera de esta reducción.
+`results/2026-08-19_front2_fp_beta/` (preinscripción + espectro +
+candados).
 
 ### El círculo de δ₀ (ronda 5 — agosto 2026)
 

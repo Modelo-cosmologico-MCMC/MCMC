@@ -195,9 +195,28 @@ matrices complejifican sus exponentes, con independencia de la escala
 del ansatz) pero **λ = 10 es una selección medible, no una
 consecuencia**: la banda ±10 % de s0 = π/ln10 captura solo unas
 unidades por ciento, y esa fracción depende además de la escala del
-ansatz. Las β reales (jerarquía de Fokker-Planck, Def. 4.4) siguen
-siendo el hueco declarado; el módulo está listo para consumirlas.
-Desenlace en `results/2026-08-05_victoria_exponent/`.
+ansatz. Desenlace del ansatz en `results/2026-08-05_victoria_exponent/`.
+
+**Las β reales, derivadas — y el desenlace A (19-ago-2026).** La ronda
+del frente derivó las β de (M0², B, C0) desde la reducción canónica de
+la jerarquía de Fokker-Planck (Def. 4.4): Polchinski d = 0 con cierres
+declarados (a = b = ½; truncamiento cúbico con el cuártico como
+sistemático; sector η O(δ0⁶) despreciado; diccionario τ = dt/dlnS
+declarado no derivable del corpus recogido). Con los cuatro desenlaces
+preinscritos ANTES del primer autovalor (`core/fokker_planck_beta.py`,
+`results/2026-08-19_front2_fp_beta/`), salió el desfavorable:
+**desenlace A** — en la espinodal el espectro de M = ∂β/∂λ es
+enteramente real (μ = −18.66, −1.01, +7.67: silla sin rotación, sin
+cascada DSI) y dD/dt = +28 > 0 (el flujo canónico sube D; la Obs. 8.6
+exige hundirlo). Robusto en la ventana g ∈ [0.5, 2] y al truncamiento;
+el único punto del barrido con par complejo es el extremo g = 10 —
+también el único con dD/dt < 0: rotación y hundimiento solo aparecen
+juntos lejos del cierre canónico, e incluso allí s0 ≠ π/ln10 sin un
+diccionario ajustado a mano (prohibido por la preinscripción). La
+derivación queda validada de punta a punta (álgebra ⟺ jacobiano ⟺
+suavizado exacto ⟺ FP exacta vía Hopf-Cole). **Estatuto**: interno
+(E8) y condicional a los cierres declarados — el frente sigue abierto,
+ahora con una negativa concreta y candada en vez de un hueco vago.
 
 <!-- 3.7 = la Circulación de Victoria (rama theory/front2-gradient-victoria) -->
 
@@ -288,8 +307,10 @@ observacional.
   condicional).
 - El núcleo cored, los cinco órdenes de H.2.5 y las validaciones SPARC
   del corpus siguen **pendientes de producción** (frente 5).
-- λ = 10 sigue calibrado (frente 2); el signo de ν, condicional
-  (frente 4); la RP no estacionaria, abierta (frente 1).
+- λ = 10 sigue calibrado (frente 2 — la reducción canónica de las β
+  de Fokker-Planck dio desenlace A: sin cascada DSI desde esa β); el
+  signo de ν, condicional (frente 4); la RP no estacionaria, abierta
+  (frente 1).
 
 ## 5. Prioridades que esta nota deja planteadas
 

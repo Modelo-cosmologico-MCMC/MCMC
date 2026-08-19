@@ -25,12 +25,16 @@ LO QUE ESTE MÓDULO HACE:
    1.3644 (pocas unidades por ciento, y DEPENDE de la escala a del
    ansatz porque s0 escala linealmente con ella).
 
-LO QUE NO HACE — el hueco declarado del frente 2: derivar βM², βB, βC
-del Flujo del Camino (la jerarquía de Fokker-Planck de la Def. 4.4).
-Este módulo está listo para consumirlas cuando existan; hasta entonces,
-la conclusión medible es que λ = 10 es una SELECCIÓN dentro del ansatz
-O(1), no una consecuencia genérica — exactamente la disyuntiva que
-§14.2 declara («si resulta λ ≠ 10, el diez era convención»).
+LAS β REALES (ronda 19-ago-2026): core/fokker_planck_beta.py deriva
+βM², βB, βC de la reducción canónica de Fokker-Planck de la Def. 4.4
+(Polchinski d = 0, cierres declarados) — y este módulo las consumió:
+DESENLACE A preinscrito (results/2026-08-19_front2_fp_beta/): en la
+espinodal el espectro es enteramente real (sin cascada DSI) y el
+flujo canónico SUBE D (contra Obs. 8.6). λ = 10 sigue siendo una
+CALIBRACIÓN; la carga queda sobre cierres no canónicos (g ≳ 10, donde
+rotación y hundimiento de D aparecen juntos) o sobre física fuera de
+esta reducción. El frente sigue abierto — ahora con una negativa
+concreta y con candados, no con un hueco vago.
 """
 
 from __future__ import annotations
@@ -41,10 +45,12 @@ from .decade import lambda_from_s0
 
 STATUS_FRENTE2 = (
     "condicional (§14.2, frente abierto nº 2): la maquinaria espectro ⟺ "
-    "walking está validada; las β-funciones reales (jerarquía de "
-    "Fokker-Planck, Def. 4.4) son el hueco declarado — con ansatz O(1), "
-    "la cascada DSI es genérica pero λ = 10 es una selección medible, "
-    "no una consecuencia"
+    "walking está validada; las β de la reducción canónica de "
+    "Fokker-Planck (Def. 4.4, cierres declarados) están derivadas y dan "
+    "DESENLACE A preinscrito — espectro real en la espinodal, sin "
+    "cascada DSI, dD/dt > 0 contra Obs. 8.6; λ = 10 sigue siendo una "
+    "calibración y la carga queda sobre cierres no canónicos o física "
+    "fuera de esta reducción"
 )
 
 S0_TARGET = float(np.pi / np.log(10.0))   # π/ln 10 ≈ 1.3644 (ec. 8.2)
@@ -137,8 +143,10 @@ def o1_ansatz_scan(n: int = 20000, seed: int = 20260805,
                    scale: float = 1.5, dim: int = 3,
                    band: float = 0.10) -> dict:
     """Barrido del ansatz O(1): matrices de estabilidad con entradas
-    i.i.d. U(−scale, scale) (el ansatz se DECLARA; las β reales son el
-    hueco del frente 2).
+    i.i.d. U(−scale, scale) (el ansatz se DECLARA; las β de la
+    reducción canónica — core/fokker_planck_beta.py — dieron espectro
+    real: el contraste con este barrido genérico es parte del
+    desenlace A del frente).
 
     Devuelve la fracción con cascada DSI (par complejo), la
     distribución de s0 condicionada a DSI, y la fracción dentro de la
