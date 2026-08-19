@@ -6,6 +6,39 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — agosto de 2026
 
+- **Frente 2 (19-ago): las β de Fokker-Planck derivadas — desenlace A
+  en el punto preinscrito, y la revisión adversarial destapa la
+  cascada en el régimen físico (adenda δ0)**. La reducción canónica
+  de la jerarquía de la Def. 4.4 (Polchinski d = 0 con cierres
+  DECLARADOS: a = b = ½, truncamiento cúbico con sistemático
+  cuártico, sector η O(δ0⁶), diccionario τ no derivable del corpus
+  recogido) produce β_M0² = −8aB − 2bM0⁴, β_B = −24aC0 − 8bM0²B,
+  β_C0 = −6b(B²+2M0²C0), validadas de punta a punta (jacobiano
+  numérico, suavizado gaussiano exacto, FP exacta vía Hopf-Cole; el
+  control de deriva prometido, publicado — sustitución
+  Langevin→exacto declarada). Los CUATRO desenlaces se
+  preinscribieron antes del primer autovalor; en el punto preinscrito
+  salió A: espectro de M = ∂β/∂λ enteramente real (silla, sin
+  cascada) con dD/dt = +28 > 0 (el signo cambia en g = 2.75 —
+  negativo en 6/21 puntos —, el par complejo solo existe para
+  g > g* = 8.19, y la conjunción rotación + hundimiento de D
+  (Obs. 8.6) vive solo en ese borde; en g = 10, τ* = 0.233 publicado
+  como dato). **La revisión adversarial (14 hallazgos confirmados, 0
+  refutados) encontró el HIGH: el punto preinscrito escondía
+  δ0 ≈ 1** — por la covarianza exacta β(D_s·λ) = σ·D_s·β(λ; b·k), el
+  eje g del barrido ES el eje δ0 del escalado (3.2), g_ef = δ0⁻³ — y
+  en el régimen perturbativo del corpus (δ0 < δ0* = 0.496) la misma
+  reducción canónica SÍ rota y hunde D a la vez. Punto físico
+  δ0 = 0.1: s0(τ=1) = 4.946, τ* = 0.276; contrafactual con las
+  reglas preinscritas: **B** (declarado como contrafactual — el
+  desenlace A preinscrito no se reclasifica; el defecto de diseño de
+  la preinscripción se corrige por adenda, no reescribiéndola). El
+  mecanismo de la cascada DSI tiene por primera vez una realización
+  DERIVADA en el régimen del corpus; **λ = 10 sigue siendo
+  calibración** (s0 depende del diccionario τ, no derivable aún).
+  Todo con candados de preinscripción, no-ajuste y recomputación
+  (results/2026-08-19_front2_fp_beta/).
+
 - **Frente 6A (18/19-ago): DESI DR2 BAO — likelihood validada,
   benchmark superado a 0.04σ y contraste uniforme pro-ΛCDM**. El
   contrato «datos ≠ likelihood ≠ modelo» cruzado con artefactos:

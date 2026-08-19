@@ -1,0 +1,110 @@
+{
+  "front": "2 (exponente de Victoria desde las β reales)",
+  "stage": "preinscripción — congelada ANTES de computar ningún autovalor/espectro/s0",
+  "code_commit": "1c72eb193843ce29fcfa3b3427d2e637b81378db",
+  "derivation": {
+    "object": "β_{M0²}, β_B, β_{C0} de la reducción de Fokker-Planck del Flujo del Camino (Def. 4.4)",
+    "equation": "dV/dt = a·ΔV − b·(∇V)² (Polchinski d=0, kernel isótropo de ritmo unidad)",
+    "coefficients": {
+      "M0_sq": [
+        [
+          -8.0,
+          "a*B"
+        ],
+        [
+          -2.0,
+          "b*M0_sq**2"
+        ]
+      ],
+      "B": [
+        [
+          -24.0,
+          "a*C0"
+        ],
+        [
+          -8.0,
+          "b*M0_sq*B"
+        ]
+      ],
+      "C0": [
+        [
+          -6.0,
+          "b*B**2"
+        ],
+        [
+          -12.0,
+          "b*M0_sq*C0"
+        ]
+      ]
+    },
+    "declared_approximations": [
+      "truncamiento cúbico de la jerarquía (variante cuártica como sistemático medido)",
+      "sector η·χ despreciado: O(δ0⁶) por el escalado (3.2)",
+      "diccionario t ↔ lnS: τ = dt/dlnS NO derivable del corpus recogido — reescala s0 linealmente; el TIPO espectral y |Im μ|/|Re μ| son invariantes de τ",
+      "G isótropa (anisotropía explorada vía g = a/b)"
+    ]
+  },
+  "closure": {
+    "a": 0.5,
+    "b": 0.5,
+    "flow_sign": 1,
+    "truncation": "cubic",
+    "tau": 1.0,
+    "g_grid": [
+      0.1,
+      0.1258925412,
+      0.1584893192,
+      0.1995262315,
+      0.2511886432,
+      0.316227766,
+      0.3981071706,
+      0.5011872336,
+      0.6309573445,
+      0.7943282347,
+      1.0,
+      1.2589254118,
+      1.5848931925,
+      1.995262315,
+      2.5118864315,
+      3.1622776602,
+      3.9810717055,
+      5.0118723363,
+      6.3095734448,
+      7.9432823472,
+      10.0
+    ],
+    "robustness_window": [
+      0.5,
+      2.0
+    ],
+    "s0_band": 0.1,
+    "s0_target": 1.3643763538418412
+  },
+  "evaluation_point": {
+    "where": "espinodal D = 0 (Def. 8.4) en unidades naturales",
+    "M0_sq": 1.0,
+    "B": 2.0,
+    "C0": 1.0
+  },
+  "outcomes": {
+    "A": "sin par complejo en el punto canónico (g = 1, signo +): la reducción NO produce la cascada DSI — desfavorable al mecanismo, se publica en portada",
+    "B": "par complejo con s0 (τ = 1) FUERA de la banda ±10% de π/ln10: cascada genérica pero λ ≠ 10 bajo el diccionario canónico; se publica τ* para λ = 10",
+    "C": "par complejo con s0 (τ = 1) DENTRO de la banda ±10%: candidato a derivación (condicional al diccionario, se declara)",
+    "D": "el TIPO espectral cambia dentro de la ventana de robustez g ∈ [0.5, 2]: dependiente del cierre — se publica el mapa de fases completo y NINGÚN veredicto sobre λ",
+    "rule": "clasificar primero en el punto canónico (g = 1, signo +, truncamiento cúbico, τ = 1); D prevalece sobre B/C si el tipo no es robusto en la ventana; el barrido g_grid entero se publica SIEMPRE, caiga donde caiga"
+  },
+  "secondary_published_regardless": [
+    "Q = |Im μ|/|Re μ| en el punto canónico (invariante de τ)",
+    "τ* que λ = 10 exigiría (si hay par complejo)",
+    "signo de dD/dt en la espinodal sobre el barrido (compatibilidad con Obs. 8.6: el flujo debe hundir D)",
+    "sensibilidad al truncamiento (cuártico vs cúbico)",
+    "control de Langevin: deriva medida de los acoplos vs β predichas (validación interna E8, régimen declarado)"
+  ],
+  "pledge": [
+    "los coeficientes de BETA_COEFFICIENTS no se tocan después de ver ningún autovalor",
+    "banda, malla g y ventana de robustez congeladas aquí",
+    "sin optimización de ningún cierre hacia s0_target (candado ejecutable contra scipy.optimize/curve_fit en los ficheros del frente)",
+    "el resultado se publica sea cual sea el desenlace, con el mismo tono"
+  ],
+  "verdict_scope": "interno al programa (E8): una reducción con cierres declarados de la Def. 4.4 — no una derivación única; si el corpus fija otro cierre, se recalcula con él"
+}

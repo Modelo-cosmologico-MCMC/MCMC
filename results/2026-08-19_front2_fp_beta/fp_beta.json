@@ -1,0 +1,186 @@
+{
+  "stage": "frente 2 — espectro bajo preinscripción",
+  "code_commit": "10e7f56e62b0d0c0aba03ec8c48f56e91dd46b67",
+  "prereg_commit": "1c72eb193843ce29fcfa3b3427d2e637b81378db",
+  "closure": {
+    "a": 0.5,
+    "b": 0.5,
+    "flow_sign": 1,
+    "tau": 1.0,
+    "truncation": "cubic"
+  },
+  "evaluation_point": {
+    "M0_sq": 1.0,
+    "B": 2.0,
+    "C0": 1.0
+  },
+  "canonical": {
+    "eigenvalues_re": [
+      -18.6602954300308,
+      -1.0065334386046103,
+      7.666828868635431
+    ],
+    "eigenvalues_im": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "complex_pair": false,
+    "dD_dt": 28.0
+  },
+  "scan": [
+    {
+      "g": 0.1,
+      "complex_pair": false,
+      "dD_dt": 42.400000000000006
+    },
+    {
+      "g": 0.1258925412,
+      "complex_pair": false,
+      "dD_dt": 41.9857193408
+    },
+    {
+      "g": 0.1584893192,
+      "complex_pair": false,
+      "dD_dt": 41.4641708928
+    },
+    {
+      "g": 0.1995262315,
+      "complex_pair": false,
+      "dD_dt": 40.807580296
+    },
+    {
+      "g": 0.2511886432,
+      "complex_pair": false,
+      "dD_dt": 39.9809817088
+    },
+    {
+      "g": 0.316227766,
+      "complex_pair": false,
+      "dD_dt": 38.940355744
+    },
+    {
+      "g": 0.3981071706,
+      "complex_pair": false,
+      "dD_dt": 37.630285270399995
+    },
+    {
+      "g": 0.5011872336,
+      "complex_pair": false,
+      "dD_dt": 35.981004262400006
+    },
+    {
+      "g": 0.6309573445,
+      "complex_pair": false,
+      "dD_dt": 33.904682488000006
+    },
+    {
+      "g": 0.7943282347,
+      "complex_pair": false,
+      "dD_dt": 31.2907482448
+    },
+    {
+      "g": 1.0,
+      "complex_pair": false,
+      "dD_dt": 28.0
+    },
+    {
+      "g": 1.2589254118,
+      "complex_pair": false,
+      "dD_dt": 23.8571934112
+    },
+    {
+      "g": 1.5848931925,
+      "complex_pair": false,
+      "dD_dt": 18.64170892
+    },
+    {
+      "g": 1.995262315,
+      "complex_pair": false,
+      "dD_dt": 12.07580295999999
+    },
+    {
+      "g": 2.5118864315,
+      "complex_pair": false,
+      "dD_dt": 3.809817095999989
+    },
+    {
+      "g": 3.1622776602,
+      "complex_pair": false,
+      "dD_dt": -6.596442563199986
+    },
+    {
+      "g": 3.9810717055,
+      "complex_pair": false,
+      "dD_dt": -19.697147287999996
+    },
+    {
+      "g": 5.0118723363,
+      "complex_pair": false,
+      "dD_dt": -36.18995738079997
+    },
+    {
+      "g": 6.3095734448,
+      "complex_pair": false,
+      "dD_dt": -56.95317511679997
+    },
+    {
+      "g": 7.9432823472,
+      "complex_pair": false,
+      "dD_dt": -83.0925175552
+    },
+    {
+      "g": 10.0,
+      "complex_pair": true,
+      "s0_spectral": 5.866081271434311,
+      "s0_dynamic": 5.8660812360424845,
+      "routes_rel_error": 6.033299748686716e-09,
+      "routes_coincide": true,
+      "re_of_pair": 20.48408264895837,
+      "Q_im_over_re": 0.28637266173755677,
+      "tau_star_for_lambda10": 0.23258735955225499,
+      "dD_dt": -116.0
+    }
+  ],
+  "quartic_E4_0": {
+    "eigenvalues_re": [
+      -31.66724532396234,
+      -6.324886563185407,
+      4.793508470286681,
+      13.198623416861047
+    ],
+    "eigenvalues_im": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "complex_pair": false
+  },
+  "outcome": "A",
+  "tau_star_for_lambda10": null,
+  "s0_target": 1.3643763538418412,
+  "drift_control": {
+    "method": "FP exacta vía Hopf-Cole + Richardson t→0 (sustituye al Langevin nombrado en la preinscripción — control determinista más fuerte; sustitución declarada)",
+    "regime": {
+      "M0_sq": 0.1,
+      "B": 0.12,
+      "C0": 0.08,
+      "t": 0.02,
+      "fit_basis_max_power": 5,
+      "window_x_max": 1.0
+    },
+    "dc_measured": [
+      -0.244883593196734,
+      0.2517147479283234,
+      -0.014903380309979914
+    ],
+    "dc_predicted": [
+      -0.245,
+      0.252,
+      -0.0152
+    ],
+    "max_rel_error": 0.001177062261984468
+  },
+  "n_dD_negative": 6
+}
