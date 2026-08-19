@@ -37,6 +37,8 @@ from cosmology.desi_bao import chi2_bao, load_desi_dr2_all
 
 C_KMS = 299792.458
 Z_GRID = np.linspace(0.0, 2.4, 4001)     # malla fija del integrador
+_GL3_NODES = np.array([-np.sqrt(0.6), 0.0, np.sqrt(0.6)])
+_GL3_W = np.array([5.0, 8.0, 5.0]) / 9.0
 
 
 def E_of_z(z, Omega_m: float, eps: float = 0.0,
@@ -58,15 +60,31 @@ def predict_desi_dr2_vector(Omega_m: float, H0rd_kms: float,
     if data is None:
         data = load_desi_dr2_all()
     z_eff, quant, _, _, _ = data
-    E = E_of_z(Z_GRID, Omega_m, eps, z_trans, dz)
-    invE_int = np.concatenate(
-        ([0.0], np.cumsum(0.5 * (1.0 / E[1:] + 1.0 / E[:-1])
-                          * np.diff(Z_GRID))))
+    # Cumulativa de 1/E a O(h⁴): Simpson por pares en los puntos pares
+    # y media-regla (5, 8, −1)/12 en los impares, más cola de
+    # Gauss-Legendre de 3 nodos hasta cada z_eff. El crosscheck JAX
+    # (prioridad 3) midió el esquema anterior (trapecio + interp
+    # lineal) en ~5e-8 relativo — por encima de la puerta declarada de
+    # 1e-8; este esquema baja a ~1e-13 con el mismo coste.
+    f = 1.0 / np.asarray(E_of_z(Z_GRID, Omega_m, eps, z_trans, dz))
+    h = float(Z_GRID[1] - Z_GRID[0])
+    e0, mid, e2 = f[0:-1:2], f[1::2], f[2::2]
+    invE_int = np.empty(len(Z_GRID))
+    invE_int[0] = 0.0
+    invE_int[2::2] = np.cumsum(h / 3.0 * (e0 + 4.0 * mid + e2))
+    invE_int[1::2] = invE_int[0:-1:2] + h / 12.0 * (
+        5.0 * e0 + 8.0 * mid - e2)
     out = np.empty(len(z_eff))
     for i, (zi, q) in enumerate(zip(z_eff, quant)):
         Ei = float(E_of_z(zi, Omega_m, eps, z_trans, dz))
         DH = C_KMS / (Ei * H0rd_kms)
-        DM = C_KMS / H0rd_kms * float(np.interp(zi, Z_GRID, invE_int))
+        k = int(np.searchsorted(Z_GRID, zi)) - 1
+        half = 0.5 * (zi - Z_GRID[k])
+        gl_z = Z_GRID[k] + half + half * _GL3_NODES
+        tail = half * float(np.sum(
+            _GL3_W / np.asarray(E_of_z(gl_z, Omega_m, eps,
+                                       z_trans, dz))))
+        DM = C_KMS / H0rd_kms * (float(invE_int[k]) + tail)
         if q == "DH_over_rs":
             out[i] = DH
         elif q == "DM_over_rs":
