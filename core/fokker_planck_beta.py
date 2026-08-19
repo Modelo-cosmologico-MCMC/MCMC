@@ -112,11 +112,42 @@ def stability_matrix(M0_sq: float, B: float, C0: float,
 
 def spinodal_canonical_point() -> tuple[float, float, float]:
     """El punto de evaluación preinscrito: la espinodal D = 0
-    (Def. 8.4) en unidades naturales M0² = 1, C0 = 1 ⟹ B = +2.
+    (Def. 8.4) con M0² = 1, C0 = 1 ⟹ B = +2.
 
-    La dependencia física en δ0 (escalado 3.2) entra por el
-    diccionario τ(δ0) — declarada, no resuelta."""
+    CORRECCIÓN (revisión adversarial 19-ago, hallazgo HIGH): la
+    versión original de este docstring afirmaba que «la dependencia
+    física en δ0 entra por el diccionario τ(δ0)». Es FALSO: las β
+    cumplen la covarianza exacta
+
+        β(D_s·λ; a, b) = σ·D_s·β(λ; a, b·k),
+        D_s = diag(k·σ, k·σ², k·σ³),
+
+    así que la familia espinodal FÍSICA del escalado (3.2),
+    (m̄²δ0², b̄δ0, C0), es espectralmente equivalente (salvo factor
+    global positivo, absorbible en τ) a (1, 2, 1) con
+    g_ef = g·δ0⁻³ — el eje g del barrido ES el eje δ0, y el TIPO
+    espectral (invariante de τ) SÍ depende de δ0. Este punto fija
+    implícitamente el invariante B³/C0² = 8, es decir δ0 ≈ 1 (con
+    m̄ = 1, b̄ = 2, C0 = 1): fuera del régimen perturbativo δ0 ≪ 1
+    del corpus. El punto físico vive en physical_spinodal_point y su
+    barrido en scripts/run_front2_fp_delta0.py (adenda)."""
     return (1.0, 2.0, 1.0)
+
+
+def physical_spinodal_point(delta0: float, m_bar: float = 1.0,
+                            C0: float = 1.0) -> tuple:
+    """La espinodal FÍSICA del escalado (3.2): con b̄² = 4·C0·m̄²
+    (forma espinodal), (M0², B, C0) = (m̄²δ0², 2·m̄·√C0·δ0, C0) —
+    D = 0 exacto para todo δ0."""
+    return (m_bar ** 2 * delta0 ** 2,
+            2.0 * m_bar * np.sqrt(C0) * delta0, C0)
+
+
+def g_effective(delta0: float, g: float = 1.0) -> float:
+    """El g equivalente del punto físico bajo la covarianza:
+    g_ef = g·δ0⁻³ (con m̄ = 1, C0 = 1; el caso general reescala por
+    b̄/(2m̄⁴)). El barrido en g y el barrido en δ0 son el mismo eje."""
+    return g * delta0 ** -3
 
 
 # --- variante cuártica: el coste del truncamiento, medido -----------

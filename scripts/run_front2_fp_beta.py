@@ -39,9 +39,16 @@ OUT = (Path(__file__).resolve().parent.parent / "results"
        / "2026-08-19_front2_fp_beta")
 
 
+S0_TARGET_L10 = float(np.pi / np.log(10.0))
+
+
 def spectrum_summary(M: np.ndarray) -> dict:
     """Tipo espectral + (si hay par complejo) s0 por las DOS rutas
-    validadas, Q = |Im/Re| y autovalores completos."""
+    validadas, Q = |Im/Re|, τ* para λ = 10 y autovalores completos.
+
+    τ* se publica en CADA punto complejo (la preinscripción lo lista
+    en secondary_published_regardless — hallazgo de la revisión: la
+    primera versión solo lo computaba en el punto canónico)."""
     eigs = np.linalg.eigvals(M)
     out = {"eigenvalues_re": np.real(eigs).tolist(),
            "eigenvalues_im": np.imag(eigs).tolist(),
@@ -58,8 +65,61 @@ def spectrum_summary(M: np.ndarray) -> dict:
             "re_of_pair": re_pair,
             "Q_im_over_re": (abs(rc["s0_spectral"] / re_pair)
                              if re_pair != 0.0 else float("inf")),
+            "tau_star_for_lambda10": float(S0_TARGET_L10
+                                           / rc["s0_spectral"]),
         })
     return out
+
+
+def drift_control(a: float = 0.5, b: float = 0.5) -> dict:
+    """El control de deriva prometido en la preinscripción
+    («control de Langevin: deriva medida de los acoplos vs β
+    predichas»), cumplido con un control determinista MÁS fuerte —
+    la FP exacta vía Hopf-Cole (e^{−V_t} = e^{tΔ/2}·e^{−V0}), sin
+    ruido Monte Carlo. La sustitución (Langevin → exacto) se declara
+    aquí y en el informe. Régimen declarado: acoplos pequeños, t → 0
+    (Richardson), base de ajuste hasta x⁵ contra el aliasing."""
+    M0_sq, B, C0 = 0.10, 0.12, 0.08
+    c = np.array([M0_sq / 2.0, -B / 4.0, C0 / 6.0])
+    nodes, weights = np.polynomial.hermite_e.hermegauss(32)
+    W2 = np.outer(weights, weights) / (2 * np.pi)
+
+    def V0(pm, pe):
+        x = pm ** 2 + pe ** 2
+        return c[0] * x + c[1] * x ** 2 + c[2] * x ** 3
+
+    rng = np.random.default_rng(5)
+    pts = rng.uniform(-1.0, 1.0, size=(800, 2))
+    xs = np.sum(pts ** 2, axis=1)
+    keep = xs < 1.0
+    pts, xs = pts[keep], xs[keep]
+    A = np.stack([xs ** k for k in range(6)], axis=1)
+
+    def dc_at(t):
+        Vt = np.empty(len(pts))
+        for i, (pm, pe) in enumerate(pts):
+            gm = pm + np.sqrt(t) * nodes[:, None]
+            ge = pe + np.sqrt(t) * nodes[None, :]
+            Vt[i] = -np.log(float(np.sum(W2 * np.exp(-V0(gm, ge)))))
+        coef, *_ = np.linalg.lstsq(A, Vt, rcond=None)
+        return (coef[1:4] - c) / t
+
+    t = 0.02
+    measured = 2.0 * dc_at(t / 2) - dc_at(t)
+    bm, bb, bc = beta_functions(M0_sq, B, C0, a=a, b=b)
+    predicted = np.array([bm / 2.0, -bb / 4.0, bc / 6.0])
+    return {
+        "method": "FP exacta vía Hopf-Cole + Richardson t→0 "
+                  "(sustituye al Langevin nombrado en la "
+                  "preinscripción — control determinista más fuerte; "
+                  "sustitución declarada)",
+        "regime": {"M0_sq": M0_sq, "B": B, "C0": C0, "t": t,
+                   "fit_basis_max_power": 5, "window_x_max": 1.0},
+        "dc_measured": measured.tolist(),
+        "dc_predicted": predicted.tolist(),
+        "max_rel_error": float(np.max(np.abs(measured - predicted))
+                               / np.max(np.abs(predicted))),
+    }
 
 
 def dD_dt(M0_sq: float, B: float, C0: float, a: float, b: float,
@@ -99,20 +159,27 @@ def main() -> None:
                                                   a=cl.a, b=cl.b)
     quartic = spectrum_summary(M_q)
 
-    # --- clasificación por la regla preinscrita ---------------------
+    # --- clasificación por la regla preinscrita, en su orden LITERAL:
+    # «clasificar primero en el punto canónico; D prevalece sobre B/C
+    # si el tipo no es robusto en la ventana». Aclaración fechada
+    # (19-ago, hallazgo de la revisión): la primera versión evaluaba D
+    # antes que A; ambas lecturas coinciden en esta ronda (la ventana
+    # salió uniformemente real) — el orden queda alineado con la letra
+    # y las preinscripciones futuras congelarán la precedencia entera.
     lo, hi = cl.robustness_window
     window = [r for r in scan if lo <= r["g"] <= hi]
     types_in_window = {r["complex_pair"] for r in window}
-    if len(types_in_window) > 1:
-        outcome = "D"
-    elif not canonical["complex_pair"]:
+    if not canonical["complex_pair"]:
         outcome = "A"
+    elif len(types_in_window) > 1:
+        outcome = "D"
     else:
         s0 = canonical["s0_spectral"] * cl.tau
         in_band = abs(s0 - cl.s0_target) <= cl.s0_band * cl.s0_target
         outcome = "C" if in_band else "B"
     tau_star = (float(cl.s0_target / canonical["s0_spectral"])
                 if canonical["complex_pair"] else None)
+    control = drift_control(a=cl.a, b=cl.b)
 
     sha = subprocess.run(["git", "rev-parse", "HEAD"],
                          capture_output=True, text=True,
@@ -131,6 +198,8 @@ def main() -> None:
         "outcome": outcome,
         "tau_star_for_lambda10": tau_star,
         "s0_target": cl.s0_target,
+        "drift_control": control,
+        "n_dD_negative": int(sum(r["dD_dt"] < 0.0 for r in scan)),
     }
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "fp_beta.json").write_text(
