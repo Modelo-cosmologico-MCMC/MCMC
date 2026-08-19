@@ -221,25 +221,32 @@ Lo que no hace: derivar λ=10 — eso exige las β-funciones de los
 acoplos (frente 2; su reducción canónica dio desenlace A — ver la
 sección siguiente). `results/2026-08-02_kls_flow/`.
 
-### Las β de Fokker-Planck (frente 2 — 19 agosto 2026): desenlace A
+### Las β de Fokker-Planck (frente 2 — 19 agosto 2026): A en el punto preinscrito; la adenda δ0 destapa la cascada en el régimen físico
 
 `core/fokker_planck_beta.py` deriva las β de los acoplos del Basal
 desde la reducción canónica de la jerarquía de Fokker-Planck del
 Flujo del Camino (Def. 4.4): Polchinski en d = 0 con cierres
 DECLARADOS (a = b = ½, truncamiento cúbico, sector η despreciado
 O(δ0⁶), diccionario τ no derivable del corpus recogido). Los cuatro
-desenlaces se preinscribieron ANTES del primer autovalor; salió el
-desfavorable y se publica igual: **desenlace A — en la espinodal el
-espectro de M = ∂β/∂λ es enteramente real** (silla, sin cascada DSI:
-el exponente de Victoria NO emerge de esta β) **y dD/dt = +28 > 0**
-(el flujo canónico sube el discriminante, cuando la Obs. 8.6 exige
-hundirlo). Robusto en la ventana preinscrita g ∈ [0.5, 2] y frente al
-truncamiento (cuártico también real); el único punto del barrido con
-rotación es el extremo g = 10 — y es también el único con dD/dt < 0.
-λ = 10 sigue siendo una calibración; la carga queda, cuantificada,
-sobre cierres no canónicos o física fuera de esta reducción.
-`results/2026-08-19_front2_fp_beta/` (preinscripción + espectro +
-candados).
+desenlaces se preinscribieron ANTES del primer autovalor; en el punto
+preinscrito salió el desfavorable y se publica igual: **desenlace A —
+espectro de M = ∂β/∂λ enteramente real** (silla, sin cascada DSI) con
+dD/dt = +28 > 0 allí (la Obs. 8.6 exige hundirlo; el signo cambia en
+g = 2.75 — negativo en 6/21 puntos del barrido — y el par complejo
+solo existe para g > g* = 8.19: la CONJUNCIÓN rotación + hundimiento
+vive solo en el borde). **La revisión adversarial de la ronda destapó
+(hallazgo HIGH) que el punto preinscrito escondía δ0 ≈ 1**: por la
+covarianza exacta de las β, el eje g del barrido ES el eje δ0 del
+escalado (3.2) (g_ef = δ0⁻³), y en el régimen perturbativo del corpus
+la misma reducción canónica SÍ produce las dos condiciones a la vez —
+par complejo y dD/dt < 0 para δ0 < δ0* = 0.496. En el punto físico
+δ0 = 0.1: s0(τ=1) = 4.946, y λ = 10 exigiría τ* = 0.276 (publicado
+como dato; el corpus no fija τ). Con las reglas preinscritas
+aplicadas al punto físico, el contrafactual — declarado como tal, sin
+reclasificar la preinscripción — es **B**: el mecanismo de la cascada
+tiene por primera vez una realización derivada, pero **λ = 10 sigue
+siendo una calibración**. `results/2026-08-19_front2_fp_beta/`
+(preinscripción intacta + espectro + adenda δ0 + candados).
 
 ### El círculo de δ₀ (ronda 5 — agosto 2026)
 

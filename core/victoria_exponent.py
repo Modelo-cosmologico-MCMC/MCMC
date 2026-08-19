@@ -28,13 +28,17 @@ LO QUE ESTE MÓDULO HACE:
 LAS β REALES (ronda 19-ago-2026): core/fokker_planck_beta.py deriva
 βM², βB, βC de la reducción canónica de Fokker-Planck de la Def. 4.4
 (Polchinski d = 0, cierres declarados) — y este módulo las consumió:
-DESENLACE A preinscrito (results/2026-08-19_front2_fp_beta/): en la
-espinodal el espectro es enteramente real (sin cascada DSI) y el
-flujo canónico SUBE D (contra Obs. 8.6). λ = 10 sigue siendo una
-CALIBRACIÓN; la carga queda sobre cierres no canónicos (g ≳ 10, donde
-rotación y hundimiento de D aparecen juntos) o sobre física fuera de
-esta reducción. El frente sigue abierto — ahora con una negativa
-concreta y con candados, no con un hueco vago.
+DESENLACE A en el punto preinscrito (espectro real, sin cascada;
+results/2026-08-19_front2_fp_beta/). La revisión adversarial destapó
+que ese punto fijaba δ0 ≈ 1: por la covarianza exacta de las β, el
+eje g del barrido es el eje δ0 (g_ef = δ0⁻³), y en el régimen físico
+del corpus (δ0 < δ0* ≈ 0.496) la misma reducción canónica produce
+par complejo Y dD/dt < 0 a la vez (adenda δ0; contrafactual B
+declarado, preinscripción intacta). El mecanismo de la cascada tiene
+por primera vez una realización derivada; λ = 10 SIGUE siendo una
+calibración (s0 depende del diccionario τ, no derivable del corpus
+recogido). El frente sigue abierto — con contenido en las dos
+direcciones y con candados, no con un hueco vago.
 """
 
 from __future__ import annotations
@@ -46,11 +50,12 @@ from .decade import lambda_from_s0
 STATUS_FRENTE2 = (
     "condicional (§14.2, frente abierto nº 2): la maquinaria espectro ⟺ "
     "walking está validada; las β de la reducción canónica de "
-    "Fokker-Planck (Def. 4.4, cierres declarados) están derivadas y dan "
-    "DESENLACE A preinscrito — espectro real en la espinodal, sin "
-    "cascada DSI, dD/dt > 0 contra Obs. 8.6; λ = 10 sigue siendo una "
-    "calibración y la carga queda sobre cierres no canónicos o física "
-    "fuera de esta reducción"
+    "Fokker-Planck (Def. 4.4, cierres declarados) están derivadas — "
+    "desenlace A en el punto preinscrito (δ0 ≈ 1, espectro real) y, por "
+    "la covarianza δ0 que destapó la revisión adversarial, cascada DSI "
+    "con hundimiento de D en el régimen físico δ0 < 0.496 (contrafactual "
+    "B declarado, preinscripción intacta); λ = 10 sigue siendo una "
+    "calibración (el diccionario τ no es derivable del corpus recogido)"
 )
 
 S0_TARGET = float(np.pi / np.log(10.0))   # π/ln 10 ≈ 1.3644 (ec. 8.2)

@@ -21,7 +21,7 @@ cada ruta citada existe.
 | Década y Discriminante | Cap. 8 | `core/decade.py` | `tests/test_core_florencia_decade.py` | interna demostrada; λ=10 calibrado |
 | Flujo KLS integrado | Cap. 8 (frente E) | `core/kls_flow.py` | `tests/test_kls_flow.py` | resultado numérico (−1/2; −1/3 condicional) |
 | Matriz de estabilidad | §14.2 (frente 2) | `core/victoria_exponent.py` | `tests/test_victoria_exponent.py` | instrumentado; ansatz O(1): DSI genérica, λ = 10 selección |
-| β de Fokker-Planck (frente 2) | Def. 4.4 + §14.2 | `core/fokker_planck_beta.py` | `tests/test_front2_fp_beta.py` + `tests/test_front2_fp_lock.py` | desenlace A preinscrito: espectro real en la espinodal (sin cascada DSI) y dD/dt > 0 con el cierre canónico declarado; frente abierto con negativa concreta |
+| β de Fokker-Planck (frente 2) | Def. 4.4 + §14.2 | `core/fokker_planck_beta.py` | `tests/test_front2_fp_beta.py` + `tests/test_front2_fp_lock.py` | A en el punto preinscrito (δ0 ≈ 1, espectro real); adenda δ0 (covarianza exacta, g_ef = δ0⁻³): cascada + hundimiento de D para δ0 < 0.496 con el cierre canónico — contrafactual B declarado; λ = 10 sigue calibrado (τ no derivable) |
 | Gea, Sello de Newton, Atlas | Cap. 9 | `core/gea.py` | `tests/test_core_gea_victoria.py` | sello exacto; Atlas condicional |
 | Contraste de los Residuos | Conj. 9.6 (frente 6) | `cosmology/residues_test.py` | `tests/test_residues.py` | consistencia superada (E13); refutable vivo |
 | Ciclo de Victoria | Cap. 10 | `core/victoria.py` | `tests/test_core_gea_victoria.py` | condicional (signo de ν, frente 4) |

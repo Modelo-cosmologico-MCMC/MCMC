@@ -1,6 +1,6 @@
 {
   "stage": "frente 2 — espectro bajo preinscripción",
-  "code_commit": "c0868cdeaeea443bdd4ded3fd54c1db35c6e85a9",
+  "code_commit": "10e7f56e62b0d0c0aba03ec8c48f56e91dd46b67",
   "prereg_commit": "1c72eb193843ce29fcfa3b3427d2e637b81378db",
   "closure": {
     "a": 0.5,
@@ -138,6 +138,7 @@
       "routes_coincide": true,
       "re_of_pair": 20.48408264895837,
       "Q_im_over_re": 0.28637266173755677,
+      "tau_star_for_lambda10": 0.23258735955225499,
       "dD_dt": -116.0
     }
   ],
@@ -158,5 +159,28 @@
   },
   "outcome": "A",
   "tau_star_for_lambda10": null,
-  "s0_target": 1.3643763538418412
+  "s0_target": 1.3643763538418412,
+  "drift_control": {
+    "method": "FP exacta vía Hopf-Cole + Richardson t→0 (sustituye al Langevin nombrado en la preinscripción — control determinista más fuerte; sustitución declarada)",
+    "regime": {
+      "M0_sq": 0.1,
+      "B": 0.12,
+      "C0": 0.08,
+      "t": 0.02,
+      "fit_basis_max_power": 5,
+      "window_x_max": 1.0
+    },
+    "dc_measured": [
+      -0.244883593196734,
+      0.2517147479283234,
+      -0.014903380309979914
+    ],
+    "dc_predicted": [
+      -0.245,
+      0.252,
+      -0.0152
+    ],
+    "max_rel_error": 0.001177062261984468
+  },
+  "n_dD_negative": 6
 }
