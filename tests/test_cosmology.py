@@ -18,7 +18,8 @@ def test_regression_H0_in_range():
 
 
 def test_regression_Lambda_at_today():
-    """Ω_Λ(z=0) ≈ Ω_Λ0 (1 + ε)."""
+    """Ω_Λ(z=0) = Ω_Λ0 exacto (transición normalizada hoy — corrección
+    ago-2026; la forma legacy daba ≈ Ω_Λ0·(1 + ε·tanh(z_t/Δz)))."""
     Om = Lambda_rel(0.0)
     assert 0.65 < Om < 0.75
 

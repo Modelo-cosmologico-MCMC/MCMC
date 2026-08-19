@@ -135,17 +135,24 @@ fiducial el centrado.
 
 Dos ajustes bayesianos sobre datos públicos, con ΛCDM ajustado por la
 misma maquinaria (ε = 0 exacto, Prop. A.1) y criterios de información
-explícitos:
+explícitos. Las corridas originales (jul/ago 2026) precedían a la
+corrección de normalización del fondo (H(0) = H0 exacto y clausura
+plana por llamada; en las corridas legacy el sesgo de F(0) era solo
+del brazo MCMC) y quedan etiquetadas `legacy_pre_normalization` en
+`results/`; la tabla cita la **repetición del 10-ago-2026 con el
+fondo corregido** (mismas semillas, datos y configuración), que
+confirma el veredicto:
 
-| Ajuste | Datos (n) | ΔAIC | ΔBIC (MCMC − ΛCDM) |
+| Ajuste (repetición 10-ago-2026) | Datos (n) | ΔAIC | ΔBIC (MCMC − ΛCDM) |
 |---|---|---|---|
-| v1 (jul 2026) | CC + BAO + SNe (1408) | +4.03 | **+14.53** |
-| v2 «la reconciliación» (ago 2026) | + CMB comprimido + fσ8 (1422) | +4.01 | **+14.53** |
+| v1 (legacy jul 2026: +4.03/+14.53) | CC + BAO + SNe (1408) | +4.00 | **+14.50** |
+| v2 «la reconciliación» (legacy ago 2026: +4.01/+14.53) | + CMB comprimido + fσ8 (1422) | +4.08 | **+14.60** |
 
 Positivo favorece a ΛCDM. En v2 (24×8000 pasos, convergencia 50·τ):
-ε = 0.015 −0.039/+0.043 — compatible con cero y con el 0.012 del corpus
-(sin necesidad, no excluida); H₀ = 67.1 ± 1.5 y σ₈ = 0.802 ± 0.029,
-planckianos. **La reconciliación queda respondida**: la ventaja del
+ε = 0.018 −0.041/+0.043 — compatible con cero y con el 0.012 del corpus
+(sin necesidad, no excluida); H₀ = 68.19 ± 0.40 y σ₈ = 0.799 ± 0.029,
+planckianos (posteriores ya sin el sesgo de normalización).
+**La reconciliación queda respondida**: la ventaja del
 corpus (ΔBIC = −6.1) no reaparece al añadir los dos bloques de los que
 procedía; solo podría residir en el C_ℓ completo, la lente débil o su
 metodología. Los valores del corpus son referencia histórica, no
@@ -308,6 +315,41 @@ fuentes (SPARC, VizieR) siguen denegadas por el proxy: **el 5E
 observacional está ABIERTO por ausencia de datos ingeridos** — regla
 de fallo preinscrita: sin fixtures, sin mirrors, sin veredicto
 observacional.
+
+### 3.10 DESI DR2 BAO: benchmark y contraste (frente 6A)
+
+Con la capa de datos reproducibles (PR #11) y el guard runtime
+require_available, la likelihood BAO propia quedó validada contra la
+referencia externa fijada (Cobaya 3.6.2: máx |Δχ²| = 1.85×10⁻¹³ sobre
+vectores sintéticos; identidad de datos computada por sha256 — 16/16
+ficheros idénticos a bao_data @ v2.6, el pin de Cobaya) y el ΛCDM
+propio reprodujo el valor oficial publicado ANTES de tocar el MCMC —
+con el fondo normalizado (H(0) = H0, clausura plana por llamada),
+Ω_m es la fracción de materia del ΛCDM plano de verdad:
+0.2971 −0.0085/+0.0086 vs 0.2975 ± 0.0086 (arXiv:2503.14738) =
+0.04σ; puerta predeclarada PASS. El contraste (r_d como calibración
+común — el MCMC no deriva física pre-recombinación; χ²_min por
+multistart acotado al soporte del prior, argmin publicado):
+**veredicto uniforme en DESI_ALL y los 7 leave-one-bin-out** —
+Δχ² ∈ [−0.33, −0.06], ΔBIC ∈ [+4.47, +4.90] pro-ΛCDM, el argmin del
+MCMC en la frontera del soporte (ε = −0.05, z_trans = 1) en las 8
+configuraciones (publicado), ningún bin decisivo en ninguno de los
+dos modelos, ε_Λ dominado por el prior truncado (cociente de
+anchuras posterior/prior ≥ 0.99). Razón estructural computada en el
+artefacto: con z_trans = 8.9 y la transición normalizada hoy,
+ε = 0.05 altera E(z ≤ 2.33) en ≤ 4.3×10⁻⁷ relativo sobre TODO el
+rango, y tras reabsorber (Ω_m, H0·rd) el residuo χ² es 7.6×10⁻¹¹ —
+BAO DR2 constriñe la forma de la expansión donde el fondo del corpus
+es casi degenerado con ΛCDM; no es el test sensible de ε_Λ en esta
+parametrización y lo que el dato castiga es la parsimonia. Mismo
+veredicto que la repetición v1/v2 con el fondo corregido. La ronda
+pasó su revisión adversarial (36 hallazgos confirmados aplicados —
+fondo sin fusionar, mínimos no acotados, semilla que no reproducía,
+números estructurales de un solo punto; el veredicto sobrevivió a
+todos, los números publicados se regeneraron). **Estatuto**:
+BAO-only; el cruce con cadenas oficiales completas pendiente del
+host bloqueado; SNe (mocks Dovekie primero) y combinaciones DESI+SNe
+son el siguiente paso del frente.
 
 ## 4. Lo que estos resultados NO afirman
 

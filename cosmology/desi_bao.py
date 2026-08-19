@@ -24,11 +24,11 @@ DM-DH por bin incluidas): chi2 = rᵀ C⁻¹ r.
 
 from __future__ import annotations
 
-from pathlib import Path
+from pathlib import Path  # noqa: F401 — tipo en firmas
 
 import numpy as np
 
-RAW = Path(__file__).resolve().parent.parent / "data" / "raw" / "desi_dr2"
+from mcmc_ontology.data_registry import require_available
 
 # z_eff → identificador oficial (schema_report; redondeo a 3 decimales)
 OFFICIAL_BINS = {
@@ -45,13 +45,12 @@ OFFICIAL_BINS = {
 def load_desi_dr2_all():
     """(z, cantidad, valor, bin_oficial, C) del vector ALL_GCcomb.
 
-    Falla cerrado (FileNotFoundError) si la ingesta no está presente."""
-    mean_f = RAW / "desi_gaussian_bao_ALL_GCcomb_mean.txt"
-    cov_f = RAW / "desi_gaussian_bao_ALL_GCcomb_cov.txt"
-    if not mean_f.exists() or not cov_f.exists():
-        raise FileNotFoundError(
-            "DATA_UNAVAILABLE: vector DESI DR2 no ingerido "
-            "(data/raw/desi_dr2/ + manifest)")
+    Pasa OBLIGATORIAMENTE por require_available (6A.1): una corrida
+    científica no puede consumir un fichero presente pero alterado."""
+    raw = require_available("desi_dr2_bao")   # guard 6A.1: manifest +
+    mean_f = raw / "desi_gaussian_bao_ALL_GCcomb_mean.txt"  # AVAILABLE +
+    cov_f = raw / "desi_gaussian_bao_ALL_GCcomb_cov.txt"    # esquema +
+    # sha256 re-verificados AHORA — falla cerrado en cualquier otro caso
     z, val, quant = [], [], []
     for line in mean_f.read_text(encoding="utf-8").splitlines():
         line = line.strip()

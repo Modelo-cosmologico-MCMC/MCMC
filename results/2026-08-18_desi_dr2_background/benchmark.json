@@ -1,0 +1,59 @@
+{
+  "stage": "6A.2 + 6A.4",
+  "code_commit": "436f2eb1430f5da22140d764b98704e07c86dfaa",
+  "dataset_manifest": "data/manifests/desi_dr2_bao.json (bb0c1c9; require_available en carga)",
+  "equivalence": {
+    "status": "PASS",
+    "max_abs_diff": 1.8474111129762605e-13,
+    "tolerance": 1e-10,
+    "n_vectors": 16,
+    "cobaya_version": "3.6.2",
+    "logp_at_data": -3.7190787712936826e-29,
+    "data_identity": {
+      "status": "PASS",
+      "n_files": 16,
+      "n_identical": 16,
+      "mismatches": [],
+      "packages_version": "v2.6",
+      "method": "sha256 por fichero: manifest bb0c1c9 vs packages path de Cobaya (bao_data tag v2.6)"
+    }
+  },
+  "lcdm_benchmark": {
+    "config": "DESI_ALL (n = 13, k = 2)",
+    "priors": "Ω_m ~ U(0.05, 0.7); H0rd ~ U(6000, 16000) km/s",
+    "sampler": "emcee 32×4000, semilla global 42 (np.random.seed: cadenas bit-reproducibles), burn 1/2, thin 4; χ²_min por multistart acotado al soporte del prior (Powell + L-BFGS-B), argmin publicado",
+    "chi2_min": 10.284009526927186,
+    "argmin": {
+      "chi2": 10.284009526927186,
+      "theta": [
+        0.29713656414369694,
+        10154.90882336642
+      ],
+      "at_boundary": false
+    },
+    "Omega_m": {
+      "median": 0.2971410542223293,
+      "minus": 0.008547039353561436,
+      "plus": 0.008644426340013
+    },
+    "H0rd_kms": {
+      "median": 10155.147522062342,
+      "minus": 72.32399975516273,
+      "plus": 73.55674235242259
+    },
+    "acceptance": 0.718046875,
+    "tau": [
+      32.34342972235228,
+      33.87127802621619
+    ],
+    "converged": true,
+    "official": {
+      "Omega_m": 0.2975,
+      "sigma": 0.0086,
+      "source": "DESI DR2 BAO-only, ΛCDM plano (arXiv:2503.14738; verificado 18-ago-2026)"
+    },
+    "dev_sigma": 0.04173788112450058,
+    "gate_rule": "|Ω_m propio − oficial| < 1σ oficial (predeclarada)",
+    "gate": "PASS"
+  }
+}

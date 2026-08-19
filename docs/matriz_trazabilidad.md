@@ -35,6 +35,7 @@ cada ruta citada existe.
 | Potencial débil y Jeans dSph | Def. 11.1 + Prop. 11.2 (frente 5, 5A/5B/5D) | `dynamics/weak_field.py` | `tests/test_jeans_dsph.py` | medio paso: veredicto exacto en el montaje declarado; perfil binado y 5C/5E pendientes |
 | 5C estructural y objetivo ρ_id | Cor. 11.3c + Ap. A (frente 5, 5C/5E) | `dynamics/disc_cronos.py` | `tests/test_disc_cronos.py` | parcial: ley de forma exacta; catálogo SPARC pendiente de ingesta (proxy) |
 | Falsación cruzada 5E (A congelada) | frente 5, 5E | `dynamics/sparc_crossfalsification.py` | `tests/test_front5e_lock.py` | preinscrito; DATA_UNAVAILABLE — observacional abierto (proxy) |
+| DESI DR2 BAO (frente 6A) | Ap. A + registro de datos | `cosmology/desi_bao.py` + `cosmology/desi_background_fit.py` | `tests/test_desi_bao.py` + `tests/test_desi_benchmark.py` | likelihood validada (Cobaya 3.6.2); benchmark 0.04σ (fondo normalizado); contraste uniforme pro-ΛCDM; ε no sondeable por BAO en esta parametrización (z_trans ≈ 8.9; estructural, computado en el artefacto) |
 | Fondo cosmológico | Ap. A | `cosmology/background.py` | `tests/test_recovery_limit.py` | límite de recuperación exacto (Prop. A.1) |
 | Ajustes de producción v1/v2 | A.6 → E5 | `cosmology/bayesian_fit.py` | `tests/test_bayesian_fit.py` | no favorecido (ΔBIC +14.5), publicado |
 | CMB comprimido y fσ8 | Ap. A (opción B) | `cosmology/extended_likelihoods.py` | `tests/test_extended_likelihoods.py` | salvedades declaradas (HS96, diagonal) |
