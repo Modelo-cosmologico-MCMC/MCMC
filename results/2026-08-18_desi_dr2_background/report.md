@@ -10,6 +10,9 @@ ronda: fondo normalizado realmente fusionado (H(0) = H0, clausura
 plana por llamada — `tests/test_physical_invariants.py`), χ²_min
 acotado al soporte del prior, semilla real del sampler, identidad de
 datos computada y números estructurales sobre el rango completo.
+Regenerada además con el integrador del vector a O(h⁴) tras el
+crosscheck JAX (ver `results/2026-08-19_jax_crosscheck/`): números
+publicados idénticos a 3 decimales.
 
 ## 1. Likelihood validada (6A.2)
 

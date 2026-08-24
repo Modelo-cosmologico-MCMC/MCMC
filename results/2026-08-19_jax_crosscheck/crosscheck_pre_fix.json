@@ -1,0 +1,150 @@
+{
+  "stage": "6A prioridad 3 — crosscheck JAX ↔ NumPy",
+  "code_commit": "b18c71c86fd4d23c16834c06c091f7f75610422c",
+  "gates_declared": {
+    "max_rel": 1e-08,
+    "rms_rel": 1e-10,
+    "chi2_abs": 1e-08,
+    "block5": "sin puerta (medición publicada)"
+  },
+  "summary": {
+    "block1_max": 4.440892098500626e-16,
+    "block1_rms": 6.722428986778895e-17,
+    "block2_max": 2.220446049250313e-16,
+    "block2_rms": 1.0979426536895534e-16,
+    "block3_max": 4.867410541287143e-08,
+    "block3_rms": 1.5855747287875505e-08,
+    "block4_max_chi2_diff": 0.0004839092575821269
+  },
+  "gates": {
+    "block1_background": true,
+    "block2_s_map": true,
+    "block3_desi_vector": false,
+    "block4_chi2": false
+  },
+  "all_gates_pass": false,
+  "block1_background": {
+    "fiducial_lcdm": {
+      "E": {
+        "max_rel": 2.220446049250313e-16,
+        "rms_rel": 6.306587885664746e-17
+      },
+      "H": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 6.722428986778895e-17
+      },
+      "DH": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 6.067765456752262e-17
+      }
+    },
+    "corpus_mcmc": {
+      "E": {
+        "max_rel": 2.220446049250313e-16,
+        "rms_rel": 6.148403750457655e-17
+      },
+      "H": {
+        "max_rel": 3.3306690738754696e-16,
+        "rms_rel": 6.138381895791515e-17
+      },
+      "DH": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 5.570490802012157e-17
+      }
+    },
+    "corner_lo": {
+      "E": {
+        "max_rel": 2.220446049250313e-16,
+        "rms_rel": 6.648756307896939e-17
+      },
+      "H": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 6.7040867179776e-17
+      },
+      "DH": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 5.99631745138055e-17
+      }
+    },
+    "corner_hi": {
+      "E": {
+        "max_rel": 2.220446049250313e-16,
+        "rms_rel": 6.583616466758545e-17
+      },
+      "H": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 6.611612127277011e-17
+      },
+      "DH": {
+        "max_rel": 4.440892098500626e-16,
+        "rms_rel": 6.479930987341325e-17
+      }
+    }
+  },
+  "block2_s_map": {
+    "s_to_a": {
+      "max_rel": 2.220446049250313e-16,
+      "rms_rel": 1.0979426536895534e-16
+    },
+    "z_roundtrip": {
+      "max_abs": 0.0,
+      "rms_abs": 0.0
+    },
+    "S_roundtrip_max_abs": 2.1316282072803006e-14
+  },
+  "block3_desi_vector": {
+    "benchmark_argmin_lcdm": {
+      "max_rel": 4.867410541287143e-08,
+      "rms_rel": 1.5855747287875505e-08
+    },
+    "contrast_argmin_lcdm": {
+      "max_rel": 4.867410541287143e-08,
+      "rms_rel": 1.5855747287875505e-08
+    },
+    "contrast_argmin_mcmc": {
+      "max_rel": 4.866742653319989e-08,
+      "rms_rel": 1.5778184978969618e-08
+    },
+    "corner": {
+      "max_rel": 4.506878670262893e-08,
+      "rms_rel": 1.5350001122075228e-08
+    }
+  },
+  "block4_chi2": {
+    "benchmark_argmin_lcdm": {
+      "chi2_numpy": 10.28400728046132,
+      "chi2_jax": 10.284009526947743,
+      "abs_diff": 2.2464864226634518e-06
+    },
+    "contrast_argmin_lcdm": {
+      "chi2_numpy": 10.28400728046132,
+      "chi2_jax": 10.284009526947743,
+      "abs_diff": 2.2464864226634518e-06
+    },
+    "contrast_argmin_mcmc": {
+      "chi2_numpy": 10.057787878979546,
+      "chi2_jax": 10.0577905829671,
+      "abs_diff": 2.7039875529766277e-06
+    },
+    "corner": {
+      "chi2_numpy": 3814.468999265569,
+      "chi2_jax": 3814.4694831748266,
+      "abs_diff": 0.0004839092575821269
+    }
+  },
+  "block5_sne_production": {
+    "theta": [
+      67.87,
+      0.326,
+      0.017,
+      9.1
+    ],
+    "comoving_distance": {
+      "max_rel": 3.001576364125569e-06,
+      "rms_rel": 3.464147305458395e-07
+    },
+    "distance_modulus_max_abs_mag": 6.517830478003361e-06,
+    "note": "el integrador de producción (trapecio, 2048 puntos) se compara con Gauss-Legendre espectral: la diferencia ES su error de truncamiento, publicado sin puerta"
+  },
+  "provenance_note": "hallazgo declarado de la revisión adversarial: este registro se generó con el runner aún SIN commitear sobre el árbol de b18c71c — su code_commit no contiene al generador (que se committeó en 0385851). La regla de árbol limpio aplica a crosscheck.json y a los artefactos DESI; la reproducción de este registro combina cosmology/ de b18c71c con el runner de 0385851 (verificado por el verificador independiente de la revisión). Los valores medidos no se tocan."
+}

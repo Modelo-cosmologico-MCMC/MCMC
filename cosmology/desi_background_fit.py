@@ -78,7 +78,12 @@ def predict_desi_dr2_vector(Omega_m: float, H0rd_kms: float,
     for i, (zi, q) in enumerate(zip(z_eff, quant)):
         Ei = float(E_of_z(zi, Omega_m, eps, z_trans, dz))
         DH = C_KMS / (Ei * H0rd_kms)
-        k = int(np.searchsorted(Z_GRID, zi)) - 1
+        # max(…, 0): con zi = 0 (o < Z_GRID[0]), k = −1 envolvería al
+        # ÚLTIMO elemento de la cumulativa y devolvería basura sin
+        # aviso (hallazgo latente de la revisión del crosscheck — no
+        # alcanzable con los z_eff ∈ [0.295, 2.33] del release, pero
+        # sí con data propio); con el guard, zi = 0 da exactamente 0.
+        k = max(int(np.searchsorted(Z_GRID, zi)) - 1, 0)
         half = 0.5 * (zi - Z_GRID[k])
         gl_z = Z_GRID[k] + half + half * _GL3_NODES
         tail = half * float(np.sum(
