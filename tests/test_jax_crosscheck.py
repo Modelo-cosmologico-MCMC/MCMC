@@ -76,13 +76,26 @@ def test_sne_block_published_without_gate(doc):
 def test_independence_no_reference_imports():
     """La implementación JAX no importa NADA de las implementaciones
     NumPy de referencia (regla de independencia de la ronda): solo
-    fórmulas declaradas + SHARED_CONSTANTS."""
+    fórmulas declaradas + SHARED_CONSTANTS. Escaneo reforzado tras la
+    revisión (variantes dinámicas de import) + verificación en
+    RUNTIME por AST de los módulos que importa de verdad."""
+    import ast
     src = (REPO / "validation" / "jax_background.py").read_text(
         encoding="utf-8")
     for banned in ("from cosmology", "import cosmology",
-                   "from mcmc_ontology", "import mcmc_ontology"):
+                   "from mcmc_ontology", "import mcmc_ontology",
+                   "importlib", "__import__", "sys.modules"):
         assert banned not in src
     assert "SHARED_CONSTANTS" in src
+    # AST: la lista REAL de módulos importados, no substrings:
+    tree = ast.parse(src)
+    imported = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            imported |= {a.name.split(".")[0] for a in node.names}
+        elif isinstance(node, ast.ImportFrom) and node.module:
+            imported.add(node.module.split(".")[0])
+    assert imported <= {"jax", "numpy", "__future__"}, imported
 
 
 def test_recompute_with_jax_if_available(doc):

@@ -53,19 +53,28 @@ def test_dv_identity():
 
 
 def test_integration_accuracy_vs_quad():
-    """La malla del integrador clava scipy.quad a mejor que 1e-8
-    relativo en DM (la precisión del vector no limita el ajuste)."""
+    """El integrador de PRODUCCIÓN (Simpson O(h⁴) + cola GL3 dentro de
+    predict_desi_dr2_vector) clava scipy.quad a mejor que 1e-12
+    relativo en DM, en TODOS los z_eff del release.
+
+    La versión anterior de este test reconstruía el trapecio RETIRADO
+    dentro del test y solo lo comprobaba en z = 2.33 (uno de sus
+    puntos favorables: en z = 0.295 el esquema viejo daba 7.3e-8 —
+    hallazgo confirmado de la revisión del crosscheck); ahora se mide
+    el camino real del vector."""
     from scipy.integrate import quad
-    Om = 0.31
-    val, _ = quad(lambda zz: 1.0 / float(E_of_z(zz, Om)), 0.0, 2.33,
-                  limit=200, epsrel=1e-11)
-    from cosmology.desi_background_fit import Z_GRID
-    E = E_of_z(Z_GRID, Om)
-    invE = np.concatenate(([0.0],
-                           np.cumsum(0.5 * (1 / E[1:] + 1 / E[:-1])
-                                     * np.diff(Z_GRID))))
-    ours = float(np.interp(2.33, Z_GRID, invE))
-    assert abs(ours / val - 1.0) < 1e-8
+    Om, H0rd = 0.31, 10200.0
+    v = predict_desi_dr2_vector(Om, H0rd, data=DATA)
+    z_eff, quant, _, _, _ = DATA
+    checked = 0
+    for zi, q, vi in zip(z_eff, quant, v):
+        if q != "DM_over_rs":
+            continue
+        ref, _ = quad(lambda zz: 1.0 / float(E_of_z(zz, Om)), 0.0,
+                      float(zi), limit=200, epsabs=1e-14, epsrel=1e-13)
+        assert abs(vi / (C_KMS / H0rd * ref) - 1.0) < 1e-12, zi
+        checked += 1
+    assert checked == 6      # los 6 bins con DM del release
 
 
 def test_lcdm_recovery_eps_zero():
