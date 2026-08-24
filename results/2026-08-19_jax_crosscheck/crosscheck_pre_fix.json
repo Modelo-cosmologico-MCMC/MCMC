@@ -145,5 +145,6 @@
     },
     "distance_modulus_max_abs_mag": 6.517830478003361e-06,
     "note": "el integrador de producción (trapecio, 2048 puntos) se compara con Gauss-Legendre espectral: la diferencia ES su error de truncamiento, publicado sin puerta"
-  }
+  },
+  "provenance_note": "hallazgo declarado de la revisión adversarial: este registro se generó con el runner aún SIN commitear sobre el árbol de b18c71c — su code_commit no contiene al generador (que se committeó en 0385851). La regla de árbol limpio aplica a crosscheck.json y a los artefactos DESI; la reproducción de este registro combina cosmology/ de b18c71c con el runner de 0385851 (verificado por el verificador independiente de la revisión). Los valores medidos no se tocan."
 }

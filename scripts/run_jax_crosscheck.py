@@ -38,6 +38,9 @@ from cosmology.bayesian_fit import (  # noqa: E402
     distance_modulus,
 )
 from cosmology.desi_background_fit import (  # noqa: E402
+    E_of_z as E_of_z_np,
+)
+from cosmology.desi_background_fit import (
     chi2_at,
     predict_desi_dr2_vector,
 )
@@ -181,6 +184,28 @@ def main() -> None:
                 "sin puerta",
     }
 
+    # --- procedencia del integrador de producción vs scipy.quad ----
+    # (la revisión encontró el «5.8e-15» citado solo en un mensaje de
+    # commit: aquí se registra en el artefacto, con test)
+    from scipy.integrate import quad as _quad
+    iq_worst = 0.0
+    for om, eps, zt in [(0.2971, 0.0, 8.9), (0.296, -0.05, 1.0)]:
+        v_ref = predict_desi_dr2_vector(om, 10155.0, eps=eps,
+                                        z_trans=zt, data=data)
+        for zi, q, vi in zip(z_eff, quant, v_ref):
+            if q != "DM_over_rs":
+                continue
+            ref, _ = _quad(lambda zz: 1.0 / float(np.asarray(
+                E_of_z_np(zz, om, eps, zt))), 0.0, float(zi),
+                limit=200, epsabs=1e-14, epsrel=1e-13)
+            iq_worst = max(iq_worst, abs(
+                vi / (299792.458 / 10155.0 * ref) - 1.0))
+    integrator_vs_quad = {
+        "max_rel_dm": float(iq_worst),
+        "thetas": "fiducial (0.2971, ε=0) y rincón (0.296, ε=−0.05, "
+                  "z_trans=1), 6 bins DM del release",
+    }
+
     gates = {
         "block1_background": bool(b1_max < GATE_MAX
                                   and b1_rms < GATE_RMS),
@@ -208,6 +233,7 @@ def main() -> None:
         "block3_desi_vector": block3,
         "block4_chi2": block4,
         "block5_sne_production": block5,
+        "integrator_vs_quad": integrator_vs_quad,
     }
     (OUT / "crosscheck.json").write_text(
         json.dumps(doc, ensure_ascii=False, indent=2) + "\n",

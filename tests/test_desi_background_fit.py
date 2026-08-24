@@ -64,17 +64,23 @@ def test_integration_accuracy_vs_quad():
     el camino real del vector."""
     from scipy.integrate import quad
     Om, H0rd = 0.31, 10200.0
-    v = predict_desi_dr2_vector(Om, H0rd, data=DATA)
     z_eff, quant, _, _, _ = DATA
-    checked = 0
-    for zi, q, vi in zip(z_eff, quant, v):
-        if q != "DM_over_rs":
-            continue
-        ref, _ = quad(lambda zz: 1.0 / float(E_of_z(zz, Om)), 0.0,
-                      float(zi), limit=200, epsabs=1e-14, epsrel=1e-13)
-        assert abs(vi / (C_KMS / H0rd * ref) - 1.0) < 1e-12, zi
-        checked += 1
-    assert checked == 6      # los 6 bins con DM del release
+    # fiducial Y el rincón del soporte (ε=−0.05, z_trans=1: la
+    # transición dentro del rango — donde el trapecio viejo era peor):
+    for eps, zt in [(0.0, 8.9), (-0.05, 1.0)]:
+        v = predict_desi_dr2_vector(Om, H0rd, eps=eps, z_trans=zt,
+                                    data=DATA)
+        checked = 0
+        for zi, q, vi in zip(z_eff, quant, v):
+            if q != "DM_over_rs":
+                continue
+            ref, _ = quad(lambda zz: 1.0 / float(
+                E_of_z(zz, Om, eps, zt)), 0.0, float(zi),
+                limit=200, epsabs=1e-14, epsrel=1e-13)
+            assert abs(vi / (C_KMS / H0rd * ref) - 1.0) < 1e-12, \
+                (zi, eps)
+            checked += 1
+        assert checked == 6      # los 6 bins con DM del release
 
 
 def test_lcdm_recovery_eps_zero():

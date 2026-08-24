@@ -361,15 +361,21 @@ vector DESI + χ², contrastada bajo puertas PREDECLARADAS
 los números publicados (los argmin de benchmark.json y
 contrast.json). La primera ejecución CAZÓ al integrador DESI de
 producción: trapecio + interpolación lineal en 4.9×10⁻⁸ — sobre la
-puerta — con efecto ≤ 2.7×10⁻⁶ en los χ² publicados (el veredicto 6A
-nunca dependió de él); en vez de relajar la puerta, el integrador se
-corrigió a O(h⁴) (5.8×10⁻¹⁵ contra scipy.quad) y los artefactos DESI
-se regeneraron — números publicados idénticos a 3 decimales.
-Resultado final: **todas las puertas PASS** (álgebra a 4×10⁻¹⁶,
-vector a 1.2×10⁻¹⁴, |Δχ²| ≤ 6.9×10⁻¹¹). El integrador SNe de
-producción (rondas v1/v2, ya fusionadas) queda medido en 3.0×10⁻⁶
-relativo (≤ 6.5×10⁻⁶ mag en μ — despreciable frente a σ_μ ~ 0.1):
-publicado como medición sin puerta, sin tocar una ronda cerrada.
+puerta — con efecto ≤ 2.8×10⁻⁶ en los χ² de los argmin publicados (el
+veredicto 6A nunca dependió de él); en vez de relajar la puerta, el
+integrador se corrigió a O(h⁴) — verificación contra scipy.quad
+registrada en el artefacto (integrator_vs_quad: 5.8×10⁻¹⁵ en DM, con
+candado) — y los artefactos DESI se regeneraron: números publicados
+idénticos a 3 decimales. Resultado final: **todas las puertas PASS**
+(álgebra a 4×10⁻¹⁶, vector a 1.2×10⁻¹⁴, |Δχ²| ≤ 2.2×10⁻¹² en los
+argmin publicados y ≤ 6.9×10⁻¹¹ incluyendo el rincón de estrés). El
+integrador SNe de producción (rondas v1/v2, ya fusionadas) queda
+medido en 3.0×10⁻⁶ relativo (≤ 6.6×10⁻⁶ mag en μ — despreciable
+frente a σ_μ ~ 0.1): publicado como medición sin puerta, sin tocar
+una ronda cerrada. El registro pre-fix lleva su nota de procedencia
+(generado con el runner aún sin commitear — hallazgo declarado de la
+revisión adversarial de la ronda: 15 confirmados + 1 parcial, 0
+refutados, todos aplicados).
 **Estatuto**: validación interna de implementación (E8) —
 equivalencia numérica entre dos implementaciones, no validación
 física (`results/2026-08-19_jax_crosscheck/`).

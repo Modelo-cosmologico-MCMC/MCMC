@@ -63,6 +63,26 @@ def test_chi2_at_published_argmins(doc):
         all_row["chi2_mcmc"], abs=1e-9)
 
 
+def test_integrator_vs_quad_recorded(doc):
+    """La verificación del integrador de producción contra scipy.quad
+    tiene procedencia de ARTEFACTO (hallazgo: el «5.8e-15» solo vivía
+    en un mensaje de commit) y queda bajo umbral."""
+    iq = doc["integrator_vs_quad"]
+    assert iq["max_rel_dm"] < 1e-13
+    assert "rincón" in iq["thetas"]
+
+
+def test_chi2_attribution_published_vs_corner(doc):
+    """La atribución corregida (hallazgo): en los argmin PUBLICADOS
+    |Δχ²| ≤ 2.2e-12; el máximo del bloque (≈6.9e-11) es el rincón de
+    estrés, que no es ningún argmin publicado."""
+    pub = max(v["abs_diff"] for k, v in doc["block4_chi2"].items()
+              if k != "corner")
+    assert pub < 2.2e-12
+    assert doc["block4_chi2"]["corner"]["abs_diff"] \
+        == doc["summary"]["block4_max_chi2_diff"]
+
+
 def test_sne_block_published_without_gate(doc):
     """El bloque 5 (integrador SNe de producción) se publica como
     medición: error del trapecio de 2048 puntos ~1e-6 relativo,

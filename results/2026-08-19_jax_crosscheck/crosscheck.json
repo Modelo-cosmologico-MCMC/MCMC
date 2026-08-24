@@ -1,6 +1,6 @@
 {
   "stage": "6A prioridad 3 — crosscheck JAX ↔ NumPy",
-  "code_commit": "1e5332cf3300a4cb7283a52915e40cd3bd15ad12",
+  "code_commit": "59e63594c4a20f1deb72eac46b0042b6167765e2",
   "gates_declared": {
     "max_rel": 1e-08,
     "rms_rel": 1e-10,
@@ -145,5 +145,9 @@
     },
     "distance_modulus_max_abs_mag": 6.517830478003361e-06,
     "note": "el integrador de producción (trapecio, 2048 puntos) se compara con Gauss-Legendre espectral: la diferencia ES su error de truncamiento, publicado sin puerta"
+  },
+  "integrator_vs_quad": {
+    "max_rel_dm": 5.773159728050814e-15,
+    "thetas": "fiducial (0.2971, ε=0) y rincón (0.296, ε=−0.05, z_trans=1), 6 bins DM del release"
   }
 }
