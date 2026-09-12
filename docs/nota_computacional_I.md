@@ -380,6 +380,29 @@ refutados, todos aplicados).
 equivalencia numérica entre dos implementaciones, no validación
 física (`results/2026-08-19_jax_crosscheck/`).
 
+### 3.12 El sector perturbativo lineal: la primera predicción out-of-sample (12-sep-2026)
+
+Con la preinscripción congelada ANTES de computar (desenlace esperado
+enumerado: fσ8^MCMC ≈ fσ8^ΛCDM dentro de la banda del prior de ε_Λ —
+el control de consistencia, NO un fracaso; desenlace contrario
+enumerado con su procedimiento de discriminación), el crecimiento
+lineal integrado exacto sobre el H(z) del modelo, propagado sobre el
+posterior de fondo CC+BAO+SNe (v1 corregido, sin crecimiento en el
+ajuste), produce el **desenlace A**: max_z |R_p50(z) − 1| = 4.3×10⁻⁸
+con R(z) = fσ8^MCMC/fσ8^ΛCDM (la predicción con cero parámetros
+nuevos: σ8 se cancela), dentro de la envolvente del prior
+(6.4×10⁻⁷), y Δχ² = −8.5×10⁻⁷ out-of-sample sobre la compilación RSD
+(σ8 externa declarada, idéntica en ambos brazos; aquí no se ajusta
+nada — guardia ejecutable). La magnitud ~10⁻⁷ es la nota estructural
+de 6A heredada: con z_trans ≈ 9 y la transición normalizada hoy, ni
+el fondo ni el crecimiento lineal sondean ε en esta parametrización.
+El objetivo discriminante queda declarado y NO ejecutado: µ(k,z),
+η(k,z) deben derivarse de Atlas/ε_c (frentes 3 y 10), con prohibición
+preinscrita de elegirlos desde los datos de lensing.
+**Estatuto**: control de consistencia interna del sector lineal
+sobre el fondo (E8) — no validación del modelo frente a ΛCDM
+(`results/2026-09-12_perturbations_fsigma8/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

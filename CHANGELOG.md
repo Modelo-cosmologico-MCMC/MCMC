@@ -4,6 +4,30 @@ Formato: cada versión lista lo que el repositorio AFIRMA tras ella —
 el contrato de honestidad manda («cada commit deja el repositorio en un
 estado en que afirme exactamente lo que hace»).
 
+## Sin publicar — septiembre de 2026
+
+- **Sector perturbativo (12-sep): primera predicción out-of-sample
+  del crecimiento — DESENLACE A, el aburrido preinscrito**. Con la
+  preinscripción congelada ANTES de computar (desenlace esperado:
+  fσ8^MCMC ≈ fσ8^ΛCDM dentro de la banda del prior de ε_Λ — control
+  de consistencia, NO fracaso), el crecimiento lineal integrado
+  EXACTO (extended_likelihoods.growth_D_f, no Linder) propagado
+  sobre el posterior de fondo CC+BAO+SNe (ajuste v1 corregido, SIN
+  crecimiento — la comparación RSD es out-of-sample y aquí no se
+  ajusta nada, guardia ejecutable) da max_z |R_p50(z) − 1| = 4.3e-8
+  frente a la envolvente del prior 6.4e-7, y Δχ²_oos = −8.5e-7 sobre
+  11 puntos RSD (σ8 externa declarada, idéntica en ambos brazos). La
+  predicción con cero parámetros nuevos es la razón R(z) (σ8 se
+  cancela). NOTA ESTRUCTURAL heredada de 6A: con z_trans ≈ 9 y la
+  transición normalizada hoy, ni el fondo ni el crecimiento lineal
+  sondean ε en esta parametrización. El orden epistemológico del
+  objetivo discriminante queda declarado, no ejecutado (ε_c/Atlas →
+  µ, η → observables → datos; PROHIBIDO elegir µ, η desde lensing).
+  Artefacto versionado con banda, semilla y sha256 de la
+  preinscripción: `results/2026-09-12_perturbations_fsigma8/`.
+  Estatuto: control de consistencia interna del sector lineal sobre
+  el fondo (E8) — no validación del modelo frente a ΛCDM.
+
 ## Sin publicar — agosto de 2026
 
 - **Crosscheck JAX del fondo (19-ago, 6A prioridad 3): equivalencia
