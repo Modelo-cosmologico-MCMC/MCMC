@@ -4,6 +4,40 @@ Formato: cada versión lista lo que el repositorio AFIRMA tras ella —
 el contrato de honestidad manda («cada commit deja el repositorio en un
 estado en que afirme exactamente lo que hace»).
 
+## Sin publicar — septiembre de 2026
+
+- **Validación por mocks del pipeline SN Dovekie (12-sep, PR #15):
+  las cuatro puertas preinscritas en PASS y la barrera de datos
+  reales armada**. Preinscripción congelada ANTES de ejecutar puerta
+  alguna (`d7cbabdc6d9f`), en un commit que contiene su generador
+  (lección del 5E v1). Alcance DECLARADO: nuestro pipeline entra a
+  nivel HD + covarianza; los 25 mocks fotométricos DES
+  (1_SIMULATIONS @ c9a4fcaf) validan las etapas DES aguas arriba
+  (SALT3 + BBC) y quedan registrados sin ingerir; la validación
+  propia usa 25 realizaciones a nivel HD con la cosmología inyectada
+  de los mocks DES (Ω_m = 0.315, ε = 0), los z del HD real
+  (N = 1820, VERIFICADO POR BYTES — la cifra 1828 del traspaso era
+  errónea) y la covarianza oficial, sin leer jamás la columna MU
+  real. Resultados: (1a) fórmula χ² equivalente a la oficial
+  ejecutada desde los bytes del release (max |Δχ²| = 1.5e-9;
+  conteo 1820 idéntico en ambos parsers y ambos npz); (1b)
+  integrador de producción O(h⁴) vs cuadratura independiente
+  (max |Δμ| = 1.9e-6 mag); (2) media de pulls de Ω_m = +0.051
+  (cota 0.6 = 3·SEM); (3) cobertura k68 = 17/25 ∈ [12, 21],
+  k95 = 23/25 ∈ [21, 25] — no se detecta una descalibración
+  incompatible con el tamaño de la muestra de mocks; (4) sin falsa
+  preferencia: mediana ΔAIC = +3.94 y ΔBIC = +14.95 pro-ΛCDM con
+  n(Δ<0) = 0, 0 ∈ CI95(ε) en 25/25, mediana p50(ε) = +0.015 (el
+  centro del prior, como preinscribía la nota). BARRERA EJECUTABLE:
+  el HD real (columna MU) solo es accesible tras este PASS citando
+  la preinscripción por sha256 — vigilada por candado en la suite.
+  Roles declarados: mocks = validación · Dovekie real = primera
+  aplicación · Unite = benchmark armonizado, NO replicación
+  independiente · Union3 = comprobación externa · Pantheon+ =
+  disección de Unite. Estatuto: validación interna del pipeline
+  (E8) — habilita consumir el dato real, no afirma nada sobre él
+  (`results/2026-09-12_dovekie_mocks/`).
+
 ## Sin publicar — agosto de 2026
 
 - **Crosscheck JAX del fondo (19-ago, 6A prioridad 3): equivalencia
