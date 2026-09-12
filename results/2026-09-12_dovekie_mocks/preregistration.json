@@ -1,0 +1,170 @@
+{
+  "preregistered_utc": "2026-09-12T21:08:29.744680+00:00",
+  "code_commit": "6b2abf17cdb8ca6b71738a8775ac4f58c55dc324",
+  "front": "PR #15 — validación por mocks del pipeline SN Dovekie",
+  "scope_declaration": {
+    "pipeline_entry_point": "nivel Hubble diagram + covarianza (4_DISTANCES_COVMAT del release DES-SN5YR @ c9a4fcaf). Las etapas DES aguas arriba (ajuste SALT3 de curvas de luz, BBC/bias corrections) NO se reimplementan ni se validan aquí: las validó DES con sus 25 mocks fotométricos dentro de su pipeline.",
+    "des_photometric_mocks": "1_SIMULATIONS @ c9a4fcaf contiene fotometría SNANA cruda (HEAD/PHOT.FITS, ~2900 curvas de luz por realización), no diagramas de Hubble; consumirla exigiría la pila SNANA/Pippin (SALT3 + BBC), que este repositorio no contiene. Registrada en data/sources.yaml como des_dovekie_photmocks (no ingerida, fuera del alcance). README de los mocks: sha256 f9a0f2135a6c84ca65aee1320d8e47aba15c648aa981dc18a3576cf436d4ed25.",
+    "own_mock_design": "25 realizaciones sintéticas a NIVEL HD: μ_mock = μ_model(z; cosmología inyectada de los mocks DES) + ΔM_m + η_m con η_m ~ N(0, C) (C = inversa de la W oficial STAT+SYS, vía Cholesky), ΔM_m ~ N(0, 1 mag) para ejercitar la marginalización de M, sobre los z del HD real (el diseño del experimento) con N = 1820. La columna MU real NO se lee: el generador consume load_dovekie_design(), que no la devuelve.",
+    "generator_shares_mu_model_with_fit": "LIMITACIÓN DECLARADA: los mocks se generan con el mismo μ_model de producción que luego ajusta — un sesgo común a ambos no sería detectable por las puertas 2-4; lo cubre la puerta 1b (integrador de producción vs cuadratura adaptativa independiente, patrón #14)."
+  },
+  "injected_cosmology": {
+    "source": "README de 1_SIMULATIONS @ c9a4fcaf: H0 = 70.0, OMEGA_MATTER = 0.315, OMEGA_LAMBDA = 0.685, w0 = −1, wa = 0",
+    "our_parametrization": {
+      "Omega_m": 0.315,
+      "eps_Lambda": 0.0,
+      "H0_fixed": 70.0,
+      "note": "con ε = 0 el fondo MCMC es ΛCDM exacto (Prop. A.1); z_trans es irrelevante en ese límite"
+    }
+  },
+  "frozen_numbers": {
+    "n_sn": 1820,
+    "n_sn_note": "verificado por bytes: nsn = 1820 en ambos npz y 1820 filas del HD pasan el corte oficial zHD > 0; la cifra 1828 del traspaso era errónea y queda corregida aquí",
+    "n_mocks": 25,
+    "mock_seed": 20260912,
+    "cov_kind_production": "STAT+SYS",
+    "emcee": {
+      "nwalkers": 32,
+      "nsteps": 800,
+      "burn": "nsteps//2",
+      "thin": 4,
+      "seed_per_mock": "42 + índice del mock"
+    },
+    "priors": {
+      "Omega_m": [
+        0.05,
+        0.7
+      ],
+      "eps_gauss": [
+        0.012,
+        0.05
+      ],
+      "eps_support": [
+        -0.05,
+        0.1
+      ],
+      "z_trans": [
+        1.0,
+        20.0
+      ],
+      "note": "los del Apéndice F, idénticos a #12"
+    },
+    "K_cosmologies": [
+      [
+        0.1,
+        0.0,
+        8.9
+      ],
+      [
+        0.315,
+        0.0,
+        8.9
+      ],
+      [
+        0.5,
+        0.0,
+        8.9
+      ],
+      [
+        0.315,
+        -0.05,
+        8.9
+      ],
+      [
+        0.315,
+        0.012,
+        8.9
+      ],
+      [
+        0.315,
+        0.1,
+        8.9
+      ],
+      [
+        0.315,
+        0.012,
+        1.0
+      ],
+      [
+        0.315,
+        0.012,
+        20.0
+      ]
+    ],
+    "coverage_k68_range": [
+      12,
+      21
+    ],
+    "coverage_k95_range": [
+      21,
+      25
+    ],
+    "false_preference_k_max": 7
+  },
+  "gates": {
+    "1a_formula_equivalence": {
+      "statement": "χ̃² de la implementación A (producción) y de la B (independiente, einsum) frente a la función oficial cov_log_likelihood ejecutada desde los bytes del release (extraída por AST), con el MISMO vector μ y la MISMA W, sobre las K = 8 cosmologías × 25 vectores mock × {STATONLY, STAT+SYS}",
+      "tolerance": "max |Δχ²| ≤ 1e-6 (absoluto)",
+      "count_gate": "conteo de SNe idéntico: parser A == parser B == nsn(npz) == 1820, ambos npz",
+      "declared_limit": "el harness cosmosis del script oficial no es ejecutable aquí; la parte que define la likelihood (cov_log_likelihood) se ejecuta desde los bytes oficiales; el desempaquetado de W se implementa dos veces (A y B) y se compara elemento a elemento (max |ΔW| = 0 exigido: misma fuente, mismos bytes)"
+    },
+    "1b_distance_equivalence": {
+      "statement": "μ_model de producción (cumulativa O(h⁴) + interpolación) vs cuadratura adaptativa independiente (quad, epsrel 1e-12) sobre los 1820 z × K = 8 cosmologías",
+      "tolerance": "max |Δμ| ≤ 1e-5 mag y |Δχ̃²| ≤ 0.01 al evaluar ambos μ en la fórmula A con la W de producción y un vector mock fijo (el primero)"
+    },
+    "2_parameter_recovery": {
+      "statement": "brazo ΛCDM (posterior 1D determinista en malla, prior plano): pull_m = (p50_m(Ω_m) − 0.315)/σ_m con σ_m = (p84 − p16)/2, sobre los 25 mocks",
+      "gate": "|media de pulls| ≤ 0.6 = 3·SEM, con SEM = 1/√25 = 0.2 (cota en múltiplos de la SEM, no ad hoc)",
+      "diagnostics_published_not_gated": "desviación típica de los pulls (esperada ~1; su calibración la vigila la puerta 3, no una segunda puerta redundante) y sesgo agregado en unidades físicas"
+    },
+    "3_coverage_binomial_exact": {
+      "statement": "conteo k de mocks cuyo intervalo creíble central contiene Ω_m = 0.315",
+      "accept_68": {
+        "k_range": [
+          12,
+          21
+        ],
+        "definition": "región central ≥ 95 % de Binomial(25, 0.68): binom.ppf(0.025/0.975)"
+      },
+      "accept_95": {
+        "k_range": [
+          21,
+          25
+        ],
+        "definition": "región central ≥ 95 % de Binomial(25, 0.95)"
+      },
+      "declared_power": "σ_p̂ = √(0.68·0.32/25) = 0.093 — ±9 puntos porcentuales a 1σ: un 64 % o un 72 % observado NO es fallo",
+      "mandatory_wording_on_pass": "«no se detecta una descalibración incompatible con el tamaño de la muestra de mocks» — NUNCA «coverage validado al X %»"
+    },
+    "4_no_false_preference": {
+      "statement": "los mocks NO contienen la extensión MCMC (ε = 0 inyectado); se ajustan ambos brazos y se exige que la comparación no la favorezca sistemáticamente",
+      "definitions": {
+        "chi2_min_lcdm": "mínimo de malla 1D + refinado parabólico local (k = 1 parámetro ajustado; M marginalizada en ambos brazos por igual)",
+        "chi2_min_mcmc": "mínimo sobre el CIERRE del soporte del prior: malla predeclarada (ε × z_trans: esquinas + centro) con refinado 1D acotado de Ω_m (k = 3)",
+        "AIC": "χ²_min + 2k",
+        "BIC": "χ²_min + k·ln(1820)",
+        "delta": "Δ = (MCMC) − (ΛCDM); Δ > 0 favorece ΛCDM"
+      },
+      "gate_aic": "mediana(ΔAIC) > 0 Y n(ΔAIC < 0) ≤ 7 de 25 [región ≥ 97.5 % de Binomial(25, e⁻²): bajo el nulo, ΔAIC < 0 ⟺ Δχ²_ganancia > 4, y P(χ²₂ > 4) = e⁻² ≈ 0.135 es cota conservadora — el prior gaussiano de ε solo reduce la tasa]",
+      "gate_bic": "mediana(ΔBIC) > 0 Y n(ΔBIC < 0) ≤ 7 de 25 (misma cota, conservadora: ΔBIC = ΔAIC + 2·(ln1820 − 2) > ΔAIC siempre)",
+      "gate_eps": "ε_Λ consistente con cero: 0 ∈ CI95 central de ε en ≥ 21 de 25 mocks (entero binomial de p = 0.95) Y |mediana sobre mocks de p50(ε)| ≤ 0.05 (una σ del prior). NOTA PREINSCRITA: el prior de ε está centrado en 0.012, no en 0 — un p50 medio ≈ 0.012 con SNe poco informativas es el comportamiento esperado del prior y NO constituye preferencia; por eso la puerta es de intervalos, no de medias a 3σ"
+    }
+  },
+  "outcomes_enumerated": {
+    "PASS": "las cuatro puertas superadas ⟹ mock_validation.json con status PASS y el sha256 de esta preinscripción; SOLO entonces el HD real entra en scripts de inferencia (barrera ejecutable cosmology.dovekie_sn.require_mock_validation_pass)",
+    "FAIL_any_gate": "status FAIL con la(s) puerta(s) fallida(s) publicadas íntegras; se diagnostica y corrige el PIPELINE (nunca las tolerancias ni los enteros congelados) y se re-corre TODO el bloque de puertas; el HD real sigue vedado",
+    "no_adjustment_commitment": "compromiso de no-ajuste: tolerancias, enteros binomiales, semillas, N_MOCKS y priors quedan congelados aquí ANTES de ejecutar puerta alguna; cambiarlos tras ver un resultado exige una preinscripción NUEVA con changelog y el fallo previo publicado"
+  },
+  "declared_roles": {
+    "dovekie_mocks": "validación del pipeline (este PR)",
+    "dovekie_real": "primera aplicación (posterior al PASS)",
+    "unite": "benchmark armonizado de robustez, NO replicación independiente (contiene DES-SN5YR/Dovekie y Pantheon+)",
+    "union3": "comprobación más genuinamente externa",
+    "pantheonplus": "disección de qué componente de Unite mueve el resultado"
+  },
+  "prohibitions": {
+    "no_real_mu_before_pass": "ningún script de inferencia consume la columna MU real antes del PASS; el candado ejecutable vive en cosmology.dovekie_sn (load_dovekie_hd) y el candado de protocolo en tests/test_dovekie_lock.py",
+    "no_gate_tuning": "prohibido re-tocar tolerancias/enteros tras ver resultados (ver no_adjustment_commitment)",
+    "independent_b_isolation": "validation/dovekie_independent.py no importa cosmology.dovekie_sn ni cosmology.background (vigilado por el candado)"
+  }
+}

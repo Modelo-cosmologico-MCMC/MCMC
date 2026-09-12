@@ -15,7 +15,8 @@ la ruta de producción (cosmology/dovekie_sn.py) en el cálculo del χ²:
 
 Este módulo NO es ruta de producción: existe para las puertas 1a/1b de
 la preinscripción del PR #15. PROHIBICIÓN (vigilada por el candado):
-jamás importa cosmology.dovekie_sn ni cosmology.background.
+jamás importa los módulos de producción cosmology/dovekie_sn ni
+cosmology/background.
 """
 
 from __future__ import annotations

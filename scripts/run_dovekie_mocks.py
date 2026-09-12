@@ -5,7 +5,7 @@ mocks a nivel HD y escribe el veredicto ejecutable.
 Requiere la preinscripción congelada (run_dovekie_mocks_prereg.py);
 falla cerrado sin ella. Produce en results/2026-09-12_dovekie_mocks/:
   - mock_validation.json  (status PASS/FAIL + sha256 de la prereg —
-    la llave de la barrera de cosmology.dovekie_sn.load_dovekie_hd)
+    la llave de la barrera del loader real de cosmology/dovekie_sn)
   - per_mock.csv          (tabla íntegra por mock)
   - report.md             (informe citando la prereg por hash)
 
