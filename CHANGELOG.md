@@ -4,6 +4,23 @@ Formato: cada versión lista lo que el repositorio AFIRMA tras ella —
 el contrato de honestidad manda («cada commit deja el repositorio en un
 estado en que afirme exactamente lo que hace»).
 
+## Sin publicar — septiembre de 2026
+
+- **Registro canónico de claims (12-sep): la trazabilidad se GENERA,
+  no se duplica**. `docs/claims_registry.yaml` pasa a ser la fuente
+  única (39 claims: entidad, ley, derivación, implementación, test,
+  observable, dataset, falsador, estatuto v35.1, categoría,
+  artefacto); `scripts/make_traceability.py` genera la matriz
+  clásica y la vista entidad → ley → observable → evidencia para la
+  v36, y el test de no-divergencia hace imposible que un cambio de
+  estatuto (#13, #15, 5E) deje dos documentos contradictorios. Las
+  filas negativas llevan TRES categorías diferenciadas y fijadas por
+  test — resultado-negativo (6A; #13 desenlace A; ajustes v1/v2) ≠
+  claim-no-derivado (λ = 10, depende de τ(S)) ≠
+  experimento-no-ejecutado (5E, fallo cerrado) — y FRB queda
+  excluido de forma ejecutable hasta tener dataset con DOI,
+  observable consumido y relación con el parámetro bariónico.
+
 ## Sin publicar — agosto de 2026
 
 - **Crosscheck JAX del fondo (19-ago, 6A prioridad 3): equivalencia
