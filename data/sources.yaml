@@ -111,6 +111,25 @@ datasets:
     raw_dir: data/raw/des_dovekie
     state: AVAILABLE          # HD + covarianzas + script oficial @ c9a4fcaf
     note: >
-      4_DISTANCES_COVMAT/ y 5_COSMOLOGY/ para datos; 1_SIMULATIONS/
-      (25 mocks DES) para validar el pipeline ANTES de tocar datos —
-      observable calculable ≠ observable validado.
+      4_DISTANCES_COVMAT/ y 5_COSMOLOGY/ para datos; la validación del
+      pipeline propio ANTES de tocar datos es el PR #15
+      (results/2026-09-12_dovekie_mocks/) — observable calculable ≠
+      observable validado. El HD tiene 1820 SNe (verificado por bytes:
+      nsn de ambos npz y filas del HD tras el corte zHD > 0).
+
+  des_dovekie_photmocks:
+    role: upstream_pipeline_mocks
+    source: des-science/DES-SN5YR
+    subdir: 1_SIMULATIONS
+    version: c9a4fcafc4cbd19bd750dee47fc76194a45c181f
+    raw_dir: data/raw/des_dovekie_photmocks
+    state: DATA_UNAVAILABLE   # no ingerido: fuera del repo y del alcance
+    note: >
+      los 25 mocks DES son fotometría SNANA cruda (HEAD/PHOT.FITS,
+      ~20 MB; README sha256
+      f9a0f2135a6c84ca65aee1320d8e47aba15c648aa981dc18a3576cf436d4ed25):
+      validan las etapas DES aguas arriba (SALT3 + BBC) dentro del
+      pipeline de DES; consumirlos aquí exigiría la pila SNANA/Pippin,
+      que este repositorio no contiene. La validación por mocks del
+      pipeline PROPIO opera a nivel HD (PR #15, preinscrita). Cosmología
+      inyectada documentada: H0 = 70, Ω_m = 0.315, w0 = −1, wa = 0.
