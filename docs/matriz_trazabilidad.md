@@ -1,12 +1,8 @@
 # Matriz canónica manuscrito ↔ código ↔ test ↔ estatuto
 
-Trazabilidad explícita del programa (propuesta del análisis v36, punto
-8; el Apéndice H exige que cada pieza resista una prueba objetiva y que
-cada frente declare qué le falta). Los estatutos siguen la v35.1:
-«interna demostrada» = comprobación interna de la implementación
-superada (E8), nunca demostración física. Las celdas «—» declaran un
-hueco real, no lo esconden. `tests/test_traceability.py` verifica que
-cada ruta citada existe.
+<!-- GENERADO por scripts/make_traceability.py desde docs/claims_registry.yaml — NO editar a mano: el test de no-divergencia (tests/test_claims_registry.py) falla si este fichero difiere de la regeneración. -->
+
+Trazabilidad explícita del programa (propuesta del análisis v36, punto 8; el Apéndice H exige que cada pieza resista una prueba objetiva y que cada frente declare qué le falta). Los estatutos siguen la v35.1: «interna demostrada» = comprobación interna de la implementación superada (E8), nunca demostración física. Las celdas «—» declaran un hueco real, no lo esconden. La fuente canónica es `docs/claims_registry.yaml` (falsadores, datasets y categorías negativas viven allí); `tests/test_traceability.py` verifica que cada ruta citada existe y `tests/test_claims_registry.py` que esta vista no diverge de la fuente.
 
 | Elemento | Manuscrito | Código | Test | Estatuto |
 |---|---|---|---|---|
