@@ -6,6 +6,46 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Canal Atlas, cola O(e²) CON el sector de velocidades (13-sep, noche
+  2, E3_Atlas): residuos del polo DERIVADOS (E3a = A); confirmación
+  numérica E3b = C bajo la regla congelada — publicado sin reajuste**.
+  Preinscripción congelada ANTES de ejecutar (`7fb31910a086`, en un
+  commit que contiene su generador), con la predicción independiente
+  del autor citada (17.07·e² en el punto del arnés). Escalera exacta
+  del modo creciente, t^g·Σ c_n t^{−n/3}, sobre el sistema lineal
+  completo (ξ = 1; sin truncación cuasi-estática): orden dominante
+  µ₀ = 1/(1−α_a/2) y η₀ = 1 exactos en toda la malla; coeficiente de
+  e² en (1.05, 0.3): η − 1 → 17.0735 (predicho 17.07), µ_loc − 1 →
+  −11.361. Residuos del polo 1/(λ_K−1) por extrapolación cúbica en
+  h = λ_K − 1: **P_η = 3α_a/(2−α_a)** (a 4e-16) y **P_µ =
+  −P_η·p(2p−1)/3** (a 1e-8) en α_a = 0.1/0.3/0.6; partes regulares
+  Q_η = 4.97/6.09/8.36, Q_µ = −4.98/−6.23/−9.42. Lectura revisada
+  respecto de #18: el polo es FÍSICO (horizonte de sonido del khronon,
+  parámetro pequeño aH/(c_s k)); la truncación QS exagera su residuo
+  (2 frente a P_η: ×3.8 en α_a = 0.3) y pierde la dependencia en α_a; el
+  «×28» de #18 era un cociente ventana-promediado frente a un arnés
+  cuyas ICs QS-consistentes excitan los modos oscilatorios del khronon
+  — el control lo muestra: η − 1 oscila entre −4.6e-2 y +5.4e-2 en la
+  ventana; el arnés E2 no medía la cola. Arnés con ICs ADIABÁTICAS
+  tomadas de la escalera: pendientes s_η = 17.80/17.41/17.23 y s_µ =
+  −12.13/−11.72/−11.53 (k/H0 = 66.7/133.3/200), al 0.9–6.8 % de la
+  escalera y ninguna compatible con la QS truncada (46.2, −3.79); dos
+  brazos PASS, pero el de mayor e (e ≤ 0.02) da exponente log-log 2.14
+  ∉ [1.9, 2.1] — curvatura O(e⁴) que el umbral congelado no calibró —
+  y la regla clasifica **E3b = C**. No se retoca: estatuto «derivación
+  exacta de la escalera, pendiente de confirmación numérica
+  independiente»; recalibrar e_fit_max o ajustar con término e⁴ es
+  materia de una preinscripción futura. Módulo: tail_pole_residues,
+  eta_tail_physical y mu_local_tail_physical (SOLO el residuo del polo;
+  Q no es despreciable: en α_a ≈ λ_K − 1 domina); eta_tail_coefficient
+  marcada como QS truncada, no física. Magnitudes ilustrativas (z = 0,
+  e = (H0/c)/k): (1.05, 0.3) → η − 1 = 7.6e-4 en k = 0.05 h/Mpc;
+  (1.012, 0.012) → 2.7e-4 (solo polo: 6.7e-5). Fila `mu-eta-atlas`
+  actualizada («colas pendientes» → «residuo del polo derivado; partes
+  regulares y confirmación numérica pendientes»). Sin datos; ξ = 1;
+  fronteras declaradas. Estatuto: derivación interna (E8)
+  (`results/2026-09-13_mu_eta_atlas_tail/`).
+
 - **Primera aplicación del pipeline SN a Dovekie REAL (13-sep):
   DESENLACE INDETERMINADO bajo la regla congelada — publicado sin
   reajuste**. Preinscripción congelada ANTES de la primera lectura de

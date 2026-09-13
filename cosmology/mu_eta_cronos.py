@@ -86,8 +86,10 @@ ATLAS_STATUS = ("DERIVADO-NULO al orden dominante (13-sep-2026, frente 3; "
                 "ver cosmology/mu_eta_atlas.py y results/"
                 "2026-09-13_mu_eta_atlas/): el offset α_a/(2ξ) se cancela "
                 "contra la G local — la cola k² de Cronos es la ÚNICA firma "
-                "sub-horizonte de (µ, η); colas O(e²) de Atlas con "
-                "coeficientes pendientes (sector de velocidades)")
+                "sub-horizonte de (µ, η); colas O(e²) de Atlas: residuos "
+                "del polo 1/(λ_K−1) derivados con velocidades (E3a = A, "
+                "results/2026-09-13_mu_eta_atlas_tail/), partes regulares "
+                "numéricas y confirmación numérica pendiente (E3b = C)")
 
 __all__ = [
     "ALPHA0_INV_MAX", "ATLAS_STATUS", "K_MAX_LINEAR_HMPC",
@@ -197,7 +199,8 @@ def in_validity_window(k_hMpc) -> np.ndarray:
 
 
 # ---------------------------------------------------------------------
-# Canal Atlas: gancho declarado, coeficientes pendientes (frente 3)
+# Canal Atlas: offset sub-horizonte derivado nulo (#18); colas O(e²) con
+# residuos del polo derivados (E3a) y confirmación numérica pendiente (E3b)
 # ---------------------------------------------------------------------
 
 def atlas_offset(epsilon_K: float = C.EPSILON_K,

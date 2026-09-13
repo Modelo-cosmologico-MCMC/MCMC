@@ -495,6 +495,42 @@ velocidades), como el régimen superhorizonte, las cotas PPN sobre
 **Estatuto**: derivación desde la acción verificada por cuatro vías
 (E8); teoría pura, sin datos (`results/2026-09-13_mu_eta_atlas/`).
 
+**Adenda E3 (13-sep, noche 2): la cola O(e²) CON el sector de
+velocidades.** Bajo preinscripción congelada (escalera E3a y arnés E3b
+con desenlaces separados), el modo creciente exacto como serie
+t^g·Σ c_n t^{−n/3} sobre el sistema lineal completo (ξ = 1) reproduce
+en el orden dominante µ₀ = 1/(1−α_a/2) y η₀ = 1 exactos en toda la
+malla, y en el orden e² da los coeficientes verdaderos: en el punto del
+arnés (1.05, 0.3) η − 1 = 17.0735·e² — la cifra que la derivación
+independiente del autor había predicho (17.07). Los residuos del polo
+1/(λ_K−1) salen exactos: **P_η = 3α_a/(2−α_a)** (a 4e-16) y **P_µ =
+−P_η·p(2p−1)/3** (a 1e-8) en α_a = 0.1/0.3/0.6, con partes regulares
+Q_η = 4.97/6.09/8.36 y Q_µ = −4.98/−6.23/−9.42 (**E3a = A**). Se revisa
+la lectura anterior: el polo es FÍSICO — el parámetro pequeño es
+aH/(c_s k), el horizonte de sonido del khronon —; lo que la truncación
+QS exagera es el residuo (2 frente a P_η: ×3.8 en α_a = 0.3, ×12.7 en
+0.1) y su dependencia en α_a, y el «×28» de #18 era el cociente
+ventana-promediado frente a un arnés cuyas condiciones iniciales
+QS-consistentes excitaban los modos oscilatorios del khronon (el control
+muestra η − 1 oscilando entre −4.6×10⁻² y +5.4×10⁻² en la ventana: el
+arnés E2 no medía la cola). La confirmación numérica con condiciones
+iniciales adiabáticas tomadas de la propia escalera da pendientes de
+η − 1 y µ_loc − 1 frente a e² al 0.9–6.8 % de la escalera en los tres k
+(17.80/17.41/17.23 frente a 17.07; −12.13/−11.72/−11.53 frente a
+−11.36), ninguna compatible con la QS truncada (46.2, −3.79); pero el
+brazo de mayor e (e ≤ 0.02, k/H0 = 66.7) da exponente log-log 2.14
+∉ [1.9, 2.1] — curvatura O(e⁴) que el umbral congelado no calibró — y
+la regla clasifica **E3b = C (abierto)**. No se retoca: el estatuto
+queda «derivación exacta de la escalera, pendiente de confirmación
+numérica independiente»; una preinscripción futura y distinta podrá
+fijar e_fit_max menor o un ajuste con término e⁴. Magnitudes
+ilustrativas (z = 0, e = (H0/c)/k, escalera completa): (1.05, 0.3) →
+η − 1 = 7.6×10⁻⁴ en k = 0.05 h/Mpc y 4.8×10⁻³ en 0.02; (1.012, 0.012) →
+2.7×10⁻⁴ en 0.05, donde la parte regular domina (solo polo:
+6.7×10⁻⁵). Fronteras: Q solo numéricas, ξ ≠ 1, superhorizonte, O(e⁴),
+PPN. **Estatuto**: derivación interna (E8) sin datos
+(`results/2026-09-13_mu_eta_atlas_tail/`).
+
 ### 3.16 La primera aplicación a Dovekie real: desenlace INDETERMINADO bajo la regla congelada (13-sep-2026)
 
 Con la preinscripción congelada ANTES de la primera lectura de la
@@ -584,6 +620,8 @@ python scripts/run_kls_flow.py         # §5.4 (frente E)
 python scripts/run_rp_nonstationary.py # §5.4 (frente F)
 python scripts/run_dovekie_real_prereg.py  # §3.16 preinscripción (no lee MU)
 python scripts/run_dovekie_real.py     # §3.16 cinco brazos tras la doble barrera
+python scripts/run_mu_eta_atlas_tail_prereg.py  # §3.15 adenda E3 (preinscripción)
+python scripts/run_mu_eta_atlas_tail.py         # §3.15 adenda E3 (escalera + arnés)
 ```
 
 Desenlaces versionados: `results/2026-07-31_production_fit/`,

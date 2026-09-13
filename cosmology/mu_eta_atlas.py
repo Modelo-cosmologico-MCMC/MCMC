@@ -39,11 +39,16 @@ DOS PRECISIONES que el candado hace explícitas:
       pequeño efectivo sea e/√(λ_K−1) ~ aH/(c_s k): con ε_K = 0.012 el
       coeficiente es ~170 y la ventana sub-horizonte se estrecha ×~9.
       Además el coeficiente QS de esa cola NO es el completo (la
-      aproximación QS descarta ∂_t y velocidades del mismo orden e²): el
-      arnés numérico (E2) no lo reproduce y no debe. Frontera declarada:
-      los coeficientes exactos de las colas exigen el sector de
-      velocidades completo; la cola de µ respecto de G_local,
-      1 − 3(3λ_K−1)e²/(2ξ−α_a), no tiene el polo.
+      aproximación QS descarta ∂_t y velocidades del mismo orden e²).
+      E3_Atlas (validation/atlas_tail_derivation.py) lo cierra al nivel
+      del polo: con el sector de velocidades, η − 1 = [P_η/(λ_K−1) + Q_η]e²
+      y µ_loc − 1 = [P_µ/(λ_K−1) + Q_µ]e², P_η = 3α_a/(2−α_a),
+      P_µ = −P_η·p(2p−1)/3 (tail_pole_residues). El polo es FÍSICO (no un
+      artefacto de la truncación, como #18 sugería al nivel medido): la
+      truncación QS exagera su residuo (2 en vez de P_η) y pierde la
+      dependencia en α_a. La cola de µ_loc SÍ tiene el polo (la forma QS
+      1 − 3(3λ_K−1)e²/(2ξ−α_a) no lo tiene y tampoco es física). Las
+      partes regulares Q son numéricas y dominan en α_a ≈ λ_K − 1.
 
 Erratum candidata (v36, H.2.2): el apéndice escribe «c_s² = α/(2−α) → 0
 cuando α → 0»; la derivación da c_s² = (2−α_a)(λ_K−1)/(α_a(3λ_K−1))
@@ -76,9 +81,17 @@ ATLAS_STATUS = (
     "renormalización de la G local (G_growth = G_local = G_B/(ξ − α_a/2), "
     "re-derivado desde la acción y confirmado por integración completa al "
     "nivel 5e-4); η_Atlas → 1. La firma sub-horizonte de (µ, η) es SOLO "
-    "la del canal Cronos. Colas O(e²) declaradas con coeficientes "
-    "pendientes (sector de velocidades); la cola QS de η sobreestima el "
-    "sistema completo ×~28 a e = 0.01")
+    "la del canal Cronos. Colas O(e²) (E3_Atlas, "
+    "results/2026-09-13_mu_eta_atlas_tail/): los residuos del polo "
+    "1/(λ_K−1) están DERIVADOS con el sector de velocidades (E3a = A: "
+    "P_η = 3α_a/(2−α_a), P_µ = −P_η·p(2p−1)/3, escalera exacta; el polo es "
+    "físico — horizonte de sonido del khronon — y la cola QS truncada lo "
+    "sobreestima ×2(2−α_a)/(3α_a)); partes regulares Q numéricas. "
+    "Confirmación numérica E3b = C bajo la regla congelada: pendiente de "
+    "confirmación numérica independiente (las seis pendientes están al "
+    "0.9–6.8 % de la escalera y ninguna es compatible con la QS truncada, "
+    "pero el brazo e ≤ 0.02 falla el exponente log-log, 2.14 ∉ [1.9, 2.1], "
+    "por curvatura O(e⁴) que el umbral no calibró; no se retoca)")
 
 
 def _check_params(lamK: float, xi: float, alpha_a: float) -> None:
