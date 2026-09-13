@@ -19,7 +19,7 @@ Generado de los ficheros ingeridos (nunca de memoria).
 
 ## des_dovekie — DES-Dovekie_HD.csv
 - Cabecera: `# zHD       = redshift in CMB frame with VPEC correction`
-- Filas de datos: 1828
+- Filas de datos (`SN:`): **1820** — el fichero tiene 1829 líneas = 8 comentarios `#` + 1 cabecera `VARNAMES:` + 1820 filas `SN:`; el corte del script oficial (zHD > 0) no elimina ninguna. Verificado por bytes contra `nsn` = 1820 de ambos npz (PR #15). La versión anterior de este informe decía 1828 porque contó las 8 líneas de comentario como filas de datos (1829 − 1 cabecera): no era un filtro, era un conteo de líneas.
 
 ## des_dovekie — STAT+SYS.npz / STATONLY.npz
 - STAT+SYS: clave `nsn`, shape (1,), dtype int64
