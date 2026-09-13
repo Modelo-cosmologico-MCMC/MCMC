@@ -1,0 +1,79 @@
+{
+  "preregistered_utc": "2026-09-13T18:46:57.140603+00:00",
+  "code_commit": "f97d2074b22ce0c6c5b2621f6923a18b2e7bf149",
+  "front": "frente 3 — canal Atlas de µ(k,a), η(k,a) derivado desde la Acción de Gea (9.1) + Término de Cronos (9.4)",
+  "statute": "derivación desde la acción del tratado en gauge unitario con materia = polvo (Sorkin–Schutz), sin objetos ajenos; verificación por cuatro vías (límite GR, fondo/Sello, cruce khronométrico, integración numérica completa). Es teoría pura: no carga datos ni ajusta parámetros.",
+  "objects_from_treatise": {
+    "action": "L = (1/16πG_B) N√q [K_ijK^ij − λ_K K² + ξ R³[q] + α_a a_i a^i] + L_polvo",
+    "parameters": {
+      "lambda_K": "1 + ε_K (constants.EPSILON_K = 0.012)",
+      "xi": "c_T² = ξ ⟹ GW170817 fija ξ = 1 a 1e-15",
+      "alpha_a": "ventana (9.4): 0 < α_a < 2ξ"
+    },
+    "normalization": "G_N ≡ G_B/ξ (Sello de Newton 9.3)"
+  },
+  "E1_identities_to_lock": {
+    "statement": "la re-derivación simbólica desde la acción debe reproducir EXACTAMENTE las formas cerradas fijadas en cosmology/mu_eta_atlas.py",
+    "identities": [
+      "fondo: G_cosmo = 2G_B/(3λ_K − 1) (Sello 9.3 reproducido)",
+      "δ = j0 + 3φ (contraste del polvo)",
+      "µ_Atlas(e) = 2ξ/[(2ξ − α_a) + 3(3λ_K − 1)e²]",
+      "µ_Atlas(e → 0)·(1 − α_a/2ξ) = 1",
+      "η_Atlas(e → 0) = 1 (para λ_K ≠ 1; en λ_K = 1 la forma QS es 0/0 y el límite e → 0 se toma primero)",
+      "G_growth = G_local = G_B/(ξ − α_a/2) (cancelación)",
+      "c_s²·α_a(3λ_K − 1) = ξ(2ξ − α_a)(λ_K − 1)",
+      "coef. cinético del khronon ∝ (3λ_K − 1)/(λ_K − 1)",
+      "c_T² = ξ",
+      "límite GR (1, 1, 0) ⟹ µ = η = 1"
+    ],
+    "expected_numbers": {
+      "mu_subhorizon_harness": 1.1724137931034484,
+      "p_qs_harness": 1.134177833900713,
+      "eta_tail_coefficient_harness": 45.31862745098034,
+      "eta_tail_coefficient_treatise": 172.7206666666665
+    }
+  },
+  "E2_numerical_integration": {
+    "statement": "integración del sistema lineal COMPLETO (sin aproximación QS) en materia dominante, ICs QS-consistentes en a_start y RELAJACIÓN al modo creciente; medición en la ventana tardía",
+    "harness_point": {
+      "lambda_K": 1.05,
+      "xi": 1.02,
+      "alpha_a": 0.3
+    },
+    "k_over_H0": [
+      66.667,
+      200.0,
+      600.0
+    ],
+    "a_start": 0.001,
+    "window_a": [
+      0.3,
+      1.0
+    ],
+    "solver": "Radau, rtol 1e-9, atol 1e-15",
+    "rules": {
+      "mu": "|mediana(µ_num)/µ_QS(e) − 1| ≤ 0.01",
+      "eta": "|mediana(η_num) − 1| ≤ 0.01",
+      "growth_index": "|p_num/p_QS − 1| ≤ 0.01 con p_QS analítico (independiente de la normalización de µ)",
+      "mode_purity": "std(p) en la ventana ≤ 0.01 y ningún cambio de signo de δ en la ventana"
+    },
+    "declared_non_test": "la cola QS de η (coef. ~45 en el punto del arnés) NO se espera reproducida por η_num: la aproximación QS descarta ∂_t y velocidades del mismo orden e²; se publica la diferencia como diagnóstico, sin puerta"
+  },
+  "outcomes_enumerated": {
+    "A_expected": "E1 todas las identidades reproducidas Y E2 dentro de umbrales ⟹ ATLAS_STATUS pasa a DERIVADO-NULO al orden dominante: la firma sub-horizonte de (µ, η) es SOLO la del canal Cronos",
+    "B_contrary": "alguna identidad no reproducida o E2 fuera de umbral ⟹ error de implementación (arnés/ICs) o de derivación (formas cerradas), a DISCRIMINAR: (i) rehacer E1 con la derivación independiente; (ii) variar a_start y ventana; (iii) solo entonces revisar las formas cerradas. Nunca se ajustan los umbrales"
+  },
+  "declared_frontiers_not_derived": [
+    "coeficientes completos de las colas O(e²/(λ_K−1)) — exigen el sector de velocidades (la cola QS de η tiene el polo 1/(λ_K−1): parámetro pequeño efectivo e/√(λ_K−1) ~ aH/(c_s k); con ε_K = 0.012 la ventana sub-horizonte se estrecha ×~9)",
+    "régimen superhorizonte",
+    "cotas PPN de marco preferido de la clase khronométrica sobre (ε_K, α_a) — contraste externo pendiente, análogo al de BBN",
+    "acoplamiento fuerte a Λ_sc ~ M_P√α_a"
+  ],
+  "erratum_candidate_v36_H22": "H.2.2 escribe «c_s² = α/(2−α) → 0 cuando α → 0»; la derivación da c_s² = (2−α_a)(λ_K−1)/(α_a(3λ_K−1)) (ξ = 1): → 0 cuando λ_K → 1, diverge a λ_K fijo cuando α_a → 0. Λ_sc ~ M_P√α_a → 0 se mantiene. Precisión, no retractación — propuesta para la fe de erratas de v36, decisión del autor",
+  "residues_refinement": "G_cosmo/G_local = (2ξ − α_a)/(3λ_K − 1) ≈ 1 − (3/2)ε_K − α_a/2: BBN acota la combinación; el −1.8 % de (9.5) es α_a ≪ ε_K; el crecimiento sub-horizonte no mide ninguna de las dos (cancelación)",
+  "prohibitions": {
+    "no_data": "ningún dataset entra; vigilado por test",
+    "no_fitting": "(λ_K, ξ, α_a) no se ajustan a nada aquí",
+    "no_threshold_tuning": "umbrales E2, punto del arnés, a_start y ventana congelados; un cambio exige nueva preinscripción"
+  }
+}

@@ -50,15 +50,19 @@ DERIVACIÓN (canal Cronos, cerrada — sin frente pendiente):
   K_MAX_LINEAR_HMPC = 0.2 h/Mpc declarado; fuera de la ventana los
   números se publican marcados, no se citan.
 
-CANAL ATLAS (9.4–9.5): contribución INDEPENDIENTE de k en el régimen
-cuasi-estático de la clase saludable (khronon): µ_Atlas − 1 = O(1)·ε_K,
-η_Atlas − 1 = O(1)·(ε_K, α_a), límite GR (λ_K, ξ) → (1,1), α_a → 0. Los
-coeficientes O(1) exactos requieren el cierre del álgebra con N local —
-DEPENDENCIA DECLARADA DEL FRENTE 3. Aquí solo el gancho: sin
-coeficientes explícitos la contribución es cero y el estatuto es
-«no derivado» (ATLAS_STATUS). Lo enunciable sin el cierre: el MISMO ε_K
-que da G_cosmo/G_N − 1 ≈ −(3/2)ε_K (frente 6, BBN) fija la amplitud del
-offset de crecimiento a gran escala — dos observables, un residuo.
+CANAL ATLAS (9.4–9.5) — DERIVADO el 13-sep-2026 (frente 3, cosmology/
+mu_eta_atlas.py): en el régimen cuasi-estático sub-horizonte el offset
+µ_Atlas − 1 = α_a/(2ξ − α_a) es independiente de k y de λ_K, y se
+CANCELA exactamente contra la renormalización de la G local
+(G_growth = G_local = G_B/(ξ − α_a/2)): medida respecto de la G de
+laboratorio, µ_Atlas = 1 + O(e²) y η_Atlas = 1 + O(e²). La expectativa
+anterior de este módulo («µ_Atlas − 1 = O(1)·ε_K») queda SUPERADA por la
+derivación: ε_K no entra al orden dominante — entra en el fondo,
+G_cosmo/G_local = (2ξ − α_a)/(3λ_K − 1) ≈ 1 − (3/2)ε_K − α_a/2, que BBN
+acota como combinación (frente 6). Consecuencia: la cola k² del canal
+Cronos es la ÚNICA firma sub-horizonte de (µ, η) del sector
+perturbativo. atlas_offset() conserva la firma por compatibilidad y
+devuelve 0 con estatuto derivado, no pendiente.
 
 Todo cálculo de este módulo es PREDICCIÓN: no carga datos, no ajusta
 nada. La prohibición preinscrita: µ, η nunca se eligen desde los datos
@@ -78,9 +82,12 @@ C_KMS = 299792.458
 RHO_C_OVER_MEAN = 200.0        # cierre 2: ρ_c = 200 × ρ̄_m (frente 5)
 K_MAX_LINEAR_HMPC = 0.2        # cierre 3: ventana de validez declarada
 RHO_C_MODES = ("comoving", "physical")
-ATLAS_STATUS = ("PENDIENTE (frente 3): los coeficientes O(1) de µ_Atlas "
-                "y η_Atlas no están derivados — sin coeficientes "
-                "explícitos la contribución es cero y no se cita")
+ATLAS_STATUS = ("DERIVADO-NULO al orden dominante (13-sep-2026, frente 3; "
+                "ver cosmology/mu_eta_atlas.py y results/"
+                "2026-09-13_mu_eta_atlas/): el offset α_a/(2ξ) se cancela "
+                "contra la G local — la cola k² de Cronos es la ÚNICA firma "
+                "sub-horizonte de (µ, η); colas O(e²) de Atlas con "
+                "coeficientes pendientes (sector de velocidades)")
 
 __all__ = [
     "ALPHA0_INV_MAX", "ATLAS_STATUS", "K_MAX_LINEAR_HMPC",
@@ -195,11 +202,11 @@ def in_validity_window(k_hMpc) -> np.ndarray:
 
 def atlas_offset(epsilon_K: float = C.EPSILON_K,
                  c_mu: float | None = None) -> float:
-    """µ_Atlas − 1 = c_µ · ε_K (independiente de k, régimen
-    cuasi-estático). c_µ = None (por defecto) ⟹ 0.0: el coeficiente
-    O(1) NO está derivado (ATLAS_STATUS) y no se inventa. Pasar c_µ
-    explícito es una hipótesis del llamador, nunca un valor del
-    tratado."""
+    """Offset sub-horizonte del canal Atlas en µ medida respecto de la G
+    local: ≡ 0 por CANCELACIÓN (derivado, 13-sep-2026; ver
+    cosmology.mu_eta_atlas.mu_atlas_relative_to_local). c_µ explícito es
+    una hipótesis del llamador ajena al tratado (se conserva por
+    compatibilidad de firma); ε_K NO entra al orden dominante."""
     if c_mu is None:
         return 0.0
     return float(c_mu) * float(epsilon_K)

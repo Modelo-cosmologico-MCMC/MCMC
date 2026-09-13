@@ -35,6 +35,9 @@ dependencies = [
 quantum = ["qutip>=4.7"]
 cosmology = ["camb>=1.5", "classy>=3.0"]
 dev = ["pytest>=7.4", "pytest-cov>=4.1", "ruff==0.15.8"]
+# Re-derivación simbólica del canal Atlas (validation/atlas_derivation.py);
+# la suite NO la importa — solo los scripts de results/.
+derivation = ["sympy>=1.12"]
 all = ["qutip>=4.7", "camb>=1.5", "pytest>=7.4"]
 
 [tool.setuptools]

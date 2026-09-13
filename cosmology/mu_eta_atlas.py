@@ -1,0 +1,234 @@
+"""Canal Atlas de µ/η — formas cerradas del límite cuasi-estático,
+DERIVADAS de la Acción de Gea (9.1) + Término de Cronos (9.4) (frente 3).
+
+validation/atlas_derivation.py re-deriva estos resultados desde la
+acción (sympy) y el candado E1 (tests/test_mu_eta_atlas.py +
+tests/test_mu_eta_atlas_lock.py) compara fórmula fijada contra
+derivación. Este módulo no carga datos ni ajusta nada.
+
+Parámetros del tratado: λ_K (ε_K ≡ λ_K − 1, constants.EPSILON_K), ξ y
+α_a; GR = (1, 1, 0). Normalización: G_N ≡ G_B/ξ (la del Sello 9.3).
+e ≡ aH/(ck) es el parámetro de la expansión sub-horizonte.
+
+RESULTADOS (gauge unitario, materia = polvo, un modo escalar, QS):
+
+  µ_Atlas(e)  = 2ξ / [(2ξ − α_a) + 3(3λ_K − 1) e²]
+  η_Atlas(e)  = −(9e²λ² − 9e²λξ − 6e²λ + 3e²ξ + e² + 2λξ − 2ξ)
+                 / [ξ (9e²λ − 3e² − 2λ + 2)]                 (λ ≡ λ_K)
+  sub-horizonte estricto (e → 0): µ = 1/(1 − α_a/2ξ),  η = 1
+  G_growth = G_B/(ξ − α_a/2) = G_local (H → 0 en las mismas ecuaciones)
+      ⟹ CANCELACIÓN: µ medida respecto de la G de laboratorio vale
+        1 + O(e²), η = 1 + O(e²). El canal Atlas no deja firma
+        sub-horizonte en (µ, η) al orden dominante.
+  G_cosmo = 2G_B/(3λ_K − 1)  (Sello 9.3, reproducido por la acción)
+      ⟹ G_cosmo/G_local = (2ξ − α_a)/(3λ_K − 1)
+         ≈ 1 − (3/2)ε_K − α_a/2   (ξ = 1, primer orden): BBN acota la
+         COMBINACIÓN; el −1.8 % de (9.5) es el caso α_a ≪ ε_K.
+  khronon: coef. cinético ∝ (3λ_K−1)/(λ_K−1) ⟹ no-fantasma ⟺ λ_K > 1
+      (o λ_K < 1/3); c_s² = ξ(2ξ − α_a)(λ_K − 1)/[α_a(3λ_K − 1)] > 0
+      ⟺ α_a < 2ξ (λ_K > 1) — la ventana declarada en (9.4).
+  tensores: c_T² = ξ (GW170817 ⟹ ξ = 1 a 1e-15: ancla externa).
+
+DOS PRECISIONES que el candado hace explícitas:
+  (i) η_Atlas(e) es 0/0 en λ_K = 1 exacto: a e finito la fórmula da
+      1/3 en GR estricto (el khronon es gauge en λ_K = 1 y el sistema QS
+      degenera). El límite GR correcto toma e → 0 PRIMERO: η → 1.
+  (ii) La cola de η NO es O(e²) a secas: η − 1 = e²·(A + ξB)/(2ξ(λ_K−1))
+      + O(e⁴), con A = 9λ² − 9λξ − 6λ + 3ξ + 1 y B = 9λ − 3. El
+      1/(λ_K − 1) — herencia de c_s² ∝ (λ_K − 1) — hace que el parámetro
+      pequeño efectivo sea e/√(λ_K−1) ~ aH/(c_s k): con ε_K = 0.012 el
+      coeficiente es ~170 y la ventana sub-horizonte se estrecha ×~9.
+      Además el coeficiente QS de esa cola NO es el completo (la
+      aproximación QS descarta ∂_t y velocidades del mismo orden e²): el
+      arnés numérico (E2) no lo reproduce y no debe. Frontera declarada:
+      los coeficientes exactos de las colas exigen el sector de
+      velocidades completo; la cola de µ respecto de G_local,
+      1 − 3(3λ_K−1)e²/(2ξ−α_a), no tiene el polo.
+
+Erratum candidata (v36, H.2.2): el apéndice escribe «c_s² = α/(2−α) → 0
+cuando α → 0»; la derivación da c_s² = (2−α_a)(λ_K−1)/(α_a(3λ_K−1))
+(ξ = 1): se anula cuando λ_K → 1 y a λ_K fijo DIVERGE cuando α_a → 0.
+Lo que sí se mantiene de H.2.2: Λ_sc ~ M_P√α_a → 0. Precisión, no
+retractación: la ventana de salud y la identificación Cronos = khronon
+quedan intactas y ahora derivadas.
+"""
+
+from __future__ import annotations
+
+import numpy as np
+
+from mcmc_ontology import constants as C
+
+__all__ = [
+    "ATLAS_STATUS", "G_cosmo_over_G_local", "G_cosmo_over_GB",
+    "G_growth_over_GB", "G_local_over_GB", "c_T2", "eta_atlas_qs",
+    "eta_tail_coefficient", "growth_index_matter_era", "is_healthy",
+    "khronon_cs2", "khronon_kinetic_sign", "mu_atlas_qs",
+    "mu_atlas_relative_to_local", "mu_atlas_subhorizon",
+    "residues_ratio_first_order",
+]
+
+ATLAS_STATUS = (
+    "DERIVADO-NULO al orden dominante (frente 3, desenlace A publicado el "
+    "13-sep-2026 en results/2026-09-13_mu_eta_atlas/): el offset "
+    "sub-horizonte α_a/(2ξ) de µ_Atlas se cancela exactamente contra la "
+    "renormalización de la G local (G_growth = G_local = G_B/(ξ − α_a/2), "
+    "re-derivado desde la acción y confirmado por integración completa al "
+    "nivel 5e-4); η_Atlas → 1. La firma sub-horizonte de (µ, η) es SOLO "
+    "la del canal Cronos. Colas O(e²) declaradas con coeficientes "
+    "pendientes (sector de velocidades); la cola QS de η sobreestima el "
+    "sistema completo ×~28 a e = 0.01")
+
+
+def _check_params(lamK: float, xi: float, alpha_a: float) -> None:
+    if xi <= 0:
+        raise ValueError("ξ debe ser > 0")
+    if alpha_a < 0:
+        raise ValueError("α_a debe ser ≥ 0")
+    if 3 * lamK - 1 == 0:
+        raise ValueError("λ_K = 1/3 es singular (3λ_K − 1 = 0)")
+
+
+# --------------------------------------------------------------------
+# µ, η en el límite cuasi-estático
+# --------------------------------------------------------------------
+
+def mu_atlas_qs(e, lamK: float, xi: float = 1.0, alpha_a: float = 0.0):
+    """µ_Atlas(e) respecto de G_N ≡ G_B/ξ, e = aH/(ck)."""
+    _check_params(lamK, xi, alpha_a)
+    e = np.asarray(e, float)
+    return 2.0 * xi / ((2.0 * xi - alpha_a) + 3.0 * (3.0 * lamK - 1.0) * e ** 2)
+
+
+def eta_atlas_qs(e, lamK: float, xi: float = 1.0, alpha_a: float = 0.0):
+    """η_Atlas(e) = Φ/Ψ (QS). Para λ_K = 1 exacto la forma cerrada es
+    0/0 (precisión (i) del módulo): se devuelve el orden dominante,
+    η ≡ 1, que es el límite e → 0."""
+    _check_params(lamK, xi, alpha_a)
+    e = np.asarray(e, float)
+    if abs(lamK - 1.0) < 1e-13:
+        return np.ones_like(e)
+    e2 = e * e
+    num = -(9 * e2 * lamK ** 2 - 9 * e2 * lamK * xi - 6 * e2 * lamK
+            + 3 * e2 * xi + e2 + 2 * lamK * xi - 2 * xi)
+    den = xi * (9 * e2 * lamK - 3 * e2 - 2 * lamK + 2)
+    return num / den
+
+
+def mu_atlas_subhorizon(lamK: float, xi: float = 1.0,
+                        alpha_a: float = 0.0) -> float:
+    """e → 0: µ = 1/(1 − α_a/2ξ) respecto de G_B/ξ — independiente de k
+    y de λ_K (ε_K no entra al orden dominante)."""
+    _check_params(lamK, xi, alpha_a)
+    if alpha_a >= 2 * xi:
+        raise ValueError("α_a ≥ 2ξ: fuera de la ventana de salud (c_s² ≤ 0)")
+    return 1.0 / (1.0 - alpha_a / (2.0 * xi))
+
+
+def mu_atlas_relative_to_local(e, lamK: float, xi: float = 1.0,
+                               alpha_a: float = 0.0):
+    """µ respecto de la G medida en laboratorio: µ_QS·(1 − α_a/2ξ) =
+    1/[1 + 3(3λ_K−1)e²/(2ξ−α_a)] = 1 − 3(3λ_K−1)e²/(2ξ−α_a) + O(e⁴).
+    Sin polo en λ_K = 1: la cancelación es exacta al orden dominante."""
+    return mu_atlas_qs(e, lamK, xi, alpha_a) * (1.0 - alpha_a / (2.0 * xi))
+
+
+def eta_tail_coefficient(lamK: float, xi: float = 1.0) -> float:
+    """Coeficiente c tal que η_Atlas − 1 = c·e² + O(e⁴) (forma QS):
+    c = (A + ξB)/(2ξ(λ_K − 1)), A = 9λ²−9λξ−6λ+3ξ+1, B = 9λ−3.
+    Diverge en λ_K → 1: el parámetro pequeño efectivo es e/√(λ_K−1).
+    Este coeficiente QS NO es el completo (frontera declarada)."""
+    _check_params(lamK, xi, 0.0)
+    if abs(lamK - 1.0) < 1e-13:
+        return float("inf")
+    A = 9 * lamK ** 2 - 9 * lamK * xi - 6 * lamK + 3 * xi + 1
+    B = 9 * lamK - 3
+    return (A + xi * B) / (2.0 * xi * (lamK - 1.0))
+
+
+# --------------------------------------------------------------------
+# Las tres G y el Contraste de los Residuos refinado
+# --------------------------------------------------------------------
+
+def G_growth_over_GB(lamK: float, xi: float = 1.0,
+                     alpha_a: float = 0.0) -> float:
+    """G_growth/G_B = 1/(ξ − α_a/2)."""
+    _check_params(lamK, xi, alpha_a)
+    return 1.0 / (xi - alpha_a / 2.0)
+
+
+def G_local_over_GB(lamK: float, xi: float = 1.0,
+                    alpha_a: float = 0.0) -> float:
+    """G_local/G_B (Cavendish, H → 0) = 1/(ξ − α_a/2) = G_growth/G_B:
+    la cancelación. Coincide con la G_N conocida de la clase
+    khronométrica, G/(1 − α/2), en la normalización correspondiente."""
+    return G_growth_over_GB(lamK, xi, alpha_a)
+
+
+def G_cosmo_over_GB(lamK: float) -> float:
+    """G_cosmo/G_B = 2/(3λ_K − 1) — el Sello de Newton (9.3), que la
+    acción reproduce (etapa 2 de la derivación)."""
+    _check_params(lamK, 1.0, 0.0)
+    return 2.0 / (3.0 * lamK - 1.0)
+
+
+def G_cosmo_over_G_local(lamK: float, xi: float = 1.0,
+                         alpha_a: float = 0.0) -> float:
+    """(2ξ − α_a)/(3λ_K − 1): la razón que BBN acota (frente 6)."""
+    return G_cosmo_over_GB(lamK) / G_local_over_GB(lamK, xi, alpha_a)
+
+
+def residues_ratio_first_order(eps_K: float = C.EPSILON_K,
+                               alpha_a: float = 0.0) -> float:
+    """G_cosmo/G_N ≈ 1 − (3/2)ε_K − α_a/2 (ξ = 1, primer orden). Con
+    α_a = 0 reproduce la ec. (9.5) usada por cosmology/residues_test
+    (1 − 1.5·ε_K = 0.982); en general BBN mide la combinación."""
+    return 1.0 - 1.5 * eps_K - 0.5 * alpha_a
+
+
+# --------------------------------------------------------------------
+# Salud del khronon y sector tensorial
+# --------------------------------------------------------------------
+
+def khronon_kinetic_sign(lamK: float) -> float:
+    """Signo del coeficiente cinético del khronon ∝ (3λ_K−1)/(λ_K−1):
+    no-fantasma ⟺ λ_K > 1 o λ_K < 1/3."""
+    _check_params(lamK, 1.0, 0.0)
+    if abs(lamK - 1.0) < 1e-13:
+        return 0.0                       # khronon no dinámico (GR)
+    return float(np.sign((3 * lamK - 1) / (lamK - 1)))
+
+
+def khronon_cs2(lamK: float, xi: float = 1.0, alpha_a: float = 0.0) -> float:
+    """c_s² = ξ(2ξ − α_a)(λ_K − 1)/[α_a(3λ_K − 1)]; con α_a = 0 y λ_K ≠ 1
+    diverge (acoplamiento fuerte, Λ_sc ~ M_P√α_a → 0 — H.2.2)."""
+    _check_params(lamK, xi, alpha_a)
+    if alpha_a == 0.0:
+        return float("inf") if lamK != 1.0 else float("nan")
+    return xi * (2 * xi - alpha_a) * (lamK - 1.0) / (alpha_a * (3 * lamK - 1.0))
+
+
+def is_healthy(lamK: float, xi: float = 1.0, alpha_a: float = 0.0) -> bool:
+    """Ventana (9.4): no-fantasma (λ_K > 1) y c_s² > 0 (0 < α_a < 2ξ)."""
+    _check_params(lamK, xi, alpha_a)
+    if alpha_a == 0.0:
+        return False
+    return lamK > 1.0 and 0.0 < alpha_a < 2.0 * xi
+
+
+def c_T2(xi: float = 1.0) -> float:
+    """c_T² = ξ para las ondas gravitacionales (etapa 6)."""
+    if xi <= 0:
+        raise ValueError("ξ debe ser > 0")
+    return float(xi)
+
+
+def growth_index_matter_era(lamK: float, xi: float = 1.0,
+                            alpha_a: float = 0.0) -> float:
+    """δ ∝ a^p en materia dominante con la G de crecimiento del canal:
+    p(p + ½) = (3/2)·G_growth/G_cosmo = (3/2)(3λ_K−1)/(2ξ−α_a); GR: p = 1.
+    Es el observable que el arnés E2 mide sin depender de la
+    normalización de µ."""
+    _check_params(lamK, xi, alpha_a)
+    g = (3 * lamK - 1.0) / (2 * xi - alpha_a)
+    return (-0.5 + np.sqrt(0.25 + 6.0 * g)) / 2.0
