@@ -6,6 +6,40 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Primera aplicación del pipeline SN a Dovekie REAL (13-sep):
+  DESENLACE INDETERMINADO bajo la regla congelada — publicado sin
+  reajuste**. Preinscripción congelada ANTES de la primera lectura de
+  la columna MU (`f630834326c0`, en un commit que contiene su
+  generador), citando por sha256 el PASS de mocks de #15 como
+  precondición; doble barrera ejecutable en el ejecutor. Cinco brazos:
+  (1) benchmark SN-only ΛCDM like-for-like con el chain oficial
+  nautilus de DES-Dovekie (ingerido con manifest: 16384 filas, mismo
+  soporte de prior [0.10, 0.50]): Ω_m propio = 0.3305 (+0.0154
+  −0.0150) frente a 0.3306 ± 0.0154 oficial, **Δ = −0.005σ** — el
+  pipeline reproduce el número oficial sobre los bytes oficiales;
+  (2–5) ΛCDM y MCMC sobre Dovekie + CC (31) + BAO DESI DR2 (6), n =
+  1857, con STAT+SYS principal y STATONLY de robustez, emcee 32×3000
+  semilla 42, convergidos. STAT+SYS: χ²_ν(ΛCDM) = 0.893, Ω_m = 0.3295 ±
+  0.0137, H0 = 67.77 ± 0.61; MCMC gana Δχ²_min = 0.04 con dos
+  parámetros más → ΔAIC = +3.96, ΔBIC = +15.01 pro-ΛCDM; ε_Λ = +0.018 ±
+  0.037, CI95 [−0.044, +0.091] ∋ 0. STATONLY: ΔAIC = +3.85, ΔBIC =
+  +14.90, ε_Λ = +0.012 ± 0.037. La regla preinscrita (orden C → B → A →
+  INDETERMINADO) descarta C (sin tensión) y B (sin preferencia); A
+  exigía además σ(ε) ≥ 0.04 (posterior dominado por el prior de σ =
+  0.05) y se obtiene 0.0371 — el ÚNICO criterio de A que no se cumple;
+  el umbral se fijó sin calibración conjunta previa (los mocks de #15
+  eran SN-only). La regla no se retoca: el desenlace es INDETERMINADO
+  y se publica con el mismo peso que cualquier otro; una futura
+  preinscripción distinta podrá recalibrar esa puerta, esta corrida
+  no. Lectura honesta de los números (no del veredicto): las SNe
+  Dovekie no identifican ε_Λ y el fondo MCMC no es preferido —
+  coherente con la nota estructural de 6A (z_trans ≈ 9). Roles
+  intactos: Dovekie real = primera aplicación · Unite = benchmark
+  armonizado, NO replicación independiente · Union3 = contraste
+  externo · Pantheon+ = disección. Estatuto: comprobación interna del
+  pipeline sobre datos reales bajo preinscripción (E8) — no
+  demostración física (`results/2026-09-13_dovekie_real/`).
+
 - **Validación por mocks del pipeline SN Dovekie (12-sep, PR #15):
   las cuatro puertas preinscritas en PASS y la barrera de datos
   reales armada**. Preinscripción congelada ANTES de ejecutar puerta

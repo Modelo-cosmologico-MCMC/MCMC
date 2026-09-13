@@ -495,6 +495,35 @@ velocidades), como el régimen superhorizonte, las cotas PPN sobre
 **Estatuto**: derivación desde la acción verificada por cuatro vías
 (E8); teoría pura, sin datos (`results/2026-09-13_mu_eta_atlas/`).
 
+### 3.16 La primera aplicación a Dovekie real: desenlace INDETERMINADO bajo la regla congelada (13-sep-2026)
+
+Con la preinscripción congelada ANTES de la primera lectura de la
+columna MU del HD (sha256 `f630834326c0`, en un commit que contiene su
+generador; precondición: el PASS de mocks de §3.13 citado por hash), el
+pipeline SN entró por primera vez en el dato real. Benchmark SN-only
+ΛCDM like-for-like con el chain oficial nautilus de DES-Dovekie (mismo
+soporte de prior [0.10, 0.50]): Ω_m = 0.3305 (+0.0154 −0.0150) frente a
+0.3306 ± 0.0154, Δ = −0.005σ — el pipeline reproduce el número oficial
+sobre los bytes oficiales. Contraste conjunto Dovekie + CC + BAO (n =
+1857), STAT+SYS principal: χ²_ν(ΛCDM) = 0.893; MCMC gana Δχ²_min = 0.04
+con dos parámetros más, ΔAIC = +3.96, ΔBIC = +15.01 pro-ΛCDM; ε_Λ =
++0.018 ± 0.037 con 0 ∈ CI95; STATONLY (robustez) idéntico en signo y
+orden (ΔBIC = +14.90, ε_Λ = +0.012 ± 0.037). La regla preinscrita
+(C → B → A → INDETERMINADO) descarta tensión (C) y preferencia (B); el
+desenlace aburrido A exigía además σ(ε) ≥ 0.04 y se obtiene 0.0371, el
+único criterio de A no cumplido — un umbral fijado sin calibración
+conjunta previa (los mocks de §3.13 eran SN-only). **La regla no se
+retoca**: el desenlace se publica como INDETERMINADO con el mismo peso
+que los demás; recalibrar esa puerta es materia de una preinscripción
+futura y distinta, no de esta corrida. Lo que los números dicen por sí
+mismos, sin veredicto: las SNe Dovekie no identifican ε_Λ y el fondo
+MCMC no es preferido, en línea con la nota estructural de 6A (z_trans ≈
+9). Roles inalterados (Unite = benchmark armonizado, NO replicación
+independiente).
+**Estatuto**: comprobación interna del pipeline sobre datos reales bajo
+preinscripción (E8) — no demostración física
+(`results/2026-09-13_dovekie_real/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
@@ -553,6 +582,8 @@ python -c "from cosmology.residues_test import report; print(report())"  # §3.4
 python scripts/run_profile_shape.py    # §3.5
 python scripts/run_kls_flow.py         # §5.4 (frente E)
 python scripts/run_rp_nonstationary.py # §5.4 (frente F)
+python scripts/run_dovekie_real_prereg.py  # §3.16 preinscripción (no lee MU)
+python scripts/run_dovekie_real.py     # §3.16 cinco brazos tras la doble barrera
 ```
 
 Desenlaces versionados: `results/2026-07-31_production_fit/`,
