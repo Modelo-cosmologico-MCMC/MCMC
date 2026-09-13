@@ -670,3 +670,33 @@ claims:
     evidence_level: derivación interna con cierres declarados (E8); predicción sin contraste — no detección; amplitud = límite superior; Atlas condicional (frente 3)
     status: condicional
     artifact: results/2026-09-13_mu_eta_cronos
+
+  - claim_id: dovekie-real-primera-aplicacion
+    entity: Primera aplicación del pipeline SN a Dovekie REAL (13-sep) — desenlace INDETERMINADO
+    law: "registro de datos 6A.1 + doble barrera ejecutable (PASS de mocks #15 + preinscripción f630834326c0)"
+    derivation: >-
+      preinscripción congelada ANTES de la primera lectura de la columna
+      MU, en un commit que contiene su generador. Benchmark SN-only ΛCDM
+      like-for-like con el chain oficial nautilus (ingerido con manifest,
+      mismo soporte de prior): Ω_m = 0.3305 (+0.0154 −0.0150) frente a
+      0.3306 ± 0.0154 oficial, Δ = −0.005σ. Conjunto Dovekie + CC + BAO
+      (n = 1857), STAT+SYS: χ²_ν(ΛCDM) = 0.893, ΔAIC = +3.96, ΔBIC =
+      +15.01 pro-ΛCDM, ε_Λ = +0.018 ± 0.037 con 0 ∈ CI95; STATONLY:
+      ΔBIC = +14.90, ε_Λ = +0.012 ± 0.037. Regla congelada C → B → A →
+      INDETERMINADO: ni tensión ni preferencia; A exigía σ(ε) ≥ 0.04 y
+      se obtiene 0.0371 (único criterio de A no cumplido; umbral fijado
+      sin calibración conjunta previa). La regla NO se retoca: desenlace
+      INDETERMINADO publicado con igual peso. Los números, sin veredicto:
+      las SNe Dovekie no identifican ε_Λ y el fondo MCMC no es preferido.
+    implementation: cosmology/dovekie_real_fit.py + cosmology/dovekie_sn.py + cosmology/bayesian_fit.py
+    test: tests/test_dovekie_real.py + tests/test_dovekie_real_lock.py
+    observable: μ(z) de 1820 SNe Ia (HD Dovekie, columna MU real consumida por primera vez) + H(z) CC + BAO DESI DR2
+    dataset: "des_dovekie (AVAILABLE @ c9a4fcaf, STAT+SYS y STATONLY) + des_dovekie_chains (AVAILABLE, chain oficial nautilus flat-ΛCDM) + cc_hz + desi_dr2"
+    falsifier: >-
+      la regla preinscrita enumeraba tensión (C: |ΔΩ_m| ≥ 3σ oficial o
+      χ²_ν > 1.30) y preferencia (B: ΔBIC ≤ −2 con 0 ∉ CI95(ε)); ninguna
+      se dio. Recalibrar la puerta σ(ε) es materia de una preinscripción
+      futura y distinta, nunca de esta corrida
+    evidence_level: comprobación interna del pipeline sobre datos reales bajo preinscripción (E8) — desenlace INDETERMINADO, no demostración física, no validación frente a ΛCDM
+    status: interno
+    artifact: results/2026-09-13_dovekie_real
