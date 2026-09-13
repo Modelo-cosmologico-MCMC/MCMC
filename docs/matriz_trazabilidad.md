@@ -1,12 +1,8 @@
 # Matriz canónica manuscrito ↔ código ↔ test ↔ estatuto
 
-Trazabilidad explícita del programa (propuesta del análisis v36, punto
-8; el Apéndice H exige que cada pieza resista una prueba objetiva y que
-cada frente declare qué le falta). Los estatutos siguen la v35.1:
-«interna demostrada» = comprobación interna de la implementación
-superada (E8), nunca demostración física. Las celdas «—» declaran un
-hueco real, no lo esconden. `tests/test_traceability.py` verifica que
-cada ruta citada existe.
+<!-- GENERADO por scripts/make_traceability.py desde docs/claims_registry.yaml — NO editar a mano: el test de no-divergencia (tests/test_claims_registry.py) falla si este fichero difiere de la regeneración. -->
+
+Trazabilidad explícita del programa (propuesta del análisis v36, punto 8; el Apéndice H exige que cada pieza resista una prueba objetiva y que cada frente declare qué le falta). Los estatutos siguen la v35.1: «interna demostrada» = comprobación interna de la implementación superada (E8), nunca demostración física. Las celdas «—» declaran un hueco real, no lo esconden. La fuente canónica es `docs/claims_registry.yaml` (falsadores, datasets y categorías negativas viven allí); `tests/test_traceability.py` verifica que cada ruta citada existe y `tests/test_claims_registry.py` que esta vista no diverge de la fuente.
 
 | Elemento | Manuscrito | Código | Test | Estatuto |
 |---|---|---|---|---|
@@ -49,3 +45,4 @@ cada ruta citada existe.
 | Mass gap en retículo | Ap. D | `lattice/mass_gap.py` | `tests/test_lattice.py` | piso espectral efectivo (E10), no Yang-Mills |
 | Qudit y decoherencia | Ap. C | `quantum/qutip_simulation.py` | `tests/test_quantum_v35.py` | firma de consistencia del canal (E10) |
 | Qudit d=5 | Ap. C.1 | `quantum/qudit.py` | `tests/test_qudit.py` | base implementada |
+| Validación por mocks del pipeline SN Dovekie (PR | registro de datos 6A.1 + barrera ejecutable (patrón 5E) | `cosmology/dovekie_sn.py` + `validation/dovekie_mocks.py` + `validation/dovekie_independent.py` | `tests/test_dovekie_lock.py` + `tests/test_dovekie_sn.py` | validación interna del pipeline (E8) — habilita consumir el dato real, no afirma nada sobre él |

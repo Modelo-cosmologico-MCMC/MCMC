@@ -7,7 +7,8 @@
   "state": "AVAILABLE",
   "transformations": [
     "copia literal del clone (subconjunto compacto de 4_DISTANCES_COVMAT; mocks de 1_SIMULATIONS y 5_COSMOLOGY quedan en el clone @ commit fijado — pending_ingest)",
-    "esquema confirmado: data/manifests/sne.schema_report.md"
+    "esquema confirmado: data/manifests/sne.schema_report.md",
+    "conteo verificado (PR #15): 1820 filas SN — 1829 líneas = 8 comentarios + 1 cabecera VARNAMES + 1820 filas 'SN:'; zHD > 0 no elimina ninguna; la cifra 1828 del schema_report v1 contaba los comentarios como datos y queda corregida"
   ],
   "files": [
     {
