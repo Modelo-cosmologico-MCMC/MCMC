@@ -62,10 +62,11 @@ from mcmc_ontology import constants as C
 __all__ = [
     "ATLAS_STATUS", "G_cosmo_over_G_local", "G_cosmo_over_GB",
     "G_growth_over_GB", "G_local_over_GB", "c_T2", "eta_atlas_qs",
-    "eta_tail_coefficient", "growth_index_matter_era", "is_healthy",
-    "khronon_cs2", "khronon_kinetic_sign", "mu_atlas_qs",
+    "eta_tail_coefficient", "eta_tail_physical", "growth_index_matter_era",
+    "is_healthy", "khronon_cs2", "khronon_kinetic_sign", "mu_atlas_qs",
     "mu_atlas_relative_to_local", "mu_atlas_subhorizon",
-    "residues_ratio_first_order",
+    "mu_local_tail_physical", "residues_ratio_first_order",
+    "tail_pole_residues",
 ]
 
 ATLAS_STATUS = (
@@ -134,16 +135,83 @@ def mu_atlas_relative_to_local(e, lamK: float, xi: float = 1.0,
 
 
 def eta_tail_coefficient(lamK: float, xi: float = 1.0) -> float:
-    """Coeficiente c tal que η_Atlas − 1 = c·e² + O(e⁴) (forma QS):
-    c = (A + ξB)/(2ξ(λ_K − 1)), A = 9λ²−9λξ−6λ+3ξ+1, B = 9λ−3.
+    """Coeficiente c tal que η_Atlas − 1 = c·e² + O(e⁴) en la forma QS
+    TRUNCADA: c = (A + ξB)/(2ξ(λ_K − 1)), A = 9λ²−9λξ−6λ+3ξ+1, B = 9λ−3.
     Diverge en λ_K → 1: el parámetro pequeño efectivo es e/√(λ_K−1).
-    Este coeficiente QS NO es el completo (frontera declarada)."""
+
+    NO ES FÍSICO: la truncación QS descarta ∂_t y velocidades del mismo
+    orden e². El residuo verdadero del polo lo da tail_pole_residues
+    (E3_Atlas); este coeficiente lo sobreestima en ×2(2−α_a)/(3α_a) y no
+    depende de α_a. Se conserva solo como referencia de la corrección."""
     _check_params(lamK, xi, 0.0)
     if abs(lamK - 1.0) < 1e-13:
         return float("inf")
     A = 9 * lamK ** 2 - 9 * lamK * xi - 6 * lamK + 3 * xi + 1
     B = 9 * lamK - 3
     return (A + xi * B) / (2.0 * xi * (lamK - 1.0))
+
+
+# --------------------------------------------------------------------
+# Cola física O(e²) — residuos del polo, CON el sector de velocidades
+# (E3_Atlas, validation/atlas_tail_derivation.py; ξ = 1)
+# --------------------------------------------------------------------
+
+def _check_xi_one(xi: float) -> None:
+    if abs(xi - 1.0) > 1e-12:
+        raise ValueError("la cola física está derivada solo para ξ = 1 "
+                         "(GW170817); frontera declarada")
+
+
+def tail_pole_residues(alpha_a: float, xi: float = 1.0) -> dict:
+    """Residuos del polo 1/(λ_K − 1) de las colas O(e²), derivados de la
+    escalera exacta del modo creciente sobre el sistema lineal completo:
+
+        η − 1     = [P_η/(λ_K−1) + Q_η(α_a) + O(λ_K−1)]·e²,
+        µ_loc − 1 = [P_µ/(λ_K−1) + Q_µ(α_a) + O(λ_K−1)]·e²,
+
+        P_η = 3α_a/(2 − α_a),   P_µ = −P_η · p(2p−1)/3,
+
+    con p el índice de crecimiento en λ_K = 1, p(p+½) = 3/(2−α_a) (GR:
+    p = 1). Las partes regulares Q son numéricas (artefacto E3). El polo es
+    físico: el parámetro pequeño es aH/(c_s k) (horizonte de sonido del
+    khronon)."""
+    _check_params(1.0, xi, alpha_a)
+    _check_xi_one(xi)
+    if alpha_a <= 0.0 or alpha_a >= 2.0:
+        raise ValueError("0 < α_a < 2 (ventana de salud con ξ = 1)")
+    p = growth_index_matter_era(1.0, 1.0, alpha_a)
+    P_eta = 3.0 * alpha_a / (2.0 - alpha_a)
+    P_mu = -P_eta * p * (2.0 * p - 1.0) / 3.0
+    return {"P_eta": P_eta, "P_mu_local": P_mu, "p_at_lamK_1": p,
+            "ratio_P_mu_over_P_eta": -p * (2.0 * p - 1.0) / 3.0,
+            "qs_over_physical_eta": 2.0 * (2.0 - alpha_a) / (3.0 * alpha_a)}
+
+
+def eta_tail_physical(e, lamK: float, alpha_a: float, xi: float = 1.0):
+    """Residuo del polo de la cola de η, en la variable física:
+    η − 1 = (3/2)·(aH/(c_s k))²·[1 + O(λ_K−1)] = (3/2) e²/c_s².
+
+    Devuelve SOLO el residuo del polo (término dominante en λ_K − 1); la
+    parte regular Q_η(α_a) no está en forma cerrada y NO es despreciable:
+    en (λ_K, α_a) = (1.05, 0.3) el coeficiente completo de e² es 17.07
+    frente a 10.59 del polo, y en α_a ≈ λ_K − 1 (p. ej. 0.012) la parte
+    regular domina. Los coeficientes completos por punto viven en el
+    artefacto E3 (results/2026-09-13_mu_eta_atlas_tail/). ξ = 1."""
+    _check_xi_one(xi)
+    e = np.asarray(e, float)
+    cs2 = khronon_cs2(lamK, 1.0, alpha_a)
+    return 1.5 * e ** 2 / cs2
+
+
+def mu_local_tail_physical(e, lamK: float, alpha_a: float, xi: float = 1.0):
+    """Residuo del polo de la cola de µ respecto de la G local:
+    µ_loc − 1 = −[p(2p−1)/2]·(aH/(c_s k))²·[1 + O(λ_K−1)], p en λ_K = 1.
+    Solo el término dominante en λ_K − 1; ξ = 1."""
+    _check_xi_one(xi)
+    e = np.asarray(e, float)
+    cs2 = khronon_cs2(lamK, 1.0, alpha_a)
+    p = growth_index_matter_era(1.0, 1.0, alpha_a)
+    return -0.5 * p * (2.0 * p - 1.0) * e ** 2 / cs2
 
 
 # --------------------------------------------------------------------
