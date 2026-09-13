@@ -133,3 +133,16 @@ datasets:
       que este repositorio no contiene. La validación por mocks del
       pipeline PROPIO opera a nivel HD (PR #15, preinscrita). Cosmología
       inyectada documentada: H0 = 70, Ω_m = 0.315, w0 = −1, wa = 0.
+
+  des_dovekie_chains:
+    role: supernova_official_chains_benchmark
+    source: des-science/DES-SN5YR
+    subdir: 5_COSMOLOGY/chains/flcdm
+    raw_dir: data/raw/des_dovekie_chains
+    state: AVAILABLE          # un solo fichero (1.9 MB) commiteado @ c9a4fcaf
+    note: >
+      cadena nautilus flat-ΛCDM DES-SN only (dovekie_lcdm_nautilus.txt):
+      benchmark del brazo ΛCDM propio SN-only (Ω_m oficial ponderado por
+      log_weight = 0.3306 ± 0.0154). Es REFERENCIA, no dato: no entra en
+      ningún likelihood. Las demás combinaciones de sondas quedan en el
+      clone @ commit fijado.

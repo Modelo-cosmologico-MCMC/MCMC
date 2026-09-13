@@ -1,0 +1,19 @@
+{
+  "dataset": "des_dovekie_chains",
+  "source": "https://github.com/des-science/DES-SN5YR @ 5_COSMOLOGY/chains/flcdm/dovekie_lcdm_nautilus.txt",
+  "version": "c9a4fcafc4cbd19bd750dee47fc76194a45c181f",
+  "retrieved_utc": "2026-09-13T19:00:21.103521+00:00",
+  "citation": "DES Collaboration (DES-SN5YR / DES-Dovekie release), cadena nautilus flat-LCDM, DES-SN only",
+  "state": "AVAILABLE",
+  "transformations": [
+    "copia literal del clone (un solo fichero de 5_COSMOLOGY/chains/flcdm; el resto de combinaciones de sondas queda en el clone @ commit fijado)",
+    "esquema confirmado: data/manifests/dovekie_chains.schema_report.md"
+  ],
+  "files": [
+    {
+      "file": "dovekie_lcdm_nautilus.txt",
+      "sha256": "a7114a4083e1ec24ebbc2b94a262566952d2652098ce367831435e813a9becd1",
+      "bytes": 1881966
+    }
+  ]
+}
