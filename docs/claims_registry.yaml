@@ -233,7 +233,15 @@ claims:
   - claim_id: residuos
     entity: Contraste de los Residuos
     law: "Conj. 9.6 (frente 6)"
-    derivation: consistencia superada (E13); el contraste sigue refutable
+    derivation: >-
+      consistencia superada (E13); el contraste sigue refutable. REFINADO
+      (13-sep-2026, frente 3): con las dos constantes derivadas desde la
+      acción, G_cosmo/G_local = (2ξ − α_a)/(3λ_K − 1) ≈ 1 − (3/2)ε_K −
+      α_a/2 (ξ = 1): el −1.8 % de (9.5) es el caso α_a ≪ ε_K y BBN acota
+      la COMBINACIÓN; el crecimiento sub-horizonte no mide ninguna de las
+      dos (cancelación de Atlas); las colas cerca del horizonte sí
+      distinguirían ε_K — declaradas, no derivadas. El código de
+      residues_test conserva la forma (9.5) (α_a = 0).
     implementation: cosmology/residues_test.py
     test: tests/test_residues.py
     observable: residuos de escala entre sectores
@@ -655,8 +663,9 @@ claims:
       z ≳ 125; el fondo supera ρ_c para z > 4.85; el crecimiento diverge
       y el código falla cerrado) ⟹ bajo 2b una amplitud viable exige
       α₀⁻¹ ≪ 1e-6. La columna z = 3 de la nota de teoría estaba
-      sobreestimada ×3–4. Canal Atlas: coeficientes O(1) PENDIENTES
-      (frente 3), contribución no computada.
+      sobreestimada ×3–4. Canal Atlas: DERIVADO-NULO al orden dominante (fila
+      mu-eta-atlas): la cola k² de Cronos es la ÚNICA firma
+      sub-horizonte de (µ, η).
     implementation: cosmology/mu_eta_cronos.py + cosmology/extended_likelihoods.py
     test: tests/test_mu_eta_cronos.py + tests/test_mu_eta_lock.py
     observable: µ(k,z), η(k,z), Σ(k,z) → fσ8(k,z), P(k), C_L^φφ — predichos, no contrastados
@@ -667,10 +676,40 @@ claims:
       contraste conjunto RSD+lensing que exigiera µ − 1 ≠ 2(Σ − 1) o
       Σ > µ refutaría el canal Cronos como origen; Atlas queda falsable
       vía el mismo ε_K que BBN cuando el frente 3 cierre los coeficientes
-    evidence_level: derivación interna con cierres declarados (E8); predicción sin contraste — no detección; amplitud = límite superior; Atlas condicional (frente 3)
+    evidence_level: derivación interna con cierres declarados (E8); predicción sin contraste — no detección; amplitud = límite superior; colas de Atlas pendientes (frente 3)
     status: condicional
     artifact: results/2026-09-13_mu_eta_cronos
 
+  - claim_id: mu-eta-atlas
+    entity: Canal Atlas de µ/η derivado desde la Acción de Gea (frente 3)
+    law: "Acción de Gea (9.1) + Término de Cronos (9.4); Sello (9.3); ventana (9.4); H.2.2"
+    derivation: >-
+      re-derivación simbólica desde la acción en gauge unitario con polvo
+      (once identidades E1 reproducidas: Sello G_cosmo = 2G_B/(3λ_K−1),
+      δ = j0+3φ, µ_QS y η_QS, µ_sub = 1/(1−α_a/2ξ), η_sub = 1, GR,
+      G_growth = G_local = G_B/(ξ−α_a/2), c_s² = ξ(2ξ−α_a)(λ_K−1)/(α_a(3λ_K−1)),
+      coef. cinético ∝ (3λ_K−1)/(λ_K−1), c_T² = ξ) y arnés numérico del
+      sistema completo (E2, punto λ_K = 1.05, ξ = 1.02, α_a = 0.30):
+      µ_num/µ_QS − 1 = +2.8e-04/-5.3e-04/+5.9e-05, η_num − 1 = +3.0e-04/+4.6e-04/-3.3e-05, p_num = p_QS a 6e-04
+      (k/H0 = 66.7/200/600). RESULTADO: el offset sub-horizonte α_a/(2ξ) se
+      CANCELA contra la G local — el canal Atlas no deja firma sub-horizonte
+      en (µ, η) al orden dominante (desenlace A, el aburrido preinscrito); la
+      expectativa previa «O(1)·ε_K» queda superada. Precisiones: η_QS es 0/0
+      en λ_K = 1 exacto (límite GR con e → 0 primero); la cola QS de η lleva
+      1/(λ_K−1) pero el sistema completo la da ×~28 menor a e = 0.01 —
+      artefacto de la truncación QS; coeficientes reales pendientes. Erratum
+      candidata H.2.2 (c_s² diverge, no se anula, cuando α_a → 0 a λ_K fijo).
+    implementation: cosmology/mu_eta_atlas.py + validation/atlas_derivation.py
+    test: tests/test_mu_eta_atlas.py + tests/test_mu_eta_atlas_lock.py
+    observable: "(µ, η) sub-horizonte: firma NULA al orden dominante; G_cosmo/G_local = (2ξ−α_a)/(3λ_K−1) vía fondo/BBN (frente 6); c_T² = ξ"
+    dataset: "— (teoría pura; GW170817 citada como ancla externa de ξ = 1, no ingerida)"
+    falsifier: >-
+      una firma sub-horizonte escala-independiente en (µ, η) medida respecto
+      de la G local refutaría la cancelación; cotas PPN de marco preferido
+      sobre (ε_K, α_a) — contraste externo pendiente, análogo al de BBN
+    evidence_level: derivación desde la acción verificada por cuatro vías (GR, Sello, cruce khronométrico, integración completa a 5e-4) — interna (E8); colas y PPN pendientes
+    status: interno
+    artifact: results/2026-09-13_mu_eta_atlas
   - claim_id: dovekie-real-primera-aplicacion
     entity: Primera aplicación del pipeline SN a Dovekie REAL (13-sep) — desenlace INDETERMINADO
     law: "registro de datos 6A.1 + doble barrera ejecutable (PASS de mocks #15 + preinscripción f630834326c0)"

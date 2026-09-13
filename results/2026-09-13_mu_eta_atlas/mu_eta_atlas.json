@@ -1,0 +1,143 @@
+{
+  "outcome": "A",
+  "preregistration_sha256": "62ef5c724f6ccc472f96945358fc5b3421692f87a67247bde0d720e199c507d1",
+  "executed_utc": "2026-09-13T18:52:48.092260+00:00",
+  "code_commit": "5f8eea23e085bd0806aca1d60eb4f9ff382f8161",
+  "symbolic_seconds": 125.0,
+  "E1": {
+    "pass": true,
+    "flags": {
+      "sello_newton_reproduced": true,
+      "delta_is_j0_plus_3phi": true,
+      "mu_matches_closed_form": true,
+      "eta_matches_closed_form": true,
+      "mu_sub_is_1_over_1_minus_alpha_over_2xi": true,
+      "eta_sub_is_1": true,
+      "gr_limit_mu_eta_1": true,
+      "G_growth_equals_G_local": true,
+      "G_growth_is_GB_over_xi_minus_alpha_half": true,
+      "cs2_matches_closed_form": true,
+      "cT2_is_xi": true
+    },
+    "background": {
+      "bg_a": "18*lambda_K*a(t)*Derivative(a(t), (t, 2))/kappa + 9*lambda_K*Derivative(a(t), t)**2/kappa - 6*a(t)*Derivative(a(t), (t, 2))/kappa - 3*Derivative(a(t), t)**2/kappa",
+      "bg_J0": "-m - Derivative(ellb(t), t)",
+      "bg_ell": "Derivative(J0b(t), t)",
+      "G_cosmo_over_GB": "2/(3*lambda_K - 1)",
+      "sello_newton_reproduced": true
+    },
+    "quasi_static": {
+      "delta_is_j0_plus_3phi": true,
+      "mu_qs": "-2*xi/(alpha_a - 9*epsilon_H**2*lambda_K + 3*epsilon_H**2 - 2*xi)",
+      "eta_qs": "-(9*epsilon_H**2*lambda_K**2 - 9*epsilon_H**2*lambda_K*xi - 6*epsilon_H**2*lambda_K + 3*epsilon_H**2*xi + epsilon_H**2 + 2*lambda_K*xi - 2*xi)/(xi*(9*epsilon_H**2*lambda_K - 3*epsilon_H**2 - 2*lambda_K + 2))",
+      "mu_subhorizon": "-2*xi/(alpha_a - 2*xi)",
+      "eta_subhorizon": "1",
+      "mu_matches_closed_form": true,
+      "eta_matches_closed_form": true,
+      "mu_sub_is_1_over_1_minus_alpha_over_2xi": true,
+      "eta_sub_is_1": true,
+      "gr_limit_mu_eta_1": [
+        true,
+        true
+      ],
+      "eta_qs_at_lamK_1_finite_e": "1/3"
+    },
+    "static_G": {
+      "G_growth_over_GB": "-2/(alpha_a - 2*xi)",
+      "G_local_over_GB": "-2/(alpha_a - 2*xi)",
+      "G_local_limits_agree": true,
+      "jeans_residual_in_1_over_mu": "-12*pi*G_B*J0c*m/(k**2*xi)",
+      "G_growth_equals_G_local": true,
+      "G_growth_is_GB_over_xi_minus_alpha_half": true,
+      "G_cosmo_over_G_local": "(-alpha_a + 2*xi)/(3*lambda_K - 1)"
+    },
+    "khronon": {
+      "kinetic_coefficient": "(3*lambda_K - 1)/(kappa*(lambda_K - 1))",
+      "cs2": "-xi*(alpha_a - 2*xi)*(lambda_K - 1)/(alpha_a*(3*lambda_K - 1))",
+      "cs2_matches_closed_form": true,
+      "kinetic_sign_factor": "1",
+      "unexpected_monomials": []
+    },
+    "tensor": {
+      "kinetic_coefficient": "a(t)**3/(4*kappa)",
+      "cT2": "xi",
+      "cT2_minkowski": "xi",
+      "hubble_mass_terms": "-3*(3*lambda_K - 1)*a(t)*Derivative(a(t), t)**2/(4*kappa)",
+      "cT2_is_xi": true
+    }
+  },
+  "E2": {
+    "pass": true,
+    "harness_point": {
+      "lambda_K": 1.05,
+      "xi": 1.02,
+      "alpha_a": 0.3
+    },
+    "rows": [
+      {
+        "k_over_H0": 66.667,
+        "e_end": 0.009999950000249998,
+        "mu_num_median": 1.1719515908965321,
+        "mu_qs_at_window": 1.1716245526579125,
+        "mu_ratio_minus_one": 0.00027913228506326604,
+        "eta_num_median": 1.00029665491699,
+        "eta_num_minus_one": 0.00029665491699004676,
+        "eta_qs_tail_at_window": 0.008333128153332758,
+        "p_num": 1.1334877718889942,
+        "p_qs": 1.134177833900713,
+        "p_rel_err": -0.000608424879320224,
+        "p_spread_std": 0.0005470113541951204,
+        "delta_sign_flips_in_window": 0,
+        "solver_success": true,
+        "pass": true
+      },
+      {
+        "k_over_H0": 200.0,
+        "e_end": 0.003333333333333333,
+        "mu_num_median": 1.171708090278615,
+        "mu_qs_at_window": 1.17232604633404,
+        "mu_ratio_minus_one": -0.0005271196160464564,
+        "eta_num_median": 1.0004612864545421,
+        "eta_num_minus_one": 0.00046128645454213135,
+        "eta_qs_tail_at_window": 0.0009162521907906118,
+        "p_num": 1.1340938929232394,
+        "p_qs": 1.134177833900713,
+        "p_rel_err": -7.401041967547428e-05,
+        "p_spread_std": 0.00011063686233285314,
+        "delta_sign_flips_in_window": 0,
+        "solver_success": true,
+        "pass": true
+      },
+      {
+        "k_over_H0": 600.0,
+        "e_end": 0.0011111111111111111,
+        "mu_num_median": 1.17247369444806,
+        "mu_qs_at_window": 1.1724040428136973,
+        "mu_ratio_minus_one": 5.9409241028873794e-05,
+        "eta_num_median": 0.9999672035409792,
+        "eta_num_minus_one": -3.279645902076744e-05,
+        "eta_qs_tail_at_window": 0.00010168791700060353,
+        "p_num": 1.1341676214367107,
+        "p_qs": 1.134177833900713,
+        "p_rel_err": -9.004288125669113e-06,
+        "p_spread_std": 5.909826033021369e-06,
+        "delta_sign_flips_in_window": 0,
+        "solver_success": true,
+        "pass": true
+      }
+    ],
+    "tolerances": {
+      "mu": 0.01,
+      "eta": 0.01,
+      "p": 0.01,
+      "purity_std": 0.01
+    }
+  },
+  "closed_form_numbers": {
+    "mu_subhorizon_harness": 1.1724137931034484,
+    "p_qs_harness": 1.134177833900713,
+    "eta_tail_coefficient_harness": 45.31862745098034,
+    "eta_tail_coefficient_treatise_epsK": 172.7206666666665
+  },
+  "atlas_status_if_A": "DERIVADO-NULO al orden dominante: la firma sub-horizonte de (µ, η) es solo la del canal Cronos"
+}
