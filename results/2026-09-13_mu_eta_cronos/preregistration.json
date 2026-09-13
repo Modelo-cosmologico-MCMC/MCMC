@@ -1,0 +1,121 @@
+{
+  "preregistered_utc": "2026-09-13T12:51:42.718496+00:00",
+  "code_commit": "ee631baa23a6b311bb14603a55e09cd47ac2829d",
+  "front": "sector perturbativo — µ(k,a), η(k,a), Σ(k,a) desde la ontología (canal Cronos derivado; canal Atlas declarado)",
+  "statute": "derivación desde los objetos declarados del tratado (v35: ec. 11.1, 11.2, 9.1-9.4, A.3), con cada cierre nombrado. No introduce campos ni parámetros nuevos. Es PREDICCIÓN: este artefacto no carga datos ni ajusta nada.",
+  "closures_declared": {
+    "1_linearization": "δε_c = (3/2) ε̄_c(a) δ, válida para |δ| ≲ 1",
+    "2_rho_c": {
+      "modes": [
+        "comoving",
+        "physical"
+      ],
+      "rho_c_over_mean": 200.0,
+      "note": "el tratado NO fija ρ_c (Def. 11.1); las dos lecturas dan tendencias en z opuestas y se publican por separado — discriminador interno declarado"
+    },
+    "3_validity_window": {
+      "k_max_hMpc": 0.2,
+      "note": "la extrapolación k² se corta donde la linealización de ρ^{3/2} y la compuerta Θ(ρ̇) toman el mando; fuera de ventana los números se publican marcados y no se citan"
+    }
+  },
+  "parameters_from_treatise_only": {
+    "alpha0_inv": {
+      "value": 1e-06,
+      "role": "COTA (11.5) saturada — límite superior, NO una medida; la amplitud real la fijaría el sector galáctico (Jeans/5E), hoy DATA_UNAVAILABLE"
+    },
+    "rho_c_over_mean": 200.0,
+    "epsilon_K": {
+      "value": 0.012,
+      "role": "solo entra en el canal Atlas, cuyo coeficiente O(1) está pendiente"
+    },
+    "background_theta_ref": {
+      "H0": 67.86705532886631,
+      "Omega_m": 0.32629884997700576,
+      "epsilon": 0.017244131403297103,
+      "z_trans": 9.089352889827197,
+      "source": "medianas del posterior CC+BAO+SNe (v1 corregido), cadenas ya congeladas por sha256 en la preinscripción del 12-sep",
+      "chains_sha256": "e6cbd61b38e431552d2b70390fa30ed63c29039c2d50abcb4f0d41ed8d01acbb"
+    }
+  },
+  "grids": {
+    "k_hMpc": [
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "z": [
+      0.0,
+      0.5,
+      1.0,
+      2.0,
+      3.0
+    ],
+    "growth_n_grid": 400
+  },
+  "expectations": {
+    "E1_boring_consistency_control": {
+      "statement": "con α₀⁻¹ en su cota y el cierre 'comoving', fσ8(z) difiere de ΛCDM-con-fondo-MCMC en menos de 1e-3 en las escalas de los surveys — indistinguible. NO es fracaso: el sector lineal no debe inventar desviación donde el fondo casi no cambia.",
+      "rule": "max |R_µ(k,z) − 1| ≤ 0.001 sobre k ≤ 0.2 h/Mpc y z ≤ 2.0, con R_µ = [f·D](µ)/[f·D](µ≡1) al mismo fondo (σ8 se cancela; cero parámetros nuevos)",
+      "scope": "cierre 'comoving' únicamente",
+      "physical_closure_note": "el cierre 'physical' NO está sujeto a E1: por construcción produce desviaciones mayores a z alto (∝ (1+z)^{7/2}); sus números se publican como el discriminador interno declarado en B.3"
+    },
+    "E2_distinctive_signature_identities": {
+      "statement": "cola k² con µ−1 = 2(Σ−1) y η < 1, amplitud ∝ α₀⁻¹; en el cierre 'physical' el CMB-lensing a z ~ 2 aprieta α₀⁻¹",
+      "rules": [
+        "|(Σ − 1) − (µ − 1)/2| ≤ 1e-15 (exacto)",
+        "|(η − 1) + (µ − 1)| ≤ 1.01·(µ − 1)² (segundo orden)",
+        "(µ−1)(2k)/(µ−1)(k) = 4 con error relativo ≤ 1e-12",
+        "(µ−1)(α₀⁻¹/2) = (µ−1)(α₀⁻¹)/2 con error ≤ 1e-12",
+        "(µ−1)_physical/(µ−1)_comoving = (1+z)^{9/2} con error relativo ≤ 1e-10",
+        "límite GR: α₀⁻¹ = 0 ⟹ µ = η = Σ = 1 exactamente"
+      ]
+    },
+    "E3_out_of_sample_chain": {
+      "statement": "si el sector galáctico (Jeans/5E, sin retuning) fija α₀⁻¹, el sector lineal queda PREDICHO sin libertad: halos → α₀⁻¹ → µ(k,z) → P(k)/fσ8/C_L^φφ",
+      "status": "DECLARADA, NO EJECUTADA: α₀⁻¹ medido exige los bytes de SPARC/Walker (DATA_UNAVAILABLE, 5E congelado); aquí solo la cota"
+    }
+  },
+  "note_estimates_to_verify": {
+    "alpha0_inv": 1e-06,
+    "rho_c_over_mean": 200.0,
+    "rows": [
+      {
+        "k_hMpc": 0.05,
+        "z0_comoving": 3e-05,
+        "z1_physical": 0.0003,
+        "z3_physical": 0.01
+      },
+      {
+        "k_hMpc": 0.1,
+        "z0_comoving": 0.0001,
+        "z1_physical": 0.001,
+        "z3_physical": 0.05
+      },
+      {
+        "k_hMpc": 0.2,
+        "z0_comoving": 0.0004,
+        "z1_physical": 0.005,
+        "z3_physical": null
+      }
+    ]
+  },
+  "atlas_channel": {
+    "status": "PENDIENTE (frente 3): los coeficientes O(1) de µ_Atlas y η_Atlas no están derivados — sin coeficientes explícitos la contribución es cero y no se cita",
+    "structural_statement": "el mismo ε_K que produce G_cosmo/G_N − 1 ≈ −(3/2)ε_K (frente 6, BBN) fija la amplitud del offset de crecimiento a gran escala — dos observables, un solo residuo; consistencia cruzada falsable cuando el frente 3 cierre los coeficientes",
+    "route": "perturbar S_Gea + ΔS_Gea en gauge newtoniano, límite cuasi-estático, eliminar el khronon"
+  },
+  "prohibitions": {
+    "no_mu_eta_from_lensing": "PROHIBICIÓN EXPLÍCITA: µ(k,z), η(k,z) NUNCA se eligen desde los datos de lensing — se derivan de Atlas/ε_c. Este artefacto no carga dato alguno (vigilado por test).",
+    "no_citing_out_of_window": "ningún número con k > 0.2 h/Mpc se cita como predicción",
+    "no_adjustment": "umbrales, mallas, cierres y parámetros quedan congelados aquí; un cambio exige nueva preinscripción con changelog"
+  },
+  "what_this_does_not_claim": [
+    "que µ ≠ 1 esté detectado (no lo está)",
+    "que la amplitud sea la de la cota (es un límite superior)",
+    "que el canal Atlas tenga coeficientes (esperan al frente 3)",
+    "que la extrapolación k² valga en régimen no lineal"
+  ]
+}
