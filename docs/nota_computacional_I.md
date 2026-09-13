@@ -403,6 +403,28 @@ preinscrita de elegirlos desde los datos de lensing.
 sobre el fondo (E8) — no validación del modelo frente a ΛCDM
 (`results/2026-09-12_perturbations_fsigma8/`).
 
+### 3.13 La validación por mocks del pipeline SN Dovekie (12-sep-2026, PR #15)
+
+Con la preinscripción congelada ANTES de ejecutar
+puerta alguna — tolerancias, semillas y enteros binomiales exactos
+para N = 25 — el pipeline SN propio superó sus cuatro puertas sobre
+25 mocks a nivel HD (el punto de entrada del pipeline; los mocks
+fotométricos DES validan las etapas DES aguas arriba y quedan
+registrados sin ingerir): equivalencia con la fórmula oficial
+ejecutada desde los bytes del release (max |Δχ²| = 1.5×10⁻⁹, conteo
+1820 verificado por bytes), integradores cruzados (1.9×10⁻⁶ mag),
+recovery de Ω_m (media de pulls +0.051, cota 3·SEM = 0.6), cobertura
+binomial exacta (k68 = 17/25 ∈ [12, 21], k95 = 23/25 ∈ [21, 25] —
+no se detecta una descalibración incompatible con el tamaño de la
+muestra de mocks) y ausencia de falsa preferencia por la extensión
+(mediana ΔAIC = +3.94 pro-ΛCDM, n(Δ<0) = 0; 0 ∈ CI95(ε) en 25/25).
+La BARRERA es ejecutable: la columna MU del HD real solo es accesible
+citando por sha256 la preinscripción del PASS, y el candado vive en
+la suite.
+**Estatuto**: validación interna del pipeline (E8) — habilita
+consumir el dato real; no afirma nada sobre el dato real
+(`results/2026-09-12_dovekie_mocks/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
