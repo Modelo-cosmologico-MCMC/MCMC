@@ -47,6 +47,7 @@ Cada entidad del programa con su ley, su observable (si lo tiene), el dataset qu
 | Mass gap en retículo | Ap. D | — | — | piso espectral que desaparezca al refinar el retículo | piso espectral efectivo (E10), no Yang-Mills | `interno` | — |
 | Qudit y decoherencia | Ap. C | — | — | — | firma de consistencia del canal (E10) | `interno` | — |
 | Qudit d=5 | Ap. C.1 | — | — | — | base implementada | `interno` | — |
+| Validación por mocks del pipeline SN Dovekie (PR | registro de datos 6A.1 + barrera ejecutable (patrón 5E) | μ(z) de SNe Ia (HD Dovekie, 1820 SNe) — el dato real aún no consumido | des_dovekie (AVAILABLE @ c9a4fcaf); columna MU real vedada hasta el PASS — ahora accesible para la PRIMERA APLICACIÓN | cualquier puerta fuera de su cota congelada habría mantenido vedado el HD real; el ajuste real es trabajo posterior | validación interna del pipeline (E8) — habilita consumir el dato real, no afirma nada sobre él | `interno` | results/2026-09-12_dovekie_mocks |
 
 ## Resultados negativos (experimento EJECUTADO, desenlace nulo o contrario, publicado como tal)
 

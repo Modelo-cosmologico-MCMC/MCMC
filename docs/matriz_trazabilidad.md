@@ -45,3 +45,4 @@ Trazabilidad explícita del programa (propuesta del análisis v36, punto 8; el A
 | Mass gap en retículo | Ap. D | `lattice/mass_gap.py` | `tests/test_lattice.py` | piso espectral efectivo (E10), no Yang-Mills |
 | Qudit y decoherencia | Ap. C | `quantum/qutip_simulation.py` | `tests/test_quantum_v35.py` | firma de consistencia del canal (E10) |
 | Qudit d=5 | Ap. C.1 | `quantum/qudit.py` | `tests/test_qudit.py` | base implementada |
+| Validación por mocks del pipeline SN Dovekie (PR | registro de datos 6A.1 + barrera ejecutable (patrón 5E) | `cosmology/dovekie_sn.py` + `validation/dovekie_mocks.py` + `validation/dovekie_independent.py` | `tests/test_dovekie_lock.py` + `tests/test_dovekie_sn.py` | validación interna del pipeline (E8) — habilita consumir el dato real, no afirma nada sobre él |
