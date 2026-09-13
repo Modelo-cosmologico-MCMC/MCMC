@@ -460,6 +460,41 @@ eligen desde los datos de lensing» es ejecutable en la suite.
 predicción sin contraste — no detección, no validación; amplitud =
 límite superior (`results/2026-09-13_mu_eta_cronos/`).
 
+### 3.15 El canal Atlas de µ/η derivado desde la acción: la firma sub-horizonte se cancela (13-sep-2026)
+
+Bajo preinscripción congelada (once identidades E1 a reproducir; arnés
+E2 con umbrales del 1 %; desenlaces A/B; fronteras declaradas), la
+Acción de Gea (9.1) con el Término de Cronos (9.4), en gauge unitario y
+con polvo, se expandió a segundo orden y se resolvió en el límite
+cuasi-estático: **µ_Atlas(e) = 2ξ/[(2ξ−α_a)+3(3λ_K−1)e²]**, η_Atlas → 1,
+y **G_growth = G_local = G_B/(ξ−α_a/2)** — la G estática calculada de
+forma independiente en Minkowski con fondo vacío (el residual de Jeans
+de un fondo uniforme no autoconsistente queda registrado). La acción
+reproduce el Sello de Newton (G_cosmo = 2G_B/(3λ_K−1)), la ventana de
+salud (9.4) (no-fantasma ⟺ λ_K > 1; c_s² = ξ(2ξ−α_a)(λ_K−1)/(α_a(3λ_K−1))
+> 0 ⟺ α_a < 2ξ) y c_T² = ξ (GW170817 ⟹ ξ = 1). La integración del
+sistema lineal completo, sin aproximación QS y con relajación al modo
+creciente, da µ_num/µ_QS − 1 = +2.8e-04/-5.3e-04/+5.9e-05 y η_num − 1 = +3.0e-04/+4.6e-04/-3.3e-05
+(k/H0 = 66.7/200/600), con el índice de crecimiento p_num = p_QS =
+1.1342 a 6e-04: **desenlace A**. Lectura: el offset α_a/(2ξ) se cancela
+exactamente contra la renormalización de la G local, así que el canal
+Atlas no deja firma sub-horizonte en (µ, η) al orden dominante y la cola
+k² del canal Cronos (§3.14) es la ÚNICA firma sub-horizonte del sector
+perturbativo; la expectativa previa «µ_Atlas − 1 = O(1)·ε_K» queda
+superada — registro de una expectativa corregida por derivación, que es
+parte del método. ε_K entra en el fondo: G_cosmo/G_local =
+(2ξ−α_a)/(3λ_K−1) ≈ 1 − (3/2)ε_K − α_a/2, y BBN acota la combinación
+(§3.4 refinada). Dos precisiones: η_QS es 0/0 en λ_K = 1 exacto (el
+límite GR toma e → 0 primero); y la cola QS de η lleva el polo
+1/(λ_K−1), pero el sistema completo la da ×~28 menor a e = 0.01 — el
+polo es un artefacto de la truncación QS al nivel medido y los
+coeficientes reales de las colas son frontera declarada (sector de
+velocidades), como el régimen superhorizonte, las cotas PPN sobre
+(ε_K, α_a) y el acoplamiento fuerte. Erratum candidata para la v36
+(H.2.2): c_s² diverge, no se anula, cuando α_a → 0 a λ_K fijo.
+**Estatuto**: derivación desde la acción verificada por cuatro vías
+(E8); teoría pura, sin datos (`results/2026-09-13_mu_eta_atlas/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

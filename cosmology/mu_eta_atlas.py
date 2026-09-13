@@ -69,10 +69,15 @@ __all__ = [
 ]
 
 ATLAS_STATUS = (
-    "EN VERIFICACIÓN (frente 3, 13-sep-2026): formas cerradas fijadas; "
-    "E1 (re-derivación simbólica) y E2 (integración completa) "
-    "preinscritos — el estatuto pasa a DERIVADO-NULO solo con el "
-    "desenlace A publicado en results/2026-09-13_mu_eta_atlas/")
+    "DERIVADO-NULO al orden dominante (frente 3, desenlace A publicado el "
+    "13-sep-2026 en results/2026-09-13_mu_eta_atlas/): el offset "
+    "sub-horizonte α_a/(2ξ) de µ_Atlas se cancela exactamente contra la "
+    "renormalización de la G local (G_growth = G_local = G_B/(ξ − α_a/2), "
+    "re-derivado desde la acción y confirmado por integración completa al "
+    "nivel 5e-4); η_Atlas → 1. La firma sub-horizonte de (µ, η) es SOLO "
+    "la del canal Cronos. Colas O(e²) declaradas con coeficientes "
+    "pendientes (sector de velocidades); la cola QS de η sobreestima el "
+    "sistema completo ×~28 a e = 0.01")
 
 
 def _check_params(lamK: float, xi: float, alpha_a: float) -> None:

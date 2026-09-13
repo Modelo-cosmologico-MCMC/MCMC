@@ -113,6 +113,41 @@ estado en que afirme exactamente lo que hace»).
   sin contraste — no detección, no validación; amplitud = límite
   superior.
 
+- **Canal Atlas de µ/η DERIVADO desde la acción (13-sep, frente 3):
+  desenlace A — la firma sub-horizonte se cancela**. Re-derivación
+  simbólica (sympy) desde la Acción de Gea (9.1) + Término de Cronos
+  (9.4) en gauge unitario con polvo, sin objetos ajenos, bajo
+  preinscripción congelada: las ONCE identidades E1 reproducidas (Sello
+  G_cosmo = 2G_B/(3λ_K−1); δ = j0+3φ; µ_QS = 2ξ/[(2ξ−α_a)+3(3λ_K−1)e²];
+  η_QS racional; µ_sub = 1/(1−α_a/2ξ); η_sub = 1; GR; G_growth = G_local
+  = G_B/(ξ−α_a/2) — la G estática calculada de forma independiente en
+  Minkowski con fondo vacío, registrando el residual de Jeans de un
+  fondo uniforme no autoconsistente; c_s² = ξ(2ξ−α_a)(λ_K−1)/(α_a(3λ_K−1));
+  coef. cinético ∝ (3λ_K−1)/(λ_K−1); c_T² = ξ — sector tensorial añadido
+  a los scripts originales). E2, integración del sistema lineal COMPLETO
+  con relajación al modo creciente (a_start = 1e-3, pureza por
+  constancia de p): µ_num/µ_QS − 1 = +2.8e-04/-5.3e-04/+5.9e-05, η_num − 1 = +3.0e-04/+4.6e-04/-3.3e-05,
+  p_num = p_QS = 1.1342 a 6e-04 (k/H0 = 66.7/200/600; umbrales 1 %).
+  RESULTADO: el offset α_a/(2ξ) se CANCELA exactamente contra la
+  renormalización de la G local — el canal Atlas no deja firma
+  sub-horizonte en (µ, η) al orden dominante y la cola k² del canal
+  Cronos queda como la ÚNICA firma sub-horizonte del sector
+  perturbativo; la expectativa previa «µ_Atlas − 1 = O(1)·ε_K» queda
+  SUPERADA (ε_K entra en el fondo: G_cosmo/G_local = (2ξ−α_a)/(3λ_K−1)
+  ≈ 1 − (3/2)ε_K − α_a/2, que BBN acota como combinación — fila de los
+  Residuos refinada). Dos precisiones: (i) η_QS es 0/0 en λ_K = 1 exacto
+  (a e finito daría 1/3): el límite GR toma e → 0 primero; (ii) la cola
+  QS de η lleva el polo 1/(λ_K−1) (~170 con ε_K = 0.012), pero el
+  sistema completo la da ×~28 menor a e = 0.01 (3.0e-4 frente a
+  8.3e-3): el polo es un artefacto de la truncación QS al nivel medido
+  y los coeficientes reales de las colas siguen siendo frontera
+  declarada (sector de velocidades), junto con el régimen
+  superhorizonte, las cotas PPN sobre (ε_K, α_a) y el acoplamiento
+  fuerte. Erratum candidata para la v36 (H.2.2): c_s² diverge, no se
+  anula, cuando α_a → 0 a λ_K fijo (decisión del autor). Artefacto:
+  `results/2026-09-13_mu_eta_atlas/`. Estatuto: derivación interna
+  verificada (E8); teoría pura, sin datos.
+
 ## Sin publicar — agosto de 2026
 
 - **Crosscheck JAX del fondo (19-ago, 6A prioridad 3): equivalencia
