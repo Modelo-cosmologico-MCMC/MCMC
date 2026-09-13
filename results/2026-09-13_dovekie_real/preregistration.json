@@ -1,0 +1,148 @@
+{
+  "preregistered_utc": "2026-09-13T19:10:13.777244+00:00",
+  "code_commit": "1b672b561d8ea043d59e52d53a65c83e27d265ee",
+  "front": "primera aplicación del pipeline SN a Dovekie REAL — ΛCDM vs MCMC-fondo sobre Dovekie STAT+SYS + CC + BAO",
+  "precondition_mock_validation": {
+    "status": "PASS",
+    "mock_validation_sha256": "3ccdca260152257ae177b25320d6fe1a99bbe84a42cfe739ae3343ff69fe0139",
+    "mock_preregistration_sha256": "d7cbabdc6d9f47a5ef40acbd76349a5aa4cecf66511a37ccca0c5a7518f22779",
+    "note": "la barrera de #15 (require_mock_validation_pass) sigue activa; el ejecutor cita este hash Y el de la presente preinscripción"
+  },
+  "data_and_scope": {
+    "sn": {
+      "dataset": "des_dovekie @ c9a4fcaf",
+      "n_sn": 1820,
+      "count_note": "1829 líneas = 8 comentarios + cabecera + 1820 filas SN; corte oficial zHD > 0 heredado idéntico, no elimina ninguna",
+      "primary_cov": "STAT+SYS",
+      "robustness_cov": "STATONLY (jamás resultado principal)"
+    },
+    "cc": {
+      "n": 31,
+      "source": "data/boss_eboss/hz_cc.txt"
+    },
+    "bao": {
+      "n": 6,
+      "source": "data/boss_eboss/bao_dr12.txt",
+      "r_d_fiducial_Mpc": 147.09
+    },
+    "n_total_for_BIC": 1857,
+    "background": "cosmology.background.H_of_z (clausura plana por llamada, transición normalizada hoy); sin reparametrización nueva en este PR"
+  },
+  "arms": {
+    "1_benchmark_sn_only_lcdm": "posterior 1D determinista de Ω_m en malla (prior plano sobre el soporte oficial) sobre Dovekie STAT+SYS solo — comparación like-for-like con el chain oficial",
+    "2_joint_lcdm_statsys": "emcee, θ = (H0, Ω_m), k = 2",
+    "3_joint_mcmc_statsys": "emcee, θ = (H0, Ω_m, ε, z_trans), k = 4",
+    "4_joint_lcdm_statonly": "robustez",
+    "5_joint_mcmc_statonly": "robustez",
+    "chi2_min": "multistart Powell acotado + pulido sobre el cierre del soporte de los priors; at_boundary publicado"
+  },
+  "priors_frozen": {
+    "H0": {
+      "support": [
+        60.0,
+        80.0
+      ],
+      "gauss": [
+        67.4,
+        5.0
+      ],
+      "note": "F.4"
+    },
+    "Omega_m": {
+      "support": [
+        0.1,
+        0.5
+      ],
+      "note": "IDÉNTICO al soporte del chain oficial; más ancho que bayesian_fit (0.20, 0.40) para no truncar el posterior SN-only"
+    },
+    "epsilon": {
+      "support": [
+        -0.05,
+        0.1
+      ],
+      "gauss": [
+        0.012,
+        0.05
+      ],
+      "note": "Apéndice F, #12"
+    },
+    "z_trans": {
+      "support": [
+        1.0,
+        20.0
+      ],
+      "note": "#12"
+    },
+    "M_B": "marginalizada analíticamente en ambos brazos; no cuenta en k",
+    "k": {
+      "lcdm": 2,
+      "mcmc": 4
+    }
+  },
+  "sampler": {
+    "nwalkers": 32,
+    "nsteps": 3000,
+    "seed": 42,
+    "burn": "nsteps//2",
+    "thin": 4
+  },
+  "official_reference": {
+    "dataset": "des_dovekie_chains (dovekie_lcdm_nautilus.txt @ c9a4fcaf)",
+    "Omega_m_weighted": {
+      "mean": 0.33059359854049575,
+      "sd": 0.015417402075330195,
+      "median": 0.33037662182628325,
+      "p16": 0.31527258562586363,
+      "p84": 0.34608380259440935,
+      "p025": 0.30098836531142054,
+      "p975": 0.36132510957228314,
+      "n_rows": 16384,
+      "n_eff": 11253.310056244252,
+      "prior_support": [
+        0.10002981907797809,
+        0.49955994300197915
+      ]
+    },
+    "role": "REFERENCIA del benchmark; no entra en ningún likelihood"
+  },
+  "outcomes_enumerated": {
+    "order": "C (tensión) → B (preferencia) → A (aburrido) → INDETERMINADO",
+    "A_expected_boring": {
+      "rule": "BIC_MCMC − BIC_ΛCDM > 0.0 Y σ_post(ε) ≥ 0.04 Y 0 ∈ CI95(ε) Y |ΔΩ_m|_benchmark ≤ 1.0·σ_oficial",
+      "mandatory_wording": "«las SNe Dovekie no identifican ε_Λ; el fondo MCMC permanece consistente y no preferido» — NUNCA «MCMC compatible con SNe al X %» como evidencia positiva"
+    },
+    "B_preference": {
+      "rule": "BIC_ΛCDM − BIC_MCMC > 2.0 Y 0 ∉ CI95(ε)",
+      "treatment": "SOSPECHA DE ERROR PRIMERO: repetir con STATONLY, con la fórmula oficial (equivalencia #15) y sobre 5 mocks de control con la misma cadena; solo si sobrevive a las tres se publica como indicio con las comprobaciones adjuntas"
+    },
+    "C_tension": {
+      "rule": "|ΔΩ_m|_benchmark > 3.0·σ_oficial O χ²_min/dof(ΛCDM conjunto) > 1.3",
+      "treatment": "resultado negativo de primera clase, publicado con el mismo peso; PROHIBIDO reparametrizar ε_Λ, z_trans o priors a posteriori"
+    },
+    "INDETERMINADO": "cualquier otro caso; se publica como tal",
+    "rules": {
+      "C_bench_sigma": 3.0,
+      "C_chi2nu_max": 1.3,
+      "B_dBIC_pro_mcmc": 2.0,
+      "A_dBIC_min": 0.0,
+      "A_eps_sd_min": 0.04,
+      "A_bench_sigma": 1.0
+    },
+    "no_adjustment_commitment": "ningún parámetro nuevo ni cambio de prior tras la primera evaluación de la likelihood sobre datos reales; umbrales y sampler congelados; un cambio exige nueva preinscripción con el fallo previo publicado"
+  },
+  "prohibitions": [
+    "ningún parámetro nuevo ni cambio de prior tras la primera evaluación sobre datos reales",
+    "ningún corte de SNe distinto del oficial (zHD > 0); conteo efectivo declarado: 1820",
+    "roles fijados: Dovekie real = primera aplicación; Unite = benchmark armonizado NO independiente; Union3 = contraste externo; Pantheon+ = disección — esta corrida no confirma nada que Unite ya contenga",
+    "el resultado entra en claims_registry.yaml con su categoría exacta (resultado-negativo / indicio / tensión) en el mismo PR"
+  ],
+  "artifacts_required": [
+    "preregistration.json (esta, congelada; hash citado)",
+    "chains_<brazo>.npz con semilla",
+    "dovekie_real.json",
+    "report.md con los tres desenlaces enumerados y el alcanzado",
+    "comparación STATONLY/STAT+SYS",
+    "fila(s) del registry",
+    "CHANGELOG y Nota I (vocabulario v35.1: E8, comprobación interna ≠ demostración física)"
+  ]
+}
