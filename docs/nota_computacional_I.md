@@ -380,10 +380,32 @@ refutados, todos aplicados).
 equivalencia numérica entre dos implementaciones, no validación
 física (`results/2026-08-19_jax_crosscheck/`).
 
+### 3.12 El sector perturbativo lineal: la primera predicción out-of-sample (12-sep-2026)
+
+Con la preinscripción congelada ANTES de computar (desenlace esperado
+enumerado: fσ8^MCMC ≈ fσ8^ΛCDM dentro de la banda del prior de ε_Λ —
+el control de consistencia, NO un fracaso; desenlace contrario
+enumerado con su procedimiento de discriminación), el crecimiento
+lineal integrado exacto sobre el H(z) del modelo, propagado sobre el
+posterior de fondo CC+BAO+SNe (v1 corregido, sin crecimiento en el
+ajuste), produce el **desenlace A**: max_z |R_p50(z) − 1| = 4.3×10⁻⁸
+con R(z) = fσ8^MCMC/fσ8^ΛCDM (la predicción con cero parámetros
+nuevos: σ8 se cancela), dentro de la envolvente del prior
+(6.4×10⁻⁷), y Δχ² = −8.5×10⁻⁷ out-of-sample sobre la compilación RSD
+(σ8 externa declarada, idéntica en ambos brazos; aquí no se ajusta
+nada — guardia ejecutable). La magnitud ~10⁻⁷ es la nota estructural
+de 6A heredada: con z_trans ≈ 9 y la transición normalizada hoy, ni
+el fondo ni el crecimiento lineal sondean ε en esta parametrización.
+El objetivo discriminante queda declarado y NO ejecutado: µ(k,z),
+η(k,z) deben derivarse de Atlas/ε_c (frentes 3 y 10), con prohibición
+preinscrita de elegirlos desde los datos de lensing.
+**Estatuto**: control de consistencia interna del sector lineal
+sobre el fondo (E8) — no validación del modelo frente a ΛCDM
+(`results/2026-09-12_perturbations_fsigma8/`).
+
 ### 3.13 La validación por mocks del pipeline SN Dovekie (12-sep-2026, PR #15)
 
-(El número 3.12 queda reservado a la rama del sector perturbativo,
-paralela a esta.) Con la preinscripción congelada ANTES de ejecutar
+Con la preinscripción congelada ANTES de ejecutar
 puerta alguna — tolerancias, semillas y enteros binomiales exactos
 para N = 25 — el pipeline SN propio superó sus cuatro puertas sobre
 25 mocks a nivel HD (el punto de entrada del pipeline; los mocks
@@ -402,6 +424,41 @@ la suite.
 **Estatuto**: validación interna del pipeline (E8) — habilita
 consumir el dato real; no afirma nada sobre el dato real
 (`results/2026-09-12_dovekie_mocks/`).
+
+### 3.14 µ, η y Σ desde la ontología: el canal Cronos derivado y dónde se rompe cada cierre (13-sep-2026)
+
+Con la preinscripción congelada ANTES de computar (E1, el desenlace
+aburrido, como control; E2 identidades; E3, la cadena halos → α₀⁻¹ →
+µ → observables, declarada y no ejecutada; la tabla a mano de la nota de
+teoría como «a verificar»), la Ley de Cronos débil (11.1), la geodésica
+(11.2) y Gea (9.3) dan, linealizando la ε_c CANÓNICA
+(d ln ε_c/d ln ρ = 3/2), el canal Cronos cerrado:
+**µ − 1 = ε̄_c(a)·(ck/aH)²/Ω_m(a), η = 1/µ, Σ = (1+µ)/2** — cola k²,
+amplitud ∝ α₀⁻¹, µ − 1 = 2(Σ − 1) y η < 1 sin parámetros adicionales,
+límite GR exacto; identidades verificadas a precisión de máquina. Con
+α₀⁻¹ = 10⁻⁶ (la cota 11.5 saturada — límite superior, no medida) y el
+cierre comoving (ρ_c = 200× la media de cada época): **E1 = A**,
+max |R_µ − 1| = 1.55×10⁻⁴ en k ≤ 0.2 h/Mpc, z ≤ 2 — el sector lineal no
+inventa señal (µ − 1 = 9.7×10⁻⁵ en z = 0, k = 0.1 h/Mpc). La tabla de
+la nota se recomputó: z = 0 y z = 1 correctas (×0.8–1.1); la columna
+z = 3 del cierre physical estaba sobreestimada ×3–4 (5×10⁻² → 1.25×10⁻²
+en k = 0.1) — las cifras citables son las calculadas. **Hallazgo
+estructural no previsto**: el cierre physical (ρ_c = 200·ρ̄_m(0)) con
+α₀⁻¹ en la cota no es perturbativo: µ − 1 ∝ (1+z)^{7/2} alcanza 1 en
+z = 8.4 (k = 0.2) a 51 (k = 0.01), ε̄_c ≥ 1 para z ≳ 125, el propio
+fondo supera ρ_c para z > 4.85 y la ODE de crecimiento diverge (el
+código falla cerrado, nunca publica NaN). Consecuencia enunciable sin
+datos: bajo 2b una amplitud viable exige α₀⁻¹ ≪ 10⁻⁶ — la consistencia
+del sector lineal acota 2b por debajo de la cota galáctica, y el
+criterio «200× la media» favorece conceptualmente el cierre comoving.
+El canal Atlas queda como gancho con coeficientes O(1) pendientes del
+frente 3 (contribución no computada); lo enunciable sin el cierre: el
+mismo ε_K de G_cosmo/G_N − 1 ≈ −(3/2)ε_K fija el offset de crecimiento
+a gran escala. Ningún dato entra aquí: la prohibición «µ, η nunca se
+eligen desde los datos de lensing» es ejecutable en la suite.
+**Estatuto**: derivación interna con cierres declarados (E8) y
+predicción sin contraste — no detección, no validación; amplitud =
+límite superior (`results/2026-09-13_mu_eta_cronos/`).
 
 ## 4. Lo que estos resultados NO afirman
 

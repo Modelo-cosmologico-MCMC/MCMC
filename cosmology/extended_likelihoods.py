@@ -101,7 +101,8 @@ def cmb_compressed_loglike(theta: tuple, omega_b: float) -> float:
 # ---------------------------------------------------------------------
 
 def growth_D_f(z_eval: np.ndarray, theta: tuple,
-               n_grid: int = 400) -> tuple[np.ndarray, np.ndarray]:
+               n_grid: int = 400,
+               mu_of_a=None) -> tuple[np.ndarray, np.ndarray]:
     """D(z)/D(0) y f(z) = dlnD/dlna integrando la ODE exacta sobre el
     H(z) del modelo (RK4 en ln a, malla fija — determinista y rápido).
 
@@ -109,7 +110,14 @@ def growth_D_f(z_eval: np.ndarray, theta: tuple,
     GEOMETRÍA H(z) — y, con la clausura por llamada, en Ω_DE,0 — pero
     no como fuente de la ODE de crecimiento (solo materia agrupa);
     es la aproximación estándar a z ≪ z_eq y afecta por igual a los
-    dos modelos comparados."""
+    dos modelos comparados.
+
+    mu_of_a (opcional): callable a ↦ µ(a) que multiplica la fuente,
+        D'' + (2 + dlnH/dlna)·D' − (3/2)·Ω_m(a)·µ(a)·D = 0,
+    para un k fijo (la generalización D(k,a) de cosmology/mu_eta_cronos
+    la construye por k). Con mu_of_a = None la fuente lleva µ ≡ 1 y el
+    resultado es idéntico bit a bit al camino sin µ (vigilado por test):
+    la generalización no altera el integrador ya validado."""
     H0, Om, eps, z_trans = theta
     lna = np.linspace(np.log(1e-3), 0.0, n_grid)
     a = np.exp(lna)
@@ -117,6 +125,15 @@ def growth_D_f(z_eval: np.ndarray, theta: tuple,
     H = np.asarray(H_of_z(z, H0=H0, Omega_m=Om, eps=eps, z_trans=z_trans))
     dlnH = np.gradient(np.log(H), lna)
     Om_a = Om * a ** -3 * (H0 / H) ** 2
+    if mu_of_a is None:
+        mu = np.ones(n_grid)
+    else:
+        mu = np.asarray(mu_of_a(a), dtype=float)
+        if mu.shape != a.shape:
+            raise ValueError("mu_of_a debe devolver un array con la "
+                             f"forma de la malla {a.shape}, no {mu.shape}")
+        if not np.all(np.isfinite(mu)):
+            raise ValueError("mu_of_a devolvió valores no finitos")
 
     h_step = lna[1] - lna[0]
     y = np.array([a[0], a[0]])   # D ≈ a, D' ≈ a en materia dominante
@@ -125,7 +142,7 @@ def growth_D_f(z_eval: np.ndarray, theta: tuple,
         i = min(int(round(i_frac)), n_grid - 1)
         return np.array([y_vec[1],
                          -(2.0 + dlnH[i]) * y_vec[1]
-                         + 1.5 * Om_a[i] * y_vec[0]])
+                         + 1.5 * Om_a[i] * mu[i] * y_vec[0]])
 
     D_hist = np.empty(n_grid)
     f_hist = np.empty(n_grid)

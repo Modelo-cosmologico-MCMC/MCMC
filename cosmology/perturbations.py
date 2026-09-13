@@ -1,8 +1,18 @@
-"""Perturbaciones lineales en el MCMC.
+"""Perturbaciones lineales en el MCMC — utilidades LEGACY.
 
-Funciones operativas para δ(k,z), factor de crecimiento D(a; S),
-fσ8(z) y los moduladores µ(a), η(a) que codifican el efecto del
-Campo de Adrián tensorial sobre las ecuaciones de Boltzmann.
+Funciones operativas para el factor de crecimiento D(a) (odeint) y
+fσ8(z) en la aproximación γ de Linder, más los moduladores µ(a), η(a)
+lineales en (1 − a).
+
+ESTATUTO (13-sep-2026): mu_modifier y eta_modifier son PLACEHOLDERS
+fenomenológicos, NO derivados del tratado (su forma lineal en (1 − a) y
+su amplitud ε no salen de ninguna ecuación de la v35). La derivación
+desde la ontología — µ(k,a), η(k,a), Σ(k,a) del canal Cronos con sus
+cierres declarados y el gancho del canal Atlas — vive en
+cosmology/mu_eta_cronos.py, y el crecimiento exacto con µ(k,a) en
+cosmology/extended_likelihoods.growth_D_f (kwarg mu_of_a). Este módulo
+se conserva por compatibilidad (visualización y tests existentes); no
+debe usarse para predicciones del sector perturbativo.
 """
 
 from __future__ import annotations

@@ -1,0 +1,286 @@
+{
+  "preregistration_sha256": "2d8bdcadf38be8072ba7cab4d30536ac8447ee121113a6f92d3d34ad5dccb1be",
+  "executed_utc": "2026-09-13T12:55:47.765782+00:00",
+  "code_commit": "b53bd48121a1c9a57d2d3f50cfccc49a661a3ba9",
+  "alpha0_inv_used": 1e-06,
+  "alpha0_inv_role": "cota 11.5 saturada — límite superior, no medida",
+  "theta_ref": {
+    "H0": 67.86705532886631,
+    "Omega_m": 0.32629884997700576,
+    "epsilon": 0.017244131403297103,
+    "z_trans": 9.089352889827197,
+    "source": "medianas del posterior CC+BAO+SNe (v1 corregido), cadenas ya congeladas por sha256 en la preinscripción del 12-sep",
+    "chains_sha256": "e6cbd61b38e431552d2b70390fa30ed63c29039c2d50abcb4f0d41ed8d01acbb"
+  },
+  "k_hMpc": [
+    0.01,
+    0.02,
+    0.05,
+    0.1,
+    0.2,
+    0.3
+  ],
+  "z": [
+    0.0,
+    0.5,
+    1.0,
+    2.0,
+    3.0
+  ],
+  "in_validity_window": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    false
+  ],
+  "mu_minus_one": {
+    "comoving": [
+      [
+        9.738248871488758e-07,
+        3.895299548595503e-06,
+        2.4345622178721902e-05,
+        9.738248871488761e-05,
+        0.00038952995485955043,
+        0.000876442398433988
+      ],
+      [
+        6.492165914325839e-07,
+        2.5968663657303355e-06,
+        1.6230414785814598e-05,
+        6.492165914325839e-05,
+        0.00025968663657303356,
+        0.0005842949322893251
+      ],
+      [
+        4.869124435744379e-07,
+        1.9476497742977517e-06,
+        1.217281108936095e-05,
+        4.86912443574438e-05,
+        0.0001947649774297752,
+        0.00043822119921699395
+      ],
+      [
+        3.24608295716292e-07,
+        1.298433182865168e-06,
+        8.115207392907302e-06,
+        3.246082957162921e-05,
+        0.00012984331828651684,
+        0.0002921474661446627
+      ],
+      [
+        2.434562217872189e-07,
+        9.738248871488756e-07,
+        6.0864055446804754e-06,
+        2.4345622178721902e-05,
+        9.738248871488761e-05,
+        0.00021911059960849695
+      ]
+    ],
+    "physical": [
+      [
+        9.738248871488758e-07,
+        3.895299548595503e-06,
+        2.4345622178721902e-05,
+        9.738248871488761e-05,
+        0.00038952995485955043,
+        0.000876442398433988
+      ],
+      [
+        4.0253187470706414e-06,
+        1.6101274988282566e-05,
+        0.00010063296867676603,
+        0.00040253187470706413,
+        0.0016101274988282565,
+        0.003622786872363575
+      ],
+      [
+        1.1017570902259113e-05,
+        4.407028360903645e-05,
+        0.0002754392725564778,
+        0.0011017570902259112,
+        0.004407028360903645,
+        0.009915813812033197
+      ],
+      [
+        4.5541282919855807e-05,
+        0.00018216513167942323,
+        0.0011385320729963954,
+        0.004554128291985582,
+        0.018216513167942327,
+        0.04098715462787021
+      ],
+      [
+        0.00012464958555505608,
+        0.0004985983422202243,
+        0.0031162396388764034,
+        0.012464958555505614,
+        0.049859834222022455,
+        0.11218462699955044
+      ]
+    ]
+  },
+  "identities_E2": {
+    "comoving": {
+      "max_abs_Sigma_identity": 1.6463969978194968e-16,
+      "max_abs_eta_second_order": 1.0002001521886321,
+      "k2_scaling_rel_err": 0.0
+    },
+    "physical": {
+      "max_abs_Sigma_identity": 1.6105823272272168e-16,
+      "max_abs_eta_second_order": 1.000002326801057,
+      "k2_scaling_rel_err": 0.0
+    },
+    "physical_over_comoving_rel_err": 2.220446049250313e-16,
+    "linearity_alpha_rel_err": 0.0,
+    "gr_limit_exact": true
+  },
+  "E2_pass": true,
+  "fsigma8_ratio_E1": {
+    "k_hMpc": [
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.2
+    ],
+    "z": [
+      0.0,
+      0.5,
+      1.0,
+      2.0
+    ],
+    "comoving_R_minus_one": [
+      [
+        3.8722920137068684e-07,
+        1.8425670544885975e-07,
+        6.342130021153025e-08,
+        -6.769626570424236e-08
+      ],
+      [
+        1.548916466198591e-06,
+        7.370264745176769e-07,
+        2.5368496459066137e-07,
+        -2.707850700334191e-07
+      ],
+      [
+        9.68071290929906e-06,
+        4.6064001273382615e-06,
+        1.5855206048076553e-06,
+        -1.6924070332935415e-06
+      ],
+      [
+        3.872263723692093e-05,
+        1.8425381337339175e-05,
+        6.341933408871014e-06,
+        -6.76963312307155e-06
+      ],
+      [
+        0.00015488711867828187,
+        7.369801873990944e-05,
+        2.5365349573647222e-05,
+        -2.7078612310327266e-05
+      ]
+    ],
+    "physical_R_minus_one": null,
+    "physical_growth_status": "DIVERGE — cierre no perturbativo dentro del intervalo de integración (ver nonperturbative_diagnostics)",
+    "comoving_max_abs": 0.00015488711867828187,
+    "threshold": 0.001,
+    "E1_pass_comoving": true,
+    "physical_max_abs_published_not_gated": null
+  },
+  "divergence_messages": {
+    "physical": "crecimiento divergente (k = 0.2 h/Mpc, cierre 'physical', α₀⁻¹ = 1e-06): µ − 1 deja de ser perturbativo dentro del intervalo de integración; ningún número de fσ8 es citable bajo este cierre"
+  },
+  "nonperturbative_diagnostics": {
+    "comoving": {
+      "z_epsilon_c_equals_1": null,
+      "z_epsilon_c_equals_0.1": null,
+      "z_mu_minus_one_equals_1_by_k": {
+        "0.01": null,
+        "0.02": null,
+        "0.05": null,
+        "0.1": null,
+        "0.2": null,
+        "0.3": null
+      }
+    },
+    "physical": {
+      "z_epsilon_c_equals_1": 124.99210498948729,
+      "z_epsilon_c_equals_0.1": 74.53028260572809,
+      "z_mu_minus_one_equals_1_by_k": {
+        "0.01": 51.18868681427907,
+        "0.02": 34.1204025621795,
+        "0.05": 19.80485995669459,
+        "0.1": 13.000629733372628,
+        "0.2": 8.421725278574577,
+        "0.3": 6.473209523045078
+      },
+      "z_background_above_rho_c": 4.848035476425731
+    }
+  },
+  "note_table_verification": [
+    {
+      "k_hMpc": 0.05,
+      "z0_comoving": {
+        "note": 3e-05,
+        "computed": 2.4345622178721902e-05,
+        "ratio_computed_over_note": 0.81152073929073
+      },
+      "z1_physical": {
+        "note": 0.0003,
+        "computed": 0.0002754392725564778,
+        "ratio_computed_over_note": 0.9181309085215927
+      },
+      "z3_physical": {
+        "note": 0.01,
+        "computed": 0.0031162396388764034,
+        "in_window": true,
+        "ratio_computed_over_note": 0.31162396388764035
+      }
+    },
+    {
+      "k_hMpc": 0.1,
+      "z0_comoving": {
+        "note": 0.0001,
+        "computed": 9.738248871488761e-05,
+        "ratio_computed_over_note": 0.973824887148876
+      },
+      "z1_physical": {
+        "note": 0.001,
+        "computed": 0.0011017570902259112,
+        "ratio_computed_over_note": 1.1017570902259113
+      },
+      "z3_physical": {
+        "note": 0.05,
+        "computed": 0.012464958555505614,
+        "in_window": true,
+        "ratio_computed_over_note": 0.24929917111011227
+      }
+    },
+    {
+      "k_hMpc": 0.2,
+      "z0_comoving": {
+        "note": 0.0004,
+        "computed": 0.00038952995485955043,
+        "ratio_computed_over_note": 0.973824887148876
+      },
+      "z1_physical": {
+        "note": 0.005,
+        "computed": 0.004407028360903645,
+        "ratio_computed_over_note": 0.881405672180729
+      },
+      "z3_physical": {
+        "note": null,
+        "computed": 0.049859834222022455,
+        "in_window": true,
+        "ratio_computed_over_note": null
+      }
+    }
+  ],
+  "atlas_channel": {
+    "status": "PENDIENTE (frente 3): los coeficientes O(1) de µ_Atlas y η_Atlas no están derivados — sin coeficientes explícitos la contribución es cero y no se cita",
+    "contribution_computed": false
+  }
+}
