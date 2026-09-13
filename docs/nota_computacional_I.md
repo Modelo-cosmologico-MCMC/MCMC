@@ -425,6 +425,41 @@ la suite.
 consumir el dato real; no afirma nada sobre el dato real
 (`results/2026-09-12_dovekie_mocks/`).
 
+### 3.14 µ, η y Σ desde la ontología: el canal Cronos derivado y dónde se rompe cada cierre (13-sep-2026)
+
+Con la preinscripción congelada ANTES de computar (E1, el desenlace
+aburrido, como control; E2 identidades; E3, la cadena halos → α₀⁻¹ →
+µ → observables, declarada y no ejecutada; la tabla a mano de la nota de
+teoría como «a verificar»), la Ley de Cronos débil (11.1), la geodésica
+(11.2) y Gea (9.3) dan, linealizando la ε_c CANÓNICA
+(d ln ε_c/d ln ρ = 3/2), el canal Cronos cerrado:
+**µ − 1 = ε̄_c(a)·(ck/aH)²/Ω_m(a), η = 1/µ, Σ = (1+µ)/2** — cola k²,
+amplitud ∝ α₀⁻¹, µ − 1 = 2(Σ − 1) y η < 1 sin parámetros adicionales,
+límite GR exacto; identidades verificadas a precisión de máquina. Con
+α₀⁻¹ = 10⁻⁶ (la cota 11.5 saturada — límite superior, no medida) y el
+cierre comoving (ρ_c = 200× la media de cada época): **E1 = A**,
+max |R_µ − 1| = 1.55×10⁻⁴ en k ≤ 0.2 h/Mpc, z ≤ 2 — el sector lineal no
+inventa señal (µ − 1 = 9.7×10⁻⁵ en z = 0, k = 0.1 h/Mpc). La tabla de
+la nota se recomputó: z = 0 y z = 1 correctas (×0.8–1.1); la columna
+z = 3 del cierre physical estaba sobreestimada ×3–4 (5×10⁻² → 1.25×10⁻²
+en k = 0.1) — las cifras citables son las calculadas. **Hallazgo
+estructural no previsto**: el cierre physical (ρ_c = 200·ρ̄_m(0)) con
+α₀⁻¹ en la cota no es perturbativo: µ − 1 ∝ (1+z)^{7/2} alcanza 1 en
+z = 8.4 (k = 0.2) a 51 (k = 0.01), ε̄_c ≥ 1 para z ≳ 125, el propio
+fondo supera ρ_c para z > 4.85 y la ODE de crecimiento diverge (el
+código falla cerrado, nunca publica NaN). Consecuencia enunciable sin
+datos: bajo 2b una amplitud viable exige α₀⁻¹ ≪ 10⁻⁶ — la consistencia
+del sector lineal acota 2b por debajo de la cota galáctica, y el
+criterio «200× la media» favorece conceptualmente el cierre comoving.
+El canal Atlas queda como gancho con coeficientes O(1) pendientes del
+frente 3 (contribución no computada); lo enunciable sin el cierre: el
+mismo ε_K de G_cosmo/G_N − 1 ≈ −(3/2)ε_K fija el offset de crecimiento
+a gran escala. Ningún dato entra aquí: la prohibición «µ, η nunca se
+eligen desde los datos de lensing» es ejecutable en la suite.
+**Estatuto**: derivación interna con cierres declarados (E8) y
+predicción sin contraste — no detección, no validación; amplitud =
+límite superior (`results/2026-09-13_mu_eta_cronos/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

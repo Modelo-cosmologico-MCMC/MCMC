@@ -85,10 +85,11 @@ ATLAS_STATUS = ("PENDIENTE (frente 3): los coeficientes O(1) de µ_Atlas "
 __all__ = [
     "ALPHA0_INV_MAX", "ATLAS_STATUS", "K_MAX_LINEAR_HMPC",
     "RHO_C_MODES", "RHO_C_OVER_MEAN",
-    "Sigma_cronos", "atlas_offset", "epsilon_c_background",
+    "Sigma_cronos", "atlas_offset", "background_above_rho_c_z",
+    "epsilon_c_background", "epsilon_c_nonperturbative_z",
     "eta_cronos", "fsigma8_ratio_cronos", "growth_Dk",
     "in_validity_window", "mu_cronos", "mu_minus_one_cronos",
-    "mu_table", "omega_m_of_a",
+    "mu_table", "omega_m_of_a", "z_where_mu_minus_one_reaches",
 ]
 
 
@@ -224,12 +225,89 @@ def fsigma8_ratio_cronos(z_eval, theta, k_hMpc: float, alpha0_inv: float,
                          rho_c_mode: str = "comoving",
                          n_grid: int = 400) -> np.ndarray:
     """R_µ(k,z) = [f·D](µ) / [f·D](µ ≡ 1) al MISMO fondo: σ8 se cancela —
-    la predicción del sector lineal con cero parámetros nuevos."""
+    la predicción del sector lineal con cero parámetros nuevos.
+
+    Falla cerrado (FloatingPointError) si el crecimiento diverge: ocurre
+    cuando el cierre deja de ser perturbativo dentro del intervalo de
+    integración (µ − 1 ≳ 1 a z alto) — un NaN publicado sería un número
+    inválido disfrazado de resultado; el diagnóstico correcto lo dan
+    z_where_mu_minus_one_reaches y epsilon_c_nonperturbative_z."""
     z_eval = np.asarray(z_eval, float)
-    D1, f1 = growth_Dk(z_eval, theta, k_hMpc, alpha0_inv, rho_c_mode,
-                       n_grid)
+    with np.errstate(over="ignore", invalid="ignore"):
+        D1, f1 = growth_Dk(z_eval, theta, k_hMpc, alpha0_inv, rho_c_mode,
+                           n_grid)
+    if not (np.all(np.isfinite(D1)) and np.all(np.isfinite(f1))):
+        raise FloatingPointError(
+            f"crecimiento divergente (k = {k_hMpc} h/Mpc, cierre "
+            f"'{rho_c_mode}', α₀⁻¹ = {alpha0_inv:g}): µ − 1 deja de ser "
+            "perturbativo dentro del intervalo de integración; ningún "
+            "número de fσ8 es citable bajo este cierre")
     D0, f0 = growth_D_f(z_eval, theta, n_grid=n_grid)
     return (f1 * D1) / (f0 * D0)
+
+
+# ---------------------------------------------------------------------
+# Diagnósticos de no-perturbatividad (dónde se rompe cada cierre)
+# ---------------------------------------------------------------------
+
+def epsilon_c_nonperturbative_z(alpha0_inv: float,
+                                rho_c_mode: str = "physical",
+                                target: float = 1.0,
+                                rho_c_over_mean: float = RHO_C_OVER_MEAN
+                                ) -> float:
+    """Menor z con ε̄_c(z) ≥ target — donde la corrección a la lapse
+    (N = 1 + Φ_N/c² − ε_c) deja de ser pequeña y el ansatz del tratado
+    deja de ser una corrección.
+
+    'physical': ε̄_c = α₀⁻¹ f^{−3/2} (1+z)^{9/2} = target ⟹
+                1 + z = (target · f^{3/2} / α₀⁻¹)^{2/9}   (analítico)
+    'comoving': ε̄_c = α₀⁻¹ f^{−3/2} constante ⟹ inf si es < target."""
+    check_alpha0_inv(alpha0_inv)
+    if rho_c_mode not in RHO_C_MODES:
+        raise ValueError(rho_c_mode)
+    if alpha0_inv == 0.0:
+        return float("inf")
+    eps0 = alpha0_inv * rho_c_over_mean ** -1.5
+    if rho_c_mode == "comoving":
+        return 0.0 if eps0 >= target else float("inf")
+    return float((target / eps0) ** (2.0 / 9.0) - 1.0)
+
+
+def z_where_mu_minus_one_reaches(k_hMpc: float, theta, alpha0_inv: float,
+                                 rho_c_mode: str = "physical",
+                                 level: float = 1.0, z_max: float = 3000.0,
+                                 n_grid: int = 4001) -> float:
+    """Menor z ∈ [0, z_max] con µ(k,z) − 1 ≥ level (interpolado en
+    log(1+z) sobre una malla fina); inf si no se alcanza. Con level = 1
+    marca dónde la ecuación de Poisson efectiva se modifica en O(1) —
+    el límite duro de la extrapolación lineal para ese k."""
+    if level <= 0:
+        raise ValueError("level debe ser > 0")
+    lnopz = np.linspace(0.0, np.log1p(z_max), int(n_grid))
+    a = np.exp(-lnopz)
+    m1 = mu_minus_one_cronos(k_hMpc, a, theta, alpha0_inv, rho_c_mode)
+    hit = np.nonzero(m1 >= level)[0]
+    if hit.size == 0:
+        return float("inf")
+    i = int(hit[0])
+    if i == 0:
+        return 0.0
+    # interpolación lineal en log(1+z) entre el último punto por debajo
+    # y el primero por encima
+    x0, x1 = lnopz[i - 1], lnopz[i]
+    y0, y1 = m1[i - 1], m1[i]
+    x = x0 + (level - y0) * (x1 - x0) / (y1 - y0)
+    return float(np.expm1(x))
+
+
+def background_above_rho_c_z(rho_c_over_mean: float = RHO_C_OVER_MEAN
+                             ) -> float:
+    """Cierre 'physical': z a partir del cual el PROPIO fondo supera el
+    umbral ρ_c = f·ρ̄_m(0): (1+z)³ = f. Con f = 200, z ≈ 4.85 — el
+    universo medio queda «por encima del umbral de colapso», lo que
+    muestra por qué el criterio «f × la media» es, por construcción,
+    relativo a la media de cada época (cierre 'comoving')."""
+    return float(rho_c_over_mean ** (1.0 / 3.0) - 1.0)
 
 
 def mu_table(theta, alpha0_inv: float, k_grid, z_grid,

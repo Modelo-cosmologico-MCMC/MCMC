@@ -15,7 +15,9 @@ from cosmology.mu_eta_cronos import (
     RHO_C_OVER_MEAN,
     Sigma_cronos,
     atlas_offset,
+    background_above_rho_c_z,
     epsilon_c_background,
+    epsilon_c_nonperturbative_z,
     eta_cronos,
     fsigma8_ratio_cronos,
     growth_Dk,
@@ -23,6 +25,7 @@ from cosmology.mu_eta_cronos import (
     mu_cronos,
     mu_minus_one_cronos,
     mu_table,
+    z_where_mu_minus_one_reaches,
 )
 from cronos.cronos_v3 import epsilon_c
 
@@ -159,6 +162,49 @@ class TestGrowthWithMu:
         D, f = growth_Dk(np.array([0.0, 1.0]), THETA, 0.1, ALPHA0_INV_MAX)
         assert D[0] == pytest.approx(1.0, abs=1e-12)
         assert 0.0 < D[1] < 1.0 and 0.0 < f[1] < 1.2
+
+
+class TestNonperturbativeDiagnostics:
+    def test_physical_closure_diverges_and_fails_closed(self):
+        """Bajo 2b con la cota saturada, µ−1 ∝ (1+z)^{7/2} no es
+        perturbativo a z alto: la razón fσ8 falla cerrado (nunca NaN)."""
+        with pytest.raises(FloatingPointError, match="divergente"):
+            fsigma8_ratio_cronos(np.array([0.0, 1.0]), THETA, 0.2,
+                                 ALPHA0_INV_MAX, "physical")
+
+    def test_epsilon_c_nonperturbative_z_analytic(self):
+        # physical: 1 + z = (f^{3/2}/α)^{2/9}
+        z1 = epsilon_c_nonperturbative_z(ALPHA0_INV_MAX, "physical", 1.0)
+        expected = (RHO_C_OVER_MEAN ** 1.5 / ALPHA0_INV_MAX) ** (2 / 9) - 1
+        assert z1 == pytest.approx(expected, rel=1e-12)
+        assert 100 < z1 < 200
+        assert epsilon_c_nonperturbative_z(ALPHA0_INV_MAX, "physical",
+                                           0.1) < z1
+        # comoving: ε̄_c constante ≪ 1 ⟹ nunca
+        assert epsilon_c_nonperturbative_z(ALPHA0_INV_MAX, "comoving") \
+            == float("inf")
+        assert epsilon_c_nonperturbative_z(0.0, "physical") == float("inf")
+
+    def test_z_where_mu_reaches_one(self):
+        z_phys = z_where_mu_minus_one_reaches(0.2, THETA, ALPHA0_INV_MAX,
+                                              "physical")
+        assert 3.0 < z_phys < 30.0          # z de un dígito o dos
+        # a k menor el cruce ocurre más tarde (µ−1 ∝ k²)
+        assert z_where_mu_minus_one_reaches(0.05, THETA, ALPHA0_INV_MAX,
+                                            "physical") > z_phys
+        # comoving: µ−1 ≲ 1e-3 en todo z ⟹ nunca alcanza 1
+        assert z_where_mu_minus_one_reaches(0.2, THETA, ALPHA0_INV_MAX,
+                                            "comoving") == float("inf")
+        # la malla fina y la interpolación reproducen la fórmula
+        z_c = z_where_mu_minus_one_reaches(0.1, THETA, ALPHA0_INV_MAX,
+                                           "physical")
+        m1 = mu_minus_one_cronos(0.1, 1.0 / (1.0 + z_c), THETA,
+                                 ALPHA0_INV_MAX, "physical")
+        assert m1 == pytest.approx(1.0, rel=2e-3)
+
+    def test_background_above_rho_c(self):
+        assert background_above_rho_c_z() == pytest.approx(
+            200.0 ** (1 / 3) - 1.0)
 
 
 class TestNoDataGuard:

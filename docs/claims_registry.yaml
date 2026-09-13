@@ -617,3 +617,56 @@ claims:
     evidence_level: validación interna del pipeline (E8) — habilita consumir el dato real, no afirma nada sobre él
     status: interno
     artifact: results/2026-09-12_dovekie_mocks
+
+  - claim_id: perturbaciones-fsigma8-oos
+    entity: Sector perturbativo lineal — predicción fσ8 out-of-sample (12-sep)
+    law: "Ap. A (crecimiento exacto sobre el fondo) + preinscripción 12-sep"
+    derivation: >-
+      DESENLACE A preinscrito (el aburrido, control de consistencia):
+      crecimiento lineal exacto propagado sobre el posterior de fondo
+      CC+BAO+SNe (sin crecimiento en el ajuste) da max_z |R_p50(z) − 1|
+      = 4.3e-8 con R = fσ8^MCMC/fσ8^ΛCDM al mismo fondo (cero parámetros
+      nuevos; σ8 se cancela), dentro de la envolvente del prior (6.4e-7);
+      Δχ²_oos = −8.5e-7 sobre 11 puntos RSD con σ8 externa declarada.
+      Nota estructural heredada de 6A: con z_trans ≈ 9 y la transición
+      normalizada hoy, el crecimiento lineal no sondea ε en esta
+      parametrización.
+    implementation: cosmology/growth_prediction.py + cosmology/extended_likelihoods.py
+    test: tests/test_growth_prediction.py + tests/test_perturbations_lock.py
+    observable: fσ8(z) — razón MCMC/ΛCDM al mismo fondo; absoluta solo con σ8 externa
+    dataset: "compilación RSD embebida (data/boss_eboss/fsigma8.txt, checksums en download_data) — out-of-sample: no entró en el ajuste v1"
+    falsifier: una desviación de R(z) mayor que la envolvente del prior habría sido error de implementación o física nueva, a discriminar por el procedimiento enumerado
+    evidence_level: control de consistencia interna del sector lineal sobre el fondo (E8) — no validación frente a ΛCDM
+    status: interno
+    artifact: results/2026-09-12_perturbations_fsigma8
+
+  - claim_id: mu-eta-cronos
+    entity: µ(k,a), η(k,a), Σ(k,a) desde la ontología (canal Cronos derivado; Atlas declarado)
+    law: "Def. 11.1 + Prop. 11.2 + Gea 9.3 (+ Atlas 9.4-9.5, pendiente del frente 3)"
+    derivation: >-
+      derivación desde los objetos declarados del tratado con tres
+      cierres nombrados (linealización de la ε_c canónica; ρ_c
+      comoving|physical con f = 200; ventana k ≤ 0.2 h/Mpc): µ − 1 =
+      ε̄_c(a)·(ck/aH)²/Ω_m(a), η = 1/µ, Σ = (1+µ)/2 — identidades a
+      precisión de máquina, GR exacto en α₀⁻¹ → 0. Con α₀⁻¹ = 1e-6 (COTA
+      saturada, límite superior): E1 = A, max |R_µ − 1| = 1.55e-4 en el
+      cierre comoving. HALLAZGO ESTRUCTURAL: el cierre physical no es
+      perturbativo (µ − 1 = 1 en z = 8.4–51 según k; ε̄_c ≥ 1 para
+      z ≳ 125; el fondo supera ρ_c para z > 4.85; el crecimiento diverge
+      y el código falla cerrado) ⟹ bajo 2b una amplitud viable exige
+      α₀⁻¹ ≪ 1e-6. La columna z = 3 de la nota de teoría estaba
+      sobreestimada ×3–4. Canal Atlas: coeficientes O(1) PENDIENTES
+      (frente 3), contribución no computada.
+    implementation: cosmology/mu_eta_cronos.py + cosmology/extended_likelihoods.py
+    test: tests/test_mu_eta_cronos.py + tests/test_mu_eta_lock.py
+    observable: µ(k,z), η(k,z), Σ(k,z) → fσ8(k,z), P(k), C_L^φφ — predichos, no contrastados
+    dataset: "— (predicción sin datos; PROHIBIDO elegir µ, η desde los datos de lensing)"
+    falsifier: >-
+      firma cerrada sin parámetros adicionales — µ − 1 = 2(Σ − 1), η < 1,
+      cola k², amplitud ∝ α₀⁻¹ acotada por dinámica de halos: un
+      contraste conjunto RSD+lensing que exigiera µ − 1 ≠ 2(Σ − 1) o
+      Σ > µ refutaría el canal Cronos como origen; Atlas queda falsable
+      vía el mismo ε_K que BBN cuando el frente 3 cierre los coeficientes
+    evidence_level: derivación interna con cierres declarados (E8); predicción sin contraste — no detección; amplitud = límite superior; Atlas condicional (frente 3)
+    status: condicional
+    artifact: results/2026-09-13_mu_eta_cronos

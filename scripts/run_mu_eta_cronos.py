@@ -26,11 +26,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from cosmology.mu_eta_cronos import (  # noqa: E402
     ATLAS_STATUS,
     Sigma_cronos,
+    background_above_rho_c_z,
+    epsilon_c_nonperturbative_z,
     eta_cronos,
     fsigma8_ratio_cronos,
     in_validity_window,
     mu_minus_one_cronos,
     mu_table,
+    z_where_mu_minus_one_reaches,
 )
 
 OUTDIR = (Path(__file__).resolve().parent.parent / "results"
@@ -109,13 +112,41 @@ def main() -> int:
                                   .split(",")[0])]
     k_e1 = k_grid[k_grid <= k_max_e1]
     ratios = {}
+    divergence = {}
     for mode in ("comoving", "physical"):
-        R = np.array([fsigma8_ratio_cronos(z_e1, theta, float(k), alpha,
-                                           mode) for k in k_e1])
-        ratios[mode] = R                          # (len(k_e1), len(z_e1))
+        try:
+            R = np.array([fsigma8_ratio_cronos(z_e1, theta, float(k),
+                                               alpha, mode) for k in k_e1])
+            ratios[mode] = R                      # (len(k_e1), len(z_e1))
+        except FloatingPointError as exc:
+            ratios[mode] = None
+            divergence[mode] = str(exc)
+    if ratios["comoving"] is None:
+        raise SystemExit("el cierre comoving divergió: revisar la "
+                         "implementación antes de publicar nada")
     e1_max = float(np.max(np.abs(ratios["comoving"] - 1.0)))
     e1_pass = bool(e1_max <= e1_thr)
-    phys_max = float(np.max(np.abs(ratios["physical"] - 1.0)))
+    phys_max = (None if ratios["physical"] is None
+                else float(np.max(np.abs(ratios["physical"] - 1.0))))
+
+    # Diagnóstico de no-perturbatividad por cierre (dónde se rompe)
+    nonpert = {}
+    for mode in ("comoving", "physical"):
+        nonpert[mode] = {
+            "z_epsilon_c_equals_1": epsilon_c_nonperturbative_z(
+                alpha, mode, 1.0),
+            "z_epsilon_c_equals_0.1": epsilon_c_nonperturbative_z(
+                alpha, mode, 0.1),
+            "z_mu_minus_one_equals_1_by_k": {
+                f"{k:g}": z_where_mu_minus_one_reaches(float(k), theta,
+                                                        alpha, mode)
+                for k in k_grid},
+        }
+    nonpert["physical"]["z_background_above_rho_c"] = \
+        background_above_rho_c_z()
+
+    def _finite_or_none(x):
+        return None if (x is None or not np.isfinite(x)) else float(x)
 
     # ------------------------------------------------------------------
     # Verificación de la tabla a mano de la nota
@@ -161,10 +192,23 @@ def main() -> int:
         "fsigma8_ratio_E1": {
             "k_hMpc": k_e1.tolist(), "z": z_e1.tolist(),
             "comoving_R_minus_one": (ratios["comoving"] - 1.0).tolist(),
-            "physical_R_minus_one": (ratios["physical"] - 1.0).tolist(),
+            "physical_R_minus_one": (
+                None if ratios["physical"] is None
+                else (ratios["physical"] - 1.0).tolist()),
+            "physical_growth_status": (
+                "DIVERGE — cierre no perturbativo dentro del intervalo "
+                "de integración (ver nonperturbative_diagnostics)"
+                if ratios["physical"] is None else "computado"),
             "comoving_max_abs": e1_max, "threshold": e1_thr,
             "E1_pass_comoving": e1_pass,
             "physical_max_abs_published_not_gated": phys_max},
+        "divergence_messages": divergence,
+        "nonperturbative_diagnostics": {
+            mode: {
+                key: ({kk: _finite_or_none(v) for kk, v in val.items()}
+                      if isinstance(val, dict) else _finite_or_none(val))
+                for key, val in nonpert[mode].items()}
+            for mode in nonpert},
         "note_table_verification": verification,
         "atlas_channel": {"status": ATLAS_STATUS,
                           "contribution_computed": False},
@@ -222,8 +266,11 @@ def main() -> int:
         f"{tr['epsilon']:+.4f}, z_trans = {tr['z_trans']:.2f}.",
         f"- **E1 (cierre comoving)**: max |R_µ − 1| = {e1_max:.2e} "
         f"(regla ≤ {e1_thr:g}) → {'desenlace A: el aburrido preinscrito' if e1_pass else 'desenlace B (a discriminar)'}. "
-        f"Cierre physical (publicado, sin puerta): max |R_µ − 1| = "
-        f"{phys_max:.2e}.",
+        + (f"Cierre physical (publicado, sin puerta): max |R_µ − 1| = "
+           f"{phys_max:.2e}." if phys_max is not None else
+           "Cierre physical: el crecimiento DIVERGE — ningún número de "
+           "fσ8 es citable bajo 2b con α₀⁻¹ en la cota (ver sección "
+           "siguiente)."),
         f"- **E2 identidades**: Σ−1 = (µ−1)/2 a "
         f"{ident['comoving']['max_abs_Sigma_identity']:.1e}; η−1 = "
         "−(µ−1) a segundo orden; k² y linealidad en α₀⁻¹ a "
@@ -267,6 +314,44 @@ def main() -> int:
         "Lectura: ×≈1 confirma la estimación; ×≠1 la corrige — las "
         "cifras citables son las calculadas, no las de la nota.",
         "",
+        "## Dónde se rompe cada cierre (diagnóstico de "
+        "no-perturbatividad, α₀⁻¹ en la cota)",
+        "",
+        "| cierre | z(ε̄_c = 0.1) | z(ε̄_c = 1) | "
+        + " | ".join(f"z(µ−1 = 1), k={k:g}" for k in k_grid) + " |",
+        "|---|---|---|" + "---|" * len(k_grid),
+    ]
+
+    def _z(x):
+        return "∞ (no se alcanza)" if (x is None or not np.isfinite(x)) \
+            else f"{x:.1f}"
+
+    for mode in ("comoving", "physical"):
+        d_ = nonpert[mode]
+        md.append(
+            f"| {mode} | {_z(d_['z_epsilon_c_equals_0.1'])} | "
+            f"{_z(d_['z_epsilon_c_equals_1'])} | " + " | ".join(
+                _z(d_["z_mu_minus_one_equals_1_by_k"][f"{k:g}"])
+                for k in k_grid) + " |")
+    md += [
+        "",
+        "**Hallazgo estructural (no previsto en la nota)**: el cierre "
+        "'physical' con α₀⁻¹ saturando la cota NO es un cierre "
+        "perturbativo del sector lineal: µ − 1 ∝ (1+z)^{7/2} alcanza "
+        "O(1) a z de un dígito o dos en toda la ventana de k, la "
+        "corrección a la lapse ε̄_c supera 1 para z ≳ "
+        f"{_z(nonpert['physical']['z_epsilon_c_equals_1'])}, y la ODE de "
+        "crecimiento diverge desde su z inicial (999). Además, con "
+        "ρ_c = 200·ρ̄_m(0) el PROPIO fondo supera el umbral para z > "
+        f"{background_above_rho_c_z():.2f} — el criterio «200× la media» "
+        "es, por construcción, relativo a la media de cada época, lo que "
+        "favorece conceptualmente el cierre 'comoving'. Consecuencia "
+        "enunciable sin datos: bajo 2b, una amplitud viable exige "
+        "α₀⁻¹ ≪ 1e-6 — la propia consistencia del sector lineal acota "
+        "2b por debajo de la cota galáctica, y ese es el discriminador "
+        "interno de B.3, más fuerte de lo que la nota estimaba. El "
+        "contraste con datos (CMB-lensing) sigue PROHIBIDO aquí.",
+        "",
         f"**Atlas**: {ATLAS_STATUS}. Contribución no computada.",
         "",
         "**Lo que este artefacto NO afirma**: que µ ≠ 1 esté detectado; "
@@ -277,8 +362,16 @@ def main() -> int:
     (OUTDIR / "report.md").write_text("\n".join(md) + "\n",
                                       encoding="utf-8")
     print(f"E1 comoving: max|R−1| = {e1_max:.2e} → "
-          f"{'A' if e1_pass else 'B'}; physical (sin puerta): "
-          f"{phys_max:.2e}; E2: {'PASS' if e2_pass else 'FAIL'}")
+          f"{'A' if e1_pass else 'B'}; physical: "
+          f"{'DIVERGE' if phys_max is None else f'{phys_max:.2e}'}; "
+          f"E2: {'PASS' if e2_pass else 'FAIL'}")
+    for mode in ("comoving", "physical"):
+        print(f"  {mode}: z(ε̄_c=1) = "
+              f"{nonpert[mode]['z_epsilon_c_equals_1']:.1f}; "
+              f"z(µ−1=1) por k = "
+              + ", ".join(f"{k}: {v:.1f}" for k, v in
+                          nonpert[mode]["z_mu_minus_one_equals_1_by_k"]
+                          .items()))
     print(f"Artefacto: {OUTDIR}")
     return 0
 

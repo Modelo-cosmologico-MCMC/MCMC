@@ -75,6 +75,44 @@ estado en que afirme exactamente lo que hace»).
   excluido de forma ejecutable hasta tener dataset con DOI,
   observable consumido y relación con el parámetro bariónico.
 
+- **Sector perturbativo (13-sep): µ(k,a), η(k,a), Σ(k,a) DERIVADOS del
+  canal Cronos, canal Atlas declarado, E1 = A y un hallazgo estructural
+  sobre el cierre 'physical'**. Desde los objetos declarados del tratado
+  (Ley de Cronos débil 11.1, geodésica 11.2, Gea 9.3), con tres cierres
+  nombrados y sin campos ni parámetros nuevos: µ − 1 = ε̄_c(a)·(ck/aH)²/
+  Ω_m(a), η = 1/µ (η − 1 = −(µ−1) a segundo orden), Σ = (1+µ)/2
+  (Σ − 1 = (µ−1)/2 exacto), cola k², amplitud ∝ α₀⁻¹, límite GR exacto —
+  identidades verificadas a precisión de máquina; ε̄_c sale de la
+  función CANÓNICA cronos_v3.epsilon_c (una sola fuente para fórmula y
+  cota) y la linealización es su derivada (d ln ε_c/d ln ρ = 3/2,
+  testeado). Preinscripción congelada ANTES de computar: E1 aburrido
+  (≤ 1e-3, cierre comoving), E2 identidades, E3 cadena halos → α₀⁻¹ →
+  µ → observables DECLARADA y NO EJECUTADA, tabla a mano de la nota de
+  teoría «a verificar». Resultados con α₀⁻¹ = 1e-6 (la COTA 11.5
+  saturada — límite superior, no medida): **E1 = A**, max |R_µ − 1| =
+  1.55e-4 en k ≤ 0.2 h/Mpc, z ≤ 2 — el sector lineal no inventa señal
+  (µ − 1 = 9.7e-5 en z = 0, k = 0.1). La tabla de la nota se recomputó:
+  z = 0 y z = 1 correctas (×0.8–1.1); la columna z = 3 del cierre
+  physical estaba SOBREESTIMADA ×3–4 (5e-2 → 1.25e-2 en k = 0.1) — las
+  cifras citables son las calculadas. HALLAZGO ESTRUCTURAL no previsto:
+  el cierre 'physical' (ρ_c = 200·ρ̄_m(0)) con α₀⁻¹ en la cota NO es
+  perturbativo — µ − 1 ∝ (1+z)^{7/2} alcanza 1 en z = 8.4 (k = 0.2) …
+  51 (k = 0.01), ε̄_c ≥ 1 para z ≳ 125, el propio fondo supera ρ_c para
+  z > 4.85 y la ODE de crecimiento diverge (el código FALLA CERRADO,
+  nunca publica NaN). Consecuencia enunciable sin datos: bajo 2b una
+  amplitud viable exige α₀⁻¹ ≪ 1e-6 — la consistencia del sector lineal
+  acota 2b por debajo de la cota galáctica, discriminador interno más
+  fuerte de lo que la nota estimaba; el criterio «200× la media»
+  favorece conceptualmente el cierre comoving. Atlas: gancho con
+  coeficientes O(1) PENDIENTES (frente 3), contribución no computada.
+  Sin datos: la prohibición «µ, η nunca desde lensing» es ejecutable
+  (test); growth_D_f acepta µ(a) y con µ ≡ 1 es idéntico bit a bit;
+  perturbations.mu_modifier/eta_modifier quedan declarados placeholders
+  no derivados. Artefacto: `results/2026-09-13_mu_eta_cronos/`.
+  Estatuto: derivación interna con cierres declarados (E8) y predicción
+  sin contraste — no detección, no validación; amplitud = límite
+  superior.
+
 ## Sin publicar — agosto de 2026
 
 - **Crosscheck JAX del fondo (19-ago, 6A prioridad 3): equivalencia
