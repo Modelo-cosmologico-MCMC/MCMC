@@ -1,0 +1,53 @@
+{
+  "dataset": "bbn_abundances",
+  "purpose": "entradas observacionales del Contraste de los Residuos vía BBN (G_cosmo/G_N libre)",
+  "provenance_caveat": "VALORES PUBLICADOS TRANSCRITOS A MANO. Los bytes oficiales (arXiv, INSPIRE, DOI, revistas) no son alcanzables desde el entorno de código (egreso denegado, 14-sep-2026). Los valores de EMPRESS XV proceden del mapa del autor del 14-sep-2026 (verificados por el autor); el resto son valores de literatura anotados en la sesión de código y quedan marcados para verificación del autor. Ningún DOI ha podido resolverse desde aquí.",
+  "official_bytes_verified": false,
+  "values": {
+    "Y_P_empress_xv": {
+      "value": 0.2402,
+      "sigma": 0.004,
+      "role": "principal",
+      "source": "EMPRESS XV (jun-2026), arXiv:2506.24050",
+      "doi": "10.48550/arXiv.2506.24050",
+      "also_reported": {
+        "Neff": 2.54,
+        "Neff_err_plus": 0.2,
+        "Neff_err_minus": 0.25,
+        "note": "N_eff derivado por la colaboración; NO se usa como dato aquí"
+      },
+      "transcribed_from": "mapa del autor 14-sep-2026"
+    },
+    "Y_P_aver_2021": {
+      "value": 0.2453,
+      "sigma": 0.0034,
+      "role": "control",
+      "source": "Aver, Berg, Olive, Pogge, Salzer & Skillman 2021, JCAP 03 (2021) 027",
+      "doi": "10.1088/1475-7516/2021/03/027",
+      "transcribed_from": "literatura (sesión de código); verificar"
+    },
+    "DH_cooke_2018": {
+      "value": 2.527e-05,
+      "sigma": 3e-07,
+      "role": "principal",
+      "source": "Cooke, Pettini & Steidel 2018, ApJ 855, 102",
+      "doi": "10.3847/1538-4357/aaab53",
+      "transcribed_from": "literatura (sesión de código); verificar"
+    },
+    "omega_b_planck_2018": {
+      "value": 0.02237,
+      "sigma": 0.00015,
+      "role": "prior",
+      "source": "Planck 2018 VI, A&A 641, A6 (TT,TE,EE+lowE+lensing)",
+      "doi": "10.1051/0004-6361/201833910",
+      "transcribed_from": "literatura (sesión de código); verificar"
+    },
+    "tau_n_pdg_2023": {
+      "value": 878.4,
+      "sigma": 0.5,
+      "role": "prior",
+      "source": "PDG 2023 (promedio de 8 medidas), valor por defecto de PRyMordial",
+      "transcribed_from": "PRyMordial PRyM_init.py @ 725d8a8"
+    }
+  }
+}
