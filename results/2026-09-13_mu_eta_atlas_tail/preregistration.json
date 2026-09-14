@@ -1,0 +1,172 @@
+{
+  "title": "E3_Atlas — cola O(e²) del canal Atlas con el sector de velocidades: escalera exacta del modo creciente y arnés numérico con condiciones iniciales adiabáticas",
+  "frozen_utc": "2026-09-13T21:00:11.454264+00:00",
+  "code_commit": "e54e6e106295c2fe98f84921f410086dc4b741a2",
+  "generator": "scripts/run_mu_eta_atlas_tail_prereg.py",
+  "context": {
+    "predecessor": "results/2026-09-13_mu_eta_atlas (PR #18): desenlace A, colas O(e²) DECLARADAS con coeficientes pendientes; el arnés E2 con ICs QS-consistentes midió η − 1 = +2.97e-4 en k/H0 = 66.667 (e ≈ 0.01) y residuos que no escalan como e²",
+    "author_independent_derivation": "adenda C.2 (13-sep, noche 2): escalera exacta t^(−n/3) sobre el sistema completo, ξ = 1; residuos del polo P_η = 3α_a/(2−α_a), P_µ = −P_η·p(2p−1)/3; predicción en el punto del arnés: η − 1 = 17.07·e² (1.71e-3 en e = 0.01); partes regulares Q_η ≈ 5.0/6.1/8.4, Q_µ ≈ −5.0/−6.2/−9.4 en α_a = 0.1/0.3/0.6",
+    "hypothesis_for_E2_discrepancy": "las ICs QS-consistentes excitan los modos oscilatorios del khronon (c_s² = 0.132 en el punto del arnés), que contaminan η con un suelo que no escala como e²; las ICs adiabáticas de la escalera aíslan el modo creciente puro. Es una hipótesis A CONTRASTAR, no un resultado"
+  },
+  "assumptions_frozen": {
+    "xi": 1.0,
+    "background": "materia dominante, a = t^{2/3}, κ = m = 1, J̄⁰ = (4/3)(3λ_K − 1)",
+    "gauge": "unitario (foliación entrópica física)",
+    "matter": "polvo (Sorkin–Schutz)",
+    "normalization": "c_{j0,0} = 1; los cocientes µ, η no dependen de la dirección libre de renormalización del modo",
+    "mu_reference": "µ_loc = µ·(1 − α_a/2) (respecto de G_local = G_growth, cancelación de #18)"
+  },
+  "E3a_ladder": {
+    "tower": {
+      "nlow": -4,
+      "nhigh": 16,
+      "prof": 12
+    },
+    "grid_lambda_alpha": [
+      [
+        1.05,
+        0.3
+      ],
+      [
+        1.0125,
+        0.3
+      ],
+      [
+        1.1,
+        0.3
+      ],
+      [
+        1.05,
+        0.1
+      ],
+      [
+        1.05,
+        0.6
+      ],
+      [
+        1.012,
+        0.012
+      ]
+    ],
+    "leading_order_rules": [
+      "mu0 == 1/(1 − α_a/2) EXACTO (simbólico) en toda la malla",
+      "eta0 == 1 EXACTO (simbólico) en toda la malla",
+      "cabeceras: j0 sin términos super-dominantes; ψ y φ empiezan en n = 2; términos impares n = 3 nulos (paridad física)"
+    ],
+    "residues": {
+      "alphas": [
+        0.1,
+        0.3,
+        0.6
+      ],
+      "h_steps": [
+        0.005,
+        0.01,
+        0.02,
+        0.04
+      ],
+      "scheme": "f(h) = h·coef(1 + h); ajuste polinómico cúbico exacto por los cuatro pasos; P = f(0), Q = f'(0); error O(h⁴)",
+      "closed_forms_to_lock": {
+        "P_eta": "3α_a/(2 − α_a)",
+        "P_mu_local": "−P_η · p(2p−1)/3 con p(p+½) = 3/(2−α_a)",
+        "identity": "P_µ/P_η = −p(2p−1)/3 (GR: −1/3)",
+        "qs_over_physical": "2(2−α_a)/(3α_a) — el residuo QS truncado es 2 y no depende de α_a"
+      },
+      "rule": "|P/P_cerrado − 1| ≤ 0.0001 para P_η y P_µ en los tres α_a",
+      "expected_numbers": {
+        "0.1": {
+          "P_eta": 0.15789473684210528,
+          "P_mu_local": -0.05765868875086588,
+          "p_at_lamK_1": 1.031189825287827,
+          "ratio_P_mu_over_P_eta": -0.3651716954221505,
+          "qs_over_physical_eta": 12.666666666666664
+        },
+        "0.3": {
+          "P_eta": 0.5294117647058824,
+          "P_mu_local": -0.2339873246865886,
+          "p_at_lamK_1": 1.1017417957409399,
+          "ratio_P_mu_over_P_eta": -0.441976057741334,
+          "qs_over_physical_eta": 3.777777777777778
+        },
+        "0.6": {
+          "P_eta": 1.2857142857142856,
+          "P_mu_local": -0.7781251294107067,
+          "p_at_lamK_1": 1.235044491877985,
+          "ratio_P_mu_over_P_eta": -0.6052084339861051,
+          "qs_over_physical_eta": 1.5555555555555556
+        }
+      }
+    },
+    "expected_numbers_harness_point": {
+      "mu0": 1.1764705882352942,
+      "p": 1.1498424281073252,
+      "eta_qs_truncated_coefficient": 46.224999999999945,
+      "mu_local_qs_truncated_coefficient": -3.7941176470588243,
+      "author_prediction_coef_eta": 17.07
+    }
+  },
+  "E3b_adiabatic_harness": {
+    "point": {
+      "lambda_K": 1.05,
+      "alpha_a": 0.3,
+      "xi": 1.0
+    },
+    "k_over_H0": [
+      66.667,
+      133.333,
+      200.0
+    ],
+    "a_start": 0.1,
+    "ic_tower_nmax": 8,
+    "e_fit_max": 0.02,
+    "solver": {
+      "method": "Radau",
+      "rtol": 1e-10,
+      "atol": 1e-18,
+      "n_eval": 600
+    },
+    "rules": {
+      "slope_eta": "|s_η/coef_η(escalera) − 1| ≤ 0.1 en CADA k",
+      "slope_mu_local": "|s_µ/coef_µ(escalera) − 1| ≤ 0.1 en CADA k",
+      "loglog_exponent": "exponente de |η − 1| frente a e ∈ [1.9, 2.1] en cada k",
+      "mode_purity": "std(p_loc) ≤ 0.01",
+      "solver": "success en cada k"
+    },
+    "qs_reference_for_B": "las pendientes coinciden (≤ 10 %) con los coeficientes QS truncados en vez de con la escalera",
+    "control_non_gating": "misma integración con las ICs QS-consistentes del arnés de #18 (a_start = 1e-3, ventana a ≥ 0.3): se publican pendiente, exponente log-log y fracción de signos negativos de η − 1 como diagnóstico del suelo de ruido. NO gobierna el desenlace"
+  },
+  "outcomes_enumerated": {
+    "rules": {
+      "E3a_residue_rel_tol": 0.0001,
+      "E3b_slope_rel_tol": 0.1,
+      "E3b_loglog_exponent_range": [
+        1.9,
+        2.1
+      ],
+      "E3b_purity_std_max": 0.01
+    },
+    "E3a": {
+      "A": "todas las reglas de orden dominante y de residuos en PASS → residuos del polo DERIVADOS y fijados en cosmology.mu_eta_atlas.tail_pole_residues",
+      "B": "alguna falla → las formas cerradas NO se fijan; se publica el número obtenido y la escalera queda como cálculo abierto"
+    },
+    "E3b": {
+      "A_confirmed": "todas las reglas en PASS → la cola física queda CONFIRMADA por integración completa; la discrepancia del arnés E2 se atribuye a las ICs (si el control lo muestra) y ATLAS_STATUS pasa a «residuo del polo derivado y confirmado numéricamente»",
+      "B_qs_wins": "las pendientes coinciden con los coeficientes QS truncados y no con la escalera → la escalera es errónea; SOSPECHA DE ERROR EN LA DERIVACIÓN PRIMERO; las formas cerradas de E3a se retiran del módulo",
+      "C_open": "ni A ni B → discrepancia ABIERTA; el estatuto permanece «derivación exacta de la escalera, pendiente de confirmación numérica independiente»; se publican todos los números"
+    },
+    "rule": "Nunca se ajustan los umbrales tras ver los números. E3a y E3b se clasifican por separado y se publican ambos con el mismo peso. El desenlace aburrido no es un fracaso."
+  },
+  "declared_frontiers_not_derived": [
+    "partes regulares Q_η(α_a), Q_µ(α_a): solo numéricas",
+    "ξ ≠ 1 (GW170817 fija ξ = 1; sin derivación fuera)",
+    "régimen superhorizonte y O(e⁴)",
+    "cotas PPN de marco preferido sobre (ε_K, α_a)",
+    "acoplamiento fuerte a Λ_sc ~ M_P√α_a"
+  ],
+  "prohibitions": {
+    "no_data": true,
+    "no_lensing_choice_of_mu_eta": true,
+    "no_threshold_tuning": true,
+    "no_change_to_E1_E2_of_PR18": true
+  }
+}

@@ -696,20 +696,35 @@ claims:
       en (µ, η) al orden dominante (desenlace A, el aburrido preinscrito); la
       expectativa previa «O(1)·ε_K» queda superada. Precisiones: η_QS es 0/0
       en λ_K = 1 exacto (límite GR con e → 0 primero); la cola QS de η lleva
-      1/(λ_K−1) pero el sistema completo la da ×~28 menor a e = 0.01 —
-      artefacto de la truncación QS; coeficientes reales pendientes. Erratum
-      candidata H.2.2 (c_s² diverge, no se anula, cuando α_a → 0 a λ_K fijo).
-    implementation: cosmology/mu_eta_atlas.py + validation/atlas_derivation.py
-    test: tests/test_mu_eta_atlas.py + tests/test_mu_eta_atlas_lock.py
+      1/(λ_K−1). COLAS O(e²) (E3_Atlas, 13-sep noche 2, preinscripción
+      7fb31910a086): la escalera exacta del modo creciente sobre el sistema
+      completo CON velocidades (ξ = 1) da los residuos del polo P_η =
+      3α_a/(2−α_a) y P_µ = −P_η·p(2p−1)/3 (identidad verificada a 1e-8 en
+      α_a = 0.1/0.3/0.6; E3a = A) — el polo es FÍSICO (horizonte de sonido
+      del khronon) y la truncación QS lo sobreestima ×2(2−α_a)/(3α_a) sin
+      dependencia en α_a; el «×28» de #18 era el cociente ventana-promediado
+      frente a un arnés cuyas ICs QS-consistentes excitan el khronon
+      (control: η − 1 oscila ±5e-2 en la ventana; el arnés E2 no medía la
+      cola). Partes regulares Q_η = 4.97/6.09/8.36, Q_µ = −4.98/−6.23/−9.42
+      numéricas; coeficiente completo en (1.05, 0.3): 17.0735 (predicción
+      independiente del autor: 17.07). CONFIRMACIÓN NUMÉRICA E3b = C bajo
+      la regla congelada: con ICs adiabáticas las seis pendientes quedan al
+      0.9–6.8 % de la escalera y ninguna compatible con la QS truncada,
+      pero el brazo e ≤ 0.02 falla el exponente log-log (2.14 ∉ [1.9, 2.1])
+      por curvatura O(e⁴) no calibrada por el umbral — no se retoca;
+      pendiente de confirmación numérica independiente. Erratum candidata
+      H.2.2 (c_s² diverge, no se anula, cuando α_a → 0 a λ_K fijo).
+    implementation: cosmology/mu_eta_atlas.py + validation/atlas_derivation.py + validation/atlas_tail_derivation.py
+    test: tests/test_mu_eta_atlas.py + tests/test_mu_eta_atlas_lock.py + tests/test_mu_eta_atlas_tail.py + tests/test_mu_eta_atlas_tail_lock.py
     observable: "(µ, η) sub-horizonte: firma NULA al orden dominante; G_cosmo/G_local = (2ξ−α_a)/(3λ_K−1) vía fondo/BBN (frente 6); c_T² = ξ"
     dataset: "— (teoría pura; GW170817 citada como ancla externa de ξ = 1, no ingerida)"
     falsifier: >-
       una firma sub-horizonte escala-independiente en (µ, η) medida respecto
       de la G local refutaría la cancelación; cotas PPN de marco preferido
       sobre (ε_K, α_a) — contraste externo pendiente, análogo al de BBN
-    evidence_level: derivación desde la acción verificada por cuatro vías (GR, Sello, cruce khronométrico, integración completa a 5e-4) — interna (E8); colas y PPN pendientes
+    evidence_level: derivación desde la acción verificada por cuatro vías (GR, Sello, cruce khronométrico, integración completa a 5e-4) — interna (E8); colas — residuos del polo derivados (E3a = A), partes regulares numéricas y confirmación numérica pendiente (E3b = C, abierta); PPN pendiente
     status: interno
-    artifact: results/2026-09-13_mu_eta_atlas
+    artifact: results/2026-09-13_mu_eta_atlas + results/2026-09-13_mu_eta_atlas_tail
   - claim_id: dovekie-real-primera-aplicacion
     entity: Primera aplicación del pipeline SN a Dovekie REAL (13-sep) — desenlace INDETERMINADO
     law: "registro de datos 6A.1 + doble barrera ejecutable (PASS de mocks #15 + preinscripción f630834326c0)"
