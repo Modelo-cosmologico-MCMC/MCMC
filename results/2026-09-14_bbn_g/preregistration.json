@@ -1,0 +1,104 @@
+{
+  "title": "Contraste de los Residuos vía BBN: G_cosmo/G_N libre sobre Y_P (EMPRESS XV) + D/H (Cooke+2018) con prior Planck en ω_b",
+  "frozen_utc": "2026-09-14T11:09:23.678205+00:00",
+  "code_commit": "40aa7f6c99b9d6b94840c8e3ffb7bcf6c058556a",
+  "generator": "scripts/run_bbn_g_prereg.py",
+  "model_prediction": {
+    "formula": "G_cosmo/G_N = (2ξ − α_a)/(3λ_K − 1), ξ = 1 (GW170817), α_a = 0 declarado (α_a ≪ ε_K; ver frente 3)",
+    "epsilon_K": 0.012,
+    "alpha_a": 0.0,
+    "delta_G_model": -0.017681728880157177,
+    "first_order": -0.018000000000000002,
+    "note": "la predicción es de FONDO (Friedmann); BBN solo ve G en H — la física nuclear y débil no ve G. El modelo predice el SIGNO (G_cosmo < G_N) y la magnitud ≈ −1.8 % si α_a ≪ ε_K"
+  },
+  "response_model": {
+    "source": "PRyMordial @ 725d8a8 (Burns, Tait & Valli 2023, arXiv:2307.07061), red pequeña (12 reacciones), tasas PRIMAT; NACRE II como sistemático nuclear",
+    "response_table_sha256": "f78d99939e6c9ae446b5a82befda013ba53a76fa1f16db48ecffef1a53498a1c",
+    "implementation_of_G": "reescalado de la masa de Planck en H con η_b fijo (G_N de laboratorio en la densidad crítica)",
+    "form": "ln X = ln X₀ + a_G ln(1+δ_G) + a_N ΔN + b_N ΔN² + a_ω ln(ω_b/ω_b⁰) + a_τ ln(τ_n/τ_n⁰), X ∈ {Y_P, D/H}",
+    "constants": {
+      "YP0": 0.24690655201993814,
+      "DH0": 2.4442049891908327e-05,
+      "Neff_SM_prym": 3.044388520277016,
+      "omega_b0": 0.02237,
+      "tau_n0": 878.4,
+      "a_G_YP": 0.35775554416265837,
+      "a_G_DH": 0.9766031263005079,
+      "a_N_YP": 0.05514933158294464,
+      "b_N_YP": -0.005491623752296972,
+      "a_N_DH": 0.13629896228444954,
+      "b_N_DH": -0.01039130424258865,
+      "a_w_YP": 0.0381197758870781,
+      "a_w_DH": -1.6694837088100123,
+      "a_tau_YP": 0.7396505881127486,
+      "a_tau_DH": 0.8191149797788507,
+      "max_rel_resid": 0.0009671323449512714,
+      "nuclear_delta_DH": 5.847791804504464e-07,
+      "nuclear_delta_YP": -8.74221810739928e-05,
+      "prymordial_commit": "725d8a8db3ad5ea2630580d825c9d0d69ed76533"
+    }
+  },
+  "data_declared": {
+    "dataset": "bbn_abundances",
+    "provenance_caveat": "cinco valores publicados TRANSCRITOS; bytes oficiales no verificables desde el entorno (egreso denegado): el estatuto del artefacto llevará este aviso hasta que el autor verifique la transcripción",
+    "principal": {
+      "Y_P": "Y_P_empress_xv",
+      "DH": "DH_cooke_2018"
+    },
+    "control": {
+      "Y_P": "Y_P_aver_2021"
+    },
+    "priors": {
+      "omega_b": "omega_b_planck_2018 (gaussiano)",
+      "tau_n": "tau_n_pdg_2023 (gaussiano)"
+    },
+    "theory_errors_added_in_quadrature": {
+      "Y_P": 0.0003,
+      "DH": "max(5e-07, |NACRE II − PRIMAT|) en D/H (sistemático de tasas nucleares)"
+    }
+  },
+  "arms": {
+    "0_sm_check": "δ_G = 0, N_eff = SM: χ² y pulls de Y_P y D/H (control)",
+    "1_principal": "δ_G libre (prior plano en [−0.30, +0.30]), N_eff = 3.044 fijo, ω_b y τ_n marginalizados con sus priors; posterior en malla → CI68/CI95, mediana, pull de δ_G^model y de 0",
+    "2_degeneracy": "δ_G y ΔN_eff libres (prior plano ΔN ∈ [−1.5, +1.5]); se publica la banda 2D, la dirección degenerada y la marginal de δ_G — DECLARADO: G y N_eff son casi degenerados en BBN; el veredicto NO se toma de este brazo",
+    "3_control_aver": "brazo 1 con Y_P = Aver+2021 en vez de EMPRESS XV",
+    "4_single_probe": "brazo 1 solo con Y_P y solo con D/H (quién manda)",
+    "xi_e": "asimetría leptónica ξ_e NO modelada: degeneración declarada (Y_P baja también con ξ_e > 0); se publica como frontera"
+  },
+  "outcomes_enumerated": {
+    "rules": {
+      "sigma_th_YP": 0.0003,
+      "sigma_th_DH_min": 5e-07,
+      "ci_level": 0.95,
+      "delta_G_prior": [
+        -0.3,
+        0.3
+      ],
+      "delta_G_grid_n": 6001,
+      "dNeff_prior": [
+        -1.5,
+        1.5
+      ],
+      "dNeff_grid_n": 301,
+      "Neff_SM": 3.044
+    },
+    "order": "C → B → A (exhaustivo sobre el brazo principal)",
+    "C_exclusion": "δ_G^model ∉ CI95(δ_G) → el −1.8 % queda EXCLUIDO por BBN al 95 %: resultado negativo de primera clase; PROHIBIDO reparametrizar ε_K o invocar α_a a posteriori",
+    "B_identification": "0 ∉ CI95(δ_G) y δ_G^model ∈ CI95 → IDENTIFICACIÓN de G_cosmo ≠ G_N: SOSPECHA DE ERROR PRIMERO (tasas nucleares, ξ_e, N_eff, transcripción de los datos); jamás se publica como detección sin el brazo 2 y los bytes oficiales verificados",
+    "A_compatible": "0 ∈ CI95 y δ_G^model ∈ CI95 → banda compatible sin identificación: el desenlace aburrido esperado; se publica el pull de −1.8 % y el signo del central SIN leerlo como señal (E13: el signo del central no es señal)",
+    "rule": "Nunca se ajustan umbrales, priors ni errores teóricos tras ver los números; el veredicto se toma del brazo 1; los brazos 2–4 se publican íntegros como contexto."
+  },
+  "prohibitions": {
+    "no_threshold_tuning": true,
+    "no_epsilon_K_refit": true,
+    "no_Neff_from_empress_as_data": true,
+    "no_sign_as_signal": true
+  },
+  "declared_frontiers": [
+    "ξ_e (asimetría leptónica) no modelada",
+    "degeneración G ↔ N_eff casi exacta en BBN (brazo 2 solo informa)",
+    "sistemático de tasas nucleares en D/H cubierto por |NACRE II − PRIMAT| y un mínimo declarado, no por una MC completa de tasas",
+    "α_a = 0 en la predicción (el frente 3 acota α_a; PPN pendiente)",
+    "transcripción de los datos pendiente de verificación por el autor"
+  ]
+}
