@@ -241,15 +241,18 @@ claims:
       la COMBINACIÓN; el crecimiento sub-horizonte no mide ninguna de las
       dos (cancelación de Atlas); las colas cerca del horizonte sí
       distinguirían ε_K — declaradas, no derivadas. El código de
-      residues_test conserva la forma (9.5) (α_a = 0).
-    implementation: cosmology/residues_test.py
-    test: tests/test_residues.py
-    observable: residuos de escala entre sectores
-    dataset: "—"
-    falsifier: residuo fuera de la banda declarada
-    evidence_level: consistencia superada (E13); refutable vivo
+      residues_test conserva la forma (9.5) (α_a = 0). CONTRASTE PROPIO
+      (14-sep-2026, fila bbn-g-empress): G_cosmo/G_N libre sobre Y_P de
+      EMPRESS XV + D/H da δ_G = +0.003 ± 0.025 (CI95 [−0.045, +0.053]),
+      compatible con −1.8 % y con 0 — desenlace A, sin identificación.
+    implementation: cosmology/residues_test.py + cosmology/bbn_g.py
+    test: tests/test_residues.py + tests/test_bbn_g.py
+    observable: residuos de escala entre sectores; G_cosmo/G_N vía BBN
+    dataset: "bbn_abundances (valores publicados transcritos; ver fila bbn-g-empress)"
+    falsifier: residuo fuera de la banda declarada; exclusión del −1.8 % por BBN al 95 %
+    evidence_level: consistencia superada (E13); refutable vivo; banda propia bajo preinscripción (A, provisional por procedencia)
     status: interno
-    artifact: "—"
+    artifact: results/2026-09-14_bbn_g
 
   - claim_id: ciclo-victoria
     entity: Ciclo de Victoria
@@ -754,3 +757,37 @@ claims:
     evidence_level: comprobación interna del pipeline sobre datos reales bajo preinscripción (E8) — desenlace INDETERMINADO, no demostración física, no validación frente a ΛCDM
     status: interno
     artifact: results/2026-09-13_dovekie_real
+
+  - claim_id: bbn-g-empress
+    entity: Contraste de los Residuos vía BBN — G_cosmo/G_N libre sobre Y_P (EMPRESS XV) + D/H (14-sep-2026)
+    law: "Sello de Newton (9.3) + frente 3 (#18/#20): G_cosmo/G_local = (2ξ−α_a)/(3λ_K−1); BBN ve G solo en H"
+    derivation: >-
+      preinscripción congelada ANTES de leer los valores (ec3c8f48597c);
+      respuesta de Y_P y D/H a δ_G = G_cosmo/G_N − 1 derivada con PRyMordial
+      (clone @ 725d8a8; masa de Planck reescalada en H con η_b fijo): Y_P ∝
+      G^0.358, D/H ∝ G^0.977; sistemático nuclear NACRE II − PRIMAT en D/H
+      (+0.059e-5) como σ_th. Predicción: δ_G = −1.77 % (ε_K = 0.012, α_a =
+      0, ξ = 1). Brazo principal (δ_G libre, N_eff = 3.044, ω_b Planck 2018 y
+      τ_n PDG marginalizados de forma exacta) sobre Y_P = 0.2402 ± 0.0040
+      (EMPRESS XV) y D/H = (2.527 ± 0.030)e-5 (Cooke+2018): δ_G = +0.003 ±
+      0.025, CI95 [−0.045, +0.053] → −1.8 % y 0 dentro: DESENLACE A (banda
+      compatible sin identificación). Contexto: solo Y_P −0.072 ± 0.043,
+      solo D/H +0.036 ± 0.031 (tensión interna 2.0σ, EMPRESS frente a
+      deuterio con tasas PRIMAT); el conjunto no favorece signo alguno y el
+      signo del central no es señal (E13). Degeneración G ↔ N_eff medida
+      (cresta dΔN_eff/dδ_G = −6.5); control Aver+2021: +0.016 ± 0.024.
+      PROVISIONAL: los cinco valores son publicados y TRANSCRITOS (arXiv,
+      INSPIRE, DOI y revistas denegados desde el entorno); verificación de
+      la transcripción pendiente del autor, declarada en manifest y artefacto.
+    implementation: cosmology/bbn_g.py + validation/bbn_response.py
+    test: tests/test_bbn_g.py + tests/test_bbn_g_lock.py
+    observable: G_cosmo/G_N − 1 vía Y_P y D/H primordiales (tasa de expansión en BBN)
+    dataset: "bbn_abundances (AVAILABLE; valores publicados transcritos, bytes oficiales NO verificados — ver manifest y schema_report)"
+    falsifier: >-
+      C: −1.8 % ∉ CI95(δ_G) por BBN (exclusión; prohibido reparametrizar
+      ε_K o invocar α_a a posteriori); B: 0 ∉ CI95 (identificación: sospecha
+      de error primero). Ninguno se dio. Recalibrar priors o errores
+      teóricos es materia de una preinscripción futura, nunca de esta corrida
+    evidence_level: contraste interno bajo preinscripción (E8) sobre valores publicados transcritos — desenlace A provisional por procedencia; no detección, no demostración física
+    status: interno
+    artifact: results/2026-09-14_bbn_g
