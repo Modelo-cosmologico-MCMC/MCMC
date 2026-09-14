@@ -1,0 +1,19 @@
+{
+  "dataset": "bbn_abundances",
+  "source": "literatura: transcripción manual de valores publicados (ver schema_report)",
+  "version": "transcripcion-2026-09-14",
+  "retrieved_utc": "2026-09-14T11:00:06.058182+00:00",
+  "citation": "EMPRESS XV (arXiv:2506.24050); Aver et al. 2021 (JCAP 03, 027); Cooke, Pettini & Steidel 2018 (ApJ 855, 102); Planck 2018 VI (A&A 641, A6); PDG 2023 (tau_n)",
+  "state": "AVAILABLE",
+  "transformations": [
+    "transcripción manual de valores publicados; bytes oficiales NO verificados desde el entorno (egreso denegado a arxiv.org, inspirehep.net, doi.org, revistas): verificación por el autor PENDIENTE",
+    "esquema confirmado: data/manifests/bbn_abundances.schema_report.md"
+  ],
+  "files": [
+    {
+      "file": "abundances_2026.json",
+      "sha256": "0a38a8d6537d4fc7d3083887c190f118789359684f599b58cd95a30f32e6c4a2",
+      "bytes": 2225
+    }
+  ]
+}

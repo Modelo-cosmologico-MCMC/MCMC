@@ -146,3 +146,17 @@ datasets:
       log_weight = 0.3306 ± 0.0154). Es REFERENCIA, no dato: no entra en
       ningún likelihood. Las demás combinaciones de sondas quedan en el
       clone @ commit fijado.
+
+  bbn_abundances:
+    role: bbn_G_contrast_inputs
+    host: literatura (arXiv / revistas) — egreso denegado desde el entorno (14-sep-2026)
+    raw_dir: data/raw/bbn_abundances
+    citation: "EMPRESS XV (arXiv:2506.24050); Aver et al. 2021 (JCAP 03, 027); Cooke, Pettini & Steidel 2018 (ApJ 855, 102); Planck 2018 VI (A&A 641, A6); PDG 2023 (τ_n)"
+    state: AVAILABLE          # 5 valores publicados TRANSCRITOS; bytes oficiales NO verificados (declarado en manifest y schema_report)
+    note: >
+      Entradas del Contraste de los Residuos vía BBN: Y_P (EMPRESS XV principal,
+      Aver+2021 control), D/H (Cooke+2018), prior ω_b (Planck 2018) y τ_n (PDG).
+      Son cinco números publicados transcritos a mano, no bytes de un release:
+      la verificación de la transcripción contra las fuentes es tarea del autor
+      (navegador) y queda declarada como pendiente en el manifest; el artefacto
+      que los consuma debe llevar el mismo aviso.

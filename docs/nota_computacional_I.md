@@ -560,6 +560,37 @@ independiente).
 preinscripción (E8) — no demostración física
 (`results/2026-09-13_dovekie_real/`).
 
+### 3.17 El Contraste de los Residuos vía BBN: G_cosmo/G_N libre sobre EMPRESS XV + D/H (14-sep-2026)
+
+El observable más directo del modelo (§3.4, refinado en §3.15):
+δ_G = G_cosmo/G_N − 1 = (2ξ−α_a)/(3λ_K−1) − 1 = −1.77 % con ε_K = 0.012,
+α_a = 0 y ξ = 1. BBN solo ve G en la tasa de expansión, así que la
+respuesta de Y_P y D/H se derivó con un código BBN público (PRyMordial,
+clone a commit fijado) reescalando la masa de Planck en H con η_b fijo:
+Y_P ∝ G^0.358 y D/H ∝ G^0.977, con el sistemático nuclear NACRE II −
+PRIMAT (+0.059×10⁻⁵ en D/H) como error teórico. Con la preinscripción
+congelada ANTES de leer los valores (`ec3c8f48597c`), el brazo principal
+— δ_G libre, N_eff = 3.044, ω_b (Planck 2018) y τ_n (PDG) marginalizados
+de forma exacta — sobre Y_P = 0.2402 ± 0.0040 (EMPRESS XV, jun-2026) y
+D/H = (2.527 ± 0.030)×10⁻⁵ (Cooke+2018) da **δ_G = +0.003 ± 0.025, CI95
+[−0.045, +0.053]**: el −1.8 % y el 0 están dentro → **desenlace A**, la
+banda compatible sin identificación. Los brazos de contexto explican el
+número: solo Y_P da −0.072 ± 0.043 (el helio bajo de EMPRESS «apunta» al
+signo del modelo) y solo D/H da +0.036 ± 0.031, con una tensión interna
+de 2.0σ — la conocida entre EMPRESS y el deuterio con tasas PRIMAT —, de
+modo que el conjunto no favorece signo alguno; el signo del central no
+es señal (E13). La degeneración G ↔ N_eff queda medida (cresta
+dΔN_eff/dδ_G = −6.5, la correspondencia por época) y el control con
+Aver+2021 da +0.016 ± 0.024. Lo que cambia: el dato vigente del frente 6
+pasa de la cota de Alvey+2020 a una banda propia bajo preinscripción con
+la misma conclusión. **Aviso de procedencia**: los cinco valores son
+publicados y transcritos a mano — arXiv, INSPIRE, DOI y revistas no son
+alcanzables desde el entorno de código —, así que el desenlace es
+PROVISIONAL hasta que el autor verifique la transcripción; el manifest y
+el artefacto lo declaran. Fronteras: ξ_e no modelada; α_a = 0.
+**Estatuto**: contraste interno bajo preinscripción (E8) sobre valores
+transcritos — no demostración física (`results/2026-09-14_bbn_g/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
@@ -622,6 +653,9 @@ python scripts/run_dovekie_real_prereg.py  # §3.16 preinscripción (no lee MU)
 python scripts/run_dovekie_real.py     # §3.16 cinco brazos tras la doble barrera
 python scripts/run_mu_eta_atlas_tail_prereg.py  # §3.15 adenda E3 (preinscripción)
 python scripts/run_mu_eta_atlas_tail.py         # §3.15 adenda E3 (escalera + arnés)
+python -m validation.bbn_response       # §3.17 respuesta BBN (requiere external/PRyMordial)
+python scripts/run_bbn_g_prereg.py     # §3.17 preinscripción (no lee datos)
+python scripts/run_bbn_g.py            # §3.17 contraste tras la barrera
 ```
 
 Desenlaces versionados: `results/2026-07-31_production_fit/`,

@@ -6,6 +6,43 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Contraste de los Residuos vía BBN (14-sep, frente 6): G_cosmo/G_N
+  libre sobre Y_P de EMPRESS XV + D/H — DESENLACE A (banda compatible,
+  sin identificación), PROVISIONAL hasta verificar la procedencia de
+  los datos**. Preinscripción congelada ANTES de leer los valores
+  (`ec3c8f48597c`, en un commit que contiene su generador). Respuesta
+  de las abundancias DERIVADA con PRyMordial (código BBN público,
+  clone @ 725d8a8): G_cosmo entra SOLO en la tasa de expansión (masa
+  de Planck reescalada con η_b fijo); Y_P ∝ G^0.358, D/H ∝ G^0.977;
+  sistemático nuclear NACRE II − PRIMAT en D/H = +0.059e-5, usado como
+  σ_th. Predicción: δ_G = (2ξ−α_a)/(3λ_K−1) − 1 = −1.77 % (ε_K = 0.012,
+  α_a = 0, ξ = 1). Datos: Y_P = 0.2402 ± 0.0040 (EMPRESS XV), D/H =
+  (2.527 ± 0.030)e-5 (Cooke+2018), priors ω_b (Planck 2018) y τ_n
+  (PDG) — CINCO VALORES PUBLICADOS TRANSCRITOS: arXiv, INSPIRE, DOI y
+  revistas están denegados desde el entorno, los bytes oficiales no se
+  han verificado, y el manifest, el schema_report y el artefacto lo
+  declaran; la verificación es tarea del autor y hasta entonces el
+  desenlace es provisional. Brazo principal (δ_G libre, N_eff = 3.044,
+  ω_b y τ_n marginalizados de forma exacta): **δ_G = +0.003 ± 0.025,
+  CI95 [−0.045, +0.053]** — el −1.8 % ∈ CI95 (a −0.8 sd del central) y
+  0 ∈ CI95 → A. Brazo 0 (SM): pulls Y_P −1.67σ y D/H +1.26σ, χ² =
+  4.0 con 2 datos. Brazo 4 (una sonda): solo Y_P da −0.072 ± 0.043 y
+  solo D/H +0.036 ± 0.031 — tensión interna de 2.0σ (la conocida entre
+  el helio bajo de EMPRESS y el deuterio con tasas PRIMAT): el Y_P bajo
+  «apunta» al signo del modelo, pero el conjunto no favorece signo
+  alguno y el signo del central no es señal (E13). Brazo 2
+  (degeneración G ↔ N_eff, solo informa): cresta dΔN_eff/dδ_G = −6.5
+  (la correspondencia por época, 6.1–7.4, reproducida), marginal
+  δ_G = +0.11 ± 0.13. Control con Y_P de Aver+2021: +0.016 ± 0.024.
+  Lo que cambia en el frente 6: el dato vigente pasa de la cota de
+  Alvey+2020 (0.99 +0.06/−0.05) a una banda propia bajo preinscripción
+  con la misma conclusión (compatible, sin detección); (9.5) y
+  residues_test no cambian. Fronteras: ξ_e no modelada; N_eff casi
+  degenerado con G; α_a = 0 en la predicción; transcripción pendiente
+  de verificación. Estatuto: contraste interno bajo preinscripción
+  (E8) sobre valores publicados transcritos — no demostración física
+  (`results/2026-09-14_bbn_g/`).
+
 - **Canal Atlas, cola O(e²) CON el sector de velocidades (13-sep, noche
   2, E3_Atlas): residuos del polo DERIVADOS (E3a = A); confirmación
   numérica E3b = C bajo la regla congelada — publicado sin reajuste**.
