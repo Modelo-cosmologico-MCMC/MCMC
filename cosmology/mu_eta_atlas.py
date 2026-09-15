@@ -71,7 +71,7 @@ __all__ = [
     "is_healthy", "khronon_cs2", "khronon_kinetic_sign", "mu_atlas_qs",
     "mu_atlas_relative_to_local", "mu_atlas_subhorizon",
     "mu_local_tail_physical", "residues_ratio_first_order",
-    "tail_pole_residues",
+    "tail_pole_residues", "ppn_alpha1", "ppn_alpha2", "alpha_a_max_from_ppn",
 ]
 
 ATLAS_STATUS = (
@@ -265,6 +265,53 @@ def residues_ratio_first_order(eps_K: float = C.EPSILON_K,
     α_a = 0 reproduce la ec. (9.5) usada por cosmology/residues_test
     (1 − 1.5·ε_K = 0.982); en general BBN mide la combinación."""
     return 1.0 - 1.5 * eps_K - 0.5 * alpha_a
+
+
+# --------------------------------------------------------------------
+# PPN de marco preferido — límite khronométrico de Einstein-aether
+# (E4_Atlas, validation/atlas_ppn_derivation.py). Mapeo: α_a = α,
+# λ_K = 1 + λ, ξ = 1 ⇔ β = 0 (c_T² = 1/(1−β) en la forma covariante).
+# --------------------------------------------------------------------
+
+def ppn_alpha1(alpha_a: float, beta: float = 0.0) -> float:
+    """α₁ = 4(α_a − 2β)/(β − 1); con β = 0 (ξ = 1): α₁ = −4α_a."""
+    return 4.0 * (alpha_a - 2.0 * beta) / (beta - 1.0)
+
+
+def ppn_alpha2(alpha_a: float, lamK: float, beta: float = 0.0) -> float:
+    """α₂ = (α−2β)(αβ + 2αλ + α − β² − 3βλ − 3β − λ)/((α−2)(β−1)(β+λ)),
+    λ ≡ λ_K − 1; con β = 0: α_a(2α_aλ + α_a − λ)/(λ(2 − α_a)) = −α_a/2 + O(α_a²)."""
+    lam = lamK - 1.0
+    if lam + beta == 0.0:
+        raise ValueError("λ_K = 1 con β = 0: α₂ singular (khronon no dinámico)")
+    num = (alpha_a - 2 * beta) * (alpha_a * beta + 2 * alpha_a * lam + alpha_a
+                                   - beta ** 2 - 3 * beta * lam - 3 * beta - lam)
+    return num / ((alpha_a - 2.0) * (beta - 1.0) * (beta + lam))
+
+
+def alpha_a_max_from_ppn(bound_alpha1: float, bound_alpha2: float,
+                         lamK: float) -> dict:
+    """Cota sobre α_a (β = 0): α_a ≤ b₁/4 de |α₁| y la raíz de
+    |α₂(α_a, λ_K)| = b₂ (bisección en (0, 1), donde |α₂| es monótona
+    creciente para α_a ≪ 1). La más restrictiva gobierna."""
+    from_a1 = bound_alpha1 / 4.0
+    f = lambda x: abs(ppn_alpha2(x, lamK)) - bound_alpha2  # noqa: E731
+    lo, hi = 1e-12, 1.0
+    if f(hi) < 0:
+        from_a2 = float("inf")
+    else:
+        for _ in range(200):
+            mid = 0.5 * (lo + hi)
+            if f(mid) > 0:
+                hi = mid
+            else:
+                lo = mid
+        from_a2 = 0.5 * (lo + hi)
+    amax = min(from_a1, from_a2)
+    return {"alpha_a_max_from_alpha1": from_a1, "alpha_a_max_from_alpha2": from_a2,
+            "alpha_a_max": amax,
+            "governing": "alpha2" if from_a2 < from_a1 else "alpha1",
+            "leading_order_alpha2_bound": 2.0 * bound_alpha2}
 
 
 # --------------------------------------------------------------------

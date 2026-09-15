@@ -314,6 +314,10 @@ def run_adiabatic(S: dict, r: dict, k_values, a_start: float = 0.1,
         de, dm = etaN[w] - 1.0, mu_loc[w] - 1.0
         s_eta = float(np.sum(e2 * de) / np.sum(e2 * e2))
         s_mu = float(np.sum(e2 * dm) / np.sum(e2 * e2))
+        # ajuste con término e⁴ (E4b): X − 1 = s·e² + q·e⁴, mínimos cuadrados
+        A4 = np.vstack([e2, e2 ** 2]).T
+        (s_eta4, q_eta), *_ = np.linalg.lstsq(A4, de, rcond=None)
+        (s_mu4, q_mu), *_ = np.linalg.lstsq(A4, dm, rcond=None)
         ok = de > 0
         expo = (float(np.polyfit(np.log(e[w][ok]), np.log(de[ok]), 1)[0])
                 if ok.sum() > 10 else float("nan"))
@@ -323,6 +327,9 @@ def run_adiabatic(S: dict, r: dict, k_values, a_start: float = 0.1,
                                                               float(e[w].max())],
                      "n_points_fit": int(w.sum()),
                      "slope_eta_e2": s_eta, "slope_mu_local_e2": s_mu,
+                     "slope_eta_e2_quartic": float(s_eta4), "coef_eta_e4": float(q_eta),
+                     "slope_mu_local_e2_quartic": float(s_mu4),
+                     "coef_mu_local_e4": float(q_mu),
                      "loglog_exponent_eta": expo,
                      "eta_minus_one_at_e_max": float(de[np.argmax(e2)]),
                      "p_num_median": float(np.median(p_loc)),

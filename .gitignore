@@ -53,3 +53,4 @@ data/sparc/*.zip
 !data/raw/des_dovekie_chains/*
 external/
 !data/raw/bbn_abundances/*
+!data/raw/ppn_bounds/*
