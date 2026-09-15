@@ -6,6 +6,47 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **PPN del sector Atlas (15-sep, E4_Atlas): α_a ≤ 8×10⁻⁷ desde el giro
+  solar y los Residuos en forma limpia — pero la cola O(e²) de η NO se
+  apaga: E4a = B (hallazgo estructural); E4b = C (el cierre de E3b sigue
+  abierto)**. Preinscripción congelada ANTES de ejecutar
+  (`39b9f56b8eae`, en un commit que contiene su generador; una
+  congelación previa inválida y su corrida se deshicieron y quedan
+  declaradas en el commit 2/3). α₁, α₂ de Einstein-aether (Foster &
+  Jacobson 2006) en el límite khronométrico c_ω → ∞, con el mapeo al
+  sector del tratado α_a = α, λ_K = 1 + λ, ξ = 1 ⇔ β = 0 verificado en
+  diez identidades (c_s² y G_cosmo/G_N de #18 reproducidos):
+  **α₁ = −4α_a, α₂ = −α_a/2 + O(α_a²)**. Cotas de campo débil (LLR
+  |α₁| < 1e-4, giro solar |α₂| < 4e-7; TRANSCRITAS, con aviso de
+  procedencia): **α_a ≤ 8.0×10⁻⁷** (gobierna α₂; de α₁: 2.5e-5), casi
+  independiente de λ; la corrección −α_a/2 a G_cosmo/G_N − 1 es 2×10⁻⁵
+  relativa a −(3/2)ε_K: los Residuos quedan en forma limpia. PERO la
+  escalera exacta en (λ_K, α_a) = (1.012, 1e-6) da un coeficiente
+  COMPLETO de e² en η − 1 de **4.58**, frente a 3.5×10⁻⁸ del residuo del
+  polo: la cola no se apaga con α_a → 0 (4.58/4.59/4.71 en α_a =
+  1e-6/1e-4/1e-3; 4.51/4.58/4.84 en λ_K = 1.001/1.012/1.05 a α_a =
+  1e-6) y µ_loc − 1 = −(η − 1) a cuatro cifras, es decir µ_loc·η = 1 +
+  O(e⁴): la cola vive en Ψ y Φ obedece Poisson a O(e²). Magnitud
+  (z = 0, e = (H0/c)/k): η − 1 = 1.3×10⁻³ en k = 0.02 h/Mpc, 2.0×10⁻⁴
+  en 0.05, 5×10⁻⁵ en 0.1 — alcanza el umbral preinscrito de
+  observabilidad (1e-3) → **E4a = B**. La expectativa del mapa («colas
+  de sonido inobservables, η − 1 ~ 3×10⁻⁸») usaba solo el residuo del
+  polo, que en α_a ≪ λ_K − 1 no es el término dominante (la expansión
+  P/(λ−1) + Q de E3 no aplica ahí). CONDICIONADO: el hallazgo descansa
+  en la escalera, cuya confirmación numérica independiente sigue
+  abierta (E3b/E4b = C); el orden de límites (α_a → 0 con c_s → ∞ y
+  después λ_K → 1) no restaura η = 1 de GR — estructura de la clase
+  khronométrica que queda declarada, no explicada. E4b (E3b
+  re-preinscrito con ajuste e² + e⁴): k/H0 = 133.3 y 200 pasan (s_η
+  ×0.945/0.973, s_µ ×0.902/0.952), pero k = 66.7 (e ∈ [0.01, 0.02]) no
+  separa e² de e⁴ (s_η ×0.82, s_µ ×0.69) → **C** por la regla; no se
+  retoca (lección para una preinscripción futura: ese brazo no sirve
+  para un ajuste de dos parámetros). Módulo: ppn_alpha1, ppn_alpha2,
+  alpha_a_max_from_ppn; fila `mu-eta-atlas` actualizada (PPN ingerido)
+  y fila nueva `atlas-ppn`. Sin datos observacionales nuevos; Λ_sc ~
+  M_P√α_a ~ 1e-3 M_P en la cota (H.2.2). Estatuto: derivación interna
+  (E8) (`results/2026-09-15_mu_eta_atlas_ppn/`).
+
 - **Contraste de los Residuos vía BBN (14-sep, frente 6): G_cosmo/G_N
   libre sobre Y_P de EMPRESS XV + D/H — DESENLACE A (banda compatible,
   sin identificación), PROVISIONAL hasta verificar la procedencia de

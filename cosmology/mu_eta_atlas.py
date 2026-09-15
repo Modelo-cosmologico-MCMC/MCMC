@@ -91,7 +91,16 @@ ATLAS_STATUS = (
     "confirmación numérica independiente (las seis pendientes están al "
     "0.9–6.8 % de la escalera y ninguna es compatible con la QS truncada, "
     "pero el brazo e ≤ 0.02 falla el exponente log-log, 2.14 ∉ [1.9, 2.1], "
-    "por curvatura O(e⁴) que el umbral no calibró; no se retoca)")
+    "por curvatura O(e⁴) que el umbral no calibró; no se retoca). PPN "
+    "(E4_Atlas, results/2026-09-15_mu_eta_atlas_ppn/): α₁ = −4α_a, "
+    "α₂ = −α_a/2 + O(α_a²) en el límite khronométrico con el mapeo β = 0 "
+    "verificado ⟹ α_a ≤ 8e-7 (giro solar; cotas transcritas) y "
+    "G_cosmo/G_N − 1 → −(3/2)ε_K en forma limpia; PERO la escalera exacta "
+    "da η − 1 = 4.6·e² en (λ_K, α_a) = (1.012, 1e-6), coeficiente que no se "
+    "apaga con α_a → 0 (E4a = B, hallazgo estructural; la expectativa "
+    "«colas inobservables» usaba solo el residuo del polo). Condicionado a "
+    "la confirmación numérica independiente de la escalera, que sigue "
+    "abierta (E4b = C: el brazo k/H0 = 66.7 no separa e² de e⁴)")
 
 
 def _check_params(lamK: float, xi: float, alpha_a: float) -> None:

@@ -531,6 +531,41 @@ ilustrativas (z = 0, e = (H0/c)/k, escalera completa): (1.05, 0.3) →
 PPN. **Estatuto**: derivación interna (E8) sin datos
 (`results/2026-09-13_mu_eta_atlas_tail/`).
 
+**Adenda E4 (15-sep): PPN del sector y lo que la cota hace — y no
+hace — con las colas.** Bajo preinscripción congelada (`39b9f56b8eae`),
+los parámetros de marco preferido se derivaron como límite khronométrico
+(c_ω → ∞) de Einstein-aether (Foster & Jacobson 2006), con el mapeo al
+sector del tratado α_a = α, λ_K = 1 + λ, ξ = 1 ⇔ β = 0 verificado en diez
+identidades (c_s² y G_cosmo/G_N de la derivación desde la acción
+reproducidos): **α₁ = −4α_a, α₂ = −α_a/2 + O(α_a²)**. Las cotas de campo
+débil (LLR |α₁| < 10⁻⁴; giro solar |α₂| < 4×10⁻⁷; transcritas, con
+aviso de procedencia) dan **α_a ≤ 8×10⁻⁷**, casi independiente de λ, y
+la corrección −α_a/2 a G_cosmo/G_N − 1 queda en 2×10⁻⁵ relativa: el
+Contraste de los Residuos toma su forma limpia −(3/2)ε_K. Pero la
+expectativa «colas de sonido inobservables» no sobrevive a la escalera
+exacta: en (λ_K, α_a) = (1.012, 10⁻⁶) el coeficiente COMPLETO de e² en
+η − 1 es **4.58**, frente a 3.5×10⁻⁸ del residuo del polo, y no se apaga
+con α_a → 0 (4.58/4.59/4.71 en α_a = 10⁻⁶/10⁻⁴/10⁻³; 4.51/4.58/4.84 en
+λ_K = 1.001/1.012/1.05), con µ_loc − 1 = −(η − 1) a cuatro cifras
+(µ_loc·η = 1 + O(e⁴): la cola vive en Ψ y Φ obedece Poisson a O(e²)).
+En α_a ≪ λ_K − 1 la expansión P/(λ_K−1) + Q de E3 no aplica y el polo no
+es el término dominante. Magnitud (z = 0, e = (H0/c)/k): η − 1 =
+1.3×10⁻³ en k = 0.02 h/Mpc, 2.0×10⁻⁴ en 0.05, 5×10⁻⁵ en 0.1 — alcanza el
+umbral preinscrito de observabilidad (10⁻³) y la regla clasifica **E4a =
+B, hallazgo estructural**, publicado sin retocar. Dos precisiones de
+honestidad: (i) el hallazgo descansa en la escalera, cuya confirmación
+numérica independiente sigue abierta — E4b re-preinscribió E3b con un
+ajuste e² + e⁴ y volvió a dar **C**: los brazos k/H0 = 133.3 y 200 pasan
+al 3–10 % de la escalera, pero el de 66.7 (e ∈ [0.01, 0.02]) no separa
+e² de e⁴ (lección para una preinscripción futura, no retoque de esta);
+(ii) el orden de límites (α_a → 0 con c_s → ∞ y luego λ_K → 1) no
+restaura η = 1 de GR — estructura de la clase khronométrica que queda
+declarada, no explicada. Para el correo técnico: la frase «cancelación
+de Atlas» sigue en pie al orden dominante; la frase «colas
+inobservables» no debe usarse. **Estatuto**: derivación interna (E8)
+con cotas transcritas; hallazgo condicionado
+(`results/2026-09-15_mu_eta_atlas_ppn/`).
+
 ### 3.16 La primera aplicación a Dovekie real: desenlace INDETERMINADO bajo la regla congelada (13-sep-2026)
 
 Con la preinscripción congelada ANTES de la primera lectura de la
@@ -656,6 +691,8 @@ python scripts/run_mu_eta_atlas_tail.py         # §3.15 adenda E3 (escalera + a
 python -m validation.bbn_response       # §3.17 respuesta BBN (requiere external/PRyMordial)
 python scripts/run_bbn_g_prereg.py     # §3.17 preinscripción (no lee datos)
 python scripts/run_bbn_g.py            # §3.17 contraste tras la barrera
+python scripts/run_atlas_ppn_prereg.py # §3.15 adenda E4 (preinscripción)
+python scripts/run_atlas_ppn.py        # §3.15 adenda E4 (PPN + cierre E3b)
 ```
 
 Desenlaces versionados: `results/2026-07-31_production_fit/`,

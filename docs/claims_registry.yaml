@@ -724,10 +724,12 @@ claims:
     falsifier: >-
       una firma sub-horizonte escala-independiente en (µ, η) medida respecto
       de la G local refutaría la cancelación; cotas PPN de marco preferido
-      sobre (ε_K, α_a) — contraste externo pendiente, análogo al de BBN
-    evidence_level: derivación desde la acción verificada por cuatro vías (GR, Sello, cruce khronométrico, integración completa a 5e-4) — interna (E8); colas — residuos del polo derivados (E3a = A), partes regulares numéricas y confirmación numérica pendiente (E3b = C, abierta); PPN pendiente
+      INGERIDAS (fila atlas-ppn): α_a ≤ 8e-7; una medida de η − 1 a
+      k ≈ 0.02 h/Mpc incompatible con +4.6·(aH/k)² refutaría la cola
+      (si la escalera se confirma numéricamente)
+    evidence_level: derivación desde la acción verificada por cuatro vías (GR, Sello, cruce khronométrico, integración completa a 5e-4) — interna (E8); colas — residuos del polo derivados (E3a = A), partes regulares numéricas y confirmación numérica pendiente (E3b = C y E4b = C, abiertas); PPN ingerido (E4a = B — α_a ≤ 8e-7, cola O(e²) de η viva en la cota)
     status: interno
-    artifact: results/2026-09-13_mu_eta_atlas + results/2026-09-13_mu_eta_atlas_tail
+    artifact: results/2026-09-13_mu_eta_atlas + results/2026-09-13_mu_eta_atlas_tail + results/2026-09-15_mu_eta_atlas_ppn
   - claim_id: dovekie-real-primera-aplicacion
     entity: Primera aplicación del pipeline SN a Dovekie REAL (13-sep) — desenlace INDETERMINADO
     law: "registro de datos 6A.1 + doble barrera ejecutable (PASS de mocks #15 + preinscripción f630834326c0)"
@@ -791,3 +793,36 @@ claims:
     evidence_level: contraste interno bajo preinscripción (E8) sobre valores publicados transcritos — desenlace A provisional por procedencia; no detección, no demostración física
     status: interno
     artifact: results/2026-09-14_bbn_g
+
+  - claim_id: atlas-ppn
+    entity: PPN de marco preferido del sector Atlas (E4_Atlas, 15-sep-2026) — α_a acotada y cola O(e²) de η viva en la cota
+    law: "Acción de Gea (9.1) + Término de Cronos (9.4) como clase khronométrica con β = 0 (ξ = 1); límite c_ω → ∞ de Einstein-aether (Foster–Jacobson 2006)"
+    derivation: >-
+      preinscripción congelada ANTES de ejecutar (39b9f56b8eae). α₁, α₂ de
+      Einstein-aether en el límite khronométrico con c₁₄ = α, c₁₃ = β,
+      c₂ = λ; mapeo al tratado α_a = α, λ_K = 1 + λ, ξ = 1 ⇔ β = 0
+      verificado en diez identidades (c_s² y G_cosmo/G_N de #18
+      reproducidos): α₁ = −4α_a, α₂ = −α_a/2 + O(α_a²). Cotas de campo
+      débil transcritas (LLR |α₁| < 1e-4; giro solar |α₂| < 4e-7):
+      α_a ≤ 8.0e-7 (gobierna α₂), casi independiente de λ; la corrección
+      −α_a/2 a los Residuos es 2e-5 relativa: G_cosmo/G_N − 1 → −(3/2)ε_K
+      limpio. HALLAZGO (E4a = B): la escalera exacta en (1.012, 1e-6) da
+      η − 1 = 4.58·e² (coeficiente completo; residuo del polo 3.5e-8), que
+      no se apaga con α_a → 0 (4.51–4.84 en λ_K = 1.001–1.05) y con
+      µ_loc − 1 = −(η − 1): µ_loc·η = 1 + O(e⁴). Magnitud: η − 1 = 1.3e-3
+      en k = 0.02 h/Mpc (z = 0). La expectativa «colas inobservables»
+      usaba solo el polo. CONDICIONADO a la confirmación numérica
+      independiente de la escalera, abierta (E4b = C: el brazo k/H0 = 66.7
+      no separa e² de e⁴; los otros dos pasan al 3–10 %).
+    implementation: cosmology/mu_eta_atlas.py + validation/atlas_ppn_derivation.py + validation/atlas_tail_derivation.py
+    test: tests/test_atlas_ppn.py + tests/test_atlas_ppn_lock.py
+    observable: α₁, α₂ (LLR, giro solar, púlsares); η − 1 = +4.6·(aH/k)² a gran escala (z = 0, 1.3e-3 en k = 0.02 h/Mpc) — predicción condicionada, no contrastada
+    dataset: "ppn_bounds (AVAILABLE; cotas publicadas transcritas, bytes oficiales NO verificados — ver manifest y schema_report)"
+    falsifier: >-
+      C: alguna identidad del mapeo falla (no se dio); una cota PPN nueva
+      que empujara α_a por debajo del acoplamiento fuerte declarado; una
+      medida de η a k ≈ 0.02 h/Mpc incompatible con la cola +4.6·(aH/k)²
+      (solo cuando la escalera esté confirmada numéricamente)
+    evidence_level: derivación interna (E8) con mapeo verificado; cotas transcritas (procedencia pendiente); hallazgo estructural condicionado a la confirmación numérica de la escalera (abierta)
+    status: condicional
+    artifact: results/2026-09-15_mu_eta_atlas_ppn
