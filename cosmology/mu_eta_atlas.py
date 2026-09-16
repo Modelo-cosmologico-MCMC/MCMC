@@ -70,7 +70,8 @@ __all__ = [
     "eta_tail_coefficient", "eta_tail_physical", "growth_index_matter_era",
     "is_healthy", "khronon_cs2", "khronon_kinetic_sign", "mu_atlas_qs",
     "mu_atlas_relative_to_local", "mu_atlas_subhorizon",
-    "mu_local_tail_physical", "residues_ratio_first_order",
+    "mu_local_tail_physical", "mu_delta_tail_leading",
+    "residues_ratio_first_order",
     "tail_pole_residues", "ppn_alpha1", "ppn_alpha2", "alpha_a_max_from_ppn",
 ]
 
@@ -234,6 +235,29 @@ def mu_local_tail_physical(e, lamK: float, alpha_a: float, xi: float = 1.0):
     cs2 = khronon_cs2(lamK, 1.0, alpha_a)
     p = growth_index_matter_era(1.0, 1.0, alpha_a)
     return -0.5 * p * (2.0 * p - 1.0) * e ** 2 / cs2
+
+
+def mu_delta_tail_leading(e, lamK: float, alpha_a: float, xi: float = 1.0):
+    """Forma cerrada, a contrastar en E5_Atlas, de la cola O(e²) del
+    invariante de gauge µ_Δ (potencial de Bardeen Ψ_N y contraste comóvil
+    Δ = δ − 3H l1, respecto de la G local):
+
+        µ_Δ − 1 = −α_a·(aH/(c_s k))²·[1 + O(α_a)] = −α_a e²/c_s²
+                = −α_a²(3λ_K−1)/((2−α_a)(λ_K−1))·e²,
+
+    de SEGUNDO orden en α_a (c_s² ∝ 1/α_a) y con límite GR suave. Los
+    campos de la escalera E3/E4 son de gauge unitario; la transformación
+    al gauge newtoniano (Ψ_N = ψ + ḃ, Φ_N = φ − Hb) actúa al mismo orden
+    e², así que los coeficientes de η − 1 y µ_loc − 1 de E3/E4 no son
+    observables. La expectativa preinscrita (control externo de la sesión
+    de verificación del 15-sep) es η_N ≡ 1 (sin estrés anisótropo lineal)
+    y esta forma para µ_Δ; el estatuto lo fija el artefacto E5. Forma
+    dominante en α_a (las normalizaciones respecto de G_local y de G_B
+    difieren en (1 − α_a/2)). ξ = 1."""
+    _check_xi_one(xi)
+    e = np.asarray(e, float)
+    cs2 = khronon_cs2(lamK, 1.0, alpha_a)
+    return -alpha_a * e ** 2 / cs2
 
 
 # --------------------------------------------------------------------
