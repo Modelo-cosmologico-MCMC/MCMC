@@ -160,3 +160,15 @@ datasets:
       la verificación de la transcripción contra las fuentes es tarea del autor
       (navegador) y queda declarada como pendiente en el manifest; el artefacto
       que los consuma debe llevar el mismo aviso.
+
+  ppn_bounds:
+    role: ppn_preferred_frame_bounds
+    host: literatura — egreso denegado desde el entorno (15-sep-2026)
+    raw_dir: data/raw/ppn_bounds
+    citation: "Müller, Williams & Turyshev 2008 (LLR, α₁); Shao & Wex 2012 (púlsares, α̂₁); Nordtvedt 1987 (giro solar, α₂); Shao et al. 2013 (púlsares, α̂₂)"
+    state: AVAILABLE          # 4 cotas publicadas TRANSCRITAS; bytes oficiales NO verificados (declarado en manifest y schema_report)
+    note: >
+      Cotas PPN de marco preferido para acotar α_a del sector Atlas (E4_Atlas).
+      Cuatro números publicados transcritos a mano desde la nota del autor y la
+      literatura anotada; la verificación contra las fuentes es tarea del autor
+      y queda declarada como pendiente. El artefacto que las consuma propaga el aviso.
