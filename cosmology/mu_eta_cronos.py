@@ -89,7 +89,16 @@ ATLAS_STATUS = ("DERIVADO-NULO al orden dominante (13-sep-2026, frente 3; "
                 "sub-horizonte de (µ, η); colas O(e²) de Atlas: residuos "
                 "del polo 1/(λ_K−1) derivados con velocidades (E3a = A, "
                 "results/2026-09-13_mu_eta_atlas_tail/), partes regulares "
-                "numéricas y confirmación numérica pendiente (E3b = C)")
+                "numéricas y confirmación numérica pendiente (E3b = C, "
+                "E4b = C); PPN ingerido (E4a = B, results/"
+                "2026-09-15_mu_eta_atlas_ppn/): α_a ≤ 8e-7; la cola O(e²) "
+                "de η que E4 halló viva (4.6·e²) era de GAUGE UNITARIO: en "
+                "invariantes de gauge η_N ≡ 1 (E5_Atlas, results/"
+                "2026-09-15_mu_eta_atlas_gauge/, E5b = A) y la única cola "
+                "observable, la de µ_Δ, es −2.2e-10 en la cota PPN a "
+                "k = 0.02 (E5a = B: de primer orden en α_a, no de segundo, "
+                "cuando α_a ≪ λ_K − 1) — la cola k² de Cronos vuelve a ser "
+                "la ÚNICA firma sub-horizonte de (µ, η)")
 
 __all__ = [
     "ALPHA0_INV_MAX", "ATLAS_STATUS", "K_MAX_LINEAR_HMPC",

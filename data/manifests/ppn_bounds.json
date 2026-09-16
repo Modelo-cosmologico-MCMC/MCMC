@@ -1,0 +1,19 @@
+{
+  "dataset": "ppn_bounds",
+  "source": "literatura: transcripción manual de cotas publicadas (ver schema_report)",
+  "version": "transcripcion-2026-09-15",
+  "retrieved_utc": "2026-09-15T19:37:07.990567+00:00",
+  "citation": "Müller, Williams & Turyshev 2008 (LLR); Shao & Wex 2012; Nordtvedt 1987; Shao et al. 2013",
+  "state": "AVAILABLE",
+  "transformations": [
+    "transcripción manual de cotas publicadas; bytes oficiales NO verificados desde el entorno (egreso denegado): verificación por el autor PENDIENTE",
+    "esquema confirmado: data/manifests/ppn_bounds.schema_report.md"
+  ],
+  "files": [
+    {
+      "file": "ppn_bounds_2026.json",
+      "sha256": "2414fb8d9f6d61eb0c3f9856dba2fa2c0fb7de588d296d62b77d889ea3f859c0",
+      "bytes": 1902
+    }
+  ]
+}

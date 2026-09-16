@@ -1,0 +1,37 @@
+{
+  "dataset": "ppn_bounds",
+  "purpose": "cotas PPN de marco preferido (α₁, α₂) para acotar α_a del sector Atlas (clase khronométrica, β = 0 ⇔ ξ = 1)",
+  "provenance_caveat": "VALORES PUBLICADOS TRANSCRITOS A MANO desde la nota PPN del autor (15-sep-2026) y la literatura anotada en la sesión de código. arXiv, INSPIRE, DOI y revistas no son alcanzables desde el entorno (egreso denegado): ningún byte oficial ni DOI se ha verificado. Verificación por el autor pendiente.",
+  "official_bytes_verified": false,
+  "values": {
+    "alpha1_llr": {
+      "bound_abs": 0.0001,
+      "confidence": "~1σ del resultado α₁ = (−0.7 ± 1.8)e-4",
+      "source": "Müller, Williams & Turyshev 2008 (Lunar Laser Ranging)",
+      "regime": "campo débil",
+      "transcribed_from": "nota PPN del autor 15-sep-2026"
+    },
+    "alpha1_pulsars": {
+      "bound_abs": 4e-05,
+      "confidence": "95 %",
+      "source": "Shao & Wex 2012 (PSR J1738+0333 y J1012+5307), α̂₁ = −0.4 (+3.7/−3.1) e-5",
+      "regime": "campo fuerte (parámetro con sombrero); se usa como cota indicativa",
+      "transcribed_from": "nota PPN del autor 15-sep-2026"
+    },
+    "alpha2_solar_spin": {
+      "bound_abs": 4e-07,
+      "confidence": "cota clásica",
+      "source": "Nordtvedt 1987 (alineación del giro solar con el plano de la eclíptica)",
+      "regime": "campo débil",
+      "transcribed_from": "nota PPN del autor 15-sep-2026"
+    },
+    "alpha2_pulsars": {
+      "bound_abs": 0.00018,
+      "confidence": "95 %",
+      "source": "Shao et al. 2013 (púlsares solitarios), α̂₂",
+      "regime": "campo fuerte; cota más débil, informativa",
+      "transcribed_from": "literatura (sesión de código); verificar"
+    }
+  },
+  "note": "Las cotas de campo fuerte llevan parámetros con sombrero (α̂); la cota que gobierna es la de campo débil más restrictiva (giro solar sobre α₂)."
+}

@@ -6,6 +6,106 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Cierre gauge-invariante de las colas del sector Atlas (15-sep,
+  noche, E5_Atlas): η_N ≡ 1 — la cola de η que E4 halló viva era de
+  GAUGE UNITARIO; la única cola observable (µ_Δ) es inobservable en la
+  cota PPN. E5a = B (la forma cerrada preinscrita falla en α_a ≪ λ_K −
+  1: la cola es de primer orden en α_a, no de segundo); E5b = A (primera
+  confirmación numérica de la escalera, en invariantes)**. Corrección
+  del autor (verificación del 15-sep) que alcanza a E3 y E4: los seis
+  campos de la escalera son de gauge unitario y la reparametrización
+  temporal al gauge newtoniano (ψ → ψ − Ṫ, b → b + T, φ → φ + HT, δ →
+  δ + 3HT, l1 → l1 + mT; derivada de δg → δg − L_ξ ḡ sobre el ansatz
+  del módulo) actúa al MISMO orden e²: b arranca en n = 1 y ḃ, Hb caen
+  en n = 4. Preinscripción congelada ANTES de ejecutar
+  (`e81883295dd2`, en un commit que contiene su generador) con el
+  control externo del autor declarado (valores calculados fuera del
+  repo antes de la congelación; no fijó umbrales). Invariantes Ψ_N = ψ
+  + ḃ, Φ_N = φ − Hb, Δ = δ − 3H l1. **E5a**: en los nueve puntos el
+  coeficiente de e² de η_N − 1 es exactamente 0 y η_N,0 = 1; identidad
+  de torre Φ_N,n = Ψ_N,n hasta n = 8 (prof 16) en (1.05, 0.3) y (1.012,
+  1e-6): teorema «sin estrés anisótropo lineal (a_i a^i cuadrático en
+  ∂N; (1−λ_K)K² pura traza) ⟹ η_N ≡ 1» fijado; el «µ_loc·η = 1 +
+  O(e⁴)» de E4 era la firma de la reparametrización. La cola de µ_Δ
+  (respecto de la G local) sigue −α_a e²/c_s² en α_a ≳ λ_K − 1
+  (cocientes 1.0002 y 1.025 en α_a = λ_K − 1; 0.52/0.38 en α_a = 0.3)
+  pero NO en α_a ≪ λ_K − 1, donde vale −0.752/−0.774/−0.852·α_a·e² en
+  λ_K = 1.001/1.012/1.05 (PRIMER orden en α_a; cocientes 751–39648) →
+  **B** por la regla, publicado sin retocar; en la cota PPN (1.012,
+  1e-6): µ_Δ − 1 = −2.2×10⁻¹⁰ en k = 0.02 h/Mpc, inobservable (umbral
+  1e-5 cumplido). **E5b** (arnés adiabático en invariantes; brazo 66.7
+  retirado y ventana a ≥ 0.3, calibrados sobre las pendientes
+  UNITARIAS publicadas): max|η_N − 1| = 2.5×10⁻¹⁴ sobre la trayectoria
+  en los cuatro brazos (k/H0 = 133–400) y s_µΔ/escalera =
+  1.026/0.944/0.976/0.986 → **A**: la escalera queda confirmada
+  numéricamente (el control unitario da 0.98–1.01 en η y 0.96–1.02 en
+  µ_loc). Consecuencias: la lectura física de E4a = B («cola de η viva
+  en la cota») queda SUPERADA — el registro se conserva bajo su
+  definición preinscrita —; E3b = C y E4b = C permanecen (arneses en
+  gauge unitario); «cancelación de Atlas» en pie y «colas inobservables»
+  se restaura con más fuerza: η_N ≡ 1 en el sector Atlas y la firma
+  sub-horizonte de (µ, η) es solo la del canal Cronos. Lo que el control
+  externo NO anticipó: el orden α_a¹ de µ_Δ en α_a ≪ λ_K − 1 (sus puntos
+  pequeños tenían α_a = λ_K − 1); sin forma cerrada aquí. Módulo:
+  mu_delta_tail_leading (con su régimen de validez); fila nueva
+  `atlas-gauge-invariant`, filas `atlas-ppn` (status → interno,
+  observable corregido) y `mu-eta-atlas` actualizadas; ATLAS_STATUS de
+  dos módulos y docstrings de E3 marcados «gauge unitario». Sin datos.
+  Estatuto: derivación interna (E8)
+  (`results/2026-09-15_mu_eta_atlas_gauge/`).
+
+- **Verificación del autor de #21 (BBN-G, 15-sep)**: las dos
+  transcripciones observacionales (EMPRESS XV Y_P = 0.2402 ± 0.0040,
+  arXiv 2506.24050; Cooke+2018 D/H = (2.527 ± 0.030)×10⁻⁵, arXiv
+  1710.11129) comprobadas exactas contra los resúmenes primarios y las
+  cifras reproducidas de forma independiente (solo Y_P −7.6 ± 4.5 %
+  frente a −7.2 ± 4.3 %; pulls −1.67σ/+1.26σ idénticos). El
+  «provisional» se levanta en cuanto a valores publicados; los bytes
+  oficiales siguen sin ingerir (`official_bytes_verified: false` en el
+  dataset, aviso en manifest y artefacto). Fila `bbn-g-empress`
+  actualizada; artefacto intacto.
+
+- **PPN del sector Atlas (15-sep, E4_Atlas): α_a ≤ 8×10⁻⁷ desde el giro
+  solar y los Residuos en forma limpia — pero la cola O(e²) de η NO se
+  apaga: E4a = B (hallazgo estructural); E4b = C (el cierre de E3b sigue
+  abierto)**. Preinscripción congelada ANTES de ejecutar
+  (`39b9f56b8eae`, en un commit que contiene su generador; una
+  congelación previa inválida y su corrida se deshicieron y quedan
+  declaradas en el commit 2/3). α₁, α₂ de Einstein-aether (Foster &
+  Jacobson 2006) en el límite khronométrico c_ω → ∞, con el mapeo al
+  sector del tratado α_a = α, λ_K = 1 + λ, ξ = 1 ⇔ β = 0 verificado en
+  diez identidades (c_s² y G_cosmo/G_N de #18 reproducidos):
+  **α₁ = −4α_a, α₂ = −α_a/2 + O(α_a²)**. Cotas de campo débil (LLR
+  |α₁| < 1e-4, giro solar |α₂| < 4e-7; TRANSCRITAS, con aviso de
+  procedencia): **α_a ≤ 8.0×10⁻⁷** (gobierna α₂; de α₁: 2.5e-5), casi
+  independiente de λ; la corrección −α_a/2 a G_cosmo/G_N − 1 es 2×10⁻⁵
+  relativa a −(3/2)ε_K: los Residuos quedan en forma limpia. PERO la
+  escalera exacta en (λ_K, α_a) = (1.012, 1e-6) da un coeficiente
+  COMPLETO de e² en η − 1 de **4.58**, frente a 3.5×10⁻⁸ del residuo del
+  polo: la cola no se apaga con α_a → 0 (4.58/4.59/4.71 en α_a =
+  1e-6/1e-4/1e-3; 4.51/4.58/4.84 en λ_K = 1.001/1.012/1.05 a α_a =
+  1e-6) y µ_loc − 1 = −(η − 1) a cuatro cifras, es decir µ_loc·η = 1 +
+  O(e⁴): la cola vive en Ψ y Φ obedece Poisson a O(e²). Magnitud
+  (z = 0, e = (H0/c)/k): η − 1 = 1.3×10⁻³ en k = 0.02 h/Mpc, 2.0×10⁻⁴
+  en 0.05, 5×10⁻⁵ en 0.1 — alcanza el umbral preinscrito de
+  observabilidad (1e-3) → **E4a = B**. La expectativa del mapa («colas
+  de sonido inobservables, η − 1 ~ 3×10⁻⁸») usaba solo el residuo del
+  polo, que en α_a ≪ λ_K − 1 no es el término dominante (la expansión
+  P/(λ−1) + Q de E3 no aplica ahí). CONDICIONADO: el hallazgo descansa
+  en la escalera, cuya confirmación numérica independiente sigue
+  abierta (E3b/E4b = C); el orden de límites (α_a → 0 con c_s → ∞ y
+  después λ_K → 1) no restaura η = 1 de GR — estructura de la clase
+  khronométrica que queda declarada, no explicada. E4b (E3b
+  re-preinscrito con ajuste e² + e⁴): k/H0 = 133.3 y 200 pasan (s_η
+  ×0.945/0.973, s_µ ×0.902/0.952), pero k = 66.7 (e ∈ [0.01, 0.02]) no
+  separa e² de e⁴ (s_η ×0.82, s_µ ×0.69) → **C** por la regla; no se
+  retoca (lección para una preinscripción futura: ese brazo no sirve
+  para un ajuste de dos parámetros). Módulo: ppn_alpha1, ppn_alpha2,
+  alpha_a_max_from_ppn; fila `mu-eta-atlas` actualizada (PPN ingerido)
+  y fila nueva `atlas-ppn`. Sin datos observacionales nuevos; Λ_sc ~
+  M_P√α_a ~ 1e-3 M_P en la cota (H.2.2). Estatuto: derivación interna
+  (E8) (`results/2026-09-15_mu_eta_atlas_ppn/`).
+
 - **Contraste de los Residuos vía BBN (14-sep, frente 6): G_cosmo/G_N
   libre sobre Y_P de EMPRESS XV + D/H — DESENLACE A (banda compatible,
   sin identificación), PROVISIONAL hasta verificar la procedencia de
