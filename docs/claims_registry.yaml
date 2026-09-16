@@ -703,8 +703,10 @@ claims:
       7fb31910a086): la escalera exacta del modo creciente sobre el sistema
       completo CON velocidades (ξ = 1) da los residuos del polo P_η =
       3α_a/(2−α_a) y P_µ = −P_η·p(2p−1)/3 (identidad verificada a 1e-8 en
-      α_a = 0.1/0.3/0.6; E3a = A) — el polo es FÍSICO (horizonte de sonido
-      del khronon) y la truncación QS lo sobreestima ×2(2−α_a)/(3α_a) sin
+      α_a = 0.1/0.3/0.6; E3a = A) — el polo es real en los potenciales de
+      gauge unitario (horizonte de sonido del khronon; en invariantes de
+      gauge sobrevive solo en µ_Δ, fila atlas-gauge-invariant) y la
+      truncación QS lo sobreestima ×2(2−α_a)/(3α_a) sin
       dependencia en α_a; el «×28» de #18 era el cociente ventana-promediado
       frente a un arnés cuyas ICs QS-consistentes excitan el khronon
       (control: η − 1 oscila ±5e-2 en la ventana; el arnés E2 no medía la
@@ -715,8 +717,15 @@ claims:
       0.9–6.8 % de la escalera y ninguna compatible con la QS truncada,
       pero el brazo e ≤ 0.02 falla el exponente log-log (2.14 ∉ [1.9, 2.1])
       por curvatura O(e⁴) no calibrada por el umbral — no se retoca;
-      pendiente de confirmación numérica independiente. Erratum candidata
-      H.2.2 (c_s² diverge, no se anula, cuando α_a → 0 a λ_K fijo).
+      pendiente de confirmación numérica independiente EN GAUGE UNITARIO
+      (en invariantes de gauge la escalera queda confirmada, E5b = A).
+      CORRECCIÓN DE GAUGE (E5_Atlas, 15-sep noche): ψ, φ, b son de gauge
+      unitario y ḃ, Hb entran al mismo orden e²; en invariantes η_N ≡ 1
+      (coef. e² exactamente 0 en nueve puntos, identidad de torre hasta
+      n = 8, arnés a 2.5e-14) y la única cola observable es la de µ_Δ,
+      −2.2e-10 en la cota PPN a k = 0.02: las colas de η de E3/E4 no son
+      observables. Erratum candidata H.2.2 (c_s² diverge, no se anula,
+      cuando α_a → 0 a λ_K fijo).
     implementation: cosmology/mu_eta_atlas.py + validation/atlas_derivation.py + validation/atlas_tail_derivation.py
     test: tests/test_mu_eta_atlas.py + tests/test_mu_eta_atlas_lock.py + tests/test_mu_eta_atlas_tail.py + tests/test_mu_eta_atlas_tail_lock.py
     observable: "(µ, η) sub-horizonte: firma NULA al orden dominante; G_cosmo/G_local = (2ξ−α_a)/(3λ_K−1) vía fondo/BBN (frente 6); c_T² = ξ"
@@ -724,12 +733,13 @@ claims:
     falsifier: >-
       una firma sub-horizonte escala-independiente en (µ, η) medida respecto
       de la G local refutaría la cancelación; cotas PPN de marco preferido
-      INGERIDAS (fila atlas-ppn): α_a ≤ 8e-7; una medida de η − 1 a
-      k ≈ 0.02 h/Mpc incompatible con +4.6·(aH/k)² refutaría la cola
-      (si la escalera se confirma numéricamente)
-    evidence_level: derivación desde la acción verificada por cuatro vías (GR, Sello, cruce khronométrico, integración completa a 5e-4) — interna (E8); colas — residuos del polo derivados (E3a = A), partes regulares numéricas y confirmación numérica pendiente (E3b = C y E4b = C, abiertas); PPN ingerido (E4a = B — α_a ≤ 8e-7, cola O(e²) de η viva en la cota)
+      INGERIDAS (fila atlas-ppn): α_a ≤ 8e-7; una medida de η_N − 1 ≠ 0 a
+      gran escala (estrés anisótropo) refutaría el cierre gauge-invariante
+      (fila atlas-gauge-invariant); la cola +4.6·(aH/k)² de E4 era de gauge
+      y ya no es falsador
+    evidence_level: derivación desde la acción verificada por cuatro vías (GR, Sello, cruce khronométrico, integración completa a 5e-4) — interna (E8); colas — residuos del polo derivados (E3a = A) en gauge unitario, confirmación numérica en gauge unitario abierta (E3b = C y E4b = C) y CONFIRMADA en invariantes de gauge (E5b = A); PPN ingerido (E4a = B — α_a ≤ 8e-7); η_N ≡ 1 y cola de µ_Δ inobservable en la cota (E5a = B — primer orden en α_a, no segundo)
     status: interno
-    artifact: results/2026-09-13_mu_eta_atlas + results/2026-09-13_mu_eta_atlas_tail + results/2026-09-15_mu_eta_atlas_ppn
+    artifact: results/2026-09-13_mu_eta_atlas + results/2026-09-13_mu_eta_atlas_tail + results/2026-09-15_mu_eta_atlas_ppn + results/2026-09-15_mu_eta_atlas_gauge
   - claim_id: dovekie-real-primera-aplicacion
     entity: Primera aplicación del pipeline SN a Dovekie REAL (13-sep) — desenlace INDETERMINADO
     law: "registro de datos 6A.1 + doble barrera ejecutable (PASS de mocks #15 + preinscripción f630834326c0)"
@@ -778,9 +788,14 @@ claims:
       deuterio con tasas PRIMAT); el conjunto no favorece signo alguno y el
       signo del central no es señal (E13). Degeneración G ↔ N_eff medida
       (cresta dΔN_eff/dδ_G = −6.5); control Aver+2021: +0.016 ± 0.024.
-      PROVISIONAL: los cinco valores son publicados y TRANSCRITOS (arXiv,
-      INSPIRE, DOI y revistas denegados desde el entorno); verificación de
-      la transcripción pendiente del autor, declarada en manifest y artefacto.
+      Procedencia: los cinco valores son publicados y TRANSCRITOS (arXiv,
+      INSPIRE, DOI y revistas denegados desde el entorno). El autor
+      verificó el 15-sep las dos transcripciones observacionales contra los
+      resúmenes primarios (EMPRESS XV, arXiv 2506.24050; Cooke+2018, arXiv
+      1710.11129) — exactas — y reprodujo de forma independiente las cifras
+      (solo Y_P −7.6 ± 4.5 % frente a −7.2 ± 4.3 %; pulls idénticos): el
+      «provisional» se levanta en cuanto a valores publicados; los bytes
+      oficiales siguen sin ingerir (manifest y artefacto lo declaran).
     implementation: cosmology/bbn_g.py + validation/bbn_response.py
     test: tests/test_bbn_g.py + tests/test_bbn_g_lock.py
     observable: G_cosmo/G_N − 1 vía Y_P y D/H primordiales (tasa de expansión en BBN)
@@ -790,12 +805,12 @@ claims:
       ε_K o invocar α_a a posteriori); B: 0 ∉ CI95 (identificación: sospecha
       de error primero). Ninguno se dio. Recalibrar priors o errores
       teóricos es materia de una preinscripción futura, nunca de esta corrida
-    evidence_level: contraste interno bajo preinscripción (E8) sobre valores publicados transcritos — desenlace A provisional por procedencia; no detección, no demostración física
+    evidence_level: contraste interno bajo preinscripción (E8) sobre valores publicados transcritos y verificados por el autor contra los resúmenes primarios (15-sep; bytes oficiales no ingeridos) — desenlace A, cota sin identificación; no detección, no demostración física
     status: interno
     artifact: results/2026-09-14_bbn_g
 
   - claim_id: atlas-ppn
-    entity: PPN de marco preferido del sector Atlas (E4_Atlas, 15-sep-2026) — α_a acotada y cola O(e²) de η viva en la cota
+    entity: PPN de marco preferido del sector Atlas (E4_Atlas, 15-sep-2026) — α_a acotada; la cola O(e²) de η hallada viva era de gauge unitario (superada por E5)
     law: "Acción de Gea (9.1) + Término de Cronos (9.4) como clase khronométrica con β = 0 (ξ = 1); límite c_ω → ∞ de Einstein-aether (Foster–Jacobson 2006)"
     derivation: >-
       preinscripción congelada ANTES de ejecutar (39b9f56b8eae). α₁, α₂ de
@@ -810,19 +825,69 @@ claims:
       η − 1 = 4.58·e² (coeficiente completo; residuo del polo 3.5e-8), que
       no se apaga con α_a → 0 (4.51–4.84 en λ_K = 1.001–1.05) y con
       µ_loc − 1 = −(η − 1): µ_loc·η = 1 + O(e⁴). Magnitud: η − 1 = 1.3e-3
-      en k = 0.02 h/Mpc (z = 0). La expectativa «colas inobservables»
-      usaba solo el polo. CONDICIONADO a la confirmación numérica
-      independiente de la escalera, abierta (E4b = C: el brazo k/H0 = 66.7
-      no separa e² de e⁴; los otros dos pasan al 3–10 %).
+      en k = 0.02 h/Mpc (z = 0). SUPERADO EN SU LECTURA FÍSICA (E5_Atlas,
+      fila atlas-gauge-invariant): η y µ_loc de E4 son cocientes de
+      potenciales de GAUGE UNITARIO; la transformación al gauge newtoniano
+      actúa al mismo orden e² y en invariantes η_N ≡ 1 — el patrón
+      µ_loc·η = 1 + O(e⁴) era la firma de la reparametrización temporal.
+      E4a = B se conserva como registro bajo su definición preinscrita;
+      el hallazgo «cola de η viva en la cota» ya no se afirma. E4b = C
+      (arnés en gauge unitario) permanece; la escalera queda confirmada
+      numéricamente en invariantes (E5b = A). La parte PPN (α_a ≤ 8e-7,
+      Residuos limpios) queda verificada punto por punto por el autor.
     implementation: cosmology/mu_eta_atlas.py + validation/atlas_ppn_derivation.py + validation/atlas_tail_derivation.py
     test: tests/test_atlas_ppn.py + tests/test_atlas_ppn_lock.py
-    observable: α₁, α₂ (LLR, giro solar, púlsares); η − 1 = +4.6·(aH/k)² a gran escala (z = 0, 1.3e-3 en k = 0.02 h/Mpc) — predicción condicionada, no contrastada
+    observable: α₁, α₂ (LLR, giro solar, púlsares); G_cosmo/G_N − 1 = −(3/2)ε_K (corrección −α_a/2 ≤ 2e-5 relativa) — la cola +4.6·(aH/k)² de η era de gauge y no es observable
     dataset: "ppn_bounds (AVAILABLE; cotas publicadas transcritas, bytes oficiales NO verificados — ver manifest y schema_report)"
     falsifier: >-
       C: alguna identidad del mapeo falla (no se dio); una cota PPN nueva
-      que empujara α_a por debajo del acoplamiento fuerte declarado; una
-      medida de η a k ≈ 0.02 h/Mpc incompatible con la cola +4.6·(aH/k)²
-      (solo cuando la escalera esté confirmada numéricamente)
-    evidence_level: derivación interna (E8) con mapeo verificado; cotas transcritas (procedencia pendiente); hallazgo estructural condicionado a la confirmación numérica de la escalera (abierta)
-    status: condicional
+      que empujara α_a por debajo del acoplamiento fuerte declarado. La
+      cola +4.6·(aH/k)² ya no es falsador (era de gauge, E5)
+    evidence_level: derivación interna (E8) con mapeo verificado por el autor; cotas transcritas (bytes oficiales pendientes); la cota α_a ≤ 8e-7 y los Residuos limpios se mantienen; la cola de η de E4a queda superada por el cierre gauge-invariante (E5)
+    status: interno
     artifact: results/2026-09-15_mu_eta_atlas_ppn
+
+  - claim_id: atlas-gauge-invariant
+    entity: Cierre gauge-invariante de las colas del sector Atlas (E5_Atlas, 15-sep-2026, noche) — η_N ≡ 1; la única cola observable, µ_Δ, es inobservable en la cota PPN
+    law: "Acción de Gea (9.1) + Término de Cronos (9.4), ξ = 1; invariantes de Bardeen Ψ_N = ψ + ḃ, Φ_N = φ − Hb y contraste comóvil Δ = δ − 3H l1 derivados de δg → δg − L_ξ ḡ sobre el ansatz de gauge unitario"
+    derivation: >-
+      preinscripción congelada ANTES de ejecutar (e81883295dd2), con el
+      control externo del autor declarado (η_N − 1 = 0 a O(e²) y µ_Δ en
+      cinco puntos, calculados fuera del repo antes de la congelación; no
+      fijó umbrales). E5a (escalera exacta, nueve puntos, prof 12): el
+      coeficiente de e² de η_N − 1 es EXACTAMENTE 0 y η_N,0 = 1 en todos;
+      la identidad de torre Φ_N,n = Ψ_N,n se cumple hasta n = 8 (prof 16)
+      en (1.05, 0.3) y (1.012, 1e-6) — teorema «sin estrés anisótropo
+      lineal ⟹ η_N ≡ 1» fijado. La cola de µ_Δ (respecto de la G local)
+      sigue la forma cerrada −α_a e²/c_s² en α_a ≳ λ_K − 1 (cocientes
+      1.0002 y 1.025 en α_a = λ_K − 1; 0.52 y 0.38 en α_a = 0.3) pero NO
+      en α_a ≪ λ_K − 1, donde es de PRIMER orden en α_a: −0.752/−0.774/
+      −0.852·α_a·e² en λ_K = 1.001/1.012/1.05 (cocientes 751–39648) → la
+      regla congelada clasifica E5a = B (cola gauge-invariante fuera de la
+      forma cerrada); magnitud en la cota PPN (1.012, 1e-6): µ_Δ − 1 =
+      −2.2e-10 en k = 0.02 h/Mpc (z = 0), inobservable (umbral 1e-5
+      cumplido). E5b (arnés adiabático en invariantes, k/H0 = 133–400,
+      a ≥ 0.3, ajuste e² + e⁴): max|η_N − 1| = 2.5e-14 sobre la
+      trayectoria en los cuatro brazos y s_µΔ/escalera = 1.026/0.944/
+      0.976/0.986 → E5b = A, la primera confirmación numérica de la
+      escalera (el control unitario en la misma trayectoria da 0.98–1.01
+      para η y 0.96–1.02 para µ_loc, sin gobernar). Lectura: el polo y la
+      parte regular de la cola de η de E3/E4 eran de gauge; el «µ_loc·η =
+      1 + O(e⁴)» de E4 es la firma de la reparametrización temporal; la
+      firma sub-horizonte de (µ, η) es solo la del canal Cronos. Lo que el
+      control externo NO anticipó: el orden α_a¹ de la cola de µ_Δ en
+      α_a ≪ λ_K − 1 (sus puntos pequeños tenían α_a = λ_K − 1); sin forma
+      cerrada aquí, materia de una preinscripción futura.
+    implementation: validation/atlas_tail_derivation.py + cosmology/mu_eta_atlas.py + scripts/run_atlas_gauge.py
+    test: tests/test_atlas_gauge.py + tests/test_atlas_gauge_lock.py
+    observable: η_N − 1 (estrés anisótropo lineal) ≡ 0; µ_Δ − 1 a gran escala ≤ 2.2e-10 en la cota PPN — ambos por debajo de cualquier sensibilidad prevista; sin predicción distintiva del sector Atlas en (µ, η)
+    dataset: "— (teoría pura, sin datos)"
+    falsifier: >-
+      C preinscrito (coef η_N ≠ 0 en algún punto) no se dio; una medida de
+      η_N ≠ 1 a gran escala respecto de la G local refutaría el teorema;
+      una derivación que muestre estrés anisótropo lineal en la clase
+      khronométrica con β = 0 lo refutaría desde la teoría. La forma
+      cerrada de µ_Δ en α_a ≪ λ_K − 1 queda abierta (no se retoca la de E5)
+    evidence_level: derivación interna (E8) bajo preinscripción con control externo declarado — teorema fijado (η_N ≡ 1) y cola de µ_Δ acotada; E5a = B por la forma cerrada, E5b = A; no demostración física
+    status: interno
+    artifact: results/2026-09-15_mu_eta_atlas_gauge

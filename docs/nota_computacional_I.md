@@ -506,8 +506,10 @@ independiente del autor había predicho (17.07). Los residuos del polo
 1/(λ_K−1) salen exactos: **P_η = 3α_a/(2−α_a)** (a 4e-16) y **P_µ =
 −P_η·p(2p−1)/3** (a 1e-8) en α_a = 0.1/0.3/0.6, con partes regulares
 Q_η = 4.97/6.09/8.36 y Q_µ = −4.98/−6.23/−9.42 (**E3a = A**). Se revisa
-la lectura anterior: el polo es FÍSICO — el parámetro pequeño es
-aH/(c_s k), el horizonte de sonido del khronon —; lo que la truncación
+la lectura anterior: el polo es real en los potenciales de gauge
+unitario — el parámetro pequeño es aH/(c_s k), el horizonte de sonido
+del khronon — *[y, como fija la adenda E5, de gauge en η: en invariantes
+η_N ≡ 1 y el polo sobrevive solo en µ_Δ]*; lo que la truncación
 QS exagera es el residuo (2 frente a P_η: ×3.8 en α_a = 0.3, ×12.7 en
 0.1) y su dependencia en α_a, y el «×28» de #18 era el cociente
 ventana-promediado frente a un arnés cuyas condiciones iniciales
@@ -564,7 +566,53 @@ declarada, no explicada. Para el correo técnico: la frase «cancelación
 de Atlas» sigue en pie al orden dominante; la frase «colas
 inobservables» no debe usarse. **Estatuto**: derivación interna (E8)
 con cotas transcritas; hallazgo condicionado
-(`results/2026-09-15_mu_eta_atlas_ppn/`).
+(`results/2026-09-15_mu_eta_atlas_ppn/`). *[Superado en su lectura
+física por la adenda E5, abajo: la cola de η era de gauge unitario; la
+parte PPN queda verificada punto por punto por el autor.]*
+
+**Adenda E5 (15-sep, noche): la corrección de gauge — η_N ≡ 1 y la cola
+de η de E3/E4 no era observable.** La verificación del autor detectó el
+error de fondo, común a su Parte C.2 y a E3/E4: los seis campos de la
+escalera son los de gauge unitario, y la reparametrización temporal al
+gauge newtoniano actúa al mismo orden e² que las colas — b arranca en
+n = 1 de la torre y ḃ, Hb caen exactamente en n = 4. Las reglas (ψ → ψ
+− Ṫ, b → b + T, φ → φ + HT, δ → δ + 3HT, l1 → l1 + mT) se re-derivaron
+de δg_μν → δg_μν − L_ξ ḡ_μν sobre el ansatz del propio módulo y dan los
+invariantes Ψ_N = ψ + ḃ, Φ_N = φ − Hb, Δ = δ − 3H l1. Bajo preinscripción
+congelada (`e81883295dd2`) con el control externo del autor declarado
+(sus valores, calculados fuera del repo antes de la congelación, no
+fijaron umbrales), la MISMA escalera exacta en invariantes da, en los
+nueve puntos, **coeficiente de e² de η_N − 1 exactamente 0** y η_N,0 =
+1, con la identidad de torre Φ_N,n = Ψ_N,n hasta n = 8: el teorema «sin
+estrés anisótropo lineal (a_i a^i es cuadrático en ∂N; (1−λ_K)K² es pura
+traza) ⟹ la ecuación ij sin traza es la de GR ⟹ η_N ≡ 1» queda fijado.
+El polo y la parte regular de la cola de η eran de gauge, y el patrón
+µ_loc·η = 1 + O(e⁴) que E4 observó es la firma de la reparametrización
+temporal, no física. La única cola observable es la de µ_Δ, y aquí la
+regla congelada hace su trabajo: la forma cerrada preinscrita −α_a
+(aH/(c_s k))² se cumple en α_a ≳ λ_K − 1 (cocientes escalera/forma
+1.0002 en (1.0001, 10⁻⁴) y 1.025 en (1.012, 0.012); 0.52 y 0.38 en
+α_a = 0.3 por correcciones O(α_a)) pero **falla en α_a ≪ λ_K − 1**,
+donde la cola es de PRIMER orden en α_a — −0.752/−0.774/−0.852·α_a·e²
+en λ_K = 1.001/1.012/1.05, cocientes 751–39648 — y no de segundo, así
+que **E5a = B**, publicado sin retocar. Su magnitud en la cota PPN
+(1.012, 10⁻⁶) es µ_Δ − 1 = −2.2×10⁻¹⁰ en k = 0.02 h/Mpc: inobservable
+(umbral 10⁻⁵ cumplido). El arnés adiabático en invariantes (brazo 66.7
+retirado y ventana a ≥ 0.3, calibrados sobre las pendientes UNITARIAS
+ya publicadas) da **max|η_N − 1| = 2.5×10⁻¹⁴** sobre la trayectoria en
+los cuatro brazos y s_µΔ/escalera = 1.026/0.944/0.976/0.986 → **E5b =
+A**: la primera confirmación numérica de la escalera (el control
+unitario en la misma trayectoria queda al 1–4 %, sin gobernar). Lo que
+cambia: la lectura física de E4a = B queda superada (el registro se
+conserva bajo su definición preinscrita), E3b = C y E4b = C permanecen
+como arneses en gauge unitario, «cancelación de Atlas» sigue en pie y
+«colas inobservables» se restaura con más fuerza — η_N ≡ 1 en el sector
+Atlas y toda la firma sub-horizonte de (µ, η) es del canal Cronos. Lo
+que el control externo no anticipó: el orden α_a¹ de µ_Δ cuando α_a ≪
+λ_K − 1 (sus puntos pequeños tenían α_a = λ_K − 1); no hay forma cerrada
+aquí y es materia de una preinscripción futura, nunca de esta.
+**Estatuto**: derivación interna (E8) sin datos
+(`results/2026-09-15_mu_eta_atlas_gauge/`).
 
 ### 3.16 La primera aplicación a Dovekie real: desenlace INDETERMINADO bajo la regla congelada (13-sep-2026)
 
@@ -620,9 +668,13 @@ Aver+2021 da +0.016 ± 0.024. Lo que cambia: el dato vigente del frente 6
 pasa de la cota de Alvey+2020 a una banda propia bajo preinscripción con
 la misma conclusión. **Aviso de procedencia**: los cinco valores son
 publicados y transcritos a mano — arXiv, INSPIRE, DOI y revistas no son
-alcanzables desde el entorno de código —, así que el desenlace es
-PROVISIONAL hasta que el autor verifique la transcripción; el manifest y
-el artefacto lo declaran. Fronteras: ξ_e no modelada; α_a = 0.
+alcanzables desde el entorno de código. El 15-sep el autor comprobó las
+dos transcripciones observacionales contra los resúmenes primarios
+(exactas) y reprodujo las cifras de forma independiente (solo Y_P −7.6 ±
+4.5 % frente a −7.2 ± 4.3 %; pulls idénticos): el «provisional» se
+levanta en cuanto a valores publicados; los bytes oficiales siguen sin
+ingerir y el manifest y el artefacto lo declaran. Fronteras: ξ_e no
+modelada; α_a = 0.
 **Estatuto**: contraste interno bajo preinscripción (E8) sobre valores
 transcritos — no demostración física (`results/2026-09-14_bbn_g/`).
 
@@ -693,6 +745,8 @@ python scripts/run_bbn_g_prereg.py     # §3.17 preinscripción (no lee datos)
 python scripts/run_bbn_g.py            # §3.17 contraste tras la barrera
 python scripts/run_atlas_ppn_prereg.py # §3.15 adenda E4 (preinscripción)
 python scripts/run_atlas_ppn.py        # §3.15 adenda E4 (PPN + cierre E3b)
+python scripts/run_atlas_gauge_prereg.py # §3.15 adenda E5 (preinscripción)
+python scripts/run_atlas_gauge.py      # §3.15 adenda E5 (invariantes de gauge)
 ```
 
 Desenlaces versionados: `results/2026-07-31_production_fit/`,

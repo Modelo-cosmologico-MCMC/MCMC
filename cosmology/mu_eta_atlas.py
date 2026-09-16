@@ -43,12 +43,28 @@ DOS PRECISIONES que el candado hace explícitas:
       E3_Atlas (validation/atlas_tail_derivation.py) lo cierra al nivel
       del polo: con el sector de velocidades, η − 1 = [P_η/(λ_K−1) + Q_η]e²
       y µ_loc − 1 = [P_µ/(λ_K−1) + Q_µ]e², P_η = 3α_a/(2−α_a),
-      P_µ = −P_η·p(2p−1)/3 (tail_pole_residues). El polo es FÍSICO (no un
-      artefacto de la truncación, como #18 sugería al nivel medido): la
-      truncación QS exagera su residuo (2 en vez de P_η) y pierde la
-      dependencia en α_a. La cola de µ_loc SÍ tiene el polo (la forma QS
-      1 − 3(3λ_K−1)e²/(2ξ−α_a) no lo tiene y tampoco es física). Las
+      P_µ = −P_η·p(2p−1)/3 (tail_pole_residues). El polo es real en los
+      potenciales de GAUGE UNITARIO (no un artefacto de la truncación,
+      como #18 sugería al nivel medido): la truncación QS exagera su
+      residuo (2 en vez de P_η) y pierde la dependencia en α_a. Las
       partes regulares Q son numéricas y dominan en α_a ≈ λ_K − 1.
+  (iii) CORRECCIÓN DE GAUGE (E5_Atlas, 15-sep noche; corrección del autor
+      que alcanza a E3 y E4): ψ, φ, b son de gauge unitario y la
+      reparametrización al gauge newtoniano (Ψ_N = ψ + ḃ, Φ_N = φ − Hb,
+      Δ = δ − 3H l1) actúa al MISMO orden e². En invariantes: η_N ≡ 1
+      (coef. de e² exactamente 0 en nueve puntos, identidad de torre
+      Φ_N,n = Ψ_N,n hasta n = 8, arnés a 2.5e-14 sobre la trayectoria):
+      a orden lineal el sector no tiene fuente de estrés anisótropo
+      (a_i a^i cuadrático en ∂N; (1−λ_K)K² pura traza). El polo y la
+      parte regular de la cola de η eran de gauge; el «µ_loc·η = 1 +
+      O(e⁴)» de E4 es la firma de la reparametrización. La ÚNICA cola
+      observable es la de µ_Δ (mu_delta_tail_leading): −α_a e²/c_s² en
+      α_a ≳ λ_K − 1 (cocientes 1.000/1.025 en α_a = λ_K − 1), pero de
+      PRIMER orden en α_a en α_a ≪ λ_K − 1 (−0.75/−0.77/−0.85·α_a·e² en
+      λ_K = 1.001/1.012/1.05), no de segundo: E5a = B bajo la regla
+      congelada. En la cota PPN: µ_Δ − 1 = −2.2e-10 en k = 0.02 h/Mpc,
+      inobservable; la firma sub-horizonte de (µ, η) vuelve a ser SOLO
+      la del canal Cronos.
 
 Erratum candidata (v36, H.2.2): el apéndice escribe «c_s² = α/(2−α) → 0
 cuando α → 0»; la derivación da c_s² = (2−α_a)(λ_K−1)/(α_a(3λ_K−1))
@@ -86,22 +102,34 @@ ATLAS_STATUS = (
     "results/2026-09-13_mu_eta_atlas_tail/): los residuos del polo "
     "1/(λ_K−1) están DERIVADOS con el sector de velocidades (E3a = A: "
     "P_η = 3α_a/(2−α_a), P_µ = −P_η·p(2p−1)/3, escalera exacta; el polo es "
-    "físico — horizonte de sonido del khronon — y la cola QS truncada lo "
-    "sobreestima ×2(2−α_a)/(3α_a)); partes regulares Q numéricas. "
-    "Confirmación numérica E3b = C bajo la regla congelada: pendiente de "
-    "confirmación numérica independiente (las seis pendientes están al "
-    "0.9–6.8 % de la escalera y ninguna es compatible con la QS truncada, "
-    "pero el brazo e ≤ 0.02 falla el exponente log-log, 2.14 ∉ [1.9, 2.1], "
-    "por curvatura O(e⁴) que el umbral no calibró; no se retoca). PPN "
-    "(E4_Atlas, results/2026-09-15_mu_eta_atlas_ppn/): α₁ = −4α_a, "
-    "α₂ = −α_a/2 + O(α_a²) en el límite khronométrico con el mapeo β = 0 "
-    "verificado ⟹ α_a ≤ 8e-7 (giro solar; cotas transcritas) y "
-    "G_cosmo/G_N − 1 → −(3/2)ε_K en forma limpia; PERO la escalera exacta "
-    "da η − 1 = 4.6·e² en (λ_K, α_a) = (1.012, 1e-6), coeficiente que no se "
-    "apaga con α_a → 0 (E4a = B, hallazgo estructural; la expectativa "
-    "«colas inobservables» usaba solo el residuo del polo). Condicionado a "
-    "la confirmación numérica independiente de la escalera, que sigue "
-    "abierta (E4b = C: el brazo k/H0 = 66.7 no separa e² de e⁴)")
+    "real en los potenciales de gauge unitario — horizonte de sonido del "
+    "khronon — y la cola QS truncada lo sobreestima ×2(2−α_a)/(3α_a)); "
+    "partes regulares Q numéricas. Confirmación numérica E3b = C bajo la "
+    "regla congelada: pendiente de confirmación numérica independiente en "
+    "gauge unitario (las seis pendientes están al 0.9–6.8 % de la escalera "
+    "y ninguna es compatible con la QS truncada, pero el brazo e ≤ 0.02 "
+    "falla el exponente log-log, 2.14 ∉ [1.9, 2.1], por curvatura O(e⁴) "
+    "que el umbral no calibró; no se retoca). PPN (E4_Atlas, "
+    "results/2026-09-15_mu_eta_atlas_ppn/): α₁ = −4α_a, α₂ = −α_a/2 + "
+    "O(α_a²) en el límite khronométrico con el mapeo β = 0 verificado ⟹ "
+    "α_a ≤ 8e-7 (giro solar; cotas transcritas) y G_cosmo/G_N − 1 → "
+    "−(3/2)ε_K en forma limpia; la escalera da η − 1 = 4.6·e² en (1.012, "
+    "1e-6) que no se apaga con α_a → 0 (E4a = B bajo su definición "
+    "preinscrita, potenciales de GAUGE UNITARIO; E4b = C: el brazo k/H0 = "
+    "66.7 no separa e² de e⁴). CIERRE GAUGE-INVARIANTE (E5_Atlas, "
+    "results/2026-09-15_mu_eta_atlas_gauge/, preinscripción e81883295dd2): "
+    "en invariantes de gauge (Ψ_N = ψ + ḃ, Φ_N = φ − Hb, Δ = δ − 3H l1) "
+    "η_N ≡ 1 — coeficiente de e² exactamente 0 en nueve puntos, identidad "
+    "de torre hasta n = 8 y arnés a 2.5e-14 sobre la trayectoria: sin "
+    "estrés anisótropo lineal —, así que la lectura física de E4a = B "
+    "(«cola de η viva en la cota») queda SUPERADA: era de gauge. La única "
+    "cola observable es la de µ_Δ: −α_a e²/c_s² en α_a ≳ λ_K − 1, pero de "
+    "PRIMER orden en α_a (≈ −0.77·α_a·e² en λ_K = 1.012) cuando α_a ≪ "
+    "λ_K − 1, no de segundo (E5a = B bajo la regla congelada: forma cerrada "
+    "no cumplida; magnitud en la cota PPN −2.2e-10 en k = 0.02, "
+    "inobservable). El arnés en invariantes confirma la escalera (E5b = A: "
+    "s_µΔ al 1.4–5.6 % en cuatro brazos). La firma sub-horizonte de (µ, η) "
+    "es SOLO la del canal Cronos")
 
 
 def _check_params(lamK: float, xi: float, alpha_a: float) -> None:
@@ -195,9 +223,11 @@ def tail_pole_residues(alpha_a: float, xi: float = 1.0) -> dict:
         P_η = 3α_a/(2 − α_a),   P_µ = −P_η · p(2p−1)/3,
 
     con p el índice de crecimiento en λ_K = 1, p(p+½) = 3/(2−α_a) (GR:
-    p = 1). Las partes regulares Q son numéricas (artefacto E3). El polo es
-    físico: el parámetro pequeño es aH/(c_s k) (horizonte de sonido del
-    khronon)."""
+    p = 1). Las partes regulares Q son numéricas (artefacto E3). GAUGE
+    UNITARIO (E5): η y µ_loc son aquí cocientes de potenciales de gauge
+    unitario; en invariantes de gauge η_N ≡ 1 y el polo sobrevive solo en
+    µ_Δ (mu_delta_tail_leading). El parámetro pequeño aH/(c_s k) es el
+    horizonte de sonido del khronon."""
     _check_params(1.0, xi, alpha_a)
     _check_xi_one(xi)
     if alpha_a <= 0.0 or alpha_a >= 2.0:
@@ -219,7 +249,8 @@ def eta_tail_physical(e, lamK: float, alpha_a: float, xi: float = 1.0):
     en (λ_K, α_a) = (1.05, 0.3) el coeficiente completo de e² es 17.07
     frente a 10.59 del polo, y en α_a ≈ λ_K − 1 (p. ej. 0.012) la parte
     regular domina. Los coeficientes completos por punto viven en el
-    artefacto E3 (results/2026-09-13_mu_eta_atlas_tail/). ξ = 1."""
+    artefacto E3 (results/2026-09-13_mu_eta_atlas_tail/). ξ = 1.
+    GAUGE UNITARIO, no observable (E5: η_N ≡ 1)."""
     _check_xi_one(xi)
     e = np.asarray(e, float)
     cs2 = khronon_cs2(lamK, 1.0, alpha_a)
@@ -229,7 +260,8 @@ def eta_tail_physical(e, lamK: float, alpha_a: float, xi: float = 1.0):
 def mu_local_tail_physical(e, lamK: float, alpha_a: float, xi: float = 1.0):
     """Residuo del polo de la cola de µ respecto de la G local:
     µ_loc − 1 = −[p(2p−1)/2]·(aH/(c_s k))²·[1 + O(λ_K−1)], p en λ_K = 1.
-    Solo el término dominante en λ_K − 1; ξ = 1."""
+    Solo el término dominante en λ_K − 1; ξ = 1. GAUGE UNITARIO, no
+    observable (E5: el invariante es µ_Δ, mu_delta_tail_leading)."""
     _check_xi_one(xi)
     e = np.asarray(e, float)
     cs2 = khronon_cs2(lamK, 1.0, alpha_a)
@@ -238,22 +270,27 @@ def mu_local_tail_physical(e, lamK: float, alpha_a: float, xi: float = 1.0):
 
 
 def mu_delta_tail_leading(e, lamK: float, alpha_a: float, xi: float = 1.0):
-    """Forma cerrada, a contrastar en E5_Atlas, de la cola O(e²) del
-    invariante de gauge µ_Δ (potencial de Bardeen Ψ_N y contraste comóvil
-    Δ = δ − 3H l1, respecto de la G local):
+    """Forma cerrada preinscrita en E5_Atlas para la cola O(e²) del ÚNICO
+    invariante de gauge con cola en el sector Atlas, µ_Δ (potencial de
+    Bardeen Ψ_N y contraste comóvil Δ = δ − 3H l1, respecto de la G local):
 
-        µ_Δ − 1 = −α_a·(aH/(c_s k))²·[1 + O(α_a)] = −α_a e²/c_s²
-                = −α_a²(3λ_K−1)/((2−α_a)(λ_K−1))·e²,
+        µ_Δ − 1 = −α_a·(aH/(c_s k))² = −α_a e²/c_s²
+                = −α_a²(3λ_K−1)/((2−α_a)(λ_K−1))·e².
 
-    de SEGUNDO orden en α_a (c_s² ∝ 1/α_a) y con límite GR suave. Los
-    campos de la escalera E3/E4 son de gauge unitario; la transformación
-    al gauge newtoniano (Ψ_N = ψ + ḃ, Φ_N = φ − Hb) actúa al mismo orden
-    e², así que los coeficientes de η − 1 y µ_loc − 1 de E3/E4 no son
-    observables. La expectativa preinscrita (control externo de la sesión
-    de verificación del 15-sep) es η_N ≡ 1 (sin estrés anisótropo lineal)
-    y esta forma para µ_Δ; el estatuto lo fija el artefacto E5. Forma
-    dominante en α_a (las normalizaciones respecto de G_local y de G_B
-    difieren en (1 − α_a/2)). ξ = 1."""
+    ESTATUTO (E5a = B, results/2026-09-15_mu_eta_atlas_gauge/): la forma
+    se cumple en α_a ≳ λ_K − 1 (cocientes escalera/forma 1.000 en
+    (1.0001, 1e-4) y 1.025 en (1.012, 0.012); 0.52 y 0.38 en α_a = 0.3
+    por correcciones O(α_a)), pero FALLA en α_a ≪ λ_K − 1 (c_s² ≫ 1),
+    donde la escalera exacta da una cola de PRIMER orden en α_a,
+    µ_Δ − 1 ≈ −(0.75/0.77/0.85)·α_a·e² en λ_K = 1.001/1.012/1.05, sin
+    forma cerrada aquí (cocientes 751–39648). Con α_a ≤ 8e-7 (PPN) la
+    magnitud es −2.2e-10 en k = 0.02 h/Mpc: inobservable. Úsese solo en
+    su régimen; el coeficiente exacto por punto vive en el artefacto E5.
+    η_N = Φ_N/Ψ_N no tiene cola (η_N ≡ 1: sin estrés anisótropo lineal);
+    las colas de eta_tail_physical/mu_local_tail_physical y los
+    coeficientes completos de E3/E4 son de gauge unitario, no observables.
+    Normalizaciones respecto de G_local y de G_B difieren en (1 − α_a/2).
+    ξ = 1."""
     _check_xi_one(xi)
     e = np.asarray(e, float)
     cs2 = khronon_cs2(lamK, 1.0, alpha_a)

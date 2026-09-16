@@ -22,9 +22,11 @@ velocidades incluidas). Las torres admiten cabeceras super-dominantes
 de renormalización del modo no cambia los cocientes).
 
 RESIDUOS DEL POLO (λ_K → 1). Los coeficientes tienen la estructura
-coef(λ_K) = P/(λ_K − 1) + Q + O(λ_K − 1). El polo es FÍSICO (horizonte de
-sonido del khronon: el parámetro pequeño es aH/(c_s k)) y sus residuos se
-extraen por extrapolación de Richardson en h = λ_K − 1:
+coef(λ_K) = P/(λ_K − 1) + Q + O(λ_K − 1). El polo es real en los potenciales
+de GAUGE UNITARIO (horizonte de sonido del khronon: el parámetro pequeño es
+aH/(c_s k)) — en invariantes de gauge η_N ≡ 1 y el polo sobrevive solo en
+µ_Δ (sección E5 al final) — y sus residuos se extraen por extrapolación de
+Richardson en h = λ_K − 1:
 
     P_η = 3α_a/(2 − α_a),     P_µ = −P_η · p(2p−1)/3   (p en λ_K = 1).
 
