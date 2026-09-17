@@ -1,0 +1,171 @@
+{
+  "kind": "cálculo de consistencia (E8), sin desenlaces preinscritos",
+  "external_control": "cálculo del autor, sesión de verificación 17-sep-2026 (h = 0.7, Ω_m = 0.31): A_cosmo/A_S = 6.6e7; D = 5.7 (r200), 1e4 (r_s), 3e5 (2.3 kpc) con el cierre cosmológico; D = 0.8 (0.1 kpc), 0.1 (0.38 kpc), 4e-3 (2.3 kpc) con el galáctico; A_max = 1.25 A_S; ε̄_c(hoy) = 5.4e-18 con A_S",
+  "executed_utc": "2026-09-17T15:46:36.346305+00:00",
+  "code_commit": "4e89a7dec765c2b2f4ee18c3da4ed0d4f8d41bb2",
+  "theta_source": "background_theta_ref de results/2026-09-13_mu_eta_cronos/preregistration.json",
+  "f_galactic_over_mean_for_physical_mode": 32971204.541942596,
+  "mu_minus_one_at_k0p2": {
+    "0.0": {
+      "cosmological_comoving_f200": 0.00038952995485955043,
+      "galactic_A_sculptor": 5.819472679679995e-12
+    },
+    "1.0": {
+      "cosmological_comoving_f200": 0.0001947649774297752,
+      "galactic_A_sculptor": 6.583981751570518e-11
+    },
+    "3.0": {
+      "cosmological_comoving_f200": 9.738248871488761e-05,
+      "galactic_A_sculptor": 7.448925029990394e-10
+    }
+  },
+  "inputs": {
+    "H0": 67.86705532886631,
+    "Omega_m": 0.32629884997700576,
+    "alpha0_inv": 1e-06,
+    "f_cosmo_over_mean": 200.0,
+    "A_galactic": 6.201588782789579e-07,
+    "A_units": "(M_sol/pc^3)^(-3/2); epsilon_c = A * rho^(3/2)"
+  },
+  "rho_mean0_msun_pc3": 4.170580830812854e-08,
+  "A_cosmological": 41.51071293886297,
+  "A_cosmo_over_A_galactic": 66935610.20050535,
+  "rho_c_galactic_equiv_msun_pc3": 1.375090736314355,
+  "rho_c_galactic_over_mean": 32971204.541942596,
+  "epsilon_c_background_today": {
+    "galactic": 5.281992492997464e-18,
+    "cosmological": 3.535533905932738e-10
+  },
+  "halos": [
+    {
+      "M200": 100000000000.0,
+      "c": 10.0,
+      "soft_kpc": 0.1,
+      "r_s_kpc": 9.774625607060123,
+      "r200_kpc": 97.74625607060123,
+      "v_circ_rs_kms": 75.73797387607114,
+      "A_max_subdominant": 8.061246788672043e-07,
+      "A_max_over_A_galactic": 1.2998679968983624,
+      "M_within_2p3kpc": 1405239386.417053,
+      "M_within_0p4kpc": 53775751.05531082,
+      "closures": {
+        "galactic": {
+          "A": 6.201588782789579e-07,
+          "D_soft": 0.7693088855069264,
+          "D_0p38kpc": 0.09710882966125305,
+          "D_2p3kpc": 0.004206123427085629,
+          "D_rs": 0.00014575736463150229,
+          "D_r200": 8.090803912175792e-08,
+          "D_max": 0.7693088855069264,
+          "r_D_equals_one_kpc": null,
+          "eps_c_max": 2.5169222756173285e-07,
+          "eps_c_r200": 6.379741343376736e-15,
+          "eps_c_2p3kpc": 1.2418413964599198e-09,
+          "eps_c_0p38kpc": 3.1328923425946645e-08,
+          "subdominant_everywhere": true,
+          "weak_everywhere": true,
+          "weak_at_r200": true
+        },
+        "A_max": {
+          "A": 8.061246788672043e-07,
+          "D_soft": 1.0000000000000002,
+          "D_0p38kpc": 0.12622865989291726,
+          "D_2p3kpc": 0.00546740523387307,
+          "D_rs": 0.00018946533359673513,
+          "D_r200": 1.051697707461738e-07,
+          "D_max": 1.0000000000000002,
+          "r_D_equals_one_kpc": 0.10000000000000002,
+          "eps_c_max": 3.2716667167555645e-07,
+          "eps_c_r200": 8.292821600744784e-15,
+          "eps_c_2p3kpc": 1.6142298884818209e-09,
+          "eps_c_0p38kpc": 4.072346493866744e-08,
+          "subdominant_everywhere": true,
+          "weak_everywhere": true,
+          "weak_at_r200": true
+        },
+        "cosmological": {
+          "A": 41.51071293886297,
+          "D_soft": 51494159.68407684,
+          "D_0p38kpc": 6500038.7692329055,
+          "D_2p3kpc": 281539.43817061733,
+          "D_rs": 9756.358142827165,
+          "D_r200": 5.415628968741225,
+          "D_max": 51494159.68407684,
+          "r_D_equals_one_kpc": 97.74625607060123,
+          "eps_c_max": 16.84717283456904,
+          "eps_c_r200": 4.2703187974031354e-07,
+          "eps_c_2p3kpc": 0.08312341164429242,
+          "eps_c_0p38kpc": 2.097020606440645,
+          "subdominant_everywhere": false,
+          "weak_everywhere": false,
+          "weak_at_r200": true
+        }
+      }
+    },
+    {
+      "M200": 10000000000.0,
+      "c": 13.0,
+      "soft_kpc": 0.05,
+      "r_s_kpc": 3.489984082344292,
+      "r200_kpc": 45.369793070475794,
+      "v_circ_rs_kms": 37.191583847125266,
+      "A_max_subdominant": 1.2440458563490547e-07,
+      "A_max_over_A_galactic": 0.20060115236945167,
+      "M_within_2p3kpc": 640005546.2770773,
+      "M_within_0p4kpc": 33282752.488612376,
+      "closures": {
+        "galactic": {
+          "A": 6.201588782789579e-07,
+          "D_soft": 4.9850162284126736,
+          "D_0p38kpc": 0.1919225094395096,
+          "D_2p3kpc": 0.004685054288905793,
+          "D_rs": 0.0016177314727850861,
+          "D_r200": 3.392523008178793e-07,
+          "D_max": 4.9850162284126736,
+          "r_D_equals_one_kpc": 0.13993835599729842,
+          "eps_c_max": 3.9678019556236265e-07,
+          "eps_c_r200": 5.520828775628383e-15,
+          "eps_c_2p3kpc": 2.883058791328992e-10,
+          "eps_c_0p38kpc": 1.4606929320910135e-08,
+          "subdominant_everywhere": false,
+          "weak_everywhere": true,
+          "weak_at_r200": true
+        },
+        "A_max": {
+          "A": 1.2440458563490547e-07,
+          "D_soft": 1.0,
+          "D_0p38kpc": 0.03849987655920259,
+          "D_2p3kpc": 0.0009398272892679439,
+          "D_rs": 0.0003245187976650185,
+          "D_r200": 6.805440248805447e-08,
+          "D_max": 1.0,
+          "r_D_equals_one_kpc": 0.05000000000000001,
+          "eps_c_max": 7.959456446718634e-08,
+          "eps_c_r200": 1.1074846144254826e-15,
+          "eps_c_2p3kpc": 5.783449158894743e-11,
+          "eps_c_0p38kpc": 2.930166854353705e-09,
+          "subdominant_everywhere": true,
+          "weak_everywhere": true,
+          "weak_at_r200": true
+        },
+        "cosmological": {
+          "A": 41.51071293886297,
+          "D_soft": 333675103.1082241,
+          "D_0p38kpc": 12846450.280545821,
+          "D_2p3kpc": 313596.9676504039,
+          "D_rs": 108283.84327143195,
+          "D_r200": 22.708059767170152,
+          "D_max": 333675103.1082241,
+          "r_D_equals_one_kpc": 45.369793070475794,
+          "eps_c_max": 26.55872450544259,
+          "eps_c_r200": 3.6954004290919464e-07,
+          "eps_c_2p3kpc": 0.01929792994415375,
+          "eps_c_0p38kpc": 0.9777237272507731,
+          "subdominant_everywhere": false,
+          "weak_everywhere": false,
+          "weak_at_r200": true
+        }
+      }
+    }
+  ]
+}

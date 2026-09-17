@@ -37,6 +37,11 @@ CONDICIONALES EXPUESTOS (nunca resueltos en silencio):
   combinación que TODOS los sistemas deben compartir (5E).
 
 Unidades: pc, M_sol, km/s (G = 4.30091e-3 pc·(km/s)²/M_sol).
+
+RONDA DE REGISTRO 17-sep-2026: la amplitud del modelo operativo es UNA,
+A_Sculptor (5E, congelada); el cierre cosmológico ρ_c = 200·ρ̄_m de
+cosmology/mu_eta_cronos queda excluido por la lectura (P) dentro de halos
+(dynamics/cronos_amplitude_validity.py, results/2026-09-17_cronos_amplitude_validity).
 """
 
 from __future__ import annotations
