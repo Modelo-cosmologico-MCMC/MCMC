@@ -696,11 +696,19 @@ parte externa con ε_c ≪ 1 (falla la subdominancia, no el régimen débil),
 y por debajo de ~r_s rompiendo también el régimen débil (ε_c = 2.2 en
 0.38 kpc). El galáctico cumple la subdominancia en r ≥ 0.1 kpc (D = 0.77
 en 0.1 kpc, 4×10⁻³ en 2.3 kpc) y coincide con la amplitud máxima
-subdominante de ese halo (A_max = 1.3·A_Sculptor): está donde la lectura
-(P) dice. En un halo enano de 10¹⁰ M☉ (c = 13, suavizado 50 pc)
-A_Sculptor deja de ser subdominante por debajo de 0.14 kpc: la puerta de
-régimen del experimento de halo aislado (Nivel A) decide por sí sola qué
-halo y qué suavizado son admisibles. El cálculo es del autor (sesión de
+subdominante en potencial de ese halo (A_max = 1.3·A_Sculptor). Pero la
+subdominancia en potencial no es subdominancia en fuerza: en una
+cúspide NFW el cociente dinámico D_F = |c²dε_c/dr|/g_N vale
+(3/2)|dlnρ/dlnr|·|Φ_N|r/(GM(<r)) veces D_Φ — un factor 20–600, porque
+|Φ_N| es finito en el centro mientras GM(<r)/r → 0 — y con A_Sculptor
+D_F = 0.73 en 1 kpc, 7.4 en 0.4 kpc y 230 en 0.1 kpc: el término
++c²∇ε_c domina la gravedad dentro de ~0.9 kpc del halo de 10¹¹ M☉
+(hallazgo de la sesión de código al pilotar el Nivel A). Es coherente con
+el origen de A_Sculptor: en 5A/5B se calibró para que Cronos sustituya a
+la materia oscura en Sculptor con bariones solos, así que sumada a un
+halo CDM domina su centro. En un halo enano de 10¹⁰ M☉ (c = 13,
+suavizado 50 pc) también la subdominancia en potencial se rompe por
+debajo de 0.14 kpc. El cálculo de partida es del autor (sesión de
 verificación del 17-sep) y se reproduce en el repo de forma independiente
 (`dynamics/cronos_amplitude_validity.py`), sin desenlaces preinscritos:
 es consistencia, no experimento. **Consecuencias**: la amplitud del

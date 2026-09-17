@@ -86,6 +86,26 @@ def test_k2_tail_dies_with_galactic_amplitude():
     assert mu_cos / mu_gal > 1e6
 
 
+def test_force_ratio_dominates_inside_kpc_at_galactic_amplitude():
+    """D_F ≫ D_Φ en la cúspide: con A_Sculptor la fuerza de Cronos iguala
+    a la gravedad en ~0.9 kpc del halo de 1e11 M☉ y la supera ×100 en
+    0.1 kpc, aunque D_Φ < 1 en todo r ≥ 0.1 kpc."""
+    from dynamics.cronos_amplitude_validity import (
+        force_dominance_ratio,
+        radius_where_force_ratio_is_one,
+    )
+    h = nfw_halo(1e11, 10.0, H0, 0.10)
+    DF = force_dominance_ratio(h, A_SCULPTOR)
+    DP = dominance_ratio(h, A_SCULPTOR)
+    assert DF[0] > 100.0 and DP[0] < 1.0
+    inner = h["r_kpc"] <= 10.0
+    assert np.all(DF[inner] / DP[inner] > 10.0)
+    r1 = radius_where_force_ratio_is_one(h, A_SCULPTOR)
+    assert 0.6 < r1 < 1.2
+    i23 = np.argmin(np.abs(h["r_kpc"] - 2.3))
+    assert DF[i23] < 0.2
+
+
 def test_report_is_serializable_and_consistent():
     rep = validity_report(H0, OM)
     json.dumps(rep)

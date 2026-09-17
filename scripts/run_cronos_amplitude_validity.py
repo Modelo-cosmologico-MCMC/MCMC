@@ -92,6 +92,21 @@ def main() -> int:
                       f"{cl['eps_c_r200']:.1e} | {'sí' if cl['subdominant_everywhere'] else 'NO'} |")
     md += ["", f"A_max(1e11, suavizado {h11['soft_kpc']} kpc) = {h11['A_max_over_A_galactic']:.2f}·A_Sculptor; "
            f"M(< 2.3 kpc) = {h11['M_within_2p3kpc']:.2e} M☉, M(< 0.4 kpc) = {h11['M_within_0p4kpc']:.2e} M☉.", "",
+           "### Cociente de FUERZAS D_F = |c² dε_c/dr| / g_N (lo que «dominar sobre la gravedad» significa en la dinámica)", "",
+           "| halo | cierre | D_F(suav.) | D_F(0.4 kpc) | D_F(1 kpc) | D_F(2.3 kpc) | D_F(r_s) | r(D_F = 1) | subdominante en fuerza |",
+           "|---|---|---|---|---|---|---|---|---|"]
+    for hrow in rep["halos"]:
+        for name, cl in hrow["closures"].items():
+            r1 = cl["r_DF_equals_one_kpc"]
+            md.append(f"| {hrow['M200']:.0e} M☉, c = {hrow['c']:g} | {name} | {cl['DF_soft']:.2e} | {cl['DF_0p4kpc']:.2e} | "
+                      f"{cl['DF_1kpc']:.2e} | {cl['DF_2p3kpc']:.2e} | {cl['DF_rs']:.2e} | "
+                      f"{'—' if r1 is None else f'{r1:.2f} kpc'} | {'sí' if cl['force_subdominant_everywhere'] else 'NO'} |")
+    md += ["", "**Corrección a la lectura «A_Sculptor está donde (P) dice»**: en una cúspide NFW D_F/D_Φ = "
+           "(3/2)|dlnρ/dlnr|·|Φ_N|r/(G M(<r)) ≫ 1 (|Φ_N| es finito en el centro; G M(<r)/r → 0). Con A_Sculptor "
+           f"la fuerza de Cronos iguala a la gravedad en r ≈ {h11['closures']['galactic']['r_DF_equals_one_kpc']:.2f} kpc "
+           "del halo de 1e11 M☉ y la domina dentro: subdominante en potencial, NO en fuerza. Coherente con el "
+           "origen de A_Sculptor (5A/5B: Cronos sustituye a la materia oscura en Sculptor con bariones solos). "
+           "El régimen débil (ε_c ≪ 1) sí se cumple; la exclusión del cierre cosmológico es aún más fuerte en fuerza.", "",
            "Dos matices respecto de la nota del autor: (i) con el cierre cosmológico la parte externa del "
            "halo está excluida por subdominancia con ε_c ≪ 1 (la lectura de la nota), pero por debajo de "
            "~r_s se rompe TAMBIÉN el régimen débil (ε_c > 1e-3 en r ≲ r_s, > 1 en r ≲ 0.4 kpc); (ii) en el "

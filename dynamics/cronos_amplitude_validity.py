@@ -24,14 +24,28 @@ cociente de dominancia D(r) ≡ c²ε_c(r)/|Φ_N(r)| decide:
     régimen débil (en r₂₀₀ ε_c ~ 5e-7 ≪ 1); en la interna se rompe
     también el régimen débil (ε_c = 0.09 en 2.3 kpc, 2.2 en 0.38 kpc,
     17 en 0.1 kpc) — matiz que el cálculo añade a la nota del autor;
-  - cierre galáctico: en el halo de 1e11 M☉, D < 1 en todo r ≥ 0.1 kpc
+  - cierre galáctico: en el halo de 1e11 M☉, D_Φ < 1 en todo r ≥ 0.1 kpc
     (0.77 en 0.1 kpc, ~4e-3 en 2.3 kpc) y A_Sculptor ≈ A_max (1.3), la
-    amplitud máxima subdominante con suavizado 0.1 kpc: está donde la
-    lectura (P) dice. En un halo de 1e10 M☉ (c = 13, suavizado 0.05 kpc)
-    la subdominancia se rompe por debajo de ~0.15 kpc (D = 5 en 0.05 kpc;
-    A_max = 0.2·A_Sculptor): el Nivel A debe elegir el halo y el
-    suavizado con esta tabla delante, y la puerta de régimen (D ≤ 1 para
-    r > ε_soft) decide por sí sola en los demás.
+    amplitud máxima subdominante EN POTENCIAL con suavizado 0.1 kpc. En
+    un halo de 1e10 M☉ (c = 13, suavizado 0.05 kpc) esa subdominancia se
+    rompe por debajo de ~0.15 kpc (A_max = 0.2·A_Sculptor).
+
+PERO la subdominancia en potencial no es subdominancia en fuerza. El
+cociente dinámico D_F = |c² dε_c/dr|/g_N vale, en una cúspide NFW,
+(3/2)|dlnρ/dlnr|·|Φ_N| r/(G M(<r)) veces D_Φ — un factor 20–600 porque
+|Φ_N| es finito en el centro mientras G M(<r)/r → 0. Con A_Sculptor en el
+halo de 1e11 M☉: D_F = 0.73 en 1 kpc, 7.4 en 0.4 kpc y 230 en 0.1 kpc;
+D_F = 1 en r ≈ 0.9 kpc. El término +c²∇ε_c DOMINA la gravedad dentro de
+~0.9 kpc. Esto no invalida la exclusión del cierre cosmológico (peor aún
+en fuerza) ni el régimen débil (ε_c ≤ 3e-7), pero sí la frase «A_Sculptor
+está donde la lectura (P) dice»: lo está en potencial, no en fuerza.
+Coherente con su origen: A_Sculptor se calibró (5A/5B) para que Cronos
+sustituya a la materia oscura en Sculptor (F_Cronos ≈ 7·g_bariones), así
+que sumada a un halo CDM domina su centro. El Nivel A mide qué hace esa
+fuerza dentro de un halo en equilibrio (expectativa: contracción del
+interior, posiblemente progresiva); la puerta de régimen del Nivel A es
+la del campo débil (ε_c < 1e-3, N > 0), y D_Φ, D_F se publican como
+diagnóstico, no como puerta.
 
 Consecuencias que el registro recoge: la amplitud del modelo operativo
 es UNA y es A_Sculptor; el sector µ/η de Cronos (E1, results/2026-09-13_
@@ -109,8 +123,38 @@ def nfw_halo(M200: float, c: float, H0: float, r_min_kpc: float,
 
 
 def dominance_ratio(halo: dict, A: float) -> np.ndarray:
-    """D(r) = c²ε_c(r)/|Φ_N(r)| con ε_c = A·ρ^{3/2}."""
+    """D_Φ(r) = c²ε_c(r)/|Φ_N(r)| con ε_c = A·ρ^{3/2} — la condición LITERAL
+    de Cor. 11.3c («c²ε_c ≲ |Φ_N|»), la que mide dynamics.weak_field."""
     return C_KMS ** 2 * epsilon_c_of_rho(halo["rho"], A) / halo["abs_phi"]
+
+
+def force_dominance_ratio(halo: dict, A: float) -> np.ndarray:
+    """D_F(r) = |c² dε_c/dr| / g_N(r), g_N = G M(<r)/r² — el cociente de
+    FUERZAS, que es lo que «dominar sobre la gravedad» significa en la
+    dinámica. En una cúspide NFW, D_F/D_Φ = (3/2)|dlnρ/dlnr|·|Φ_N| r/(G M(<r))
+    ≫ 1 (|Φ_N| es finito en r → 0 mientras G M/r → 0): con A_Sculptor en
+    un halo de 1e11 M☉, D_Φ = 0.77 en 0.1 kpc pero D_F ≈ 230, y D_F = 1
+    en r ≈ 0.9 kpc. Hallazgo de la sesión de código (17-sep) al pilotar
+    el Nivel A; corrige la lectura «A_Sculptor está donde (P) dice»."""
+    r_pc = halo["r_kpc"] * 1e3
+    eps = epsilon_c_of_rho(halo["rho"], A)
+    deps_dr = np.gradient(eps, r_pc)                       # 1/pc
+    g_N = G_PC * halo["M_enc"] / r_pc ** 2                # (km/s)²/pc
+    return C_KMS ** 2 * np.abs(deps_dr) / g_N
+
+
+def radius_where_force_ratio_is_one(halo: dict, A: float):
+    """Mayor radio [kpc] con D_F ≥ 1; None si nunca."""
+    DF = force_dominance_ratio(halo, A)
+    idx = np.where(DF >= 1.0)[0]
+    if idx.size == 0:
+        return None
+    i = int(idx[-1])
+    if i == len(DF) - 1:
+        return float(halo["r_kpc"][-1])
+    r0, r1 = np.log(halo["r_kpc"][i]), np.log(halo["r_kpc"][i + 1])
+    d0, d1 = np.log(DF[i]), np.log(DF[i + 1])
+    return float(np.exp(r0 - d0 * (r1 - r0) / (d1 - d0)))
 
 
 def max_subdominant_amplitude(halo: dict) -> float:
@@ -168,12 +212,18 @@ def validity_report(H0: float, Omega_m: float, alpha0_inv: float = ALPHA0_INV_MA
                "closures": {}}
         for name, A in (("galactic", A_gal), ("A_max", A_max), ("cosmological", A_cosmo)):
             D = dominance_ratio(h, A)
+            DF = force_dominance_ratio(h, A)
             eps = epsilon_c_of_rho(h["rho"], A)
             row["closures"][name] = {
                 "A": A, "D_soft": float(D[0]), "D_0p38kpc": _at(h, D, 0.38),
                 "D_2p3kpc": _at(h, D, 2.3), "D_rs": _at(h, D, h["r_s_kpc"]),
                 "D_r200": float(D[-1]), "D_max": float(D.max()),
                 "r_D_equals_one_kpc": radius_where_dominance_is_one(h, A),
+                "DF_soft": float(DF[0]), "DF_0p4kpc": _at(h, DF, 0.4),
+                "DF_1kpc": _at(h, DF, 1.0), "DF_2p3kpc": _at(h, DF, 2.3),
+                "DF_rs": _at(h, DF, h["r_s_kpc"]),
+                "r_DF_equals_one_kpc": radius_where_force_ratio_is_one(h, A),
+                "force_subdominant_everywhere": bool(DF.max() <= 1.0 + 1e-9),
                 "eps_c_max": float(eps.max()), "eps_c_r200": float(eps[-1]),
                 "eps_c_2p3kpc": _at(h, eps, 2.3), "eps_c_0p38kpc": _at(h, eps, 0.38),
                 "subdominant_everywhere": bool(D.max() <= 1.0 + 1e-9),

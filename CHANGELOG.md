@@ -19,9 +19,16 @@ estado en que afirme exactamente lo que hace»).
   subdominancia c²ε_c ≲ |Φ_N| de la que nace (11.5) en todo el halo
   (D = 5.4 en r200, 1e4 en r_s, 3e5 en 2.3 kpc; y por debajo de ~r_s
   rompe también el régimen débil: ε_c = 2.2 en 0.38 kpc) — EXCLUIDO. El
-  galáctico la cumple en r ≥ 0.1 kpc y coincide con A_max = 1.3·A_S;
-  en un enano de 1e10 M☉ (suavizado 50 pc) deja de ser subdominante
-  bajo 0.14 kpc. Consecuencias: (i) la amplitud operativa es
+  galáctico la cumple EN POTENCIAL en r ≥ 0.1 kpc y coincide con
+  A_max = 1.3·A_S; en un enano de 1e10 M☉ (suavizado 50 pc) deja de
+  ser subdominante bajo 0.14 kpc. Corrección de la sesión de código
+  (piloto del Nivel A): la subdominancia en potencial NO es
+  subdominancia en fuerza — en la cúspide D_F = |c²dε_c/dr|/g_N es
+  20–600 veces D_Φ y con A_S vale 0.73 en 1 kpc, 7.4 en 0.4 kpc, 230 en
+  0.1 kpc (D_F = 1 en ≈ 0.9 kpc): +c²∇ε_c domina la gravedad dentro de
+  ~0.9 kpc del halo de 1e11 M☉, coherente con que A_S se calibró en
+  5A/5B para sustituir a la materia oscura en Sculptor con bariones
+  solos. Consecuencias: (i) la amplitud operativa es
   A_Sculptor, reutilizada entre frentes; (ii) el sector µ/η de Cronos
   (E1) se computó con el cierre excluido — sus identidades siguen
   exactas para el cierre que declaran (artefacto intacto), pero con
