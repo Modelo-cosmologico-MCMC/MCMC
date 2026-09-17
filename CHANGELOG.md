@@ -6,6 +6,44 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Ronda de registro del 17-sep: la amplitud de Cronos es UNA
+  (A_Sculptor) y cuatro huecos reciben nombre**. Hallazgo de
+  consistencia del autor (sesión de verificación), reproducido en el
+  repo (`dynamics/cronos_amplitude_validity.py`,
+  `results/2026-09-17_cronos_amplitude_validity/`): (α₀⁻¹, ρ_c) entran
+  en toda la dinámica solo por A = α₀⁻¹/ρ_c^(3/2), y el repositorio
+  llevaba dos cierres incompatibles — el galáctico A_Sculptor = 6.2e-7
+  (5E, congelado) y el cosmológico ρ_c = 200·ρ̄_m de µ/η (A ≈ 41.5;
+  elección de la nota de teoría del 13-sep) — que difieren en 6.7e7.
+  Dentro de un halo NFW de 1e11 M☉ el cosmológico viola la
+  subdominancia c²ε_c ≲ |Φ_N| de la que nace (11.5) en todo el halo
+  (D = 5.4 en r200, 1e4 en r_s, 3e5 en 2.3 kpc; y por debajo de ~r_s
+  rompe también el régimen débil: ε_c = 2.2 en 0.38 kpc) — EXCLUIDO. El
+  galáctico la cumple en r ≥ 0.1 kpc y coincide con A_max = 1.3·A_S;
+  en un enano de 1e10 M☉ (suavizado 50 pc) deja de ser subdominante
+  bajo 0.14 kpc. Consecuencias: (i) la amplitud operativa es
+  A_Sculptor, reutilizada entre frentes; (ii) el sector µ/η de Cronos
+  (E1) se computó con el cierre excluido — sus identidades siguen
+  exactas para el cierre que declaran (artefacto intacto), pero con
+  A_Sculptor ε̄_c(hoy) = 5.3e-18 y µ − 1 = 5.8e-12 en k = 0.2 h/Mpc: la
+  cola k² muere por consistencia interna y la cota k² sobre full-shape
+  sale de la hoja de ruta; (iii) `mu_eta_cronos` conserva el 200 solo
+  para reproducir E1 y documenta el cierre superado. Filas nuevas:
+  `cronos-amplitud-unica` (interno), `c-lieb-robinson-identificacion`
+  (claim-no-derivado: c ≡ v_LR no tenía fila), `mapa-s-z-convencion`
+  (calibrado: S_today = 95, α = 1, declarado en código y ahora en el
+  registro), `diccionario-primordial-cosmologico` (hueco-declarado: no
+  hay fórmula de (δ₀, m̄, b̄, C₀, ē, f) a (Ω_id,0, ε_Λ, z_trans, α_n,
+  κ_lat, η_lat) ni Λ_ten desde V₀), `contenido-materia-lectura-operativa`
+  (condicional: el repo es ΛCDM + canales + Cronos; la lectura fuerte sin
+  CDM es hipótesis distinta, no implementada). Filas revisadas:
+  `mu-eta-cronos` (cierre superado, amplitud ~1e-12),
+  `perfil-compuerta` (el medio paso del 2-ago es INDETERMINADO POR
+  RESOLUCIÓN, no «cúspide observada»; y usó el cierre excluido),
+  `cronos-v3` y `5e-falsacion-cruzada` (amplitud única), `canales-oscuros`
+  (fondo con ρ_cdm; mapa S(z) por convención). Sin datos; cálculo de
+  consistencia (E8). Registro: 52 claims.
+
 - **Cierre gauge-invariante de las colas del sector Atlas (15-sep,
   noche, E5_Atlas): η_N ≡ 1 — la cola de η que E4 halló viva era de
   GAUGE UNITARIO; la única cola observable (µ_Δ) es inobservable en la
