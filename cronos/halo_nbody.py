@@ -504,6 +504,12 @@ class HaloRun:
         if self.stop_on_weak_violation and not self.events[-1]["weak_regime_ok"]:
             out.update(stopped_early=True, stop_reason="régimen débil violado en t = 0 (ε_c ≥ weak_max en r ≥ ε_soft)")
             self.wall = time.time() - T0
+            if not out["snapshots"]:
+                out["snapshots"].append(self.snapshot(**(snapshot_kwargs or {})))
+            out["snapshots"][-1]["at_stop"] = True
+            out["events"] = self.events
+            out["wall_s"] = round(self.wall, 1)
+            out["t_final_gyr"] = 0.0
             return out
         tick_end = int(np.ceil(t_end / self.dt_tick - 1e-9))
         next_profile_tick = self.tick + self.profile_every

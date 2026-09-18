@@ -326,14 +326,20 @@ claims:
       implementado; producción abierta (frente 5). Amplitud operativa
       fijada el 17-sep (fila cronos-amplitud-unica): A = A_Sculptor;
       el Nivel A (halo aislado con y sin Cronos, preinscripción propia)
-      corre con ella y con el cierre cosmológico solo como control de
-      exclusión.
-    implementation: cronos/cronos_v3.py
-    test: tests/test_cronos_v3.py
+      corrió con ella el 17/18-sep y con el cierre cosmológico solo como
+      control de exclusión (parado en t = 0, como exigía la regla):
+      desenlace INDETERMINADO (fila nivel-a-halo-aislado) — el control de
+      respuesta c′ no cumplió el criterio congelado porque la regla de
+      parada lo detuvo antes, y el control de resolución del campo no
+      convergió (+0.83 dex en M(<0.4 kpc)). Lo único robusto: la ley
+      completa contrae el interior del halo en los primeros 0.25 Gyr en
+      todos los brazos Cronos, con amplitud no convergida (×1.3–×8).
+    implementation: cronos/cronos_v3.py + cronos/halo_nbody.py
+    test: tests/test_cronos_v3.py + tests/test_halo_nbody.py
     observable: "—"
     dataset: "—"
     falsifier: incapacidad de reproducir la compuerta declarada
-    evidence_level: implementado; producción abierta (frente 5); amplitud única declarada
+    evidence_level: implementado; producción abierta (frente 5); amplitud única declarada; Nivel A ejecutado con desenlace INDETERMINADO (instrumento no convergido)
     status: condicional
     artifact: "—"
 
@@ -362,13 +368,19 @@ claims:
       pendientes externas. No es «cúspide observada». Además ese medio
       paso usó el cierre cosmológico, excluido el 17-sep (fila
       cronos-amplitud-unica): el veredicto del núcleo es del Nivel A con
-      A_Sculptor.
+      A_Sculptor. El Nivel A (17/18-sep, fila nivel-a-halo-aislado)
+      tampoco lo dio: INDETERMINADO por la letra de su regla (control c′)
+      y con el control de resolución del campo no convergido; la media de
+      semillas del brazo Cronos prefiere la forma cored en [0.5, 5] kpc
+      solo por 0.02 dex (< 0.05) y el brazo newtoniano prefiere NFW. El
+      núcleo kpc por Cronos sigue SIN veredicto — ni observado ni
+      excluido.
     implementation: cronos/profile_fit.py
     test: tests/test_profile_fit.py
     observable: perfil ρ(r) de halos
     dataset: "—"
     falsifier: núcleo de producción incompatible con la compuerta
-    evidence_level: compuerta reproducida; núcleo indeterminado por resolución (no producción; cierre superado)
+    evidence_level: compuerta reproducida; núcleo indeterminado por resolución (2-ago, cierre superado) e INDETERMINADO en el Nivel A (17/18-sep, instrumento no convergido)
     status: condicional
     artifact: results/2026-08-02_profile_shape
 
@@ -1046,7 +1058,69 @@ claims:
     test: tests/test_dark_channels.py
     observable: "— (fija qué predice el modelo operativo: enanas ΛCDM + corrección Cronos de amplitud A_Sculptor)"
     dataset: "—"
-    falsifier: un ajuste del fondo o de halos que exigiera Ω_cdm → 0 con Cronos a A_Sculptor refutaría la lectura operativa a favor de la fuerte; hoy no hay tal ajuste. El Nivel A (halo CDM + Cronos a A_Sculptor) puede refutar la operativa si el interior colapsa de forma incompatible con las enanas observadas
-    evidence_level: declaración de estatuto; la lectura fuerte no tiene módulo ni artefacto
+    falsifier: un ajuste del fondo o de halos que exigiera Ω_cdm → 0 con Cronos a A_Sculptor refutaría la lectura operativa a favor de la fuerte; hoy no hay tal ajuste. El Nivel A (halo CDM + Cronos a A_Sculptor) puede refutar la operativa si el interior colapsa de forma incompatible con las enanas observadas — ejecutado el 17/18-sep con desenlace INDETERMINADO (fila nivel-a-halo-aislado), sin veredicto sobre la operativa
+    evidence_level: declaración de estatuto; la lectura fuerte no tiene módulo ni artefacto; el Nivel A ejecutado no la decide (INDETERMINADO)
     status: condicional
     artifact: "—"
+
+  - claim_id: nivel-a-halo-aislado
+    entity: Nivel A del frente 5 — halo aislado NFW (1e11 M☉, c = 10, N = 4e5) con y sin Cronos v3 a la amplitud única A_Sculptor; desenlace INDETERMINADO (17/18-sep-2026)
+    law: "Cor. 11.3 completo (fuerza +c²∇ε_c, fricción con compuerta Γ = (3/2)(ρ̇/ρ)ε_cΘ(ρ̇), lapso N = 1 + Φ_N/c² − ε_c) con ε_c = A_Sculptor·ρ^(3/2); H.2.5 (frente 5)"
+    derivation: >-
+      experimento numérico interno bajo preinscripción congelada ANTES de
+      generar ninguna condición inicial (sha256 72c534dc1c09, commit que
+      contiene el generador). Seis brazos: a (newtoniano ×3 semillas, 2
+      Gyr), b (Cronos v3 completo ×3, 2 Gyr), b_static (puerta numérica,
+      campo congelado), b_res (control de convergencia del campo, k_inner
+      = 128), c (control de exclusión: cierre cosmológico) y c′ (control
+      de respuesta: 10·A_Sculptor). Puertas superadas: energía del brazo a
+      (|ΔE/E| ≤ 1.4e-4) y de b_static (2.6e-4), equilibrio de a (0.019
+      dex en [1, 10] kpc), régimen débil en todas las comprobaciones de b
+      (ε_c ≤ 8e-7). El control c se paró en t = 0 como la regla exigía
+      (ε_c,max = 3.5 ≥ 1e-3: la exclusión del cierre cosmológico queda
+      registrada). DESENLACE INDETERMINADO por la letra de la regla: el
+      control c′ debía desplazar ρ en [0.4, 1) kpc ≥ 0.10 dex «a 0.5 Gyr»,
+      pero la regla de parada (también congelada: v_well > 1000 km/s) lo
+      detuvo en 0.055 Gyr, y en ese instante el desplazamiento en esa
+      banda era +0.05 dex. Dos reglas congeladas colisionaron; el
+      resultado se retiene entero y ningún umbral se toca. Lo que c′ sí
+      muestra (publicado, sin veredicto): M(<0.4 kpc) ×7.1, v_well 306 →
+      1000 km/s y ε_c(ε_soft) ×11 en 55 Myr — la implementación responde
+      a 10·A_Sculptor, pero dentro de 0.4 kpc y no donde la regla miraba.
+      Números descriptivos de b frente a a en 2 Gyr (sin veredicto):
+      log10(ρ_b/ρ_a) = −0.28 dex en [0.4, 1) kpc (semillas −0.39, −0.01,
+      −0.45), −0.10 en [1, 2.3), −0.01 en [2.3, 5), 0.00 en [5, 20];
+      M_b(<0.4)/M_a(<0.4) por instantánea 1.0, 4.3, 0.68, 0.85, 0.93,
+      1.08. Robusto en TODOS los brazos Cronos: contracción inicial del
+      interior en los primeros 0.25 Gyr (×8.4, ×1.3, ×3.3 por semilla;
+      ×2.6 con k_inner = 128; ×2.2 con el campo congelado; ×7.1 en 55 Myr
+      a 10·A_S) — la dirección coincide con la expectativa E13 declarada,
+      la amplitud dispersa ×1.3–×8 entre semillas y resoluciones. NO
+      convergido: el control b_res difiere de b en +0.83 dex en M(<0.4
+      kpc) a 2 Gyr (umbral 0.15); las corridas con campo dinámico ganan
+      energía (+1.7 %, +0.5 %, +1.4 %; b_res +0.25 %) que NO es la energía
+      potencial de Cronos (U_Cronos ~ 3e-3 de E): sospecha de trabajo
+      del campo medio retardado (τ_avg = 50 Myr frente a t_dyn ≲ 10 Myr
+      dentro de 0.4 kpc) — diagnóstico declarado como hipótesis para la
+      ronda siguiente, no como resultado. Ajuste de forma en [0.5, 5]
+      kpc: media de semillas de b prefiere cored con Δrmse = 0.02 dex
+      (< 0.05, no es C); a prefiere NFW. Dos correcciones de código
+      declaradas tras la primera pasada (no tocan umbrales ni desenlace):
+      el retorno temprano del brazo c no escribía la lista de eventos, y
+      la máscara de bandas daba −inf con un bin vacío en una semilla.
+    implementation: cronos/halo_nbody.py + scripts/run_cronos_halo_prereg.py + scripts/run_cronos_halo_nivelA.py
+    test: tests/test_halo_nbody.py + tests/test_cronos_halo_lock.py
+    observable: perfil ρ(r) del halo aislado en [0.1, 20] kpc a 2 Gyr y M(<0.4 kpc)(t) — comparación b/a; ningún observable astronómico
+    dataset: "— (experimento numérico interno; sin datos observacionales)"
+    falsifier: >-
+      una ronda con preinscripción NUEVA (criterio de c′ compatible con la
+      regla de parada; campo sin retardo o τ_avg ≤ t_dyn interior; serie
+      de convergencia k_inner 64/128/256 como puerta; zoom del interior)
+      que dé A, B o C decide lo que esta ronda retiene. Si el interior
+      contraído resultara convergido, el modelo operativo (ΛCDM + Cronos a
+      A_Sculptor) predeciría enanas más concentradas que ΛCDM en ≲ 1 kpc;
+      si resultara un vaciado convergido, predeciría lo contrario: hoy
+      ninguna de las dos es afirmable
+    evidence_level: experimento numérico preinscrito EJECUTADO con desenlace INDETERMINADO — ni A ni B ni C; instrumento (campo medio esférico con retardo, N = 4e5) no convergido en el interior; no demostración física (E8); el signo de las bandas no es señal (E13)
+    status: interno
+    artifact: results/2026-09-17_cronos_halo_nivelA

@@ -189,14 +189,27 @@ def cmd_analyze(_args) -> int:
         rho_b = prof_b.mean(axis=0)
         res["t_compare_gyr"] = t_b
         for name, (lo, hi) in rules["bands_kpc"].items():
-            sel = (r >= lo) & (r < hi) & (rho_a > 0) & (rho_b > 0)
-            lr_pairs = [np.mean(np.log10(pb[sel] / pa[sel])) for pa, pb in zip(prof_a, prof_b)]
-            sigma_seed_a = float(np.std([np.mean(np.log10(pa[sel] / rho_a[sel])) for pa in prof_a]))
-            res["bands"][name] = {"log10_ratio_b_over_a_mean": float(np.mean(lr_pairs)),
-                                  "log10_ratio_pairs": [float(x) for x in lr_pairs],
+            band = (r >= lo) & (r < hi)
+            # CORRECCIÓN DECLARADA (18-sep, tras la primera pasada del análisis):
+            # la máscara usaba las medias de semilla y un bin VACÍO en una
+            # semilla individual daba log10(0) = −inf en la banda interior.
+            # Cada par (a_k, b_k) se promedia solo sobre sus bins poblados y
+            # se publica cuántos bins quedaron vacíos en b. No cambia ningún
+            # umbral; el desenlace lo fija el control c′ (véase la regla).
+            lr_pairs, empty_b = [], []
+            for pa, pb in zip(prof_a, prof_b):
+                ok = band & (pa > 0) & (pb > 0)
+                lr_pairs.append(float(np.mean(np.log10(pb[ok] / pa[ok]))) if ok.any() else float("nan"))
+                empty_b.append(int(np.sum(band & (pa > 0) & (pb <= 0))))
+            sel_a = band & (rho_a > 0)
+            sigma_seed_a = float(np.std([np.mean(np.log10(pa[sel_a & (pa > 0)] / rho_a[sel_a & (pa > 0)])) for pa in prof_a]))
+            mean_lr = float(np.nanmean(lr_pairs))
+            res["bands"][name] = {"log10_ratio_b_over_a_mean": mean_lr,
+                                  "log10_ratio_pairs": lr_pairs,
+                                  "empty_bins_in_b_per_seed": empty_b,
                                   "sigma_seed_a_log10": sigma_seed_a,
-                                  "N_a_in_band_mean": float(np.mean([np.sum(np.array(final_snap(d)["count"])[sel]) for d in runs["a"].values()])),
-                                  "significant": bool(abs(np.mean(lr_pairs)) > max(rules["band_min_log10_shift"], rules["band_sigma_factor"] * sigma_seed_a))}
+                                  "N_a_in_band_mean": float(np.mean([np.sum(np.array(final_snap(d)["count"])[sel_a]) for d in runs["a"].values()])),
+                                  "significant": bool(np.isfinite(mean_lr) and abs(mean_lr) > max(rules["band_min_log10_shift"], rules["band_sigma_factor"] * sigma_seed_a))}
         fit_lo, fit_hi = rules["fit_window_kpc"]
         sel = (r >= fit_lo) & (r <= fit_hi) & (rho_b > 0)
         res["fits"]["b_seed_mean"] = shape_comparison(r[sel], rho_b[sel])

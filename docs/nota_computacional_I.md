@@ -728,6 +728,74 @@ canales + Cronos; la lectura fuerte sin CDM es hipótesis distinta, no
 implementada). **Estatuto**: cálculo de consistencia interna (E8)
 (`results/2026-09-17_cronos_amplitude_validity/`).
 
+### 3.19 Nivel A del frente 5: halo aislado con y sin Cronos v3 a A_Sculptor — INDETERMINADO (17/18-sep-2026)
+
+Primera corrida de producción del frente 5 con la amplitud única:
+un halo NFW aislado de 10¹¹ M☉ (c = 10, N = 4×10⁵, suavizado 0.1 kpc)
+en equilibrio de Eddington, integrado 2 Gyr con y sin la ley completa
+del Cor. 11.3 (fuerza +c²∇ε_c, fricción con compuerta y lapso, con
+ε_c = A_Sculptor·ρ^{3/2} sobre un campo medio esférico). La
+preinscripción se congeló antes de generar ninguna condición inicial
+(`72c534dc1c09`, commit con el generador), con pilotos de desarrollo
+declarados que fijaron el instrumento y ningún umbral. Seis brazos: a
+(newtoniano, tres semillas), b (Cronos completo, tres semillas),
+b_static (campo congelado, única corrida Cronos con energía conservada
+por construcción: |ΔE/E| = 2.6×10⁻⁴, puerta superada), b_res (control
+de convergencia del campo, k_inner = 128), c (cierre cosmológico, que
+la regla exigía parar en t = 0 y paró: ε_c,max = 3.5 — la exclusión de
+§3.18 queda registrada dinámicamente) y c′ (10·A_Sculptor, control de
+respuesta). Las puertas de energía (brazo a, ≤ 1.4×10⁻⁴), equilibrio
+(0.019 dex en [1, 10] kpc) y régimen débil (ε_c ≤ 8×10⁻⁷ en todas las
+comprobaciones de b) se superaron.
+
+**Desenlace INDETERMINADO por la letra de la regla**. El control c′
+debía desplazar ρ en [0.4, 1) kpc al menos 0.10 dex «a 0.5 Gyr»; la
+regla de parada, igualmente congelada (v_well = √(2c²ε_c) > 1000 km/s:
+el modelo ha abandonado cualquier régimen de enana), lo detuvo en 0.055
+Gyr, y en ese instante esa banda había cambiado +0.05 dex. Dos reglas
+congeladas colisionaron; el resultado se retiene entero y ningún umbral
+se toca. Lo que c′ sí muestra, publicado sin veredicto, es que la
+implementación responde a 10·A_Sculptor donde la regla no miraba:
+M(<0.4 kpc) ×7.1, v_well 306 → 1000 km/s y ε_c(ε_soft) ×11 en 55 Myr.
+
+**Números descriptivos** (sin veredicto; E13: el signo no es señal).
+En 2 Gyr, log10(ρ_b/ρ_a) = −0.28 dex en [0.4, 1) kpc (−0.39, −0.01,
+−0.45 por semilla), −0.10 en [1, 2.3) kpc y ~0 fuera de 2.3 kpc; el
+cociente M_b/M_a dentro de 0.4 kpc pasa por 1.0 → 4.3 (0.25 Gyr) →
+0.68 (0.5 Gyr) → 1.08 (2 Gyr) en media de semillas, con una semilla
+que apenas se mueve (×1.3) y dos que se contraen ×3–×8 y luego vacían
+el interior. Lo único robusto en todos los brazos Cronos es la
+**contracción inicial** del interior en los primeros 0.25 Gyr (×8.4,
+×1.3, ×3.3 por semilla; ×2.6 con k_inner = 128; ×2.2 con el campo
+congelado; ×7.1 a 10·A_S en 55 Myr): la dirección coincide con la
+expectativa declarada en la preinscripción (D_F > 1 dentro de 0.9 kpc),
+la amplitud dispersa ×1.3–×8 entre semillas y resoluciones. **No está
+convergido**: el control b_res difiere de b en +0.83 dex en M(<0.4 kpc)
+a 2 Gyr (umbral 0.15), y las corridas con campo dinámico ganan energía
+(+1.7 %, +0.5 %, +1.4 %; b_res +0.25 %) que no es la energía potencial
+de Cronos (U_Cronos ~ 3×10⁻³ de E). La sospecha, declarada como
+hipótesis para la ronda siguiente y no como resultado, es trabajo del
+campo medio retardado (τ_avg = 50 Myr frente a t_dyn ≲ 10 Myr dentro
+de 0.4 kpc): un potencial que llega tarde a un colapso bombea energía y
+el vaciado posterior coincide con la ganancia. El ajuste de forma en
+[0.5, 5] kpc no es C: la media de b prefiere cored por 0.02 dex (< 0.05)
+y a prefiere NFW.
+
+Dos correcciones de código se declaran tras la primera pasada del
+análisis, sin efecto sobre umbrales ni desenlace: el retorno temprano
+del brazo c no escribía la lista de eventos (c se re-ejecutó,
+determinista, en 3 s) y la máscara de bandas daba −inf con un bin
+vacío en una semilla. **Lo que la ronda siguiente necesita** (decisión
+del autor, con preinscripción nueva): criterio de c′ compatible con la
+regla de parada; campo sin retardo o con τ_avg ≤ t_dyn interior; serie
+de convergencia k_inner 64/128/256 como puerta; zoom del interior (N ≥
+10⁶ o multimasa); y el trabajo del campo publicado para separar la
+física del retardo. **Estatuto**: experimento numérico interno (E8)
+preinscrito y ejecutado, INDETERMINADO — ni núcleo ni contracción
+convergida; ninguna predicción del modelo operativo para el interior de
+las enanas sale de esta ronda
+(`results/2026-09-17_cronos_halo_nivelA/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
@@ -740,7 +808,9 @@ implementada). **Estatuto**: cálculo de consistencia interna (E8)
   condicional).
 - El núcleo cored, los cinco órdenes de H.2.5 y las validaciones SPARC
   del corpus siguen **pendientes de producción** (frente 5); el medio
-  paso del 2-ago es indeterminado por resolución, no cúspide observada.
+  paso del 2-ago es indeterminado por resolución, no cúspide observada,
+  y el Nivel A del 17/18-sep es INDETERMINADO (§3.19): ni núcleo ni
+  contracción convergida del interior.
 - La cola k² del canal Cronos **no es una predicción con amplitud
   observable**: con la amplitud única A_Sculptor, µ − 1 ~ 10⁻¹² (§3.18).
   Las identidades de forma (η = 1/µ, µ − 1 = 2(Σ − 1)) siguen exactas.
@@ -753,10 +823,12 @@ implementada). **Estatuto**: cálculo de consistencia interna (E8)
 
 1. Derivar W_max desde la microdinámica del reinicio (frente 4) — decide
    el círculo; valor esperado 1.652×10⁻⁴.
-2. Núcleo cored en cajas de producción (frente 5) — primer paso: el
-   Nivel A (halo aislado de 10¹¹ M☉ con y sin Cronos v3 a A_Sculptor,
-   preinscrito; expectativa declarada: sin núcleo kpc, interior ≤ 0.4 kpc
-   indeterminado por resolución salvo zoom).
+2. Núcleo cored en cajas de producción (frente 5) — el Nivel A (halo
+   aislado de 10¹¹ M☉ con y sin Cronos v3 a A_Sculptor) se ejecutó con
+   desenlace INDETERMINADO (§3.19); la ronda siguiente exige
+   preinscripción nueva con criterio de c′ compatible con la regla de
+   parada, campo sin retardo y serie de convergencia del campo como
+   puerta.
 2b. El orquestador del reloj S (`core/s_clock.py`) como simulador de
    consistencia; y los frentes con nombre de §3.18: diccionario
    primordial → cosmológico, mapa S(z), c ≡ v_LR.
@@ -808,6 +880,10 @@ python scripts/run_atlas_ppn.py        # §3.15 adenda E4 (PPN + cierre E3b)
 python scripts/run_atlas_gauge_prereg.py # §3.15 adenda E5 (preinscripción)
 python scripts/run_atlas_gauge.py      # §3.15 adenda E5 (invariantes de gauge)
 python scripts/run_cronos_amplitude_validity.py  # §3.18 amplitud única de Cronos
+pip install -e ".[nbody]"                                 # §3.19 (pytreegrav + numba)
+python scripts/run_cronos_halo_prereg.py                  # §3.19 preinscripción (no genera ICs)
+python scripts/run_cronos_halo_nivelA.py run              # §3.19 diez corridas (~14 h, 4 núcleos)
+python scripts/run_cronos_halo_nivelA.py analyze          # §3.19 regla congelada
 ```
 
 Desenlaces versionados: `results/2026-07-31_production_fit/`,
