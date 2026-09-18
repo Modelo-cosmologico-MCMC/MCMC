@@ -6,6 +6,59 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Nivel A del frente 5 (17/18-sep): halo aislado NFW de 10¹¹ M☉ con y
+  sin Cronos v3 a A_Sculptor — desenlace INDETERMINADO; lo único robusto
+  es una contracción inicial del interior de amplitud no convergida**.
+  Preinscripción congelada ANTES de generar ninguna condición inicial
+  (`72c534dc1c09`, en un commit que contiene su generador), con pilotos
+  de desarrollo declarados (N ≤ 5e4 y cortes de 0.1 Gyr a N = 4e5 que
+  fijaron el estimador del campo y Δt_min, ningún umbral). Maquinaria
+  nueva (`cronos/halo_nbody.py`): condiciones iniciales de Eddington
+  para un NFW truncado, campo medio esférico de Cronos con promedio
+  temporal, los tres términos del Cor. 11.3 (fuerza +c²∇ε_c, fricción
+  con compuerta, lapso), árbol Barnes–Hut (pytreegrav, extra `nbody`),
+  pasos individuales y reglas de parada. Seis brazos, diez corridas
+  (~14 h de pared): a (newtoniano ×3, 2 Gyr), b (Cronos completo ×3, 2
+  Gyr), b_static (campo congelado: |ΔE/E| = 2.6e-4, puerta superada),
+  b_res (k_inner = 128), c (cierre cosmológico: parado en t = 0 con
+  ε_c,max = 3.5, como la regla exigía — la exclusión del 17-sep queda
+  registrada dinámicamente) y c′ (10·A_Sculptor). Puertas superadas:
+  energía de a (≤ 1.4e-4), equilibrio de a (0.019 dex), régimen débil en
+  b (ε_c ≤ 8e-7). **INDETERMINADO por la letra de la regla**: c′ debía
+  desplazar ρ en [0.4, 1) kpc ≥ 0.10 dex a 0.5 Gyr, pero la regla de
+  parada (v_well > 1000 km/s, también congelada) lo detuvo en 0.055
+  Gyr, cuando esa banda había cambiado +0.05 dex — dos reglas
+  congeladas colisionaron y el resultado se retiene entero, sin tocar
+  umbrales. c′ sí responde donde la regla no miraba: M(<0.4 kpc) ×7.1,
+  v_well 306 → 1000 km/s, ε_c(ε_soft) ×11 en 55 Myr. Números
+  descriptivos de b frente a a en 2 Gyr (publicados, sin veredicto):
+  log10(ρ_b/ρ_a) = −0.28 dex en [0.4, 1) kpc (−0.39, −0.01, −0.45 por
+  semilla), −0.10 en [1, 2.3), ~0 fuera de 2.3 kpc; M_b/M_a(<0.4 kpc)
+  1.0 → 4.3 (0.25 Gyr) → 0.68 → 1.08 (2 Gyr). Robusto en todos los
+  brazos Cronos: contracción del interior en los primeros 0.25 Gyr
+  (×8.4, ×1.3, ×3.3 por semilla; ×2.6 con k_inner = 128; ×2.2 con el
+  campo congelado; ×7.1 a 10·A_S) — dirección conforme a la expectativa
+  E13 declarada, amplitud dispersa ×1.3–×8. NO convergido: b_res difiere
+  de b en +0.83 dex en M(<0.4 kpc) (umbral 0.15) y las corridas con
+  campo dinámico ganan energía (+1.7 %, +0.5 %, +1.4 %; b_res +0.25 %)
+  que no es U_Cronos (~3e-3 de E): sospecha de trabajo del campo medio
+  retardado (τ_avg = 50 Myr frente a t_dyn ≲ 10 Myr dentro de 0.4 kpc),
+  declarada como hipótesis para la ronda siguiente. Ajuste de forma: la
+  media de b prefiere cored por 0.02 dex (< 0.05: no es C); a prefiere
+  NFW. Dos correcciones de código declaradas tras la primera pasada del
+  análisis, sin efecto sobre umbrales ni desenlace: el retorno temprano
+  del brazo c no escribía la lista de eventos (c se re-ejecutó, 3 s,
+  determinista) y la máscara de bandas daba −inf con un bin vacío en
+  una semilla (ahora cada par se promedia sobre sus bins poblados y se
+  publica el número de bins vacíos). El primer lanzamiento murió con un
+  reinicio del contenedor antes de escribir ninguna corrida y se
+  relanzó entero. Fila nueva `nivel-a-halo-aislado` (interno,
+  INDETERMINADO); revisadas `cronos-v3`, `perfil-compuerta` (el núcleo
+  kpc sigue sin veredicto) y `contenido-materia-lectura-operativa`.
+  Nota I §3.19. Registro: 53 claims. Lo que NO afirma: ni núcleo ni
+  contracción convergida; ninguna predicción del modelo operativo para
+  el interior de las enanas sale de esta ronda.
+
 - **Ronda de registro del 17-sep: la amplitud de Cronos es UNA
   (A_Sculptor) y cuatro huecos reciben nombre**. Hallazgo de
   consistencia del autor (sesión de verificación), reproducido en el
