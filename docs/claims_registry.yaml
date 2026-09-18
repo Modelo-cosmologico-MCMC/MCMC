@@ -322,13 +322,18 @@ claims:
   - claim_id: cronos-v3
     entity: Cronos v3
     law: "Cap. 11"
-    derivation: implementado; producción abierta (frente 5)
+    derivation: >-
+      implementado; producción abierta (frente 5). Amplitud operativa
+      fijada el 17-sep (fila cronos-amplitud-unica): A = A_Sculptor;
+      el Nivel A (halo aislado con y sin Cronos, preinscripción propia)
+      corre con ella y con el cierre cosmológico solo como control de
+      exclusión.
     implementation: cronos/cronos_v3.py
     test: tests/test_cronos_v3.py
     observable: "—"
     dataset: "—"
     falsifier: incapacidad de reproducir la compuerta declarada
-    evidence_level: implementado; producción abierta (frente 5)
+    evidence_level: implementado; producción abierta (frente 5); amplitud única declarada
     status: condicional
     artifact: "—"
 
@@ -348,13 +353,22 @@ claims:
   - claim_id: perfil-compuerta
     entity: Perfil y compuerta
     law: "H.2.5 (frente 5)"
-    derivation: compuerta reproducida; núcleo en producción
+    derivation: >-
+      compuerta reproducida (Γ cae ~5 órdenes al virializar); núcleo
+      INDETERMINADO POR RESOLUCIÓN en el medio paso del 2-ago (4096
+      partículas, malla 32³, α₀⁻¹ = 1e-6 con ρ_c = 200): los radios de
+      escala ajustados caen bajo la celda y el contraste del núcleo
+      (r < celda) es inaccesible; la comparación fue solo entre
+      pendientes externas. No es «cúspide observada». Además ese medio
+      paso usó el cierre cosmológico, excluido el 17-sep (fila
+      cronos-amplitud-unica): el veredicto del núcleo es del Nivel A con
+      A_Sculptor.
     implementation: cronos/profile_fit.py
     test: tests/test_profile_fit.py
     observable: perfil ρ(r) de halos
     dataset: "—"
     falsifier: núcleo de producción incompatible con la compuerta
-    evidence_level: compuerta reproducida; núcleo en producción
+    evidence_level: compuerta reproducida; núcleo indeterminado por resolución (no producción; cierre superado)
     status: condicional
     artifact: results/2026-08-02_profile_shape
 
@@ -392,7 +406,9 @@ claims:
       Sculptor, regla de decisión ejecutable) y candado anti-tuning
       activo; SIN VEREDICTO: los bytes oficiales de SPARC/Walker no
       están ingeridos (fallo cerrado, sin mirrors). No es un resultado
-      negativo: el experimento no se ha ejecutado.
+      negativo: el experimento no se ha ejecutado. Desde el 17-sep
+      A_Sculptor es además la ÚNICA amplitud del modelo operativo (fila
+      cronos-amplitud-unica): la reutilizan el Nivel A y el sector µ/η.
     implementation: dynamics/sparc_crossfalsification.py
     test: tests/test_front5e_lock.py
     observable: Δχ² por galaxia (bariones vs bariones + Cronos)
@@ -489,13 +505,18 @@ claims:
   - claim_id: canales-oscuros
     entity: Canales oscuros
     law: "Ap. A.1"
-    derivation: esquema de dos canales implementado
+    derivation: >-
+      esquema de dos canales implementado sobre un fondo con ρ_cdm
+      (Ω_cdm,0 = 0.2511 por defecto): lectura operativa ΛCDM + canales +
+      Cronos (fila contenido-materia-lectura-operativa). El mapa S(z) que
+      construye los escalones f_id es la convención LEGACY_V32 con
+      S_today = 95 (fila mapa-s-z-convencion).
     implementation: cosmology/dark_channels.py
     test: tests/test_dark_channels.py
     observable: "—"
     dataset: "—"
     falsifier: "—"
-    evidence_level: esquema de dos canales
+    evidence_level: esquema de dos canales; parámetros de los canales calibrados (F.3), sin diccionario desde el potencial (fila diccionario-primordial-cosmologico)
     status: interno
     artifact: "—"
 
@@ -668,20 +689,30 @@ claims:
       α₀⁻¹ ≪ 1e-6. La columna z = 3 de la nota de teoría estaba
       sobreestimada ×3–4. Canal Atlas: DERIVADO-NULO al orden dominante (fila
       mu-eta-atlas): la cola k² de Cronos es la ÚNICA firma
-      sub-horizonte de (µ, η).
-    implementation: cosmology/mu_eta_cronos.py + cosmology/extended_likelihoods.py
-    test: tests/test_mu_eta_cronos.py + tests/test_mu_eta_lock.py
-    observable: µ(k,z), η(k,z), Σ(k,z) → fσ8(k,z), P(k), C_L^φφ — predichos, no contrastados
+      sub-horizonte de (µ, η). CIERRE SUPERADO (17-sep, fila
+      cronos-amplitud-unica): el cierre comoving ρ_c = 200·ρ̄_m con el
+      que E1 se computó da A ≈ 41.5, 6.7e7 veces la amplitud galáctica
+      congelada en 5E, y viola la subdominancia c²ε_c ≲ |Φ_N| en todo un
+      halo NFW de 1e11 M☉ — queda excluido dinámicamente. Las identidades
+      de E1 siguen exactas para el cierre que declaran (el artefacto no se
+      retoca), pero la amplitud de la cola k² no es un límite superior
+      admisible: con A_Sculptor, ε̄_c(hoy) = 5.3e-18 y µ − 1 = 5.8e-12 en
+      k = 0.2 h/Mpc, z = 0 (7.5e-10 en z = 3). La cola k² muere por
+      consistencia interna; la cota k² sobre full-shape sale de la hoja
+      de ruta (sin poder y sin amplitud).
+    implementation: cosmology/mu_eta_cronos.py + cosmology/extended_likelihoods.py + dynamics/cronos_amplitude_validity.py
+    test: tests/test_mu_eta_cronos.py + tests/test_mu_eta_lock.py + tests/test_cronos_amplitude_validity.py
+    observable: µ(k,z), η(k,z), Σ(k,z) → fσ8(k,z), P(k), C_L^φφ — identidades de forma; amplitud ~1e-12 con la amplitud única del modelo, inobservable
     dataset: "— (predicción sin datos; PROHIBIDO elegir µ, η desde los datos de lensing)"
     falsifier: >-
       firma cerrada sin parámetros adicionales — µ − 1 = 2(Σ − 1), η < 1,
-      cola k², amplitud ∝ α₀⁻¹ acotada por dinámica de halos: un
-      contraste conjunto RSD+lensing que exigiera µ − 1 ≠ 2(Σ − 1) o
-      Σ > µ refutaría el canal Cronos como origen; Atlas queda falsable
-      vía el mismo ε_K que BBN cuando el frente 3 cierre los coeficientes
-    evidence_level: derivación interna con cierres declarados (E8); predicción sin contraste — no detección; amplitud = límite superior; colas de Atlas pendientes (frente 3)
+      cola k² — pero con amplitud ~1e-12 a la A única del modelo: ningún
+      contraste RSD+lensing previsto la alcanza; una medida de µ − 1 ≠ 0
+      escala-dependiente a gran escala NO podría atribuirse al canal
+      Cronos con A_Sculptor. Atlas queda falsable vía el mismo ε_K que BBN
+    evidence_level: derivación interna con cierres declarados (E8); identidades exactas; el cierre de amplitud usado en E1 está excluido (17-sep) y la amplitud consistente es ~1e-12 — sin predicción distintiva observable
     status: condicional
-    artifact: results/2026-09-13_mu_eta_cronos
+    artifact: results/2026-09-13_mu_eta_cronos + results/2026-09-17_cronos_amplitude_validity
 
   - claim_id: mu-eta-atlas
     entity: Canal Atlas de µ/η derivado desde la Acción de Gea (frente 3)
@@ -891,3 +922,131 @@ claims:
     evidence_level: derivación interna (E8) bajo preinscripción con control externo declarado — teorema fijado (η_N ≡ 1) y cola de µ_Δ acotada; E5a = B por la forma cerrada, E5b = A; no demostración física
     status: interno
     artifact: results/2026-09-15_mu_eta_atlas_gauge
+
+  - claim_id: cronos-amplitud-unica
+    entity: La amplitud de Cronos es una — A_Sculptor; el cierre cosmológico ρ_c = 200·ρ̄_m queda excluido (ronda de registro, 17-sep-2026)
+    law: "Def. 11.1 + Cor. 11.3c (subdominancia c²ε_c ≲ |Φ_N|, lectura (P) de la ec. 11.5); ε_c = A·ρ^(3/2) con A ≡ α₀⁻¹/ρ_c^(3/2)"
+    derivation: >-
+      cálculo de consistencia (E8), sin desenlaces preinscritos, que
+      reproduce en el repo el del autor (sesión de verificación del
+      17-sep). Los dos cierres que el repositorio llevaba — galáctico
+      A_Sculptor = 6.2e-7 (M☉/pc³)^(-3/2), congelado en 5E, y cosmológico
+      ρ_c = 200·ρ̄_m con α₀⁻¹ = 1e-6 (A ≈ 41.5, elección de la nota de
+      teoría del 13-sep) — difieren en 6.7e7 (ρ_c galáctica equivalente
+      1.375 M☉/pc³ = 3.3e7·ρ̄_m). En un halo NFW de 1e11 M☉ (c = 10) el
+      cosmológico da D = c²ε_c/|Φ_N| = 5.4 en r200, 1e4 en r_s y 3e5 en
+      2.3 kpc — excluido dinámicamente; en la parte externa con ε_c ≪ 1
+      (falla la subdominancia, no el régimen débil) y por debajo de ~r_s
+      rompiendo también el régimen débil (ε_c = 2.2 en 0.38 kpc). El
+      galáctico cumple la subdominancia EN POTENCIAL en r ≥ 0.1 kpc
+      (D_Φ = 0.77 en 0.1 kpc, 4e-3 en 2.3 kpc) y coincide con A_max =
+      1.3·A_Sculptor; en un enano de 1e10 M☉ (c = 13, suavizado 50 pc)
+      la rompe por debajo de 0.14 kpc. CORRECCIÓN de la sesión de código
+      (piloto del Nivel A): la subdominancia en potencial NO es
+      subdominancia en fuerza — en una cúspide NFW D_F = |c²dε_c/dr|/g_N
+      vale (3/2)|dlnρ/dlnr|·|Φ_N|r/(GM(<r)) veces D_Φ (factor 20–600);
+      con A_Sculptor D_F = 0.73 en 1 kpc, 7.4 en 0.4 kpc, 230 en 0.1 kpc
+      y D_F = 1 en r ≈ 0.9 kpc: el término +c²∇ε_c DOMINA la gravedad
+      dentro de ~0.9 kpc del halo de 1e11 M☉. Coherente con el origen de
+      A_Sculptor (5A/5B: Cronos sustituye a la materia oscura en Sculptor
+      con bariones solos, F_Cronos ≈ 7·g_bar). El régimen débil (ε_c ≤
+      3e-7) sí se cumple. Consecuencia para µ/η: con A_Sculptor,
+      ε̄_c(hoy) = 5.3e-18 y µ − 1 = 5.8e-12 (k = 0.2 h/Mpc, z = 0).
+    implementation: dynamics/cronos_amplitude_validity.py + scripts/run_cronos_amplitude_validity.py
+    test: tests/test_cronos_amplitude_validity.py
+    observable: "—"
+    dataset: "—"
+    falsifier: una derivación del tratado que fijara ρ_c de forma independiente y compatible con 200·ρ̄_m dentro de halos refutaría la exclusión; una A_Sculptor revisada por 5E con datos oficiales desplazaría la amplitud única
+    evidence_level: cálculo de consistencia interna (E8) con control externo del autor reproducido; no demostración física
+    status: interno
+    artifact: results/2026-09-17_cronos_amplitude_validity
+
+  - claim_id: c-lieb-robinson-identificacion
+    entity: Identificación c_eff ≡ v_LR (Cota de Delivery, S_0.099) — afirmación sin derivación en el repo
+    law: "Cap. 5 (flujo logístico 5.3 con β_c(S_0.099) = 0; c_eff = |du/dS|_max identificada con la velocidad de Lieb–Robinson)"
+    derivation: >-
+      NO DERIVADA: el tratado identifica c_eff con la velocidad de
+      Lieb–Robinson del sustrato, pero no hay módulo que integre (5.3) ni
+      que derive β_c de la cadena de Clifford discretizada. Hasta esta
+      ronda la identificación no tenía fila (hueco no declarado). Para el
+      simulador de consistencia (s_clock) basta integrar (5.3) con β_c
+      impuesto; la derivación de β_c desde el sustrato es trabajo de
+      teoría.
+    implementation: "—"
+    test: "—"
+    observable: "—"
+    dataset: "—"
+    falsifier: una v_LR calculada sobre la cadena discretizada distinta de la c_eff del flujo (5.3) refutaría la identificación
+    evidence_level: afirmación del tratado sin derivación ni implementación; declarado
+    status: claim-no-derivado
+    artifact: "—"
+
+  - claim_id: mapa-s-z-convencion
+    entity: Mapa S ↔ t_rel ↔ a ↔ z — convención operativa (α = 1, S_today = 95), no derivación de A.7
+    law: "Ap. A.7 (d ln a/dS = C(S), dt_rel/dS = T(S)·N(S), N = e^{Φ_ten}); Ley de Cronos de fondo"
+    derivation: >-
+      mcmc_ontology/S_map.py usa t_rel = C·(S − S_birth)^α con α = 1 y
+      cosmology/dark_channels.S_of_z invierte a(S) con S_today = 95
+      (LEGACY_V32; el propio código declara: «la forma exacta v35 requiere
+      integrar C(S)»). C(S) y T(S) NO están derivadas de la Ley de Cronos
+      de fondo y el tratado no las fija: la mitad pre-geométrica y la
+      cosmológica comparten el símbolo S pero no una función. Depende del
+      diccionario primordial → cosmológico (fila
+      diccionario-primordial-cosmologico).
+    implementation: mcmc_ontology/S_map.py + cosmology/dark_channels.py
+    test: tests/test_dark_channels.py
+    observable: "— (fija los escalones f_id(S) de los canales por convención)"
+    dataset: "—"
+    falsifier: una C(S) derivada que desplace los umbrales post-Florencia fuera de los escalones calibrados obligaría a recalibrar los canales
+    evidence_level: convención declarada en el código, calibrada (F.3); sin derivación
+    status: calibrado
+    artifact: "—"
+
+  - claim_id: diccionario-primordial-cosmologico
+    entity: Diccionario primordial → cosmológico — frente con nombre propio (hueco declarado)
+    law: "Ap. A.1 («ρ_id y ρ_lat nacen del potencial V(Φ_Ad; S)»), §9.5 (Λ_ten(Φ_ten) desde V₀), F.3 (parámetros calibrados)"
+    derivation: >-
+      NO EXISTE fórmula que lleve el estado inicial entregado por el
+      tramo pre-geométrico (δ₀, m̄, b̄, C₀, ē, fracción descargada f,
+      Φ_ten(S_1.001)) a los parámetros cosmológicos (Ω_id,0, ε_Λ,
+      z_trans, α_n, κ_lat, η_lat) ni Λ_ten(Φ_ten) desde V₀. Esos
+      parámetros son calibrados (F.3). Es el eslabón que separa «un
+      conjunto de módulos verificados» de «una simulación del modelo»:
+      sin él, el reloj S termina en S = 1.001 con un estado que la
+      cosmología no puede leer. Nadie lo ha empezado; se nombra aquí
+      para que v36 lo declare como frente.
+    implementation: "—"
+    test: "—"
+    observable: "—"
+    dataset: "—"
+    falsifier: "— (no hay afirmación contrastable hasta que exista la fórmula)"
+    evidence_level: hueco declarado — ni derivación ni implementación
+    status: hueco-declarado
+    artifact: "—"
+
+  - claim_id: contenido-materia-lectura-operativa
+    entity: Contenido de materia — lectura operativa ΛCDM + canales + Cronos; la lectura fuerte (sin CDM) es hipótesis distinta, no implementada
+    law: "Ap. A.2 y B.2 (ρ_cdm y ρ̄_m δ_m presentes) frente a epílogo, E.13 y 14.5 («materia oscura efectiva, sin partículas nuevas»)"
+    derivation: >-
+      el repositorio es operativamente ΛCDM + canales + Cronos:
+      cosmology/background.py incluye ρ_cdm, cosmology/dark_channels.py
+      lleva Ω_cdm,0 = 0.2511 por defecto y los ajustes usan Ω_m ≈ 0.33 con
+      CDM. La lectura fuerte del corpus (materia oscura como fenómeno
+      dinámico del tiempo, sin CDM) es una hipótesis distinta, no
+      implementada en el fondo ni en el N-cuerpos; su única pieza
+      ejecutada es 5A/5B (Sculptor con bariones solos, donde A_Sculptor
+      se calibró para que Cronos sustituya a la materia oscura) y su
+      contraste (5E, SPARC) no se ha ejecutado. Sumar esa misma
+      A_Sculptor a un halo CDM (lectura operativa) hace que la fuerza de
+      Cronos domine la gravedad dentro de ~0.9 kpc de un halo de 1e11 M☉
+      (fila cronos-amplitud-unica): las dos lecturas no pueden convivir
+      sin decirlo; esta fila fija la operativa y declara la fuerte como
+      frente. El Nivel A mide la consecuencia de la operativa.
+    implementation: cosmology/background.py + cosmology/dark_channels.py
+    test: tests/test_dark_channels.py
+    observable: "— (fija qué predice el modelo operativo: enanas ΛCDM + corrección Cronos de amplitud A_Sculptor)"
+    dataset: "—"
+    falsifier: un ajuste del fondo o de halos que exigiera Ω_cdm → 0 con Cronos a A_Sculptor refutaría la lectura operativa a favor de la fuerte; hoy no hay tal ajuste. El Nivel A (halo CDM + Cronos a A_Sculptor) puede refutar la operativa si el interior colapsa de forma incompatible con las enanas observadas
+    evidence_level: declaración de estatuto; la lectura fuerte no tiene módulo ni artefacto
+    status: condicional
+    artifact: "—"

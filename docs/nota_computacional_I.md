@@ -678,6 +678,56 @@ modelada; α_a = 0.
 **Estatuto**: contraste interno bajo preinscripción (E8) sobre valores
 transcritos — no demostración física (`results/2026-09-14_bbn_g/`).
 
+### 3.18 La amplitud de Cronos es una: el cierre cosmológico queda excluido dentro de los halos y la cola k² muere por consistencia (17-sep-2026)
+
+Los parámetros (α₀⁻¹, ρ_c) de la Ley de Cronos débil (Def. 11.1) entran
+en toda la dinámica solo por la amplitud A ≡ α₀⁻¹/ρ_c^(3/2), con
+ε_c = A·ρ^(3/2) (§3.8, `dynamics/weak_field.py`). El repositorio llevaba,
+sin decirlo, dos cierres incompatibles: el galáctico, A_Sculptor =
+6.2×10⁻⁷ (M☉/pc³)^(−3/2), obtenido del problema inverso en Sculptor y
+congelado en la preinscripción 5E (§3.8), y el cosmológico, ρ_c =
+200·ρ̄_m con α₀⁻¹ = 10⁻⁶ (A ≈ 41.5), elegido en la nota de teoría del
+13-sep e implementado en §3.14. Difieren en 6.7×10⁷. La condición de la
+que nace la cota (11.5) es la subdominancia punto a punto c²ε_c ≲ |Φ_N|
+(lectura (P), Cor. 11.3c), y el cociente D ≡ c²ε_c/|Φ_N| decide: dentro
+de un halo NFW de 10¹¹ M☉ (c = 10) el cierre cosmológico da D = 5.4 en
+r₂₀₀, 10⁴ en r_s y 3×10⁵ en 2.3 kpc — **excluido dinámicamente**; en la
+parte externa con ε_c ≪ 1 (falla la subdominancia, no el régimen débil),
+y por debajo de ~r_s rompiendo también el régimen débil (ε_c = 2.2 en
+0.38 kpc). El galáctico cumple la subdominancia en r ≥ 0.1 kpc (D = 0.77
+en 0.1 kpc, 4×10⁻³ en 2.3 kpc) y coincide con la amplitud máxima
+subdominante en potencial de ese halo (A_max = 1.3·A_Sculptor). Pero la
+subdominancia en potencial no es subdominancia en fuerza: en una
+cúspide NFW el cociente dinámico D_F = |c²dε_c/dr|/g_N vale
+(3/2)|dlnρ/dlnr|·|Φ_N|r/(GM(<r)) veces D_Φ — un factor 20–600, porque
+|Φ_N| es finito en el centro mientras GM(<r)/r → 0 — y con A_Sculptor
+D_F = 0.73 en 1 kpc, 7.4 en 0.4 kpc y 230 en 0.1 kpc: el término
++c²∇ε_c domina la gravedad dentro de ~0.9 kpc del halo de 10¹¹ M☉
+(hallazgo de la sesión de código al pilotar el Nivel A). Es coherente con
+el origen de A_Sculptor: en 5A/5B se calibró para que Cronos sustituya a
+la materia oscura en Sculptor con bariones solos, así que sumada a un
+halo CDM domina su centro. En un halo enano de 10¹⁰ M☉ (c = 13,
+suavizado 50 pc) también la subdominancia en potencial se rompe por
+debajo de 0.14 kpc. El cálculo de partida es del autor (sesión de
+verificación del 17-sep) y se reproduce en el repo de forma independiente
+(`dynamics/cronos_amplitude_validity.py`), sin desenlaces preinscritos:
+es consistencia, no experimento. **Consecuencias**: la amplitud del
+modelo operativo es una y es A_Sculptor, reutilizada entre frentes; el
+sector µ/η del canal Cronos (§3.14, E1) se computó con el cierre excluido
+— sus identidades siguen exactas para el cierre que declaran y el
+artefacto no se retoca —, pero con A_Sculptor ε̄_c(hoy) = 5.3×10⁻¹⁸ y
+µ − 1 = 5.8×10⁻¹² en k = 0.2 h/Mpc, z = 0: la cola k² muere por
+consistencia interna, no solo por falta de sensibilidad, y la cota k²
+sobre full-shape sale de la hoja de ruta. En la misma ronda el registro
+recibe cuatro filas que nombran huecos: c ≡ v_LR (claim no derivado, sin
+fila hasta hoy), el mapa S(z) (convención S_today = 95, α = 1), el
+diccionario primordial → cosmológico (hueco declarado: nadie ha empezado
+la fórmula que lleva el estado en S = 1.001 a los parámetros
+cosmológicos) y la lectura operativa del contenido de materia (ΛCDM +
+canales + Cronos; la lectura fuerte sin CDM es hipótesis distinta, no
+implementada). **Estatuto**: cálculo de consistencia interna (E8)
+(`results/2026-09-17_cronos_amplitude_validity/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
@@ -689,7 +739,11 @@ transcritos — no demostración física (`results/2026-09-14_bbn_g/`).
   no lo cierra: el valor de β₃ con (M₀², B, C₀) sellados sigue
   condicional).
 - El núcleo cored, los cinco órdenes de H.2.5 y las validaciones SPARC
-  del corpus siguen **pendientes de producción** (frente 5).
+  del corpus siguen **pendientes de producción** (frente 5); el medio
+  paso del 2-ago es indeterminado por resolución, no cúspide observada.
+- La cola k² del canal Cronos **no es una predicción con amplitud
+  observable**: con la amplitud única A_Sculptor, µ − 1 ~ 10⁻¹² (§3.18).
+  Las identidades de forma (η = 1/µ, µ − 1 = 2(Σ − 1)) siguen exactas.
 - λ = 10 sigue calibrado (frente 2 — las β canónicas de Fokker-Planck
   dan cascada DSI en el régimen físico δ0 < 0.496 pero s0 depende del
   diccionario τ, no derivable); el signo de ν, condicional (frente
@@ -699,7 +753,13 @@ transcritos — no demostración física (`results/2026-09-14_bbn_g/`).
 
 1. Derivar W_max desde la microdinámica del reinicio (frente 4) — decide
    el círculo; valor esperado 1.652×10⁻⁴.
-2. Núcleo cored en cajas de producción (frente 5).
+2. Núcleo cored en cajas de producción (frente 5) — primer paso: el
+   Nivel A (halo aislado de 10¹¹ M☉ con y sin Cronos v3 a A_Sculptor,
+   preinscrito; expectativa declarada: sin núcleo kpc, interior ≤ 0.4 kpc
+   indeterminado por resolución salvo zoom).
+2b. El orquestador del reloj S (`core/s_clock.py`) como simulador de
+   consistencia; y los frentes con nombre de §3.18: diccionario
+   primordial → cosmológico, mapa S(z), c ≡ v_LR.
 3. Residuos al 1–2 % de precisión futura (la consistencia superada se
    volvería decisiva).
 4. Los medios pasos de los frentes E y F quedaron ejecutados el mismo
@@ -747,6 +807,7 @@ python scripts/run_atlas_ppn_prereg.py # §3.15 adenda E4 (preinscripción)
 python scripts/run_atlas_ppn.py        # §3.15 adenda E4 (PPN + cierre E3b)
 python scripts/run_atlas_gauge_prereg.py # §3.15 adenda E5 (preinscripción)
 python scripts/run_atlas_gauge.py      # §3.15 adenda E5 (invariantes de gauge)
+python scripts/run_cronos_amplitude_validity.py  # §3.18 amplitud única de Cronos
 ```
 
 Desenlaces versionados: `results/2026-07-31_production_fit/`,

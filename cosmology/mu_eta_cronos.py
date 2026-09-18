@@ -17,6 +17,18 @@ OBJETOS DEL TRATADO (v35) que se usan tal cual:
   Gea en campo débil (9.3):    ∇²Φ_N = 4πG_N a² ρ̄ δ   (Poisson estándar)
   Cota (11.5):                 α₀⁻¹ ≲ 1e-6 (cronos.cronos_v3.ALPHA0_INV_MAX)
 
+RONDA DE REGISTRO 17-sep-2026 — la amplitud es una. (α₀⁻¹, ρ_c) entran en
+toda la dinámica solo por A = α₀⁻¹/ρ_c^{3/2}. El cierre 2 de este módulo
+(ρ_c = 200·ρ̄_m, A ≈ 41.5) y el galáctico congelado en 5E (A_Sculptor =
+6.2e-7) difieren en 6.7e7, y el cosmológico viola la subdominancia
+c²ε_c ≲ |Φ_N| de la que nace (11.5) en todo un halo NFW de 1e11 M☉
+(results/2026-09-17_cronos_amplitude_validity): queda EXCLUIDO. El
+artefacto E1 (results/2026-09-13_mu_eta_cronos) es exacto para el cierre
+que declara, pero ese cierre ya no es admisible; con A_Sculptor,
+ε̄_c(hoy) = 5.3e-18 y µ − 1 = 5.8e-12 en k = 0.2 h/Mpc, z = 0: la cola k²
+del canal Cronos no tiene amplitud observable por consistencia interna
+(no solo por falta de sensibilidad). La cota k² sale de la hoja de ruta.
+
 DERIVACIÓN (canal Cronos, cerrada — sin frente pendiente):
   Cierre 1 (linealización, |δ| ≲ 1):  δε_c = (3/2) ε̄_c(a) δ,
       con ε̄_c(a) = ε_c(ρ̄_m(a)) por la función CANÓNICA
@@ -79,7 +91,13 @@ from cronos.cronos_v3 import ALPHA0_INV_MAX, check_alpha0_inv, epsilon_c
 from mcmc_ontology import constants as C
 
 C_KMS = 299792.458
-RHO_C_OVER_MEAN = 200.0        # cierre 2: ρ_c = 200 × ρ̄_m (frente 5)
+RHO_C_OVER_MEAN = 200.0        # cierre 2: ρ_c = 200 × ρ̄_m — SUPERADO (17-sep):
+#   EXCLUIDO dinámicamente dentro de halos (dynamics/cronos_amplitude_validity:
+#   D = c²ε_c/|Φ_N| ≫ 1 en todo un halo NFW de 1e11 M☉). La amplitud del modelo
+#   operativo es UNA, A_Sculptor = 6.2e-7 (M☉/pc³)^{-3/2} (5E, congelada), que
+#   equivale a ρ_c = 1.375 M☉/pc³ ≈ 3.3e7·ρ̄_m con α₀⁻¹ = 1e-6; se obtiene aquí
+#   con rho_c_mode='physical' y rho_c_over_mean = galactic_closure_f_over_mean.
+#   El valor 200 se conserva para reproducir el artefacto E1 tal como se publicó.
 K_MAX_LINEAR_HMPC = 0.2        # cierre 3: ventana de validez declarada
 RHO_C_MODES = ("comoving", "physical")
 ATLAS_STATUS = ("DERIVADO-NULO al orden dominante (13-sep-2026, frente 3; "
