@@ -1215,8 +1215,9 @@ claims:
       g_C(1.1 kpc)/(2πG). Se compara con el MARGEN observacional ρ_dyn − ρ_bar
       = 0.016 ± 0.014 M☉/pc³ y Σ_dyn − Σ_bar = 20.9 ± 5.2 M☉/pc² (dataset
       local_kz_bounds: cinco valores publicados TRANSCRITOS — Holmberg &
-      Flynn 2000, McKee, Parravano & Hollenbach 2015, Bovy & Tremaine 2012 —
-      con bytes oficiales NO verificados; aviso propagado), concediendo
+      Flynn 2000, McKee, Parravano & Hollenbach 2015, Bovy & Rix 2013 —
+      verificados por el autor contra los resúmenes de arXiv el 22-sep-2026,
+      con los bytes de las tablas NO descargados; aviso propagado), concediendo
       todo el margen a Cronos (cota laxa). Losa declarada (densidades
       MPH2015, alturas del criterio) con banda h×½/h×2 (Δρ_eff ∝ h⁻²).
       Resultado bajo la regla congelada: A_Sculptor → Δρ_eff(0) = 0.747
@@ -1227,16 +1228,27 @@ claims:
       0.060 / 0.240 según la altura de la losa. La columna a 1.1 kpc no
       constriñe (z ≤ −2.9: el término es pequeño a 1.1 kpc). Coincide con
       la cota A ≲ 0.048·A_S del criterio (g_C ≤ 0.1·K_z en 300 pc).
+      ERRATUM (22-sep-2026): Σ(<1.1 kpc) = 68 ± 4 es de Bovy & Rix 2013
+      (ApJ 779, 115), no de Bovy & Tremaine 2012; ρ_bar(0) es la resta
+      total − DM de MPH2015. Preinscripción recongelada como v2 por erratum
+      (sha256 f35e90f77962…; v1 5d5a84d26d20… archivada) con reglas
+      idénticas y comprobación de números contra la v1: desviación 0.0,
+      letras idénticas.
     implementation: dynamics/local_kz.py + scripts/run_oort_kz.py
     test: tests/test_local_kz.py + tests/test_front5_local_dsph_lock.py
     observable: densidad dinámica local ρ_dyn(0) y Σ(<1.1 kpc) de la vecindad solar
-    dataset: local_kz_bounds (transcripción; verificación del autor pendiente)
+    dataset: "local_kz_bounds (transcripción verificada por el autor contra los resúmenes de arXiv, 22-sep-2026; bytes de las tablas no descargados)"
     falsifier: >-
-      condicional a la losa declarada (banda ×4) y a la transcripción: si
-      los valores verificados cambian el margen, la letra de 0.05·A_S puede
-      moverse; la exclusión de A_Sculptor (z ≈ 51) sobrevive a cualquier
+      condicional a la losa declarada (banda ×4) y a la forma ε_c = A·ρ^{3/2}
+      (diccionario); los valores ya verificados no movieron ninguna letra; la
+      exclusión de A_Sculptor (z ≈ 51) sobrevive a cualquier
       altura de la losa en la banda (z ≥ 11.9 con h×2)
-    evidence_level: contraste observacional bajo preinscripción congelada sobre valores TRANSCRITOS sin verificar (aviso propagado); exclusión de A_Sculptor robusta a la banda de la losa; la cota A_2σ depende de la losa (∝ h²)
+    evidence_level: >-
+      contraste observacional bajo preinscripción congelada (v2 por erratum,
+      reglas idénticas a la v1) sobre valores transcritos y verificados contra
+      los resúmenes de arXiv (bytes de las tablas no descargados, aviso
+      propagado); exclusión de A_Sculptor robusta a la banda de la losa; la
+      cota A_2σ depende de la losa (∝ h²)
     status: condicional
     artifact: results/2026-09-21_oort_kz
 
