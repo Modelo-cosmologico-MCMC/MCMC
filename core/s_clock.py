@@ -189,7 +189,9 @@ class ClockConfig:
     # modo emergente: fin del diagnóstico (S de parada del recorrido)
     S_end_emergent: float = 1.001
     # nucleación: 'escape_point' (V = V_fv, convención) | 'bounce' (centro del
-    # instantón O(d) de core.nucleation: el estado que la nucleación entrega)
+    # instantón O(d) de core.nucleation: el estado que la nucleación entrega) |
+    # 'gamow' (n_dim = 1: el mismo punto de escape, con Γ₀ = (ω_fv/2π)e^{−B₁} y
+    # la espera σ_nuc = 1/Γ₀ publicadas — el reloj arranca DESDE Γ₀)
     nucleation: str = "escape_point"
     bounce_d: int = 4
     # modo emergente: hipótesis declarada τ por dimensión (None = τ único de fp)
@@ -439,6 +441,7 @@ class SClock:
         self.V_fv = self.land["V_fv"]
         self.x_plus0 = self.land["rho_tv"] ** 2
         self.bounce = None
+        self.gamow = None
         if c.nucleation == "bounce":
             from .nucleation import bounce as _bounce
             self.bounce = _bounce(c.delta0, d=c.bounce_d, theta=c.theta_nuc, m_bar=c.m_bar, b_bar=c.b_bar,
@@ -446,8 +449,15 @@ class SClock:
             self.x_esc = self.bounce.phi0 ** 2          # arranca en el centro del bounce
         elif c.nucleation == "escape_point":
             self.x_esc = self.land["rho_esc"] ** 2
+        elif c.nucleation == "gamow":
+            # n_dim = 1: el punto de salida WKB ES el punto de escape V = V_fv; lo que
+            # añade es Γ₀ con prefactor (ω_fv/2π) y la espera σ_nuc = 1/Γ₀ declarada
+            from .nucleation import gamow_tunnel as _gamow
+            self.gamow = _gamow(c.delta0, theta=c.theta_nuc, m_bar=c.m_bar, b_bar=c.b_bar, e_bar=c.e_bar,
+                                C0=c.C0, G=c.G)
+            self.x_esc = self.gamow.rho_esc ** 2
         else:
-            raise ValueError("nucleation: 'escape_point' | 'bounce'")
+            raise ValueError("nucleation: 'escape_point' | 'bounce' | 'gamow'")
         self.thresholds = C.decade_thresholds()          # [0.009, 0.099, 0.999, 1.001]
         self.S_c, self.S_c2 = C.S_SEALS["C2"], C.S_SEALS["C3"]
         self.S_V3D, self.S_flor = C.S_SEALS["V3D"], C.S_SEALS["C4"]
@@ -802,8 +812,17 @@ class SClock:
                                "V_esc_minus_V_fv_over_T0": (self._V(np.array([np.sqrt(self.x_esc) * np.cos(c.theta_nuc),
                                                                               np.sqrt(self.x_esc) * np.sin(c.theta_nuc)]), self.lam0)
                                                             - self.V_fv) / self.T0,
-                               "Gamma0": None if self.bounce is None else self.bounce.Gamma_over_A,
-                               "status": ("declarado (Γ₀ no calculada; punto de escape V = V_fv)" if self.bounce is None else
+                               "Gamma0": (self.bounce.Gamma_over_A if self.bounce is not None else
+                                          self.gamow.Gamma0 if self.gamow is not None else None),
+                               "gamow": None if self.gamow is None else self.gamow.__dict__,
+                               # el reloj arranca DESDE Γ₀: σ = 0 es la nucleación y la espera media
+                               # previa (en unidades de σ, G declarada) se publica junto al recorrido
+                               "sigma_wait_before_nucleation": (None if self.gamow is None or self.gamow.Gamma0 <= 0.0
+                                                                else 1.0 / self.gamow.Gamma0),
+                               "status": ("declarado (Γ₀ no calculada; punto de escape V = V_fv)"
+                                          if self.bounce is None and self.gamow is None else
+                                          "derivado con convenciones declaradas (n_dim = 1, túnel de Gamow, prefactor ω_fv/2π, G declarada)"
+                                          if self.gamow is not None else
                                           f"derivado con convenciones declaradas (bounce O({c.bounce_d}), prefactor A no fijado)")}}
 
     def _descent_checks(self, rec: dict, finished: bool, n: int, reason) -> dict:
