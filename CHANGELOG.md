@@ -6,6 +6,58 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **El reloj S (21-sep): `core/s_clock.py`, orquestador de la
+  trayectoria S₀ → S_{1,001} como SIMULADOR DE CONSISTENCIA — umbrales
+  impuestos, cada eslabón no derivado etiquetado; hallazgo: la
+  metastabilidad del falso vacío tiene un δ₀ máximo**. Tercer paso del
+  orden confirmado (registro → Nivel A → `s_clock`). Un solo bucle en σ
+  integra el Flujo del Camino (4.2) sobre el Basal completo (con la
+  inclinación −η·χ) desde el punto de escape de Coleman, contabiliza la
+  descarga f = (V_fv − V)/T₀ y el índice S = ∫Σ̇dσ/T₀ (normalización
+  declarada: S = 1 ⟺ descarga completa), lleva los acoplos por las β de
+  Fokker–Planck (opcional), evalúa D(S), dispara los colapsos como
+  eventos d → d+1 con el álgebra C(d+1,0), integra los sellados por
+  congelación de c_eff (§5.3) y m_eff (§5.4) con FORMA DECLARADA
+  (`DECLARED_FORMS`: la ec. 5.3 no está transcrita), sigue θ y en 1,001
+  aplica la Rotación de Florencia y ENTREGA el estado inicial
+  cosmológico, declarándolo ilegible (diccionario ausente). Derivado y
+  superado: T₀ = c̄δ₀³ (1e-15 sin inclinación), monotonía, producción
+  entrópica ≥ 0, exclusión, salida al polo de masa, S ≡ f a 2e-13 (el
+  flujo se proyecta sobre φ_E ≥ 0 y la ligadura no trabaja: Teo. 4.5
+  sobre el dominio físico), álgebras euclidianas anticonmutantes en cada
+  colapso, séxtico marginal en d = 3, firma −+++ con control negativo de
+  dos giros, RP en la loncha con control J < 0, identidad m_H =
+  √(2β₃)v₃, Sello de Newton y recuperación de ΛCDM exactos. Impuesto o
+  declarado: los umbrales 0.009/0.099/0.999 (Prop. 8.1, λ = 10 es el
+  frente 2), la nucleación (Γ₀ no calculada; σ = 0 en el punto de
+  escape), las formas de sellado, el cruce de la diagonal (el flujo del
+  Basal NO lo produce: θ → 0 y se queda), los cuantos V3D/Florencia tras
+  el residuo de descarga ε_res, Φ_ten = 0, el δ₀ del ciclo siguiente
+  (γ_R, frente 4). **Hallazgo**: con η = ē·δ₀³ el falso vacío deja de
+  existir por encima de δ₀_max = 0.1028 (formas por defecto) — la Obs.
+  8.6 (D > 0) es necesaria, no suficiente — y T₀ medida supera la ley
+  c̄δ₀³ en 13 % (δ₀ = 0.01) a 40 % (δ₀ = 0.1) por la inclinación
+  (O(δ₀^{1/2}) relativa, Prop. 3.4). **Modo emergente (diagnóstico, sin
+  estatuto)**: con las β canónicas y τ ∈ [1e-3, 1] declarado, D se hunde
+  pero no cruza cero antes del fin del recorrido (M0² cruza cero antes
+  que D para τ grande): los colapsos no emergen del Cruce de Victoria en
+  el rango explorado. m_H(δ₀) publicado como dependiente del input (52
+  GeV en δ₀ = 0.01; 125.4 en δ_H por construcción). LEDGER obligatorio
+  en el artefacto (cada comprobación y evento con su insignia: 16
+  derivadas, 4 impuestas, 4 declaradas, 1 publicada, 1 hueco; ninguna
+  derivada fallida) y cada colapso con sus dos lecturas S_imposed /
+  S_emergent (esta última vacía: D no cruza cero con acoplos
+  congelados). Visor `viewer/s_clock.html` (HTML estático, sin
+  dependencias) que lee el artefacto y muestra trayectoria, eventos y
+  ledger con insignias de estatuto. 12 tests. Fila
+  nueva `s-clock-simulador-consistencia` (interno); revisadas
+  `c-lieb-robinson-identificacion` (forma declarada integrada; la
+  ecuación sigue ausente), `diccionario-primordial-cosmologico` (el
+  hueco es ahora un campo vacío en el artefacto) y
+  `decada-discriminante` (diagnóstico emergente). Nota I §3.20.
+  Registro: 54 claims. Lo que NO afirma: ningún umbral emerge; nada de
+  esto es simulación del modelo ni demostración física.
+
 - **Nivel A del frente 5 (17/18-sep): halo aislado NFW de 10¹¹ M☉ con y
   sin Cronos v3 a A_Sculptor — desenlace INDETERMINADO; lo único robusto
   es una contracción inicial del interior de amplitud no convergida**.

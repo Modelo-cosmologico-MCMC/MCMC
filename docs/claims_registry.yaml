@@ -155,15 +155,23 @@ claims:
   - claim_id: decada-discriminante
     entity: Década y Discriminante
     law: "Cap. 8"
-    derivation: "λ = 10 NO derivada: depende de τ(S), que no está derivado — calibración, no predicción"
-    implementation: core/decade.py
-    test: tests/test_core_florencia_decade.py
+    derivation: >-
+      λ = 10 NO derivada: depende de τ(S), que no está derivado —
+      calibración, no predicción. Diagnóstico del reloj S (21-sep, modo
+      'emergent' sin estatuto): con las β canónicas de Fokker–Planck y
+      τ ∈ [1e-3, 1] declarado, desde el falso vacío metastable D(S) se
+      hunde pero NO cruza cero antes del fin del recorrido (para τ
+      grande M0² cruza cero antes que D; para τ pequeño el descenso
+      termina con D > 0): los colapsos no emergen del Cruce de Victoria
+      en el rango explorado — publicado sin veredicto, depende de τ.
+    implementation: core/decade.py + core/s_clock.py
+    test: tests/test_core_florencia_decade.py + tests/test_s_clock.py
     observable: "—"
     dataset: "—"
     falsifier: una derivación de τ(S) que produjera λ ≠ 10 refutaría la selección
-    evidence_level: interna demostrada; λ=10 calibrado
+    evidence_level: interna demostrada; λ=10 calibrado; diagnóstico emergente del reloj S sin cruce en el rango explorado
     status: claim-no-derivado
-    artifact: "—"
+    artifact: results/2026-09-21_s_clock
 
   - claim_id: kls-flujo
     entity: Flujo KLS integrado
@@ -980,12 +988,15 @@ claims:
       NO DERIVADA: el tratado identifica c_eff con la velocidad de
       Lieb–Robinson del sustrato, pero no hay módulo que integre (5.3) ni
       que derive β_c de la cadena de Clifford discretizada. Hasta esta
-      ronda la identificación no tenía fila (hueco no declarado). Para el
-      simulador de consistencia (s_clock) basta integrar (5.3) con β_c
-      impuesto; la derivación de β_c desde el sustrato es trabajo de
-      teoría.
-    implementation: "—"
-    test: "—"
+      ronda la identificación no tenía fila (hueco no declarado). El
+      reloj S (core/s_clock.py, 21-sep) integra el SELLADO POR
+      CONGELACIÓN con una forma logística DECLARADA (β_c(S) = β_c0·(1 −
+      S/S_0.099)₊, publicada en DECLARED_FORMS) porque la ec. (5.3) no
+      está transcrita en el repositorio: la propiedad (β_c = 0 en el
+      sello, c_eff = |du/dS|_max antes) se reproduce, la ecuación y la
+      derivación de β_c desde el sustrato siguen ausentes.
+    implementation: core/s_clock.py
+    test: tests/test_s_clock.py
     observable: "—"
     dataset: "—"
     falsifier: una v_LR calculada sobre la cadena discretizada distinta de la c_eff del flujo (5.3) refutaría la identificación
@@ -1026,15 +1037,19 @@ claims:
       conjunto de módulos verificados» de «una simulación del modelo»:
       sin él, el reloj S termina en S = 1.001 con un estado que la
       cosmología no puede leer. Nadie lo ha empezado; se nombra aquí
-      para que v36 lo declare como frente.
+      para que v36 lo declare como frente. EXHIBIDO por código el 21-sep:
+      core/s_clock.py entrega en S = 1.001 el estado (constantes
+      selladas, β₃ y λ_Ad, f residual, θ, χ, Φ_ten declarado) con
+      readable_by_cosmology = False y channels_initial = None — el hueco
+      es ahora un campo vacío en un artefacto, no una frase.
     implementation: "—"
-    test: "—"
+    test: tests/test_s_clock.py
     observable: "—"
     dataset: "—"
     falsifier: "— (no hay afirmación contrastable hasta que exista la fórmula)"
-    evidence_level: hueco declarado — ni derivación ni implementación
+    evidence_level: hueco declarado — ni derivación ni implementación; exhibido por el reloj S (estado entregado ilegible)
     status: hueco-declarado
-    artifact: "—"
+    artifact: results/2026-09-21_s_clock
 
   - claim_id: contenido-materia-lectura-operativa
     entity: Contenido de materia — lectura operativa ΛCDM + canales + Cronos; la lectura fuerte (sin CDM) es hipótesis distinta, no implementada
@@ -1062,6 +1077,57 @@ claims:
     evidence_level: declaración de estatuto; la lectura fuerte no tiene módulo ni artefacto; el Nivel A ejecutado no la decide (INDETERMINADO)
     status: condicional
     artifact: "—"
+
+  - claim_id: s-clock-simulador-consistencia
+    entity: El reloj S — orquestador de la trayectoria S₀ → S_{1,001} como simulador de CONSISTENCIA (umbrales impuestos), no emergente (21-sep-2026)
+    law: "C1 (índice entrópico S = ∫Σ̇dσ); Def. 4.4 / Teo. 4.5 / Lema 4.7 (Flujo del Camino); Prop. 3.4–3.5 (T₀, salida al polo de masa); Def. 8.4 y Prop. 8.1 (discriminante, Ley de la Década); §5.1–5.4 (cadena C(d+1,0), sellos de c y c²); §6.1–6.2 (Rotación de Florencia); Cap. 7 (RP); ec. 12.1 (m_H = √(2β₃)v₃)"
+    derivation: >-
+      un solo bucle en σ integra el Flujo del Camino sobre el Basal
+      COMPLETO (con la inclinación −η·χ) desde el punto de escape de
+      Coleman, contabiliza f = (V_fv − V)/T₀ y S = ∫Σ̇dσ/T₀ (normalización
+      declarada: S = 1 ⟺ descarga completa), dispara los colapsos como
+      eventos d → d+1 con el álgebra C(d+1,0) en los umbrales IMPUESTOS
+      de la Década (0.009/0.099/0.999 — λ = 10 calibrado, frente 2),
+      integra sellados por congelación de c_eff y m_eff con FORMA
+      DECLARADA, sigue θ, y en 1.001 aplica la Rotación de Florencia
+      (C(4,0) → C(3,1), firma −+++ con control negativo de dos giros; RP
+      en la loncha con control J < 0; identidad m_H = √(2β₃)v₃) y
+      ENTREGA el estado inicial cosmológico. Comprobaciones derivadas
+      superadas (δ₀ = 0.01, valor de prueba): T₀ = c̄δ₀³ (1e-15 sin
+      inclinación), monotonía, producción entrópica ≥ 0, exclusión,
+      salida al polo de masa, S ≡ f a 2e-13 (flujo PROYECTADO: la
+      ligadura φ_E ≥ 0 no trabaja), álgebras anticonmutantes y
+      euclidianas en cada colapso, marginalidad del séxtico en d = 3,
+      Sello de Newton y recuperación de ΛCDM (ε = 0) exactos. HALLAZGO
+      del simulador: la metastabilidad del falso vacío tiene un δ₀
+      MÁXIMO — con η = ē·δ₀³ la barrera desaparece para δ₀ > δ₀_max =
+      0.1028 (formas por defecto): la Obs. 8.6 (D > 0) es necesaria, no
+      suficiente; y T₀ medida supera la ley c̄δ₀³ en 13 % (δ₀ = 0.01) a
+      40 % (δ₀ = 0.1) por la inclinación (O(δ₀^{1/2}) relativa). El
+      flujo del Basal NO cruza la diagonal θ = π/4 (Prop. 3.5): el
+      transporte azimutal no está implementado y se impone para la
+      entrega. Modo 'emergent' (diagnóstico, sin estatuto): con las β
+      canónicas y τ ∈ [1e-3, 1] no hay cruce D = 0 antes del fin del
+      recorrido. El estado entregado NO es legible por la cosmología
+      (diccionario ausente). Eslabones declarados, no derivados:
+      nucleación Γ₀, umbrales, formas de sellado, diagonal, cuantos de
+      confirmación V3D/Florencia, Φ_ten = 0, δ₀ del ciclo siguiente
+      (γ_R, frente 4). m_H(δ₀) se publica como dependiente del input
+      (52 GeV en 0.01; 125.4 en δ_H por construcción de δ_H).
+    implementation: core/s_clock.py + scripts/run_s_clock.py
+    test: tests/test_s_clock.py
+    observable: "— (recorrido interno; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      el simulador se vuelve EMERGENTE (y contrastable como tal) solo
+      cuando el frente 2 entregue τ(S) y el diccionario primordial →
+      cosmológico exista; hasta entonces lo refutable son sus
+      identidades internas (S ≡ f, T₀, álgebras, firma) y el hallazgo
+      δ₀_max(m̄, b̄, ē, C₀), que una derivación de las formas O(1) podría
+      desplazar
+    evidence_level: comprobación interna (E8) de consistencia entre estaciones con todos los eslabones no derivados etiquetados; no simulación emergente ni demostración física
+    status: interno
+    artifact: results/2026-09-21_s_clock
 
   - claim_id: nivel-a-halo-aislado
     entity: Nivel A del frente 5 — halo aislado NFW (1e11 M☉, c = 10, N = 4e5) con y sin Cronos v3 a la amplitud única A_Sculptor; desenlace INDETERMINADO (17/18-sep-2026)

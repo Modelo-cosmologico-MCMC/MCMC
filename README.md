@@ -30,7 +30,8 @@ mass gap lattice, simulación cuántica de qudits y visualización.
 ```
 mcmc_ontology/    Ontología pura: axiomas (v35 §1.2), constantes, S-map, potencial, Clifford, sellos
 core/             La cadena deductiva ejecutable (caps. 2-10): Plano Dual, Basal,
-                  Flujo, Florencia, RP (juguete), Discriminante, Gea, Victoria
+                  Flujo, Florencia, RP (juguete), Discriminante, Gea, Victoria;
+                  s_clock: el reloj S como simulador de consistencia (umbrales impuestos)
 validation/       Suite espejo del apéndice H (verificaciones + controles negativos)
 mass_program/     B0–B6, P3, P4, M1 (running QCD), M2 (CKM)
 cosmology/        H(z), Λ_rel, canales v35 (Ap. A), ajuste bayesiano y de producción

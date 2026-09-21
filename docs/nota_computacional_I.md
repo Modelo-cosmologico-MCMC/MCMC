@@ -796,6 +796,79 @@ convergida; ninguna predicción del modelo operativo para el interior de
 las enanas sale de esta ronda
 (`results/2026-09-17_cronos_halo_nivelA/`).
 
+### 3.20 El reloj S como simulador de consistencia: la trayectoria S₀ → S_{1,001} en un solo bucle, con cada eslabón no derivado etiquetado (21-sep-2026)
+
+Tercer paso del orden confirmado el 17-sep. `core/s_clock.py` recorre
+la trayectoria pre-geométrica en un solo bucle en σ: el Flujo del
+Camino (4.2) sobre el Basal completo, con la inclinación −η·χ, desde el
+punto de escape de Coleman (el punto más allá de la barrera donde V
+vuelve al valor del falso vacío); el contador de descarga f = (V_fv −
+V)/T₀ y el índice entrópico S = ∫Σ̇dσ/T₀, normalizado para que la
+descarga completa sea S = 1 (el número del cuanto es convencional,
+F.4); los acoplos (M0², B, C0) por las β de Fokker–Planck de la Def.
+4.4 cuando se pide; el discriminante D(S) y los colapsos como eventos
+d → d + 1 con el álgebra C(d+1,0); los sellados por congelación de
+c_eff (§5.3) y m_eff (§5.4); la fase θ; y en S = 1,001 la Rotación de
+Florencia, que entrega el estado inicial cosmológico. Cada comprobación
+lleva su etiqueta: derivado, impuesto, declarado o publicado.
+
+**Derivado y superado** (δ₀ = 0.01, valor de prueba; el tratado no
+asigna valor a δ₀): T₀ = c̄δ₀³ a 10⁻¹⁵ sin inclinación; monotonía del
+Camino, producción entrópica ≥ 0 y exclusión; salida al polo de masa;
+la identidad S ≡ f a 2×10⁻¹³ — que exige proyectar el flujo sobre el
+dominio físico φ_E ≥ 0 y contar solo el trabajo de las componentes
+activas (la ligadura no produce entropía: Teo. 4.5 sobre el primer
+cuadrante); álgebras C(2,0), C(3,0), C(4,0) anticonmutantes y
+euclidianas en cada colapso; el séxtico marginal exactamente en d = 3;
+en Florencia la firma −+++ con un solo giro y el control negativo de
+dos giros (dos direcciones temporales), la positividad por reflexión en
+la loncha con el control J < 0 que la rompe, la identidad m_H =
+√(2β₃)v₃; el Sello de Newton en (1,1) y la recuperación de ΛCDM con
+ε = 0, exactos.
+
+**Impuesto o declarado, y por qué**: los umbrales 0.009/0.099/0.999
+(Prop. 8.1: λ = 10 es el frente 2); la nucleación (Γ₀(δ₀) no está
+calculada: el reloj arranca en el punto de escape con σ = 0); las
+formas de sellado (el tratado fija la propiedad — logística, β_c = 0 en
+S_0,099, dm_eff/dS = 0 en S_0,999 — pero la ec. 5.3 no está transcrita
+en el repo: `DECLARED_FORMS` las publica y sustituirlas es un cambio
+local); el cruce de la diagonal θ = π/4 (el flujo del Basal lleva θ al
+polo de masa y lo mantiene: el transporte azimutal de la Prop. 3.5 no
+está implementado y se impone para la entrega); los cuantos V3D en
+1,000 y Florencia en 1,001 tras el residuo de descarga ε_res (F.3);
+Φ_ten(S_1,001) = 0 por normalización; el δ₀ del ciclo siguiente (γ_R,
+frente 4). El estado entregado — constantes selladas, λ_Ad y β₃, f
+residual, θ y χ, canales iniciales = ninguno — se declara **ilegible
+para la cosmología**: el diccionario primordial → cosmológico (§3.18)
+es ahora un campo vacío en un artefacto, no una frase.
+
+**Hallazgo del simulador**: la metastabilidad del falso vacío tiene un
+δ₀ máximo. Con la inclinación η = ē·δ₀³ el falso vacío se desplaza a
+ρ_fv ≃ η/(√2·M0²) (el residuo ⟨χ⟩ de la Prop. 3.4) y la barrera, de
+altura ∝ δ₀³ frente a una inclinación ∝ δ₀^{7/2}, desaparece por encima
+de δ₀_max = 0.1028 para las formas por defecto (m̄ = 1, b̄ = 3, ē = 1,
+C₀ = 1): la condición de la Obs. 8.6 (D(S₀) > 0) es necesaria, no
+suficiente. Por la misma razón la Tensión Primordial medida en el
+paisaje completo supera la ley c̄δ₀³ en un 13 % (δ₀ = 0.01) a un 40 %
+(δ₀ = 0.1): la corrección es O(δ₀^{1/2}) relativa, como la Prop. 3.4
+anticipa al llamar subdominante a η·ρ₊. **Modo emergente (diagnóstico,
+sin estatuto)**: con las β canónicas de Fokker–Planck y un diccionario
+τ ∈ [10⁻³, 1] declarado, D(S) se hunde (Obs. 8.6) pero no cruza cero
+antes del fin del recorrido — para τ grande M0² cruza cero antes que D
+(el falso vacío se destabiliza por la masa, no por la espinodal) y para
+τ pequeño el descenso termina con D > 0 — así que en el rango explorado
+los colapsos no emergen del Cruce de Victoria; el resultado depende de
+τ y se publica sin veredicto. m_H(δ₀) se publica como función del
+input: 52 GeV en δ₀ = 0.01, 125.4 GeV en δ_H = 0.0581 por construcción
+de δ_H (Obs. 12.2), no por predicción. El artefacto lleva un **ledger**
+obligatorio (cada comprobación y cada evento con su insignia de
+estatuto y el recuento por insignia) y cada colapso publica sus dos
+lecturas, S_imposed y S_emergent, siempre juntas; el visor estático
+`viewer/s_clock.html` lee el artefacto y las muestra. **Estatuto**:
+comprobación interna (E8) de consistencia entre estaciones; el
+interruptor emergente solo tendrá estatuto cuando el frente 2 entregue
+τ(S) y el diccionario exista (`results/2026-09-21_s_clock/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
@@ -829,9 +902,12 @@ las enanas sale de esta ronda
    preinscripción nueva con criterio de c′ compatible con la regla de
    parada, campo sin retardo y serie de convergencia del campo como
    puerta.
-2b. El orquestador del reloj S (`core/s_clock.py`) como simulador de
-   consistencia; y los frentes con nombre de §3.18: diccionario
-   primordial → cosmológico, mapa S(z), c ≡ v_LR.
+2b. El reloj S (`core/s_clock.py`) existe como simulador de
+   consistencia (§3.20); lo que lo volvería emergente son los frentes
+   con nombre de §3.18: τ(S) (frente 2), el diccionario primordial →
+   cosmológico, el mapa S(z), c ≡ v_LR — y ahora también el transporte
+   azimutal de la Prop. 3.5 y la nucleación Γ₀(δ₀), que el reloj
+   exhibe como ausentes.
 3. Residuos al 1–2 % de precisión futura (la consistencia superada se
    volvería decisiva).
 4. Los medios pasos de los frentes E y F quedaron ejecutados el mismo
@@ -884,6 +960,7 @@ pip install -e ".[nbody]"                                 # §3.19 (pytreegrav +
 python scripts/run_cronos_halo_prereg.py                  # §3.19 preinscripción (no genera ICs)
 python scripts/run_cronos_halo_nivelA.py run              # §3.19 diez corridas (~14 h, 4 núcleos)
 python scripts/run_cronos_halo_nivelA.py analyze          # §3.19 regla congelada
+python scripts/run_s_clock.py                             # §3.20 el reloj S (consistencia)
 ```
 
 Desenlaces versionados: `results/2026-07-31_production_fit/`,
