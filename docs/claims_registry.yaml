@@ -1247,6 +1247,49 @@ claims:
     status: interno
     artifact: results/2026-09-21_nucleation
 
+  - claim_id: diagonal-j-requerido
+    entity: La diagonal θ = π/4 y el |J| requerido — la circulación J∇C del Camino de dos niveles en el reloj S, bajo preinscripción congelada; veredicto MIXTO (A en δ₀ = 0.001, B en 0.003–0.01, F en ≥ 0.03) (21-sep-2026, tarde)
+    law: "Def. 2.2 / Prop. 3.5 (diagonal dual, transporte azimutal); Def. 4.4 / Teo. 4.5 (Flujo del Camino, Monotonía); propuesta v36 «dos niveles del Camino» (circulación J∇C con J antisimétrica)"
+    derivation: >-
+      preinscripción congelada (sha256 4f56704d076c…) en un commit posterior
+      al generador, con el piloto declarado íntegro. Forma DECLARADA:
+      dΦ/dσ = −G⁻¹∇V + J∇C con J = |J|·ε; C = V principal (J∇V ⊥ ∇V: la
+      Monotonía 4.5 se conserva EXACTAMENTE y la identidad pasa a ser
+      S = f − f₀ + W_J/T₀ con W_J = 0 en el interior); C = δ₀²ρ²/2 (rotación
+      rígida) como alternativa. HALLAZGO: con C = V el término se anula en
+      los puntos críticos y el vacío verdadero 2D está sobre el polo de
+      masa, así que θ sube, cruza la diagonal solo si |J| ≥ |J|_min y
+      VUELVE hacia θ = 0: el cruce tiene un S máximo (subir |J| lo
+      adelanta, no lo lleva a S = 1). Resultado bajo la regla congelada:
+      |J|_min = 1.358 / 1.363 / 1.370 / 1.389 / 1.451 para δ₀ = 0.001 /
+      0.003 / 0.01 / 0.03 / δ_H (invariante de escala al 6.8 %, tol 10 %);
+      S_max del cruce 0.959 / 0.930 / 0.879 / 0.806 / 0.746. Letras: A en
+      δ₀ = 0.001 (la ventana 1 ± 0.05 es alcanzable con |J| ∈ [1.358,
+      1.396]); B en 0.003 y 0.01 (retorno interior al polo de masa,
+      descenso completo); F en 0.03 y δ_H (retorno a la frontera φ_E = 0:
+      la componente tangencial de la circulación sobrevive a la ligadura
+      normal, W_J/T₀ = 5.5 / 10.9 y el descenso no completa). La
+      alternativa rígida cruza en 0.88 / 0.81 / 0.75 con W_J/T₀ = 2–10 y
+      Monotonía rota (coste publicado; no sitúa el cruce en la ventana).
+      La expectativa E13 del autor |J| ≈ (π/4)/∫|∇V|dσ sobreestima |J|_min
+      por ×2.2–25 (cociente 0.04–0.46) — publicado sin veredicto. Todas las
+      puertas superadas. |J| es una CALIBRACIÓN declarada con significado
+      (el frente 2 debe reproducirla junto con λ), no una derivación; la
+      diagonal como estado final no es cuestión de |J| sino de otro
+      término (el vacío 2D en el polo de masa).
+    implementation: core/path_flow.py + core/s_clock.py + scripts/run_j_circulation.py
+    test: tests/test_s_clock.py + tests/test_j_circulation_lock.py
+    observable: "— (recorrido interno; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      una derivación de J desde la ontología (frente 2) que no reproduzca
+      |J|_min ≈ 1.36–1.45 (con C = V, G = 1, formas por defecto) o que
+      exija otro generador C; un término del programa que mueva el vacío
+      2D fuera del polo de masa cambiaría la letra F y el S_max
+    evidence_level: comprobación interna (E8) bajo preinscripción congelada; veredicto MIXTO condicional a C = V declarado y a δ₀; |J| calibración, no derivación (E13)
+    status: interno
+    artifact: results/2026-09-21_j_circulation
+
   - claim_id: s-clock-simulador-consistencia
     entity: El reloj S — orquestador de la trayectoria S₀ → S_{1,001} como simulador de CONSISTENCIA (umbrales impuestos), no emergente (21-sep-2026)
     law: "C1 (índice entrópico S = ∫Σ̇dσ); Def. 4.4 / Teo. 4.5 / Lema 4.7 (Flujo del Camino); Prop. 3.4–3.5 (T₀, salida al polo de masa); Def. 8.4 y Prop. 8.1 (discriminante, Ley de la Década); §5.1–5.4 (cadena C(d+1,0), sellos de c y c²); §6.1–6.2 (Rotación de Florencia); Cap. 7 (RP); ec. 12.1 (m_H = √(2β₃)v₃)"
