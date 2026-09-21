@@ -80,6 +80,55 @@ def test_clock_bounce_d4_discharges_inside_nucleation():
     assert sum("dentro de la nucleación" in e["trigger"] for e in out["events"][:3]) >= 2
 
 
+# ------------------------------------------------------------ ronda 2 (n_dim)
+
+def test_gamow_tunnel_b1_scales_as_delta0_squared_and_prefactor_is_linear():
+    """n = 1: B₁ = b₁δ₀²(1 + O(√δ₀)) con b₁ → b₁(sin inclinación); ω_fv = m̄δ₀."""
+    from core.nucleation import b1_no_tilt, gamow_tunnel
+    b1 = b1_no_tilt()
+    assert 0.4 < b1 < 0.6
+    g_lo, g_hi = gamow_tunnel(1e-4), gamow_tunnel(1e-3)
+    assert g_lo.converged and g_hi.converged
+    assert abs(g_lo.b1_over_delta0_sq - b1) < 0.10 * b1
+    # el exponente local de B₁ entre 1e-4 y 1e-3 está cerca de 2
+    p = np.log(g_hi.B1 / g_lo.B1) / np.log(10.0)
+    assert 1.8 < p < 2.1
+    assert abs(g_lo.omega_fv - 1e-4) < 1e-6 and abs(g_lo.Gamma0 - 1e-4 / (2 * np.pi)) < 1e-6
+    # sin inclinación la ley es exacta
+    g0 = gamow_tunnel(0.01, e_bar=0.0)
+    assert abs(g0.b1_over_delta0_sq - b1) < 1e-4 * b1
+
+
+def test_gamma0_dispatch_is_conditional_on_declared_n_dim():
+    from core.nucleation import N_DIM_DECLARED, gamma0
+    assert N_DIM_DECLARED == (1, 3, 4)
+    r1, r4 = gamma0(0.01, 1), gamma0(0.01, 4)
+    assert r1["Gamma0"] is not None and r1["prefactor"] is not None
+    assert r4["Gamma0"] is None and r4["Gamma0_over_A"] is not None and r4["prefactor"] is None
+    with pytest.raises(ValueError, match="declarado"):
+        gamma0(0.01, 2)
+
+
+def test_path_deformation_returns_ratio_and_ray_baseline():
+    from core.nucleation import gamow_tunnel, path_deformation
+    pd = path_deformation(0.01, n_s=401, maxiter=60)
+    assert 0.0 < pd["B_min"] <= pd["B_ray"] and 0.0 < pd["ratio_min_over_ray"] <= 1.0
+    # el rayo recto reproduce la acción del túnel 1D
+    assert abs(pd["B_ray"] - gamow_tunnel(0.01).B1) < 2e-2 * gamow_tunnel(0.01).B1
+    assert 0.0 <= pd["theta_end_opt"] <= np.pi / 2
+
+
+def test_clock_gamow_mode_starts_at_escape_point_and_publishes_rate():
+    r = SClock(ClockConfig(delta0=0.01, nucleation="gamow")).run()
+    nuc = r["checks"]["S0"]["nucleation"]
+    assert nuc["mode"] == "gamow" and nuc["gamow"] is not None
+    assert abs(nuc["x_esc"] - r["landscape"]["rho_esc"] ** 2) < 1e-12
+    assert nuc["Gamma0"] > 0 and abs(nuc["sigma_wait_before_nucleation"] * nuc["Gamma0"] - 1.0) < 1e-12
+    assert "n_dim = 1" in nuc["status"]
+    assert r["checks"]["descent"]["S_equals_f_identity"]["pass"]
+    assert r["checks"]["descent"]["S_equals_f_identity"]["f0_nucleation"] == pytest.approx(0.0, abs=1e-9)
+
+
 def test_bounce_refuses_without_false_vacuum():
     with pytest.raises(ValueError):
         bounce(1.5 * delta0_metastability_max(), d=4)

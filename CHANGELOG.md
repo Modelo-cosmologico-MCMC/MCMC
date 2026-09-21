@@ -29,6 +29,27 @@ estado en que afirme exactamente lo que hace»).
   `test-criterio-cronos-jeans` (interno). Nota I §3.28. Registro: 57
   claims (sobre la base de esta rama).
 
+- **Nucleación ronda 2 (21-sep, tarde): Γ₀(δ₀) condicional a n_dim ∈
+  {1, 3, 4} bajo preinscripción congelada — veredicto (A sí, B sí, C
+  no)**. Punto (2) del orden del 21-sep (tarde), tres commits
+  (generador · congelación · corridas). `core/nucleation.py`:
+  `N_DIM_DECLARED`, `gamow_tunnel` (n = 1: B₁ = 2∫√(2G(V − V_fv))dρ con
+  cuadratura adaptativa, prefactor de Gamow ω_fv/2π = m̄δ₀/2π),
+  `b1_no_tilt` (0.5178), `gamma0(δ₀, n_dim)`, `path_deformation` (el
+  camino de túnel libre de curvarse en (ρ, χ), Nelder–Mead desde el rayo
+  θ = 0); `s_clock` con `nucleation='gamow'` (el reloj arranca desde Γ₀:
+  publica Γ₀ y σ_nuc = 1/Γ₀). Preinscripción (sha256 46f486e1cc84…):
+  ē ∈ {0.5, 1, 2}, δ₀ ∈ [1e-4, 0.9·δ₀_max(ē)], ajuste en los tres puntos
+  más bajos, A/B/C/INDETERMINADO con tolerancias a priori. Resultado:
+  **A sí** (exponente de Γ₀ con n = 1: 0.9998 / 0.9993 / 0.9978; B₁/δ₀² →
+  0.507 / 0.497 / 0.476 frente a b₁ = 0.518), **B sí** (exponente de B
+  con n = 4: −1.03 / −1.06 / −1.11), **C no** (B_min/B_ray = 1.0000 en los
+  seis casos); n = 3 publicado (B → constante). Las tres leyes cumplen
+  Γ₀(0) = 0 por mecanismos distintos: cuál es la del tratado es la
+  decisión B del autor (E13). 4 tests + candado. Fila nueva
+  `nucleacion-gamma0` (interno-condicional). Nota I §3.24. Registro: 58
+  claims.
+
 - **Reloj S v1 (21-sep, tarde): las mejoras que el v0 ya pedía —
   κ₁ en forma cerrada, el Techo con las dos T₀, la raíz del origen,
   δ₀_max ∝ ē⁻² y su naturalidad, la inestabilidad de masa como evento
