@@ -941,6 +941,49 @@ externo del autor reproducido, expectativas declaradas (E13) y sin
 datos ingeridos; nada es resultado observacional; A_Sculptor y todos
 los umbrales intactos (`results/2026-09-21_cronos_jeans/`).
 
+### 3.22 La salida de S₀: bounce de Coleman, escape de Kramers y el reloj S arrancando en el estado nucleado (21-sep-2026)
+
+El eslabón inicial del reloj S que el repaso del 16-sep declaró
+ausente. `core/nucleation.py` resuelve el instantón O(d) del campo
+radial sobre el corte θ = 0 del Plano Dual (la salida ocurre hacia el
+polo de masa, Prop. 3.5) con el paisaje completo, inclinación incluida:
+φ'' + (d−1)φ'/r = V'(φ), φ'(0) = 0, φ(∞) = φ_fv, por disparo
+overshoot/undershoot; publica la acción B, Γ₀/A = e^{−B} (el prefactor
+A es dimensional y el tratado no lo fija), el centro del bounce y la
+fracción de T₀ ya descargada allí, f₀. Ley de escala medida sobre
+δ₀ ∈ [0.002, 0.064]: B ∝ δ₀^{−1.49} para d = 4 (argumento sin
+inclinación 3 − d = −1: Γ₀(0) = 0 sin necesidad de prefactor, la
+inercia eterna del perfecto) y δ₀^{−0.40} para d = 3 (argumento 0: B
+tiende a constante y el axioma exige A(δ₀) → 0). **Hallazgo**: la
+barrera del falso vacío vale entre el 1 % y el 8 % de T₀ (pared gruesa;
+la pared delgada no es aplicable y se publica solo como referencia), y
+en ese régimen el instantón entrega el campo casi en el vacío
+verdadero — f₀ = 0.9996 con d = 4 y 0.97 con d = 3 en δ₀ = 0.01 — de
+modo que la descarga y sus umbrales 0.009 y 0.099 (y 0.999 para d = 4)
+caen **dentro de la nucleación**, no a lo largo del Flujo del Camino:
+el reloj S con `nucleation='bounce'` los dispara en σ = 0 con esa nota,
+publica f₀ como entropía de nucleación y comprueba S ≡ f − f₀ (2×10⁻¹³).
+
+La otra nucleación es la propia de la dinámica del tratado: el Flujo
+del Camino es disipativo y de primer orden (Axioma 4) y su completación
+estocástica (Def. 4.4) añade difusión entrópica, así que el escape del
+falso vacío es un problema de Kramers sobreamortiguado, Γ_K =
+√(V''_fv|V''_b|)/(2πG)·exp(−ΔV_b/D_ent), con D_ent declarada (el
+diccionario t ↔ σ no la fija). Medido: prefactor ∝ δ₀^{1.85} (argumento
+2) y barrera ∝ δ₀^{2.44} (argumento 3, erosionado por la inclinación):
+Γ_K(0) = 0 por el prefactor — el paisaje plano de δ₀ = 0 no tiene
+curvatura que fije un ritmo — mecanismo opuesto al bounce, donde B → ∞.
+Cuál de las dos es la nucleación del tratado (instantón conservativo o
+escape disipativo) es decisión del diccionario, no del código. La
+integración conjunta Φ_Ad ⊗ λ_i desde el bounce (modo emergente, τ ∈
+[10⁻³, 10⁻¹]) no produce ningún cruce D = 0: los eventos S_emergent se
+publican vacíos, junto a los S_imposed. Convenciones declaradas: la
+dimensión d (3 y 4 publicadas; el tramo pre-geométrico no tiene
+espacio-tiempo), el prefactor, la normalización de la acción (G = ħ =
+1), D_ent y el corte θ = 0. **Estatuto**: cálculo de consistencia (E8)
+con la expectativa E13 cumplida por vías distintas en cada mecanismo
+(`results/2026-09-21_nucleation/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
@@ -977,9 +1020,10 @@ los umbrales intactos (`results/2026-09-21_cronos_jeans/`).
 2b. El reloj S (`core/s_clock.py`) existe como simulador de
    consistencia (§3.20); lo que lo volvería emergente son los frentes
    con nombre de §3.18: τ(S) (frente 2), el diccionario primordial →
-   cosmológico, el mapa S(z), c ≡ v_LR — y ahora también el transporte
-   azimutal de la Prop. 3.5 y la nucleación Γ₀(δ₀), que el reloj
-   exhibe como ausentes.
+   cosmológico, el mapa S(z), c ≡ v_LR — y el transporte azimutal de
+   la Prop. 3.5, que el reloj exhibe como ausente. La nucleación
+   Γ₀(δ₀) existe desde §3.22 con convenciones declaradas (d, prefactor,
+   D_ent): decidir cuál mecanismo es el del tratado es del diccionario.
 3. Residuos al 1–2 % de precisión futura (la consistencia superada se
    volvería decisiva).
 4. Los medios pasos de los frentes E y F quedaron ejecutados el mismo
@@ -1034,6 +1078,7 @@ python scripts/run_cronos_halo_nivelA.py run              # §3.19 diez corridas
 python scripts/run_cronos_halo_nivelA.py analyze          # §3.19 regla congelada
 python scripts/run_s_clock.py                             # §3.20 el reloj S (consistencia)
 python scripts/run_cronos_jeans.py                        # §3.21 criterio de Cronos–Jeans (derivación + test 1D)
+python scripts/run_nucleation.py                          # §3.22 salida de S₀ (bounce, Kramers, reloj desde el bounce)
 ```
 
 Desenlaces versionados: `results/2026-07-31_production_fit/`,

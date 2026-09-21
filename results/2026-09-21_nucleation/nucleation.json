@@ -1,0 +1,1765 @@
+{
+  "kind": "cálculo de consistencia (E8) con convenciones declaradas; sin preinscripción",
+  "status": "bounce de Coleman sobre el corte radial del Basal completo (E8): dimensión d del instantón, prefactor A y normalización de la acción DECLARADOS; B(δ₀) medida; Γ₀(0) = 0 se cumple sin prefactor para d = 4 (B ∝ δ₀^{−1}) y exige A(δ₀) → 0 para d = 3",
+  "executed_utc": "2026-09-21T11:18:26.599152+00:00",
+  "code_commit": "c3aade7b9e966468a6d1f6308e67f79a1e2d74a5",
+  "delta0_metastability_max": 0.10278281782685247,
+  "bounce_scaling": {
+    "3": {
+      "d": 3,
+      "rows": [
+        {
+          "delta0": 0.002,
+          "d": 3,
+          "theta": 0.0,
+          "phi0": 0.07085343240175968,
+          "phi_fv": 0.0014184934025658002,
+          "phi_barrier": 0.026780362667959228,
+          "phi_tv": 0.07248070154446215,
+          "phi_esc_energy": 0.038480670275852204,
+          "B": 15.207951092611172,
+          "Gamma_over_A": 2.4846816889028645e-07,
+          "V0_minus_Vfv_over_T0": -0.9916879730910118,
+          "f0": 0.9916879730910118,
+          "thin_wall_B": 0.2025685113817514,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.08087453909428176,
+          "n_shots": 43,
+          "converged": true
+        },
+        {
+          "delta0": 0.004,
+          "d": 3,
+          "theta": 0.0,
+          "phi0": 0.09967120584835881,
+          "phi_fv": 0.0028456988168710875,
+          "phi_barrier": 0.037341114667052484,
+          "phi_tv": 0.10257287258444828,
+          "phi_esc_energy": 0.05328025680659149,
+          "B": 13.745104463026262,
+          "Gamma_over_A": 1.0729438098448962e-06,
+          "V0_minus_Vfv_over_T0": -0.9872112030559945,
+          "f0": 0.9872112030559945,
+          "thin_wall_B": 0.14750394181822626,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.07104916567770397,
+          "n_shots": 43,
+          "converged": true
+        },
+        {
+          "delta0": 0.008,
+          "d": 3,
+          "theta": 0.0,
+          "phi0": 0.13956664815001057,
+          "phi_fv": 0.005727204455246128,
+          "phi_barrier": 0.05169570564571635,
+          "phi_tv": 0.14519844375100366,
+          "phi_esc_energy": 0.07298726159310169,
+          "B": 11.870049553907416,
+          "Gamma_over_A": 6.996856690964423e-06,
+          "V0_minus_Vfv_over_T0": -0.977109986481882,
+          "f0": 0.977109986481882,
+          "thin_wall_B": 0.09132603043632191,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.05843161893401191,
+          "n_shots": 42,
+          "converged": true
+        },
+        {
+          "delta0": 0.016,
+          "d": 3,
+          "theta": 0.0,
+          "phi0": 0.1933686539906701,
+          "phi_fv": 0.01160600898123924,
+          "phi_barrier": 0.07071902019704127,
+          "phi_tv": 0.20561619474323928,
+          "phi_esc_energy": 0.09820426656264274,
+          "B": 9.543046566174155,
+          "Gamma_over_A": 7.169808163369567e-05,
+          "V0_minus_Vfv_over_T0": -0.9503102098988049,
+          "f0": 0.9503102098988049,
+          "thin_wall_B": 0.04281221375471223,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.0429232617874362,
+          "n_shots": 40,
+          "converged": true
+        },
+        {
+          "delta0": 0.032,
+          "d": 3,
+          "theta": 0.0,
+          "phi0": 0.26013409380503094,
+          "phi_fv": 0.023899606465375874,
+          "phi_barrier": 0.09460304229531812,
+          "phi_tv": 0.29132775325339116,
+          "phi_esc_energy": 0.1277012405426184,
+          "B": 6.753873138964892,
+          "Gamma_over_A": 0.0011663534122841703,
+          "V0_minus_Vfv_over_T0": -0.8634102737194425,
+          "f0": 0.8634102737194425,
+          "thin_wall_B": 0.011517522052096473,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.025182373191862402,
+          "n_shots": 38,
+          "converged": true
+        },
+        {
+          "delta0": 0.064,
+          "d": 3,
+          "theta": 0.0,
+          "phi0": 0.3105252372443767,
+          "phi_fv": 0.05160881997605009,
+          "phi_barrier": 0.11976611997961656,
+          "phi_tv": 0.4130666532704423,
+          "phi_esc_energy": 0.15215341862793572,
+          "B": 3.442585705560163,
+          "Gamma_over_A": 0.03198188259060675,
+          "V0_minus_Vfv_over_T0": -0.5219220775761715,
+          "f0": 0.5219220775761715,
+          "thin_wall_B": 0.0006103257164367601,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.0076694118686582305,
+          "n_shots": 31,
+          "converged": true
+        }
+      ],
+      "exponent_measured": -0.4030429542951626,
+      "exponent_scaling_argument": 0.0,
+      "intercept": 0.39677808769926887,
+      "Gamma0_vanishes_at_delta0_zero_without_prefactor": true,
+      "note": "la inclinación (∝ δ₀^{7/2}) desplaza el exponente medido respecto de 3 − d en O(δ₀^{1/2})"
+    },
+    "4": {
+      "d": 4,
+      "rows": [
+        {
+          "delta0": 0.002,
+          "d": 4,
+          "theta": 0.0,
+          "phi0": 0.0723470524783365,
+          "phi_fv": 0.0014184934025658002,
+          "phi_barrier": 0.026780362667959228,
+          "phi_tv": 0.07248070154446215,
+          "phi_esc_energy": 0.038480670275852204,
+          "B": 67079.59656110908,
+          "Gamma_over_A": 0.0,
+          "V0_minus_Vfv_over_T0": -0.9999408862513786,
+          "f0": 0.9999408862513786,
+          "thin_wall_B": 192.06656016809552,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.08087453909428176,
+          "n_shots": 43,
+          "converged": true
+        },
+        {
+          "delta0": 0.004,
+          "d": 4,
+          "theta": 0.0,
+          "phi0": 0.10230878536872887,
+          "phi_fv": 0.0028456988168710875,
+          "phi_barrier": 0.037341114667052484,
+          "phi_tv": 0.10257287258444828,
+          "phi_esc_energy": 0.05328025680659149,
+          "B": 29356.15697793566,
+          "Gamma_over_A": 0.0,
+          "V0_minus_Vfv_over_T0": -0.9998868413541797,
+          "f0": 0.9998868413541797,
+          "thin_wall_B": 62.431328868446535,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.07104916567770397,
+          "n_shots": 43,
+          "converged": true
+        },
+        {
+          "delta0": 0.008,
+          "d": 4,
+          "theta": 0.0,
+          "phi0": 0.14460944688829735,
+          "phi_fv": 0.005727204455246128,
+          "phi_barrier": 0.05169570564571635,
+          "phi_tv": 0.14519844375100366,
+          "phi_esc_energy": 0.07298726159310169,
+          "B": 12128.465851912508,
+          "Gamma_over_A": 0.0,
+          "V0_minus_Vfv_over_T0": -0.99972627949323,
+          "f0": 0.99972627949323,
+          "thin_wall_B": 16.30132716190493,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.05843161893401191,
+          "n_shots": 41,
+          "converged": true
+        },
+        {
+          "delta0": 0.016,
+          "d": 4,
+          "theta": 0.0,
+          "phi0": 0.20407029716109226,
+          "phi_fv": 0.01160600898123924,
+          "phi_barrier": 0.07071902019704127,
+          "phi_tv": 0.20561619474323928,
+          "phi_esc_energy": 0.09820426656264274,
+          "B": 4592.958184639895,
+          "Gamma_over_A": 0.0,
+          "V0_minus_Vfv_over_T0": -0.999094843880517,
+          "f0": 0.999094843880517,
+          "thin_wall_B": 2.926777455450643,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.0429232617874362,
+          "n_shots": 41,
+          "converged": true
+        },
+        {
+          "delta0": 0.032,
+          "d": 4,
+          "theta": 0.0,
+          "phi0": 0.28620755667091013,
+          "phi_fv": 0.023899606465375874,
+          "phi_barrier": 0.09460304229531812,
+          "phi_tv": 0.29132775325339116,
+          "phi_esc_energy": 0.1277012405426184,
+          "B": 1504.9560278846159,
+          "Gamma_over_A": 0.0,
+          "V0_minus_Vfv_over_T0": -0.9953562665836946,
+          "f0": 0.9953562665836946,
+          "thin_wall_B": 0.24947978659221906,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.025182373191862402,
+          "n_shots": 39,
+          "converged": true
+        },
+        {
+          "delta0": 0.064,
+          "d": 4,
+          "theta": 0.0,
+          "phi0": 0.38685146629156486,
+          "phi_fv": 0.05160881997605009,
+          "phi_barrier": 0.11976611997961656,
+          "phi_tv": 0.4130666532704423,
+          "phi_esc_energy": 0.15215341862793572,
+          "B": 357.8208475007364,
+          "Gamma_over_A": 3.984560455201365e-156,
+          "V0_minus_Vfv_over_T0": -0.9485799219822622,
+          "f0": 0.9485799219822622,
+          "thin_wall_B": 0.0024245119264386964,
+          "thin_wall_applicable": false,
+          "barrier_over_T0": 0.0076694118686582305,
+          "n_shots": 33,
+          "converged": true
+        }
+      ],
+      "exponent_measured": -1.486027855330635,
+      "exponent_scaling_argument": -1.0,
+      "intercept": 2.078848347136018,
+      "Gamma0_vanishes_at_delta0_zero_without_prefactor": true,
+      "note": "la inclinación (∝ δ₀^{7/2}) desplaza el exponente medido respecto de 3 − d en O(δ₀^{1/2})"
+    }
+  },
+  "kramers_scaling": {
+    "1e-09": {
+      "D_ent": 1e-09,
+      "rows": [
+        {
+          "delta0": 0.002,
+          "D_ent": 1e-09,
+          "barrier_height": 5.768334396085512e-10,
+          "V_pp_fv": 3.963802019571671e-06,
+          "V_pp_barrier": -6.337588964255867e-06,
+          "prefactor": 7.976973390744705e-07,
+          "exponent": 0.5768334396085512,
+          "Gamma_K": 4.48045957812194e-07,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.004,
+          "D_ent": 1e-09,
+          "barrier_height": 4.148316553627602e-09,
+          "V_pp_fv": 1.570879982481064e-05,
+          "V_pp_barrier": -2.4475735467569477e-05,
+          "prefactor": 3.1207538128178345e-06,
+          "exponent": 4.148316553627602,
+          "Gamma_K": 4.9279752883144816e-08,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.008,
+          "D_ent": 1e-09,
+          "barrier_height": 2.8161999844344525e-08,
+          "V_pp_fv": 6.164371678244689e-05,
+          "V_pp_barrier": -9.270627307883143e-05,
+          "prefactor": 1.2031481315622609e-05,
+          "exponent": 28.161999844344525,
+          "Gamma_K": 7.074861936907158e-18,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.016,
+          "D_ent": 1e-09,
+          "barrier_height": 1.726237288205643e-07,
+          "V_pp_fv": 0.00023669399969462928,
+          "V_pp_barrier": -0.00033911089589404265,
+          "prefactor": 4.509045606733676e-05,
+          "exponent": 172.62372882056428,
+          "Gamma_K": 4.836729010490009e-80,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.032,
+          "D_ent": 1e-09,
+          "barrier_height": 8.565109370799622e-07,
+          "V_pp_fv": 0.0008611282343820645,
+          "V_pp_barrier": -0.0011530350185522265,
+          "prefactor": 0.000158589815841827,
+          "exponent": 856.5109370799621,
+          "Gamma_K": 0.0,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.064,
+          "D_ent": 1e-09,
+          "barrier_height": 2.2410002466637863e-06,
+          "V_pp_fv": 0.0025973114777390403,
+          "V_pp_barrier": -0.0031373592268858805,
+          "prefactor": 0.0004543225288753346,
+          "exponent": 2241.000246663786,
+          "Gamma_K": 0.0,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        }
+      ],
+      "prefactor_exponent_measured": 1.8478883273267224,
+      "prefactor_exponent_argument": 2.0,
+      "barrier_exponent_measured": 2.437249046756208,
+      "barrier_exponent_argument": 3.0,
+      "Gamma_K_vanishes_at_delta0_zero": true
+    },
+    "1e-08": {
+      "D_ent": 1e-08,
+      "rows": [
+        {
+          "delta0": 0.002,
+          "D_ent": 1e-08,
+          "barrier_height": 5.768334396085512e-10,
+          "V_pp_fv": 3.963802019571671e-06,
+          "V_pp_barrier": -6.337588964255867e-06,
+          "prefactor": 7.976973390744705e-07,
+          "exponent": 0.05768334396085512,
+          "Gamma_K": 7.529854517314416e-07,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.004,
+          "D_ent": 1e-08,
+          "barrier_height": 4.148316553627602e-09,
+          "V_pp_fv": 1.570879982481064e-05,
+          "V_pp_barrier": -2.4475735467569477e-05,
+          "prefactor": 3.1207538128178345e-06,
+          "exponent": 0.41483165536276023,
+          "Gamma_K": 2.06110639577163e-06,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.008,
+          "D_ent": 1e-08,
+          "barrier_height": 2.8161999844344525e-08,
+          "V_pp_fv": 6.164371678244689e-05,
+          "V_pp_barrier": -9.270627307883143e-05,
+          "prefactor": 1.2031481315622609e-05,
+          "exponent": 2.8161999844344523,
+          "Gamma_K": 7.19878143166589e-07,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.016,
+          "D_ent": 1e-08,
+          "barrier_height": 1.726237288205643e-07,
+          "V_pp_fv": 0.00023669399969462928,
+          "V_pp_barrier": -0.00033911089589404265,
+          "prefactor": 4.509045606733676e-05,
+          "exponent": 17.26237288205643,
+          "Gamma_K": 1.4359236244424704e-12,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.032,
+          "D_ent": 1e-08,
+          "barrier_height": 8.565109370799622e-07,
+          "V_pp_fv": 0.0008611282343820645,
+          "V_pp_barrier": -0.0011530350185522265,
+          "prefactor": 0.000158589815841827,
+          "exponent": 85.65109370799621,
+          "Gamma_K": 1.0057219492548995e-41,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.064,
+          "D_ent": 1e-08,
+          "barrier_height": 2.2410002466637863e-06,
+          "V_pp_fv": 0.0025973114777390403,
+          "V_pp_barrier": -0.0031373592268858805,
+          "prefactor": 0.0004543225288753346,
+          "exponent": 224.10002466637863,
+          "Gamma_K": 2.1476334820531305e-101,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        }
+      ],
+      "prefactor_exponent_measured": 1.8478883273267224,
+      "prefactor_exponent_argument": 2.0,
+      "barrier_exponent_measured": 2.437249046756208,
+      "barrier_exponent_argument": 3.0,
+      "Gamma_K_vanishes_at_delta0_zero": true
+    },
+    "1e-07": {
+      "D_ent": 1e-07,
+      "rows": [
+        {
+          "delta0": 0.002,
+          "D_ent": 1e-07,
+          "barrier_height": 5.768334396085512e-10,
+          "V_pp_fv": 3.963802019571671e-06,
+          "V_pp_barrier": -6.337588964255867e-06,
+          "prefactor": 7.976973390744705e-07,
+          "exponent": 0.0057683343960855124,
+          "Gamma_K": 7.931091997587526e-07,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.004,
+          "D_ent": 1e-07,
+          "barrier_height": 4.148316553627602e-09,
+          "V_pp_fv": 1.570879982481064e-05,
+          "V_pp_barrier": -2.4475735467569477e-05,
+          "prefactor": 3.1207538128178345e-06,
+          "exponent": 0.041483165536276026,
+          "Gamma_K": 2.9939434971001104e-06,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.008,
+          "D_ent": 1e-07,
+          "barrier_height": 2.8161999844344525e-08,
+          "V_pp_fv": 6.164371678244689e-05,
+          "V_pp_barrier": -9.270627307883143e-05,
+          "prefactor": 1.2031481315622609e-05,
+          "exponent": 0.28161999844344526,
+          "Gamma_K": 9.078478923059063e-06,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.016,
+          "D_ent": 1e-07,
+          "barrier_height": 1.726237288205643e-07,
+          "V_pp_fv": 0.00023669399969462928,
+          "V_pp_barrier": -0.00033911089589404265,
+          "prefactor": 4.509045606733676e-05,
+          "exponent": 1.7262372882056432,
+          "Gamma_K": 8.023970055427227e-06,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.032,
+          "D_ent": 1e-07,
+          "barrier_height": 8.565109370799622e-07,
+          "V_pp_fv": 0.0008611282343820645,
+          "V_pp_barrier": -0.0011530350185522265,
+          "prefactor": 0.000158589815841827,
+          "exponent": 8.565109370799622,
+          "Gamma_K": 3.0233996479069067e-08,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        },
+        {
+          "delta0": 0.064,
+          "D_ent": 1e-07,
+          "barrier_height": 2.2410002466637863e-06,
+          "V_pp_fv": 0.0025973114777390403,
+          "V_pp_barrier": -0.0031373592268858805,
+          "prefactor": 0.0004543225288753346,
+          "exponent": 22.410002466637863,
+          "Gamma_K": 8.410539646392307e-14,
+          "status": "declarado: D_ent no fijada por el corpus; Γ_K(0) = 0 por el prefactor ∝ δ₀²"
+        }
+      ],
+      "prefactor_exponent_measured": 1.8478883273267224,
+      "prefactor_exponent_argument": 2.0,
+      "barrier_exponent_measured": 2.437249046756208,
+      "barrier_exponent_argument": 3.0,
+      "Gamma_K_vanishes_at_delta0_zero": true
+    }
+  },
+  "clock_with_bounce": {
+    "imposed_bounce_d3": {
+      "config": {
+        "delta0": 0.01,
+        "m_bar": 1.0,
+        "b_bar": 3.0,
+        "e_bar": 1.0,
+        "C0": 1.0,
+        "G": 1.0,
+        "thresholds": "imposed",
+        "couplings_flow": false,
+        "fp": {
+          "a": 0.5,
+          "b": 0.5,
+          "flow_sign": 1,
+          "truncation": "cubic",
+          "tau": 1.0,
+          "g_grid": [
+            0.1,
+            0.1258925412,
+            0.1584893192,
+            0.1995262315,
+            0.2511886432,
+            0.316227766,
+            0.3981071706,
+            0.5011872336,
+            0.6309573445,
+            0.7943282347,
+            1.0,
+            1.2589254118,
+            1.5848931925,
+            1.995262315,
+            2.5118864315,
+            3.1622776602,
+            3.9810717055,
+            5.0118723363,
+            6.3095734448,
+            7.9432823472,
+            10.0
+          ],
+          "robustness_window": [
+            0.5,
+            2.0
+          ],
+          "s0_band": 0.1,
+          "s0_target": 1.3643763538418412
+        },
+        "theta_nuc": 0.0,
+        "eps_res": 0.001,
+        "d_sigma_hat": 0.0005,
+        "max_steps": 400000,
+        "beta_c0": 40.0,
+        "u0": 0.02,
+        "gamma_m": 8.0,
+        "m_eff0": 1.0,
+        "m_min": 0.5,
+        "S_end_emergent": 1.001,
+        "nucleation": "bounce",
+        "bounce_d": 3
+      },
+      "status": "simulador de consistencia (E8): umbrales de la Década impuestos (Prop. 8.1, λ = 10 calibrado — frente 2), nucleación declarada en el punto de escape, sellados con forma paramétrica declarada, diagonal impuesta para la entrega; el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente)",
+      "ledger": {
+        "rows": [
+          {
+            "section": "S0",
+            "item": "quasi_cancellation_3_3",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "metastability_8_6_D_only",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "metastability_with_tilt",
+            "status": "derivado (hallazgo del simulador)",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "T0_scaling_3_4",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "measure_normalizable_3_1",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "chi_residue_3_4",
+            "status": "derivado",
+            "pass": null,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "nucleation",
+            "status": "derivado con convenciones declaradas (bounce O(3), prefactor A no fijado)",
+            "pass": null,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "monotonia_4_5",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "produccion_entropica_4_5",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "exclusion_4_7",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "S_equals_f_identity",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "exit_to_mass_pole_3_5",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "descent_finished",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "seals",
+            "item": "c_eff",
+            "status": "declarado (forma) + derivado (congelación)",
+            "pass": null,
+            "sealed": true
+          },
+          {
+            "section": "seals",
+            "item": "m_eff",
+            "status": "declarado (forma) + derivado (punto fijo)",
+            "pass": null,
+            "sealed": true
+          },
+          {
+            "section": "diagonal",
+            "item": "flow",
+            "status": "publicado",
+            "pass": null,
+            "sealed": null
+          },
+          {
+            "section": "diagonal",
+            "item": "imposed",
+            "status": "impuesto",
+            "pass": null,
+            "sealed": null
+          },
+          {
+            "section": "handshake_cosmology",
+            "item": "newton_seal_9_3",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "handshake_cosmology",
+            "item": "atlas_healthy_9_4",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "handshake_cosmology",
+            "item": "lcdm_recovery_A_1",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "handshake_cosmology",
+            "item": "dictionary",
+            "status": "hueco declarado",
+            "pass": null,
+            "sealed": null
+          },
+          {
+            "section": "events",
+            "item": "colapso_1D",
+            "status": "impuesto (Prop. 8.1)",
+            "pass": null,
+            "S": 0.009000000000000001
+          },
+          {
+            "section": "events",
+            "item": "colapso_2D",
+            "status": "impuesto (Prop. 8.1)",
+            "pass": null,
+            "S": 0.099
+          },
+          {
+            "section": "events",
+            "item": "colapso_3D",
+            "status": "impuesto (Prop. 8.1)",
+            "pass": null,
+            "S": 0.999
+          },
+          {
+            "section": "events",
+            "item": "V3D",
+            "status": "declarado (cuanto de anticipación/confirmación, Prop. 8.1)",
+            "pass": null,
+            "S": 1.0
+          },
+          {
+            "section": "events",
+            "item": "Florencia",
+            "status": "derivado (giro, firma, RP juguete, identidad) — evento declarado en S = 1,001",
+            "pass": null,
+            "S": 1.001
+          }
+        ],
+        "counts_by_status_word": {
+          "derivado": 17,
+          "declarado": 3,
+          "publicado": 1,
+          "impuesto": 4,
+          "hueco": 1
+        },
+        "derived_checks_failed": [],
+        "reading": "ningún desenlace: comprobación interna (E8); «impuesto/declarado» marca lo que el tratado o el simulador fijan sin derivar; «publicado» marca hallazgos sin veredicto"
+      },
+      "declared_forms": {
+        "c_eff": "du/dS = β_c(S)·u·(1 − u), β_c(S) = β_c0·max(0, 1 − S/S_c), S_c = S_0,099; c_eff ≡ max|du/dS| alcanzado antes del sello; u(0) = u0. FORMA DECLARADA, no la ec. (5.3) del tratado.",
+        "m_eff": "dm/dS = −γ_m·(m − m_min)·max(0, 1 − S/S_c²), S_c² = S_0,999; dm/dS|_{S_c²} = 0 fija m_min (§5.4). FORMA DECLARADA.",
+        "theta_imposed": "θ_imp(S) = (π/4)·min(1, S/S_diag), S_diag = S_V3D = 1,000: cruce de la diagonal en S ≃ 1 POR CONSTRUCCIÓN (Prop. 3.5 declarada, no producida).",
+        "S_normalization": "S ≡ ∫Σ̇ dσ / T₀ con T₀ = V_fv − V_tv medida en el paisaje completo — descarga completa ⟺ S = 1 (el número del cuanto ΔS es convencional, F.4).",
+        "nucleation": "punto de escape de Coleman: ρ_esc > ρ_barrera con V(ρ_esc) = V_fv (emerge sin velocidad con la tensión del falso vacío) en la dirección θ_nuc declarada; Γ₀(δ₀) no calculada.",
+        "confirmation_quanta": "tras alcanzar f = 1 − ε_res (residuo de descarga, F.3) el reloj avanza ΔS por cuanto declarado: V3D en 1,000 y Florencia en 1,001 (Prop. 8.1).",
+        "Phi_ten_at_florencia": "Φ_ten(S_1,001) = 0 por normalización declarada (N = 1): no derivado."
+      },
+      "mode": "imposed",
+      "T0": 9.529519791456761e-07,
+      "T0_law_3_4": 8.408474953124557e-07,
+      "x_esc": 0.02410816697026956,
+      "x_plus": 0.02637339596801418,
+      "landscape": {
+        "roots": [
+          0.007182014067649115,
+          0.05727605472985222,
+          0.16239887920799878
+        ],
+        "metastable": true,
+        "tilt": 7.071067811865476e-07,
+        "rho_fv": 0.007182014067649115,
+        "V_fv": -2.5193164222435464e-09,
+        "rho_barrier": 0.05727605472985222,
+        "V_barrier": 4.8696346813313227e-08,
+        "rho_tv": 0.16239887920799878,
+        "V_tv": -9.554712955679197e-07,
+        "T0_full": 9.529519791456761e-07,
+        "barrier_height": 5.1215663235556774e-08,
+        "rho_esc": 0.08050249678518855
+      },
+      "events": [
+        {
+          "kind": "colapso_1D",
+          "S": 0.009000000000000001,
+          "S_integrated": 0.0,
+          "sigma": 0.0,
+          "S_imposed": 0.009000000000000001,
+          "S_emergent": null,
+          "trigger": "umbral de la Década (ya superado al emerger: f₀ ≥ umbral, colapso dentro de la nucleación)",
+          "d_after": 1,
+          "algebra": "C(2,0)",
+          "dim_rep": 2,
+          "anticommute": true,
+          "signature": [
+            1,
+            1
+          ],
+          "elliptic_symbol_positive": true,
+          "D_at_event": 0.0005,
+          "x_over_x_plus": 0.9141093168095643,
+          "theta": 0.0,
+          "sextic_dimension": 4.0,
+          "status": "impuesto (Prop. 8.1)",
+          "S_emergent_note": "D > 0 en todo el recorrido (acoplos congelados): sin cruce emergente"
+        },
+        {
+          "kind": "colapso_2D",
+          "S": 0.099,
+          "S_integrated": 0.0,
+          "sigma": 0.0,
+          "S_imposed": 0.099,
+          "S_emergent": null,
+          "trigger": "umbral de la Década (ya superado al emerger: f₀ ≥ umbral, colapso dentro de la nucleación)",
+          "d_after": 2,
+          "algebra": "C(3,0)",
+          "dim_rep": 2,
+          "anticommute": true,
+          "signature": [
+            1,
+            1,
+            1
+          ],
+          "elliptic_symbol_positive": true,
+          "D_at_event": 0.0005,
+          "x_over_x_plus": 0.9141093168095643,
+          "theta": 0.0,
+          "sextic_dimension": 2.0,
+          "status": "impuesto (Prop. 8.1)",
+          "S_emergent_note": "D > 0 en todo el recorrido (acoplos congelados): sin cruce emergente"
+        },
+        {
+          "kind": "colapso_3D",
+          "S": 0.999,
+          "S_integrated": 0.027694116329428434,
+          "sigma": 1554.191370385419,
+          "S_imposed": 0.999,
+          "S_emergent": null,
+          "trigger": "umbral de la Década",
+          "d_after": 3,
+          "algebra": "C(4,0)",
+          "dim_rep": 4,
+          "anticommute": true,
+          "signature": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "elliptic_symbol_positive": true,
+          "D_at_event": 0.0005,
+          "x_over_x_plus": 0.9843366026140469,
+          "theta": 0.0,
+          "sextic_dimension": 0.0,
+          "status": "impuesto (Prop. 8.1)",
+          "S_emergent_note": "D > 0 en todo el recorrido (acoplos congelados): sin cruce emergente"
+        },
+        {
+          "kind": "V3D",
+          "S": 1.0,
+          "sigma": 1555.0,
+          "d_after": 3,
+          "sextic_dimension": 0.0,
+          "marginal_in_d3": true,
+          "status": "declarado (cuanto de anticipación/confirmación, Prop. 8.1)"
+        },
+        {
+          "algebra_before": "C(4,0)",
+          "algebra_after": "C(3,1)",
+          "signature_after": [
+            -1,
+            1,
+            1,
+            1
+          ],
+          "signature_pass": true,
+          "anticommute_after": true,
+          "negative_control_two_rotations": [
+            -1,
+            1,
+            1,
+            -1
+          ],
+          "negative_control_pass": true,
+          "regime_after": "post",
+          "rp_slice_min_eig_J_plus": -1.7266212761885276e-16,
+          "rp_slice_pass": true,
+          "rp_negative_control_J_minus": -0.02089340076501343,
+          "rp_negative_control_pass": true,
+          "beta3_from_empalme": 0.022360679774997897,
+          "m_H_GeV": 52.02266616127575,
+          "m_H_identity_pass": true,
+          "m_H_PDG_GeV": 125.25,
+          "m_H_note": "identidad m_H = √(2β₃)v₃ comprobada; el VALOR depende de δ₀ (input) y β₃ es condicional (frente 7): no es predicción",
+          "status": "derivado (giro, firma, RP juguete, identidad) — evento declarado en S = 1,001",
+          "kind": "Florencia",
+          "S": 1.001,
+          "sigma": 1555.0,
+          "d_after": 3
+        }
+      ],
+      "checks": {
+        "S0": {
+          "quasi_cancellation_3_3": {
+            "pass": true,
+            "status": "derivado"
+          },
+          "metastability_8_6_D_only": {
+            "pass": true,
+            "D_S0": 0.0005,
+            "status": "derivado"
+          },
+          "metastability_with_tilt": {
+            "pass": true,
+            "delta0": 0.01,
+            "delta0_max": 0.10278281782685247,
+            "barrier_height_over_T0": 0.05374422253834002,
+            "rho_false_vacuum": 0.007182014067649115,
+            "rho_barrier": 0.05727605472985222,
+            "rho_true_vacuum": 0.16239887920799878,
+            "rho_esc": 0.08050249678518855,
+            "finding": "la Obs. 8.6 (D > 0) es necesaria, no suficiente: con la inclinación η = ē·δ0³ el falso vacío existe solo para δ0 < δ0_max(m̄, b̄, ē, C0)",
+            "status": "derivado (hallazgo del simulador)"
+          },
+          "T0_scaling_3_4": {
+            "law_c_bar_delta0_cubed": 8.408474953124557e-07,
+            "numeric_no_tilt": 8.408474953124557e-07,
+            "rel_err_law_vs_numeric": 0.0,
+            "T0_full_with_tilt": 9.529519791456761e-07,
+            "tilt_correction": 0.13332320600130076,
+            "c_bar": 0.8408474953124556,
+            "pass": true,
+            "note": "la corrección de la inclinación es O(δ0^{1/2}) relativa (Prop. 3.4: η·ρ₊ = O(δ0^{7/2}))",
+            "status": "derivado"
+          },
+          "measure_normalizable_3_1": {
+            "pass": true,
+            "status": "derivado"
+          },
+          "chi_residue_3_4": {
+            "analytic": 0.01,
+            "false_vacuum_chi": 0.005078450849811868,
+            "status": "derivado"
+          },
+          "nucleation": {
+            "mode": "bounce",
+            "x_esc": 0.02410816697026956,
+            "x_esc_over_x_plus": 0.9141093168095643,
+            "bounce": {
+              "d": 3,
+              "phi0": 0.15526804877459355,
+              "B": 11.171275440765449,
+              "Gamma_over_A": 1.4072677016878365e-05,
+              "f0": 0.9712961471529471,
+              "barrier_over_T0": 0.05374422253834002,
+              "converged": true
+            },
+            "V_esc_minus_V_fv_over_T0": -0.9712961471529467,
+            "Gamma0": 1.4072677016878365e-05,
+            "status": "derivado con convenciones declaradas (bounce O(3), prefactor A no fijado)"
+          }
+        },
+        "descent": {
+          "monotonia_4_5": {
+            "max_dV_over_T0": -1.1614957589315782e-05,
+            "pass": true,
+            "note": null,
+            "status": "derivado"
+          },
+          "produccion_entropica_4_5": {
+            "min": 2.7011765960621244e-12,
+            "pass": true,
+            "status": "derivado"
+          },
+          "exclusion_4_7": {
+            "pass": true,
+            "status": "derivado"
+          },
+          "S_equals_f_identity": {
+            "max_abs_diff": 2.2941717969793274e-13,
+            "f0_nucleation": 0.9712961471529467,
+            "pass": true,
+            "note": "Σ̇ = −dV/dσ ⟹ ∫Σ̇dσ = V(σ=0) − V = T₀·(f − f₀) exactamente en el flujo de gradiente (Teo. 4.5) con la normalización declarada; f₀ = 0 en el punto de escape y > 0 si la nucleación entrega el campo ya parcialmente descargado (bounce); en modo emergente V cambia con λ",
+            "status": "derivado"
+          },
+          "exit_to_mass_pole_3_5": {
+            "theta_final": 0.0,
+            "pass": true,
+            "status": "derivado"
+          },
+          "descent_finished": {
+            "pass": true,
+            "steps": 311,
+            "reason": "residuo de descarga alcanzado",
+            "f_final": 0.9990018784397358,
+            "S_final": 0.02770573128701852,
+            "sigma_final": 1555.0,
+            "sigma_hat_final": 0.1555,
+            "status": "derivado"
+          }
+        },
+        "seals": {
+          "c_eff": {
+            "form": "du/dS = β_c(S)·u·(1 − u), β_c(S) = β_c0·max(0, 1 − S/S_c), S_c = S_0,099; c_eff ≡ max|du/dS| alcanzado antes del sello; u(0) = u0. FORMA DECLARADA, no la ec. (5.3) del tratado.",
+            "u_frozen": 0.02,
+            "c_eff_max": 0.0,
+            "S_of_max": 0.0,
+            "rate_after_seal": 0.0,
+            "sealed": true,
+            "status": "declarado (forma) + derivado (congelación)"
+          },
+          "m_eff": {
+            "form": "dm/dS = −γ_m·(m − m_min)·max(0, 1 − S/S_c²), S_c² = S_0,999; dm/dS|_{S_c²} = 0 fija m_min (§5.4). FORMA DECLARADA.",
+            "m_frozen": 0.998457535794237,
+            "rate_after_seal": 0.0,
+            "sealed": true,
+            "status": "declarado (forma) + derivado (punto fijo)"
+          }
+        },
+        "diagonal": {
+          "flow": {
+            "crossed": false,
+            "S_at_crossing": null,
+            "theta_final": 0.0,
+            "theta_max": 0.0,
+            "finding": "el Basal solo lleva θ al polo de masa y lo mantiene: el transporte azimutal hasta la diagonal (Prop. 3.5) no está implementado",
+            "status": "publicado"
+          },
+          "imposed": {
+            "S_at_crossing": 1.0,
+            "form": "θ_imp(S) = (π/4)·min(1, S/S_diag), S_diag = S_V3D = 1,000: cruce de la diagonal en S ≃ 1 POR CONSTRUCCIÓN (Prop. 3.5 declarada, no producida).",
+            "status": "impuesto"
+          }
+        },
+        "handshake_cosmology": {
+          "newton_seal_9_3": {
+            "ratio_at_seal": 1.0,
+            "pass": true,
+            "status": "derivado"
+          },
+          "atlas_healthy_9_4": {
+            "lambda_K": 1.012,
+            "pass": true,
+            "status": "derivado"
+          },
+          "lcdm_recovery_A_1": {
+            "max_rel_dev_eps0": 0.0,
+            "pass": true,
+            "status": "derivado"
+          },
+          "dictionary": {
+            "exists": false,
+            "pass": null,
+            "note": "no hay fórmula (δ₀, m̄, b̄, C₀, ē, f, Φ_ten) → (Ω_id,0, ε_Λ, z_trans, α_n, κ_lat, η_lat): fila diccionario-primordial-cosmologico",
+            "status": "hueco declarado"
+          }
+        }
+      },
+      "delivered_state": {
+        "S": 1.001,
+        "regime": "post",
+        "algebra": "C(3,1)",
+        "signature": [
+          -1,
+          1,
+          1,
+          1
+        ],
+        "d": 3,
+        "S_end_of_descent": 0.9990018784397358,
+        "f_end_of_descent": 0.9990018784397358,
+        "T_residual_over_T0": 0.0009981215602642424,
+        "couplings_sealed": {
+          "M0_sq": 0.0001,
+          "B": 0.03,
+          "C0": 1.0,
+          "D": 0.0005
+        },
+        "lambda_Ad_sealed": 0.022360679774997897,
+        "beta3": 0.022360679774997897,
+        "c_eff_sealed_u": 0.02,
+        "m_eff_sealed": 0.998457535794237,
+        "theta_flow": 0.0,
+        "chi_flow": 0.11393571936251873,
+        "rho_flow": 0.16112943956120884,
+        "theta_imposed": 0.7853981633974483,
+        "chi_residue_analytic_3_4": 0.01,
+        "delta0_input": 0.01,
+        "delta0_next_cycle": null,
+        "delta0_next_cycle_note": "F_Vic(δ₀) exige γ_R (frente 4): no calculado (core.victoria.STATUS_LYDIA)",
+        "Phi_ten": 0.0,
+        "Phi_ten_note": "Φ_ten(S_1,001) = 0 por normalización declarada (N = 1): no derivado.",
+        "channels_initial": null,
+        "readable_by_cosmology": false,
+        "readable_note": "el diccionario primordial → cosmológico no existe: cosmology/ no puede consumir este estado; se publica tal cual (fila diccionario-primordial-cosmologico)"
+      },
+      "steps": 311,
+      "finished": true,
+      "stop_reason": "residuo de descarga alcanzado",
+      "couplings_out_of_domain": null
+    },
+    "imposed_bounce_d4": {
+      "config": {
+        "delta0": 0.01,
+        "m_bar": 1.0,
+        "b_bar": 3.0,
+        "e_bar": 1.0,
+        "C0": 1.0,
+        "G": 1.0,
+        "thresholds": "imposed",
+        "couplings_flow": false,
+        "fp": {
+          "a": 0.5,
+          "b": 0.5,
+          "flow_sign": 1,
+          "truncation": "cubic",
+          "tau": 1.0,
+          "g_grid": [
+            0.1,
+            0.1258925412,
+            0.1584893192,
+            0.1995262315,
+            0.2511886432,
+            0.316227766,
+            0.3981071706,
+            0.5011872336,
+            0.6309573445,
+            0.7943282347,
+            1.0,
+            1.2589254118,
+            1.5848931925,
+            1.995262315,
+            2.5118864315,
+            3.1622776602,
+            3.9810717055,
+            5.0118723363,
+            6.3095734448,
+            7.9432823472,
+            10.0
+          ],
+          "robustness_window": [
+            0.5,
+            2.0
+          ],
+          "s0_band": 0.1,
+          "s0_target": 1.3643763538418412
+        },
+        "theta_nuc": 0.0,
+        "eps_res": 0.001,
+        "d_sigma_hat": 0.0005,
+        "max_steps": 400000,
+        "beta_c0": 40.0,
+        "u0": 0.02,
+        "gamma_m": 8.0,
+        "m_eff0": 1.0,
+        "m_min": 0.5,
+        "S_end_emergent": 1.001,
+        "nucleation": "bounce",
+        "bounce_d": 4
+      },
+      "status": "simulador de consistencia (E8): umbrales de la Década impuestos (Prop. 8.1, λ = 10 calibrado — frente 2), nucleación declarada en el punto de escape, sellados con forma paramétrica declarada, diagonal impuesta para la entrega; el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente)",
+      "ledger": {
+        "rows": [
+          {
+            "section": "S0",
+            "item": "quasi_cancellation_3_3",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "metastability_8_6_D_only",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "metastability_with_tilt",
+            "status": "derivado (hallazgo del simulador)",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "T0_scaling_3_4",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "measure_normalizable_3_1",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "chi_residue_3_4",
+            "status": "derivado",
+            "pass": null,
+            "sealed": null
+          },
+          {
+            "section": "S0",
+            "item": "nucleation",
+            "status": "derivado con convenciones declaradas (bounce O(4), prefactor A no fijado)",
+            "pass": null,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "monotonia_4_5",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "produccion_entropica_4_5",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "exclusion_4_7",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "S_equals_f_identity",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "exit_to_mass_pole_3_5",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "descent",
+            "item": "descent_finished",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "seals",
+            "item": "c_eff",
+            "status": "declarado (forma) + derivado (congelación)",
+            "pass": null,
+            "sealed": true
+          },
+          {
+            "section": "seals",
+            "item": "m_eff",
+            "status": "declarado (forma) + derivado (punto fijo)",
+            "pass": null,
+            "sealed": true
+          },
+          {
+            "section": "diagonal",
+            "item": "flow",
+            "status": "publicado",
+            "pass": null,
+            "sealed": null
+          },
+          {
+            "section": "diagonal",
+            "item": "imposed",
+            "status": "impuesto",
+            "pass": null,
+            "sealed": null
+          },
+          {
+            "section": "handshake_cosmology",
+            "item": "newton_seal_9_3",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "handshake_cosmology",
+            "item": "atlas_healthy_9_4",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "handshake_cosmology",
+            "item": "lcdm_recovery_A_1",
+            "status": "derivado",
+            "pass": true,
+            "sealed": null
+          },
+          {
+            "section": "handshake_cosmology",
+            "item": "dictionary",
+            "status": "hueco declarado",
+            "pass": null,
+            "sealed": null
+          },
+          {
+            "section": "events",
+            "item": "colapso_1D",
+            "status": "impuesto (Prop. 8.1)",
+            "pass": null,
+            "S": 0.009000000000000001
+          },
+          {
+            "section": "events",
+            "item": "colapso_2D",
+            "status": "impuesto (Prop. 8.1)",
+            "pass": null,
+            "S": 0.099
+          },
+          {
+            "section": "events",
+            "item": "colapso_3D",
+            "status": "impuesto (Prop. 8.1)",
+            "pass": null,
+            "S": 0.999
+          },
+          {
+            "section": "events",
+            "item": "V3D",
+            "status": "declarado (cuanto de anticipación/confirmación, Prop. 8.1)",
+            "pass": null,
+            "S": 1.0
+          },
+          {
+            "section": "events",
+            "item": "Florencia",
+            "status": "derivado (giro, firma, RP juguete, identidad) — evento declarado en S = 1,001",
+            "pass": null,
+            "S": 1.001
+          }
+        ],
+        "counts_by_status_word": {
+          "derivado": 17,
+          "declarado": 3,
+          "publicado": 1,
+          "impuesto": 4,
+          "hueco": 1
+        },
+        "derived_checks_failed": [],
+        "reading": "ningún desenlace: comprobación interna (E8); «impuesto/declarado» marca lo que el tratado o el simulador fijan sin derivar; «publicado» marca hallazgos sin veredicto"
+      },
+      "declared_forms": {
+        "c_eff": "du/dS = β_c(S)·u·(1 − u), β_c(S) = β_c0·max(0, 1 − S/S_c), S_c = S_0,099; c_eff ≡ max|du/dS| alcanzado antes del sello; u(0) = u0. FORMA DECLARADA, no la ec. (5.3) del tratado.",
+        "m_eff": "dm/dS = −γ_m·(m − m_min)·max(0, 1 − S/S_c²), S_c² = S_0,999; dm/dS|_{S_c²} = 0 fija m_min (§5.4). FORMA DECLARADA.",
+        "theta_imposed": "θ_imp(S) = (π/4)·min(1, S/S_diag), S_diag = S_V3D = 1,000: cruce de la diagonal en S ≃ 1 POR CONSTRUCCIÓN (Prop. 3.5 declarada, no producida).",
+        "S_normalization": "S ≡ ∫Σ̇ dσ / T₀ con T₀ = V_fv − V_tv medida en el paisaje completo — descarga completa ⟺ S = 1 (el número del cuanto ΔS es convencional, F.4).",
+        "nucleation": "punto de escape de Coleman: ρ_esc > ρ_barrera con V(ρ_esc) = V_fv (emerge sin velocidad con la tensión del falso vacío) en la dirección θ_nuc declarada; Γ₀(δ₀) no calculada.",
+        "confirmation_quanta": "tras alcanzar f = 1 − ε_res (residuo de descarga, F.3) el reloj avanza ΔS por cuanto declarado: V3D en 1,000 y Florencia en 1,001 (Prop. 8.1).",
+        "Phi_ten_at_florencia": "Φ_ten(S_1,001) = 0 por normalización declarada (N = 1): no derivado."
+      },
+      "mode": "imposed",
+      "T0": 9.529519791456761e-07,
+      "T0_law_3_4": 8.408474953124557e-07,
+      "x_esc": 0.02611825376465738,
+      "x_plus": 0.02637339596801418,
+      "landscape": {
+        "roots": [
+          0.007182014067649115,
+          0.05727605472985222,
+          0.16239887920799878
+        ],
+        "metastable": true,
+        "tilt": 7.071067811865476e-07,
+        "rho_fv": 0.007182014067649115,
+        "V_fv": -2.5193164222435464e-09,
+        "rho_barrier": 0.05727605472985222,
+        "V_barrier": 4.8696346813313227e-08,
+        "rho_tv": 0.16239887920799878,
+        "V_tv": -9.554712955679197e-07,
+        "T0_full": 9.529519791456761e-07,
+        "barrier_height": 5.1215663235556774e-08,
+        "rho_esc": 0.08050249678518855
+      },
+      "events": [
+        {
+          "kind": "colapso_1D",
+          "S": 0.009000000000000001,
+          "S_integrated": 0.0,
+          "sigma": 0.0,
+          "S_imposed": 0.009000000000000001,
+          "S_emergent": null,
+          "trigger": "umbral de la Década (ya superado al emerger: f₀ ≥ umbral, colapso dentro de la nucleación)",
+          "d_after": 1,
+          "algebra": "C(2,0)",
+          "dim_rep": 2,
+          "anticommute": true,
+          "signature": [
+            1,
+            1
+          ],
+          "elliptic_symbol_positive": true,
+          "D_at_event": 0.0005,
+          "x_over_x_plus": 0.9903257736066209,
+          "theta": 0.0,
+          "sextic_dimension": 4.0,
+          "status": "impuesto (Prop. 8.1)",
+          "S_emergent_note": "D > 0 en todo el recorrido (acoplos congelados): sin cruce emergente"
+        },
+        {
+          "kind": "colapso_2D",
+          "S": 0.099,
+          "S_integrated": 0.0,
+          "sigma": 0.0,
+          "S_imposed": 0.099,
+          "S_emergent": null,
+          "trigger": "umbral de la Década (ya superado al emerger: f₀ ≥ umbral, colapso dentro de la nucleación)",
+          "d_after": 2,
+          "algebra": "C(3,0)",
+          "dim_rep": 2,
+          "anticommute": true,
+          "signature": [
+            1,
+            1,
+            1
+          ],
+          "elliptic_symbol_positive": true,
+          "D_at_event": 0.0005,
+          "x_over_x_plus": 0.9903257736066209,
+          "theta": 0.0,
+          "sextic_dimension": 2.0,
+          "status": "impuesto (Prop. 8.1)",
+          "S_emergent_note": "D > 0 en todo el recorrido (acoplos congelados): sin cruce emergente"
+        },
+        {
+          "kind": "colapso_3D",
+          "S": 0.999,
+          "S_integrated": 0.0,
+          "sigma": 0.0,
+          "S_imposed": 0.999,
+          "S_emergent": null,
+          "trigger": "umbral de la Década (ya superado al emerger: f₀ ≥ umbral, colapso dentro de la nucleación)",
+          "d_after": 3,
+          "algebra": "C(4,0)",
+          "dim_rep": 4,
+          "anticommute": true,
+          "signature": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "elliptic_symbol_positive": true,
+          "D_at_event": 0.0005,
+          "x_over_x_plus": 0.9903257736066209,
+          "theta": 0.0,
+          "sextic_dimension": 0.0,
+          "status": "impuesto (Prop. 8.1)",
+          "S_emergent_note": "D > 0 en todo el recorrido (acoplos congelados): sin cruce emergente"
+        },
+        {
+          "kind": "V3D",
+          "S": 1.0,
+          "sigma": 5.0,
+          "d_after": 3,
+          "sextic_dimension": 0.0,
+          "marginal_in_d3": true,
+          "status": "declarado (cuanto de anticipación/confirmación, Prop. 8.1)"
+        },
+        {
+          "algebra_before": "C(4,0)",
+          "algebra_after": "C(3,1)",
+          "signature_after": [
+            -1,
+            1,
+            1,
+            1
+          ],
+          "signature_pass": true,
+          "anticommute_after": true,
+          "negative_control_two_rotations": [
+            -1,
+            1,
+            1,
+            -1
+          ],
+          "negative_control_pass": true,
+          "regime_after": "post",
+          "rp_slice_min_eig_J_plus": -1.7266212761885276e-16,
+          "rp_slice_pass": true,
+          "rp_negative_control_J_minus": -0.02089340076501343,
+          "rp_negative_control_pass": true,
+          "beta3_from_empalme": 0.022360679774997897,
+          "m_H_GeV": 52.02266616127575,
+          "m_H_identity_pass": true,
+          "m_H_PDG_GeV": 125.25,
+          "m_H_note": "identidad m_H = √(2β₃)v₃ comprobada; el VALOR depende de δ₀ (input) y β₃ es condicional (frente 7): no es predicción",
+          "status": "derivado (giro, firma, RP juguete, identidad) — evento declarado en S = 1,001",
+          "kind": "Florencia",
+          "S": 1.001,
+          "sigma": 5.0,
+          "d_after": 3
+        }
+      ],
+      "checks": {
+        "S0": {
+          "quasi_cancellation_3_3": {
+            "pass": true,
+            "status": "derivado"
+          },
+          "metastability_8_6_D_only": {
+            "pass": true,
+            "D_S0": 0.0005,
+            "status": "derivado"
+          },
+          "metastability_with_tilt": {
+            "pass": true,
+            "delta0": 0.01,
+            "delta0_max": 0.10278281782685247,
+            "barrier_height_over_T0": 0.05374422253834002,
+            "rho_false_vacuum": 0.007182014067649115,
+            "rho_barrier": 0.05727605472985222,
+            "rho_true_vacuum": 0.16239887920799878,
+            "rho_esc": 0.08050249678518855,
+            "finding": "la Obs. 8.6 (D > 0) es necesaria, no suficiente: con la inclinación η = ē·δ0³ el falso vacío existe solo para δ0 < δ0_max(m̄, b̄, ē, C0)",
+            "status": "derivado (hallazgo del simulador)"
+          },
+          "T0_scaling_3_4": {
+            "law_c_bar_delta0_cubed": 8.408474953124557e-07,
+            "numeric_no_tilt": 8.408474953124557e-07,
+            "rel_err_law_vs_numeric": 0.0,
+            "T0_full_with_tilt": 9.529519791456761e-07,
+            "tilt_correction": 0.13332320600130076,
+            "c_bar": 0.8408474953124556,
+            "pass": true,
+            "note": "la corrección de la inclinación es O(δ0^{1/2}) relativa (Prop. 3.4: η·ρ₊ = O(δ0^{7/2}))",
+            "status": "derivado"
+          },
+          "measure_normalizable_3_1": {
+            "pass": true,
+            "status": "derivado"
+          },
+          "chi_residue_3_4": {
+            "analytic": 0.01,
+            "false_vacuum_chi": 0.005078450849811868,
+            "status": "derivado"
+          },
+          "nucleation": {
+            "mode": "bounce",
+            "x_esc": 0.02611825376465738,
+            "x_esc_over_x_plus": 0.9903257736066209,
+            "bounce": {
+              "d": 4,
+              "phi0": 0.16161142832317701,
+              "B": 8974.496130861227,
+              "Gamma_over_A": 0.0,
+              "f0": 0.9996130215946543,
+              "barrier_over_T0": 0.05374422253834002,
+              "converged": true
+            },
+            "V_esc_minus_V_fv_over_T0": -0.9996130215946543,
+            "Gamma0": 0.0,
+            "status": "derivado con convenciones declaradas (bounce O(4), prefactor A no fijado)"
+          }
+        },
+        "descent": {
+          "monotonia_4_5": {
+            "max_dV_over_T0": -4.520001431233321e-06,
+            "pass": true,
+            "note": null,
+            "status": "derivado"
+          },
+          "produccion_entropica_4_5": {
+            "min": 1.356480525193212e-12,
+            "pass": true,
+            "status": "derivado"
+          },
+          "exclusion_4_7": {
+            "pass": true,
+            "status": "derivado"
+          },
+          "S_equals_f_identity": {
+            "max_abs_diff": 1.476463130358971e-17,
+            "f0_nucleation": 0.9996130215946543,
+            "pass": true,
+            "note": "Σ̇ = −dV/dσ ⟹ ∫Σ̇dσ = V(σ=0) − V = T₀·(f − f₀) exactamente en el flujo de gradiente (Teo. 4.5) con la normalización declarada; f₀ = 0 en el punto de escape y > 0 si la nucleación entrega el campo ya parcialmente descargado (bounce); en modo emergente V cambia con λ",
+            "status": "derivado"
+          },
+          "exit_to_mass_pole_3_5": {
+            "theta_final": 0.0,
+            "pass": true,
+            "status": "derivado"
+          },
+          "descent_finished": {
+            "pass": true,
+            "steps": 1,
+            "reason": "residuo de descarga alcanzado",
+            "f_final": 0.9996175415960855,
+            "S_final": 4.520001431266628e-06,
+            "sigma_final": 5.0,
+            "sigma_hat_final": 0.0005,
+            "status": "derivado"
+          }
+        },
+        "seals": {
+          "c_eff": {
+            "form": "du/dS = β_c(S)·u·(1 − u), β_c(S) = β_c0·max(0, 1 − S/S_c), S_c = S_0,099; c_eff ≡ max|du/dS| alcanzado antes del sello; u(0) = u0. FORMA DECLARADA, no la ec. (5.3) del tratado.",
+            "u_frozen": 0.02,
+            "c_eff_max": 0.0,
+            "S_of_max": 0.0,
+            "rate_after_seal": 0.0,
+            "sealed": true,
+            "status": "declarado (forma) + derivado (congelación)"
+          },
+          "m_eff": {
+            "form": "dm/dS = −γ_m·(m − m_min)·max(0, 1 − S/S_c²), S_c² = S_0,999; dm/dS|_{S_c²} = 0 fija m_min (§5.4). FORMA DECLARADA.",
+            "m_frozen": 1.0,
+            "rate_after_seal": 0.0,
+            "sealed": true,
+            "status": "declarado (forma) + derivado (punto fijo)"
+          }
+        },
+        "diagonal": {
+          "flow": {
+            "crossed": false,
+            "S_at_crossing": null,
+            "theta_final": 0.0,
+            "theta_max": 0.0,
+            "finding": "el Basal solo lleva θ al polo de masa y lo mantiene: el transporte azimutal hasta la diagonal (Prop. 3.5) no está implementado",
+            "status": "publicado"
+          },
+          "imposed": {
+            "S_at_crossing": 1.0,
+            "form": "θ_imp(S) = (π/4)·min(1, S/S_diag), S_diag = S_V3D = 1,000: cruce de la diagonal en S ≃ 1 POR CONSTRUCCIÓN (Prop. 3.5 declarada, no producida).",
+            "status": "impuesto"
+          }
+        },
+        "handshake_cosmology": {
+          "newton_seal_9_3": {
+            "ratio_at_seal": 1.0,
+            "pass": true,
+            "status": "derivado"
+          },
+          "atlas_healthy_9_4": {
+            "lambda_K": 1.012,
+            "pass": true,
+            "status": "derivado"
+          },
+          "lcdm_recovery_A_1": {
+            "max_rel_dev_eps0": 0.0,
+            "pass": true,
+            "status": "derivado"
+          },
+          "dictionary": {
+            "exists": false,
+            "pass": null,
+            "note": "no hay fórmula (δ₀, m̄, b̄, C₀, ē, f, Φ_ten) → (Ω_id,0, ε_Λ, z_trans, α_n, κ_lat, η_lat): fila diccionario-primordial-cosmologico",
+            "status": "hueco declarado"
+          }
+        }
+      },
+      "delivered_state": {
+        "S": 1.001,
+        "regime": "post",
+        "algebra": "C(3,1)",
+        "signature": [
+          -1,
+          1,
+          1,
+          1
+        ],
+        "d": 3,
+        "S_end_of_descent": 0.9996175415960855,
+        "f_end_of_descent": 0.9996175415960855,
+        "T_residual_over_T0": 0.0003824584039144874,
+        "couplings_sealed": {
+          "M0_sq": 0.0001,
+          "B": 0.03,
+          "C0": 1.0,
+          "D": 0.0005
+        },
+        "lambda_Ad_sealed": 0.022360679774997897,
+        "beta3": 0.022360679774997897,
+        "c_eff_sealed_u": 0.02,
+        "m_eff_sealed": 1.0,
+        "theta_flow": 0.0,
+        "chi_flow": 0.11427981839801951,
+        "rho_flow": 0.16161606908401355,
+        "theta_imposed": 0.7853981633974483,
+        "chi_residue_analytic_3_4": 0.01,
+        "delta0_input": 0.01,
+        "delta0_next_cycle": null,
+        "delta0_next_cycle_note": "F_Vic(δ₀) exige γ_R (frente 4): no calculado (core.victoria.STATUS_LYDIA)",
+        "Phi_ten": 0.0,
+        "Phi_ten_note": "Φ_ten(S_1,001) = 0 por normalización declarada (N = 1): no derivado.",
+        "channels_initial": null,
+        "readable_by_cosmology": false,
+        "readable_note": "el diccionario primordial → cosmológico no existe: cosmology/ no puede consumir este estado; se publica tal cual (fila diccionario-primordial-cosmologico)"
+      },
+      "steps": 1,
+      "finished": true,
+      "stop_reason": "residuo de descarga alcanzado",
+      "couplings_out_of_domain": null
+    }
+  },
+  "joint_emergent_from_bounce": {
+    "d3_tau0.001": {
+      "stop_reason": "max_steps agotado",
+      "S_final": 0.02510374323793488,
+      "f0": 0.9712961471529467,
+      "events": [],
+      "D_min": 0.0004940057048392853,
+      "couplings_out_of_domain": null
+    },
+    "d3_tau0.01": {
+      "stop_reason": "max_steps agotado",
+      "S_final": 0.012373512363832046,
+      "f0": 0.9712961471529467,
+      "events": [],
+      "D_min": 0.0004710532269896159,
+      "couplings_out_of_domain": null
+    },
+    "d3_tau0.1": {
+      "stop_reason": "max_steps agotado",
+      "S_final": 0.0022743481556541404,
+      "f0": 0.9712961471529467,
+      "events": [],
+      "D_min": 0.0004481410952916261,
+      "couplings_out_of_domain": null
+    },
+    "d4_tau0.001": {
+      "stop_reason": "descenso completado (residuo de descarga alcanzado)",
+      "S_final": 4.520001431266628e-06,
+      "f0": 0.9996130215946543,
+      "events": [],
+      "D_min": 0.0004999989152054911,
+      "couplings_out_of_domain": null
+    },
+    "d4_tau0.01": {
+      "stop_reason": "descenso completado (residuo de descarga alcanzado)",
+      "S_final": 4.520001431266628e-06,
+      "f0": 0.9996130215946543,
+      "events": [],
+      "D_min": 0.0004999891523196882,
+      "couplings_out_of_domain": null
+    },
+    "d4_tau0.1": {
+      "stop_reason": "descenso completado (residuo de descarga alcanzado)",
+      "S_final": 4.520001431266628e-06,
+      "f0": 0.9996130215946543,
+      "events": [],
+      "D_min": 0.0004998915496744595,
+      "couplings_out_of_domain": null
+    }
+  },
+  "declared": [
+    "dimensión d del instantón (3 y 4 publicadas; el tramo pre-geométrico no tiene espacio-tiempo)",
+    "prefactor A de Γ₀ = A·e^{−B} (dimensional, no está en el tratado): se publica e^{−B}",
+    "normalización de la acción euclidiana (G = 1, ħ = 1)",
+    "D_ent de la difusión entrópica (el diccionario t ↔ σ de la Def. 4.4 no la fija)",
+    "corte radial θ = 0 (salida al polo de masa, Prop. 3.5)"
+  ],
+  "what_is_not_claimed": [
+    "ninguna de las dos nucleaciones es «la del tratado»: decidirlo es del diccionario",
+    "ningún umbral emerge en la integración conjunta (los eventos S_emergent se publican vacíos si D no cruza cero)",
+    "no es demostración física"
+  ]
+}
