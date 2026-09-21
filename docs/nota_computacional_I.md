@@ -1104,6 +1104,54 @@ entrega no es cuestión de |J|: exige un término que mueva el vacío 2D
 fuera del polo de masa, que el programa no tiene
 (`results/2026-09-21_j_circulation/`).
 
+### 3.26 Oort–K_z: la vecindad solar excluye la amplitud única del 5E en el plano y deja A ≲ 0.06·A_Sculptor, con una banda ×4 por la losa (21-sep-2026, tarde)
+
+La aplicación (2) del criterio de Cronos–Jeans (§3.21) se convierte
+aquí en contraste preinscrito. El término de Cronos actúa sobre las
+estrellas trazadoras como una fuerza vertical adicional g_C =
+−c²dε_c/dz y la cinemática vertical lo lee como densidad dinámica
+efectiva: Δρ_eff(0) = (1/4πG)dg_C/dz|₀ ∝ A√ρ(0)ρ''(0) en el límite de
+Oort y ΔΣ_eff(1.1) = g_C(1.1 kpc)/(2πG) en la columna. Lo que la
+observación deja libre es el margen ρ_dyn − ρ_bar = 0.016 ± 0.014
+M☉/pc³ y Σ_dyn − Σ_bar = 20.9 ± 5.2 M☉/pc² (dataset `local_kz_bounds`:
+cinco valores publicados transcritos — Holmberg & Flynn 2000; McKee,
+Parravano & Hollenbach 2015; Bovy & Tremaine 2012 — con bytes oficiales
+no verificados desde el entorno, aviso que todo artefacto propaga), y la
+regla congelada (sha256 `5d5a84d26d20…`, piloto de §3.21 declarado) le
+concede a Cronos todo ese margen: la cota más laxa. **Resultado**: con
+A_Sculptor, Δρ_eff(0) = 0.747 M☉/pc³ frente a un margen de 0.016 ±
+0.014 — z = +50.8, **excluido**, y la exclusión sobrevive a cualquier
+altura de la losa en la banda (z ≥ 11.9 con alturas dobles); con
+0.05·A_Sculptor (el brazo del frente 5b), z = +1.5, **compatible**; la
+cota A_2σ vale 0.060·A_Sculptor con la losa declarada y 0.015 / 0.240
+con alturas ×½ / ×2 (Δρ_eff ∝ h⁻²: la losa pesa un factor 4 en la
+cota y se publica como banda, no como brazo). La columna a 1.1 kpc no
+constriñe (el término es pequeño lejos del plano). Coincide con la
+cota del criterio (A ≲ 0.048·A_S por g_C ≤ 0.1·K_z en 300 pc).
+**Estatuto**: contraste bajo regla congelada sobre valores transcritos
+sin verificar — el autor debe verificar los cinco números antes de
+citar la letra; condicional a la forma ε_c = A·ρ^{3/2}, que es tarea
+del diccionario (`results/2026-09-21_oort_kz/`).
+
+### 3.27 El perfil σ_los(R) de Sculptor: predicción y regla congeladas, resultado en fallo cerrado hasta la ingesta de Walker et al. 2009 (21-sep-2026, tarde)
+
+La aplicación (3) de §3.21 queda preinscrita (sha256 `604f9c254c7e…`):
+con el montaje congelado del 5E (Plummer con R_half = 260 pc, Υ⋆ = 2,
+A_Sculptor) la Ley de Cronos débil predice un perfil σ_los(R) con pico
+central de 14.0 / 19.1 / 25.1 km/s en R = 10 pc para β = −0.5 / 0 /
++0.3 y una caída a ≈ 2 km/s en 1 kpc, frente a un perfil observado
+≈ 9–10 km/s plano hasta ≳ 1 kpc (referencia de la literatura, no
+ingerida). La normalización global reproduce σ_obs por construcción —
+A_Sculptor se obtuvo de ella —, así que **solo la forma es predicción**.
+Membresía (P ≥ 0.9) y binning (≈ 150 estrellas por bin, R ≤ 1 kpc)
+preinscritos; regla A (χ²_ν ≤ 1.5 para algún β), B (≤ 3), C (los dos
+bins internos excluyen el pico a > 3σ para todo β: la expectativa
+declarada, E13), INDETERMINADO. El dataset walker2009 (CDS J/AJ/137/3100,
+table4) sigue DATA_UNAVAILABLE (CDS/VizieR denegado por el proxy, 403),
+así que el analizador registra el **fallo cerrado como resultado
+explícito**; la regla no se toca hasta la ingesta
+(`results/2026-09-21_sculptor_profile/`).
+
 ### 3.28 El test preinscrito del criterio de Cronos–Jeans: INDETERMINADO por la puerta de fase lineal, con la predicción cinética reproducida al 1 % donde se resuelve (21-sep-2026)
 
 El frente 5 refundado pedía la predicción convergida del criterio de

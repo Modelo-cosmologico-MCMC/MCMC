@@ -161,6 +161,19 @@ datasets:
       (navegador) y queda declarada como pendiente en el manifest; el artefacto
       que los consuma debe llevar el mismo aviso.
 
+  local_kz_bounds:
+    role: local_vertical_dynamics_bounds
+    host: literatura — egreso denegado desde el entorno (21-sep-2026)
+    raw_dir: data/raw/local_kz_bounds
+    citation: "Holmberg & Flynn 2000 (ρ_dyn(0)); McKee, Parravano & Hollenbach 2015 (ρ_bar(0), ρ_dyn(0), Σ_bar); Bovy & Tremaine 2012 (Σ(<1.1 kpc))"
+    state: AVAILABLE          # 5 valores publicados TRANSCRITOS; bytes oficiales NO verificados (declarado en manifest y schema_report)
+    note: >
+      Densidad dinámica local en el plano, densidad bariónica local y Σ(<1.1 kpc)
+      para acotar la amplitud A de la Ley de Cronos débil por su fuerza vertical
+      (frente 5c, preinscripción «Oort–K_z»). Transcripción manual; la
+      verificación contra las fuentes es tarea del autor y queda declarada como
+      pendiente. El artefacto que la consuma propaga el aviso.
+
   ppn_bounds:
     role: ppn_preferred_frame_bounds
     host: literatura — egreso denegado desde el entorno (15-sep-2026)
