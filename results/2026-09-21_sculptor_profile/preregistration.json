@@ -1,0 +1,208 @@
+{
+  "title": "Perfil σ_los(R) de Sculptor: la forma que predice la amplitud única del 5E frente al perfil binado de Walker et al. 2009",
+  "frozen_utc": "2026-09-21T14:11:20.513824+00:00",
+  "code_commit": "5ea39a61795b5c1b68c9ea6e1c67dfcbdc5237a0",
+  "generator": "scripts/run_sculptor_profile.py prereg",
+  "generator_commit_must_precede_freeze": true,
+  "declared": {
+    "frozen_setup": "montaje del 5E (dynamics.sculptor_transfer.frozen_config): Plummer con R_half = 260 pc, Υ⋆ = 2, A_Sculptor",
+    "A_sculptor": 6.201588782789579e-07,
+    "beta_arm": [
+      -0.5,
+      0.0,
+      0.3
+    ],
+    "dataset": "walker2009 (CDS J/AJ/137/3100, table4.dat: Sculptor, 1818 estrellas)",
+    "dataset_state_at_freeze": "DATA_UNAVAILABLE (CDS/VizieR 403 vía proxy, 21-sep-2026 14:10 UTC)",
+    "membership": "probabilidad de pertenencia ≥ 0.9 (columna del catálogo)",
+    "binning": "bins de igual número (≈ 150 estrellas) en R proyectado ≤ 1 kpc; σ_los por bin = desviación típica corregida por errores de medida (⟨e²⟩ restado); error del bin σ/√(2N)",
+    "prediction_profiles_kms": {
+      "-0.5": [
+        {
+          "R_pc": 10.0,
+          "newton": 2.5608801373108165,
+          "newton_cronos": 13.997424040980382
+        },
+        {
+          "R_pc": 30.0,
+          "newton": 2.7305368603877413,
+          "newton_cronos": 15.248381097945042
+        },
+        {
+          "R_pc": 60.0,
+          "newton": 2.974133941477757,
+          "newton_cronos": 16.05296324469395
+        },
+        {
+          "R_pc": 100.0,
+          "newton": 3.175485669726048,
+          "newton_cronos": 15.054314703703561
+        },
+        {
+          "R_pc": 150.0,
+          "newton": 3.2604755732231343,
+          "newton_cronos": 12.223627050156196
+        },
+        {
+          "R_pc": 200.0,
+          "newton": 3.2346783640643646,
+          "newton_cronos": 9.281372314021171
+        },
+        {
+          "R_pc": 260.0,
+          "newton": 3.1338422594529884,
+          "newton_cronos": 6.575295238183267
+        },
+        {
+          "R_pc": 350.0,
+          "newton": 2.936906078457541,
+          "newton_cronos": 4.2676698892444325
+        },
+        {
+          "R_pc": 500.0,
+          "newton": 2.622198036877087,
+          "newton_cronos": 2.8818323155371965
+        },
+        {
+          "R_pc": 700.0,
+          "newton": 2.295908509876898,
+          "newton_cronos": 2.333714957214585
+        },
+        {
+          "R_pc": 1000.0,
+          "newton": 1.9603912102412484,
+          "newton_cronos": 1.9643183371496407
+        }
+      ],
+      "0.0": [
+        {
+          "R_pc": 10.0,
+          "newton": 3.5580127075859145,
+          "newton_cronos": 19.141058584702776
+        },
+        {
+          "R_pc": 30.0,
+          "newton": 3.547585615291256,
+          "newton_cronos": 18.73672938592572
+        },
+        {
+          "R_pc": 60.0,
+          "newton": 3.513488808449326,
+          "newton_cronos": 17.468745859461084
+        },
+        {
+          "R_pc": 100.0,
+          "newton": 3.438755883541254,
+          "newton_cronos": 14.962868770502606
+        },
+        {
+          "R_pc": 150.0,
+          "newton": 3.3128607861691335,
+          "newton_cronos": 11.495161600583437
+        },
+        {
+          "R_pc": 200.0,
+          "newton": 3.169234925484382,
+          "newton_cronos": 8.505670888371046
+        },
+        {
+          "R_pc": 260.0,
+          "newton": 2.993606373131272,
+          "newton_cronos": 5.9534072714152595
+        },
+        {
+          "R_pc": 350.0,
+          "newton": 2.7493831100909,
+          "newton_cronos": 3.8657187111687414
+        },
+        {
+          "R_pc": 500.0,
+          "newton": 2.4185815314352976,
+          "newton_cronos": 2.6321942460935697
+        },
+        {
+          "R_pc": 700.0,
+          "newton": 2.1012944145133745,
+          "newton_cronos": 2.1321959278319307
+        },
+        {
+          "R_pc": 1000.0,
+          "newton": 1.7864401346397631,
+          "newton_cronos": 1.7896437012365345
+        }
+      ],
+      "0.3": [
+        {
+          "R_pc": 10.0,
+          "newton": 4.831971921769373,
+          "newton_cronos": 25.10641178954348
+        },
+        {
+          "R_pc": 30.0,
+          "newton": 4.366181453829951,
+          "newton_cronos": 21.78007853473574
+        },
+        {
+          "R_pc": 60.0,
+          "newton": 3.963650098666924,
+          "newton_cronos": 18.38107981470017
+        },
+        {
+          "R_pc": 100.0,
+          "newton": 3.6174863570767957,
+          "newton_cronos": 14.666016880186069
+        },
+        {
+          "R_pc": 150.0,
+          "newton": 3.3140062206264163,
+          "newton_cronos": 10.785727540311186
+        },
+        {
+          "R_pc": 200.0,
+          "newton": 3.0796432655402146,
+          "newton_cronos": 7.820256706212681
+        },
+        {
+          "R_pc": 260.0,
+          "newton": 2.850132612453497,
+          "newton_cronos": 5.4242150461756475
+        },
+        {
+          "R_pc": 350.0,
+          "newton": 2.5749437982515597,
+          "newton_cronos": 3.52620133393612
+        },
+        {
+          "R_pc": 500.0,
+          "newton": 2.237732773880255,
+          "newton_cronos": 2.4169752664094126
+        },
+        {
+          "R_pc": 700.0,
+          "newton": 1.9318209650102296,
+          "newton_cronos": 1.9576196825793497
+        },
+        {
+          "R_pc": 1000.0,
+          "newton": 1.6364876412754636,
+          "newton_cronos": 1.6391582184501339
+        }
+      ]
+    },
+    "shape_prediction": "pico central ≈ 2× lo observado y exterior newtoniano ÷3–4 (β = 0): la forma es la predicción congelada de jeans-dsph",
+    "observed_reference_not_ingested": "≈ 9–10 km/s, plano hasta ≳ 1 kpc (Walker et al. 2007, 2009; Battaglia et al. 2008) — referencia, no ingerida"
+  },
+  "rules": {
+    "chi2": "χ² = Σ_bins [(σ_pred(R_bin; β) − σ_obs,bin)/σ_err,bin]², ν = N_bins (ningún parámetro ajustado)",
+    "A": "χ²_ν ≤ 1.5 para algún β del brazo",
+    "B": "1.5 < χ²_ν(mejor β) ≤ 3",
+    "C": "en los dos bins más internos (σ_pred − σ_obs)/σ_err > 3 para TODO β del brazo",
+    "INDETERMINADO": "walker2009 no AVAILABLE, N_bins < 4 o esquema no confirmado",
+    "verdict": "una letra; ninguna es afirmación sobre el tratado: sitúa la Ley de Cronos débil con A_Sculptor frente a la forma del perfil (E8). La normalización global reproduce σ_obs por construcción (A_Sculptor se obtuvo de ella): solo la FORMA es predicción"
+  },
+  "what_this_cannot_decide": [
+    "la forma de ε_c(ρ) (diccionario)",
+    "A (el 5E la fijó; aquí es hipótesis)",
+    "la anisotropía real (β es brazo)"
+  ]
+}

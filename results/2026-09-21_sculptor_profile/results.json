@@ -1,0 +1,8 @@
+{
+  "preregistration_sha256": "604f9c254c7e8283949137d23bb75fb4200b5341a369b1b89f06622ce53af002",
+  "code_commit_analysis": "534d009f23f496897c97885db7889d7c2669d487",
+  "analyzed_utc": "2026-09-21T14:11:57.258979+00:00",
+  "verdict": "INDETERMINADO",
+  "reason": "fallo cerrado: DATA_UNAVAILABLE: walker2009 sin manifest (/home/user/mcmc-front5/data/manifests/walker2009.json)",
+  "next_step": "ingerir walker2009 (CDS J/AJ/137/3100) con checksum y schema_report; después ejecutar el binning preinscrito y este analizador sin tocar la regla"
+}

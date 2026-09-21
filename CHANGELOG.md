@@ -6,6 +6,31 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Frente 5 (c) y (d) (21-sep, tarde): preinscripciones «Oort–K_z» y
+  «perfil σ_los(R) de Sculptor» congeladas; la vecindad solar EXCLUYE la
+  amplitud única del 5E en el plano y deja A ≲ 0.06·A_Sculptor (banda
+  ×4 por la losa); Sculptor queda en fallo cerrado hasta la ingesta**.
+  Tres commits (dataset + módulo + generadores · congelación · corridas).
+  Dataset `local_kz_bounds` (cinco valores publicados TRANSCRITOS —
+  Holmberg & Flynn 2000, McKee, Parravano & Hollenbach 2015, Bovy &
+  Tremaine 2012 — bytes oficiales no verificados, aviso propagado).
+  `dynamics/local_kz.py`: el término de Cronos como densidad dinámica
+  efectiva Δρ_eff(0) = (1/4πG)dg_C/dz|₀ y ΔΣ_eff(1.1) = g_C(1.1 kpc)/(2πG)
+  frente al margen ρ_dyn − ρ_bar = 0.016 ± 0.014 M☉/pc³ y Σ_dyn − Σ_bar =
+  20.9 ± 5.2 M☉/pc² (todo el margen para Cronos). Resultado bajo la regla
+  congelada (`results/2026-09-21_oort_kz/`): A_Sculptor → Δρ_eff(0) =
+  0.747 M☉/pc³, z = +50.8, **excluido**; 0.05·A_Sculptor → z = +1.5,
+  **compatible**; A_2σ = 0.060·A_Sculptor (banda 0.015 / 0.060 / 0.240 con
+  alturas ×½ / ×1 / ×2); la columna a 1.1 kpc no constriñe. Coincide con
+  la cota del criterio de Cronos–Jeans (A ≲ 0.048·A_S). Perfil de
+  Sculptor (`results/2026-09-21_sculptor_profile/`): predicción congelada
+  para β ∈ {−0.5, 0, 0.3} (pico 14–25 km/s, exterior ≈ 2 km/s frente a
+  ≈ 9–10 plano), regla A/B/C, **INDETERMINADO por fallo cerrado**
+  (walker2009 DATA_UNAVAILABLE: CDS/VizieR 403 vía proxy). Filas nuevas
+  `oort-kz-cota-cronos` (condicional) y `sculptor-perfil-sigma-los`
+  (experimento-no-ejecutado). Nota I §3.26–3.27. Registro: 58 claims
+  (sobre main).
+
 - **La diagonal y el |J| requerido (21-sep, tarde): circulación J∇C del
   Camino de dos niveles en `path_flow` y en el reloj S, bajo
   preinscripción congelada — veredicto MIXTO**. Punto (3) del orden del

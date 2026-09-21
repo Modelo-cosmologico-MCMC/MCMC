@@ -1,0 +1,34 @@
+# Preinscripción — Oort–K_z: la vecindad solar acota la amplitud de la Ley de Cronos débil por su fuerza vertical
+
+Congelada 2026-09-21T14:11:19.799697+00:00 en el commit `5ea39a617` (que contiene el generador). sha256 de `preregistration.json`: `5d5a84d26d20e4890f51a8ef58e6741434185332bda053b900f0de6bee4c9366`.
+
+## Declarado
+
+- **law**: ε_c = A·ρ^{3/2}; g_C = −c²dε_c/dz (Cor. 11.3, Ley de Cronos débil)
+- **effective_density**: Δρ_eff(0) = (1/4πG)·dg_C/dz|₀ = −(3/2)c²A√ρ(0)·ρ''(0)/(4πG); ΔΣ_eff(1.1) = g_C(1.1 kpc)/(2πG)
+- **slab**: {'rho_star_0': 0.043, 'h_star_pc': 600.0, 'rho_gas_0': 0.041, 'h_gas_pc': 250.0, 'rho_dm': 0.013}
+- **slab_sensitivity_band**: alturas de escala × 0.5 y × 2 (Δρ_eff ∝ h⁻²): banda publicada, no brazo
+- **dataset**: local_kz_bounds (transcripción; bytes oficiales NO verificados — aviso propagado)
+- **dataset_manifest_sha256**: e8abeed30d09948827fea56897677543d4733a5418e60b6e5dd2b4ff98760453
+- **room**: ρ_dyn(0) − ρ_bar(0) con ρ_dyn = media ponderada HF2000 + MPH2015; Σ_dyn(1.1) − Σ_bar(1.1) con BT2012 − MPH2015; errores en cuadratura; TODO el margen para Cronos
+- **arms**: {'A_sculptor': 6.201588782789579e-07, 'A_0p05': 3.1007943913947895e-08, 'A_2sigma': 'derivada (lineal en A)'}
+
+## Reglas (congeladas)
+
+- **z_score**: z = (Δ_eff − margen)/σ_margen por observable; z_max = max(plano, columna)
+- **compatible**: {'z_max_le': 2.0}
+- **tension**: {'z_max_in': [2.0, 5.0]}
+- **excluded**: {'z_max_gt': 5.0}
+- **indeterminate**: dataset no AVAILABLE, margen ≤ 0 o sha del manifest distinto del congelado
+- **publish**: ['A_2σ/A_Sculptor con banda de la losa', 'z del plano y de la columna por separado', 'el aviso de procedencia del dataset']
+- **verdict**: letra por brazo con la losa declarada; ninguna letra es afirmación sobre el tratado: la Ley de Cronos débil con A_Sculptor es la hipótesis del 5E y este contraste la sitúa frente a la dinámica local (E8)
+
+## Piloto declarado
+
+ronda del criterio (21-sep mañana): límite de Oort efectivo de Cronos con A_Sculptor ≈ 0.75 M☉/pc³ frente a ρ_dyn(0) ≈ 0.10; cota A ≲ 0.05·A_S por g_C ≤ 0.1·K_z en 300 pc. La estructura de desenlaces se escribió conociéndolo; ningún umbral se ajustó.
+
+## Lo que no puede decidir
+
+- si la Ley de Cronos débil es la ley correcta (forma ε_c(ρ): tarea del diccionario)
+- la amplitud A del frente 5b (0.05·A_S es brazo, no resultado)
+- la losa real (declarada; la banda mide su peso)

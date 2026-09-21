@@ -1,0 +1,25 @@
+{
+  "preregistration_sha256": "5d5a84d26d20e4890f51a8ef58e6741434185332bda053b900f0de6bee4c9366",
+  "code_commit_analysis": "534d009f23f496897c97885db7889d7c2669d487",
+  "analyzed_utc": "2026-09-21T14:11:56.621341+00:00",
+  "verdict_by_arm": {
+    "A_sculptor": "excluido",
+    "A_0p05": "compatible",
+    "A_2sigma": "tensión"
+  },
+  "A_2sigma_over_A_sculptor_band_by_slab_h": {
+    "0.5": 0.015024295094601186,
+    "1.0": 0.060097180378404745,
+    "2.0": 0.24038872151361898
+  },
+  "room": {
+    "rho_dyn_0": 0.10014126394052045,
+    "rho_dyn_0_err": 0.007926239891046,
+    "rho_room_0": 0.016141263940520442,
+    "rho_room_0_err": 0.014381421307033909,
+    "Sigma_room_1p1": 20.9,
+    "Sigma_room_1p1_err": 5.2497618993626745
+  },
+  "dataset_caveat": "VALORES PUBLICADOS TRANSCRITOS A MANO desde la literatura anotada en la sesión de código (21-sep-2026). arXiv, ADS, DOI y revistas no son alcanzables desde el entorno (egreso denegado): ningún byte oficial ni DOI se ha verificado. Verificación por el autor pendiente; hasta entonces, todo artefacto que consuma este fichero propaga el aviso.",
+  "reading": "el término de Cronos con la amplitud única del 5E excede el margen dinámico local en el plano; la cota A_2σ es la que deja todo el margen a Cronos y depende de la losa declarada (∝ h²: banda publicada); la columna a 1.1 kpc no constriñe. Contraste interno (E8) sobre valores transcritos sin verificar: el autor debe verificar los cinco números antes de citar la letra"
+}
