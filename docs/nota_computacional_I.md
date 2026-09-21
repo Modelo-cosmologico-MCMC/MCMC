@@ -984,6 +984,57 @@ espacio-tiempo), el prefactor, la normalización de la acción (G = ħ =
 con la expectativa E13 cumplida por vías distintas en cada mecanismo
 (`results/2026-09-21_nucleation/`).
 
+### 3.23 El reloj S v1: la corrección de la inclinación en forma cerrada, el Techo con las dos T₀, δ₀_max ∝ ē⁻² y su naturalidad, la inestabilidad de masa como evento diagnóstico (21-sep-2026, tarde)
+
+La revisión del autor de §3.20 pidió cinco cosas que el v0 ya
+insinuaba. (i) La corrección de la inclinación a T₀ tiene forma cerrada:
+la inclinación baja el vacío verdadero en η·χ_tv = ē·δ₀³·√(κ₊δ₀)/√2, así
+que T₀_full/T₀_ley − 1 = κ₁·√δ₀ + O(δ₀) con κ₁ = ē√κ₊/(√2c̄) = 1.361 para
+las formas por defecto; el reloj lo comprueba (`T0_tilt_first_order`:
+cociente medido/primer orden 0.98 en δ₀ = 0.01 y 0.95 en δ_H, con el
+residuo de segundo orden ≈ −0.27·δ₀ publicado, no ajustado). (ii) Esa
+misma corrección alcanza al círculo de δ₀ (§3.4): el Techo que cierra el
+círculo, W_max = T₀(δ_H), vale 1.652×10⁻⁴ con la ley 3.4 y 2.167×10⁻⁴
+con el paisaje completo (+31 %), y el Lema 10.3 no dice cuál de las dos
+T₀ es el Techo — `W_max_required_both` publica ambas y la fila
+`circulo-delta0` hereda la corrección como condicional (decisión A del
+autor). (iii) `radial_landscape` no veía la raíz del origen (la malla
+arrancaba en 10⁻⁹): sin inclinación el origen es el falso vacío exacto y
+δ₀_max = ∞, lo que el v0 reportaba como 0. Corregido, δ₀_max tiene
+forma cerrada — la barrera existe mientras la inclinación no supere el
+máximo local de dV₀/dρ = δ₀^{5/2}·g(s), g(s) = m̄²s − b̄s³ + C0s⁵ —,
+δ₀_max = 2·g_max²/ē² = 0.1028·ē⁻² (bisección a 3×10⁻⁸; ē ∈ {0.5, 1, 2}).
+Sobre los paisajes viables de `landscape_priors` (tres priors, n =
+4000) la fracción con falso vacío metastable en δ_H = 0.0581 es
+minoritaria — 0.26 (uniforme), 0.21 (log-uniforme), 0.38 (normal) — y
+en el 0.012 heredado va de la mitad a tres cuartos (0.56 / 0.51 /
+0.74): la metastabilidad del empalme no es genérica sobre el prior —
+cartografía publicada sin veredicto, el prior es declarado. (iv) En el modo
+emergente el v0 se detenía al cruzar M0² = 0; el v1 publica el cruce
+como evento `inestabilidad_masa` y sigue integrando (V está acotado por
+C0 > 0; se detiene solo con C0 ≤ 0). El S del cruce tiene forma cerrada
+de primer orden con las β canónicas y B fluyendo, S_flip ≃ δ₀·[b̄ −
+√(b̄² − 6C0m̄²)]/(24·a·τ·C0) = 0.1057·δ₀/τ, que el bucle reproduce con
+cociente 0.94–1.00. Leída al revés desde los umbrales calibrados, da la
+tabla τ_k = S_flip(τ = 1)·δ₀/S_k ≈ 11.8·δ₀·10⁻ᵏ: «Década ⟺ τ_k» es una
+**reformulación del diccionario τ, no una derivación** — se etiqueta
+E13 (el número no es señal) y se publica junto a la hipótesis declarada
+`tau_per_dim` (τ por dimensión con M0² repuesto en cada inestabilidad),
+que dice dónde caerían los tres colapsos bajo esa hipótesis y nada más.
+(v) La unidad de S después de Florencia: el reloj mide S en fracción de
+T₀ (S = 1 ⟺ descarga completa) y la cronología post-geométrica (Tabla
+F.1, ΔS, mapa S(z)) lo lee en otra unidad que el repositorio no deriva
+de T₀ — `DECLARED_FORMS["S_post_unit"]` y la fila nueva
+`diccionario-unidad-S-post-florencia` lo declaran como hueco con nombre
+propio. El guion v32 del autor queda archivado en
+`viewer/legacy_v3_storyboard.html` como contrato de interfaz (qué
+mostrar, no qué vale) hacia el que el visor evolucionará como vista del
+JSON. **Estatuto**: comprobación interna (E8); tres decisiones quedan
+en manos del autor — A (cuál T₀ nombra el Lema 10.3), B (la
+dimensionalidad del instantón, §3.22) y C (cuál disparo es «el
+colapso»: umbral impuesto, espinodal D = 0 o inestabilidad de masa)
+(`results/2026-09-21_s_clock/`, secciones `v1_*`).
+
 ### 3.28 El test preinscrito del criterio de Cronos–Jeans: INDETERMINADO por la puerta de fase lineal, con la predicción cinética reproducida al 1 % donde se resuelve (21-sep-2026)
 
 El frente 5 refundado pedía la predicción convergida del criterio de
@@ -1045,7 +1096,9 @@ una ronda resuelta tendría que confirmar (`results/2026-09-21_cj_criterion_test
 ## 5. Prioridades que esta nota deja planteadas
 
 1. Derivar W_max desde la microdinámica del reinicio (frente 4) — decide
-   el círculo; valor esperado 1.652×10⁻⁴.
+   el círculo; valor esperado 1.652×10⁻⁴ con la ley 3.4 o 2.167×10⁻⁴
+   con el paisaje completo (§3.23; cuál nombra el Lema 10.3 es la
+   decisión A).
 2. Núcleo cored en cajas de producción (frente 5) — el Nivel A (halo
    aislado de 10¹¹ M☉ con y sin Cronos v3 a A_Sculptor) se ejecutó con
    desenlace INDETERMINADO (§3.19); la ronda siguiente exige

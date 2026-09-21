@@ -29,6 +29,43 @@ estado en que afirme exactamente lo que hace»).
   `test-criterio-cronos-jeans` (interno). Nota I §3.28. Registro: 57
   claims (sobre la base de esta rama).
 
+- **Reloj S v1 (21-sep, tarde): las mejoras que el v0 ya pedía —
+  κ₁ en forma cerrada, el Techo con las dos T₀, la raíz del origen,
+  δ₀_max ∝ ē⁻² y su naturalidad, la inestabilidad de masa como evento
+  del modo diagnóstico, la unidad de S tras Florencia declarada como
+  hueco, y el guion v32 archivado**. Punto (1), (4) y (5) del orden del
+  21-sep (tarde). `T0_tilt_first_order`: T₀_full/T₀_ley − 1 = κ₁√δ₀ +
+  O(δ₀) con κ₁ = ē√κ₊/(√2c̄) = 1.361 (formas por defecto; cociente
+  medido/primer orden 0.98 en δ₀ = 0.01, 0.95 en δ_H; residuo ≈
+  −0.27·δ₀ publicado). `W_max_required_both`: el Techo del círculo
+  publicado con la ley 3.4 (1.652e-4 en δ_H) y con el paisaje completo
+  (2.167e-4, +31 %) — cuál nombra el Lema 10.3 es la decisión A del
+  autor; la fila `circulo-delta0` hereda la corrección como condicional.
+  `radial_landscape` restituye la raíz del origen (sin inclinación el
+  origen es el falso vacío exacto y δ₀_max = ∞; la malla de la v0
+  arrancaba en 1e-9 y no la veía). δ₀_max en forma cerrada,
+  2·g_max(m̄, b̄, C0)²/ē² = 0.1028·ē⁻² (bisección a 3e-8; ē ∈ {0.5, 1,
+  2} comprobados) y barrido de naturalidad sobre `landscape_priors`
+  (tres priors, n = 4000): la metastabilidad en δ_H la admite una
+  minoría de paisajes viables (0.21–0.38 según el prior; 0.51–0.74 en
+  0.012) — cartografía publicada sin veredicto.
+  Modo emergente: el cruce M0² = 0 ya no detiene el bucle — evento
+  `inestabilidad_masa` con S_flip medido frente a la forma cerrada
+  δ₀·[b̄ − √(b̄² − 6C0m̄²)]/(24aτC0) = 0.1057·δ₀/τ (cociente 0.94–1.00) y
+  continuación hasta C0 ≤ 0; tabla τ_k = S_flip(τ = 1)·δ₀/S_k ≈
+  11.8·δ₀·10⁻ᵏ («Década ⟺ τ_k») etiquetada E13: reformulación del
+  diccionario τ desde los umbrales calibrados, no derivación; hipótesis
+  declarada `tau_per_dim` (τ por dimensión, M0² repuesto en cada
+  inestabilidad) publicada como opción sin estatuto. Formas declaradas
+  nuevas: `S_post_unit` (la unidad de S tras Florencia no se deriva de
+  T₀: fila nueva `diccionario-unidad-S-post-florencia`, hueco),
+  `mass_instability`, `tau_per_dim`. `viewer/legacy_v3_storyboard.html`:
+  el guion v32 del autor archivado como contrato de interfaz (no
+  cálculo), enlazado con esa advertencia desde `viewer/s_clock.html`.
+  7 tests nuevos (+1 en el círculo). Filas revisadas
+  `s-clock-simulador-consistencia` y `circulo-delta0`. Nota I §3.23.
+  Registro: 57 claims.
+
 - **La salida de S₀ (21-sep): `core/nucleation.py` — bounce de Coleman
   O(d) sobre el Basal completo, escape de Kramers del Flujo del Camino
   y el reloj S arrancando en el estado nucleado; hallazgo: con pared
