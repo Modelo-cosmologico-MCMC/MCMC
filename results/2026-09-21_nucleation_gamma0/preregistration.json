@@ -1,0 +1,143 @@
+{
+  "title": "Γ₀(δ₀) condicional a n_dim ∈ {1, 3, 4}: túnel de Gamow (n = 1), bounce O(n) (n = 3, 4), deformación de camino en (ρ, χ) como segunda pasada",
+  "frozen_utc": "2026-09-21T12:47:37.060092+00:00",
+  "generator": "scripts/run_nucleation_gamma0.py prereg",
+  "generator_commit_must_precede_freeze": true,
+  "code_commit": "62a030ea171117b161b5ba73758c6ff4d931c0ce",
+  "declared": {
+    "n_dim": [
+      1,
+      3,
+      4
+    ],
+    "G": 1.0,
+    "hbar": 1.0,
+    "theta_cut": 0.0,
+    "shapes": {
+      "m_bar": 1.0,
+      "b_bar": 3.0,
+      "C0": 1.0
+    },
+    "e_bar": [
+      0.5,
+      1.0,
+      2.0
+    ],
+    "grids": {
+      "0.5": {
+        "delta0_max": 0.4111312848833349,
+        "delta0_grid": [
+          0.0001,
+          0.0003234045664717382,
+          0.0010459051361477293,
+          0.0033825049712642103,
+          0.010939175538202013,
+          0.035377793224904655,
+          0.11441339880627098,
+          0.3700181563950014
+        ],
+        "delta0_deformation": [
+          0.01,
+          0.20556564244166745
+        ]
+      },
+      "1.0": {
+        "delta0_max": 0.10278282122083372,
+        "delta0_grid": [
+          0.0001,
+          0.0002653002001710892,
+          0.0007038419621081999,
+          0.001867294134361176,
+          0.0049539350762432075,
+          0.013142799673619041,
+          0.03486787384219658,
+          0.09250453909875035
+        ],
+        "delta0_deformation": [
+          0.01,
+          0.05139141061041686
+        ]
+      },
+      "2.0": {
+        "delta0_max": 0.02569570530520843,
+        "delta0_grid": [
+          0.0001,
+          0.00021763513415624808,
+          0.000473650516192081,
+          0.001030829936346397,
+          0.002243448114890248,
+          0.004882531314567209,
+          0.010626103576679168,
+          0.023126134774687588
+        ],
+        "delta0_deformation": [
+          0.01,
+          0.012847852652604215
+        ]
+      }
+    },
+    "prefactor_n1": "Gamow: ω_fv/(2π), ω_fv = √(V''(φ_fv)/G) = m̄·δ₀ (frecuencia de intento)",
+    "prefactor_n34": "A dimensional, NO fijado: se publica Γ₀/A = e^{−B}",
+    "path_deformation": {
+      "n_modes": 2,
+      "n_s": 1201,
+      "parametrization": "θ(s) = θ_end·s + Σ a_k sin(kπs) recortado a [0, π/2]; ρ(s) lineal ρ_fv → ρ_esc(θ_end); B = 2∫√(2G·max(V − V_fv, 0))|dΦ/ds|ds; Nelder–Mead desde el rayo θ = 0"
+    }
+  },
+  "predictions": {
+    "n1": {
+      "law": "B₁ = b₁·δ₀²·(1 + O(√δ₀)); Γ₀ = (m̄δ₀/2π)·e^{−B₁} → lineal en δ₀",
+      "b1_no_tilt": 0.5177964099264438,
+      "exponent_Gamma0_argument": 1.0,
+      "exponent_B1_argument": 2.0
+    },
+    "n3": {
+      "law": "B₃ → constante (argumento 3 − d = 0): Γ₀(0) = 0 solo si A(δ₀) → 0",
+      "exponent_B_argument": 0.0
+    },
+    "n4": {
+      "law": "B₄ ∝ δ₀^{−1} (argumento 3 − d = −1): Γ₀(0) = 0 sin prefactor",
+      "exponent_B_argument": -1.0
+    },
+    "deformation": {
+      "expectation_E13": "cociente B_min/B_ray ≃ 1: la inclinación −η·χ es máxima sobre θ = 0 dentro del dominio φ ≥ 0, el rayo recto es el candidato natural"
+    },
+    "note": "la inclinación corrige las leyes puras en O(√δ₀) relativo, AMPLIFICADO por T₀/altura de barrera (la barrera vale 1–8 % de T₀): por eso los exponentes se miden en la década BAJA del barrido"
+  },
+  "rules": {
+    "fit_window": "década baja: los TRES puntos más bajos de cada malla (δ₀ ∈ [1e-4, ~1e-3])",
+    "fit_window_n_points": 3,
+    "fit": "mínimos cuadrados en log–log; residuo relativo máximo del ajuste = tol_fit",
+    "A": {
+      "exponent_Gamma0_target": 1.0,
+      "tol_A": 0.05,
+      "b1_rel_tol": 0.1,
+      "text": "A si, para TODO ē, |p_Γ₀ − 1| ≤ tol_A y |B₁/δ₀²(δ₀ mín) − b₁| ≤ 0.10·b₁"
+    },
+    "B": {
+      "exponent_B_target": -1.0,
+      "tol_B": 0.25,
+      "text": "B si, para TODO ē, |p_B4 + 1| ≤ tol_B"
+    },
+    "C": {
+      "ratio_threshold": 0.5,
+      "text": "C si en algún (δ₀, ē) B_min/B_ray < 0.5 con el optimizador convergido"
+    },
+    "gates": {
+      "bounce_converged_all": true,
+      "gamow_quadrature_converged_all": true,
+      "tol_fit": 0.1,
+      "optimizer_converged_all": true
+    },
+    "verdict": "tupla (A: sí/no, B: sí/no, C: sí/no) publicada entera; INDETERMINADO si alguna puerta falla; la fila nucleacion-gamma0 queda condicional a n_dim (decisión B del autor); ningún desenlace se convierte en afirmación sobre el tratado (E8, E13)"
+  },
+  "pilots_declared": {
+    "what": "tres comprobaciones de instrumento ANTES de congelar, con n_grid = 4001 y trapecio: B₁/δ₀² = 0.4966 en δ₀ = 1e-4 (ē = 1), bounce n = 4 en δ₀ = 1e-4 convergido en 43 disparos (~2 s), deformación en δ₀ ∈ {0.01, 0.05} con cociente 1.000. Fijaron la cuadratura (quad adaptativa por la singularidad √ en los extremos) y la ventana de ajuste; NINGUNA tolerancia se ajustó a ellos (tol_A = 0.05 y tol_B = 0.25 se declaran a priori por el tamaño esperado de la corrección O(√δ₀))"
+  },
+  "what_this_cannot_decide": [
+    "n_dim (decisión B del autor)",
+    "el prefactor A de n ∈ {3, 4}",
+    "cuál nucleación es la del tratado (instantón conservativo, túnel 0+1 o escape de Kramers)",
+    "el diccionario t ↔ σ"
+  ]
+}

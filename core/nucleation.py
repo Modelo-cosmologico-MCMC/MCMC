@@ -43,7 +43,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
-from scipy.integrate import solve_ivp
+from scipy.integrate import quad, solve_ivp
 from scipy.optimize import brentq
 
 from .basal import B_BAR, C0_DEFAULT, E_BAR, M_BAR, scaled_params
@@ -223,3 +223,147 @@ def delta0_for_B(B_target: float, d: int = 4, lo: float = 1e-3, hi: float = 0.1,
     """El δ₀ que da una acción B dada (p. ej. B ≈ 1: nucleación rápida)."""
     f = lambda x: bounce(x, d=d, **kw).B - B_target  # noqa: E731
     return float(brentq(f, lo, hi, xtol=1e-6))
+
+
+# ============================================================ ronda 2 (21-sep, tarde)
+# n_dim DECLARADO: el tramo pre-geométrico no tiene espacio-tiempo, así que la
+# dimensionalidad del instantón es una convención publicada, no un dato.
+#   n = 1 : túnel 0+1 (WKB/Gamow) del Flujo del Camino como grado de libertad
+#           único — B₁ = 2∫√(2G(V − V_fv)) dρ, Γ₀ = (ω_fv/2π)·e^{−B₁} con el
+#           prefactor de Gamow ω_fv = √(V''(fv)/G) = m̄·δ₀ (frecuencia de
+#           intento). Con (3.2): B₁ = b₁·δ₀² → 0, así que Γ₀ → 0 LINEALMENTE
+#           por el prefactor (la ley que el axioma Γ₀(0) = 0 obtiene sin
+#           exponencial). El punto de salida WKB es exactamente el punto de
+#           escape V = V_fv de la convención v0 del reloj.
+#   n = 3, 4 : bounce de Coleman O(n) por disparo (arriba); Γ₀/A = e^{−B}.
+N_DIM_DECLARED = (1, 3, 4)
+
+
+@dataclass(frozen=True)
+class GamowResult:
+    delta0: float
+    theta: float
+    rho_fv: float
+    rho_esc: float
+    B1: float                   # acción WKB 2∫√(2G(V − V_fv)) dρ
+    b1_over_delta0_sq: float    # B₁/δ₀²
+    omega_fv: float             # √(V''(φ_fv)/G): frecuencia de intento
+    prefactor: float            # ω_fv/(2π)
+    Gamma0: float               # (ω_fv/2π)·e^{−B₁}
+    n_grid: int
+    converged: bool             # B₁ estable al duplicar la malla (< 1e-6 relativo)
+
+
+def gamow_tunnel(delta0: float, theta: float = 0.0, m_bar: float = M_BAR, b_bar: float = B_BAR,
+                 e_bar: float = E_BAR, C0: float = C0_DEFAULT, G: float = 1.0, n_grid: int = 4001) -> GamowResult:
+    """Túnel 0+1 (n_dim = 1) sobre el corte θ del Basal completo."""
+    land = radial_landscape(delta0, theta, m_bar, b_bar, e_bar, C0)
+    if not land["metastable"] or land["rho_esc"] is None:
+        raise ValueError(f"sin falso vacío metastable en δ0 = {delta0:g}: no hay túnel")
+    V, dV = _potential_1d(delta0, theta, m_bar, b_bar, e_bar, C0)
+    fv, esc = land["rho_fv"], land["rho_esc"]
+    integrand = lambda r: np.sqrt(max(2.0 * G * (V(r) - land["V_fv"]), 0.0))  # noqa: E731
+    # cuadratura adaptativa (la raíz se anula como √ en ambos extremos) y
+    # comprobación con la regla del trapecio sobre n_grid puntos
+    B1 = float(2.0 * quad(integrand, fv, esc, limit=200, epsrel=1e-10)[0])
+    r = np.linspace(fv, esc, n_grid)
+    B1_trap = float(2.0 * np.trapezoid(np.sqrt(np.clip(2.0 * G * (V(r) - land["V_fv"]), 0.0, None)), r))
+    h = 1e-6 * land["rho_tv"]
+    Vpp = (dV(fv + h) - dV(fv - h)) / (2.0 * h)
+    omega = float(np.sqrt(max(Vpp, 0.0) / G))
+    pref = omega / (2.0 * np.pi)
+    return GamowResult(delta0=delta0, theta=theta, rho_fv=float(fv), rho_esc=float(esc), B1=B1,
+                       b1_over_delta0_sq=B1 / delta0 ** 2, omega_fv=omega, prefactor=pref,
+                       Gamma0=float(pref * np.exp(-B1)), n_grid=n_grid,
+                       converged=bool(abs(B1 - B1_trap) <= 1e-3 * max(B1, 1e-300)))
+
+
+def b1_no_tilt(m_bar: float = M_BAR, b_bar: float = B_BAR, C0: float = C0_DEFAULT, n: int = 20001) -> float:
+    """Constante b₁ de la ley B₁ = b₁·δ₀² SIN inclinación: con ρ = √δ₀·s,
+    V₀ = δ₀³·v(s), v(s) = m̄²s²/2 − b̄s⁴/4 + C0s⁶/6, y b₁ = 2∫₀^{s_esc}√(2v(s)) ds
+    donde s_esc es la raíz no nula de v (el punto de escape)."""
+    # s_esc: v(s) = 0 con s > 0 ⟺ C0 s⁴/6 − b̄ s²/4 + m̄²/2 = 0 (raíz menor en s²)
+    disc = (b_bar / 4.0) ** 2 - 4.0 * (C0 / 6.0) * (m_bar ** 2 / 2.0)
+    if disc < 0.0:
+        raise ValueError("sin punto de escape: el mínimo no trivial no baja del origen")
+    s2 = ((b_bar / 4.0) - np.sqrt(disc)) / (2.0 * C0 / 6.0)
+    v = lambda s: max(m_bar ** 2 * s ** 2 / 2.0 - b_bar * s ** 4 / 4.0 + C0 * s ** 6 / 6.0, 0.0)  # noqa: E731
+    return float(2.0 * quad(lambda s: np.sqrt(2.0 * v(s)), 0.0, np.sqrt(s2), limit=200, epsrel=1e-10)[0])
+
+
+def gamma0(delta0: float, n_dim: int, **kw) -> dict:
+    """Γ₀(δ₀) condicional a n_dim declarado: n = 1 → túnel de Gamow con
+    prefactor; n ∈ {3, 4} → bounce O(n) (prefactor A no fijado)."""
+    if n_dim not in N_DIM_DECLARED:
+        raise ValueError(f"n_dim ∈ {N_DIM_DECLARED} (declarado)")
+    if n_dim == 1:
+        g = gamow_tunnel(delta0, **kw)
+        return {"n_dim": 1, "delta0": delta0, "B": g.B1, "Gamma0": g.Gamma0, "prefactor": g.prefactor,
+                "prefactor_status": "Gamow (ω_fv/2π), derivado con G declarado", "converged": g.converged,
+                "detail": g.__dict__}
+    b = bounce(delta0, d=n_dim, **kw)
+    return {"n_dim": n_dim, "delta0": delta0, "B": b.B, "Gamma0": None, "Gamma0_over_A": b.Gamma_over_A,
+            "prefactor": None, "prefactor_status": "A dimensional, no fijado por el tratado", "converged": b.converged,
+            "detail": b.__dict__}
+
+
+def path_deformation(delta0: float, m_bar: float = M_BAR, b_bar: float = B_BAR, e_bar: float = E_BAR,
+                     C0: float = C0_DEFAULT, G: float = 1.0, n_modes: int = 2, n_s: int = 1201,
+                     maxiter: int = 400) -> dict:
+    """SEGUNDA PASADA (n_dim = 1): ¿baja la acción WKB al dejar que el camino
+    de túnel abandone el corte θ = 0 y se curve en el Plano Dual (ρ, θ), es
+    decir en (ρ, χ)? Camino Φ(s), s ∈ [0, 1], desde el falso vacío (sobre el
+    eje θ = 0, frontera φ_E = 0 del dominio) hasta la superficie de escape
+    V = V_fv en el rayo θ_end: θ(s) = θ_end·s + Σ_k a_k·sin(kπs) (recortado al
+    dominio [0, π/2]), ρ(s) lineal entre ρ_fv y ρ_esc(θ_end). B[Φ] =
+    2∫√(2G·max(V − V_fv, 0))·|dΦ/ds| ds, minimizado con Nelder–Mead sobre
+    (θ_end, a_1..a_k). Publica B_ray (camino recto θ = 0), B_min y el cociente.
+    La inclinación −η·χ es máxima sobre θ = 0 dentro del dominio, así que la
+    expectativa (E13, declarada) es cociente ≃ 1."""
+    from scipy.optimize import minimize
+    land0 = radial_landscape(delta0, 0.0, m_bar, b_bar, e_bar, C0)
+    if not land0["metastable"] or land0["rho_esc"] is None:
+        raise ValueError("sin falso vacío metastable: no hay camino que deformar")
+    p = scaled_params(delta0, m_bar, b_bar, e_bar)
+    V_fv, rho_fv = land0["V_fv"], land0["rho_fv"]
+
+    def V2(x, y):
+        r2 = x ** 2 + y ** 2
+        return (0.5 * p["M0_sq"] * r2 - 0.25 * p["B"] * r2 ** 2 + (C0 / 6.0) * r2 ** 3
+                - p["eta"] * (x - y) / np.sqrt(2.0))
+
+    def rho_escape(theta_end):
+        ld = radial_landscape(delta0, theta_end, m_bar, b_bar, e_bar, C0)
+        if ld["rho_tv"] is None:
+            return None
+        Vr = lambda r: V2(r * np.cos(theta_end), r * np.sin(theta_end)) - V_fv  # noqa: E731
+        lo = ld["rho_barrier"] if ld["rho_barrier"] is not None else 0.5 * ld["rho_tv"]
+        if Vr(lo) <= 0.0 or Vr(ld["rho_tv"]) >= 0.0:
+            return None
+        return float(brentq(Vr, lo, ld["rho_tv"], xtol=1e-14))
+
+    s = np.linspace(0.0, 1.0, n_s)
+
+    def action(params):
+        theta_end = float(np.clip(params[0], 0.0, np.pi / 2))
+        th = theta_end * s + sum(a * np.sin((k + 1) * np.pi * s) for k, a in enumerate(params[1:]))
+        th = np.clip(th, 0.0, np.pi / 2)
+        r_end = rho_escape(theta_end)
+        if r_end is None:
+            return np.inf
+        rho = rho_fv + (r_end - rho_fv) * s
+        x, y = rho * np.cos(th), rho * np.sin(th)
+        dens = np.sqrt(np.clip(2.0 * G * (V2(x, y) - V_fv), 0.0, None))
+        dl = np.hypot(np.diff(x), np.diff(y))
+        return float(2.0 * np.sum(0.5 * (dens[1:] + dens[:-1]) * dl))
+
+    x0 = np.zeros(1 + n_modes)
+    B_ray = action(x0)
+    res = minimize(action, x0, method="Nelder-Mead",
+                   options={"xatol": 1e-6, "fatol": 1e-9 * max(B_ray, 1e-300), "maxiter": maxiter, "initial_simplex":
+                            np.vstack([x0] + [x0 + 0.1 * np.eye(len(x0))[i] for i in range(len(x0))])})
+    B_min = float(min(res.fun, B_ray))
+    return {"delta0": delta0, "e_bar": e_bar, "B_ray": B_ray, "B_min": B_min, "ratio_min_over_ray": B_min / B_ray if B_ray > 0 else None,
+            "theta_end_opt": float(np.clip(res.x[0], 0.0, np.pi / 2)), "modes_opt": res.x[1:].tolist(),
+            "optimizer_converged": bool(res.success), "n_modes": n_modes,
+            "note": "la inclinación −η·χ es máxima en θ = 0 dentro del dominio: el rayo recto es el candidato natural al mínimo"}
