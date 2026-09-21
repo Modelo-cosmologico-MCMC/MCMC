@@ -869,6 +869,78 @@ comprobación interna (E8) de consistencia entre estaciones; el
 interruptor emergente solo tendrá estatuto cuando el frente 2 entregue
 τ(S) y el diccionario exista (`results/2026-09-21_s_clock/`).
 
+### 3.21 El criterio de Cronos–Jeans: la ley local es ultravioleta-inestable donde q > 1, y la amplitud única cae dentro en el halo del Nivel A, en Sculptor y en la vecindad solar (21-sep-2026)
+
+Derivación del autor (sesión de verificación del 21-sep), reproducida
+en el repositorio número a número. Un medio colisionless isotermo con
+dispersión σ y potencial efectivo Ψ = Φ_N − c²ε_c(ρ) (Prop. 11.2)
+responde a una perturbación estática con δρ = −ρ δΨ/σ²; la parte de
+Cronos es autoconsistente, δΨ_C = −c²ε_c'(ρ) δρ, y la ecuación δρ =
++ρc²ε_c'δρ/σ² tiene solución no trivial cuando ρc²ε_c'/σ² ≥ 1. Con
+ε_c = A·ρ^{3/2}, ρε_c' = (3/2)ε_c:
+
+    q(ρ, σ) ≡ (3/2)·c²·ε_c(ρ)/σ_1D² ≥ 1  ⟹  inestable a toda longitud de onda.
+
+En el límite fluido ω² = (σ² − (3/2)c²ε_c)k² − 4πGρ: la gravedad es
+infrarroja (tasa independiente de k) y la fuerza de Cronos, local, es
+ultravioleta (tasa ∝ k·√(q−1)·σ). No hay longitud de Jeans propia: por
+encima del umbral la escala más pequeña resuelta crece más deprisa, y
+un N-cuerpos con esta ley **no puede converger** cuando q > 1 — refinar
+la resolución del campo aumenta la tasa, y el ruido de Poisson del
+estimador la siembra (semillas distintas, desenlaces distintos).
+
+**Tres aplicaciones con la amplitud única** (`dynamics/cronos_jeans.py`;
+ninguna ingiere datos). (1) El halo del Nivel A (NFW de 10¹¹ M☉, c = 10,
+Jeans isótropo): q = 348 en 0.05 kpc, 74 en 0.1, 3.5 en 0.4 y 1.03 en
+0.7; r_CJ = 0.71 kpc con 1.6×10⁸ M☉ dentro (0.25 kpc con 0.1·A_S, 0.18
+con 0.05·A_S). Respuesta a la pregunta encuadrada del brief («¿existe
+una solución de halo Cronos convergida con A_Sculptor?»): no para ese
+estado inicial — el problema continuo es mal puesto dentro de r_CJ; la
+regla de parada v_well = 1000 km/s equivale a ρ = 4.3 M☉/pc³, es decir
+1.6×10⁸ M☉ dentro de ≈ 0.2 kpc. (2) La vecindad solar (losa de McKee,
+Parravano & Hollenbach 2015): g_C/K_z = 7.3 en 50 pc, 6.4 en 100, 2.1
+en 300 y 0.67 en 500; límite de Oort efectivo de Cronos 0.75 M☉/pc³
+(solo estrellas 0.115) frente a 0.10 ± 0.01 medido (referencia, no
+ingerida); cotas A ≤ 0.048·A_S (g_C ≤ 0.1·K_z en 300 pc) y A < 0.16·A_S
+(q < 1 en el plano con σ_z = 20 km/s): A_req(Sculptor)/A_max(K_z) ≳ 20.
+(3) Sculptor con el montaje congelado del 5E: q = 2.0–2.4 dentro de
+≈ 430 pc — el equilibrio que calibra A_Sculptor es inestable según el
+criterio — y σ_los(R) predicha de 19.1 km/s en 10 pc a 2.6 en 500 pc
+(pico central y exterior newtoniano; el promedio pesado por
+luminosidad da 9.2 por construcción): esa forma queda congelada en la
+fila `jeans-dsph` antes de la ingesta. Test 1D del umbral (láminas sin
+gravedad, `cronos/cronos_jeans_1d.py`): q = 0.8 se queda en el ruido de
+Poisson, q = 1.2 crece, q = 2 satura en ~2 % del tiempo de cruce, q = 4
+es no lineal desde el inicio; la ley de la tasa ∝ k no se mide aquí (es
+la puerta del test preinscrito del frente 5 refundado).
+
+**Lo que el Nivel A muestra en realidad** (lectura añadida a §3.19):
+el mecanismo del vaciado y de la ganancia de energía es el estimador del
+campo — la malla logarítmica se fija en la primera llamada (r_inner =
+0.251 kpc toda la corrida) y la pendiente se recorta a ≥ 10⁻³, de modo
+que cuando la masa se concentra bajo r_inner la densidad estimada cae
+~100× y ε_c ~1000×: el pozo se retira exactamente cuando la ley exige
+que se profundice (trinquete: atrapar con pozo hondo, soltar con pozo
+retirado; ΔE ≈ M_atrapada·v_well²/2 cuadra en orden de magnitud). El
+retardo τ_avg modula el ritmo; no es la causa. La fricción y el lapso no
+frenan nada a esta amplitud (∫Γdt ~ 10⁻⁴ en 2 Gyr; N − 1 ~ −5×10⁻⁶); y
+con campo autoconsistente instantáneo la energía conservada es K + W +
+(2/5)U_C, no K + W + U_C (con campo congelado sí: por eso b_static
+conserva mejor). El desenlace INDETERMINADO se mantiene; lo que cambia
+es qué debe preguntar la ronda siguiente: el Nivel A-2 contratado
+(convergencia k_inner, zoom) no puede converger y se retira; lo
+sustituye el frente 5 refundado (test del criterio con predicción
+convergida; halo con A_S y 0.05·A_S y balance 2/5; preinscripciones
+observacionales Oort–K_z y perfil de Sculptor; ingesta SPARC oficial
+sin tocar A_Sculptor; cita de la RAR: 1609.05917 y 1610.08981). Las
+salidas que el propio tratado admite (§11.4) — regularización
+saturante ζ = ζ₀ρ/(ρ+ρ*), no localidad a escala L, amplitud pequeña —
+son tres estructuras distintas, y decidir cuál es la del modelo es
+trabajo del diccionario. **Estatuto**: derivación (E8) con control
+externo del autor reproducido, expectativas declaradas (E13) y sin
+datos ingeridos; nada es resultado observacional; A_Sculptor y todos
+los umbrales intactos (`results/2026-09-21_cronos_jeans/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
@@ -961,6 +1033,7 @@ python scripts/run_cronos_halo_prereg.py                  # §3.19 preinscripci�
 python scripts/run_cronos_halo_nivelA.py run              # §3.19 diez corridas (~14 h, 4 núcleos)
 python scripts/run_cronos_halo_nivelA.py analyze          # §3.19 regla congelada
 python scripts/run_s_clock.py                             # §3.20 el reloj S (consistencia)
+python scripts/run_cronos_jeans.py                        # §3.21 criterio de Cronos–Jeans (derivación + test 1D)
 ```
 
 Desenlaces versionados: `results/2026-07-31_production_fit/`,
