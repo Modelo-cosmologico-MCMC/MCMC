@@ -146,6 +146,15 @@ DECLARED_FORMS = {
                         "M0⁴ despreciado); se detiene solo cuando C0 ≤ 0. DIAGNÓSTICO: "
                         "«Década ⟺ τ_k ≈ S_flip·δ₀/S_k» es una reformulación del "
                         "diccionario τ, no una derivación (E13: el número no es señal).",
+    "J_circulation": "Camino de dos niveles (propuesta v36): dΦ/dσ = −G⁻¹∇V + J∇C con J = "
+                     "|J|·ε antisimétrica (ε = [[0, −1], [1, 0]]) y |J| DECLARADO; C = V por "
+                     "defecto (J∇V ⊥ ∇V: la Monotonía 4.5 y la identidad S ≡ f se conservan "
+                     "EXACTAMENTE; Σ̇ cuenta solo el nivel disipativo) o C = ρ²/2 (rotación "
+                     "rígida; trabaja contra la inclinación: W_J = ∫∇V·J∇C dσ ≠ 0, "
+                     "publicado). Orientación de J fijada para que θ crezca hacia la diagonal "
+                     "durante el descenso. El reloj publica el |J| que sitúa el cruce de la "
+                     "diagonal en S_target (calibración con significado, no derivación: J "
+                     "desde la ontología es el frente 2).",
     "tau_per_dim": "HIPÓTESIS DECLARADA (opcional, modo emergente): τ toma un valor "
                    "por dimensión, τ_d, y en cada inestabilidad de masa el colapso "
                    "d → d+1 se dispara y M0² se repone a su valor inicial (el "
@@ -187,6 +196,12 @@ class ClockConfig:
     bounce_d: int = 4
     # modo emergente: hipótesis declarada τ por dimensión (None = τ único de fp)
     tau_per_dim: tuple | None = None
+    # circulación J∇C del Camino de dos niveles (propuesta v36): |J| DECLARADO
+    # (0 = flujo de gradiente puro) y generador C declarado: 'V' (el mismo
+    # generador: J∇V ⊥ ∇V conserva la Monotonía y S ≡ f exactamente) |
+    # 'rho2' (C = ρ²/2, rotación rígida: trabaja contra la inclinación)
+    J_circ: float = 0.0
+    circulation_C: str = "V"
 
 
 def sextic_coupling_dimension(d: int) -> float:
@@ -461,6 +476,20 @@ class SClock:
         return np.array([radial * phi[0] - self.eta / np.sqrt(2.0),
                          radial * phi[1] + self.eta / np.sqrt(2.0)])
 
+    def _circulation(self, phi: np.ndarray, grad: np.ndarray, lam: np.ndarray) -> np.ndarray:
+        """J∇C con J = |J|·ε y orientación declarada: θ crece hacia la
+        diagonal durante el descenso. C = V: ε∇V = radial·εΦ + ε·t con
+        radial < 0 entre la barrera y el vacío verdadero ⟹ J = −|J|ε.
+        C = ρ²/2: ∇C = Φ, εΦ = (−φ_E, φ_M) rota θ positivamente ⟹ J = +|J|ε."""
+        c = self.cfg
+        if c.circulation_C == "V":
+            gC, sgn = grad, -1.0
+        else:
+            # C = δ0²·ρ²/2: el factor δ0² deja |J| adimensional en σ̂ = σ·δ0² (dθ/dσ̂ = |J|),
+            # comparable con C = V, donde |∇V|/ρ ~ δ0²
+            gC, sgn = c.delta0 ** 2 * phi, +1.0
+        return sgn * c.J_circ * np.array([-gC[1], gC[0]])
+
     def _f(self, phi: np.ndarray, lam: np.ndarray) -> float:
         """f = (V_fv − V(Φ))/T₀: fracción de la Tensión Primordial ya
         descargada (paisaje inicial como referencia)."""
@@ -478,7 +507,7 @@ class SClock:
         d_dim = 0
         pending = list(self.thresholds[:3])   # colapsos 1D, 2D, 3D
         keys = ("sigma", "S", "f", "clock", "V", "theta", "chi", "rho", "D", "Sprod",
-                "u", "c_eff", "m_eff", "M0_sq", "B", "C0")
+                "u", "c_eff", "m_eff", "M0_sq", "B", "C0", "W_J")
         rec = {k: [] for k in keys}
         events = []
         c_eff_max, c_eff_max_S = 0.0, 0.0
@@ -486,6 +515,9 @@ class SClock:
         lam_out_of_domain = None
         emergent = c.thresholds == "emergent"
         mass_events = []                      # cruces M0² = 0 (modo emergente)
+        W_J = 0.0                             # trabajo de la circulación ∫∇V·J∇C dσ (0 si C = V en el interior)
+        if c.circulation_C not in ("V", "rho2"):
+            raise ValueError("circulation_C: 'V' | 'rho2'")
         tau_seq = list(c.tau_per_dim) if c.tau_per_dim else None
         tau_now = float(tau_seq[0]) if tau_seq else float(c.fp.tau)
         if tau_seq and not emergent:
@@ -499,7 +531,7 @@ class SClock:
             D = float(lam[1] ** 2 - 4.0 * lam[2] * lam[0])
             vals = (sigma, S_int, f_val, clk, self._V(phi, lam), float(dual["theta"]), float(dual["chi"]),
                     float(dual["rho"]), D, float(g @ g) * G_inv, u, c_eff_max, m,
-                    float(lam[0]), float(lam[1]), float(lam[2]))
+                    float(lam[0]), float(lam[1]), float(lam[2]), W_J)
             for k, v in zip(keys, vals):
                 rec[k].append(v)
 
@@ -551,14 +583,25 @@ class SClock:
                 # las componentes activas (así S ≡ f exactamente, Teo. 4.5)
                 gg = self._grad(ph, lam)
                 v = -G_inv * gg
+                if c.J_circ != 0.0:
+                    # nivel conservativo J∇C (declarado). La ligadura (normal a la
+                    # frontera) actúa sobre la velocidad TOTAL: en el interior
+                    # ∇V·J∇V = 0 exactamente, pero sobre la frontera la componente
+                    # tangencial de la circulación sobrevive y TRABAJA (W_J ≠ 0):
+                    # se publica, y la identidad pasa a ser S = f − f₀ + W_J/T₀
+                    vc = self._circulation(ph, gg, lam)
+                    active = ~((ph <= 0.0) & (v + vc < 0.0))
+                    v, vc = np.where(active, v, 0.0), np.where(active, vc, 0.0)
+                    return v + vc, float(-(gg @ v)) / self.T0, float(gg @ vc)
                 v = np.where((ph <= 0.0) & (v < 0.0), 0.0, v)
-                return v, float(-(gg @ v)) / self.T0
-            k1, s1 = rhs(phi)
-            k2, s2 = rhs(phi + 0.5 * d_sigma * k1)
-            k3, s3 = rhs(phi + 0.5 * d_sigma * k2)
-            k4, s4 = rhs(phi + d_sigma * k3)
+                return v, float(-(gg @ v)) / self.T0, 0.0
+            k1, s1, w1 = rhs(phi)
+            k2, s2, w2 = rhs(phi + 0.5 * d_sigma * k1)
+            k3, s3, w3 = rhs(phi + 0.5 * d_sigma * k2)
+            k4, s4, w4 = rhs(phi + d_sigma * k3)
             phi_new = np.clip(phi + (d_sigma / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4), 0.0, None)
             dS = (d_sigma / 6.0) * (s1 + 2 * s2 + 2 * s3 + s4)
+            W_J += (d_sigma / 6.0) * (w1 + 2 * w2 + 2 * w3 + w4)
             S_new = S_int + dS
             f_new = self._f(phi_new, lam)
             clk_new = clock_of(f_new, S_new)
@@ -662,6 +705,14 @@ class SClock:
                       "rate_after_seal": _m_rate(max(S_end, self.S_c2), c.gamma_m, self.S_c2),
                       "sealed": m_frozen_at is not None, "status": "declarado (forma) + derivado (punto fijo)"}}
         checks["diagonal"] = self._diagonal_checks(rec)
+        checks["diagonal"]["circulation"] = {
+            "J_circ": c.J_circ, "C": c.circulation_C, "form": DECLARED_FORMS["J_circulation"],
+            "W_J_over_T0": float(W_J / self.T0),
+            "monotonicity_preserved_exactly": c.circulation_C == "V",
+            "grad_norm_integral": float(np.trapezoid(np.sqrt(rec["Sprod"] * c.G), rec["sigma"])) if len(rec["sigma"]) > 1 else 0.0,
+            "status": ("declarado (|J| = 0: flujo de gradiente puro)" if c.J_circ == 0.0 else
+                       "declarado (|J| y C) + derivado (cruce con Monotonía exacta)" if c.circulation_C == "V" else
+                       "declarado (|J| y C) + publicado (W_J ≠ 0: la rotación rígida trabaja contra la inclinación)")}
         checks["handshake_cosmology"] = self._handshake_checks()
         delivered = self._deliver(phi, lam, S_end, u_frozen_at, m_frozen_at, rec) if not emergent else None
         # en modo impuesto, D no cruza cero (acoplos congelados): se publica junto a cada evento
@@ -786,13 +837,16 @@ class SClock:
                 "produccion_entropica_4_5": {"min": float(Sp.min()), "pass": bool(Sp.min() >= 0.0), "status": "derivado"},
                 "exclusion_4_7": {"pass": bool(np.all(np.diff(x) >= -1e-12 * self.x_plus0)) if not emergent else None,
                                   "status": "derivado"},
-                "S_equals_f_identity": {"max_abs_diff": float(np.max(np.abs(S - (f - self.f0)))),
+                "S_equals_f_identity": {"max_abs_diff": float(np.max(np.abs(S - (f - self.f0) - rec["W_J"] / self.T0))),
                                         "f0_nucleation": float(self.f0),
-                                        "pass": bool(np.max(np.abs(S - (f - self.f0))) < 1e-6) if not emergent else None,
+                                        "W_J_over_T0_final": float(rec["W_J"][-1] / self.T0),
+                                        "pass": bool(np.max(np.abs(S - (f - self.f0) - rec["W_J"] / self.T0)) < 1e-6) if not emergent else None,
                                         "note": "Σ̇ = −dV/dσ ⟹ ∫Σ̇dσ = V(σ=0) − V = T₀·(f − f₀) exactamente en el flujo de "
                                                 "gradiente (Teo. 4.5) con la normalización declarada; f₀ = 0 en el punto de "
                                                 "escape y > 0 si la nucleación entrega el campo ya parcialmente descargado "
-                                                "(bounce); en modo emergente V cambia con λ",
+                                                "(bounce); con circulación J∇C la identidad es S = f − f₀ + W_J/T₀ (W_J = 0 en "
+                                                "el interior para C = V; ≠ 0 sobre la frontera o con C rígida); en modo "
+                                                "emergente V cambia con λ",
                                         "status": "derivado"},
                 "exit_to_mass_pole_3_5": {"theta_final": float(rec["theta"][-1]), "pass": bool(rec["theta"][-1] < 0.35),
                                           "status": "derivado"},
@@ -874,6 +928,86 @@ class SClock:
                 "readable_by_cosmology": False,
                 "readable_note": "el diccionario primordial → cosmológico no existe: cosmology/ no puede consumir "
                                  "este estado; se publica tal cual (fila diccionario-primordial-cosmologico)"}
+
+
+def diagonal_crossing_S(delta0: float, J: float, circulation_C: str = "V", **kwargs) -> dict:
+    """S (reloj f) en que el flujo con circulación |J| cruza θ = π/4, o None."""
+    out = SClock(ClockConfig(delta0=delta0, J_circ=J, circulation_C=circulation_C, **kwargs)).run()
+    fl = out["checks"]["diagonal"]["flow"]
+    return {"J": J, "crossed": fl["crossed"], "S_cross": fl["S_at_crossing"], "theta_final": fl["theta_final"],
+            "theta_max": fl["theta_max"], "W_J_over_T0": out["checks"]["diagonal"]["circulation"]["W_J_over_T0"],
+            "S_equals_f_max_diff": out["checks"]["descent"]["S_equals_f_identity"]["max_abs_diff"],
+            "monotonia_pass": out["checks"]["descent"]["monotonia_4_5"]["pass"],
+            "grad_norm_integral": out["checks"]["diagonal"]["circulation"]["grad_norm_integral"],
+            "finished": out["finished"]}
+
+
+def J_min_threshold(delta0: float, circulation_C: str = "V", J_lo: float = 0.05, J_hi: float = 50.0,
+                    rtol: float = 2e-3, **kwargs) -> dict:
+    """El |J| mínimo con el que el flujo ALCANZA la diagonal (bisección
+    sobre el booleano «cruza»), y el S del cruce justo por encima del
+    umbral, S_tope: el S más alto en que la diagonal puede cruzarse con
+    este C. Con C = V, J∇V se anula en los puntos críticos y el vacío
+    verdadero 2D está sobre el polo de masa (θ = 0): θ sube, alcanza su
+    máximo y vuelve a 0 — por eso el cruce tiene un S máximo y no basta
+    subir |J| para llevarlo a S = 1 (subir |J| lo ADELANTA). Publica
+    también la expectativa E13 |J|_est = (π/4)/∫|∇C|dσ (J = 0)."""
+    base = diagonal_crossing_S(delta0, 0.0, circulation_C, **kwargs)
+    J_est = (np.pi / 4.0) / base["grad_norm_integral"] if base["grad_norm_integral"] > 0 else None
+    lo, hi = J_lo, J_hi
+    r_lo, r_hi = diagonal_crossing_S(delta0, lo, circulation_C, **kwargs), diagonal_crossing_S(delta0, hi, circulation_C, **kwargs)
+    if r_lo["crossed"] or not r_hi["crossed"]:
+        return {"delta0": delta0, "C": circulation_C, "J_min": None, "bracket_ok": False,
+                "crossed_at_J_lo": r_lo["crossed"], "crossed_at_J_hi": r_hi["crossed"],
+                "J_estimate_pi4_over_int_gradC": J_est, "status": "sin umbral en el intervalo declarado"}
+    n = 0
+    while hi / lo > 1.0 + rtol and n < 60:
+        n += 1
+        mid = float(np.sqrt(lo * hi))
+        if diagonal_crossing_S(delta0, mid, circulation_C, **kwargs)["crossed"]:
+            hi = mid
+        else:
+            lo = mid
+    at = diagonal_crossing_S(delta0, hi, circulation_C, **kwargs)
+    return {"delta0": delta0, "C": circulation_C, "J_min": hi, "bracket_ok": True, "iterations": n,
+            "S_cross_threshold": at["S_cross"], "theta_final_at_J_min": at["theta_final"], "theta_max_at_J_min": at["theta_max"],
+            "W_J_over_T0": at["W_J_over_T0"], "S_equals_f_max_diff": at["S_equals_f_max_diff"],
+            "monotonia_pass": at["monotonia_pass"], "finished": at["finished"],
+            # frontera: el flujo vuelve a φ_E = 0 y la componente tangencial de la circulación
+            # (que la ligadura normal no cancela) desplaza el equilibrio: el descenso no completa
+            "returns_to_boundary": bool(at["theta_final"] <= 1e-9),
+            "J_estimate_pi4_over_int_gradC": J_est,
+            "ratio_J_min_over_estimate": (hi / J_est) if J_est else None,
+            "status": "publicado: |J|_min y S_tope del cruce con C declarado (calibración, no derivación)"}
+
+
+def J_required(delta0: float, S_target: float, circulation_C: str = "V", J_lo: float = 0.05, J_hi: float = 50.0,
+               xtol: float = 1e-3, **kwargs) -> dict:
+    """El |J| que sitúa el cruce de la diagonal en S = S_target (bisección en
+    log|J| sobre S_cross(|J|), decreciente en |J|). Publica también la
+    expectativa del autor |J|_est = (π/4)/∫|∇C| dσ sobre el descenso con
+    J = 0 (E13: número esperado, no derivado) y el cociente."""
+    base = diagonal_crossing_S(delta0, 0.0, circulation_C, **kwargs)
+    J_est = (np.pi / 4.0) / base["grad_norm_integral"] if base["grad_norm_integral"] > 0 else None
+
+    def S_of(logJ):
+        r = diagonal_crossing_S(delta0, float(np.exp(logJ)), circulation_C, **kwargs)
+        # sin cruce: el reloj "termina" en S_final > S_target (cruce virtual más allá)
+        return (r["S_cross"] if r["crossed"] else 2.0) - S_target
+    lo, hi = np.log(J_lo), np.log(J_hi)
+    f_lo, f_hi = S_of(lo), S_of(hi)
+    if not (f_lo > 0.0 > f_hi):
+        return {"delta0": delta0, "S_target": S_target, "C": circulation_C, "J_required": None,
+                "bracket_ok": False, "S_cross_at_J_lo": f_lo + S_target, "S_cross_at_J_hi": f_hi + S_target,
+                "J_estimate_pi4_over_int_gradC": J_est, "status": "sin |J| en el intervalo declarado que cruce en S_target"}
+    logJ = brentq(S_of, lo, hi, xtol=xtol)
+    at = diagonal_crossing_S(delta0, float(np.exp(logJ)), circulation_C, **kwargs)
+    return {"delta0": delta0, "S_target": S_target, "C": circulation_C, "J_required": float(np.exp(logJ)),
+            "bracket_ok": True, "S_cross": at["S_cross"], "W_J_over_T0": at["W_J_over_T0"],
+            "S_equals_f_max_diff": at["S_equals_f_max_diff"], "monotonia_pass": at["monotonia_pass"],
+            "J_estimate_pi4_over_int_gradC": J_est,
+            "ratio_required_over_estimate": (float(np.exp(logJ)) / J_est) if J_est else None,
+            "status": "publicado: |J| es una calibración declarada con significado, no una derivación (frente 2)"}
 
 
 def run_clock(delta0: float = 0.01, **kwargs) -> dict:

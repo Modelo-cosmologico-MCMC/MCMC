@@ -1071,6 +1071,39 @@ externo): **cuál es la del tratado es la decisión B del autor**, no del
 código, y la fila `nucleacion-gamma0` queda condicional a n_dim (E8,
 E13; `results/2026-09-21_nucleation_gamma0/`).
 
+### 3.25 La diagonal y el |J| requerido: la circulación J∇C del Camino de dos niveles hace cruzar la diagonal, pero el vacío está en el polo de masa y el cruce tiene un S máximo (21-sep-2026, tarde)
+
+El flujo de gradiente puro deja θ = 0 y el reloj v0 imponía el perfil
+θ_imp(S) para la entrega. La propuesta v36 añade al Camino un segundo
+nivel, la circulación J∇C con J antisimétrica: el único término del
+programa que rota θ. `core/path_flow.py` y el reloj lo integran con |J|
+y C declarados; con C = V (el mismo generador) J∇V ⊥ ∇V, la Monotonía
+4.5 se conserva exactamente y la identidad pasa a ser S = f − f₀ +
+W_J/T₀ con W_J = 0 en el interior; la rotación rígida C = δ₀²ρ²/2 va
+como alternativa. La preinscripción (congelada en un commit posterior
+al generador, sha256 `4f56704d076c…`, con el piloto declarado íntegro)
+fijó la malla δ₀ ∈ {0.001, 0.003, 0.01, 0.03, δ_H}, la ventana 1 ± 0.05
+y las letras por δ₀. **Hallazgo**: con C = V el término se anula en los
+puntos críticos y el vacío verdadero 2D está sobre el polo de masa, de
+modo que θ sube, cruza la diagonal solo si |J| ≥ |J|_min y **vuelve
+hacia θ = 0**: el cruce tiene un S máximo — subir |J| lo adelanta, no lo
+lleva a S = 1. **Resultado bajo la regla congelada: MIXTO.** |J|_min =
+1.358 / 1.363 / 1.370 / 1.389 / 1.451 (invariante de escala al 6.8 %,
+como exige σ̂ = σδ₀²) y S_max = 0.959 / 0.930 / 0.879 / 0.806 / 0.746:
+A en δ₀ = 0.001 (la ventana es alcanzable con |J| ∈ [1.358, 1.396]), B
+en 0.003 y 0.01 (retorno interior, descenso completo), F en 0.03 y δ_H
+(retorno a la frontera φ_E = 0, donde la componente tangencial de la
+circulación sobrevive a la ligadura normal, trabaja — W_J/T₀ = 5.5 y
+10.9 — y el descenso no completa). La rotación rígida cruza en 0.88 /
+0.81 / 0.75 al precio de la Monotonía (W_J/T₀ = 2–10): coste, no
+solución. La expectativa E13 del autor, |J| ≈ (π/4)/∫|∇V|dσ, sobreestima
+|J|_min por ×2.2–25 (publicado sin veredicto). **Estatuto**: |J| es una
+calibración declarada con significado — el frente 2 debe reproducirla
+junto con λ — no una derivación; y la diagonal como estado final de la
+entrega no es cuestión de |J|: exige un término que mueva el vacío 2D
+fuera del polo de masa, que el programa no tiene
+(`results/2026-09-21_j_circulation/`).
+
 ### 3.28 El test preinscrito del criterio de Cronos–Jeans: INDETERMINADO por la puerta de fase lineal, con la predicción cinética reproducida al 1 % donde se resuelve (21-sep-2026)
 
 El frente 5 refundado pedía la predicción convergida del criterio de
