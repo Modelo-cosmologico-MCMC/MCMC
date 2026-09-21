@@ -12,15 +12,22 @@ cosmología. Nada aquí es demostración física (E8).
 import numpy as np
 import pytest
 
+from core.basal import T0_analytic
 from core.s_clock import (
     DECLARED_FORMS,
     ClockConfig,
+    S_flip_first_order,
     SClock,
+    T0_tilt_first_order,
     delta0_metastability_max,
+    delta0_metastability_max_analytic,
     emergent_diagnostic,
+    kappa1_tilt,
+    naturalness_sweep,
     radial_landscape,
     run_clock,
     sextic_coupling_dimension,
+    tau_decade_table,
 )
 from mcmc_ontology import constants as C
 
@@ -129,3 +136,82 @@ def test_trajectory_is_jsonable(run):
     import json
     json.dumps(run)
     assert np.isfinite(run["T0"])
+
+
+# ------------------------------------------------------------------ v1 (21-sep)
+
+def test_origin_root_without_tilt_gives_infinite_delta0_max():
+    """Sin inclinación el origen es el falso vacío exacto (raíz que la
+    malla v0 no veía): δ₀_max = ∞ y el reloj corre con corrección 0."""
+    ld = radial_landscape(0.01, e_bar=0.0)
+    assert ld["roots"][0] == 0.0 and ld["metastable"] and ld["rho_esc"] is not None
+    assert ld["V_fv"] == 0.0
+    assert delta0_metastability_max(e_bar=0.0) == float("inf")
+    assert delta0_metastability_max_analytic(e_bar=0.0) == float("inf")
+    assert radial_landscape(0.01, theta=np.pi / 4)["roots"][0] == 0.0     # sobre la diagonal, tilt = 0
+    r = run_clock(0.01, e_bar=0.0)
+    assert r["checks"]["S0"]["T0_scaling_3_4"]["tilt_correction"] == 0.0
+    assert [e["kind"] for e in r["events"]][:3] == ["colapso_1D", "colapso_2D", "colapso_3D"]
+
+
+def test_kappa1_first_order_tilt_correction(run):
+    """κ₁ = ē√κ₊/(√2c̄) = 1.361 con las formas por defecto; la corrección
+    medida sigue κ₁√δ₀ con residuo O(δ₀)."""
+    assert kappa1_tilt() == pytest.approx(1.3607, abs=1e-3)
+    t = run["checks"]["S0"]["T0_tilt_first_order"]
+    assert t["pass"] and 0.95 < t["ratio_measured_over_first_order"] < 1.0
+    for d0 in (0.003, 0.03):
+        c = radial_landscape(d0)["T0_full"] / T0_analytic(d0) - 1.0
+        assert abs(c - kappa1_tilt() * np.sqrt(d0)) < 0.5 * kappa1_tilt() * d0
+    assert T0_tilt_first_order(0.01) == pytest.approx(T0_analytic(0.01) * (1 + kappa1_tilt() * 0.1))
+
+
+def test_delta0_max_closed_form_scales_as_e_bar_minus_two(run):
+    assert run["checks"]["S0"]["delta0_max_closed_form"]["pass"]
+    for e in (0.5, 1.0, 2.0):
+        an = delta0_metastability_max_analytic(e_bar=e)
+        assert an == pytest.approx(0.1028 / e ** 2, rel=2e-3)
+        assert an == pytest.approx(delta0_metastability_max(e_bar=e), rel=1e-6)
+
+
+def test_naturalness_sweep_publishes_fractions():
+    ns = naturalness_sweep(n=300, n_check=6)
+    fr = ns["fraction_metastable_at"]
+    assert set(fr) == {"0.012", "0.0581"} and 0.0 <= fr["0.0581"] <= fr["0.012"] <= 1.0
+    assert ns["closed_form_vs_bisection_max_rel_err"] < 1e-4
+    assert ns["status"].startswith("publicado")
+
+
+def test_mass_instability_event_published_and_integration_continues():
+    """En modo emergente M0² = 0 ya no detiene el bucle: se publica
+    `inestabilidad_masa` con S_flip frente a su forma cerrada y el
+    recorrido sigue (se detiene solo con C0 ≤ 0 o al agotar el presupuesto)."""
+    r = emergent_diagnostic(0.01, tau=0.1, max_steps=20000)
+    mi = r["mass_instability"]
+    assert mi is not None and 0.9 < mi["ratio"] < 1.05
+    assert r["couplings_out_of_domain"] is None and "M0²" not in (r["stop_reason"] or "")
+    assert r["S_final"] > mi["S_flip"]
+    assert S_flip_first_order(0.01, 1.0) == pytest.approx(0.10566 * 0.01, rel=1e-3)
+    assert S_flip_first_order(0.01, 0.0) is None and S_flip_first_order(0.01, 1.0, b_bar=2.0) is None
+    tk = tau_decade_table(0.01)
+    assert tk["tau_k"][0] == pytest.approx(11.74 * 0.01, rel=1e-2)
+    assert tk["tau_k"][1] / tk["tau_k"][0] == pytest.approx(0.009 / 0.099)
+    assert "E13" in tk["status"] and "E13" in mi["status"]
+
+
+def test_tau_per_dim_hypothesis_is_emergent_only_and_resets_mass():
+    with pytest.raises(ValueError, match="emergent"):
+        SClock(ClockConfig(delta0=0.01, tau_per_dim=(1.0, 0.1, 0.01))).run()
+    r = SClock(ClockConfig(delta0=0.01, thresholds="emergent", couplings_flow=True,
+                           tau_per_dim=(0.1174, 0.01174, 0.001174), max_steps=30000)).run()
+    flips = r["mass_instability_events"]
+    assert flips and "reset" in flips[0] and flips[0]["reset"]["tau_next"] == 0.01174
+    col = [e for e in r["events"] if e["kind"].startswith("colapso")]
+    assert col and all("hipótesis τ_d" in e["trigger"] for e in col)
+    assert all("E13" in e["trigger"] for e in col)
+
+
+def test_declared_forms_include_post_florencia_unit_gap():
+    assert "S_post_unit" in DECLARED_FORMS and "hueco" in DECLARED_FORMS["S_post_unit"]
+    assert "diccionario-unidad-S-post-florencia" in DECLARED_FORMS["S_post_unit"]
+    assert "E13" in DECLARED_FORMS["mass_instability"]

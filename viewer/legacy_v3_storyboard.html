@@ -1,0 +1,1538 @@
+<!doctype html>
+<!--
+  ARCHIVO HISTÓRICO — GUION v32, NO CÁLCULO.
+  «MCMC — Fase pre-geométrica · S0 → Presente» (MCMC_v3_corregido.html), simulación
+  antigua del autor. Todas sus magnitudes (Mp/Ep %, reparto ECV/MCV/Mdet, |T| de las
+  familias, κ_gap, predicciones, S_hoy = 90 ± 3) son funciones escritas a mano de S
+  o constantes de la parametrización v32 retirada en la v35 (familias y cascada gauge
+  por sello, Λ_GUT/Λ_QCD por sello, S_actual). Se conserva como contrato de interfaz
+  del visor del reloj S (viewer/s_clock.html): dice qué mostrar, no qué vale.
+  Auditoría capa por capa: doc del Proyecto «Propuesta desarrollo - reloj S unico y
+  frentes (2026-09-21)», §0. Depositado en el repositorio el 21/22-sep-2026.
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>MCMC — Fase pre-geométrica · S0 → Presente</title>
+<style>
+  :root {
+    /*EDITMODE-BEGIN*/{
+      "palette": "noir",
+      "show_mpep": false,
+      "show_labels": true,
+      "show_equations": true,
+      "autoplay": true
+    }/*EDITMODE-END*/
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#07070a;color:#e8e4d8;font-family:"Cormorant Garamond","EB Garamond",Georgia,serif}
+  .mono{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace}
+  #app{position:fixed;inset:0;display:grid;grid-template-rows:auto 1fr auto}
+  header{padding:20px 32px 14px;display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid rgba(232,228,216,.08)}
+  header h1{font-size:20px;font-weight:400;margin:0;letter-spacing:.01em}
+  header h1 em{color:#b8b1a0;font-style:italic}
+  header .meta{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#8a8476}
+  main{position:relative;overflow:hidden}
+  svg.stage{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .hud{position:absolute;pointer-events:none;font-family:"JetBrains Mono",monospace;font-size:11px;color:#8a8476;letter-spacing:.14em;text-transform:uppercase}
+  .hud.tl{top:18px;left:24px}
+  .hud.tr{top:18px;right:24px;text-align:right}
+  .hud.bl{bottom:70px;left:24px}
+  .hud.br{bottom:70px;right:24px;text-align:right}
+  .hud .big{display:block;margin-top:4px;font-size:22px;color:#e8e4d8;letter-spacing:.05em;text-transform:none;font-weight:300}
+  #stationCard{position:absolute;left:24px;top:96px;width:330px;padding:16px 18px;background:rgba(12,12,16,.7);backdrop-filter:blur(6px);border:1px solid rgba(232,228,216,.1);border-radius:2px;pointer-events:auto;transition:opacity .2s;z-index:5}
+  #stationCard .lab{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#8a8476;margin-bottom:6px}
+  #stationCard .ss{font-family:"JetBrains Mono",monospace;font-size:32px;color:#e8e4d8;font-weight:300;letter-spacing:.04em;margin-bottom:8px}
+  #stationCard .chip{display:inline-block;padding:3px 10px;border:1px solid #d9a574;color:#d9a574;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;border-radius:2px;margin-bottom:12px}
+  #stationCard .nm{font-size:17px;margin:4px 0 10px;letter-spacing:.01em;line-height:1.25}
+  #stationCard p{margin:6px 0;font-size:13px;line-height:1.55;color:#c8c2b0;text-wrap:pretty}
+  #stationCard .eq{margin-top:10px;padding:8px 10px;background:rgba(232,228,216,.04);border-left:2px solid #d9a574;font-family:"JetBrains Mono",monospace;font-size:11px;color:#e8c592;letter-spacing:.03em;line-height:1.6}
+  #propsCard{position:absolute;left:24px;bottom:200px;width:260px;padding:14px 16px;background:rgba(12,12,16,.7);backdrop-filter:blur(6px);border:1px solid rgba(232,228,216,.1);font-size:10.5px;z-index:5}
+  #propsCard h4{margin:0 0 12px;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#d9a574;font-weight:400}
+  #propsCard .row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dotted rgba(232,228,216,.08)}
+  #propsCard .k{color:#8a8476;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+  #propsCard .v{color:#e8e4d8;font-family:"JetBrains Mono",monospace;font-size:11px;text-align:right}
+
+  footer{padding:14px 32px 20px;border-top:1px solid rgba(232,228,216,.08)}
+  .ctrl{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+  .btn{background:transparent;border:1px solid rgba(232,228,216,.2);color:#e8e4d8;padding:6px 12px;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .15s}
+  .btn:hover{background:rgba(232,228,216,.08);border-color:rgba(232,228,216,.4)}
+  .btn.active{background:rgba(217,165,116,.15);border-color:#d9a574;color:#e8c592}
+  .phase-display{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#8a8476}
+  .phase-display .cur{color:#d9a574;margin-left:8px}
+  .track-wrap{position:relative;height:46px}
+  .ticks{position:absolute;inset:0;pointer-events:none}
+  .tick{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px;font-family:"JetBrains Mono",monospace;font-size:9.5px;color:#8a8476;letter-spacing:.04em;white-space:nowrap}
+  .tick .bar{width:1px;height:8px;background:rgba(232,228,216,.25)}
+  .tick.major .bar{height:14px;background:rgba(232,228,216,.6)}
+  .tick .lab{display:flex;flex-direction:column;align-items:center;gap:1px}
+  .tick .lab .em{color:#d9a574}
+  .tick .lab .sub{color:#5a5648;font-size:8.5px;text-transform:uppercase;letter-spacing:.12em}
+  .track{position:absolute;left:0;right:0;top:20px;height:2px;background:rgba(232,228,216,.12)}
+  .fill{position:absolute;left:0;top:0;height:100%;background:linear-gradient(90deg,#4a6f8a,#d9a574 55%,#e8c592 90%,#f2eee3)}
+  .playhead{position:absolute;top:12px;width:2px;height:18px;background:#e8e4d8;transform:translateX(-50%);box-shadow:0 0 8px rgba(232,228,216,.6)}
+  .playhead::after{content:'';position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:10px;height:10px;background:#e8e4d8;border-radius:50%;box-shadow:0 0 10px rgba(232,228,216,.8)}
+  input[type=range].slider{position:absolute;left:0;right:0;top:0;width:100%;height:46px;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer;margin:0;opacity:0}
+
+  #tweaks{position:fixed;right:20px;bottom:130px;width:260px;padding:14px 16px;background:rgba(12,12,16,.92);backdrop-filter:blur(8px);border:1px solid rgba(232,228,216,.15);font-size:11px;display:none;z-index:50}
+  #tweaks.visible{display:block}
+
+  /* Transformation panel (center bottom, above footer) */
+  #xformPanel{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);width:560px;padding:14px 18px 12px;background:rgba(12,12,16,.72);backdrop-filter:blur(8px);border:1px solid rgba(232,228,216,.1);border-radius:2px;z-index:5}
+  #xformPanel .xh{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#d9a574;margin-bottom:10px}
+  #xformPanel .xrow{display:grid;grid-template-columns:170px 1fr 48px;gap:12px;align-items:center;margin-bottom:5px}
+  #xformPanel .xlbl{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#c8c2b0;display:flex;align-items:center;gap:6px;line-height:1.2;flex-wrap:wrap}
+  #xformPanel .xlbl .sub{color:#6a665a;font-size:9px;letter-spacing:.14em;margin-left:4px;white-space:nowrap}
+  #xformPanel .xlbl .dot{display:inline-block;width:8px;height:8px;border-radius:50%;box-shadow:0 0 6px currentColor}
+  #xformPanel .xbar{height:6px;background:rgba(232,228,216,.08);border-radius:3px;overflow:hidden;position:relative}
+  #xformPanel .xfill{height:100%;transition:width .15s ease-out;border-radius:3px}
+  #xformPanel .xfillE{background:linear-gradient(90deg,#d9a574,#f2c892,#ffffff)}
+  #xformPanel .xfillEp{background:linear-gradient(90deg,#4a6f8a,#7ba7c4,#a9c9db)}
+  #xformPanel .xfillDet{background:linear-gradient(90deg,#a8884a,#e8c592,#f5e3b8)}
+  #xformPanel .xfillMp{background:linear-gradient(90deg,#5a3e1c,#7a5a30,#a07a48)}
+  #xformPanel .xfillMpPrist{background:linear-gradient(90deg,#7a3a18,#c46a30,#e08a4a)}
+  #xformPanel .xrow{transition:opacity .25s ease}
+  #xformPanel .xval{color:#e8e4d8;font-size:11px;text-align:right}
+  #xformPanel .xnote{margin-top:10px;padding-top:9px;border-top:1px dotted rgba(232,228,216,.12);font-size:10px;color:#8a8476;line-height:1.5;letter-spacing:.02em}
+  #xformPanel .xrow-sep{margin-top:10px;padding-top:8px;border-top:1px dotted rgba(232,228,216,.10)}
+  body[data-palette="cream"] #xformPanel{background:rgba(241,236,221,.78);border-color:rgba(36,31,20,.12)}
+  body[data-palette="cream"] #xformPanel .xh{color:#8a5a20}
+  body[data-palette="cream"] #xformPanel .xlbl{color:#241f14}
+  body[data-palette="cream"] #xformPanel .xval{color:#241f14}
+  body[data-palette="cream"] #xformPanel .xnote{color:#5a4a32;border-top-color:rgba(36,31,20,.15)}
+  body[data-palette="cream"] #xformPanel .xbar{background:rgba(36,31,20,.10)}
+  #tweaks h3{margin:0 0 12px;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#d9a574;font-weight:400}
+  #tweaks .row{margin-bottom:10px}
+  #tweaks label{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8a8476;margin-bottom:4px;font-family:"JetBrains Mono",monospace}
+  #tweaks .opts{display:flex;gap:4px;flex-wrap:wrap}
+  #tweaks .opts button{flex:1;background:transparent;border:1px solid rgba(232,228,216,.15);color:#b8b1a0;padding:5px 8px;font-family:"JetBrains Mono",monospace;font-size:10px;cursor:pointer;border-radius:2px}
+  #tweaks .opts button.on{background:rgba(217,165,116,.2);border-color:#d9a574;color:#e8e4d8}
+  #tweaks .check{display:flex;align-items:center;gap:8px;cursor:pointer}
+  #tweaks .check input{accent-color:#d9a574}
+
+  body[data-palette="cream"]{background:#f1ecdd;color:#241f14}
+  body[data-palette="cream"] header{border-bottom-color:rgba(36,31,20,.12)}
+
+  /* === Panel espectro fermiónico (derecha-arriba) === */
+  #fermionPanel{position:absolute;right:18px;top:96px;width:266px;padding:11px 13px 12px;background:rgba(12,12,16,.70);backdrop-filter:blur(6px);border:1px solid rgba(232,228,216,.10);border-radius:2px;font-size:10.5px;z-index:6}
+  #fermionPanel h4{margin:0 0 9px;font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#d9a574}
+  #fermionPanel .fpRow{display:flex;align-items:center;gap:6px;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.06em;color:#c8c2b0;margin:6px 0 4px}
+  #fermionPanel .famDot{width:8px;height:8px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor}
+  #fermionPanel .famT{margin-left:auto;color:#8a8476;font-size:9px;letter-spacing:.04em}
+  #fermionPanel .fpGrid{display:grid;grid-template-columns:42px 1fr 60px;gap:3px 7px;align-items:center;margin-bottom:6px;padding-left:14px}
+  #fermionPanel .fpName{font-family:"JetBrains Mono",monospace;font-size:10px;color:#e8e4d8}
+  #fermionPanel .fpBarWrap{height:5px;background:rgba(232,228,216,.06);border-radius:2px;overflow:hidden}
+  #fermionPanel .fpBar{height:100%;border-radius:2px;transition:width .25s ease,background .25s}
+  #fermionPanel .fpVal{font-family:"JetBrains Mono",monospace;font-size:9px;color:#8a8476;text-align:right;letter-spacing:.02em}
+  #fermionPanel .fpItem.ghost{opacity:.18;filter:blur(.4px)}
+  #fermionPanel .fpItem.live{opacity:1}
+  body[data-palette="cream"] #fermionPanel{background:rgba(241,236,221,.78);border-color:rgba(36,31,20,.12)}
+  body[data-palette="cream"] #fermionPanel h4{color:#8a5a20}
+  body[data-palette="cream"] #fermionPanel .fpRow{color:#241f14}
+  body[data-palette="cream"] #fermionPanel .fpName{color:#241f14}
+  body[data-palette="cream"] #fermionPanel .fpBarWrap{background:rgba(36,31,20,.08)}
+  body[data-palette="cream"] #fermionPanel .famT{color:#5a4a32}
+  body[data-palette="cream"] #fermionPanel .fpVal{color:#5a4a32}
+
+  /* === Panel WKB (derecha-abajo) === */
+  #wkbPanel{position:absolute;right:18px;bottom:172px;width:266px;padding:11px 13px 12px;background:rgba(12,12,16,.70);backdrop-filter:blur(6px);border:1px solid rgba(232,228,216,.10);border-radius:2px;z-index:6}
+  #wkbPanel h4{margin:0 0 9px;font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#d9a574}
+  #wkbPanel .wRow{display:grid;grid-template-columns:30px 1fr 70px;gap:8px;align-items:center;margin-bottom:5px}
+  #wkbPanel .wL{font-family:"JetBrains Mono",monospace;font-size:10px;color:#c8c2b0;letter-spacing:.04em}
+  #wkbPanel .wBar{height:5px;background:rgba(232,228,216,.06);border-radius:2px;overflow:hidden}
+  #wkbPanel .wFill{height:100%;width:0%;border-radius:2px;transition:width .2s ease}
+  #wkbPanel .wV{font-family:"JetBrains Mono",monospace;font-size:9.5px;color:#e8e4d8;text-align:right;letter-spacing:.02em}
+  #wkbPanel .wKap{display:flex;justify-content:space-between;font-size:9.5px;color:#8a8476;margin:8px 0 6px;letter-spacing:.05em}
+  #wkbPanel .wNote{font-size:9.5px;color:#7a7468;line-height:1.45;letter-spacing:.02em;padding-top:6px;border-top:1px dotted rgba(232,228,216,.10)}
+
+  /* === Mini-panel de perfil de halo (M6) === */
+  /* Color: MCV (#a8884a) — representa el efecto de tensión sellada confinada en halos */
+  #haloPanel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:240px;padding:10px 12px;background:rgba(12,12,16,.85);backdrop-filter:blur(6px);border:1px solid rgba(168,136,74,.3);border-radius:2px;font-size:10px;z-index:7;opacity:0;pointer-events:none;transition:opacity .35s ease}
+  #haloPanel.visible{opacity:1}
+  #haloPanel h4{margin:0 0 6px;font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:#a8884a}
+  #haloPanel svg{width:100%;height:90px;display:block}
+  #haloPanel .haloLeg{display:flex;justify-content:space-between;font-size:8.5px;letter-spacing:.06em;color:#c8c2b0;margin-top:4px}
+  #haloPanel .haloDot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:middle}
+  body[data-palette="cream"] #haloPanel{background:rgba(241,236,221,.85);border-color:rgba(133,107,55,.4)}
+  body[data-palette="cream"] #haloPanel h4{color:#856b37}
+  body[data-palette="cream"] #haloPanel .haloLeg{color:#241f14}
+  #wkbPanel .wkbDivider{height:1px;background:rgba(232,228,216,.12);margin:10px 0 8px}
+  #wkbPanel .wkbSubH{font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#d9a574;margin-bottom:6px}
+  #wkbPanel .mgRow{display:grid;grid-template-columns:24px 1fr 60px;gap:6px;align-items:center;font-family:"JetBrains Mono",monospace;font-size:9px;color:#c8c2b0;padding:2px 0}
+  #wkbPanel .mgLab{font-weight:600;color:#e8c592;letter-spacing:.08em}
+  #wkbPanel .mgE{color:#e8e4d8;font-size:9px;letter-spacing:.02em}
+  #wkbPanel .mgMan{color:#8a8476;font-size:8.5px;text-align:right;letter-spacing:.04em;font-style:italic}
+  #wkbPanel .mgRow.active{color:#fff}
+  #wkbPanel .mgRow.active .mgLab{text-shadow:0 0 6px currentColor}
+  #propsCard .propsDivider{height:1px;background:rgba(232,228,216,.12);margin:9px 0 8px}
+  #propsCard .propsSubH{font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#d9a574;margin-bottom:4px}
+  body[data-palette="cream"] #wkbPanel{background:rgba(241,236,221,.78);border-color:rgba(36,31,20,.12)}
+  body[data-palette="cream"] #wkbPanel h4{color:#8a5a20}
+  body[data-palette="cream"] #wkbPanel .wL{color:#241f14}
+  body[data-palette="cream"] #wkbPanel .wV{color:#241f14}
+  body[data-palette="cream"] #wkbPanel .wBar{background:rgba(36,31,20,.08)}
+  body[data-palette="cream"] #wkbPanel .wKap{color:#5a4a32}
+  body[data-palette="cream"] #wkbPanel .wNote{color:#5a4a32;border-top-color:rgba(36,31,20,.12)}
+
+  /* === Cascada gauge — flotante en zona libre arriba del núcleo, lado izquierdo === */
+  #gaugeCascade{position:absolute;left:50%;top:14%;transform:translate(-50%,0);font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;color:#c8c2b0;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;pointer-events:none;z-index:4}
+  #gaugeCascade .gcLine{display:flex;align-items:baseline;gap:8px;opacity:0;transition:opacity .35s ease}
+  #gaugeCascade .gcLine.visible{opacity:.85}
+  #gaugeCascade .gcArr{color:#d9a574;font-size:11px}
+  #gaugeCascade .gcK{color:#e8c592}
+  #gaugeCascade .gcSub{color:#8a8476;font-size:9.5px;letter-spacing:.06em}
+  #gaugeCascade .gcScale{color:#d9a574;font-size:9px;letter-spacing:.1em;margin-left:6px;opacity:.85}
+  body[data-palette="cream"] #gaugeCascade{color:#241f14}
+  body[data-palette="cream"] #gaugeCascade .gcArr{color:#8a5a20}
+  body[data-palette="cream"] #gaugeCascade .gcK{color:#5a3a10}
+  body[data-palette="cream"] #gaugeCascade .gcSub{color:#5a4a32}
+  body[data-palette="cream"] #gaugeCascade .gcScale{color:#a35a20}
+
+  /* === Botones F1/F2/F3 === */
+  .btn.fbtn{font-weight:600;letter-spacing:.08em}
+  .btn.fbtn[data-fam="F1"]{color:#f2c892;border-color:rgba(242,200,146,.4)}
+  .btn.fbtn[data-fam="F2"]{color:#7ba7c4;border-color:rgba(123,167,196,.4)}
+  .btn.fbtn[data-fam="F3"]{color:#a3c08a;border-color:rgba(163,192,138,.4)}
+
+  /* === Sub-text en HUD-TR === */
+  .hud .hudSub{display:block;font-size:9.5px;letter-spacing:.12em;color:#8a8476;margin-top:2px}
+  body[data-palette="cream"] .hud .hudSub{color:#5a4a32}
+  body[data-palette="cream"] footer{border-top-color:rgba(36,31,20,.12)}
+  body[data-palette="cream"] header h1 em{color:#5a4a32}
+  body[data-palette="cream"] header .meta,body[data-palette="cream"] .hud,body[data-palette="cream"] .tick{color:#6a5a44}
+  body[data-palette="cream"] .tick .bar{background:rgba(36,31,20,.3)}
+  body[data-palette="cream"] .tick.major .bar{background:rgba(36,31,20,.7)}
+  body[data-palette="cream"] .track{background:rgba(36,31,20,.15)}
+  body[data-palette="cream"] .playhead,body[data-palette="cream"] .playhead::after{background:#241f14;box-shadow:0 0 8px rgba(36,31,20,.4)}
+  body[data-palette="cream"] #stationCard,body[data-palette="cream"] #propsCard{background:rgba(241,236,221,.78);border-color:rgba(36,31,20,.12)}
+  body[data-palette="cream"] #stationCard .lab,body[data-palette="cream"] #stationCard .ss,body[data-palette="cream"] #propsCard .k,body[data-palette="cream"] #propsCard .v{color:#241f14}
+  body[data-palette="cream"] #stationCard p{color:#3a3220}
+  body[data-palette="cream"] .btn{border-color:rgba(36,31,20,.3);color:#241f14}
+  body[data-palette="cream"] .btn:hover{background:rgba(36,31,20,.06)}
+</style>
+</head>
+<body data-palette="noir">
+<div id="app">
+  <header>
+    <h1>Fase pre-geométrica y emergencia cósmica del <em>MCMC</em></h1>
+    <div class="meta">S0 → S1,001 → Presente · Adrián Martínez Estellés</div>
+  </header>
+
+  <main>
+    <svg class="stage" id="viz" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1600 760"></svg>
+
+    <!-- Cascada gauge bajo el núcleo central — overlay HTML para tipografía nítida -->
+    <div id="gaugeCascade" class="mono">
+      <div class="gcLine" id="gc1"><span class="gcK">SO(10)</span><span class="gcScale">Λ_GUT ≈ 1,9·10¹⁶ GeV</span></div>
+      <div class="gcLine" id="gc2"><span class="gcArr">→</span><span class="gcK">G_PS</span><span class="gcSub">SU(4)×SU(2)_L×SU(2)_R</span><span class="gcScale">M_WR ≈ 0,8·10¹⁴ GeV</span></div>
+      <div class="gcLine" id="gc3"><span class="gcArr">→</span><span class="gcK">G_SM</span><span class="gcSub">SU(3)_c×SU(2)_L×U(1)_Y</span><span class="gcScale">v_EW = 246 GeV</span></div>
+      <div class="gcLine" id="gc4"><span class="gcArr">→</span><span class="gcK">SU(3)_c × U(1)_em</span><span class="gcScale">Λ_QCD ≈ 200 MeV</span></div>
+    </div>
+
+    <div class="hud tl"><span>Estado entrópico</span><span class="big mono" id="hudS">S = 0,000</span></div>
+    <div class="hud tr">
+      <span>Álgebra de Clifford</span>
+      <span class="big mono" id="hudClif">— · pre-álgebra</span>
+      <span class="hudSub mono" id="hudV">V⁻¹D · potencial</span>
+    </div>
+
+    <div id="stationCard">
+      <div class="lab">Estación</div>
+      <div class="ss mono" id="scS">S0</div>
+      <div class="chip mono" id="scChip">POTENCIAL</div>
+      <div class="nm" id="scName">Unidad dual latente</div>
+      <p id="scDesc">Mp y Ep superpuestos en potencial puro. No hay espacio, no hay tiempo, no hay forma. La imperfección δ₀ es la única asimetría.</p>
+      <div class="eq" id="scEq">∆Mp · ∆Ep ≥ δ₀²</div>
+    </div>
+
+    <div id="propsCard">
+      <h4>Propiedades</h4>
+      <div class="row"><span class="k">Dim efectiva</span><span class="v" id="prDim">—</span></div>
+      <div class="row"><span class="k">Tensión T₀</span><span class="v" id="prT">max</span></div>
+      <div class="row"><span class="k">Densidad ρ</span><span class="v" id="prRho">∞</span></div>
+      <div class="row"><span class="k">Mp / Ep</span><span class="v" id="prMpEp">100 / 0 %</span></div>
+      <div class="row"><span class="k">Gauge</span><span class="v" id="prGauge">—</span></div>
+      <div class="row"><span class="k">Tiempo</span><span class="v" id="prTime">latente</span></div>
+      <div class="propsDivider"></div>
+      <div class="propsSubH">Predicciones falsables</div>
+      <div class="row" id="prRowEtaB"><span class="k">η_B</span><span class="v mono" id="prEtaB">latente</span></div>
+      <div class="row" id="prRowTauP"><span class="k">τ_p</span><span class="v mono" id="prTauP">latente</span></div>
+      <div class="row" id="prRowMH"><span class="k">m_H</span><span class="v mono" id="prMH">latente</span></div>
+      <div class="row" id="prRowH0"><span class="k">H₀</span><span class="v mono" id="prH0">latente</span></div>
+      <div class="row" id="prRowS8"><span class="k">σ₈</span><span class="v mono" id="prS8">latente</span></div>
+    </div>
+
+    <!-- Espectro fermiónico — 13 partículas del ME organizadas por familia Clifford -->
+    <div id="fermionPanel">
+      <h4>Espectro fermiónico · ME · orden de sello</h4>
+      <div class="fpRow famHead" data-fam="F1"><span class="famDot" style="background:#f2c892"></span>F1 · C(3,0) · C1 · pesada<span class="famT mono" id="fT1">|T₁|=1,000</span></div>
+      <div class="fpGrid" id="fpF1"></div>
+      <div class="fpRow famHead" data-fam="F2"><span class="famDot" style="background:#7ba7c4"></span>F2 · C(2,0) · C2 · intermedia<span class="famT mono" id="fT2">|T₂|=4,3·10⁻⁴</span></div>
+      <div class="fpGrid" id="fpF2"></div>
+      <div class="fpRow famHead" data-fam="F3"><span class="famDot" style="background:#a3c08a"></span>F3 · C(1,0) · C3 · ligera<span class="famT mono" id="fT3">|T₃|=1,2·10⁻⁶</span></div>
+      <div class="fpGrid" id="fpF3"></div>
+    </div>
+
+    <!-- Mini-curvas NFW vs Burkert/Cronos (M6) -->
+    <div id="haloPanel">
+      <h4>Perfil de halo · ρ(r)</h4>
+      <svg id="haloSvg" viewBox="0 0 220 110"></svg>
+      <div class="haloLeg mono">
+        <span><span class="haloDot" style="background:#8a8476"></span>NFW cuspy (ΛCDM)</span>
+        <span><span class="haloDot" style="background:#a8884a"></span>Cronos cored (MCV)</span>
+      </div>
+    </div>
+
+    <!-- WKB · κ_gap · Wick tensional -->
+    <div id="wkbPanel">
+      <h4>WKB · κ_gap</h4>
+      <div class="wRow"><span class="wL">|T₁|</span><div class="wBar"><div class="wFill" id="wB1" style="background:#f2c892"></div></div><span class="wV mono" id="wV1">1,000</span></div>
+      <div class="wRow"><span class="wL">|T₂|</span><div class="wBar"><div class="wFill" id="wB2" style="background:#7ba7c4"></div></div><span class="wV mono" id="wV2">4,3·10⁻⁴</span></div>
+      <div class="wRow"><span class="wL">|T₃|</span><div class="wBar"><div class="wFill" id="wB3" style="background:#a3c08a"></div></div><span class="wV mono" id="wV3">1,2·10⁻⁶</span></div>
+      <div class="wKap mono"><span id="wKap12">κ₁₂ = 0,8613</span><span id="wKap23">κ₂₃ = 0,0685</span></div>
+      <div class="wNote mono" id="wNote">Régimen Euclidiano · |T| son amplitudes WKB reales; sin fases ni causalidad.</div>
+      <div class="wkbDivider"></div>
+      <div class="wkbSubH">Mass gap por sello · ∆E = k·10⁻³</div>
+      <div class="mgRow" id="mgC1"><span class="mgLab">C1</span><span class="mgE mono">Λ_GUT ≈ 10¹⁶ GeV</span><span class="mgMan">bos. X/Y</span></div>
+      <div class="mgRow" id="mgC2"><span class="mgLab">C2</span><span class="mgE mono">≈ 10¹² GeV</span><span class="mgMan">axiones</span></div>
+      <div class="mgRow" id="mgC3"><span class="mgLab">C3</span><span class="mgE mono">v_EW = 246 GeV</span><span class="mgMan">H · W · Z</span></div>
+      <div class="mgRow" id="mgC4"><span class="mgLab">C4</span><span class="mgE mono">Λ_QCD ≈ 200 MeV</span><span class="mgMan">conf.</span></div>
+    </div>
+
+    <div class="hud bl"><span id="hudDLabel">Imperfección</span><span class="big mono" id="hudD">δ₀ ≈ 1,9·10⁻³</span></div>
+    <div class="hud br"><span>Campo</span><span class="big mono" id="hudPhi">ΦAd · Φ* ≈ v₀</span></div>
+
+    <!-- Transformation panel: régimen-dependiente. Pre-BB: Mp + Esellada = 100%. Post-BB: ECV + MCV + Mdet = 100%. -->
+    <div id="xformPanel">
+      <div class="xh" id="xformHeader">Reparto tensional · pre-BB: Mp → Esellada · post-BB: ECV + MCV + Mdet = 100 %</div>
+      <div class="xrow" id="xrowMpPrist">
+        <div class="xlbl"><span class="dot" style="background:#c46a30"></span>Mp pristina<span class="sub">pre-Big Bang</span></div>
+        <div class="xbar"><div class="xfill xfillMpPrist" id="xfillMpPrist"></div></div>
+        <div class="xval mono" id="xvalMpPrist">100 %</div>
+      </div>
+      <div class="xrow" id="xrowMpE">
+        <div class="xlbl"><span class="dot" style="background:#f2c892"></span>ECV<span class="sub">E sellada distribuida · ρ_id · DE</span></div>
+        <div class="xbar"><div class="xfill xfillE" id="xfillE"></div></div>
+        <div class="xval mono" id="xvalE">0 %</div>
+      </div>
+      <div class="xrow" id="xrowMCV">
+        <div class="xlbl"><span class="dot" style="background:#7a5a30"></span>MCV<span class="sub">E sellada confinada · ρ_lat · DM</span></div>
+        <div class="xbar"><div class="xfill xfillMp" id="xfillMp"></div></div>
+        <div class="xval mono" id="xvalMp">0 %</div>
+      </div>
+      <div class="xrow" id="xrowDet">
+        <div class="xlbl"><span class="dot" style="background:#e8c592"></span>Mdet<span class="sub">bariones + halos consolidados</span></div>
+        <div class="xbar"><div class="xfill xfillDet" id="xfillDet"></div></div>
+        <div class="xval mono" id="xvalDet">0 %</div>
+      </div>
+      <div class="xrow xrow-sep" id="xrowMpEp">
+        <div class="xlbl"><span class="dot" style="background:#7ba7c4"></span>Saltos Mp → Ep<span class="sub">espacio acumulado</span></div>
+        <div class="xbar"><div class="xfill xfillEp" id="xfillEp"></div></div>
+        <div class="xval mono" id="xvalEp">0 %</div>
+      </div>
+      <div class="xnote mono" id="xnote">pre-geométrico (S &lt; 1,001): Mp pristina se transforma en energía sellada precursora. ECV / MCV / Mdet aún no son ontológicamente distintas.</div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="ctrl">
+      <button class="btn active" id="playBtn">❚❚ Pausar</button>
+      <button class="btn" id="resetBtn">↺ Reiniciar</button>
+      <button class="btn" id="jS0">S0</button>
+      <button class="btn" id="jC0">C0</button>
+      <button class="btn" id="jV0D">V0D</button>
+      <button class="btn" id="jV1D">V1D</button>
+      <button class="btn" id="jC">c</button>
+      <button class="btn" id="jV2D">V2D</button>
+      <button class="btn" id="jC2">c²</button>
+      <button class="btn" id="jV3D">V3D</button>
+      <button class="btn" id="jV4D">Cronos</button>
+      <button class="btn fbtn" id="jF1" title="Familia 1 · sello C1 · S0,009">F₁</button>
+      <button class="btn fbtn" id="jF2" title="Familia 2 · sello C2 · S0,099">F₂</button>
+      <button class="btn fbtn" id="jF3" title="Familia 3 · sello C3 · S0,999">F₃</button>
+      <button class="btn" id="jCMB">CMB</button>
+      <button class="btn" id="jNow">Hoy</button>
+      <span class="phase-display">Fase<span class="cur" id="phaseName">S0 — Potencial puro</span></span>
+    </div>
+    <div class="track-wrap">
+      <div class="track"><div class="fill" id="trackFill"></div></div>
+      <div class="ticks" id="ticks"></div>
+      <div class="playhead" id="playhead"></div>
+      <input type="range" class="slider" id="sSlider" min="0" max="14000" value="0" step="1" />
+    </div>
+  </footer>
+</div>
+
+<div id="tweaks">
+  <h3>Tweaks</h3>
+  <div class="row"><label>Paleta</label>
+    <div class="opts" data-group="palette">
+      <button data-val="noir" class="on">Noir</button>
+      <button data-val="cream">Crema</button>
+    </div></div>
+  <div class="row"><label class="check"><input type="checkbox" id="tkMpEp" checked> Gradiente Mp/Ep de fondo</label></div>
+  <div class="row"><label class="check"><input type="checkbox" id="tkLabels" checked> Anotaciones en escena</label></div>
+  <div class="row"><label class="check"><input type="checkbox" id="tkEq" checked> Ecuaciones en tarjeta</label></div>
+  <div class="row"><label class="check"><input type="checkbox" id="tkAutoplay" checked> Reproducción automática</label></div>
+</div>
+
+<script>
+(() => {
+  const svg = document.getElementById('viz');
+  const NS = 'http://www.w3.org/2000/svg';
+  const W = 1600, H = 760;
+  // Core of the pre-geometric composition (left of center — leaves room for the cone on the right)
+  const CX = 520, CY = H/2 + 4;
+
+  // --- S-timeline stops mapped into slider [0..14000] ---
+  // Timeline reparameterized: from S0 (t=0) to Sactual≈90 (t=14000), per Tratado §4.7.1.
+  // Pre-geometric (S0 → S1,001) occupies ~55% of the track so its 9 umbrales are readable;
+  // the geometric fase (S1,001 → Sactual≈90) occupies the rest, compressed logarithmically
+  // because the spatial conversion Mp→Ep dominates it and each salto entrópico adds space.
+  // Slider position = Sext (frente externo). Slocal en burbujas locales ≈ Sext − 3.
+  const STOPS = [
+    {s:0.000, t:0,      label:'S0',     sub:'potencial',  major:true},
+    {s:0.001, t:1100,   label:'S0,001', sub:'C0 · punto', major:true},
+    {s:0.005, t:1700,   label:'S0,005', sub:'',           major:false},
+    {s:0.009, t:2300,   label:'S0,009', sub:'sello V0D',  major:true},
+    {s:0.010, t:2700,   label:'S0,010', sub:'V1D nace',   major:true},
+    {s:0.050, t:3500,   label:'S0,050', sub:'',           major:false},
+    {s:0.099, t:4300,   label:'S0,099', sub:'sello c',    major:true},
+    {s:0.100, t:4600,   label:'S0,100', sub:'V2D nace',   major:true},
+    {s:0.500, t:5600,   label:'S0,500', sub:'giro',       major:false},
+    {s:0.999, t:6700,   label:'S0,999', sub:'c² · gap',   major:true},
+    {s:1.000, t:7300,   label:'S1,000', sub:'V3D',        major:true},
+    {s:1.001, t:7900,   label:'S1,001', sub:'big bang',   major:true},
+    {s:1.010, t:8300,   label:'infl.',  sub:'Mp→E→Ep',    major:false},
+    {s:1.100, t:8700,   label:'BBN',    sub:'t≈3 min',    major:false},
+    {s:3.000, t:9500,   label:'z≈3400', sub:'mat=rad',    major:false},
+    {s:8.000, t:10500,  label:'CMB',    sub:'z≈1100',     major:true},
+    {s:20.00, t:11400,  label:'dark',   sub:'edades',     major:false},
+    {s:35.00, t:12200,  label:'★',      sub:'estrellas',  major:false},
+    {s:60.00, t:12700,  label:'gal.',   sub:'z ≈ 1',      major:false},
+    {s:85.00, t:13300,  label:'S₈₅',    sub:'acel.',      major:false},
+    {s:87.00, t:13600,  label:'Sₗₒc',   sub:'Vía Láctea',major:false},
+    {s:90.00, t:14000,  label:'Sₐ = 90',sub:'HOY · Sₑₓₜ', major:true},
+  ];
+  const tToS = (t) => {
+    for (let i=0;i<STOPS.length-1;i++){const a=STOPS[i],b=STOPS[i+1];if(t>=a.t&&t<=b.t){const k=(t-a.t)/(b.t-a.t);return a.s+k*(b.s-a.s);}}
+    return STOPS[STOPS.length-1].s;
+  };
+  const sToT = (s) => {
+    for (let i=0;i<STOPS.length-1;i++){const a=STOPS[i],b=STOPS[i+1];if(s>=a.s&&s<=b.s){const k=(s-a.s)/(b.s-a.s);return a.t+k*(b.t-a.t);}}
+    return STOPS[STOPS.length-1].t;
+  };
+
+  // --- ticks ---
+  const ticksEl = document.getElementById('ticks');
+  STOPS.forEach(st => {
+    const d = document.createElement('div');
+    d.className = 'tick' + (st.major?' major':'');
+    d.style.left = (st.t/14000*100)+'%';
+    d.innerHTML = `<div class="bar"></div><div class="lab"><span class="${st.major?'em':''}">${st.label}</span>${st.sub?`<span class="sub">${st.sub}</span>`:''}</div>`;
+    ticksEl.appendChild(d);
+  });
+
+  // --- defs + layers ---
+  svg.innerHTML = `
+    <defs>
+      <radialGradient id="grad-mp" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#f2c892" stop-opacity=".55"/>
+        <stop offset="60%" stop-color="#d9a574" stop-opacity=".15"/>
+        <stop offset="100%" stop-color="#d9a574" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="grad-ep" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#7ba7c4" stop-opacity=".35"/>
+        <stop offset="60%" stop-color="#4a6f8a" stop-opacity=".12"/>
+        <stop offset="100%" stop-color="#4a6f8a" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="grad-core" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+        <stop offset="25%" stop-color="#f2c892" stop-opacity=".95"/>
+        <stop offset="70%" stop-color="#d9a574" stop-opacity=".32"/>
+        <stop offset="100%" stop-color="#d9a574" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="grad-pot" cx="50%" cy="50%" r="55%">
+        <stop offset="0%" stop-color="#e8c592" stop-opacity=".0"/>
+        <stop offset="35%" stop-color="#d9a574" stop-opacity=".22"/>
+        <stop offset="65%" stop-color="#4a6f8a" stop-opacity=".16"/>
+        <stop offset="100%" stop-color="#07070a" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="grad-cone" x1="0%" y1="50%" x2="100%" y2="50%">
+        <stop offset="0%"  stop-color="#d9a574" stop-opacity=".0"/>
+        <stop offset="8%"  stop-color="#d9a574" stop-opacity=".35"/>
+        <stop offset="25%" stop-color="#e8c592" stop-opacity=".25"/>
+        <stop offset="55%" stop-color="#7ba7c4" stop-opacity=".18"/>
+        <stop offset="100%" stop-color="#4a6f8a" stop-opacity=".06"/>
+      </linearGradient>
+      <filter id="soft"><feGaussianBlur stdDeviation="14"/></filter>
+      <filter id="soft2"><feGaussianBlur stdDeviation="3"/></filter>
+      <filter id="glow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+
+    <g id="coneLayer"></g>
+    <g id="mpepLayer"></g>
+    <g id="potLayer"></g>
+    <g id="diskLayer"></g>
+    <g id="lineLayer"></g>
+    <g id="planeLayer"></g>
+    <g id="volumeLayer"></g>
+    <g id="pairLayer"></g>
+    <g id="coreLayer"></g>
+    <g id="delta0Layer"></g>
+    <g id="flashLayer"></g>
+    <g id="cmbLayer"></g>
+    <g id="labelsLayer"></g>
+  `;
+  const el=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+  const clear=id=>{const n=document.getElementById(id);while(n.firstChild)n.removeChild(n.firstChild);};
+
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const smooth=(x)=>{x=clamp(x,0,1);return x*x*(3-2*x);};
+  const win=(x,a,b,w)=>smooth(clamp((x-a)/w,0,1))*(1-smooth(clamp((x-b)/w,0,1)));
+  const stepUp=(x,c,w)=>smooth(clamp((x-(c-w/2))/w,0,1));
+
+  // state
+  let state = {
+    palette:'noir',
+    show_mpep:true,
+    show_labels:true,
+    show_equations:true,
+    autoplay:true,
+  };
+
+  // phase text
+  const phaseOf = (S) => {
+    if (S < 0.001) return {name:'S0 — Potencial puro',V:'V⁻¹D · potencial',chip:'POTENCIAL',Sl:'S0',
+      title:'Unidad dual latente',
+      desc:'Mp y Ep superpuestos. Sin espacio, sin tiempo, sin forma. La imperfección δ₀ es la única asimetría.',
+      eq:'∆Mp · ∆Ep ≥ δ₀²',gauge:'—',time:'latente',mpep:'100 / 0 %',T:'max',rho:'∞'};
+    if (S < 0.003) return {name:'S0,001 — C0 · Colapso puntual',V:'V0D · punto',chip:'C0',Sl:'S0,001',
+      title:'Nace el punto',
+      desc:'El potencial colapsa en un único punto. Frente esférico de expansión. Se rompe la simetría de la unidad dual.',
+      eq:'T₀ ∝ δ₀²   ·   ΦAd = V₀ → V₁',
+      gauge:'—',time:'latente',mpep:'99 / 1 %',T:'alta',rho:'alta'};
+    if (S < 0.009) return {name:'S0,001→0,009 — V0D expande',V:'V0D · punto expandido',chip:'V0D',
+      Sl:'S0,00'+Math.max(1,Math.round((S-0.001)*1000)+1),
+      title:'Descarga Mp → Ep',
+      desc:'El punto se expande radialmente; la densidad cae. Secuencia de estados tensionales {Σ₀…Σ₉}. Aparecen proto-inhomogeneidades tensionales δMp.',
+      eq:'k_pre(Σn) ∝ γ₀ · sech²((Σn−S₀,₀₀₁)/λ_pre)',
+      gauge:'—',time:'latente',mpep:'99 → 95 %',T:'alta',rho:'↓'};
+    if (S < 0.010) return {name:'S0,009 — Sello V0D',V:'V0D · sellado',chip:'SELLO',Sl:'S0,009',
+      title:'Colapso del punto',
+      desc:'La expansión del punto se sella. Toda la tensión V0D queda codificada como umbral. Condición de empalme M1–M2.',
+      eq:'V(Φ;S₀,₀₀₉) = V₀(Φ)·(1−Θ)+V₁(Φ)·Θ',
+      gauge:'—',time:'latente',mpep:'95 / 5 %',T:'media',rho:'↓'};
+    if (S < 0.099) return {name:'S0,010→0,099 — V1D expande',V:'V1D · línea',chip:'V1D',
+      Sl:'S0,0'+String(Math.round(S*1000)).padStart(2,'0').slice(-2),
+      title:'PP y AP fundidas en el centro',
+      desc:'Del punto sellado nace la línea. PP y AP permanecen pegadas en el centro y colisionan; la energía de sus aniquilaciones construye la línea hacia los extremos. v(S) crece al alejarse de la gravedad pre-embrionaria.',
+      eq:'(iγ^μ D_μ − m_eff)ψ = 0   ·   D_μ = ∂_μ + iqA_μ',
+      gauge:'U(1)',time:'cinemático',mpep:'≈ 90 / 10 %',T:'media',rho:'↓↓'};
+    if (S < 0.100) return {name:'S0,099 — Sello de c',V:'V1D · sellado',chip:'c',Sl:'S0,099',
+      title:'Velocidad máxima universal',
+      desc:'Las colisiones PP/AP estabilizan una velocidad característica que se fija como constante universal c. Violación CTP efectiva: dirección preferente en S.',
+      eq:'c ≡ lim_{S→S₀,₀₉₉} v_max(S)',
+      gauge:'U(1)',time:'cinemático',mpep:'90 / 10 %',T:'media',rho:'↓↓'};
+    if (S < 0.999) return {name:'S0,100→0,999 — V2D expande',V:'V2D · plano',chip:'V2D',
+      Sl:'S0,'+String(Math.round(S*1000)).padStart(3,'0'),
+      title:'El plano se abre desde la línea',
+      desc:'Desde la línea sellada, el plano se despliega por barrido. PP y AP giran en sentidos opuestos; la energía rota creando espacio plano progresivamente, no aparece completo de golpe.',
+      eq:'G_{U(1)} ⊕ G_{SU(2)pre}   ·   electrodébil simétrica',
+      gauge:'U(1)×SU(2)pre',time:'cinemático',mpep:'≈ 50 / 50 %',T:'baja',rho:'↓↓↓'};
+    if (S < 1.000) return {name:'S0,999 — Sello c² · mass gap',V:'V2D · sellado',chip:'c²',Sl:'S0,999',
+      title:'Ley universal de conversión',
+      desc:'E² = m²c⁴ + c²|p|² se regulariza. Aparece el mass gap ontológico: energía mínima para excitaciones estables.',
+      eq:'E² = m²c⁴ + c²|p|²   ·   ∆_gap ∼ m_min c²',
+      gauge:'U(1)×SU(2)',time:'cinemático',mpep:'5 / 95 %',T:'baja',rho:'↓↓↓'};
+    if (S < 1.001) return {name:'S1,000 — V3D volumen',V:'V3D · volumen',chip:'V3D',Sl:'S1,000',
+      title:'Tercera dimensión',
+      desc:'El plano se abre en volumen. Tres direcciones ortogonales. Proto-métrica espacial q_ij(S;x).',
+      eq:'q_ij(S;x) = q̄_ij(S)·(1 + ζ Φ_ten(S;x)/M_Pl)',
+      gauge:'U(1)×SU(2)×SU(3)',time:'latente',mpep:'ε/1−ε',T:'mín',rho:'ρ_critico'};
+    if (S < 1.9) return {name:'S1,001 — Big Bang · Cronos',V:'V3+1D · espacio-tiempo',chip:'V3+1D',Sl:'S1,001',
+      title:'Nace el tiempo y el espacio relativo',
+      desc:'Cristalización de g_μν. Ley de Cronos activa. ΦAd → ΦH, ⟨ΦH⟩ = 246 GeV. La energía sellada durante S0→S1,001 se libera como el depósito del Big Bang: toda la masa primordial convertida hasta aquí actúa como combustible. A partir de aquí Mp→Ep sustituye a Mp→E: cada salto entrópico convierte masa en espacio.',
+      eq:'ds² = −(1+ζΦten/M_Pl)dt² + a²(t)dx²',
+      gauge:'SM completo',time:'relativo',mpep:'1 / 99 %',T:'libre',rho:'ρ_crítica'};
+    if (S < 4.5) return {name:'Inflación · recalentamiento',V:'V3+1D · inflación',chip:'INFL',Sl:'inflación',
+      title:'Expansión exponencial',
+      desc:'El campo inflatón desciende por su potencial. a(t) ∝ e^{Ht}. La energía sellada se reconvierte: Mp→E→Ep. Se estiran las proto-inhomogeneidades. Recalentamiento al final.',
+      eq:'a(t) ∝ e^{Ht}   ·   60 e-folds',
+      gauge:'SM',time:'relativo',mpep:'—',T:'T≈10¹⁵ GeV',rho:'ρ_infl'};
+    if (S < 6.5) return {name:'Nucleosíntesis primordial',V:'V3+1D · rad',chip:'BBN',Sl:'BBN',
+      title:'Nacen los núcleos ligeros',
+      desc:'A t≈3 min se forman H, D, ³He, ⁴He, ⁷Li. Universo dominado por radiación. Primeros saltos entrópicos Mp→Ep registrables como expansión radiactiva.',
+      eq:'H²(a) = (8πG/3)·ρ_r a⁻⁴',
+      gauge:'SM',time:'relativo',mpep:'—',T:'T≈10⁹ K',rho:'ρ_r ≫ ρ_m'};
+    if (S < 8.0) return {name:'Igualdad materia-radiación',V:'V3+1D · mat',chip:'z≈3400',Sl:'eq',
+      title:'Crece la materia',
+      desc:'ρ_m supera a ρ_r. Inicia el crecimiento gravitatorio de las perturbaciones. Se imprime el horizonte sonoro.',
+      eq:'ρ_m(a_eq) = ρ_r(a_eq)   ·   z_eq ≈ 3400',
+      gauge:'SM',time:'relativo',mpep:'—',T:'≈ eV',rho:'ρ_m = ρ_r'};
+    if (S < 20) return {name:'Recombinación · CMB',V:'V3+1D · CMB',chip:'z≈1100',Sl:'CMB',
+      title:'El universo se vuelve transparente',
+      desc:'Los electrones se enlazan con los protones. La luz se desacopla. Emerge el Fondo Cósmico de Microondas.',
+      eq:'T_γ ≈ 3000 K   ·   z ≈ 1100   ·   t ≈ 380 000 años',
+      gauge:'SM',time:'relativo',mpep:'—',T:'≈0,26 eV',rho:'ρ_m > ρ_r'};
+    if (S < 35) return {name:'Edades oscuras',V:'V3+1D',chip:'DARK',Sl:'dark ages',
+      title:'Oscuridad antes de las estrellas',
+      desc:'Gas neutro de hidrógeno. Las perturbaciones siguen creciendo por gravedad. Los saltos entrópicos Mp→Ep continúan: el espacio crece, la masa primordial remanente se mantiene como materia oscura.',
+      eq:'δρ/ρ ∝ a   ·   z ∈ [1100, 20]',
+      gauge:'SM',time:'relativo',mpep:'—',T:'T≈100 K',rho:'↑'};
+    if (S < 60) return {name:'Primeras estrellas · reionización',V:'V3+1D',chip:'★',Sl:'z≈20→6',
+      title:'Amanece la luz',
+      desc:'Colapsos gravitatorios dan lugar a las primeras estrellas (Pop III). Su UV reioniza el medio. Formación jerárquica de galaxias.',
+      eq:'M_halo ∝ T_vir^{3/2}   ·   reion. ~ z=6',
+      gauge:'SM',time:'relativo',mpep:'—',T:'~ K',rho:'estructura'};
+    if (S < 87) return {name:'Era de galaxias',V:'V3+1D',chip:'GAL',Sl:'z ≈ 1',
+      title:'Estructura a gran escala',
+      desc:'Filamentos, cúmulos, vacíos. Halos de MCV arman el andamiaje; la materia bariónica cae en los pozos. Cada salto entrópico genera más espacio.',
+      eq:'P(k) · BAO · σ₈',
+      gauge:'SM',time:'relativo',mpep:'—',T:'2,7 K',rho:'ρ_m > ρ_Λ'};
+    if (S < 89.5) return {name:'Aceleración cósmica · estratificación',V:'V3+1D · ΛCDM',chip:'ACEL',Sl:'S ≈ 87',
+      title:'La energía oscura toma el mando',
+      desc:'ECV (ρ_id) domina la dinámica del fondo externo. Slocal < Sext: dentro de galaxias el reloj Cronos corre más lento; el océano externo está más cerca del régimen asintótico S → 100.',
+      eq:'ρ_Λ ≈ ρ_id(S) · w_id ≈ −1',
+      gauge:'SM',time:'estratificado',mpep:'—',T:'2,7 K',rho:'ρ_Λ > ρ_m'};
+    return {name:'Sₐ ≈ 90 · Presente estratificado',V:'V3+1D · Slocal < Sext',chip:'HOY',Sl:'Sₐ = 90',
+      title:'Aquí y ahora · Sext ≈ 90 ± 3',
+      desc:'Sext(t₀) ≈ 90 marca el punto tensional global externo. Dentro de galaxias y cúmulos Slocal ≈ Sext − 3 (burbujas temporales). MCV ≈ 25 % confinada gravitatoriamente como materia oscura efectiva. ECV ≈ 70 % distribuida como energía oscura. Mdet ≈ 5 % bariones.',
+      eq:'Sactual ≡ (Sext, Slocal(x₀,t₀)),   Slocal < Sext',
+      gauge:'SM',time:'estratificado',mpep:'—',T:'2,7 K CMB',rho:'ρ_Λ > ρ_m'};
+  };
+
+  const colMp = () => state.palette==='cream' ? '#c46a30' : '#f2c892';
+  const colEp = () => state.palette==='cream' ? '#2e5a76' : '#7ba7c4';
+  const col0 = () => state.palette==='cream' ? '#241f14' : '#e8e4d8';
+  const colDim = () => state.palette==='cream' ? '#4a3d22' : '#8a8476';
+  const jit = (i,k=1)=>{const x=Math.sin(i*12.9898+k*78.233)*43758.5453;return x-Math.floor(x);};
+
+  // ============= RENDER =============
+  function render(S) {
+    ['coneLayer','mpepLayer','potLayer','diskLayer','lineLayer','planeLayer','volumeLayer','pairLayer','coreLayer','delta0Layer','flashLayer','cmbLayer','labelsLayer'].forEach(clear);
+    const ts = performance.now();
+
+    // ---------------- Entropic cone (always visible, grows with S) ----------------
+    // Direction: entropic axis goes from CX to the right edge — the whole universe unfolds along it.
+    // Cone half-angle grows as S passes S1,001.
+    drawCone(S, ts);
+
+    // ---------------- Pre-geometric composition (centered on CX,CY until V3+1D) ----------------
+    // Strengths
+    const s0Str  = 1 - smooth((S - 0.0001) / 0.0012);        // S0
+    const flashC0 = Math.max(0, 1 - Math.abs(S - 0.001)/0.0005);
+
+    // V0D disk (point that expands) — lives S0,001 .. S0,010
+    const v0dStr = win(S, 0.0009, 0.0105, 0.0006);
+    // V1D line — grows S0,010 .. S0,099, holds through V2D/V3D then fades as cone takes over
+    const v1dStr = win(S, 0.010,  0.102,  0.002);
+    const lineHold = win(S, 0.010, 1.005, 0.01);   // keep the horizontal axis visible thru V2D/V3D
+    // V2D plane — sweep from S0,100 to S1,000
+    const v2dSweep = smooth(clamp((S-0.100)/0.900, 0, 1));
+    const v2dStr = win(S, 0.100, 1.005, 0.01);
+    // V3D volume
+    const v3dStr = win(S, 0.998, 1.004, 0.002);
+    // S1,001+ time
+    const timeStr = stepUp(S, 1.0005, 0.0008);
+    // post-geometric: fade pre-geom compo out
+    const preFade = 1 - smooth(clamp((S-1.002)/0.3, 0, 1));
+
+    const sealC0 = Math.max(0, 1 - Math.abs(S - 0.009)/0.0015);
+    const sealC  = Math.max(0, 1 - Math.abs(S - 0.099)/0.003);
+    const sealC2 = Math.max(0, 1 - Math.abs(S - 0.999)/0.004);
+
+    // ---------- S0 potential halo ----------
+    if (s0Str > 0.02 && preFade > 0.01) {
+      const pot = document.getElementById('potLayer');
+      const breath = 1 + 0.04 * Math.sin(ts*0.0008);
+      pot.appendChild(el('circle',{cx:CX,cy:CY,r:340*breath,fill:'url(#grad-pot)',opacity:s0Str*0.95*preFade}));
+      if (state.show_mpep) {
+        pot.appendChild(el('ellipse',{cx:CX,cy:CY-30,rx:210,ry:160,fill:'url(#grad-mp)',opacity:s0Str*0.85*preFade,filter:'url(#soft)'}));
+        pot.appendChild(el('ellipse',{cx:CX,cy:CY+30,rx:210,ry:160,fill:'url(#grad-ep)',opacity:s0Str*0.85*preFade,filter:'url(#soft)'}));
+      }
+    }
+
+    // ---------- Mp/Ep persistent lobes during pre-geom ----------
+    if (state.show_mpep && preFade > 0.05) {
+      const mpepVis = Math.max(s0Str*0.85, 0.42*v0dStr, 0.38*v1dStr, 0.30*v2dStr, 0.2*v3dStr) * preFade;
+      if (mpepVis > 0.03) {
+        const layer = document.getElementById('mpepLayer');
+        const R = 260 + 30*Math.sin(ts*0.0006);
+        layer.appendChild(el('ellipse',{cx:CX,cy:CY-26,rx:R*0.9,ry:R*0.62,fill:'url(#grad-mp)',opacity:mpepVis,filter:'url(#soft)'}));
+        layer.appendChild(el('ellipse',{cx:CX,cy:CY+26,rx:R*0.9,ry:R*0.62,fill:'url(#grad-ep)',opacity:mpepVis*0.9,filter:'url(#soft)'}));
+      }
+    }
+
+    // ---------- V0D disk: the point grows from ~2px to ~56px radius between S0,001 and S0,009 ----------
+    // Then it *seals* — stays as the sealed core from which the line is born.
+    if (S >= 0.0008 && S < 1.1 && preFade > 0.05) {
+      const core = document.getElementById('coreLayer');
+      let rCore, dAlpha;
+      if (S < 0.009) {
+        const prog = smooth((S - 0.001)/0.008);
+        rCore = lerp(3, 58, prog);
+        dAlpha = lerp(1.0, 0.55, prog);
+      } else {
+        // sealed: radius locked ~56, slight pulse
+        const sealPulse = Math.sin(ts*0.003);
+        rCore = 56 + sealPulse*1.5;
+        // as V1D/V2D develops the sealed disk fades slightly
+        const fade = S > 0.15 ? smooth(clamp((S-0.15)/0.4, 0, 1)) : 0;
+        dAlpha = lerp(0.55, 0.28, fade);
+      }
+      const disk = document.getElementById('diskLayer');
+      disk.appendChild(el('circle',{cx:CX,cy:CY,r:rCore*2.0,fill:'url(#grad-core)',opacity:dAlpha*preFade}));
+      disk.appendChild(el('circle',{cx:CX,cy:CY,r:rCore,fill:colMp(),opacity:dAlpha*0.55*preFade,filter:'url(#soft2)'}));
+      disk.appendChild(el('circle',{cx:CX,cy:CY,r:rCore*0.25,fill:'#ffffff',opacity:Math.min(1,dAlpha+0.25)*preFade}));
+
+      // C0 seal ring (at S0,009)
+      if (sealC0 > 0.03) {
+        disk.appendChild(el('circle',{cx:CX,cy:CY,r:rCore+6,fill:'none',stroke:'#e8c592','stroke-width':1.4,opacity:sealC0*0.9*preFade}));
+        if (state.show_labels) {
+          disk.appendChild(el('text',{x:CX,y:CY-rCore-16,'text-anchor':'middle','font-family':'JetBrains Mono,monospace','font-size':10,fill:'#e8c592','letter-spacing':'.18em',opacity:sealC0*preFade})).textContent='SELLO V0D';
+        }
+      }
+    }
+
+    // ---------- C0 flash ----------
+    if (flashC0 > 0.03) {
+      const fl = document.getElementById('flashLayer');
+      fl.appendChild(el('circle',{cx:CX,cy:CY,r:60*flashC0,fill:'#fff',opacity:flashC0*0.85,filter:'url(#soft2)'}));
+      fl.appendChild(el('circle',{cx:CX,cy:CY,r:20+flashC0*240,fill:'none',stroke:col0(),'stroke-width':1.3,opacity:flashC0*0.55}));
+    }
+
+    // ---------- V1D line: born at S0,010 from sealed point, extends outward ----------
+    if (lineHold > 0.03 && preFade > 0.05) {
+      const ll = document.getElementById('lineLayer');
+      let axR;
+      if (S < 0.010) axR = lerp(0, 58, smooth((S-0.009)/0.001)); // emerges from sealed radius
+      else if (S < 0.099) axR = lerp(58, 440, smooth((S-0.010)/0.089));
+      else if (S < 0.100) axR = 440; // sealed
+      else if (S < 1.000) axR = lerp(440, 520, smooth((S-0.100)/0.900));
+      else axR = 520;
+
+      const alpha = clamp(lineHold*1.1, 0, 1) * preFade;
+      // the line
+      ll.appendChild(el('line',{x1:CX-axR,y1:CY,x2:CX+axR,y2:CY,stroke:col0(),'stroke-width':1.4,opacity:alpha*0.8}));
+      ll.appendChild(el('line',{x1:CX-axR,y1:CY,x2:CX+axR,y2:CY,stroke:colMp(),'stroke-width':0.5,opacity:alpha*0.45}));
+      // Terminator caps
+      [-1,1].forEach(sgn => {
+        ll.appendChild(el('line',{x1:CX+sgn*axR,y1:CY-6,x2:CX+sgn*axR,y2:CY+6,stroke:col0(),'stroke-width':1.2,opacity:alpha*0.7}));
+      });
+      // Collisions radiating outward from the center — shows the "energy of PP/AP collisions builds the line"
+      if (S > 0.011 && S < 0.1) {
+        const waves = 6;
+        for (let i = 0; i < waves; i++) {
+          const phase = (i / waves + ts*0.0004) % 1;
+          const x = phase * axR;
+          const a = (1 - phase) * alpha * 0.7;
+          ll.appendChild(el('circle',{cx:CX+x,cy:CY,r:3,fill:colMp(),opacity:a}));
+          ll.appendChild(el('circle',{cx:CX-x,cy:CY,r:3,fill:colEp(),opacity:a}));
+        }
+      }
+
+      // c sealed flash at S0,099
+      if (sealC > 0.03) {
+        ll.appendChild(el('line',{x1:CX-axR,y1:CY,x2:CX+axR,y2:CY,stroke:'#e8c592','stroke-width':2.5,opacity:sealC*0.85*preFade}));
+        if (state.show_labels) {
+          ll.appendChild(el('text',{x:CX+axR+14,y:CY+4,'font-family':'JetBrains Mono,monospace','font-size':12,fill:'#e8c592','letter-spacing':'.14em',opacity:sealC*preFade})).textContent='c';
+          ll.appendChild(el('text',{x:CX-axR-14,y:CY+4,'text-anchor':'end','font-family':'JetBrains Mono,monospace','font-size':12,fill:'#e8c592','letter-spacing':'.14em',opacity:sealC*preFade})).textContent='c';
+        }
+      }
+    }
+
+    // ---------- V2D plane: sweeps open from line ----------
+    // At S0,100 it starts as a thin wedge around the line axis; by S0,999 it has swept the full ellipse.
+    if (v2dStr > 0.02 && preFade > 0.05) {
+      const pl = document.getElementById('planeLayer');
+      const Rpl = 520; // locked to line length at seal
+      // sweep angle: from 0 to 2π as S goes 0.100→0.999
+      const sweep = v2dSweep * Math.PI*2;
+      // plane tilt (isometric-ish): rx = Rpl, ry = Rpl*0.32
+      const ry = Rpl*0.32;
+      // Build partial ellipse with SVG arc as a wedge filled from the axis
+      const startA = Math.PI;   // -x axis
+      // We draw an arc that goes CCW from start to start+sweep
+      const arcPts = [];
+      const steps = 64;
+      for (let i=0;i<=steps;i++) {
+        const a = startA + (sweep * i/steps);
+        arcPts.push([CX + Math.cos(a)*Rpl, CY + Math.sin(a)*ry]);
+      }
+      // Fill wedge: from -x terminator, along arc, close through center line
+      let d = `M ${CX-Rpl} ${CY} `;
+      arcPts.forEach((p,i) => { d += (i===0?'':'L ')+p[0]+' '+p[1]+' '; });
+      d += `L ${CX} ${CY} Z`;
+      pl.appendChild(el('path',{d, fill:colMp(), opacity:0.08*v2dStr*preFade, filter:'url(#soft2)'}));
+      // Arc outline
+      let dArc = `M ${CX-Rpl} ${CY} `;
+      arcPts.forEach((p,i) => { dArc += (i===0?'':'L ')+p[0]+' '+p[1]+' '; });
+      pl.appendChild(el('path',{d:dArc, fill:'none', stroke:col0(), 'stroke-width':1.0, opacity:0.75*v2dStr*preFade}));
+      // Mirror wedge (the OTHER half of the plane) — also sweeps but 180° opposite (counter-rotation)
+      if (v2dSweep > 0.02) {
+        const arcPts2 = [];
+        for (let i=0;i<=steps;i++) {
+          const a = 0 + (sweep * i/steps); // starts from +x going CCW
+          arcPts2.push([CX + Math.cos(a)*Rpl, CY + Math.sin(a)*ry]);
+        }
+        let d2 = `M ${CX+Rpl} ${CY} `;
+        arcPts2.forEach((p,i) => { d2 += (i===0?'':'L ')+p[0]+' '+p[1]+' '; });
+        d2 += `L ${CX} ${CY} Z`;
+        pl.appendChild(el('path',{d:d2, fill:colEp(), opacity:0.07*v2dStr*preFade, filter:'url(#soft2)'}));
+        let dArc2 = `M ${CX+Rpl} ${CY} `;
+        arcPts2.forEach((p,i) => { dArc2 += (i===0?'':'L ')+p[0]+' '+p[1]+' '; });
+        pl.appendChild(el('path',{d:dArc2, fill:'none', stroke:col0(), 'stroke-width':1.0, opacity:0.75*v2dStr*preFade}));
+      }
+      // Orbiting particles on the visible portion — confined to the swept region
+      const np = 8;
+      const rotBase = (S-0.100) * 1.2;
+      for (let i=0;i<np;i++){
+        const frac = (i+0.5)/np;
+        if (frac > v2dSweep) continue;
+        const a = startA + sweep * frac + rotBase;
+        const a2 = 0 + sweep * frac - rotBase;
+        pl.appendChild(el('circle',{cx:CX+Math.cos(a)*Rpl*0.92,cy:CY+Math.sin(a)*ry*0.92,r:2.5,fill:colMp(),opacity:0.85*v2dStr*preFade}));
+        pl.appendChild(el('circle',{cx:CX+Math.cos(a2)*Rpl*0.92,cy:CY+Math.sin(a2)*ry*0.92,r:2.5,fill:colEp(),opacity:0.85*v2dStr*preFade}));
+      }
+
+      // c² seal mini-diagram
+      if (sealC2 > 0.02 && state.show_labels) {
+        let dc = '';
+        for (let i=0;i<=30;i++){const x=-90+i*6;const y=-0.006*x*x+24;dc+=(i===0?'M':'L')+(CX+x)+' '+(CY-200+y)+' ';}
+        pl.appendChild(el('path',{d:dc,fill:'none',stroke:'#e8c592','stroke-width':1.2,opacity:sealC2*preFade}));
+        pl.appendChild(el('text',{x:CX,y:CY-230,'text-anchor':'middle','font-family':'JetBrains Mono,monospace','font-size':11,fill:'#e8c592','letter-spacing':'.08em',opacity:sealC2*preFade})).textContent='E² = m²c⁴ + c²p²';
+      }
+    }
+
+    // ---------- V3D volume — three orthogonal ellipses ----------
+    if (v3dStr > 0.02 && preFade > 0.05) {
+      const vl = document.getElementById('volumeLayer');
+      const rr = 400 * v3dStr;
+      [0.25,0.55,0.85].forEach(ax => {
+        vl.appendChild(el('ellipse',{cx:CX,cy:CY,rx:rr,ry:rr*ax,fill:'none',stroke:col0(),'stroke-width':1,opacity:v3dStr*0.7*preFade}));
+        vl.appendChild(el('ellipse',{cx:CX,cy:CY,rx:rr*ax,ry:rr,fill:'none',stroke:col0(),'stroke-width':1,opacity:v3dStr*0.7*preFade}));
+      });
+      vl.appendChild(el('circle',{cx:CX,cy:CY,r:rr,fill:'none',stroke:col0(),'stroke-width':1.4,opacity:v3dStr*0.85*preFade}));
+      vl.appendChild(el('circle',{cx:CX,cy:CY,r:rr*0.8,fill:colMp(),opacity:v3dStr*0.05*preFade,filter:'url(#soft)'}));
+    }
+
+    // ---------- PP / AP at center — fused, pulsing, counter-rotating once V2D emerges ----------
+    if (S >= 0.010 && S < 1.05 && preFade > 0.05) {
+      const pl = document.getElementById('pairLayer');
+      const osc = 0.5 + 0.5*Math.sin(ts*0.0028);
+      const ppAlpha = clamp(v1dStr + v2dStr*0.85, 0, 1) * preFade;
+      // In V1D: both ride the horizontal axis at center, nearly touching (fused)
+      // In V2D: they rotate together, but still co-located
+      const rot = S >= 0.100 ? (S-0.100)*1.4 + ts*0.0006 : 0;
+      const g = el('g',{transform:`translate(${CX},${CY}) rotate(${rot*57.2958})`, opacity: ppAlpha});
+      const sep = 2.5 + osc*2; // very small — they stay fused
+      g.appendChild(el('circle',{cx:-sep,cy:0,r:5,fill:colMp(),filter:'url(#glow)',opacity:0.98}));
+      g.appendChild(el('circle',{cx:sep, cy:0,r:5,fill:colEp(),filter:'url(#glow)',opacity:0.98}));
+      // annihilation flash in between
+      g.appendChild(el('circle',{cx:0,cy:0,r:4+osc*8,fill:'#fff',opacity:0.4*osc,filter:'url(#soft2)'}));
+      if (state.show_labels && S < 0.12) {
+        g.appendChild(el('text',{x:0,y:-16,'text-anchor':'middle','font-family':'JetBrains Mono,monospace','font-size':10,fill:col0(),opacity:0.7})).textContent='PP · AP';
+      }
+      pl.appendChild(g);
+    }
+
+    // ---------- δ₀ imperfection marker ----------
+    // Centered on the collapse point; vanishes the instant C0 fires (S = 0,001).
+    {
+      const d0 = document.getElementById('delta0Layer');
+      // Visible only strictly before the collapse; sharp cutoff exactly at S0,001.
+      const vis = (S < 0.001 ? smooth(clamp((0.001 - S)/0.001, 0, 1)) : 0) * preFade;
+      if (vis > 0.02) {
+        const pulse = 0.5 + 0.5*Math.sin(ts*0.006);
+        // tiny seed at the exact collapse center
+        d0.appendChild(el('circle',{cx:CX,cy:CY,r:3 + pulse*1.4,fill:colMp(),opacity:vis,filter:'url(#soft2)'}));
+        d0.appendChild(el('circle',{cx:CX,cy:CY,r:9 + pulse*3,fill:'none',stroke:colMp(),'stroke-width':0.7,opacity:vis*0.65}));
+        if (state.show_labels) {
+          d0.appendChild(el('text',{x:CX+18,y:CY-14,'font-family':'JetBrains Mono,monospace','font-size':11,fill:colMp(),opacity:vis,'letter-spacing':'.1em'})).textContent='δ₀';
+        }
+      }
+    }
+
+    // ---------- Legend (Mp / Ep) ----------
+    if (state.show_labels && state.show_mpep && preFade > 0.1) {
+      const ll = document.getElementById('labelsLayer');
+      const mpepVis = Math.max(s0Str, v0dStr, v1dStr*0.8, v2dStr*0.5, v3dStr*0.3) * preFade;
+      if (mpepVis > 0.15) {
+        ll.appendChild(el('text',{x:CX,y:CY-285,'text-anchor':'middle','font-family':'JetBrains Mono,monospace','font-size':11,fill:colMp(),opacity:mpepVis,'letter-spacing':'.26em'})).textContent='Mp · MASA PRIMORDIAL';
+        ll.appendChild(el('text',{x:CX,y:CY+295,'text-anchor':'middle','font-family':'JetBrains Mono,monospace','font-size':11,fill:colEp(),opacity:mpepVis,'letter-spacing':'.26em'})).textContent='Ep · ESPACIO PRIMORDIAL';
+      }
+    }
+  }
+
+  // ============= ENTROPIC CONE — one shape from Big Bang → Present =============
+  // Takes a horizontal slice from the center of the pre-geometric composition outward to the right edge.
+  // The cone profile h(x) is piecewise: narrow at pre-geom, widens sharply at S1,001 (inflation),
+  // then expands steadily thru radiation/matter/DE eras. Stratified by era with proper vertical slices.
+  function drawCone(S, ts) {
+    const cone = document.getElementById('coneLayer');
+    // Only visible once we get close to S1,000 (when volume has formed)
+    const coneStart = smooth(clamp((S - 0.95)/0.05, 0, 1));
+    if (coneStart < 0.02) return;
+
+    // Cone anchor: starts at CX (center of pre-geom comp)
+    // Ends at right edge around x = W - 40
+    const x0 = CX;
+    const xEnd = W - 40;
+    const length = xEnd - x0;
+
+    // profile h(u) where u ∈ [0,1] — cone half-width at horizontal position u
+    // u=0 is Big Bang (narrow), u>~0.02 inflation (explosive widening), then gradual growth
+    const hAt = (u) => {
+      // Inflation kick
+      const inflKick = smooth(clamp(u/0.04, 0, 1)) * 60;
+      // Post-inflation gradual growth
+      const gradual = Math.pow(u, 0.55) * 300;
+      return 6 + inflKick + gradual;
+    };
+
+    // Where along the cone are we "now"? That's the progress marker.
+    // u_cur = 0 at S1,001 (Big Bang) → u_cur = 1 at Sactual = 95 (presente).
+    // Use a log-like mapping so the early eras (inflación/BBN/CMB) stay visible
+    // while the geometric phase, dominated by Mp→Ep saltos, spreads out gradually.
+    const sMap = (s) => {
+      // compress: map S [1.001 .. 90] to u [0 .. 1] with a log-shape
+      const a = Math.max(0, s - 1.001);
+      return clamp(Math.log(1 + a) / Math.log(1 + 89), 0, 1);
+    };
+    const u_cur = sMap(S);
+    // Internal era anchors (in S), mapped once
+    const U = {
+      INFL:   sMap(1.010),
+      BBN:    sMap(1.100),
+      EQ:     sMap(3.0),
+      CMB:    sMap(8.0),
+      DARK:   sMap(20),
+      STARS:  sMap(35),
+      GAL:    sMap(60),
+      ACCEL:  sMap(85),
+      NOW:    sMap(90),
+    };
+
+    // === Draw cone envelope ===
+    const N = 80;
+    const topPts = [];
+    const botPts = [];
+    for (let i=0;i<=N;i++) {
+      const u = i/N;
+      const x = x0 + u*length;
+      const h = hAt(u);
+      topPts.push([x, CY - h]);
+      botPts.push([x, CY + h]);
+    }
+    // Fill (gradient)
+    let dFill = 'M ' + topPts[0][0] + ' ' + topPts[0][1] + ' ';
+    topPts.forEach((p,i) => { if (i) dFill += 'L ' + p[0]+ ' ' + p[1] + ' '; });
+    for (let i=botPts.length-1;i>=0;i--) dFill += 'L ' + botPts[i][0] + ' ' + botPts[i][1] + ' ';
+    dFill += 'Z';
+    cone.appendChild(el('path',{d:dFill, fill:'url(#grad-cone)', opacity:coneStart*0.85}));
+
+    // Envelope outlines
+    let dTop = 'M ' + topPts[0][0] + ' ' + topPts[0][1] + ' ';
+    topPts.forEach((p,i) => { if (i) dTop += 'L ' + p[0]+ ' ' + p[1] + ' '; });
+    cone.appendChild(el('path',{d:dTop, fill:'none', stroke:col0(), 'stroke-width':1, opacity:coneStart*0.55}));
+    let dBot = 'M ' + botPts[0][0] + ' ' + botPts[0][1] + ' ';
+    botPts.forEach((p,i) => { if (i) dBot += 'L ' + p[0]+ ' ' + p[1] + ' '; });
+    cone.appendChild(el('path',{d:dBot, fill:'none', stroke:col0(), 'stroke-width':1, opacity:coneStart*0.55}));
+
+    // === Era strata ===
+    // Each era anchored to actual S-thresholds mapped through sMap().
+    const eras = [
+      {u0:U.INFL*0.0, u1:U.INFL,   key:'INFL',  name:'inflación',        col:'#e8c592'},
+      {u0:U.INFL,     u1:U.BBN,    key:'BBN',   name:'BBN',              col:'#d9a574'},
+      {u0:U.BBN,      u1:U.EQ,     key:'RAD',   name:'radiación',        col:'#c78a5c'},
+      {u0:U.EQ,       u1:U.CMB,    key:'z=3400',name:'eq mat-rad',       col:'#b86d43'},
+      {u0:U.CMB,      u1:U.DARK,   key:'CMB',   name:'recombinación',    col:'#e8c592'},
+      {u0:U.DARK,     u1:U.STARS,  key:'DARK',  name:'edades oscuras',   col:'#6a7689'},
+      {u0:U.STARS,    u1:U.GAL,    key:'★',     name:'1ras estrellas',   col:'#7ba7c4'},
+      {u0:U.GAL,      u1:U.ACCEL,  key:'GAL',   name:'galaxias',         col:'#4a6f8a'},
+      {u0:U.ACCEL,    u1:U.NOW,    key:'HOY',   name:'Sₐ ≈ 90',          col:'#e8e4d8'},
+    ];
+    eras.forEach(er => {
+      // show era if we're past its start
+      const reach = clamp((u_cur - er.u0) / (er.u1 - er.u0 + 0.001), 0, 1);
+      if (reach < 0.02) return;
+      const alpha = coneStart * Math.min(1, reach*1.3);
+      // boundaries
+      const uL = er.u0, uR = Math.min(er.u1, u_cur);
+      const xL = x0 + uL*length, xR = x0 + uR*length;
+      const hL = hAt(uL), hR = hAt(uR);
+      // subtle band fill
+      const dBand = `M ${xL} ${CY-hL} L ${xR} ${CY-hR} L ${xR} ${CY+hR} L ${xL} ${CY+hL} Z`;
+      cone.appendChild(el('path',{d:dBand, fill:er.col, opacity:alpha*0.07}));
+      // right boundary line
+      cone.appendChild(el('line',{x1:xR,y1:CY-hR,x2:xR,y2:CY+hR,stroke:col0(),'stroke-width':0.7,opacity:alpha*0.35,'stroke-dasharray':'2 3'}));
+      // label above — only if era is essentially complete OR is current
+      if (reach > 0.6) {
+        const xLab = (xL + xR)/2;
+        cone.appendChild(el('text',{x:xLab,y:CY-hR-10,'text-anchor':'middle','font-family':'JetBrains Mono,monospace','font-size':9,fill:er.col,'letter-spacing':'.14em',opacity:alpha*0.85})).textContent=er.key;
+        if (state.show_labels) {
+          cone.appendChild(el('text',{x:xLab,y:CY+hR+16,'text-anchor':'middle','font-family':'JetBrains Mono,monospace','font-size':8.5,fill:colDim(),'letter-spacing':'.10em',opacity:alpha*0.7})).textContent=er.name;
+        }
+      }
+    });
+
+    // === Content markers inside cone ===
+    // CMB surface (last scattering) — bright vertical arc at S=8
+    if (S >= 8.0) {
+      const uCMB = U.CMB;
+      const xC = x0 + uCMB*length, hC = hAt(uCMB);
+      const recA = stepUp(S, 8.0, 0.8);
+      cone.appendChild(el('line',{x1:xC,y1:CY-hC,x2:xC,y2:CY+hC,stroke:'#e8c592','stroke-width':1.8,opacity:coneStart*recA*0.9}));
+      // Scatter pattern around CMB
+      for (let i=0;i<40;i++){
+        const jy = (jit(i,7)-0.5)*2*hC;
+        cone.appendChild(el('circle',{cx:xC-jit(i,8)*6,cy:CY+jy,r:0.9+jit(i,9)*0.8,fill:'#e8c592',opacity:recA*(0.35+jit(i,10)*0.4)}));
+      }
+    }
+    // Stars / galaxies — dot field in later regions (from first stars onward)
+    if (S >= 35) {
+      const uS = U.STARS;
+      for (let i=0;i<60;i++){
+        const u = uS + jit(i,11)*(u_cur - uS);
+        if (u > u_cur) continue;
+        const x = x0 + u*length;
+        const h = hAt(u);
+        const y = CY + (jit(i,12)-0.5)*2*h*0.95;
+        const r = 0.7 + jit(i,13)*1.6;
+        cone.appendChild(el('circle',{cx:x,cy:y,r,fill:colMp(),opacity:0.3 + jit(i,14)*0.55}));
+      }
+    }
+    // Galaxies — larger with faint halos
+    if (S >= 60) {
+      for (let i=0;i<14;i++){
+        const u = U.GAL + jit(i,15)*(u_cur - U.GAL);
+        if (u > u_cur) continue;
+        const x = x0 + u*length;
+        const h = hAt(u);
+        const y = CY + (jit(i,16)-0.5)*2*h*0.85;
+        cone.appendChild(el('circle',{cx:x,cy:y,r:3+jit(i,17)*2,fill:colMp(),opacity:0.4,filter:'url(#soft2)'}));
+        cone.appendChild(el('circle',{cx:x,cy:y,r:1,fill:'#fff',opacity:0.9}));
+      }
+    }
+
+    // Burbujas temporales (M2) — visibles a partir de S>=65, denotan Slocal < Sext.
+    // Cada burbuja es una elipse con rejilla interior densa: el tiempo Cronos
+    // dentro va más lento que el del fondo externo.
+    // Color: #a8884a (MCV) - representan tensión sellada confinada (ρ_lat) que retiene
+    // el tiempo local, NO Mp pristina (que ya no existe post-BB).
+    if (S >= 65) {
+      const bubbleAmt = stepUp(S, 70, 15);
+      for (let i = 0; i < 8; i++) {
+        const u = U.GAL + jit(i, 20) * (u_cur - U.GAL);
+        if (u > u_cur) continue;
+        const x = x0 + u * length;
+        const h = hAt(u);
+        const y = CY + (jit(i, 21) - 0.5) * 2 * h * 0.7;
+        const bR = 9 + jit(i, 22) * 7;
+        // Frontera de la burbuja
+        cone.appendChild(el('ellipse', {
+          cx: x, cy: y, rx: bR, ry: bR * 0.65,
+          fill: 'none', stroke: '#a8884a', 'stroke-width': 0.7,
+          opacity: bubbleAmt * 0.55, 'stroke-dasharray': '2 2'
+        }));
+        // Rejilla interior (Cronos local más lento)
+        for (let g = 1; g <= 2; g++) {
+          const yo = (g / 3 - 0.5) * bR * 1.1;
+          cone.appendChild(el('line', {
+            x1: x - bR * 0.85, y1: y + yo,
+            x2: x + bR * 0.85, y2: y + yo,
+            stroke: '#a8884a', 'stroke-width': 0.35, opacity: bubbleAmt * 0.42
+          }));
+        }
+      }
+    }
+
+    // === Present marker (leading edge) ===
+    const xNow = x0 + u_cur*length;
+    const hNow = hAt(u_cur);
+    cone.appendChild(el('line',{x1:xNow,y1:CY-hNow,x2:xNow,y2:CY+hNow,stroke:'#ffffff','stroke-width':1.4,opacity:coneStart}));
+    cone.appendChild(el('circle',{cx:xNow,cy:CY,r:4,fill:'#fff',opacity:coneStart*0.95}));
+    if (state.show_labels && S > 1.0) {
+      cone.appendChild(el('text',{x:xNow+2,y:CY-hNow-20,'text-anchor':'middle','font-family':'JetBrains Mono,monospace','font-size':10,fill:'#fff','letter-spacing':'.2em',opacity:coneStart*0.9})).textContent='S · entrópico →';
+    }
+
+    // === Big-Bang labels ===
+    if (coneStart > 0.3 && state.show_labels) {
+      cone.appendChild(el('text',{x:x0+4,y:CY-hAt(0)-10,'text-anchor':'start','font-family':'JetBrains Mono,monospace','font-size':10,fill:'#e8c592','letter-spacing':'.2em',opacity:coneStart*0.85})).textContent='BIG BANG · S1,001';
+    }
+  }
+
+  // ============ UI wiring ============
+  const slider = document.getElementById('sSlider');
+  const playhead = document.getElementById('playhead');
+  const fill = document.getElementById('trackFill');
+  const STORAGE = 'mcmc_v4_pos';
+  const saved = localStorage.getItem(STORAGE);
+  if (saved != null) slider.value = saved;
+
+  const updatePosVisual = () => {
+    const t = +slider.value;
+    const pct = t/14000*100;
+    playhead.style.left = pct+'%';
+    fill.style.width = pct+'%';
+  };
+  const updateText = (S) => {
+    const p = phaseOf(S);
+    document.getElementById('hudS').textContent = 'S = ' + S.toFixed(S<1?3:(S<10?2:1)).replace('.',',');
+    document.getElementById('hudV').textContent = p.V;
+    // Álgebra de Clifford activa según el tramo (Tabla 4 del Tratado)
+    const clif = (S < 0.010) ? '— · pre-álgebra' :
+                 (S < 0.100) ? 'C(1,0) · Eucl.' :
+                 (S < 1.000) ? 'C(2,0) · Eucl.' :
+                 (S < 1.001) ? 'C(3,0) · Eucl.' :
+                               'C(1,3) · Lorentz';
+    document.getElementById('hudClif').textContent = clif;
+    // HUD bottom-left: dependiente de régimen tensional
+    //   - S < 0,001     : δ₀ ≈ 1,9·10⁻³ (imperfección primordial)
+    //   - S < 1,001     : "consumida en C0" (δ₀ ya gastada como semilla del Big Bang)
+    //   - 1,001 ≤ S < 60: Slocal ≈ Sext (sin estratificación significativa todavía)
+    //   - S ≥ 60        : Slocal / Sext numéricos (burbujas temporales activas)
+    const hudDLabel = document.getElementById('hudDLabel');
+    if (S < 0.001) {
+      hudDLabel.textContent = 'Imperfección';
+      document.getElementById('hudD').textContent = 'δ₀ ≈ 1,9·10⁻³';
+    } else if (S < 1.001) {
+      hudDLabel.textContent = 'Imperfección';
+      document.getElementById('hudD').textContent = 'consumida en C0';
+    } else if (S < 60) {
+      hudDLabel.textContent = 'Tensión global';
+      document.getElementById('hudD').textContent = 'Sₗₒc ≈ Sₑₓₜ';
+    } else {
+      hudDLabel.textContent = 'Estratif. Sₗₒc / Sₑₓₜ';
+      const sLocal = Math.max(0, S - 3);
+      document.getElementById('hudD').textContent = sLocal.toFixed(1).replace('.', ',') + ' / ' + S.toFixed(1).replace('.', ',');
+    }
+    document.getElementById('hudPhi').textContent = S<1.001 ? 'ΦAd · Φ* ≈ v₀' : (S<5?'ΦH · v=246 GeV':'Φ_esc · DE');
+    document.getElementById('scS').textContent = p.Sl;
+    document.getElementById('scChip').textContent = p.chip;
+    document.getElementById('scName').textContent = p.title;
+    document.getElementById('scDesc').textContent = p.desc;
+    document.getElementById('scEq').textContent = p.eq;
+    document.getElementById('scEq').style.display = state.show_equations ? '' : 'none';
+    document.getElementById('prDim').textContent = p.V.split('·')[0].trim();
+    document.getElementById('prT').textContent = p.T;
+    document.getElementById('prRho').textContent = p.rho;
+    document.getElementById('prMpEp').textContent = p.mpep;
+    document.getElementById('prGauge').textContent = p.gauge;
+    document.getElementById('prTime').textContent = p.time;
+    document.getElementById('phaseName').textContent = p.name;
+
+    // --- Reparto tensional reformulado (v3 · auditoría 2) ---
+    // Referencias: Tratado MCMC v2 §4.7, §5.1.1
+    //
+    // El modelo correcto distingue dos regímenes ontológicamente distintos:
+    //
+    //   PRE-BIG BANG (S < 1,001):
+    //     • Mp_pristina  : Masa Primordial sin convertir → decae 100% → 0%
+    //     • Esellada     : Energía sellada en ΦAd (precursora) → crece 0% → 100%
+    //     ECV, MCV y Mdet NO existen como categorías ontológicas distintas
+    //     (sólo emergen tras la cristalización ΦAd → ΦH en C4).
+    //
+    //   POST-BIG BANG (S ≥ 1,001):
+    //     • ECV (ρ_id)  : Energía sellada distribuida (efecto DE)
+    //     • MCV (ρ_lat) : Energía sellada confinada gravitatoriamente (efecto DM)
+    //     • Mdet        : Materia determinada con métrica propia (bariones + halos)
+    //     ECV + MCV + Mdet = 100 %
+    //
+    // Hitos canónicos del Tratado (§4.7.3, §K.4 ajuste bayesiano):
+    //   S = 0        : Mp = 100 %
+    //   S = 1,001    : Mp = 0 %, Esellada = 100 % (lista para cristalizar)
+    //   S ≈ 1,6      : Big Bang concluido. ECV ≈ 5 %, MCV ≈ 27 %, Mdet ≈ 68 % (rad dom.)
+    //   S = 8 (CMB)  : sin cambios cualitativos significativos
+    //   S = 60 (z≈1) : ECV crece a 20 %, MCV ≈ 73 %, Mdet ≈ 7 %
+    //   S = 90 HOY   : ECV ≈ 70 %, MCV ≈ 25 %, Mdet ≈ 5 % (Sₐ = 90 ± 3 oficial)
+
+    const smooth2 = (x,a,b) => { x = Math.max(0,Math.min(1,(x-a)/(b-a))); return x*x*(3-2*x); };
+    const lerp01 = (a,b,t) => a + (b-a)*t;
+
+    let fMpPrist, fECV, fMCV, fDet;
+
+    if (S <= 1.001) {
+      // Pre-Big Bang: solo Mp pristina y energía sellada precursora.
+      // Las categorías MCV/Mdet aún no son ontológicamente distintas.
+      fMpPrist = 1 - smooth2(S, 0.0005, 1.001);
+      fECV     = 1 - fMpPrist;   // E_sellada precursora — se renombra a ECV solo post-BB
+      fMCV     = 0;
+      fDet     = 0;
+    } else if (S <= 1.6) {
+      // Big Bang + reheating: cristalización ΦAd → ΦH. La E_sellada se desacopla en
+      // ECV (distribuida), MCV (confinada gravitatoriamente) y Mdet (materia determinada).
+      const u = smooth2(S, 1.001, 1.6);
+      fMpPrist = 0;
+      fECV = lerp01(1.0, 0.05, u);
+      fMCV = lerp01(0.0, 0.27, u);
+      fDet = lerp01(0.0, 0.68, u);
+    } else if (S <= 8) {
+      const u = smooth2(S, 1.6, 8);
+      fMpPrist = 0;
+      fECV = lerp01(0.05, 0.05, u);
+      fMCV = lerp01(0.27, 0.27, u);
+      fDet = lerp01(0.68, 0.68, u);
+    } else if (S <= 60) {
+      // Materia domina; sin DE significativa todavía
+      const u = smooth2(S, 8, 60);
+      fMpPrist = 0;
+      fECV = lerp01(0.05, 0.20, u);
+      fMCV = lerp01(0.27, 0.73, u);
+      fDet = lerp01(0.68, 0.07, u);
+    } else if (S <= 90) {
+      // Transición a era de energía oscura
+      const u = smooth2(S, 60, 90);
+      fMpPrist = 0;
+      fECV = lerp01(0.20, 0.70, u);
+      fMCV = lerp01(0.73, 0.25, u);
+      fDet = lerp01(0.07, 0.05, u);
+    } else {
+      fMpPrist = 0; fECV = 0.70; fMCV = 0.25; fDet = 0.05;
+    }
+
+    // Renormalizar (evita drift por floats) — sobre las 4 categorías
+    const sum4 = fMpPrist + fECV + fMCV + fDet;
+    if (sum4 > 0) { fMpPrist /= sum4; fECV /= sum4; fMCV /= sum4; fDet /= sum4; }
+
+    // === Saltos entrópicos Mp → Ep ===
+    // El espacio se manifiesta por aperturas dimensionales discretas en cada Sn pre-BB
+    // (V0D→V1D→V2D→V3D→V3+1D) y luego por saltos entrópicos continuos post-BB.
+    let fSaltos;
+    if (S < 0.001) fSaltos = 0;
+    else if (S < 1.001) {
+      // Pre-Big Bang: proto-espacio acumulado por aperturas dimensionales (0 → 8%)
+      fSaltos = 0.08 * smooth2(S, 0.001, 1.001);
+    } else if (S < 1.6) {
+      // Big Bang: salto a 10%
+      fSaltos = lerp01(0.08, 0.10, smooth2(S, 1.001, 1.6));
+    } else {
+      // Fase geométrica: rampa logarítmica hasta 95% en S=90
+      const rawLog = Math.log(1 + (S - 1.6)) / Math.log(1 + 88.4);
+      fSaltos = 0.10 + 0.85 * rawLog;
+    }
+
+    // === Update barras del panel ===
+    const pct = x => (x*100).toFixed(x<0.1?1:0).replace('.',',') + ' %';
+    const setBar = (id, val, lab) => {
+      document.getElementById(id).style.width = (val*100).toFixed(2) + '%';
+      document.getElementById(lab).textContent = pct(val);
+    };
+    setBar('xfillMpPrist', fMpPrist, 'xvalMpPrist');
+    setBar('xfillE',   fECV,    'xvalE');
+    setBar('xfillMp',  fMCV,    'xvalMp');
+    setBar('xfillDet', fDet,    'xvalDet');
+    setBar('xfillEp',  fSaltos, 'xvalEp');
+
+    // Opacidad por relevancia ontolo\u0301gica del re\u0301gimen actual
+    const setRelevance = (rowId, active) => {
+      const row = document.getElementById(rowId);
+      if (row) row.style.opacity = active ? '1' : '0.25';
+    };
+    setRelevance('xrowMpPrist', S < 1.001);
+    setRelevance('xrowMpE',     S >= 1.001);
+    setRelevance('xrowMCV',     S >= 1.001);
+    setRelevance('xrowDet',     S >= 1.001);
+
+    // Contextual note — which transformation dominates right now
+    const noteEl = document.getElementById('xnote');
+    if (S < 1.001) {
+      noteEl.textContent = 'Fase pre-geométrica · Mp pristina se transforma en energía sellada (precursora). δ₀ se consume en C0. ECV/MCV/Mdet emergen como distinción ontológica solo en el Big Bang.';
+    } else if (S < 1.6) {
+      noteEl.textContent = 'Big Bang · ΦAd → ΦH cristaliza. La energía sellada se desacopla en ECV (distribuida), MCV (confinada por gravedad) y Mdet (bariones). Saltos Mp→Ep continúan ahora como Mp → Ep observable.';
+    } else if (S < 35) {
+      noteEl.textContent = 'Fase geométrica temprana · radiación domina (Mdet alto). Cada salto entrópico ∆S sella más espacio. MCV y ECV son la misma sustancia en dos estados: confinada vs. distribuida.';
+    } else if (S < 85) {
+      noteEl.textContent = 'Maduración · halos de MCV arman la estructura cósmica. ECV crece hacia su rol dominante (energía oscura observada). Mdet baja al 5% canónico.';
+    } else if (S < 89.5) {
+      noteEl.textContent = 'Sext ≈ 87–89 · entramos en el régimen estratificado. Slocal (Vía Láctea) retiene tensión sellada propia; el océano externo está más cerca de S → 100.';
+    } else {
+      noteEl.textContent = 'Sₐ ≈ 90 ± 3 · presente. ECV ≈ 70 % (DE) · MCV ≈ 25 % (DM) · Mdet ≈ 5 % (bariones). Slocal ≈ Sext − 3 en burbujas galácticas. Mp pristina = 0.';
+    }
+
+    // ============== Espectro fermiónico · WKB · cascada gauge ==============
+    // |T_f| pre-emergencia → 1 al cruzar el sello del Tratado:
+    //   T1 vive ya en S0,009 (Planck/C1) — siempre 1 en S>S0,009
+    //   T2 = 4.30·10⁻⁴ pre-C2; → 1 al cruzar S0,099 (GUT/C2)
+    //   T3 = 1.20·10⁻⁶ pre-C3; → 1 al cruzar S0,999 (EW/C3)
+    // Antes de su sello aparecen como fantasmas WKB (amplitudes Euclidianas reales).
+    const T1pre = 1.0; // F1 nace en C1; su |T| es de orden 1 en cuanto S>0,009
+    const T2pre = 4.30e-4;
+    const T3pre = 1.20e-6;
+    const T1now = (S < 0.009) ? T1pre*0.5 : 1.0;
+    const T2now = (S < 0.099) ? T2pre : (S < 0.100 ? lerp01(T2pre, 1.0, (S-0.099)/0.001) : 1.0);
+    const T3now = (S < 0.999) ? T3pre : (S < 1.000 ? lerp01(T3pre, 1.0, (S-0.999)/0.001) : 1.0);
+
+    // Barras WKB: log10 normalizado (-7 → 0)
+    const tToBar = (t) => {
+      const lg = Math.log10(Math.max(1e-9, t));
+      return clamp((lg + 7) / 7, 0, 1) * 100;
+    };
+    const fmtT = (t) => t >= 0.5 ? t.toFixed(3).replace('.',',') :
+                       (t.toExponential(1).replace('e','·10').replace('+','').replace('.',',').replace('-0','-'));
+    document.getElementById('wB1').style.width = tToBar(T1now)+'%';
+    document.getElementById('wB2').style.width = tToBar(T2now)+'%';
+    document.getElementById('wB3').style.width = tToBar(T3now)+'%';
+    document.getElementById('wV1').textContent = fmtT(T1now);
+    document.getElementById('wV2').textContent = fmtT(T2now);
+    document.getElementById('wV3').textContent = fmtT(T3now);
+    document.getElementById('fT1').textContent = '|T₁|='+fmtT(T1now);
+    document.getElementById('fT2').textContent = '|T₂|='+fmtT(T2now);
+    document.getElementById('fT3').textContent = '|T₃|='+fmtT(T3now);
+
+    // κ_gap dinámico: refleja la jerarquía en cada régimen
+    // κ₁₂ = sqrt(|T₁| / |T₂|)^(−1) emerge tras C2; κ₂₃ emerge tras C3
+    const kap12 = (T2now > 1e-3) ? Math.log(T1now/Math.max(1e-9,T2now)) / Math.log(1e4) : null;
+    const kap23 = (T3now > 1e-3) ? Math.log(T2now/Math.max(1e-9,T3now)) / Math.log(1e4) : null;
+    document.getElementById('wKap12').textContent = 'κ₁₂ = ' + (kap12 !== null ? (0.86 * (1-kap12*0.05)).toFixed(4).replace('.',',') : '— (pre-C2)');
+    document.getElementById('wKap23').textContent = 'κ₂₃ = ' + (kap23 !== null ? (0.0685 * (1-kap23*0.05)).toFixed(4).replace('.',',') : '— (pre-C3)');
+
+    // Nota WKB: cambia entre régimen Euclidiano (S<1,001) y Lorentziano (S≥1,001)
+    const wn = document.getElementById('wNote');
+    if (S < 1.001) {
+      wn.textContent = 'Régimen Euclidiano · C(n,0). |T| son amplitudes WKB reales, sin fases. La causalidad aún no existe.';
+    } else {
+      wn.textContent = 'Régimen Lorentziano · C(1,3). |T| son módulos de propagadores de Feynman. La rotación de Wick tensional preserva el módulo.';
+    }
+
+    // Encender/apagar partículas según |T| ≥ umbral de emergencia (≈0,9)
+    document.querySelectorAll('#fpF1 .fpItem').forEach(it => it.classList.toggle('live', T1now >= 0.9));
+    document.querySelectorAll('#fpF2 .fpItem').forEach(it => it.classList.toggle('live', T2now >= 0.9));
+    document.querySelectorAll('#fpF3 .fpItem').forEach(it => it.classList.toggle('live', T3now >= 0.9));
+    document.querySelectorAll('#fpF1 .fpItem').forEach(it => it.classList.toggle('ghost', T1now < 0.9));
+    document.querySelectorAll('#fpF2 .fpItem').forEach(it => it.classList.toggle('ghost', T2now < 0.9));
+    document.querySelectorAll('#fpF3 .fpItem').forEach(it => it.classList.toggle('ghost', T3now < 0.9));
+
+    // Cascada gauge — visibilidad escalonada
+    const gc = (id, on) => document.getElementById(id).classList.toggle('visible', on);
+    gc('gc1', S >= 0.009);            // SO(10) emerge ya en C1 (Planck)
+    gc('gc2', S >= 0.099);            // → G_PS en C2 (GUT)
+    gc('gc3', S >= 0.999);            // → G_SM en C3 (EW)
+    gc('gc4', S >= 1.001);            // → SU(3)c × U(1)em en C4 (QCD)
+
+    // Mass gap rows — encender la fila activa según S supera cada sello
+    const mgActive = (id, on) => document.getElementById(id).classList.toggle('active', on);
+    mgActive('mgC1', S >= 0.009);
+    mgActive('mgC2', S >= 0.099);
+    mgActive('mgC3', S >= 0.999);
+    mgActive('mgC4', S >= 1.001);
+
+    // M6 · halo panel visible solo en la era de galaxias
+    const hp = document.getElementById('haloPanel');
+    if (hp) hp.classList.toggle('visible', S >= 60 && S <= 90);
+
+    // === Predicciones falsables: activación según sello cruzado (audit v3) ===
+    // Cada predicción del MCMC nace de un sello entrópico concreto:
+    //   τ_p   : nace en C2 (S=0,099) — escala GUT donde se fijan masas bosones X/Y
+    //   m_H   : nace en C4 (S=1,001) — cuarto colapso, mass gap = m_Higgs
+    //   η_B   : nace en BBN (S≈1,1)  — asimetría bariónica observable tras nucleosíntesis
+    //   H₀    : nace en CMB (S=8)    — distancia angular y expansión observable
+    //   σ₈    : nace tras galaxias (S=60) — amplitud de fluctuaciones medible
+    const setPred = (id, threshold, value) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (S >= threshold) {
+        el.textContent = value;
+        el.style.color = '#e8e4d8';
+      } else {
+        el.textContent = 'latente';
+        el.style.color = '#5a5648';
+      }
+    };
+    setPred('prTauP', 0.099, '≈ 1,4·10³⁵ años');     // GUT scale (C2)
+    setPred('prMH',   1.001, '125,1 GeV');           // mass gap (C4)
+    setPred('prEtaB', 1.1,   '(6,1±0,3)·10⁻¹⁰');     // BBN
+    setPred('prH0',   8.0,   '69,8 km/s/Mpc');       // CMB
+    setPred('prS8',   60,    '≈ 0,80');              // galaxias maduras
+  };
+
+  // ===== Poblar el panel fermiónico una sola vez =====
+  // 13 partículas del ME (12 fermiones + Higgs), repartidas por familia Clifford:
+  //   F1 (sello C1, S0,009): τ, t, b, ν_τ
+  //   F2 (sello C2, S0,099): μ, c, s, ν_μ
+  //   F3 (sello C3, S0,999): e, u, d, ν_e
+  //   Higgs aparte en F0 conceptual (S₀,₉₉₉ — emerge con la ruptura EW); lo agrupamos con F3 visualmente.
+  const fermionData = {
+    F1: [
+      {n:'τ',  m:1.77686,    u:'GeV', col:'#f2c892'},
+      {n:'t',  m:172.69,     u:'GeV', col:'#f2c892'},
+      {n:'b',  m:4.18,       u:'GeV', col:'#f2c892'},
+      {n:'ν_τ',m:0.018,      u:'eV',  col:'#f2c892'},  // límite superior cosmo
+    ],
+    F2: [
+      {n:'μ',  m:105.658,    u:'MeV', col:'#7ba7c4'},
+      {n:'c',  m:1.27,       u:'GeV', col:'#7ba7c4'},
+      {n:'s',  m:93.4,       u:'MeV', col:'#7ba7c4'},
+      {n:'ν_μ',m:0.17,       u:'meV', col:'#7ba7c4'},
+    ],
+    F3: [
+      {n:'e',  m:0.51100,    u:'MeV', col:'#a3c08a'},
+      {n:'u',  m:2.16,       u:'MeV', col:'#a3c08a'},
+      {n:'d',  m:4.67,       u:'MeV', col:'#a3c08a'},
+      {n:'ν_e',m:0.8,        u:'meV', col:'#a3c08a'},
+      {n:'H',  m:125.1,      u:'GeV', col:'#e8c592'},  // Higgs adscrito a sello C3 (EW) · PDG 2024
+    ],
+  };
+  const populateFermions = () => {
+    // log scale: 1 meV (1e-3 eV) → 200 GeV (2e11 eV)
+    const log10E = (m, u) => {
+      const k = u==='meV'?1e-3 : u==='eV'?1 : u==='MeV'?1e6 : u==='GeV'?1e9 : 1;
+      return Math.log10(m * k);
+    };
+    const lo = -3, hi = 12; // log10(eV)
+    for (const fam of ['F1','F2','F3']) {
+      const grid = document.getElementById('fp'+fam);
+      grid.innerHTML = '';
+      for (const f of fermionData[fam]) {
+        const name = document.createElement('div');
+        name.className = 'fpName fpItem ghost';
+        name.textContent = f.n;
+        const wrap = document.createElement('div');
+        wrap.className = 'fpBarWrap fpItem ghost';
+        const bar = document.createElement('div');
+        bar.className = 'fpBar';
+        const w = clamp((log10E(f.m, f.u) - lo) / (hi - lo), 0.02, 1) * 100;
+        bar.style.width = w + '%';
+        bar.style.background = f.col;
+        wrap.appendChild(bar);
+        const val = document.createElement('div');
+        val.className = 'fpVal fpItem ghost';
+        val.textContent = f.m.toString().replace('.',',') + ' ' + f.u;
+        grid.appendChild(name); grid.appendChild(wrap); grid.appendChild(val);
+      }
+    }
+  };
+  populateFermions();
+
+  // === M6 · Pintar las curvas NFW y Burkert/Cronos (mini-panel) ===
+  (() => {
+    const svgH = document.getElementById('haloSvg');
+    if (!svgH) return;
+    const W = 220, H = 90, pad = 18;
+    // Eje
+    svgH.appendChild(el('line', { x1: pad, y1: H-pad, x2: W-6, y2: H-pad, stroke: '#8a8476', 'stroke-width': 0.5, opacity: 0.6 }));
+    svgH.appendChild(el('line', { x1: pad, y1: 6,    x2: pad, y2: H-pad, stroke: '#8a8476', 'stroke-width': 0.5, opacity: 0.6 }));
+    svgH.appendChild(el('text', { x: W-10, y: H-8, fill: '#8a8476', 'font-family': 'JetBrains Mono,monospace', 'font-size': 8, 'text-anchor': 'end' })).textContent = 'log r';
+    svgH.appendChild(el('text', { x: 4, y: 12, fill: '#8a8476', 'font-family': 'JetBrains Mono,monospace', 'font-size': 8 })).textContent = 'log ρ';
+
+    // x ∈ [-2, 2] log r ; y log ρ
+    const xMap = lr => pad + ((lr + 2) / 4) * (W - pad - 6);
+    const yMap = lp => (H-pad) - ((lp + 1) / 4) * (H - pad - 6);
+
+    // NFW: ρ(r) ∝ 1 / [ r (1+r)² ]  → log ρ = -log r - 2 log(1+r)
+    let dNFW = '';
+    for (let i = 0; i <= 40; i++) {
+      const lr = -2 + (4 * i / 40);
+      const r = Math.pow(10, lr);
+      const lp = -Math.log10(r) - 2*Math.log10(1+r) + 2;
+      dNFW += (i===0?'M ':'L ') + xMap(lr).toFixed(1) + ' ' + yMap(lp).toFixed(1) + ' ';
+    }
+    svgH.appendChild(el('path', { d: dNFW, fill: 'none', stroke: '#8a8476', 'stroke-width': 1.4, opacity: 0.85, 'stroke-dasharray': '3 2' }));
+
+    // Burkert/Cronos: ρ(r) ∝ 1 / [(1+r)(1+r²)] — cored
+    let dCronos = '';
+    for (let i = 0; i <= 40; i++) {
+      const lr = -2 + (4 * i / 40);
+      const r = Math.pow(10, lr);
+      const lp = -Math.log10(1+r) - Math.log10(1+r*r) + 2;
+      dCronos += (i===0?'M ':'L ') + xMap(lr).toFixed(1) + ' ' + yMap(lp).toFixed(1) + ' ';
+    }
+    svgH.appendChild(el('path', { d: dCronos, fill: 'none', stroke: '#a8884a', 'stroke-width': 1.6, opacity: 0.95 }));
+  })();
+  const updateFromSlider = () => {
+    const t = +slider.value;
+    const S = tToS(t);
+    updatePosVisual();
+    render(S);
+    updateText(S);
+    localStorage.setItem(STORAGE, slider.value);
+  };
+  slider.addEventListener('input', updateFromSlider);
+
+  let playing = state.autoplay;
+  let lastT = 0;
+  const playBtn = document.getElementById('playBtn');
+  const setPlayBtn = () => { playBtn.textContent = playing ? '❚❚ Pausar' : '▶ Reproducir'; playBtn.classList.toggle('active', playing); };
+  setPlayBtn();
+
+  const loop = (ts) => {
+    const dt = ts - lastT;
+    if (playing) {
+      const speed = 14000/60000; // full journey ~60s
+      let v = +slider.value + dt*speed;
+      if (v >= 14000) { v = 14000; playing = false; setPlayBtn(); }
+      slider.value = v;
+      updateFromSlider();
+    } else {
+      render(tToS(+slider.value));
+    }
+    lastT = ts;
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(ts => { lastT = ts; loop(ts); });
+
+  playBtn.addEventListener('click', () => {
+    if (+slider.value >= 14000) slider.value = 0;
+    playing = !playing; setPlayBtn();
+  });
+  document.getElementById('resetBtn').addEventListener('click', () => { slider.value = 0; updateFromSlider(); });
+  const jump = s => { slider.value = sToT(s); updateFromSlider(); };
+  document.getElementById('jS0').onclick  = () => jump(0);
+  document.getElementById('jC0').onclick  = () => jump(0.0012);
+  document.getElementById('jV0D').onclick = () => jump(0.005);
+  document.getElementById('jV1D').onclick = () => jump(0.050);
+  document.getElementById('jC').onclick   = () => jump(0.099);
+  document.getElementById('jV2D').onclick = () => jump(0.500);
+  document.getElementById('jC2').onclick  = () => jump(0.999);
+  document.getElementById('jV3D').onclick = () => jump(1.0002);
+  document.getElementById('jV4D').onclick = () => jump(1.0015);
+  document.getElementById('jF1').onclick  = () => jump(0.009);
+  document.getElementById('jF2').onclick  = () => jump(0.099);
+  document.getElementById('jF3').onclick  = () => jump(0.999);
+  document.getElementById('jF1').dataset.fam = 'F1';
+  document.getElementById('jF2').dataset.fam = 'F2';
+  document.getElementById('jF3').dataset.fam = 'F3';
+  document.getElementById('jCMB').onclick = () => jump(8.0);
+  document.getElementById('jNow').onclick = () => jump(90);
+
+  // Tweaks
+  const tw = document.getElementById('tweaks');
+  window.addEventListener('message', (ev) => {
+    const d = ev.data; if (!d) return;
+    if (d.type === '__activate_edit_mode') tw.classList.add('visible');
+    if (d.type === '__deactivate_edit_mode') tw.classList.remove('visible');
+  });
+  window.parent.postMessage({type:'__edit_mode_available'}, '*');
+
+  const persist = (k,v) => window.parent.postMessage({type:'__edit_mode_set_keys',edits:{[k]:v}}, '*');
+  tw.querySelectorAll('.opts').forEach(g => {
+    const key = g.getAttribute('data-group');
+    g.querySelectorAll('button').forEach(b => {
+      b.addEventListener('click', () => {
+        g.querySelectorAll('button').forEach(x => x.classList.remove('on'));
+        b.classList.add('on');
+        const v = b.getAttribute('data-val');
+        if (key === 'palette') { state.palette = v; document.body.setAttribute('data-palette', v); }
+        persist(key, v);
+        updateFromSlider();
+      });
+    });
+  });
+  const bindChk = (id, key) => document.getElementById(id).addEventListener('change', (e) => {
+    state[key] = e.target.checked; persist(key, state[key]); updateFromSlider();
+  });
+  bindChk('tkMpEp','show_mpep');
+  bindChk('tkLabels','show_labels');
+  bindChk('tkEq','show_equations');
+  bindChk('tkAutoplay','autoplay');
+  document.getElementById('tkAutoplay').addEventListener('change', e => {
+    playing = e.target.checked; setPlayBtn();
+  });
+
+  updateFromSlider();
+})();
+</script>
+</body>
+</html>
