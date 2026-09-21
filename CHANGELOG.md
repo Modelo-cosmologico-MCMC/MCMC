@@ -31,6 +31,30 @@ estado en que afirme exactamente lo que hace»).
   (experimento-no-ejecutado). Nota I §3.26–3.27. Registro: 58 claims
   (sobre main).
 
+- **La diagonal y el |J| requerido (21-sep, tarde): circulación J∇C del
+  Camino de dos niveles en `path_flow` y en el reloj S, bajo
+  preinscripción congelada — veredicto MIXTO**. Punto (3) del orden del
+  21-sep (tarde), tres commits (generador · congelación · corridas).
+  `core/path_flow.py`: `circulation(φ, ∇V, |J|, C)` con J = |J|·ε
+  antisimétrica; C = 'V' (J∇V ⊥ ∇V: Monotonía 4.5 exacta) o 'rho2'
+  (rotación rígida); `flow(..., J, circulation_C)` devuelve W_J.
+  `core/s_clock.py`: `J_circ`/`circulation_C`, identidad S = f − f₀ +
+  W_J/T₀, `diagonal_crossing_S`, `J_min_threshold`, `J_required`,
+  `DECLARED_FORMS["J_circulation"]`. HALLAZGO: con C = V el término se
+  anula en los puntos críticos y el vacío 2D está en el polo de masa —
+  θ cruza la diagonal solo si |J| ≥ |J|_min y vuelve a 0: el cruce tiene
+  un S máximo (subir |J| lo adelanta). Resultado: |J|_min = 1.358–1.451
+  para δ₀ ∈ {0.001, 0.003, 0.01, 0.03, δ_H} (invariante de escala al
+  6.8 %), S_max = 0.959 / 0.930 / 0.879 / 0.806 / 0.746 ⟹ **A** en 0.001
+  (ventana 1 ± 0.05 alcanzable con |J| ∈ [1.358, 1.396]), **B** en 0.003 y
+  0.01, **F** en 0.03 y δ_H (retorno a la frontera φ_E = 0 con W_J/T₀ =
+  5.5 / 10.9 y descenso sin completar). La alternativa rígida cruza pero
+  con W_J/T₀ = 2–10 y Monotonía rota (coste). La expectativa E13 |J| ≈
+  (π/4)/∫|∇V|dσ sobreestima ×2.2–25 (publicado). |J| es calibración
+  declarada, no derivación (frente 2). 3 tests + candado. Fila nueva
+  `diagonal-j-requerido` (interno). Nota I §3.25. Registro: 58 claims
+  (sobre la rama del reloj v1).
+
 - **Nucleación ronda 2 (21-sep, tarde): Γ₀(δ₀) condicional a n_dim ∈
   {1, 3, 4} bajo preinscripción congelada — veredicto (A sí, B sí, C
   no)**. Punto (2) del orden del 21-sep (tarde), tres commits
