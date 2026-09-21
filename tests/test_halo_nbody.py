@@ -114,3 +114,26 @@ def test_integrator_conserves_energy_with_frozen_cronos_field():
             # positivo, finito y en régimen débil
             assert 0.0 < run.events[0]["D_F_at_soft"] < 1e3 and run.events[0]["weak_regime_ok"]
     assert C_KMS == pytest.approx(299792.458)
+
+
+@pytest.mark.skipif(pytest.importorskip("pytreegrav", reason="pytreegrav no instalado") is None,
+                    reason="pytreegrav no instalado")
+def test_instantaneous_field_follows_particles_and_self_energy_balance():
+    """Frente 5b: con follow_particles la malla del campo se reconstruye en
+    cada actualización (el radio interior sigue a la partícula k_inner-ésima)
+    y el balance autoconsistente K + W + (2/5)U_C + W_fric se conserva al
+    nivel del newtoniano; U_self = 0.4·U_ext por construcción."""
+    from cronos.halo_nbody import HaloRun, SphericalCronosField
+    ic = sample_equilibrium_nfw(1e11, 10.0, H0, 6000, seed=7)
+    with pytest.raises(ValueError, match="tau_avg"):
+        SphericalCronosField(A_SCULPTOR, follow_particles=True, tau_avg=1.0)
+    run = HaloRun(ic["pos"].copy(), ic["vel"].copy(), ic["mass"].copy(), A=A_SCULPTOR, cronos=True,
+                  n_levels=7, tau_avg_myr=0.0, field_kwargs={"k_inner": 16, "follow_particles": True})
+    r_in0 = run.field.r_mid[0]
+    out = run.run(0.15, [0.0, 0.15])
+    assert run.field.follow_particles and run.field.r_mid[0] != r_in0      # la malla se movió con las partículas
+    e0, e1 = out["snapshots"][0]["energy"], out["snapshots"][-1]["energy"]
+    assert e0["U_self_2_5"] == pytest.approx(0.4 * e0["U_cronos"])
+    assert e1["W_fric"] >= 0.0
+    assert abs(e1["E_self"] - e0["E_self"]) / abs(e0["E_self"]) < 2e-2
+    assert run.field.U_self(run.radii(), run.mass) == pytest.approx(0.4 * run.field.U_ext(run.radii(), run.mass))

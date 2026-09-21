@@ -6,6 +6,30 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Frente 5 (b) (21-sep, tarde): serie de resolución del campo de
+  Cronos (k_inner 64/128/256) a A_Sculptor y 0.05·A_Sculptor con campo
+  instantáneo y balance K + W + (2/5)U_C + W_fric, bajo preinscripción
+  congelada — desenlace INDETERMINADO por la puerta de energía**. Tres
+  commits (instrumento + generador · congelación · corridas).
+  `cronos/halo_nbody.py`: `follow_particles` (malla del campo
+  reconstruida de las partículas en cada actualización, sin malla fija
+  ni media móvil), `U_self = (2/5)·Σm(−c²ε_c)` (el funcional del que
+  deriva la fuerza) y `W_fric` (trabajo de la fricción); la instantánea
+  publica `E_self`. Preinscripción (sha256 18c5344d9d0b…): N = 2e5,
+  1 Gyr, 7 brazos, convergencia si los dos saltos |log10 M(<0.4 kpc)| ≤
+  0.15, letras A/B/C/D/INDETERMINADO con la predicción del criterio
+  (A). **Resultado**: INDETERMINADO — |ΔE_self/E| = 2.4 % y 4.0 % en los
+  brazos de A_Sculptor con k = 64 y 128 (tolerancia 2 %): con A_Sculptor
+  el campo dinámico inyecta energía. Publicado como tabla: la serie a
+  A_Sculptor no converge (salto +0.44 dex en 128→256) y la de
+  0.05·A_Sculptor converge (−0.05, +0.006 dex), como predice el
+  criterio, pero con 18–87 partículas dentro de 0.4 kpc el métrico está
+  dominado por el conteo (el newtoniano fluctúa 4.2 → 3.1 ×1e7 M☉) y el
+  radio interior del campo cae en 0.41–0.75 kpc. Fricción irrelevante
+  (W_fric/|E| ≤ 6e-6). Ronda siguiente: preinscripción nueva con N ≥
+  1e6 y métrico resuelto. Fila nueva `halo-serie-resolucion-campo`
+  (interno). Nota I §3.29. Registro: 57 claims (sobre main).
+
 - **Test preinscrito del criterio de Cronos–Jeans (frente 5a, 21-sep):
   desenlace INDETERMINADO bajo la regla congelada; donde la fase lineal
   se resuelve, γ/k coincide con la predicción cinética exacta al 1 %**.

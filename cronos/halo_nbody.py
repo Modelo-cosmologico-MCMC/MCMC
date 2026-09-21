@@ -189,12 +189,19 @@ class SphericalCronosField:
 
     def __init__(self, A: float, r_min: float = 0.01, r_max: float = 400.0,
                  n_grid: int = 180, k_inner: int = 16, smooth: float = 1.0,
-                 r_soft: float = 0.0, tau_avg: float = 0.0):
+                 r_soft: float = 0.0, tau_avg: float = 0.0, follow_particles: bool = False):
         self.A = float(A)
         self.r_floor, self.r_max, self.n_grid = float(r_min), float(r_max), int(n_grid)
         self.k_inner, self.smooth = int(k_inner), float(smooth)
         self.r_soft = float(r_soft)          # radio suavizado r_s = sqrt(r² + r_soft²) para el campo
         self.tau_avg = float(tau_avg)        # media móvil exponencial de ln M(ln r) (unidades internas)
+        # campo INSTANTÁNEO que sigue a las partículas (frente 5b): la malla
+        # logarítmica se reconstruye en cada actualización desde el radio de la
+        # partícula k_inner-ésima ACTUAL (sin malla fija ni media móvil); el
+        # Nivel A usaba malla fija tras la primera llamada + media móvil τ_avg
+        self.follow_particles = bool(follow_particles)
+        if self.follow_particles and self.tau_avg > 0.0:
+            raise ValueError("follow_particles exige tau_avg = 0 (campo instantáneo)")
         self.frozen = False                  # campo congelado (control de conservación)
         self._lrho = None
         self._lr_prev = None
@@ -216,7 +223,7 @@ class SphericalCronosField:
         M_cum = np.cumsum(mass[order])
         r_in = max(r_s[min(self.k_inner, len(r_s) - 1)], self.r_floor)
         r_out = min(r_s[-1], self.r_max)
-        if self._lr_avg is None:
+        if self._lr_avg is None or self.follow_particles:
             lr = np.linspace(np.log(r_in), np.log(r_out), self.n_grid)
         else:
             lr = self._lr_avg                # malla fija tras la primera llamada (media móvil)
@@ -291,6 +298,14 @@ class SphericalCronosField:
         congelado, K + W + U_ext se conserva."""
         return -C_KMS ** 2 * float(np.sum(mass * self.eps_c(r)))
 
+    def U_self(self, r, mass):
+        """Energía AUTOCONSISTENTE del campo de Cronos: la fuerza +c²∇ε_c con
+        ε_c = A·ρ^{3/2} y ρ la densidad de las propias partículas deriva del
+        funcional U[ρ] = −(2/5)·c²·A·∫ρ^{5/2} dV (δU/δρ = −c²ε_c), es decir
+        U_self = (2/5)·Σ m(−c²ε_c): con el campo dinámico lo que se conserva
+        es K + W + U_self + W_fric, no K + W + U_ext (frente 5b)."""
+        return 0.4 * self.U_ext(r, mass)
+
     def Phi(self, r):
         r = np.asarray(r, float)
         inside = r < self.r_mid[0]
@@ -364,6 +379,7 @@ class HaloRun:
         self.n_force_calls = {"brute": 0, "tree": 0}
         self.wall = 0.0
         self._runaway = False
+        self.W_fric = 0.0                    # trabajo acumulado de la fricción (energía cinética drenada)
         self._init_levels()
 
     # -- utilidades -----------------------------------------------------
@@ -489,7 +505,10 @@ class HaloRun:
             W = 0.5 * float(np.sum(self.mass * phi))
             U = self.field.U_ext(r, self.mass) if self.cronos else 0.0
             snap["energy"] = {"K": K, "W": W, "U_cronos": U, "E": K + W + U,
-                              "E_grav_only": K + W, "virial_2K_over_W": -2.0 * K / W}
+                              "E_grav_only": K + W, "virial_2K_over_W": -2.0 * K / W,
+                              # balance autoconsistente (frente 5b): K + W + (2/5)U_C + W_fric
+                              "U_self_2_5": 0.4 * U, "W_fric": self.W_fric,
+                              "E_self": K + W + 0.4 * U + self.W_fric}
         return snap
 
     def run(self, t_end_gyr: float, snapshot_gyr, log=None, snapshot_kwargs=None) -> dict:
@@ -545,7 +564,9 @@ class HaloRun:
                 s_new = self._level_steps(idx, acc + a_extra)
                 dt_kick = 0.5 * (self.s_old[idx] + s_new) * self.dt_tick
                 if self.use_friction and self.cronos:
+                    v2_before = np.sum(self.vel[idx] ** 2, axis=1)
                     self.vel[idx] *= np.exp(-gamma * dt_kick)[:, None]
+                    self.W_fric += 0.5 * float(np.sum(self.mass[idx] * (v2_before - np.sum(self.vel[idx] ** 2, axis=1))))
                 self.vel[idx] += (acc + a_extra) * (lapse * dt_kick)[:, None]
                 self.lapse[idx] = lapse
                 self.gamma_last[idx] = gamma

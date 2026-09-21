@@ -1,0 +1,139 @@
+{
+  "title": "Frente 5 (b): serie de resolución del campo de Cronos (k_inner 64/128/256) a A_Sculptor y a 0.05·A_Sculptor con campo instantáneo y balance K + W + (2/5)U_C + W_fric",
+  "frozen_utc": "2026-09-21T14:59:20.085772+00:00",
+  "code_commit": "82d61483ca363d53197f0f5c20db793bb0e03f0f",
+  "generator": "scripts/run_halo_resolution.py prereg",
+  "generator_commit_must_precede_freeze": true,
+  "question": "¿Converge el interior del halo al refinar la resolución del campo de Cronos? El criterio de Cronos–Jeans predice que NO a A_Sculptor (q > 1 dentro de r_CJ) y que SÍ a 0.05·A_Sculptor.",
+  "prediction_from_criterion": {
+    "r_CJ_kpc_A_sculptor": 0.7091372682907996,
+    "r_CJ_kpc_0p05": 0.18018067110148347,
+    "M_within_r_CJ": 160973752.15182835,
+    "expected": "A"
+  },
+  "amplitudes": {
+    "A_sculptor": 6.201588782789579e-07,
+    "fraction_arm": 0.05,
+    "units": "(M_sol/pc^3)^(-3/2); epsilon_c = A * rho^(3/2)"
+  },
+  "system": {
+    "M200_msun": 100000000000.0,
+    "c": 10.0,
+    "H0": 67.86705532886631,
+    "N": 200000,
+    "seed": 1,
+    "soft_plummer_kpc": 0.1,
+    "r_decay_factor": 0.3,
+    "structural": {
+      "M200": 100000000000.0,
+      "c": 10.0,
+      "H0": 67.86705532886631,
+      "rho_s": 5723373.75271517,
+      "r_s": 9.774625607060127,
+      "r200": 97.74625607060126,
+      "rho_crit": 127.81475727256635
+    },
+    "ics": "NFW truncado (Kazantzidis+2004), Eddington isótropo; la MISMA semilla en todos los brazos"
+  },
+  "integrator": {
+    "theta": 0.7,
+    "eta_acc": 0.025,
+    "eta_dyn": 0.02,
+    "eta_cross": 0.1,
+    "dt_max_gyr": 0.0512,
+    "n_levels": 12,
+    "brute_max": 500,
+    "profile_every_ticks": 8,
+    "field_tau_avg_myr": 0.0,
+    "field_follow_particles": true,
+    "field_smooth": 1.0,
+    "scheme": "como el Nivel A, con el campo de Cronos INSTANTÁNEO: malla logarítmica reconstruida desde la partícula k_inner-ésima actual en cada actualización (sin malla fija ni media móvil)"
+  },
+  "energy_balance": "K + W + U_self + W_fric con U_self = (2/5)·Σm(−c²ε_c) (la fuerza +c²∇ε_c deriva del funcional −(2/5)c²A∫ρ^{5/2}dV) y W_fric = trabajo acumulado de la fricción con compuerta; el Nivel A usaba K + W + Σm(−c²ε_c), correcto solo con el campo congelado",
+  "t_end_gyr": 1.0,
+  "snapshots_gyr": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "arms": {
+    "a": {
+      "label": "newtoniano (referencia)",
+      "cronos": false,
+      "amplitude": 1.0,
+      "k_inner": 64
+    },
+    "bAS_k64": {
+      "label": "Cronos v3 a A_Sculptor, campo instantáneo, k_inner = 64",
+      "cronos": true,
+      "amplitude": 1.0,
+      "k_inner": 64
+    },
+    "bAS_k128": {
+      "label": "Cronos v3 a A_Sculptor, campo instantáneo, k_inner = 128",
+      "cronos": true,
+      "amplitude": 1.0,
+      "k_inner": 128
+    },
+    "bAS_k256": {
+      "label": "Cronos v3 a A_Sculptor, campo instantáneo, k_inner = 256",
+      "cronos": true,
+      "amplitude": 1.0,
+      "k_inner": 256
+    },
+    "b005_k64": {
+      "label": "Cronos v3 a 0.05·A_Sculptor, campo instantáneo, k_inner = 64",
+      "cronos": true,
+      "amplitude": 0.05,
+      "k_inner": 64
+    },
+    "b005_k128": {
+      "label": "Cronos v3 a 0.05·A_Sculptor, campo instantáneo, k_inner = 128",
+      "cronos": true,
+      "amplitude": 0.05,
+      "k_inner": 128
+    },
+    "b005_k256": {
+      "label": "Cronos v3 a 0.05·A_Sculptor, campo instantáneo, k_inner = 256",
+      "cronos": true,
+      "amplitude": 0.05,
+      "k_inner": 256
+    }
+  },
+  "gates": {
+    "tol_E_newton": 0.005,
+    "tol_E_self": 0.02,
+    "weak_regime_eps_max": 0.001,
+    "stop_rules": {
+      "runaway_well_speed_kms": 1000.0,
+      "max_wall_hours_per_run": 2.5
+    }
+  },
+  "rules": {
+    "convergence_metric": "|log10(M_k'(<0.4 kpc)/M_k(<0.4 kpc))| en el instante final común para los saltos 64→128 y 128→256",
+    "tol_conv": 0.15,
+    "series_converges": "ambos saltos ≤ tol_conv",
+    "letters": {
+      "A": "A_Sculptor NO converge y 0.05·A_Sculptor SÍ (predicción del criterio)",
+      "B": "ambas convergen",
+      "C": "ninguna converge (límite del instrumento)",
+      "D": "solo converge A_Sculptor (contrario a la predicción: sospecha de error primero)",
+      "INDETERMINADO": "puerta violada (energía, régimen) o corridas ausentes"
+    },
+    "publish": [
+      "cociente b/a por bandas [0.1,0.4], [0.4,1], [1,2.3], [2.3,5], [5,20] kpc",
+      "M(<0.4 kpc)(t) por brazo",
+      "W_fric/|E| por brazo",
+      "|ΔE_self/E| y |ΔE_naive/E| por brazo"
+    ],
+    "order": "puertas → letra; ningún umbral se toca tras ver los números"
+  },
+  "pilot_declared": "N = 5e4, 0.25 Gyr, antes de congelar: con el campo instantáneo |ΔE_self/E| = 0.6 % a A_Sculptor y 0.04 % a 0.05·A_Sculptor; U_C/|E| ~ 1e-3; W_fric/|E| < 1e-4; el estimador del Nivel A (malla fija + media móvil) da M(<0.4 kpc) ×7.6 frente a ×2.1 del instantáneo en 0.25 Gyr a la misma A: el estimador pesa. El piloto fija tol_E_self = 0.02 a priori (4× la tolerancia newtoniana, por la aproximación de spline del campo dinámico) y nada más; no incluyó brazo newtoniano ni serie k_inner, así que no anticipa la letra.",
+  "what_this_cannot_decide": [
+    "si la Ley de Cronos débil es la ley correcta (forma ε_c(ρ): diccionario)",
+    "la amplitud (A_Sculptor es hipótesis del 5E; 0.05 es brazo)",
+    "el interior por debajo de ε_soft = 0.1 kpc"
+  ]
+}
