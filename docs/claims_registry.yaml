@@ -1169,6 +1169,50 @@ claims:
     status: interno
     artifact: results/2026-09-21_cronos_jeans
 
+  - claim_id: nucleacion-salida-s0
+    entity: La salida de S₀ — bounce de Coleman O(d) sobre el Basal completo (B(δ₀), Γ₀/A) y escape de Kramers del Flujo del Camino con difusión entrópica; el reloj S arranca en el estado nucleado (21-sep-2026)
+    law: "Prop. 3.5 (nucleación con Γ₀(δ₀), Γ₀(0) = 0, salida al polo de masa); Def. 3.1–3.3 (Basal, T₀); Axioma 4 y Def. 4.4 (Flujo del Camino disipativo con completación estocástica)"
+    derivation: >-
+      core/nucleation.py resuelve el instantón O(d) del campo radial
+      sobre el corte θ = 0 con el paisaje COMPLETO (inclinación incluida)
+      por disparo overshoot/undershoot, y publica B, Γ₀/A = e^{−B}, el
+      centro del bounce φ(0) y f₀ = (V_fv − V(φ(0)))/T₀. Ley de escala
+      medida (formas por defecto, δ₀ ∈ [0.002, 0.064]): B ∝ δ₀^{−1.49}
+      para d = 4 (argumento sin inclinación 3 − d = −1: Γ₀(0) = 0 sin
+      prefactor) y δ₀^{−0.40} para d = 3 (argumento 0: B → constante, el
+      axioma exige A(δ₀) → 0). En este régimen la barrera vale 1–8 % de
+      T₀ (pared gruesa): el bounce entrega el campo casi en el vacío
+      verdadero (f₀ = 0.9996 en δ₀ = 0.01 con d = 4; 0.97 con d = 3), de
+      modo que la descarga y sus umbrales 0.009/0.099(/0.999) caen
+      DENTRO de la nucleación y no a lo largo del Flujo del Camino — el
+      reloj S los dispara en σ = 0 con esa nota; la pared delgada no es
+      aplicable y se publica solo como referencia. ESCAPE DE KRAMERS
+      (la nucleación propia de la dinámica del tratado, de primer orden
+      y disipativa): Γ_K = √(V''_fv|V''_b|)/(2πG)·exp(−ΔV_b/D_ent) con
+      D_ent declarada; prefactor ∝ δ₀^{1.85} (argumento 2) y barrera ∝
+      δ₀^{2.44} (argumento 3, erosionado por la inclinación): Γ_K(0) = 0
+      por el PREFACTOR, mecanismo opuesto al bounce. Integración conjunta
+      Φ_Ad ⊗ λ_i desde el bounce (modo emergente, τ ∈ [1e-3, 1e-1]): D no
+      cruza cero; los eventos S_emergent se publican vacíos. Convenciones
+      DECLARADAS: d (3 y 4 publicadas; el tramo pre-geométrico no tiene
+      espacio-tiempo), prefactor A, normalización de la acción (G = ħ =
+      1), D_ent, corte θ = 0. Cuál es la nucleación del tratado —
+      instantón conservativo o escape disipativo — es del diccionario.
+    implementation: core/nucleation.py + core/s_clock.py + scripts/run_nucleation.py
+    test: tests/test_nucleation.py
+    observable: "—"
+    dataset: "—"
+    falsifier: >-
+      una derivación del tratado que fije d, el prefactor o D_ent
+      convertiría Γ₀(δ₀) en predicción del ciclo (Teo. 10.6, frente 4);
+      hasta entonces lo refutable son las leyes de escala medidas y el
+      hecho de que, con pared gruesa, la descarga cae dentro de la
+      nucleación — un Basal con barrera ≫ T₀ (otras formas O(1))
+      devolvería la descarga al Flujo del Camino
+    evidence_level: "cálculo de consistencia (E8) con convenciones declaradas; expectativa cumplida (E13) — Γ₀ crece con δ₀ y se anula en δ₀ = 0 por vías distintas en cada mecanismo; no demostración física"
+    status: interno
+    artifact: results/2026-09-21_nucleation
+
   - claim_id: s-clock-simulador-consistencia
     entity: El reloj S — orquestador de la trayectoria S₀ → S_{1,001} como simulador de CONSISTENCIA (umbrales impuestos), no emergente (21-sep-2026)
     law: "C1 (índice entrópico S = ∫Σ̇dσ); Def. 4.4 / Teo. 4.5 / Lema 4.7 (Flujo del Camino); Prop. 3.4–3.5 (T₀, salida al polo de masa); Def. 8.4 y Prop. 8.1 (discriminante, Ley de la Década); §5.1–5.4 (cadena C(d+1,0), sellos de c y c²); §6.1–6.2 (Rotación de Florencia); Cap. 7 (RP); ec. 12.1 (m_H = √(2β₃)v₃)"
@@ -1201,10 +1245,14 @@ claims:
       canónicas y τ ∈ [1e-3, 1] no hay cruce D = 0 antes del fin del
       recorrido. El estado entregado NO es legible por la cosmología
       (diccionario ausente). Eslabones declarados, no derivados:
-      nucleación Γ₀, umbrales, formas de sellado, diagonal, cuantos de
-      confirmación V3D/Florencia, Φ_ten = 0, δ₀ del ciclo siguiente
-      (γ_R, frente 4). m_H(δ₀) se publica como dependiente del input
-      (52 GeV en 0.01; 125.4 en δ_H por construcción de δ_H).
+      nucleación Γ₀ (desde el 21-sep opcionalmente derivada con
+      convenciones declaradas, nucleation='bounce', fila
+      nucleacion-salida-s0: entrega el campo con f₀ > 0 y los primeros
+      umbrales caen dentro de la nucleación), umbrales, formas de
+      sellado, diagonal, cuantos de confirmación V3D/Florencia, Φ_ten =
+      0, δ₀ del ciclo siguiente (γ_R, frente 4). m_H(δ₀) se publica como
+      dependiente del input (52 GeV en 0.01; 125.4 en δ_H por
+      construcción de δ_H).
     implementation: core/s_clock.py + scripts/run_s_clock.py
     test: tests/test_s_clock.py
     observable: "— (recorrido interno; ningún observable)"

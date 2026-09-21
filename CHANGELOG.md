@@ -6,6 +6,35 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **La salida de S₀ (21-sep): `core/nucleation.py` — bounce de Coleman
+  O(d) sobre el Basal completo, escape de Kramers del Flujo del Camino
+  y el reloj S arrancando en el estado nucleado; hallazgo: con pared
+  gruesa la descarga cae dentro de la nucleación**. Punto (3) del orden
+  del 21-sep. Instantón O(d) del campo radial sobre el corte θ = 0
+  (salida al polo de masa) por disparo overshoot/undershoot con la
+  inclinación incluida; acción B y Γ₀/A = e^{−B} (prefactor A
+  declarado); ley de escala medida B ∝ δ₀^{−1.49} (d = 4; argumento
+  3 − d = −1: Γ₀(0) = 0 sin prefactor) y δ₀^{−0.40} (d = 3; argumento
+  0: B → constante, el axioma exige A(δ₀) → 0). Como la barrera vale
+  1–8 % de T₀ (pared gruesa; la estimación de pared delgada no es
+  aplicable y va solo como referencia), el bounce entrega el campo casi
+  en el vacío verdadero: f₀ = 0.9996 (d = 4) y 0.97 (d = 3) en δ₀ =
+  0.01, así que los umbrales 0.009/0.099(/0.999) caen DENTRO de la
+  nucleación y el reloj S los dispara en σ = 0 con esa nota — la
+  descarga no ocurre a lo largo del Flujo del Camino. Escape de
+  Kramers (la nucleación propia de la dinámica disipativa de primer
+  orden del Axioma 4, con la difusión entrópica de la Def. 4.4 y D_ent
+  declarada): prefactor ∝ δ₀^{1.85} (argumento 2), barrera ∝ δ₀^{2.44}
+  (argumento 3, erosionado por la inclinación) ⟹ Γ_K(0) = 0 por el
+  prefactor, mecanismo opuesto al bounce. Integración conjunta Φ_Ad ⊗
+  λ_i desde el bounce (modo emergente): D no cruza cero; S_emergent
+  publicado vacío. `s_clock`: `nucleation='bounce'`, f₀ (entropía de
+  nucleación) publicada, S ≡ f − f₀ comprobada (2e-13). Convenciones
+  declaradas: d, A, normalización de la acción, D_ent, corte θ = 0;
+  cuál es la nucleación del tratado es del diccionario. 8 tests. Fila
+  nueva `nucleacion-salida-s0` (interno); revisada
+  `s-clock-simulador-consistencia`. Nota I §3.22. Registro: 56 claims.
+
 - **Ronda de registro H1 (21-sep): el criterio de Cronos–Jeans — la ley
   local ε_c = A·ρ^{3/2} es ultravioleta-inestable donde q ≡
   (3/2)c²ε_c/σ² > 1, y con A_Sculptor el halo del Nivel A, el propio
