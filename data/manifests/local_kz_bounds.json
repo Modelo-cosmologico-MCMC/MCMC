@@ -1,19 +1,21 @@
 {
   "dataset": "local_kz_bounds",
-  "source": "literatura: transcripción manual de valores publicados (ver schema_report)",
-  "version": "transcripcion-2026-09-21",
-  "retrieved_utc": "2026-09-21T14:08:02.247302+00:00",
-  "citation": "Holmberg & Flynn 2000; McKee, Parravano & Hollenbach 2015; Bovy & Tremaine 2012",
+  "source": "literatura: transcripción manual de valores publicados (21-sep-2026), verificada por el autor contra los resúmenes de arXiv (22-sep-2026; ver schema_report)",
+  "version": "transcripcion-2026-09-21+erratum-2026-09-22",
+  "retrieved_utc": "2026-09-21T22:53:45.288086+00:00",
+  "citation": "Holmberg & Flynn 2000 (astro-ph/9812404); McKee, Parravano & Hollenbach 2015 (arXiv:1509.05334); Bovy & Rix 2013 (ApJ 779, 115; arXiv:1309.0809)",
   "state": "AVAILABLE",
   "transformations": [
-    "transcripción manual de valores publicados; bytes oficiales NO verificados desde el entorno (egreso denegado): verificación por el autor PENDIENTE",
+    "transcripción manual de valores publicados (21-sep-2026)",
+    "valores verificados por el autor contra los resúmenes de arXiv 9812404, 1509.05334 y 1309.0809 (22-sep-2026); bytes de las tablas NO descargados (ADS y revistas no alcanzables): official_bytes_verified sigue en false",
+    "erratum 22-sep-2026: Σ(<1.1 kpc) = 68 ± 4 es de Bovy & Rix 2013, no de Bovy & Tremaine 2012 (clave Sigma_1p1_BT2012 → Sigma_1p1_BR2013); ρ_bar(0) declarado como resta total − DM de MPH2015; ningún valor ni error cambia",
     "esquema confirmado: data/manifests/local_kz_bounds.schema_report.md"
   ],
   "files": [
     {
       "file": "local_kz_bounds_2026.json",
-      "sha256": "34bdcd989c15532ed39944d643d2ff1ef63e544c43a037f585004b5b1f0afe32",
-      "bytes": 3302
+      "sha256": "bfc5f8cb2a70939bc312a3a5ffee971f0e196442e511a201a6df5cfc844f4c6d",
+      "bytes": 5460
     }
   ]
 }
