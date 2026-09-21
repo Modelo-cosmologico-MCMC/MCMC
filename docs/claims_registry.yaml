@@ -1203,6 +1203,73 @@ claims:
     status: interno
     artifact: results/2026-09-21_cronos_jeans
 
+  - claim_id: oort-kz-cota-cronos
+    entity: Oort–K_z — la vecindad solar acota la amplitud de la Ley de Cronos débil por su fuerza vertical, bajo preinscripción congelada; con la amplitud única del 5E el plano queda EXCLUIDO (z ≈ 51), 0.05·A_Sculptor compatible, A_2σ ≈ 0.06·A_Sculptor con banda ×4 por la losa (21-sep-2026, tarde)
+    law: "Cor. 11.3 (fuerza local +c²∇ε_c, componente vertical g_C = −c²dε_c/dz); H.2.5 (frente 5); cinemática vertical de la vecindad solar (límite de Oort, K_z)"
+    derivation: >-
+      preinscripción congelada (sha256 5d5a84d26d20…) en un commit
+      posterior al generador, con el piloto (ronda del criterio) declarado.
+      El término de Cronos actúa sobre las estrellas trazadoras como fuerza
+      vertical adicional y la cinemática lo lee como densidad dinámica
+      EFECTIVA: Δρ_eff(0) = (1/4πG)dg_C/dz|₀ ∝ A√ρ(0)ρ''(0) y ΔΣ_eff(1.1) =
+      g_C(1.1 kpc)/(2πG). Se compara con el MARGEN observacional ρ_dyn − ρ_bar
+      = 0.016 ± 0.014 M☉/pc³ y Σ_dyn − Σ_bar = 20.9 ± 5.2 M☉/pc² (dataset
+      local_kz_bounds: cinco valores publicados TRANSCRITOS — Holmberg &
+      Flynn 2000, McKee, Parravano & Hollenbach 2015, Bovy & Tremaine 2012 —
+      con bytes oficiales NO verificados; aviso propagado), concediendo
+      todo el margen a Cronos (cota laxa). Losa declarada (densidades
+      MPH2015, alturas del criterio) con banda h×½/h×2 (Δρ_eff ∝ h⁻²).
+      Resultado bajo la regla congelada: A_Sculptor → Δρ_eff(0) = 0.747
+      M☉/pc³, z = +50.8 en el plano: EXCLUIDO; 0.05·A_Sculptor → 0.037,
+      z = +1.5: compatible; A_2σ = 0.060·A_Sculptor por construcción (z =
+      2.000 exacto: la letra «tensión» que devuelve el analizador es el
+      redondeo de la frontera ≤ 2, se publica tal cual), con banda 0.015 /
+      0.060 / 0.240 según la altura de la losa. La columna a 1.1 kpc no
+      constriñe (z ≤ −2.9: el término es pequeño a 1.1 kpc). Coincide con
+      la cota A ≲ 0.048·A_S del criterio (g_C ≤ 0.1·K_z en 300 pc).
+    implementation: dynamics/local_kz.py + scripts/run_oort_kz.py
+    test: tests/test_local_kz.py + tests/test_front5_local_dsph_lock.py
+    observable: densidad dinámica local ρ_dyn(0) y Σ(<1.1 kpc) de la vecindad solar
+    dataset: local_kz_bounds (transcripción; verificación del autor pendiente)
+    falsifier: >-
+      condicional a la losa declarada (banda ×4) y a la transcripción: si
+      los valores verificados cambian el margen, la letra de 0.05·A_S puede
+      moverse; la exclusión de A_Sculptor (z ≈ 51) sobrevive a cualquier
+      altura de la losa en la banda (z ≥ 11.9 con h×2)
+    evidence_level: contraste observacional bajo preinscripción congelada sobre valores TRANSCRITOS sin verificar (aviso propagado); exclusión de A_Sculptor robusta a la banda de la losa; la cota A_2σ depende de la losa (∝ h²)
+    status: condicional
+    artifact: results/2026-09-21_oort_kz
+
+  - claim_id: sculptor-perfil-sigma-los
+    entity: Perfil σ_los(R) de Sculptor — la forma que predice la amplitud única del 5E (pico central 14–25 km/s, exterior ≈ 2 km/s) frente al perfil binado de Walker et al. 2009; preinscripción congelada, resultado INDETERMINADO por fallo cerrado (walker2009 DATA_UNAVAILABLE) (21-sep-2026, tarde)
+    law: "Cor. 11.3 (potencial efectivo Ψ = Φ_N − c²ε_c) sobre el montaje congelado del 5E (Plummer, Υ⋆ = 2, A_Sculptor); ecuación de Jeans con anisotropía β"
+    derivation: >-
+      preinscripción congelada (sha256 604f9c254c7e…) en un commit
+      posterior al generador: predicción del perfil σ_los(R) para β ∈
+      {−0.5, 0, +0.3} (dynamics.cronos_jeans.sculptor_profile_table), con
+      pico central 14.0 / 19.1 / 25.1 km/s en R = 10 pc y caída a ≈ 2 km/s
+      en 1 kpc frente al perfil observado ≈ 9–10 km/s plano (referencia de
+      la literatura, NO ingerida); membresía (P ≥ 0.9) y binning (≈ 150
+      estrellas por bin, R ≤ 1 kpc) preinscritos; regla A (χ²_ν ≤ 1.5 para
+      algún β) / B (≤ 3) / C (los dos bins internos excluyen el pico a > 3σ
+      para todo β) / INDETERMINADO. La normalización global reproduce σ_obs
+      por construcción (A_Sculptor se obtuvo de ella): solo la FORMA es
+      predicción. Estado: walker2009 (CDS J/AJ/137/3100, table4) sigue
+      DATA_UNAVAILABLE (CDS/VizieR 403 vía proxy, 21-sep 14:10 UTC): el
+      analizador registra el fallo cerrado como resultado explícito; la
+      regla no se toca hasta la ingesta.
+    implementation: scripts/run_sculptor_profile.py + dynamics/cronos_jeans.py
+    test: tests/test_front5_local_dsph_lock.py
+    observable: perfil de dispersión de velocidades en la línea de visión σ_los(R) de Sculptor
+    dataset: walker2009 (DATA_UNAVAILABLE)
+    falsifier: >-
+      C si los dos bins internos del perfil binado excluyen el pico
+      central predicho a > 3σ para todo β del brazo (la expectativa
+      declarada, E13: el perfil observado es plano)
+    evidence_level: experimento-no-ejecutado — preinscripción congelada con predicción y regla; fallo cerrado por datos no disponibles
+    status: experimento-no-ejecutado
+    artifact: results/2026-09-21_sculptor_profile
+
   - claim_id: halo-serie-resolucion-campo
     entity: Frente 5 (b) — serie de resolución del campo de Cronos (k_inner 64/128/256) en el halo NFW a A_Sculptor y a 0.05·A_Sculptor con campo instantáneo que sigue a las partículas y balance K + W + (2/5)U_C + W_fric, bajo preinscripción congelada; desenlace INDETERMINADO por la puerta de energía (21-sep-2026, tarde)
     law: "Cor. 11.3 completo (fuerza, fricción con compuerta, lapso) con ε_c = A·ρ^(3/2); criterio de Cronos–Jeans (fila criterio-cronos-jeans): q > 1 dentro de r_CJ ⟹ inestabilidad ultravioleta ⟹ sin convergencia en resolución"

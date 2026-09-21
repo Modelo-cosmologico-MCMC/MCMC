@@ -1,0 +1,43 @@
+{
+  "dataset": "local_kz_bounds",
+  "purpose": "densidad dinámica local en el plano ρ_dyn(0), densidad bariónica local ρ_bar(0) y densidad superficial dinámica Σ(<1.1 kpc) de la vecindad solar, para acotar la amplitud A de la Ley de Cronos débil (ε_c = A·ρ^{3/2}) por su fuerza vertical g_C = −c²dε_c/dz (frente 5c, preinscripción «Oort–K_z»)",
+  "provenance_caveat": "VALORES PUBLICADOS TRANSCRITOS A MANO desde la literatura anotada en la sesión de código (21-sep-2026). arXiv, ADS, DOI y revistas no son alcanzables desde el entorno (egreso denegado): ningún byte oficial ni DOI se ha verificado. Verificación por el autor pendiente; hasta entonces, todo artefacto que consuma este fichero propaga el aviso.",
+  "official_bytes_verified": false,
+  "values": {
+    "rho_dyn_0_HF2000": {
+      "value": 0.102, "err": 0.010, "unit": "Msun/pc^3",
+      "meaning": "densidad de masa dinámica total en el plano galáctico (límite de Oort) desde la cinemática vertical de estrellas A/F de Hipparcos",
+      "source": "Holmberg & Flynn 2000 (MNRAS 313, 209)",
+      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificar"
+    },
+    "rho_dyn_0_MPH2015": {
+      "value": 0.097, "err": 0.013, "unit": "Msun/pc^3",
+      "meaning": "densidad total local (bariones 0.084 ± 0.012 + materia oscura ≈ 0.013) del censo de McKee, Parravano & Hollenbach",
+      "source": "McKee, Parravano & Hollenbach 2015 (ApJ 814, 13)",
+      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificar"
+    },
+    "rho_bar_0_MPH2015": {
+      "value": 0.084, "err": 0.012, "unit": "Msun/pc^3",
+      "meaning": "densidad bariónica local en el plano (estrellas + remanentes + gas)",
+      "source": "McKee, Parravano & Hollenbach 2015 (ApJ 814, 13)",
+      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificar"
+    },
+    "Sigma_1p1_BT2012": {
+      "value": 68.0, "err": 4.0, "unit": "Msun/pc^2",
+      "meaning": "densidad superficial dinámica total dentro de |z| < 1.1 kpc (K_z a 1.1 kpc), SEGUE G dwarfs",
+      "source": "Bovy & Tremaine 2012 (ApJ 756, 89)",
+      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificar"
+    },
+    "Sigma_bar_1p1_MPH2015": {
+      "value": 47.1, "err": 3.4, "unit": "Msun/pc^2",
+      "meaning": "densidad superficial bariónica local total (columna completa; a 1.1 kpc prácticamente toda)",
+      "source": "McKee, Parravano & Hollenbach 2015 (ApJ 814, 13)",
+      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificar"
+    }
+  },
+  "derived_room": {
+    "rho_room_0": "ρ_dyn(0) − ρ_bar(0): el margen que la dinámica local deja a cualquier término no bariónico en el plano (materia oscura local o el término de Cronos); errores en cuadratura",
+    "Sigma_room_1p1": "Σ_dyn(1.1) − Σ_bar(1.1): el margen equivalente en la columna hasta 1.1 kpc"
+  },
+  "note": "El término de Cronos no es masa: actúa como fuerza vertical adicional sobre las estrellas trazadoras, así que entra en la comparación como densidad dinámica EFECTIVA (1/4πG)·dg_C/dz|₀ y como Σ_eff = g_C(1.1 kpc)/(2πG). El margen observacional se lo disputa con la materia oscura local: la cota que se publica es la que deja TODO el margen a Cronos (la más laxa)."
+}
