@@ -1,0 +1,482 @@
+{
+  "kind": "derivación y cálculos de consistencia (E8), sin desenlaces preinscritos ni datos ingeridos",
+  "status": "derivación (E8): criterio local de inestabilidad ultravioleta de la ley ε_c = A·ρ^(3/2); aplicaciones sin datos ingeridos; expectativas declaradas (E13)",
+  "executed_utc": "2026-09-21T10:23:52.110003+00:00",
+  "code_commit": "9efe00f49074b47871bdad84a58b8118a55fbffd",
+  "author_control": {
+    "source": "nota del autor «Verificación del brief 20-sep y criterio de Cronos–Jeans», 21-sep-2026 (cronos_scripts/cronos_jeans_criterion.py, cj_1d_test.py)",
+    "r_CJ_kpc": 0.709,
+    "M_within_r_CJ": 161000000.0,
+    "r_CJ_0p1A": 0.247,
+    "r_CJ_0p05A": 0.18,
+    "oort_cronos": 0.75,
+    "oort_stars_only": 0.115,
+    "A_bound_Kz_over_A_S": 0.048,
+    "A_bound_stab_over_A_S": 0.158,
+    "sculptor_sigma_los_10pc": 19.14,
+    "sculptor_sigma_los_500pc": 2.63,
+    "cj1d_rms_q0p8_t0p5": 0.032,
+    "cj1d_rms_q1p2_t0p5": 0.095,
+    "cj1d_rms_q2_t0p5": 0.436
+  },
+  "report": {
+    "status": "derivación (E8): criterio local de inestabilidad ultravioleta de la ley ε_c = A·ρ^(3/2); aplicaciones sin datos ingeridos; expectativas declaradas (E13)",
+    "A_sculptor": 6.201588782789579e-07,
+    "criterion": "q = (3/2)c²ε_c/σ_1D² ≥ 1 ⟹ inestable a toda k (tasa ∝ k)",
+    "nfw_nivelA": {
+      "M200": 100000000000.0,
+      "c": 10.0,
+      "H0": 67.86705532886631,
+      "A": 6.201588782789579e-07,
+      "r_s_kpc": 9.77419008644965,
+      "r200_kpc": 97.7419008644965,
+      "rows": [
+        {
+          "r_kpc": 0.05,
+          "rho_msun_pc3": 1.1076153980470758,
+          "eps_c": 7.229136789015222e-07,
+          "cronos_term_kms2": 97458.36190386418,
+          "sigma_r2_kms2": 279.6766793556307,
+          "v_c2_kms2": 75.08374145466087,
+          "q": 348.4679599615035,
+          "D_F": 1311.2077846386896
+        },
+        {
+          "r_kpc": 0.1,
+          "rho_msun_pc3": 0.5482132600429312,
+          "eps_c": 2.5172553317563936e-07,
+          "cronos_term_kms2": 33935.94398428386,
+          "sigma_r2_kms2": 460.69554665299444,
+          "v_c2_kms2": 149.15382445882986,
+          "q": 73.66240943901532,
+          "D_F": 232.13156446550553
+        },
+        {
+          "r_kpc": 0.2,
+          "rho_msun_pc3": 0.26863786417642305,
+          "eps_c": 8.634830251587649e-08,
+          "cronos_term_kms2": 11640.897609191605,
+          "sigma_r2_kms2": 732.2791691414718,
+          "v_c2_kms2": 294.3215825042193,
+          "q": 15.896802885762076,
+          "D_F": 41.137786507712896
+        },
+        {
+          "r_kpc": 0.3,
+          "rho_msun_pc3": 0.1755540956342157,
+          "eps_c": 4.5616232588382196e-08,
+          "cronos_term_kms2": 6149.6737909907515,
+          "sigma_r2_kms2": 940.7499443144869,
+          "v_c2_kms2": 435.636780265392,
+          "q": 6.536990863679449,
+          "D_F": 14.957269919312731
+        },
+        {
+          "r_kpc": 0.4,
+          "rho_msun_pc3": 0.12909006421417896,
+          "eps_c": 2.8763530466630534e-08,
+          "cronos_term_kms2": 3877.7057948457627,
+          "sigma_r2_kms2": 1111.5755258655186,
+          "v_c2_kms2": 573.227326037404,
+          "q": 3.488477125138592,
+          "D_F": 7.296601051845183
+        },
+        {
+          "r_kpc": 0.5,
+          "rho_msun_pc3": 0.10127151467705522,
+          "eps_c": 1.9986370037502992e-08,
+          "cronos_term_kms2": 2694.4280363034263,
+          "sigma_r2_kms2": 1256.4087216636274,
+          "v_c2_kms2": 707.2158140223182,
+          "q": 2.144547383223907,
+          "D_F": 4.180732512507071
+        },
+        {
+          "r_kpc": 0.7,
+          "rho_msun_pc3": 0.06960069245583123,
+          "eps_c": 1.138736669863796e-08,
+          "cronos_term_kms2": 1535.1682188864063,
+          "sigma_r2_kms2": 1492.2225207391132,
+          "v_c2_kms2": 964.8520084249202,
+          "q": 1.028779687714418,
+          "D_F": 1.8037602481689097
+        },
+        {
+          "r_kpc": 0.9,
+          "rho_msun_pc3": 0.05212428714054542,
+          "eps_c": 7.3801154942981995e-09,
+          "cronos_term_kms2": 994.9375530264501,
+          "sigma_r2_kms2": 1678.395269742921,
+          "v_c2_kms2": 1209.4295912880032,
+          "q": 0.5927909658484942,
+          "D_F": 0.9613746320045493
+        },
+        {
+          "r_kpc": 1.0,
+          "rho_msun_pc3": 0.046045080445971574,
+          "eps_c": 6.127422395942109e-09,
+          "cronos_term_kms2": 826.0578915991392,
+          "sigma_r2_kms2": 1757.9294207959442,
+          "v_c2_kms2": 1327.0785389675573,
+          "q": 0.469903900479191,
+          "D_F": 0.7380105998052574
+        },
+        {
+          "r_kpc": 1.5,
+          "rho_msun_pc3": 0.02803435303563241,
+          "eps_c": 2.9109769906484805e-09,
+          "cronos_term_kms2": 392.4383468293557,
+          "sigma_r2_kms2": 2063.6056432063533,
+          "v_c2_kms2": 1872.6491148328987,
+          "q": 0.19017119289303727,
+          "D_F": 0.26532681936014135
+        },
+        {
+          "r_kpc": 2.3,
+          "rho_msun_pc3": 0.015940746279374283,
+          "eps_c": 1.248147581632263e-09,
+          "cronos_term_kms2": 168.26686542297463,
+          "sigma_r2_kms2": 2362.839580078459,
+          "v_c2_kms2": 2617.0218609019335,
+          "q": 0.07121383391477946,
+          "D_F": 0.08879284950947013
+        },
+        {
+          "r_kpc": 5.0,
+          "rho_msun_pc3": 0.0048975077711334875,
+          "eps_c": 2.1255223021167313e-10,
+          "cronos_term_kms2": 28.654862648220217,
+          "sigma_r2_kms2": 2732.9701675335327,
+          "v_c2_kms2": 4316.408794967601,
+          "q": 0.010484879413843302,
+          "D_F": 0.011131957649258235
+        }
+      ],
+      "r_CJ_kpc": 0.7091372682907996,
+      "M_within_r_CJ": 160973752.15182835,
+      "r_CJ_for_A_fraction": {
+        "0.1": 0.24703411969164596,
+        "0.05": 0.18018067110148347
+      },
+      "stop_rule": {
+        "v_well_kms": 1000.0,
+        "eps_c": 5.5632502802680925e-06,
+        "rho_msun_pc3": 4.31734832073411,
+        "r_kpc_holding_M_within_r_CJ": 0.2072445521632398
+      }
+    },
+    "solar_neighbourhood": {
+      "A": 6.201588782789579e-07,
+      "sigma_z_kms": 20.0,
+      "Sigma_1p1kpc_model": 98.13304050925295,
+      "rows": [
+        {
+          "z_pc": 0,
+          "rho_msun_pc3": 0.09699999999999999,
+          "c2_eps_c_kms2": 1683.8444614235393,
+          "v_well_kms": 58.03179234563653,
+          "g_C_kms2_per_kpc": 2.019166524383916,
+          "K_z_slab_kms2_per_kpc": 0.5242542416783341,
+          "g_C_over_K_z": 3.8515025036703725,
+          "q": 6.314416730338272
+        },
+        {
+          "z_pc": 50,
+          "rho_msun_pc3": 0.09510552822873171,
+          "c2_eps_c_kms2": 1634.75628005874,
+          "v_well_kms": 57.17965162640885,
+          "g_C_kms2_per_kpc": 1909.2932287974616,
+          "K_z_slab_kms2_per_kpc": 260.92399416007834,
+          "g_C_over_K_z": 7.31743063700803,
+          "q": 6.130336050220275
+        },
+        {
+          "z_pc": 100,
+          "rho_msun_pc3": 0.08990852192214886,
+          "c2_eps_c_kms2": 1502.6078672939184,
+          "v_well_kms": 54.81984799858384,
+          "g_C_kms2_per_kpc": 3250.366276391532,
+          "K_z_slab_kms2_per_kpc": 511.5232319257875,
+          "g_C_over_K_z": 6.354288668677906,
+          "q": 5.634779502352194
+        },
+        {
+          "z_pc": 200,
+          "rho_msun_pc3": 0.07447633294003331,
+          "c2_eps_c_kms2": 1132.8484074513374,
+          "v_well_kms": 47.59933628636722,
+          "g_C_kms2_per_kpc": 3720.9764313054993,
+          "K_z_slab_kms2_per_kpc": 957.1682183393818,
+          "g_C_over_K_z": 3.887484310502,
+          "q": 4.248181527942515
+        },
+        {
+          "z_pc": 300,
+          "rho_msun_pc3": 0.059323072362038654,
+          "c2_eps_c_kms2": 805.3410269166684,
+          "v_well_kms": 40.133303549961305,
+          "g_C_kms2_per_kpc": 2759.1422191419592,
+          "K_z_slab_kms2_per_kpc": 1317.4129911572597,
+          "g_C_over_K_z": 2.0943639068855973,
+          "q": 3.0200288509375066
+        },
+        {
+          "z_pc": 500,
+          "rho_msun_pc3": 0.03888099435096307,
+          "c2_eps_c_kms2": 427.31724137294646,
+          "v_well_kms": 29.23413215311672,
+          "g_C_kms2_per_kpc": 1230.0045708034736,
+          "K_z_slab_kms2_per_kpc": 1837.0750062720645,
+          "g_C_over_K_z": 0.6695451011004143,
+          "q": 1.6024396551485491
+        },
+        {
+          "z_pc": 800,
+          "rho_msun_pc3": 0.023720278416220694,
+          "c2_eps_c_kms2": 203.62169331918247,
+          "v_well_kms": 20.180272214179,
+          "g_C_kms2_per_kpc": 418.08314379654325,
+          "K_z_slab_kms2_per_kpc": 2327.776466616936,
+          "g_C_over_K_z": 0.1796062249929705,
+          "q": 0.7635813499469343
+        },
+        {
+          "z_pc": 1100,
+          "rho_msun_pc3": 0.017204863105478814,
+          "c2_eps_c_kms2": 125.78278415998665,
+          "v_well_kms": 15.860818652262981,
+          "g_C_kms2_per_kpc": 147.35336433218282,
+          "K_z_slab_kms2_per_kpc": 2651.8898317406,
+          "g_C_over_K_z": 0.05556541699753253,
+          "q": 0.4716854405999499
+        }
+      ],
+      "oort_limit_cronos_msun_pc3": 0.7471915699180466,
+      "oort_limit_cronos_stars_only": 0.11509255447225962,
+      "oort_observed_msun_pc3": {
+        "value": 0.1,
+        "err": 0.01,
+        "source": "Holmberg & Flynn 2000; análisis Gaia 0.08–0.10 (referencia, no ingerida)"
+      },
+      "A_bound_gC_le_0p1_Kz_300pc": 2.9610846340508175e-08,
+      "A_bound_over_A_sculptor": 0.047747194110456186,
+      "A_bound_stability_plane": 9.821316912761556e-08,
+      "A_bound_stability_over_A_sculptor": 0.15836775472790637
+    },
+    "sculptor_frozen_5E": {
+      "A": 6.201588782789579e-07,
+      "beta": 0.0,
+      "M_star": 5200000.0,
+      "upsilon": 2.0,
+      "a0_pc": 260.0,
+      "sigma_obs_kms": 9.2,
+      "rows": [
+        {
+          "r_pc": 5,
+          "rho_star_msun_pc3": 0.07056507664739924,
+          "cronos_term_kms2": 1567.1853268074246,
+          "sigma_r2_newton": 14.334360959708654,
+          "sigma_r2_newton_cronos": 641.2377011605826,
+          "q": 2.4440006006679895,
+          "g_C_over_g_N": 91.11313402552946
+        },
+        {
+          "r_pc": 50,
+          "rho_star_msun_pc3": 0.0644274491155002,
+          "cronos_term_kms2": 1367.2314360036003,
+          "sigma_r2_newton": 14.075938335996579,
+          "sigma_r2_newton_cronos": 561.0026754043814,
+          "q": 2.4371210618881163,
+          "g_C_over_g_N": 80.94805909602849
+        },
+        {
+          "r_pc": 100,
+          "rho_star_msun_pc3": 0.04955150950982495,
+          "cronos_term_kms2": 922.1911797282929,
+          "sigma_r2_newton": 13.356362566880659,
+          "sigma_r2_newton_cronos": 382.2913045000312,
+          "q": 2.412273491112633,
+          "g_C_over_g_N": 57.54242738681532
+        },
+        {
+          "r_pc": 150,
+          "rho_star_msun_pc3": 0.03400854302266391,
+          "cronos_term_kms2": 524.3456508883693,
+          "sigma_r2_newton": 12.38866296148937,
+          "sigma_r2_newton_cronos": 222.20889868418192,
+          "q": 2.359696906799418,
+          "g_C_over_g_N": 35.27594500984917
+        },
+        {
+          "r_pc": 200,
+          "rho_star_msun_pc3": 0.021841593366480096,
+          "cronos_term_kms2": 269.87465896292537,
+          "sigma_r2_newton": 11.339865623590338,
+          "sigma_r2_newton_cronos": 119.37033838415546,
+          "q": 2.2608184128155826,
+          "g_C_over_g_N": 19.837358187891752
+        },
+        {
+          "r_pc": 260,
+          "rho_star_msun_pc3": 0.012143073956634502,
+          "cronos_term_kms2": 111.87385166622488,
+          "sigma_r2_newton": 10.085106722556056,
+          "sigma_r2_newton_cronos": 54.891481026319894,
+          "q": 2.0380913317420335,
+          "g_C_over_g_N": 9.247864430600004
+        },
+        {
+          "r_pc": 400,
+          "rho_star_msun_pc3": 0.003226140196761954,
+          "cronos_term_kms2": 15.320060663080799,
+          "sigma_r2_newton": 7.738974393050523,
+          "sigma_r2_newton_cronos": 13.881521672253568,
+          "q": 1.1036297766766152,
+          "g_C_over_g_N": 1.6508302934662604
+        },
+        {
+          "r_pc": 600,
+          "rho_star_msun_pc3": 0.0006732936201451454,
+          "cronos_term_kms2": 1.4606372744697538,
+          "sigma_r2_newton": 5.658453666494919,
+          "sigma_r2_newton_cronos": 6.244633982072269,
+          "q": 0.2339027841604648,
+          "g_C_over_g_N": 0.21531786830700636
+        },
+        {
+          "r_pc": 1000,
+          "rho_star_msun_pc3": 7.123837781430829e-05,
+          "cronos_term_kms2": 0.050269742733415855,
+          "sigma_r2_newton": 3.6114756405406236,
+          "sigma_r2_newton_cronos": 3.63166423340374,
+          "q": 0.013842067851713553,
+          "g_C_over_g_N": 0.01161294717187878
+        }
+      ],
+      "profile": [
+        {
+          "R_pc": 10.0,
+          "sigma_los_newton": 3.5580127075859145,
+          "sigma_los_newton_cronos": 19.141058584702776
+        },
+        {
+          "R_pc": 30.0,
+          "sigma_los_newton": 3.547585615291256,
+          "sigma_los_newton_cronos": 18.73672938592572
+        },
+        {
+          "R_pc": 60.0,
+          "sigma_los_newton": 3.513488808449326,
+          "sigma_los_newton_cronos": 17.468745859461084
+        },
+        {
+          "R_pc": 100.0,
+          "sigma_los_newton": 3.438755883541254,
+          "sigma_los_newton_cronos": 14.962868770502606
+        },
+        {
+          "R_pc": 150.0,
+          "sigma_los_newton": 3.3128607861691335,
+          "sigma_los_newton_cronos": 11.495161600583437
+        },
+        {
+          "R_pc": 200.0,
+          "sigma_los_newton": 3.169234925484382,
+          "sigma_los_newton_cronos": 8.505670888371046
+        },
+        {
+          "R_pc": 260.0,
+          "sigma_los_newton": 2.993606373131272,
+          "sigma_los_newton_cronos": 5.9534072714152595
+        },
+        {
+          "R_pc": 350.0,
+          "sigma_los_newton": 2.7493831100909,
+          "sigma_los_newton_cronos": 3.8657187111687414
+        },
+        {
+          "R_pc": 500.0,
+          "sigma_los_newton": 2.4185815314352976,
+          "sigma_los_newton_cronos": 2.6321942460935697
+        },
+        {
+          "R_pc": 700.0,
+          "sigma_los_newton": 2.1012944145133745,
+          "sigma_los_newton_cronos": 2.1321959278319307
+        },
+        {
+          "R_pc": 1000.0,
+          "sigma_los_newton": 1.7864401346397631,
+          "sigma_los_newton_cronos": 1.7896437012365345
+        }
+      ],
+      "r_unstable_max_pc": 419.63186208693867,
+      "observed_reference": "≈ 9–10 km/s, plano hasta ≳ 1 kpc (Walker et al. 2007, 2009; Battaglia et al. 2008) — referencia, no ingerida",
+      "shape_prediction": "pico central ≈ 2× lo observado y exterior newtoniano ÷3–4 (β = 0): la forma es la predicción congelada de jeans-dsph"
+    }
+  },
+  "cj_1d_threshold_scan": {
+    "scan": [
+      {
+        "q": 0.8,
+        "rms_initial": 0.01976434770760227,
+        "rms_at": {
+          "0.05": 0.027615370938736852,
+          "0.1": 0.028041561054564103,
+          "0.2": 0.026642392719747235,
+          "0.5": 0.027928383423963227
+        },
+        "growth_factor_final": 1.4130688164942926,
+        "fluid_rate_over_k_sigma": 0.0
+      },
+      {
+        "q": 1.2,
+        "rms_initial": 0.01976434770760227,
+        "rms_at": {
+          "0.05": 0.04276104674339604,
+          "0.1": 0.06140762214558303,
+          "0.2": 0.07187857707595513,
+          "0.5": 0.09092784611958858
+        },
+        "growth_factor_final": 4.6005993956791995,
+        "fluid_rate_over_k_sigma": 0.44721359549995787
+      },
+      {
+        "q": 2.0,
+        "rms_initial": 0.01976434770760227,
+        "rms_at": {
+          "0.05": 0.26956771248215927,
+          "0.1": 0.3801156498203372,
+          "0.2": 0.40661529348115705,
+          "0.5": 0.4418896020082508
+        },
+        "growth_factor_final": 22.357914794136104,
+        "fluid_rate_over_k_sigma": 1.0
+      },
+      {
+        "q": 4.0,
+        "rms_initial": 0.01976434770760227,
+        "rms_at": {
+          "0.05": 0.6442220925489557,
+          "0.1": 0.6501068894027574,
+          "0.2": 0.649295680531122,
+          "0.5": 0.6499425166467612
+        },
+        "growth_factor_final": 32.88459231046434,
+        "fluid_rate_over_k_sigma": 1.7320508075688772
+      }
+    ],
+    "reading": "q < 1: rms se queda en el ruido de Poisson; q > 1: crece (y satura pronto para q ≳ 2); el umbral está donde la derivación lo pone"
+  },
+  "expectations_E13": [
+    "un N-cuerpos con la ley local y q > 1 no converge: refinar la resolución del campo aumenta la tasa",
+    "la masa dentro de r_CJ(A_S) = 0.71 kpc del halo del Nivel A colapsa en ~t_cross hasta la regla de parada (ρ ≈ 4.3 M☉/pc³ ⟺ 1.6e8 M☉ dentro de ≈ 0.2 kpc)",
+    "el propio montaje congelado de Sculptor tiene q ≈ 2–2.4 dentro de ≈ 430 pc: el equilibrio que calibra A_Sculptor es inestable según el criterio",
+    "la vecindad solar exige A ≤ 0.048·A_Sculptor (g_C ≤ 0.1·K_z en 300 pc) y A < 0.16·A_Sculptor (q < 1 en el plano)"
+  ],
+  "what_is_not_claimed": [
+    "ningún resultado observacional: las referencias (Oort, K_z, perfil de Sculptor) se citan como contexto, no se ingieren",
+    "la ley de la tasa ∝ k no se mide aquí (fase lineal cortísima, modos sembrados por Poisson)",
+    "A_Sculptor no se toca; ninguna preinscripción cambia; el Nivel A sigue INDETERMINADO"
+  ]
+}
