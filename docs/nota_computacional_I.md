@@ -1152,6 +1152,41 @@ así que el analizador registra el **fallo cerrado como resultado
 explícito**; la regla no se toca hasta la ingesta
 (`results/2026-09-21_sculptor_profile/`).
 
+### 3.28 El test preinscrito del criterio de Cronos–Jeans: INDETERMINADO por la puerta de fase lineal, con la predicción cinética reproducida al 1 % donde se resuelve (21-sep-2026)
+
+El frente 5 refundado pedía la predicción convergida del criterio de
+§3.21 y su test. La predicción es la teoría cinética lineal exacta del
+medio maxwelliano con la fuerza local: la relación de dispersión 1 =
+q·[1 + ζZ(ζ)] tiene umbral exacto en q = 1 y un modo puramente
+creciente con √π·y·e^{y²}·erfc(y) = 1 − 1/q, γ = √2·k·σ·y(q) — γ/k =
+0.149 en q = 1.2 (frente a 0.447 del límite fluido) y 0.612 en q = 2 —,
+corregida por la función de transferencia del instrumento W(k) =
+sinc⁴(kh/2)·sin(kh)/(kh). El instrumento es el sistema de láminas con
+arranque silencioso multihaz (Denavit–Walsh, densidad exactamente
+uniforme en t = 0) y siembra de un solo modo; tres rondas de pilotos,
+declaradas, fijaron solo el instrumento (siembra 1e-5, ventana de una
+década, 1024 haces). La preinscripción (sha256 `3dcd7417db06…`,
+congelada en un commit posterior al generador) fijó q ∈ {0.5, 0.8, 1.2,
+2.0} × modos {4, 8, 16}, tolerancias del 25 % y puertas: la fase lineal
+debe estar resuelta (≥ 8 puntos en la ventana con r² ≥ 0.98) en CADA
+modo con q > 1. **Resultado bajo la regla congelada: INDETERMINADO.** La
+puerta falla en q = 1.2 n = 4 (r² = 0.917), q = 2.0 n = 4 (0.276) y q =
+2.0 n = 8 (0.973): los modos bajos a q > 1 no dan una fase lineal limpia
+con esta siembra (el batido con modos amortiguados que los pilotos
+vieron en q = 2), y el resultado se retiene sin tocar ninguna
+tolerancia. Lo que las corridas resueltas muestran se publica como
+tabla, no como veredicto: q < 1 estable en los seis modos (factor de
+crecimiento ×1.0); q = 1.2: γ/k = 0.1459 / 0.1375 (n = 8 / 16) frente a
+0.1465 / 0.1384 de la predicción cinética con W(k) (el fluido daría
+0.447); q = 2.0, n = 16: 0.5976 frente a 0.5994 (fluido 1.000); la
+convergencia en haces pasa (0.1459 con 1024 frente a 0.1449 con 512:
+0.7 %). La independencia de k falla por los modos no resueltos. **La
+ronda siguiente** exige preinscripción nueva — siembra y ventana
+específicas para n = 4, 8 a q ≥ 1.2, o su exclusión del brazo y un modo
+n = 32 —, no un retoque de esta. **Estatuto**: experimento numérico
+interno (E8); la concordancia al 1 % en los modos resueltos es lo que
+una ronda resuelta tendría que confirmar (`results/2026-09-21_cj_criterion_test/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
