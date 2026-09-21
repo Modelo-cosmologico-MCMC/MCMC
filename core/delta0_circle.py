@@ -93,6 +93,28 @@ def W_max_required(delta_star: float, m_bar: float = M_BAR,
     return T0_analytic(delta_star, m_bar, b_bar, C0)
 
 
+def W_max_required_both(delta_star: float, m_bar: float = M_BAR,
+                        b_bar: float = B_BAR, C0: float = C0_DEFAULT,
+                        e_bar: float = E_BAR) -> dict:
+    """El Techo que cierra el círculo publicado con LAS DOS T₀ (reloj S
+    v1, 21-sep-2026): la ley 3.4 (c̄·δ*³, sin inclinación) y la Tensión
+    Primordial medida en el paisaje completo (V_fv − V_tv con −η·χ), que
+    la supera en κ₁·√δ* + O(δ*) (κ₁ = ē√κ₊/(√2c̄); 31 % en δ_H con las
+    formas fiduciales: 1.649e-4 → 2.162e-4). Cuál de las dos nombra el
+    Lema 10.3 (W_max = T₀ ¿de la ley o del paisaje?) es decisión del
+    autor (decisión A del 21-sep), no del código: se publican ambas."""
+    from .s_clock import kappa1_tilt, radial_landscape
+    law = T0_analytic(delta_star, m_bar, b_bar, C0)
+    ld = radial_landscape(delta_star, 0.0, m_bar, b_bar, e_bar, C0)
+    full = ld["T0_full"]
+    return {"delta_star": delta_star, "T0_law_3_4": law, "T0_full_landscape": full,
+            "metastable": ld["metastable"],
+            "tilt_correction": None if full is None else full / law - 1.0,
+            "kappa1_sqrt_delta": kappa1_tilt(m_bar, b_bar, e_bar, C0) * float(np.sqrt(delta_star)),
+            "note": "W_max = T₀(δ*): la ley 3.4 ignora la inclinación −η·χ; el paisaje completo la "
+                    "incluye. El Lema 10.3 no dice cuál de las dos es el Techo: decisión pendiente (A)."}
+
+
 def attractor_analytic(gamma_R: float, W_max: float, *, delta_min: float,
                        m_bar: float = M_BAR, b_bar: float = B_BAR,
                        e_bar: float = E_BAR,
