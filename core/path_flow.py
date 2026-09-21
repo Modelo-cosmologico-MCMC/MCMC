@@ -47,14 +47,39 @@ def grad_V(phi: np.ndarray, delta0: float, m_bar: float = M_BAR,
                      radial * phi_E + p["eta"] / np.sqrt(2.0)])
 
 
+EPS = np.array([[0.0, -1.0], [1.0, 0.0]])   # la forma simpléctica del plano
+
+
+def circulation(phi: np.ndarray, grad: np.ndarray, J: float, C: str = "V") -> np.ndarray:
+    """El nivel CONSERVATIVO del Camino de dos niveles (propuesta v36):
+    J∇C con J = |J|·ε antisimétrica y |J| DECLARADO. C = 'V' (el mismo
+    generador: J∇V ⊥ ∇V, la Monotonía 4.5 se conserva exactamente y la
+    orientación J = −|J|ε hace crecer θ durante el descenso, donde
+    dV/dρ < 0) o C = 'rho2' (C = ρ²/2, rotación rígida J = +|J|ε, que
+    trabaja contra la inclinación). Es el único término del programa que
+    rota θ hacia la diagonal (Prop. 3.5); derivar J desde la ontología es
+    el frente 2 — aquí |J| es un parámetro publicado."""
+    if C == "V":
+        return -J * (EPS @ grad)
+    if C == "rho2":
+        # C = δ0²ρ²/2 en el reloj (|J| adimensional en σ̂); aquí, sin δ0 a mano,
+        # C = ρ²/2 y |J| lleva las unidades de 1/σ
+        return J * (EPS @ np.asarray(phi, dtype=float))
+    raise ValueError("C ∈ {'V', 'rho2'}")
+
+
 def flow(phi0: np.ndarray, delta0: float, *, G: np.ndarray | None = None,
          d_sigma: float = 1e-3, n_steps: int = 20000,
          m_bar: float = M_BAR, b_bar: float = B_BAR, e_bar: float = E_BAR,
-         C0: float = C0_DEFAULT, project: bool = True) -> dict:
-    """Integra el Flujo del Camino (ec. 4.2) con Euler proyectado.
+         C0: float = C0_DEFAULT, project: bool = True,
+         J: float = 0.0, circulation_C: str = "V") -> dict:
+    """Integra el Flujo del Camino (ec. 4.2) con Euler proyectado; con
+    J ≠ 0 añade la circulación J∇C (dos niveles, declarada).
 
     Devuelve la trayectoria, V(σ) y la producción entrópica
-    dS_prod/dσ = (∇V)ᵀG⁻¹(∇V) ≥ 0 (Teo. 4.5) en cada paso.
+    dS_prod/dσ = (∇V)ᵀG⁻¹(∇V) ≥ 0 (Teo. 4.5) en cada paso (solo el nivel
+    disipativo; el trabajo de la circulación ∫∇V·J∇C dσ se devuelve aparte,
+    idénticamente 0 para C = 'V').
     """
     if G is None:
         G = np.eye(2)
@@ -65,11 +90,16 @@ def flow(phi0: np.ndarray, delta0: float, *, G: np.ndarray | None = None,
     traj = [phi.copy()]
     V_hist = []
     S_prod_rate = []
+    W_J = 0.0
     from .basal import V0
     from .dual_plane import to_dual
     for _ in range(n_steps):
         g = grad_V(phi, delta0, m_bar, b_bar, e_bar, C0)
         step = -G_inv @ g
+        if J != 0.0:
+            vc = circulation(phi, g, J, circulation_C)
+            step = step + vc
+            W_J += float(g @ vc) * d_sigma
         S_prod_rate.append(float(g @ G_inv @ g))
         phi = phi + d_sigma * step
         if project:  # dominio físico: primer cuadrante (Cap. 2)
@@ -85,6 +115,7 @@ def flow(phi0: np.ndarray, delta0: float, *, G: np.ndarray | None = None,
         "V": np.array(V_hist),
         "S_production_rate": np.array(S_prod_rate),
         "final": phi,
+        "J": J, "circulation_C": circulation_C, "W_J": W_J,
     }
 
 
