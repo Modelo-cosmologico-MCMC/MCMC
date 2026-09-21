@@ -151,8 +151,8 @@ class ClockConfig:
     gamma_m: float = 8.0
     m_eff0: float = 1.0
     m_min: float = 0.5
-    # modo emergente: fin del diagnóstico
-    S_max_emergent: float = 1.001
+    # modo emergente: fin del diagnóstico (S de parada del recorrido)
+    S_end_emergent: float = 1.001
 
 
 def sextic_coupling_dimension(d: int) -> float:
@@ -426,10 +426,10 @@ class SClock:
                 finished = done_descent
                 stop_reason = "residuo de descarga alcanzado" if finished else None
             else:
-                finished = (clk >= c.S_max_emergent or gnorm_small or done_descent
+                finished = (clk >= c.S_end_emergent or gnorm_small or done_descent
                             or lam_out_of_domain is not None)
                 stop_reason = (None if not finished else
-                               "S ≥ S_max" if clk >= c.S_max_emergent else
+                               "S ≥ S_end (fin del recorrido)" if clk >= c.S_end_emergent else
                                "acoplos fuera del dominio (C0 ≤ 0 o M0² ≤ 0)" if lam_out_of_domain else
                                "descenso completado (residuo de descarga alcanzado)" if done_descent else
                                "descenso completado (∇V ≈ 0)")

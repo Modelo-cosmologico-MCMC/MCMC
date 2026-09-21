@@ -1,8 +1,8 @@
 {
   "kind": "simulador de consistencia (E8), sin desenlaces preinscritos",
   "status": "simulador de consistencia (E8): umbrales de la Década impuestos (Prop. 8.1, λ = 10 calibrado — frente 2), nucleación declarada en el punto de escape, sellados con forma paramétrica declarada, diagonal impuesta para la entrega; el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente)",
-  "executed_utc": "2026-09-21T10:13:49.560251+00:00",
-  "code_commit": "3a1cff8469fc5761d69c04782de09215e504a300",
+  "executed_utc": "2026-09-21T10:28:53.861123+00:00",
+  "code_commit": "a1ab55399bf1f7d5703b995a001b429c5a5abd75",
   "declared_forms": {
     "c_eff": "du/dS = β_c(S)·u·(1 − u), β_c(S) = β_c0·max(0, 1 − S/S_c), S_c = S_0,099; c_eff ≡ max|du/dS| alcanzado antes del sello; u(0) = u0. FORMA DECLARADA, no la ec. (5.3) del tratado.",
     "m_eff": "dm/dS = −γ_m·(m − m_min)·max(0, 1 − S/S_c²), S_c² = S_0,999; dm/dS|_{S_c²} = 0 fija m_min (§5.4). FORMA DECLARADA.",
@@ -69,7 +69,7 @@
       "gamma_m": 8.0,
       "m_eff0": 1.0,
       "m_min": 0.5,
-      "S_max_emergent": 1.001
+      "S_end_emergent": 1.001
     },
     "status": "simulador de consistencia (E8): umbrales de la Década impuestos (Prop. 8.1, λ = 10 calibrado — frente 2), nucleación declarada en el punto de escape, sellados con forma paramétrica declarada, diagonal impuesta para la entrega; el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente)",
     "ledger": {

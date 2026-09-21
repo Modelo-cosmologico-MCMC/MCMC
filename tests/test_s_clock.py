@@ -108,7 +108,7 @@ def test_emergent_negative_control_frozen_couplings():
     """Con τ = 0 los acoplos no se mueven: D constante, ningún cruce."""
     r = emergent_diagnostic(0.01, tau=0.0)
     assert r["S_crossings"] == [] and r["D_initial"] == pytest.approx(r["D_final"])
-    assert r["stop_reason"].startswith(("S ≥ S_max", "descenso completado"))
+    assert r["stop_reason"].startswith(("S ≥ S_end", "descenso completado"))
 
 
 def test_emergent_diagnostic_reports_without_verdict():
