@@ -1,0 +1,19 @@
+{
+  "dataset": "local_kz_bounds",
+  "source": "literatura: transcripción manual de valores publicados (ver schema_report)",
+  "version": "transcripcion-2026-09-21",
+  "retrieved_utc": "2026-09-21T14:08:02.247302+00:00",
+  "citation": "Holmberg & Flynn 2000; McKee, Parravano & Hollenbach 2015; Bovy & Tremaine 2012",
+  "state": "AVAILABLE",
+  "transformations": [
+    "transcripción manual de valores publicados; bytes oficiales NO verificados desde el entorno (egreso denegado): verificación por el autor PENDIENTE",
+    "esquema confirmado: data/manifests/local_kz_bounds.schema_report.md"
+  ],
+  "files": [
+    {
+      "file": "local_kz_bounds_2026.json",
+      "sha256": "34bdcd989c15532ed39944d643d2ff1ef63e544c43a037f585004b5b1f0afe32",
+      "bytes": 3302
+    }
+  ]
+}
