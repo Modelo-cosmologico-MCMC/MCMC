@@ -62,3 +62,31 @@ def test_quiet_start_and_seeded_mode():
     assert d0[7] < 1e-4
     fit = fit_growth(res, 4, 1e-9, 1.0)
     assert fit["n_points"] >= 3 and np.isfinite(fit["gamma"])
+
+
+def test_eigenmode_beam_amplitudes_satisfy_dispersion_relation():
+    """Ronda 2: la perturbación por haz del modo propio creciente tiene
+    módulo |v|/√(v² + y'²) y fase arg(v + iy') dependientes de la
+    velocidad, y su suma ponderada reproduce δρ̂ — es la relación de
+    dispersión F(y) = 1/q con la cuadratura de los haces; el residuo
+    decrece con el número de haces."""
+    import numpy as np
+    from scipy.special import erfinv
+
+    from cronos.cronos_jeans_kinetic import (
+        eigenmode_beam_amplitudes,
+        eigenmode_dispersion_residual,
+        gamma_over_k_kinetic,
+    )
+    q = 2.0
+    g = gamma_over_k_kinetic(q)
+    res = []
+    for nb in (256, 1024, 4096):
+        u = (np.arange(nb) + 0.5) / nb
+        vb = np.sqrt(2.0) * erfinv(2.0 * u - 1.0)
+        res.append(eigenmode_dispersion_residual(vb, q, g))
+    assert res[-1] < 1e-3 and res[0] > res[-1]
+    c = eigenmode_beam_amplitudes(np.array([-1.0, 0.0, 1.0]), q, g, 1.0)
+    assert abs(c[1]) == 0.0                                  # el haz en reposo no participa
+    assert np.angle(c[2]) > 0.0 and np.angle(c[0]) < 0.0      # fases opuestas: arg(v + iy')
+    assert abs(abs(c[2]) - abs(c[0])) < 1e-15
