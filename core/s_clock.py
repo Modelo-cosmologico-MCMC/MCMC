@@ -153,6 +153,10 @@ class ClockConfig:
     m_min: float = 0.5
     # modo emergente: fin del diagnóstico (S de parada del recorrido)
     S_end_emergent: float = 1.001
+    # nucleación: 'escape_point' (V = V_fv, convención) | 'bounce' (centro del
+    # instantón O(d) de core.nucleation: el estado que la nucleación entrega)
+    nucleation: str = "escape_point"
+    bounce_d: int = 4
 
 
 def sextic_coupling_dimension(d: int) -> float:
@@ -279,7 +283,16 @@ class SClock:
         self.T0 = self.land["T0_full"]
         self.V_fv = self.land["V_fv"]
         self.x_plus0 = self.land["rho_tv"] ** 2
-        self.x_esc = self.land["rho_esc"] ** 2
+        self.bounce = None
+        if c.nucleation == "bounce":
+            from .nucleation import bounce as _bounce
+            self.bounce = _bounce(c.delta0, d=c.bounce_d, theta=c.theta_nuc, m_bar=c.m_bar, b_bar=c.b_bar,
+                                  e_bar=c.e_bar, C0=c.C0)
+            self.x_esc = self.bounce.phi0 ** 2          # arranca en el centro del bounce
+        elif c.nucleation == "escape_point":
+            self.x_esc = self.land["rho_esc"] ** 2
+        else:
+            raise ValueError("nucleation: 'escape_point' | 'bounce'")
         self.thresholds = C.decade_thresholds()          # [0.009, 0.099, 0.999, 1.001]
         self.S_c, self.S_c2 = C.S_SEALS["C2"], C.S_SEALS["C3"]
         self.S_V3D, self.S_flor = C.S_SEALS["V3D"], C.S_SEALS["C4"]
@@ -360,8 +373,15 @@ class SClock:
 
         g = self._grad(phi, lam)
         f_val = self._f(phi, lam)
+        self.f0 = float(f_val)         # entropía de nucleación: 0 en el punto de escape, > 0 en el bounce
         clk = clock_of(f_val, S_int)
         record(f_val, g, clk)
+        # umbrales ya superados al emerger (el bounce entrega el campo con f₀ > umbral):
+        # el colapso cae DENTRO de la nucleación; se dispara en σ = 0 con esa nota
+        if not emergent:
+            while pending and clk >= pending[0]:
+                S_th = pending.pop(0)
+                collapse_event(S_th, 0.0, "umbral de la Década (ya superado al emerger: f₀ ≥ umbral, colapso dentro de la nucleación)")
         f_stop = 1.0 - c.eps_res
         prev_D = float(lam[1] ** 2 - 4.0 * lam[2] * lam[0])
         n = 0
@@ -534,11 +554,16 @@ class SClock:
                 "chi_residue_3_4": {"analytic": chi_residue(c.delta0, c.m_bar, c.e_bar),
                                     "false_vacuum_chi": ld["rho_fv"] * (np.cos(c.theta_nuc) - np.sin(c.theta_nuc)) / np.sqrt(2.0),
                                     "status": "derivado"},
-                "nucleation": {"x_esc": self.x_esc, "x_esc_over_x_plus": self.x_esc / self.x_plus0,
+                "nucleation": {"mode": c.nucleation, "x_esc": self.x_esc, "x_esc_over_x_plus": self.x_esc / self.x_plus0,
+                               "bounce": None if self.bounce is None else
+                               {k: getattr(self.bounce, k) for k in ("d", "phi0", "B", "Gamma_over_A", "f0",
+                                                                     "barrier_over_T0", "converged")},
                                "V_esc_minus_V_fv_over_T0": (self._V(np.array([np.sqrt(self.x_esc) * np.cos(c.theta_nuc),
                                                                               np.sqrt(self.x_esc) * np.sin(c.theta_nuc)]), self.lam0)
                                                             - self.V_fv) / self.T0,
-                               "Gamma0": None, "status": "declarado (Γ₀ no calculada)"}}
+                               "Gamma0": None if self.bounce is None else self.bounce.Gamma_over_A,
+                               "status": ("declarado (Γ₀ no calculada; punto de escape V = V_fv)" if self.bounce is None else
+                                          f"derivado con convenciones declaradas (bounce O({c.bounce_d}), prefactor A no fijado)")}}
 
     def _descent_checks(self, rec: dict, finished: bool, n: int, reason) -> dict:
         V, S, f, Sp = rec["V"], rec["S"], rec["f"], rec["Sprod"]
@@ -552,10 +577,13 @@ class SClock:
                 "produccion_entropica_4_5": {"min": float(Sp.min()), "pass": bool(Sp.min() >= 0.0), "status": "derivado"},
                 "exclusion_4_7": {"pass": bool(np.all(np.diff(x) >= -1e-12 * self.x_plus0)) if not emergent else None,
                                   "status": "derivado"},
-                "S_equals_f_identity": {"max_abs_diff": float(np.max(np.abs(S - f))),
-                                        "pass": bool(np.max(np.abs(S - f)) < 1e-6) if not emergent else None,
-                                        "note": "Σ̇ = −dV/dσ ⟹ ∫Σ̇dσ = V_esc − V = T₀·f exactamente en el flujo de gradiente "
-                                                "(Teo. 4.5) con la normalización declarada; en modo emergente V cambia con λ",
+                "S_equals_f_identity": {"max_abs_diff": float(np.max(np.abs(S - (f - self.f0)))),
+                                        "f0_nucleation": float(self.f0),
+                                        "pass": bool(np.max(np.abs(S - (f - self.f0))) < 1e-6) if not emergent else None,
+                                        "note": "Σ̇ = −dV/dσ ⟹ ∫Σ̇dσ = V(σ=0) − V = T₀·(f − f₀) exactamente en el flujo de "
+                                                "gradiente (Teo. 4.5) con la normalización declarada; f₀ = 0 en el punto de "
+                                                "escape y > 0 si la nucleación entrega el campo ya parcialmente descargado "
+                                                "(bounce); en modo emergente V cambia con λ",
                                         "status": "derivado"},
                 "exit_to_mass_pole_3_5": {"theta_final": float(rec["theta"][-1]), "pass": bool(rec["theta"][-1] < 0.35),
                                           "status": "derivado"},
