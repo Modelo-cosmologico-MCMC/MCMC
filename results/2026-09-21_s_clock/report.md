@@ -1,6 +1,6 @@
 # El reloj S como simulador de consistencia — recorrido S₀ → S_{1,001} (21-sep-2026)
 
-Commit `047b01ac5`. Modo con estatuto: umbrales IMPUESTOS (Prop. 8.1). δ₀ primario = 0.01 (valor de prueba: el tratado no asigna valor a δ₀). Formas del Basal: m̄ = 1.0, b̄ = 3.0, ē = 1.0, C0 = 1.0.
+Commit `3a1cff846`. Modo con estatuto: umbrales IMPUESTOS (Prop. 8.1). δ₀ primario = 0.01 (valor de prueba: el tratado no asigna valor a δ₀). Formas del Basal: m̄ = 1.0, b̄ = 3.0, ē = 1.0, C0 = 1.0.
 
 **Lectura obligatoria**: simulador de consistencia (E8): umbrales de la Década impuestos (Prop. 8.1, λ = 10 calibrado — frente 2), nucleación declarada en el punto de escape, sellados con forma paramétrica declarada, diagonal impuesta para la entrega; el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente).
 

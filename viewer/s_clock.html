@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Reloj S — visor</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Visor del recorrido S₀ → S_1,001 del simulador de consistencia core/s_clock.py: trayectoria, eventos y ledger con insignias de estatuto (derivado / impuesto / declarado / publicado). Lee results/2026-09-21_s_clock/{s_clock.json, primary_trajectory.json}.">
+<style>
+  :root { --bg:#fbfaf7; --fg:#1d1d1b; --muted:#6b6a66; --line:#d9d6cf; --card:#ffffff;
+          --derivado:#2e7d32; --impuesto:#b26a00; --declarado:#8e24aa; --publicado:#1565c0; --hueco:#c62828; --diag:#546e7a; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#15161a; --fg:#ecebe6; --muted:#9a9990; --line:#33363d; --card:#1d1f25; } }
+  :root[data-theme="dark"] { --bg:#15161a; --fg:#ecebe6; --muted:#9a9990; --line:#33363d; --card:#1d1f25; }
+  html, body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width:1100px; margin:0 auto; padding:24px 16px 48px; }
+  h1 { font-size:1.5rem; margin:0 0 4px; } h2 { font-size:1.1rem; margin:28px 0 8px; }
+  p.lead { color:var(--muted); margin:0 0 16px; }
+  .status { border-left:4px solid var(--impuesto); padding:8px 12px; background:var(--card); border-radius:6px; margin:12px 0; }
+  .badge { display:inline-block; padding:1px 8px; border-radius:999px; font-size:.78rem; color:#fff; white-space:nowrap; }
+  .b-derivado{background:var(--derivado)} .b-impuesto{background:var(--impuesto)} .b-declarado{background:var(--declarado)}
+  .b-publicado{background:var(--publicado)} .b-hueco{background:var(--hueco)} .b-diagnostico{background:var(--diag)} .b-otro{background:var(--muted)}
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:14px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:10px; }
+  canvas { width:100%; height:auto; display:block; }
+  table { width:100%; border-collapse:collapse; font-size:.9rem; } th, td { text-align:left; padding:5px 6px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .controls { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:8px 0 16px; }
+  .controls input[type=file] { max-width:100%; }
+  .muted { color:var(--muted); } .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.85rem; }
+  .counts span { margin-right:10px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Reloj S — recorrido S₀ → S<sub>1,001</sub></h1>
+  <p class="lead">Simulador de <strong>consistencia</strong> (umbrales impuestos), no emergente. Cada número lleva su insignia de estatuto. Fuente: <code>core/s_clock.py</code>; artefacto <code>results/2026-09-21_s_clock/</code>.</p>
+  <div class="controls">
+    <button id="load">Cargar el artefacto del repositorio</button>
+    <span class="muted">o elegir los ficheros:</span>
+    <input type="file" id="fjson" accept=".json" title="s_clock.json">
+    <input type="file" id="ftraj" accept=".json" title="primary_trajectory.json">
+    <span id="msg" class="muted"></span>
+  </div>
+  <div id="status" class="status" hidden></div>
+  <div id="ledger"></div>
+  <h2>Eventos</h2>
+  <div id="events"></div>
+  <h2>Trayectoria</h2>
+  <div class="grid">
+    <div class="card"><canvas id="c1" width="520" height="340"></canvas></div>
+    <div class="card"><canvas id="c2" width="520" height="340"></canvas></div>
+    <div class="card"><canvas id="c3" width="520" height="340"></canvas></div>
+    <div class="card"><canvas id="c4" width="520" height="340"></canvas></div>
+  </div>
+  <h2>Estado entregado en S = 1,001</h2>
+  <div id="delivered" class="card mono"></div>
+  <p class="muted">Leyenda: <span class="badge b-derivado">derivado</span> comprobación superada por el código; <span class="badge b-impuesto">impuesto</span> fijado por el tratado (Prop. 8.1) sin derivar; <span class="badge b-declarado">declarado</span> elección del simulador publicada; <span class="badge b-publicado">publicado</span> hallazgo sin veredicto; <span class="badge b-hueco">hueco</span> pieza ausente; <span class="badge b-diagnostico">diagnóstico</span> modo sin estatuto. Comprobación interna ≠ demostración física (E8).</p>
+</main>
+<script>
+(function () {
+  const $ = id => document.getElementById(id);
+  const BASE = '../results/2026-09-21_s_clock/';
+  const css = getComputedStyle(document.documentElement);
+  const col = n => css.getPropertyValue('--' + n).trim();
+  function badge(status) {
+    const s = (status || '').toLowerCase();
+    const cls = s.startsWith('derivado') ? 'derivado' : s.startsWith('impuesto') ? 'impuesto' : s.startsWith('declarado') ? 'declarado'
+              : s.startsWith('publicado') ? 'publicado' : s.startsWith('hueco') ? 'hueco' : s.startsWith('diagn') ? 'diagnostico' : 'otro';
+    return `<span class="badge b-${cls}" title="${(status||'').replace(/"/g,'&quot;')}">${cls}</span>`;
+  }
+  const fmt = (x, d = 4) => (x === null || x === undefined) ? '—' : (typeof x === 'number' ? (Math.abs(x) < 1e-3 && x !== 0 ? x.toExponential(2) : x.toFixed(d)) : String(x));
+
+  function render(doc, traj) {
+    const p = doc.primary || doc;
+    $('status').hidden = false;
+    $('status').innerHTML = `<strong>Lectura obligatoria.</strong> ${p.status}<br><span class="muted">commit ${doc.code_commit ? doc.code_commit.slice(0,9) : '—'} · δ₀ = ${p.config.delta0} (valor de prueba) · modo ${p.mode} · T₀ = ${fmt(p.T0)} (ley c̄δ₀³ = ${fmt(p.T0_law_3_4)})</span>`;
+    // ledger
+    const L = p.ledger;
+    if (L) {
+      const counts = Object.entries(L.counts_by_status_word).map(([k, v]) => `${badge(k)} ×${v}`).join(' ');
+      let rows = L.rows.map(r => `<tr><td>${r.section}</td><td>${r.item}</td><td>${badge(r.status)}</td><td>${r.pass === true ? '✓' : r.pass === false ? '✗' : (r.sealed === true ? 'sellado' : '—')}</td></tr>`).join('');
+      $('ledger').innerHTML = `<h2>Ledger</h2><p class="counts">${counts}</p><p class="muted">${L.reading}${L.derived_checks_failed.length ? ' · <strong>derivadas fallidas:</strong> ' + L.derived_checks_failed.join(', ') : ' · ninguna comprobación derivada fallida'}</p>
+        <div class="card"><table><thead><tr><th>sección</th><th>comprobación</th><th>estatuto</th><th>pasa</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    }
+    // events
+    const ev = p.events.map(e => `<tr><td><strong>${e.kind}</strong></td><td>${fmt(e.S, 3)}</td><td>${e.S_imposed !== undefined ? fmt(e.S_imposed, 3) : '—'}</td><td>${e.S_emergent !== undefined ? (e.S_emergent === null ? '— <span class="muted">(' + (e.S_emergent_note || 'sin cruce') + ')</span>' : fmt(e.S_emergent, 4)) : '—'}</td><td>${e.S_integrated !== undefined ? fmt(e.S_integrated, 5) : '—'}</td><td>${fmt(e.sigma, 1)}</td><td>${e.algebra || e.algebra_after || '—'} ${e.signature ? JSON.stringify(e.signature) : e.signature_after ? JSON.stringify(e.signature_after) : ''}</td><td>${badge(e.status)}</td></tr>`).join('');
+    $('events').innerHTML = `<div class="card"><table><thead><tr><th>evento</th><th>S (reloj)</th><th>S impuesto</th><th>S emergente</th><th>∫Σ̇dσ/T₀</th><th>σ</th><th>álgebra · firma</th><th>estatuto</th></tr></thead><tbody>${ev}</tbody></table></div>`;
+    // delivered
+    const d = p.delivered_state;
+    $('delivered').innerHTML = d ? Object.entries(d).map(([k, v]) => `<div><span class="muted">${k}</span>: ${typeof v === 'object' && v !== null ? JSON.stringify(v) : fmt(v, 5)}</div>`).join('') : '—';
+    // plots
+    if (traj) {
+      const S = traj.clock, f = traj.f, Si = traj.S, sig = traj.sigma, th = traj.theta, V = traj.V, D = traj.D, rho = traj.rho;
+      const evS = p.events.filter(e => e.kind.startsWith('colapso')).map(e => ({ x: e.S, label: e.kind.replace('colapso_', ''), status: e.status }));
+      plot($('c1'), [{ x: sig, y: f, label: 'f (descarga)', color: col('derivado') }, { x: sig, y: Si, label: 'S = ∫Σ̇dσ/T₀', color: col('publicado'), dash: true }], 'σ', 'S, f', 'Identidad S ≡ f (Teo. 4.5)', null);
+      plot($('c2'), [{ x: S, y: V.map(v => v / p.T0), label: 'V/T₀', color: col('derivado') }], 'S (reloj)', 'V/T₀', 'Descenso del Basal (monotonía)', evS);
+      plot($('c3'), [{ x: S, y: th, label: 'θ (flujo)', color: col('publicado') }, { x: S, y: S.map(s => Math.PI / 4 * Math.min(1, s)), label: 'θ impuesto', color: col('impuesto'), dash: true }, { x: S, y: S.map(() => Math.PI / 4), label: 'diagonal π/4', color: col('muted'), dash: true }], 'S (reloj)', 'θ', 'Diagonal dual: flujo (publicado) frente a perfil impuesto', evS);
+      plot($('c4'), [{ x: S, y: D, label: 'D = B² − 4C₀M₀²', color: col('derivado') }], 'S (reloj)', 'D', 'Discriminante (acoplos congelados en el modo impuesto)', evS);
+    }
+  }
+
+  function plot(cv, series, xl, yl, title, marks) {
+    const ctx = cv.getContext('2d'); const W = cv.width, H = cv.height; const m = { l: 62, r: 14, t: 30, b: 42 };
+    ctx.fillStyle = col('card'); ctx.fillRect(0, 0, W, H);
+    const xs = series.flatMap(s => s.x), ys = series.flatMap(s => s.y).filter(Number.isFinite);
+    const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+    const X = x => m.l + (x - x0) / ((x1 - x0) || 1) * (W - m.l - m.r), Y = y => H - m.b - (y - y0) / ((y1 - y0) || 1) * (H - m.t - m.b);
+    ctx.strokeStyle = col('line'); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(m.l, m.t); ctx.lineTo(m.l, H - m.b); ctx.lineTo(W - m.r, H - m.b); ctx.stroke();
+    ctx.fillStyle = col('fg'); ctx.font = '13px system-ui'; ctx.fillText(title, m.l, 18);
+    ctx.fillStyle = col('muted'); ctx.font = '12px system-ui'; ctx.fillText(xl, W - m.r - ctx.measureText(xl).width, H - 8);
+    ctx.save(); ctx.translate(14, m.t + 10); ctx.rotate(-Math.PI / 2); ctx.fillText(yl, -ctx.measureText(yl).width, 0); ctx.restore();
+    ctx.fillText(fmt(x0, 2), m.l, H - m.b + 16); ctx.fillText(fmt(x1, 2), W - m.r - 40, H - m.b + 16);
+    ctx.fillText(fmt(y1, 2), 4, m.t + 4); ctx.fillText(fmt(y0, 2), 4, H - m.b);
+    (marks || []).forEach(mk => { ctx.strokeStyle = mk.status && mk.status.startsWith('impuesto') ? col('impuesto') : col('diag'); ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X(mk.x), m.t); ctx.lineTo(X(mk.x), H - m.b); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = col('impuesto'); ctx.fillText(mk.label, X(mk.x) + 3, m.t + 12); });
+    series.forEach((s, i) => { ctx.strokeStyle = s.color; ctx.lineWidth = 1.6; ctx.setLineDash(s.dash ? [6, 4] : []); ctx.beginPath(); let started = false; for (let k = 0; k < s.x.length; k++) { if (!Number.isFinite(s.y[k])) continue; const px = X(s.x[k]), py = Y(s.y[k]); if (!started) { ctx.moveTo(px, py); started = true; } else ctx.lineTo(px, py); } ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = s.color; ctx.fillText(s.label, W - m.r - 190, m.t + 14 + 15 * i); });
+  }
+
+  async function loadDefault() {
+    $('msg').textContent = 'cargando…';
+    try {
+      const [a, b] = await Promise.all([fetch(BASE + 's_clock.json'), fetch(BASE + 'primary_trajectory.json')]);
+      if (!a.ok || !b.ok) throw new Error('HTTP ' + a.status + '/' + b.status);
+      render(await a.json(), await b.json()); $('msg').textContent = 'artefacto del repositorio cargado';
+    } catch (e) { $('msg').textContent = 'no se pudo leer el artefacto por fetch (' + e.message + '): elige los dos ficheros a mano'; }
+  }
+  let docJ = null, trajJ = null;
+  function readFile(inp, cb) { const f = inp.files[0]; if (!f) return; const r = new FileReader(); r.onload = () => { try { cb(JSON.parse(r.result)); if (docJ) { render(docJ, trajJ); $('msg').textContent = trajJ ? 'ficheros cargados' : 'falta primary_trajectory.json para las gráficas'; } } catch (e) { $('msg').textContent = 'JSON inválido: ' + e.message; } }; r.readAsText(f); }
+  $('fjson').addEventListener('change', () => readFile($('fjson'), j => { docJ = j; }));
+  $('ftraj').addEventListener('change', () => readFile($('ftraj'), j => { trajJ = j; }));
+  $('load').addEventListener('click', loadDefault);
+  loadDefault();
+})();
+</script>
+</body>
+</html>

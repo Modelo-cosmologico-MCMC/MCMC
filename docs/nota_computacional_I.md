@@ -860,10 +860,14 @@ antes del fin del recorrido — para τ grande M0² cruza cero antes que D
 los colapsos no emergen del Cruce de Victoria; el resultado depende de
 τ y se publica sin veredicto. m_H(δ₀) se publica como función del
 input: 52 GeV en δ₀ = 0.01, 125.4 GeV en δ_H = 0.0581 por construcción
-de δ_H (Obs. 12.2), no por predicción. **Estatuto**: comprobación
-interna (E8) de consistencia entre estaciones; el interruptor
-emergente solo tendrá estatuto cuando el frente 2 entregue τ(S) y el
-diccionario exista (`results/2026-09-21_s_clock/`).
+de δ_H (Obs. 12.2), no por predicción. El artefacto lleva un **ledger**
+obligatorio (cada comprobación y cada evento con su insignia de
+estatuto y el recuento por insignia) y cada colapso publica sus dos
+lecturas, S_imposed y S_emergent, siempre juntas; el visor estático
+`viewer/s_clock.html` lee el artefacto y las muestra. **Estatuto**:
+comprobación interna (E8) de consistencia entre estaciones; el
+interruptor emergente solo tendrá estatuto cuando el frente 2 entregue
+τ(S) y el diccionario exista (`results/2026-09-21_s_clock/`).
 
 ## 4. Lo que estos resultados NO afirman
 

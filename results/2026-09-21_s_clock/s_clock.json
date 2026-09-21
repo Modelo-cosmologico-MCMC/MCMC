@@ -1,8 +1,8 @@
 {
   "kind": "simulador de consistencia (E8), sin desenlaces preinscritos",
   "status": "simulador de consistencia (E8): umbrales de la Década impuestos (Prop. 8.1, λ = 10 calibrado — frente 2), nucleación declarada en el punto de escape, sellados con forma paramétrica declarada, diagonal impuesta para la entrega; el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente)",
-  "executed_utc": "2026-09-21T10:09:37.875315+00:00",
-  "code_commit": "047b01ac542163c18a93ce884e55de86332d783c",
+  "executed_utc": "2026-09-21T10:13:49.560251+00:00",
+  "code_commit": "3a1cff8469fc5761d69c04782de09215e504a300",
   "declared_forms": {
     "c_eff": "du/dS = β_c(S)·u·(1 − u), β_c(S) = β_c0·max(0, 1 − S/S_c), S_c = S_0,099; c_eff ≡ max|du/dS| alcanzado antes del sello; u(0) = u0. FORMA DECLARADA, no la ec. (5.3) del tratado.",
     "m_eff": "dm/dS = −γ_m·(m − m_min)·max(0, 1 − S/S_c²), S_c² = S_0,999; dm/dS|_{S_c²} = 0 fija m_min (§5.4). FORMA DECLARADA.",
@@ -72,6 +72,201 @@
       "S_max_emergent": 1.001
     },
     "status": "simulador de consistencia (E8): umbrales de la Década impuestos (Prop. 8.1, λ = 10 calibrado — frente 2), nucleación declarada en el punto de escape, sellados con forma paramétrica declarada, diagonal impuesta para la entrega; el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente)",
+    "ledger": {
+      "rows": [
+        {
+          "section": "S0",
+          "item": "quasi_cancellation_3_3",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "S0",
+          "item": "metastability_8_6_D_only",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "S0",
+          "item": "metastability_with_tilt",
+          "status": "derivado (hallazgo del simulador)",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "S0",
+          "item": "T0_scaling_3_4",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "S0",
+          "item": "measure_normalizable_3_1",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "S0",
+          "item": "chi_residue_3_4",
+          "status": "derivado",
+          "pass": null,
+          "sealed": null
+        },
+        {
+          "section": "S0",
+          "item": "nucleation",
+          "status": "declarado (Γ₀ no calculada)",
+          "pass": null,
+          "sealed": null
+        },
+        {
+          "section": "descent",
+          "item": "monotonia_4_5",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "descent",
+          "item": "produccion_entropica_4_5",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "descent",
+          "item": "exclusion_4_7",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "descent",
+          "item": "S_equals_f_identity",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "descent",
+          "item": "exit_to_mass_pole_3_5",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "descent",
+          "item": "descent_finished",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "seals",
+          "item": "c_eff",
+          "status": "declarado (forma) + derivado (congelación)",
+          "pass": null,
+          "sealed": true
+        },
+        {
+          "section": "seals",
+          "item": "m_eff",
+          "status": "declarado (forma) + derivado (punto fijo)",
+          "pass": null,
+          "sealed": true
+        },
+        {
+          "section": "diagonal",
+          "item": "flow",
+          "status": "publicado",
+          "pass": null,
+          "sealed": null
+        },
+        {
+          "section": "diagonal",
+          "item": "imposed",
+          "status": "impuesto",
+          "pass": null,
+          "sealed": null
+        },
+        {
+          "section": "handshake_cosmology",
+          "item": "newton_seal_9_3",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "handshake_cosmology",
+          "item": "atlas_healthy_9_4",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "handshake_cosmology",
+          "item": "lcdm_recovery_A_1",
+          "status": "derivado",
+          "pass": true,
+          "sealed": null
+        },
+        {
+          "section": "handshake_cosmology",
+          "item": "dictionary",
+          "status": "hueco declarado",
+          "pass": null,
+          "sealed": null
+        },
+        {
+          "section": "events",
+          "item": "colapso_1D",
+          "status": "impuesto (Prop. 8.1)",
+          "pass": null,
+          "S": 0.009000000000000001
+        },
+        {
+          "section": "events",
+          "item": "colapso_2D",
+          "status": "impuesto (Prop. 8.1)",
+          "pass": null,
+          "S": 0.099
+        },
+        {
+          "section": "events",
+          "item": "colapso_3D",
+          "status": "impuesto (Prop. 8.1)",
+          "pass": null,
+          "S": 0.999
+        },
+        {
+          "section": "events",
+          "item": "V3D",
+          "status": "declarado (cuanto de anticipación/confirmación, Prop. 8.1)",
+          "pass": null,
+          "S": 1.0
+        },
+        {
+          "section": "events",
+          "item": "Florencia",
+          "status": "derivado (giro, firma, RP juguete, identidad) — evento declarado en S = 1,001",
+          "pass": null,
+          "S": 1.001
+        }
+      ],
+      "counts_by_status_word": {
+        "derivado": 16,
+        "declarado": 4,
+        "publicado": 1,
+        "impuesto": 4,
+        "hueco": 1
+      },
+      "derived_checks_failed": [],
+      "reading": "ningún desenlace: comprobación interna (E8); «impuesto/declarado» marca lo que el tratado o el simulador fijan sin derivar; «publicado» marca hallazgos sin veredicto"
+    },
     "declared_forms": {
       "c_eff": "du/dS = β_c(S)·u·(1 − u), β_c(S) = β_c0·max(0, 1 − S/S_c), S_c = S_0,099; c_eff ≡ max|du/dS| alcanzado antes del sello; u(0) = u0. FORMA DECLARADA, no la ec. (5.3) del tratado.",
       "m_eff": "dm/dS = −γ_m·(m − m_min)·max(0, 1 − S/S_c²), S_c² = S_0,999; dm/dS|_{S_c²} = 0 fija m_min (§5.4). FORMA DECLARADA.",
@@ -110,6 +305,8 @@
         "S": 0.009000000000000001,
         "S_integrated": 0.008914606414239358,
         "sigma": 322.8045456130321,
+        "S_imposed": 0.009000000000000001,
+        "S_emergent": null,
         "trigger": "umbral de la Década",
         "d_after": 1,
         "algebra": "C(2,0)",
@@ -124,13 +321,16 @@
         "x_over_x_plus": 0.25589208443237643,
         "theta": 0.0,
         "sextic_dimension": 4.0,
-        "status": "impuesto (Prop. 8.1)"
+        "status": "impuesto (Prop. 8.1)",
+        "S_emergent_note": "D > 0 en todo el recorrido (acoplos congelados): sin cruce emergente"
       },
       {
         "kind": "colapso_2D",
         "S": 0.099,
         "S_integrated": 0.09882672554482222,
         "sigma": 2042.0651482047,
+        "S_imposed": 0.099,
+        "S_emergent": null,
         "trigger": "umbral de la Década",
         "d_after": 2,
         "algebra": "C(3,0)",
@@ -146,13 +346,16 @@
         "x_over_x_plus": 0.33619159862903747,
         "theta": 0.0,
         "sextic_dimension": 2.0,
-        "status": "impuesto (Prop. 8.1)"
+        "status": "impuesto (Prop. 8.1)",
+        "S_emergent_note": "D > 0 en todo el recorrido (acoplos congelados): sin cruce emergente"
       },
       {
         "kind": "colapso_3D",
         "S": 0.999,
         "S_integrated": 0.9989908256607021,
         "sigma": 8268.951519800301,
+        "S_imposed": 0.999,
+        "S_emergent": null,
         "trigger": "umbral de la Década",
         "d_after": 3,
         "algebra": "C(4,0)",
@@ -169,7 +372,8 @@
         "x_over_x_plus": 0.984340990293769,
         "theta": 0.0,
         "sextic_dimension": 0.0,
-        "status": "impuesto (Prop. 8.1)"
+        "status": "impuesto (Prop. 8.1)",
+        "S_emergent_note": "D > 0 en todo el recorrido (acoplos congelados): sin cruce emergente"
       },
       {
         "kind": "V3D",

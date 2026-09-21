@@ -42,7 +42,14 @@ estado en que afirme exactamente lo que hace»).
   pero no cruza cero antes del fin del recorrido (M0² cruza cero antes
   que D para τ grande): los colapsos no emergen del Cruce de Victoria en
   el rango explorado. m_H(δ₀) publicado como dependiente del input (52
-  GeV en δ₀ = 0.01; 125.4 en δ_H por construcción). 12 tests. Fila
+  GeV en δ₀ = 0.01; 125.4 en δ_H por construcción). LEDGER obligatorio
+  en el artefacto (cada comprobación y evento con su insignia: 16
+  derivadas, 4 impuestas, 4 declaradas, 1 publicada, 1 hueco; ninguna
+  derivada fallida) y cada colapso con sus dos lecturas S_imposed /
+  S_emergent (esta última vacía: D no cruza cero con acoplos
+  congelados). Visor `viewer/s_clock.html` (HTML estático, sin
+  dependencias) que lee el artefacto y muestra trayectoria, eventos y
+  ledger con insignias de estatuto. 12 tests. Fila
   nueva `s-clock-simulador-consistencia` (interno); revisadas
   `c-lieb-robinson-identificacion` (forma declarada integrada; la
   ecuación sigue ausente), `diccionario-primordial-cosmologico` (el

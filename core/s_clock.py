@@ -339,7 +339,13 @@ class SClock:
             nonlocal d_dim
             d_dim += 1
             gens = chain_generators(d_dim)
+            imposed_here = trigger.startswith("umbral")
             ev = {"kind": f"colapso_{d_dim}D", "S": float(S_ev), "S_integrated": float(S_int), "sigma": float(sigma_ev),
+                  # las dos lecturas del reloj, siempre juntas: dónde se IMPUSO el
+                  # colapso (Prop. 8.1) y dónde lo habría disparado D = 0 (None si
+                  # D no cruza cero en el recorrido: el emergente no existe aquí)
+                  "S_imposed": float(self.thresholds[d_dim - 1]) if imposed_here else None,
+                  "S_emergent": None if imposed_here else float(S_ev),
                   "trigger": trigger, "d_after": d_dim, "algebra": f"C({d_dim + 1},0)",
                   "dim_rep": int(gens[0].shape[0]), "anticommute": bool(all_anticommute(gens)),
                   "signature": signature(gens),
@@ -460,7 +466,16 @@ class SClock:
         checks["diagonal"] = self._diagonal_checks(rec)
         checks["handshake_cosmology"] = self._handshake_checks()
         delivered = self._deliver(phi, lam, S_end, u_frozen_at, m_frozen_at, rec) if not emergent else None
+        # en modo impuesto, D no cruza cero (acoplos congelados): se publica junto a cada evento
+        if not emergent:
+            D_traj = rec["D"]
+            for ev in events:
+                if ev["kind"].startswith("colapso"):
+                    ev["S_emergent_note"] = ("D > 0 en todo el recorrido (acoplos congelados): sin cruce emergente"
+                                             if np.all(D_traj > 0) else "D cruza cero en el recorrido")
+        ledger = self._ledger(checks, events)
         return to_jsonable({"config": {**asdict(c), "fp": asdict(c.fp)}, "status": STATUS,
+                            "ledger": ledger,
                             "declared_forms": DECLARED_FORMS, "mode": c.thresholds,
                             "T0": self.T0, "T0_law_3_4": self.T0_law, "x_esc": self.x_esc, "x_plus": self.x_plus0,
                             "landscape": self.land, "trajectory": {k: v.tolist() for k, v in rec.items()},
@@ -469,6 +484,30 @@ class SClock:
                             "couplings_out_of_domain": lam_out_of_domain})
 
     # ------------------------------------------------------ comprobaciones
+    @staticmethod
+    def _ledger(checks: dict, events: list) -> dict:
+        """El LEDGER obligatorio: cada comprobación y cada evento con su
+        etiqueta de estatuto, y el recuento por etiqueta. Es lo que el
+        lector debe ver antes que ningún número."""
+        rows = []
+        for sec, d in checks.items():
+            for name, v in d.items():
+                if isinstance(v, dict) and "status" in v:
+                    rows.append({"section": sec, "item": name, "status": v["status"],
+                                 "pass": v.get("pass"), "sealed": v.get("sealed")})
+        for ev in events:
+            rows.append({"section": "events", "item": ev["kind"], "status": ev.get("status", "—"),
+                         "pass": None, "S": ev.get("S")})
+        counts = {}
+        for r in rows:
+            key = r["status"].split(" ")[0].rstrip(":,;(")
+            counts[key] = counts.get(key, 0) + 1
+        derived_fail = [r for r in rows if r["status"].startswith("derivado") and r["pass"] is False]
+        return {"rows": rows, "counts_by_status_word": counts,
+                "derived_checks_failed": [f"{r['section']}/{r['item']}" for r in derived_fail],
+                "reading": "ningún desenlace: comprobación interna (E8); «impuesto/declarado» marca lo que el "
+                           "tratado o el simulador fijan sin derivar; «publicado» marca hallazgos sin veredicto"}
+
     def _s0_checks(self) -> dict:
         c = self.cfg
         t0n = T0_numeric(c.delta0, c.m_bar, c.b_bar, c.C0)
