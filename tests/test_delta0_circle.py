@@ -45,7 +45,7 @@ def test_W_max_required_published_with_both_T0():
     assert 0.30 < both["tilt_correction"] < 0.32 and both["metastable"]
     # el residuo del primer orden es O(δ_H): coeficiente por debajo de κ₁/2 (como en s_clock)
     assert abs(both["kappa1_sqrt_delta"] - both["tilt_correction"]) < 0.5 * 1.3607 * delta0_H()
-    assert "decisión" in both["note"]
+    assert "Decisión A" in both["note"] and both["W_max_decided"] == both["T0_full_landscape"]
 
 
 def test_attractor_is_the_ceiling_universally():
@@ -129,3 +129,25 @@ def test_landscape_scan_containment():
 def test_lambda_seal_consistent_with_B7():
     """El valor declarado en core coincide con el convenio 12.1 de B7."""
     assert LAMBDA_H_SEAL == B7.BETA3_CONVENIO_12_1
+
+
+def test_decision_A_W_max_decided_on_the_full_landscape():
+    """Decisión A (22-sep): el Lema 10.3 nombra T₀_full. δ_H se recalcula
+    sobre el mismo paisaje (λ_Ad_full = λ_H) y baja ≈ 5 %; el Techo
+    decidido T₀_full(δ_H_full) queda entre la ley 3.4 en δ_H_ley y el
+    paisaje completo en δ_H_ley. Las tres cadenas se publican."""
+    from core.delta0_circle import (
+        DECISION_A,
+        W_max_required_both,
+        W_max_required_decided,
+        delta0_H,
+        delta0_H_full,
+    )
+    assert DECISION_A["T0_named_by_Lemma_10_3"] == "T0_full_landscape"
+    d_law, d_full = delta0_H(), delta0_H_full()
+    assert -0.06 < d_full / d_law - 1.0 < -0.03
+    w = W_max_required_decided()
+    assert w["W_max_law_3_4_at_delta_H_law"] < w["W_max_decided"] < w["W_max_full_at_delta_H_law"]
+    assert abs(w["W_max_full_at_delta_H_law"] / w["W_max_law_3_4_at_delta_H_law"] - 1.311) < 0.01
+    both = W_max_required_both(d_law)
+    assert both["W_max_decided"] == both["T0_full_landscape"] and both["decision_A"] == "T0_full_landscape"

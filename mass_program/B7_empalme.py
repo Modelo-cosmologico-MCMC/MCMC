@@ -39,7 +39,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from core.basal import B_BAR, C0_DEFAULT, M_BAR, V0, kappa_plus
+from core.basal import B_BAR, C0_DEFAULT, E_BAR, M_BAR, V0, kappa_plus
 from mcmc_ontology import constants as C
 
 # Los dos convenios, explícitos:
@@ -74,6 +74,48 @@ def sealed_curvature_lambda(delta0: float, m_bar: float = M_BAR,
            - 2.0 * V0(rho_p, 0.0, delta0, m_bar, b_bar, 0.0, C0)
            + V0(rho_p - h, 0.0, delta0, m_bar, b_bar, 0.0, C0)) / h ** 2
     return float(vpp / (2.0 * rho_p ** 2))
+
+
+def sealed_curvature_lambda_full(delta0: float, m_bar: float = M_BAR,
+                                 b_bar: float = B_BAR,
+                                 e_bar: float = E_BAR,
+                                 C0: float = C0_DEFAULT,
+                                 theta: float = 0.0) -> float:
+    """λ_Ad sobre el PAISAJE COMPLETO (decisión A del autor, 22-sep-2026):
+    la curvatura sellada V''(ρ₊)/(2ρ₊²) evaluada en el vacío verdadero
+    real del Basal con la inclinación −η·χ encendida (η = ē·δ0³), sobre
+    el corte θ (polo de masa por defecto). La inclinación desplaza ρ₊
+    (+0.9 % en δ_H) y con él la curvatura (×1.068 en δ_H, ×1.031 en
+    0.012), de modo que T₀, δ_sat y δ_H viven en el MISMO paisaje que el
+    Techo del Lema 10.3 (T₀_full). Sin inclinación (e_bar = 0) coincide
+    con la forma analítica δ0·√(b̄² − 4C0m̄²)."""
+    from core.s_clock import radial_landscape
+    land = radial_landscape(delta0, theta, m_bar, b_bar, e_bar, C0)
+    if not land["metastable"] or land["rho_tv"] is None:
+        raise ValueError(f"sin vacío verdadero metastable en δ0 = {delta0:g}")
+    rho_p = float(land["rho_tv"])
+    # V'' radial del Basal (la inclinación es lineal en ρ: no entra en V'',
+    # entra por el desplazamiento de ρ₊)
+    p = _scaled(delta0, m_bar, b_bar, e_bar)
+    vpp = p["M0_sq"] - 3.0 * p["B"] * rho_p ** 2 + 5.0 * C0 * rho_p ** 4
+    return float(vpp / (2.0 * rho_p ** 2))
+
+
+def _scaled(delta0: float, m_bar: float, b_bar: float, e_bar: float) -> dict:
+    from core.basal import scaled_params
+    return scaled_params(delta0, m_bar, b_bar, e_bar)
+
+
+def delta0_required_full(target_lambda: float = BETA3_CONVENIO_12_1,
+                         m_bar: float = M_BAR, b_bar: float = B_BAR,
+                         e_bar: float = E_BAR, C0: float = C0_DEFAULT) -> float:
+    """δ_H sobre el paisaje completo (decisión A): la raíz de
+    λ_Ad_full(δ) = λ_H. Como la inclinación sube la curvatura, δ_H_full <
+    δ_H_ley = λ_H/√(b̄² − 4C0m̄²) (≈ −5 % con las formas fiduciales)."""
+    from scipy.optimize import brentq
+    d_law = delta0_required(target_lambda, m_bar, b_bar, C0)
+    f = lambda d: sealed_curvature_lambda_full(d, m_bar, b_bar, e_bar, C0) - target_lambda  # noqa: E731
+    return float(brentq(f, 0.5 * d_law, d_law * (1.0 + 1e-9), xtol=1e-12))
 
 
 def beta3_derived(delta0: float, convention: str = "12.1",

@@ -23,11 +23,17 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from core.basal import T0_analytic  # noqa: E402
-from core.delta0_circle import W_max_required_both  # noqa: E402
+from core.delta0_circle import (  # noqa: E402
+    DECISION_A,
+    W_max_required_both,
+    W_max_required_decided,
+)
 from core.landscape_priors import PRIORS  # noqa: E402
 from core.s_clock import (  # noqa: E402
     DECLARED_FORMS,
     STATUS,
+    ClockConfig,
+    SClock,
     delta0_metastability_max,
     delta0_metastability_max_analytic,
     emergent_diagnostic,
@@ -37,7 +43,7 @@ from core.s_clock import (  # noqa: E402
     run_clock,
     tau_decade_table,
 )
-from mass_program.B7_empalme import delta0_required  # noqa: E402
+from mass_program.B7_empalme import delta0_required, delta0_required_full  # noqa: E402
 from mcmc_ontology import constants as C  # noqa: E402
 
 OUTDIR = Path(__file__).resolve().parent.parent / "results" / "2026-09-21_s_clock"
@@ -48,6 +54,8 @@ EMERGENT_TAU = [0.0, 1e-3, 1e-2, 1e-1, 1.0]
 E_BAR_SWEEP = [0.5, 1.0, 2.0]
 NATURALNESS_N = 4000
 NATURALNESS_PROBES = (0.012, 0.0581)
+# decisión B (22-sep): D_ent DECLARADA como fracción de la altura de la barrera
+KRAMERS_D_ENT_OVER_BARRIER = (0.1, 1.0, 10.0)
 
 
 def _slim(run: dict) -> dict:
@@ -106,7 +114,45 @@ def main() -> int:
     tau_hyp = [emergent_diagnostic(d0, tau_table[str(d0)]["tau_k"][0], tau_per_dim=tuple(tau_table[str(d0)]["tau_k"]))
                for d0 in EMERGENT_DELTA0]
 
+    # --- v2 (22-sep): decisiones A, B, C del autor, derivadas del tratado ------
+    delta_H_full = delta0_required_full()
+    w_decided = W_max_required_decided()
+    kramers_runs = []
+    for d0 in (DELTA0_PRIMARY, delta_H_full):
+        ld = radial_landscape(d0)
+        for frac in KRAMERS_D_ENT_OVER_BARRIER:
+            r = SClock(ClockConfig(delta0=d0, nucleation="kramers", D_ent=frac * ld["barrier_height"])).run()
+            nuc = r["checks"]["S0"]["nucleation"]
+            kramers_runs.append({"delta0": d0, "D_ent_over_barrier": frac, "D_ent": frac * ld["barrier_height"],
+                                 "Gamma_K": nuc["Gamma0"], "sigma_wait": nuc["sigma_wait_before_nucleation"],
+                                 "prefactor": nuc["kramers"]["prefactor"], "exponent": nuc["kramers"]["exponent"],
+                                 "f0": r["checks"]["descent"]["descent_finished"].get("f0", 0.0),
+                                 "events": [e["kind"] for e in r["events"]],
+                                 "S_equals_f_max_diff": r["checks"]["descent"]["S_equals_f_identity"]["max_abs_diff"]})
+    gamow_ref = {d0: SClock(ClockConfig(delta0=d0, nucleation="gamow")).run()["checks"]["S0"]["nucleation"]["Gamma0"]
+                 for d0 in (DELTA0_PRIMARY, delta_H_full)}
+    bounce_ctrl = SClock(ClockConfig(delta0=DELTA0_PRIMARY, nucleation="bounce")).run()["checks"]["S0"]["nucleation"]
+    decisions = {
+        "A": {"decision": DECISION_A, "delta_H_law": w_decided["delta_H_law"], "delta_H_full": delta_H_full,
+              "delta_H_shift": w_decided["delta_H_shift"],
+              "W_max_law_3_4_at_delta_H_law": w_decided["W_max_law_3_4_at_delta_H_law"],
+              "W_max_full_at_delta_H_law": w_decided["W_max_full_at_delta_H_law"],
+              "W_max_decided_T0_full_at_delta_H_full": w_decided["W_max_decided"],
+              "reading": "el Lema 10.3 iguala W_max a T₀_full; con δ_H recalculado sobre el mismo paisaje (λ_Ad_full = λ_H) el "
+                         "Techo requerido es T₀_full(δ_H_full); se publican las tres cadenas para la trazabilidad"},
+        "B": {"decision": "n = 1: Kramers (Axioma 4, D_ent declarada) con Gamow como cota; bounce O(3)/O(4) solo control negativo",
+              "kramers_runs": kramers_runs, "gamow_Gamma0_reference": gamow_ref,
+              "bounce_negative_control": {"status": bounce_ctrl["status"], "f0": bounce_ctrl["bounce"]["f0"]},
+              "reading": "Γ_K(0) = 0 por el prefactor ∝ δ₀²; D_ent no la fija el corpus (diccionario τ, frente 2): la ley "
+                         "de Γ₀ es condicional a D_ent, no a n_dim"},
+        "C": {"decision": DECLARED_FORMS["collapse_trigger"],
+              "canonical_closure_crosses_D_zero": any(r["S_crossings"] for r in emergent),
+              "mass_instability_events_in_emergent_runs": sum(1 for r in emergent if r["mass_instability"]),
+              "reading": "bajo el cierre canónico D no cruza cero en ninguna corrida; M0² = 0 sí ocurre y se publica como "
+                         "diagnóstico (no-evento para el estado ocupado); el colapso del tratado exige β del frente 2"},
+    }
     doc = {"kind": "simulador de consistencia (E8), sin desenlaces preinscritos", "status": STATUS,
+           "v2_decisions_22sep": decisions,
            "executed_utc": datetime.now(timezone.utc).isoformat(), "code_commit": sha,
            "declared_forms": DECLARED_FORMS, "delta0_metastability_max_default_shapes": d0max,
            "delta_H_empalme": delta_H, "primary": _slim(primary), "delta0_scan": scan,
@@ -124,14 +170,15 @@ def main() -> int:
                                               "es el diccionario τ leído desde los umbrales calibrados, no una derivación (E13)"},
            "what_is_not_claimed": [
                "ningún umbral emerge: los colapsos se disparan en 0.009/0.099/0.999 por la Ley de la Década (calibrada, frente 2)",
-               "la nucleación (Γ₀) no se calcula en la corrida primaria: el reloj arranca en el punto de escape con σ = 0 declarado (nucleation='bounce' es opcional, fila nucleacion-salida-s0)",
+               "la nucleación (Γ₀) no se calcula en la corrida primaria: el reloj arranca en el punto de escape con σ = 0 declarado; con la decisión B (n = 1) Γ₀ se publica en modo 'kramers' (D_ent declarada) o 'gamow' (cota), y 'bounce' es control negativo",
                "las leyes de sellado de c_eff y m_eff tienen forma paramétrica declarada, no la ec. (5.3)",
                "la diagonal θ = π/4 no la cruza el flujo del Basal: se impone para la entrega",
                "V3D y Florencia son cuantos declarados tras el residuo de descarga",
                "el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente); m_H depende de δ₀ (input) y β₃ es condicional",
                "el modo emergente es diagnóstico: el diccionario τ no es derivable",
                "la inestabilidad de masa (M0² = 0) es un evento publicado del modo diagnóstico, no un colapso con estatuto; la tabla τ_k reformula el diccionario, no lo deriva (E13)",
-               "W_max se publica con las dos T₀ (ley 3.4 y paisaje completo) sin elegir cuál nombra el Lema 10.3 (decisión A)",
+               "W_max se publica con las tres cadenas (ley 3.4 en δ_H_ley; paisaje completo en δ_H_ley; paisaje completo en δ_H_full): la decisión A del autor (22-sep) nombra T₀_full, pero el valor de W_max sigue sin asignar en el tratado (frente 4)",
+               "las decisiones A, B y C son del autor, derivadas del texto del tratado y declaradas en DECLARED_FORMS/DECISION_A: el código las ejecuta, no las demuestra (E8); D_ent y las β que hagan D → 0 siguen siendo del frente 2",
                "la unidad de S tras Florencia no se deriva de T₀ (hueco: fila diccionario-unidad-S-post-florencia)"]}
     (OUTDIR / "s_clock.json").write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (OUTDIR / "primary_trajectory.json").write_text(json.dumps(primary["trajectory"], ensure_ascii=False) + "\n", encoding="utf-8")
@@ -243,7 +290,27 @@ def main() -> int:
     md += ["", "Hipótesis declarada τ_d (opcional): τ por dimensión igual a la tabla τ_k y M0² repuesto en cada inestabilidad — publica dónde caerían los colapsos:", ""]
     for r in tau_hyp:
         md.append(f"- δ₀ = {r['delta0']}: colapsos en S = {[round(s, 4) for s in r['S_crossings']]} con disparos {sorted(set(r['collapse_triggers']))}; fin: {r['stop_reason']}.")
-    md += ["", "## Lo que NO afirma", ""] + [f"- {s}" for s in doc["what_is_not_claimed"]]
+    A, B, Cd = decisions["A"], decisions["B"], decisions["C"]
+    md += ["", "## v2 (22-sep): las decisiones A, B y C del autor, ejecutadas", "",
+           "**A — qué T₀ nombra el Lema 10.3: la del paisaje completo.** El contenido físico del Lema es T₀(δ′) ≤ W_max; "
+           "c̄δ′³ es la expresión de la Prop. 3.4, cuya corrección el reloj midió. Con la inclinación en los dos lados "
+           "(Techo y empalme H.8), δ_H se recalcula como raíz de λ_Ad_full(δ) = λ_H:", "",
+           "| cadena | δ_H | W_max requerido |", "|---|---|---|",
+           f"| ley 3.4 en δ_H_ley | {A['delta_H_law']:.5f} | {A['W_max_law_3_4_at_delta_H_law']:.4e} |",
+           f"| paisaje completo en δ_H_ley | {A['delta_H_law']:.5f} | {A['W_max_full_at_delta_H_law']:.4e} |",
+           f"| **decidida**: paisaje completo en δ_H_full | **{A['delta_H_full']:.5f}** ({A['delta_H_shift']*100:+.1f} %) | **{A['W_max_decided_T0_full_at_delta_H_full']:.4e}** |",
+           "", A["reading"] + ".", "",
+           "**B — n = 1 con Kramers (Axioma 4) y Gamow como cota; el bounce es control negativo.** D_ent DECLARADA como "
+           "fracción de la altura de la barrera:", "",
+           "| δ₀ | D_ent/ΔV_b | prefactor | ΔV_b/D_ent | Γ_K | σ_espera = 1/Γ_K | Γ₀ Gamow (ref.) | S ≡ f |", "|---|---|---|---|---|---|---|---|"]
+    for r in B["kramers_runs"]:
+        md.append(f"| {r['delta0']:.4f} | {r['D_ent_over_barrier']:g} | {r['prefactor']:.3e} | {r['exponent']:.2f} | {r['Gamma_K']:.3e} | "
+                  f"{r['sigma_wait']:.3e} | {B['gamow_Gamma0_reference'][r['delta0']]:.3e} | {r['S_equals_f_max_diff']:.1e} |")
+    md += ["", f"Control negativo: {B['bounce_negative_control']['status']} (f₀ = {B['bounce_negative_control']['f0']:.4f}: la descarga entera "
+           "caería dentro de la nucleación). " + B["reading"] + ".", "",
+           "**C — «el colapso» es D = 0 (Cruce de Victoria).** " + Cd["reading"] + f" (cruces D = 0 en las corridas emergentes: "
+           f"{'sí' if Cd['canonical_closure_crosses_D_zero'] else 'ninguno'}; eventos M0² = 0: {Cd['mass_instability_events_in_emergent_runs']}).", "",
+           "## Lo que NO afirma", ""] + [f"- {s}" for s in doc["what_is_not_claimed"]]
     (OUTDIR / "report.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print(f"δ0_max = {d0max:.4f}; T0_full/T0_law − 1 = {ck['S0']['T0_scaling_3_4']['tilt_correction']:.3f}; "
           f"|S−f|max = {dd['S_equals_f_identity']['max_abs_diff']:.1e}; eventos: {[e['kind'] for e in p['events']]}. Artefacto: {OUTDIR}")

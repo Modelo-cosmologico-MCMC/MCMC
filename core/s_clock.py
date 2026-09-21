@@ -50,9 +50,16 @@ no decide λ. En ese modo (v1, 21-sep) el cruce M0² = 0 se publica como
 evento `inestabilidad_masa` (S_flip medido frente a su forma cerrada de
 primer orden) y el bucle sigue hasta C0 ≤ 0; la lectura «Década ⟺ τ_k ≈
 S_flip·δ₀/S_k» es diagnóstico E13 (reformulación del diccionario τ, no
-derivación). La nucleación (Γ₀(δ₀), Prop. 3.5) es opcional
-(`nucleation='bounce'`, core.nucleation); por defecto el reloj arranca
-en el punto de escape con σ = 0 declarado. El transporte
+derivación). La nucleación (Γ₀(δ₀), Prop. 3.5) es opcional; por defecto
+el reloj arranca en el punto de escape con σ = 0 declarado. DECISIONES
+DEL AUTOR (22-sep-2026, derivadas del tratado, `DECLARED_FORMS`): B — la
+nucleación es de UN grado de libertad (n = 1): `nucleation='kramers'`
+(Axioma 4, D_ent declarada) o `'gamow'` (cota conservativa); el bounce
+O(3)/O(4) es solo control negativo. C — «el colapso» es D = 0 (Cruce de
+Victoria, Def. 8.4 / Obs. 8.6), el gatillo del estado OCUPADO;
+`inestabilidad_masa` (M0² = 0, el falso vacío que el campo ya abandonó)
+es diagnóstico. A — la T₀ del Lema 10.3 es la del paisaje completo
+(core.delta0_circle.DECISION_A). El transporte
 azimutal hasta la diagonal (Prop. 3.5) no lo produce el Basal solo: se
 publica el θ del flujo y se impone el perfil declarado para la entrega.
 Los cuantos de confirmación (V3D en 1,000 y Florencia en 1,001 tras el
@@ -125,7 +132,26 @@ DECLARED_FORMS = {
                        "ΔS es convencional, F.4).",
     "nucleation": "punto de escape de Coleman: ρ_esc > ρ_barrera con V(ρ_esc) = V_fv "
                   "(emerge sin velocidad con la tensión del falso vacío) en la "
-                  "dirección θ_nuc declarada; Γ₀(δ₀) no calculada.",
+                  "dirección θ_nuc declarada. DECISIÓN B (autor, 22-sep-2026): la "
+                  "nucleación de S₀ es un proceso de UN grado de libertad (n = 1: en S₀ "
+                  "no hay soporte espacial, Axioma 6 / C2; el bounce O(4) se traga la "
+                  "descarga, f₀ = 0.9996, contra Cap. 4 y Prop. 8.1); el mecanismo propio "
+                  "del Axioma 4 es el escape de Kramers sobreamortiguado "
+                  "(nucleation='kramers', D_ent DECLARADA) y el túnel de Gamow "
+                  "(nucleation='gamow') es su cota conservativa; ambos anulan Γ₀(0) por "
+                  "el prefactor. 'bounce' O(3)/O(4) queda solo como CONTROL NEGATIVO.",
+    "collapse_trigger": "DECISIÓN C (autor, 22-sep-2026): «el colapso» d → d+1 es el Cruce "
+                        "de Victoria D(S) = B² − 4C0M0² = 0 (Def. 8.4, Obs. 8.6): la "
+                        "desaparición del VACÍO VERDADERO, el estado que el campo ocupa "
+                        "tras la nucleación. M0² = 0 (inestabilidad_masa) es la "
+                        "desaparición del FALSO vacío, que el campo ya abandonó (f₀ = 0, f "
+                        "creciente): un no-evento para el estado ocupado, publicado como "
+                        "diagnóstico. El cruce de la diagonal y el retorno a la frontera "
+                        "φ_E = 0 son marcas de la trayectoria, no gatillos del Cap. 8. Bajo "
+                        "el cierre canónico de Fokker–Planck D nunca cruza cero (M0² cambia "
+                        "de signo antes y D vuelve a crecer): el cierre canónico NO produce "
+                        "el colapso del tratado — las β que hagan D → 0 son del frente 2. "
+                        "Hasta entonces los umbrales de la Década siguen impuestos.",
     "confirmation_quanta": "tras alcanzar f = 1 − ε_res (residuo de descarga, "
                            "F.3) el reloj avanza ΔS por cuanto declarado: V3D en "
                            "1,000 y Florencia en 1,001 (Prop. 8.1).",
@@ -193,7 +219,10 @@ class ClockConfig:
     # 'gamow' (n_dim = 1: el mismo punto de escape, con Γ₀ = (ω_fv/2π)e^{−B₁} y
     # la espera σ_nuc = 1/Γ₀ publicadas — el reloj arranca DESDE Γ₀)
     nucleation: str = "escape_point"
-    bounce_d: int = 4
+    bounce_d: int = 4                    # solo como control negativo (decisión B)
+    # 'kramers' (decisión B): Γ_K = √(V''_fv|V''_b|)/(2πG)·e^{−ΔV_b/D_ent} con D_ent
+    # DECLARADA (diccionario τ del frente 2); arranca en el punto de escape
+    D_ent: float | None = None
     # modo emergente: hipótesis declarada τ por dimensión (None = τ único de fp)
     tau_per_dim: tuple | None = None
     # circulación J∇C del Camino de dos niveles (propuesta v36): |J| DECLARADO
@@ -442,7 +471,20 @@ class SClock:
         self.x_plus0 = self.land["rho_tv"] ** 2
         self.bounce = None
         self.gamow = None
-        if c.nucleation == "bounce":
+        self.kramers = None
+        if c.nucleation == "kramers":
+            # decisión B: escape de Kramers sobreamortiguado (Axioma 4, Def. 4.4) con
+            # D_ent declarada; el campo emerge en el punto de escape V = V_fv (la
+            # excursión difusiva devuelve la energía de la barrera al nivel del falso
+            # vacío: convención declarada, la misma que Gamow) y Γ_K, σ_nuc = 1/Γ_K se
+            # publican. Γ_K(0) = 0 por el prefactor ∝ δ₀².
+            if c.D_ent is None or c.D_ent <= 0.0:
+                raise ValueError("nucleation='kramers' exige D_ent > 0 declarada")
+            from .nucleation import kramers_escape as _kramers
+            self.kramers = _kramers(c.delta0, c.D_ent, theta=c.theta_nuc, G=c.G, m_bar=c.m_bar, b_bar=c.b_bar,
+                                    e_bar=c.e_bar, C0=c.C0)
+            self.x_esc = self.land["rho_esc"] ** 2
+        elif c.nucleation == "bounce":
             from .nucleation import bounce as _bounce
             self.bounce = _bounce(c.delta0, d=c.bounce_d, theta=c.theta_nuc, m_bar=c.m_bar, b_bar=c.b_bar,
                                   e_bar=c.e_bar, C0=c.C0)
@@ -457,7 +499,7 @@ class SClock:
                                 C0=c.C0, G=c.G)
             self.x_esc = self.gamow.rho_esc ** 2
         else:
-            raise ValueError("nucleation: 'escape_point' | 'bounce' | 'gamow'")
+            raise ValueError("nucleation: 'escape_point' | 'bounce' | 'gamow' | 'kramers'")
         self.thresholds = C.decade_thresholds()          # [0.009, 0.099, 0.999, 1.001]
         self.S_c, self.S_c2 = C.S_SEALS["C2"], C.S_SEALS["C3"]
         self.S_V3D, self.S_flor = C.S_SEALS["V3D"], C.S_SEALS["C4"]
@@ -813,17 +855,23 @@ class SClock:
                                                                               np.sqrt(self.x_esc) * np.sin(c.theta_nuc)]), self.lam0)
                                                             - self.V_fv) / self.T0,
                                "Gamma0": (self.bounce.Gamma_over_A if self.bounce is not None else
-                                          self.gamow.Gamma0 if self.gamow is not None else None),
+                                          self.gamow.Gamma0 if self.gamow is not None else
+                                          self.kramers["Gamma_K"] if self.kramers is not None else None),
                                "gamow": None if self.gamow is None else self.gamow.__dict__,
+                               "kramers": self.kramers,
                                # el reloj arranca DESDE Γ₀: σ = 0 es la nucleación y la espera media
                                # previa (en unidades de σ, G declarada) se publica junto al recorrido
-                               "sigma_wait_before_nucleation": (None if self.gamow is None or self.gamow.Gamma0 <= 0.0
-                                                                else 1.0 / self.gamow.Gamma0),
+                               "sigma_wait_before_nucleation": (1.0 / self.gamow.Gamma0 if self.gamow is not None and self.gamow.Gamma0 > 0.0
+                                                                else 1.0 / self.kramers["Gamma_K"] if self.kramers is not None
+                                                                and self.kramers["Gamma_K"] > 0.0 else None),
+                               "decision_B": "n = 1 (Kramers por el Axioma 4; Gamow como cota); bounce O(3)/O(4) solo control negativo",
                                "status": ("declarado (Γ₀ no calculada; punto de escape V = V_fv)"
-                                          if self.bounce is None and self.gamow is None else
+                                          if self.bounce is None and self.gamow is None and self.kramers is None else
                                           "derivado con convenciones declaradas (n_dim = 1, túnel de Gamow, prefactor ω_fv/2π, G declarada)"
                                           if self.gamow is not None else
-                                          f"derivado con convenciones declaradas (bounce O({c.bounce_d}), prefactor A no fijado)")}}
+                                          "derivado con convenciones declaradas (n_dim = 1, escape de Kramers sobreamortiguado, D_ent declarada)"
+                                          if self.kramers is not None else
+                                          f"CONTROL NEGATIVO (decisión B): bounce O({c.bounce_d}), excluido por la ontología (sin soporte espacial en S₀)")}}
 
     def _descent_checks(self, rec: dict, finished: bool, n: int, reason) -> dict:
         V, S, f, Sp = rec["V"], rec["S"], rec["f"], rec["Sprod"]
