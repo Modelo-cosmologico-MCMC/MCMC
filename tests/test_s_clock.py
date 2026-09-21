@@ -211,6 +211,40 @@ def test_tau_per_dim_hypothesis_is_emergent_only_and_resets_mass():
     assert all("E13" in e["trigger"] for e in col)
 
 
+def test_circulation_C_V_is_orthogonal_and_keeps_identity_in_interior():
+    """J∇V ⊥ ∇V: la Monotonía y S = f − f₀ + W_J/T₀ se conservan; en el
+    interior W_J = 0. Con |J| justo sobre el umbral el flujo cruza la
+    diagonal (θ_max > π/4) y vuelve hacia el polo de masa."""
+    from core.s_clock import diagonal_crossing_S
+    r = diagonal_crossing_S(0.01, 1.5)
+    assert r["crossed"] and 0.5 < r["S_cross"] < 0.95
+    assert r["S_equals_f_max_diff"] < 1e-6 and r["monotonia_pass"]
+    assert abs(r["W_J_over_T0"]) < 1e-9
+    assert r["theta_final"] < 0.1 < r["theta_max"]           # vuelve hacia θ = 0
+    r0 = diagonal_crossing_S(0.01, 1.0)
+    assert not r0["crossed"] and r0["theta_max"] < np.pi / 4
+    assert "J_circulation" in DECLARED_FORMS and "Monotonía" in DECLARED_FORMS["J_circulation"]
+
+
+def test_circulation_rigid_costs_monotonicity():
+    from core.s_clock import diagonal_crossing_S
+    r = diagonal_crossing_S(0.01, 1.0, "rho2", max_steps=60000)
+    assert r["W_J_over_T0"] > 1e-3 and not r["monotonia_pass"]
+    with pytest.raises(ValueError, match="circulation_C"):
+        SClock(ClockConfig(delta0=0.01, J_circ=1.0, circulation_C="x")).run()
+
+
+def test_path_flow_circulation_term_is_antisymmetric():
+    from core.path_flow import EPS, circulation, flow, grad_V
+    phi = np.array([0.1, 0.02])
+    g = grad_V(phi, 0.01)
+    assert abs(g @ circulation(phi, g, 1.7, "V")) < 1e-18          # J∇V ⊥ ∇V
+    assert abs(phi @ circulation(phi, g, 1.7, "rho2")) < 1e-18     # rotación rígida ⊥ Φ
+    assert np.allclose(EPS @ EPS, -np.eye(2))
+    out = flow(np.array([0.12, 0.0]), 0.01, n_steps=200, J=1.0)
+    assert out["J"] == 1.0 and abs(out["W_J"]) < 1e-12 and out["trajectory"][-1][1] > 0.0
+
+
 def test_declared_forms_include_post_florencia_unit_gap():
     assert "S_post_unit" in DECLARED_FORMS and "hueco" in DECLARED_FORMS["S_post_unit"]
     assert "diccionario-unidad-S-post-florencia" in DECLARED_FORMS["S_post_unit"]
