@@ -984,6 +984,46 @@ espacio-tiempo), el prefactor, la normalización de la acción (G = ħ =
 con la expectativa E13 cumplida por vías distintas en cada mecanismo
 (`results/2026-09-21_nucleation/`).
 
+### 3.29 Frente 5 (b): la serie de resolución del campo de Cronos con campo instantáneo y balance autoconsistente — INDETERMINADO por la puerta de energía; las tablas apuntan donde el criterio dijo, pero el interior no está resuelto (21-sep-2026, tarde)
+
+La lectura del autor del Nivel A (§3.19) señaló al estimador del campo
+(malla fija tras la primera llamada y media móvil) como origen del
+vaciado del interior y de la ganancia de energía, y el criterio de
+Cronos–Jeans (§3.21) convirtió el «no convergido» de k_inner 64 → 128
+en una predicción: con q > 1 dentro de r_CJ ≈ 0.71 kpc, a A_Sculptor la
+serie de resolución **no debe** converger, y a 0.05·A_Sculptor (r_CJ ≈
+0.18 kpc, dentro de dos suavizados) sí. El instrumento se rehízo en
+consecuencia: el campo esférico se reconstruye de las partículas en
+cada actualización (sin malla fija ni media móvil) y el balance de
+energía es el correcto para una fuerza que deriva de la propia
+densidad — la fuerza +c²∇ε_c con ε_c = A·ρ^{3/2} viene del funcional
+−(2/5)c²A∫ρ^{5/2}dV, así que la energía del pozo es U_self = (2/5)·Σm(−c²ε_c)
+y lo que se conserva es K + W + U_self + W_fric, con W_fric el trabajo
+acumulado de la fricción con compuerta. La preinscripción (sha256
+`18c5344d9d0b…`, congelada en un commit posterior al generador; piloto
+declarado) fijó N = 2×10⁵, 1 Gyr, siete brazos (newtoniano; A_Sculptor
+y 0.05·A_Sculptor con k_inner ∈ {64, 128, 256}), la regla de
+convergencia (los dos saltos |log10 M(<0.4 kpc)| ≤ 0.15) y las puertas
+(|ΔE_self/E| ≤ 2 % en los brazos de Cronos). **Resultado bajo la regla
+congelada: INDETERMINADO** — la puerta de energía falla en los brazos de
+A_Sculptor con k = 64 y 128 (2.4 % y 4.0 %; 0.6 % con k = 256; ≤ 3×10⁻⁴
+en los demás): con la amplitud única el campo dinámico inyecta energía
+en K + W, la misma patología que el autor leyó en el Nivel A, ahora con
+el balance correcto. Lo que las tablas muestran se publica sin
+veredicto: la serie a A_Sculptor no converge (M(<0.4 kpc) final 1.29 /
+1.22 / 3.39 ×10⁷ M☉, salto +0.44 dex en 128 → 256) y la de
+0.05·A_Sculptor converge (5.90 / 5.23 / 5.29 ×10⁷, saltos −0.05 y
++0.006 dex), como el criterio predijo; pero con N = 2×10⁵ quedan solo
+18–87 partículas dentro de 0.4 kpc — el propio newtoniano fluctúa de
+4.2 a 3.1 ×10⁷ por ruido de conteo — y el radio interior del campo cae
+en 0.41 / 0.54 / 0.75 kpc, de modo que la serie sí varía la resolución
+dentro de r_CJ pero el métrico está dominado por el conteo. La fricción
+con compuerta es irrelevante a estas amplitudes (W_fric/|E| ≤ 6×10⁻⁶).
+**La ronda siguiente** exige preinscripción nueva — N ≥ 10⁶ para
+resolver el interior y un métrico en una banda con ≥ 2000 partículas —,
+no un retoque de esta. **Estatuto**: experimento numérico interno (E8)
+bajo regla congelada (`results/2026-09-21_halo_resolution/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

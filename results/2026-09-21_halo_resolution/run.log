@@ -1,0 +1,58 @@
+[14:59:47] [prereg] 18c5344d9d0b… — inicio de corridas
+[14:59:47] == brazo a (newtoniano (referencia))
+[14:59:48]   ICs semilla 1: 1s, M_tot = 1.357e+11
+[15:00:19]   brazo a: A = 6.202e-07, k_inner = 64, r_inner = 0.405 kpc, D_F(ε_soft) = 4.35
+[15:06:44]     t = 0.25 Gyr  M(<0.4) = 3.936e+07  M(<2.3) = 1.621e+09  E = -3.4601e+14  wall 385s  calls {'brute': 9535, 'tree': 320}
+[15:13:53]     t = 0.50 Gyr  M(<0.4) = 2.579e+07  M(<2.3) = 1.527e+09  E = -3.4597e+14  wall 813s  calls {'brute': 19112, 'tree': 660}
+[15:21:06]     t = 0.75 Gyr  M(<0.4) = 3.732e+07  M(<2.3) = 1.538e+09  E = -3.4600e+14  wall 1246s  calls {'brute': 28607, 'tree': 1092}
+[15:28:05]     t = 1.00 Gyr  M(<0.4) = 3.121e+07  M(<2.3) = 1.521e+09  E = -3.4613e+14  wall 1665s  calls {'brute': 37737, 'tree': 1940}
+[15:28:05]   guardado a.json (1665.7 s; parada temprana: False )
+[15:28:05] == brazo bAS_k64 (Cronos v3 a A_Sculptor, campo instantáneo, k_inner = 64)
+[15:28:06]   ICs semilla 1: 1s, M_tot = 1.357e+11
+[15:28:07]   brazo bAS_k64: A = 6.202e-07, k_inner = 64, r_inner = 0.405 kpc, D_F(ε_soft) = 4.35
+[15:35:23]     t = 0.25 Gyr  M(<0.4) = 1.968e+07  M(<2.3) = 1.385e+09  E = -3.3849e+14  wall 436s  calls {'brute': 17643, 'tree': 373}
+[15:42:53]     t = 0.50 Gyr  M(<0.4) = 1.832e+07  M(<2.3) = 1.274e+09  E = -3.3844e+14  wall 886s  calls {'brute': 37184, 'tree': 686}
+[15:50:34]     t = 0.75 Gyr  M(<0.4) = 2.375e+07  M(<2.3) = 1.249e+09  E = -3.3846e+14  wall 1346s  calls {'brute': 56529, 'tree': 998}
+[15:58:25]     t = 1.00 Gyr  M(<0.4) = 1.289e+07  M(<2.3) = 1.320e+09  E = -3.3865e+14  wall 1818s  calls {'brute': 76088, 'tree': 1311}
+[15:58:25]   guardado bAS_k64.json (1818.4 s; parada temprana: False )
+[15:58:25] == brazo bAS_k128 (Cronos v3 a A_Sculptor, campo instantáneo, k_inner = 128)
+[15:58:26]   ICs semilla 1: 1s, M_tot = 1.357e+11
+[15:58:27]   brazo bAS_k128: A = 6.202e-07, k_inner = 128, r_inner = 0.543 kpc, D_F(ε_soft) = 2.11
+[16:05:24]     t = 0.25 Gyr  M(<0.4) = 2.443e+07  M(<2.3) = 1.252e+09  E = -3.3303e+14  wall 417s  calls {'brute': 17106, 'tree': 487}
+[16:12:31]     t = 0.50 Gyr  M(<0.4) = 1.696e+07  M(<2.3) = 1.211e+09  E = -3.3300e+14  wall 844s  calls {'brute': 36404, 'tree': 800}
+[16:19:49]     t = 0.75 Gyr  M(<0.4) = 8.821e+06  M(<2.3) = 1.113e+09  E = -3.3302e+14  wall 1281s  calls {'brute': 55739, 'tree': 1112}
+[16:27:09]     t = 1.00 Gyr  M(<0.4) = 1.221e+07  M(<2.3) = 1.221e+09  E = -3.3318e+14  wall 1722s  calls {'brute': 75043, 'tree': 1425}
+[16:27:09]   guardado bAS_k128.json (1722.5 s; parada temprana: False )
+[16:27:09] == brazo bAS_k256 (Cronos v3 a A_Sculptor, campo instantáneo, k_inner = 256)
+[16:27:11]   ICs semilla 1: 1s, M_tot = 1.357e+11
+[16:27:11]   brazo bAS_k256: A = 6.202e-07, k_inner = 256, r_inner = 0.752 kpc, D_F(ε_soft) = 0.95
+[16:33:58]     t = 0.25 Gyr  M(<0.4) = 3.189e+07  M(<2.3) = 1.365e+09  E = -3.4461e+14  wall 406s  calls {'brute': 9136, 'tree': 800}
+[16:41:21]     t = 0.50 Gyr  M(<0.4) = 2.986e+07  M(<2.3) = 1.325e+09  E = -3.4456e+14  wall 849s  calls {'brute': 18813, 'tree': 1113}
+[16:48:56]     t = 0.75 Gyr  M(<0.4) = 3.257e+07  M(<2.3) = 1.288e+09  E = -3.4460e+14  wall 1304s  calls {'brute': 28499, 'tree': 1425}
+[16:56:33]     t = 1.00 Gyr  M(<0.4) = 3.393e+07  M(<2.3) = 1.353e+09  E = -3.4475e+14  wall 1761s  calls {'brute': 38186, 'tree': 1738}
+[16:56:33]   guardado bAS_k256.json (1761.7 s; parada temprana: False )
+[16:56:33] == brazo b005_k64 (Cronos v3 a 0.05·A_Sculptor, campo instantáneo, k_inner = 64)
+[16:56:34]   ICs semilla 1: 1s, M_tot = 1.357e+11
+[16:56:35]   brazo b005_k64: A = 3.101e-08, k_inner = 64, r_inner = 0.405 kpc, D_F(ε_soft) = 0.22
+[17:03:24]     t = 0.25 Gyr  M(<0.4) = 5.971e+07  M(<2.3) = 1.633e+09  E = -3.4606e+14  wall 408s  calls {'brute': 9439, 'tree': 422}
+[17:10:40]     t = 0.50 Gyr  M(<0.4) = 6.989e+07  M(<2.3) = 1.545e+09  E = -3.4602e+14  wall 845s  calls {'brute': 18734, 'tree': 1024}
+[17:17:23]     t = 0.75 Gyr  M(<0.4) = 5.836e+07  M(<2.3) = 1.529e+09  E = -3.4606e+14  wall 1247s  calls {'brute': 27443, 'tree': 2227}
+[17:23:43]     t = 1.00 Gyr  M(<0.4) = 5.904e+07  M(<2.3) = 1.568e+09  E = -3.4618e+14  wall 1628s  calls {'brute': 35729, 'tree': 3914}
+[17:23:43]   guardado b005_k64.json (1628.3 s; parada temprana: False )
+[17:23:43] == brazo b005_k128 (Cronos v3 a 0.05·A_Sculptor, campo instantáneo, k_inner = 128)
+[17:23:45]   ICs semilla 1: 1s, M_tot = 1.357e+11
+[17:23:45]   brazo b005_k128: A = 3.101e-08, k_inner = 128, r_inner = 0.543 kpc, D_F(ε_soft) = 0.11
+[17:30:23]     t = 0.25 Gyr  M(<0.4) = 5.225e+07  M(<2.3) = 1.632e+09  E = -3.4606e+14  wall 397s  calls {'brute': 9312, 'tree': 338}
+[17:37:53]     t = 0.50 Gyr  M(<0.4) = 6.786e+07  M(<2.3) = 1.538e+09  E = -3.4602e+14  wall 847s  calls {'brute': 18801, 'tree': 782}
+[17:44:53]     t = 0.75 Gyr  M(<0.4) = 5.904e+07  M(<2.3) = 1.523e+09  E = -3.4606e+14  wall 1268s  calls {'brute': 27651, 'tree': 1876}
+[17:51:25]     t = 1.00 Gyr  M(<0.4) = 5.225e+07  M(<2.3) = 1.555e+09  E = -3.4618e+14  wall 1659s  calls {'brute': 36027, 'tree': 3483}
+[17:51:25]   guardado b005_k128.json (1659.7 s; parada temprana: False )
+[17:51:25] == brazo b005_k256 (Cronos v3 a 0.05·A_Sculptor, campo instantáneo, k_inner = 256)
+[17:51:26]   ICs semilla 1: 1s, M_tot = 1.357e+11
+[17:51:27]   brazo b005_k256: A = 3.101e-08, k_inner = 256, r_inner = 0.752 kpc, D_F(ε_soft) = 0.05
+[17:58:04]     t = 0.25 Gyr  M(<0.4) = 4.818e+07  M(<2.3) = 1.625e+09  E = -3.4605e+14  wall 397s  calls {'brute': 9235, 'tree': 319}
+[18:05:26]     t = 0.50 Gyr  M(<0.4) = 5.564e+07  M(<2.3) = 1.543e+09  E = -3.4601e+14  wall 839s  calls {'brute': 18758, 'tree': 750}
+[18:12:37]     t = 0.75 Gyr  M(<0.4) = 4.886e+07  M(<2.3) = 1.533e+09  E = -3.4605e+14  wall 1269s  calls {'brute': 27820, 'tree': 1656}
+[18:19:09]     t = 1.00 Gyr  M(<0.4) = 5.293e+07  M(<2.3) = 1.571e+09  E = -3.4618e+14  wall 1662s  calls {'brute': 36220, 'tree': 3219}
+[18:19:09]   guardado b005_k256.json (1662.0 s; parada temprana: False )
+[18:19:09] fin de corridas
