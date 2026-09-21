@@ -927,7 +927,7 @@ def J_min_threshold(delta0: float, circulation_C: str = "V", J_lo: float = 0.05,
                     rtol: float = 2e-3, **kwargs) -> dict:
     """El |J| mínimo con el que el flujo ALCANZA la diagonal (bisección
     sobre el booleano «cruza»), y el S del cruce justo por encima del
-    umbral, S_max: el S más alto en que la diagonal puede cruzarse con
+    umbral, S_tope: el S más alto en que la diagonal puede cruzarse con
     este C. Con C = V, J∇V se anula en los puntos críticos y el vacío
     verdadero 2D está sobre el polo de masa (θ = 0): θ sube, alcanza su
     máximo y vuelve a 0 — por eso el cruce tiene un S máximo y no basta
@@ -951,7 +951,7 @@ def J_min_threshold(delta0: float, circulation_C: str = "V", J_lo: float = 0.05,
             lo = mid
     at = diagonal_crossing_S(delta0, hi, circulation_C, **kwargs)
     return {"delta0": delta0, "C": circulation_C, "J_min": hi, "bracket_ok": True, "iterations": n,
-            "S_max_cross": at["S_cross"], "theta_final_at_J_min": at["theta_final"], "theta_max_at_J_min": at["theta_max"],
+            "S_cross_threshold": at["S_cross"], "theta_final_at_J_min": at["theta_final"], "theta_max_at_J_min": at["theta_max"],
             "W_J_over_T0": at["W_J_over_T0"], "S_equals_f_max_diff": at["S_equals_f_max_diff"],
             "monotonia_pass": at["monotonia_pass"], "finished": at["finished"],
             # frontera: el flujo vuelve a φ_E = 0 y la componente tangencial de la circulación
@@ -959,7 +959,7 @@ def J_min_threshold(delta0: float, circulation_C: str = "V", J_lo: float = 0.05,
             "returns_to_boundary": bool(at["theta_final"] <= 1e-9),
             "J_estimate_pi4_over_int_gradC": J_est,
             "ratio_J_min_over_estimate": (hi / J_est) if J_est else None,
-            "status": "publicado: |J|_min y S_max del cruce con C declarado (calibración, no derivación)"}
+            "status": "publicado: |J|_min y S_tope del cruce con C declarado (calibración, no derivación)"}
 
 
 def J_required(delta0: float, S_target: float, circulation_C: str = "V", J_lo: float = 0.05, J_hi: float = 50.0,

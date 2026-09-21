@@ -1,12 +1,12 @@
 # La diagonal y el |J| requerido — resultado bajo la preinscripción `4f56704d076c`
 
-Corridas en `d27f5b26a`; análisis en `d27f5b26a`. Puertas: {'bracket_ok_all': True, 'identity_interior_C_V_ok': True, 'monotonia_C_V_ok': True}.
+Corridas en `d27f5b26a`; análisis en `b45f8e8e4`. Puertas: {'bracket_ok_all': True, 'identity_interior_C_V_ok': True, 'monotonia_C_V_ok': True}.
 
 ## Veredicto global: **MIXTO** (mayor δ₀ con A: 0.001; menor δ₀ con F: 0.03)
 
 |J| es una calibración declarada con significado (frente 2 debe reproducirla junto con λ), no una derivación; con C = V el vacío 2D está en el polo de masa y θ vuelve a 0: la diagonal como estado final no es cuestión de |J| sino de otro término (E8, E13).
 
-| δ₀ | letra | \|J\|_min (C = V) | S_max del cruce | θ_final | W_J/T₀ | descenso completo | \|J\| para S = 0.95 | E13: \|J\|_est | cociente | rígida \|J\|_min | rígida S_max | rígida W_J/T₀ | rígida \|S − f − W_J/T₀\| |
+| δ₀ | letra | \|J\|_min (C = V) | S_tope del cruce | θ_final | W_J/T₀ | descenso completo | \|J\| para S = 0.95 | E13: \|J\|_est | cociente | rígida \|J\|_min | rígida S_tope | rígida W_J/T₀ | rígida \|S − f − W_J/T₀\| |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 0.001 | A | 1.358 | 0.9587 | 0.02282 | -2.55e-18 | sí | 1.396 | 33.79 | 0.040 | — | — | — | — |
 | 0.003 | B | 1.363 | 0.9302 | 0.01241 | -7.41e-19 | sí | — | 18.89 | 0.072 | — | — | — | — |

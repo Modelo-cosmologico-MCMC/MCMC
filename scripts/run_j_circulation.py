@@ -14,13 +14,13 @@ exactas) como forma principal; C = δ₀²ρ²/2 (rotación rígida) como
 alternativa que trabaja contra la inclinación (coste publicado).
 
 Desenlaces (por δ₀, con C = V; regla congelada):
-    A(δ₀) — el cruce puede situarse en la ventana [0.95, 1.05]: S_max(δ₀) ≥ 0.95,
-            donde S_max es el S del cruce en el umbral |J|_min (el más alto
+    A(δ₀) — el cruce puede situarse en la ventana [0.95, 1.05]: S_tope(δ₀) ≥ 0.95,
+            donde S_tope es el S del cruce en el umbral |J|_min (el más alto
             posible: subir |J| ADELANTA el cruce); se publica |J| ∈ [|J|_min,
             |J|(S_cross = 0.95)].
-    B(δ₀) — no puede: S_max(δ₀) < 0.95 y el flujo vuelve hacia θ = 0 (el vacío
+    B(δ₀) — no puede: S_tope(δ₀) < 0.95 y el flujo vuelve hacia θ = 0 (el vacío
             verdadero 2D está sobre el polo de masa) completando el descenso en
-            el interior; se publica |J|_min y S_max.
+            el interior; se publica |J|_min y S_tope.
     F(δ₀) — frontera: con |J|_min el flujo vuelve a la frontera φ_E = 0 y la
             componente tangencial de la circulación (que la ligadura normal no
             cancela) desplaza el equilibrio: W_J/T₀ ≫ 0 y el descenso no
@@ -99,10 +99,10 @@ def prereg() -> int:
         },
         "rules": {
             "F_per_delta0": "con |J|_min (C = V) el flujo vuelve a la frontera φ_E = 0 (θ_final ≤ 1e-9) — se evalúa ANTES que A/B",
-            "A_per_delta0": "no F y S_max_cross(δ₀; C = V) ≥ 0.95",
-            "B_per_delta0": "no F y S_max_cross(δ₀; C = V) < 0.95",
+            "A_per_delta0": "no F y S_cross_threshold(δ₀; C = V) ≥ 0.95",
+            "B_per_delta0": "no F y S_cross_threshold(δ₀; C = V) < 0.95",
             "global": "A/B/F si todo δ₀ comparte la letra; MIXTO si cambia (publicar el mayor δ₀ con A y el menor con F)",
-            "C_rigid": "el umbral rígido (rho2) tiene S_max ∈ ventana Y (W_J/T₀ > 1e-6 o |S − f − W_J/T₀|_max > 1e-6 o "
+            "C_rigid": "el umbral rígido (rho2) tiene S_tope ∈ ventana Y (W_J/T₀ > 1e-6 o |S − f − W_J/T₀|_max > 1e-6 o "
                        "Monotonía rota): la alternativa rígida sitúa el cruce pero con coste publicado",
             "scale_invariance": {"quantity": "max(J_min)/min(J_min) − 1 sobre la malla (C = V)", "tol": 0.10},
             "E13_estimate": "cociente |J|_min / [(π/4)/∫|∇V|dσ] publicado sin veredicto",
@@ -150,12 +150,12 @@ def run() -> int:
     rows = []
     for d0 in d["delta0_grid"]:
         r = J_min_threshold(d0, "V", J_lo=lo, J_hi=hi, rtol=d["bisection_rtol"])
-        print(f"δ₀ = {d0:.4g}: |J|_min = {r['J_min']}, S_max = {r.get('S_max_cross')}, θ_final = {r.get('theta_final_at_J_min')}, "
+        print(f"δ₀ = {d0:.4g}: |J|_min = {r['J_min']}, S_tope = {r.get('S_cross_threshold')}, θ_final = {r.get('theta_final_at_J_min')}, "
               f"frontera = {r.get('returns_to_boundary')}, W_J/T₀ = {r.get('W_J_over_T0')}", flush=True)
-        # ventana: |J| con S_cross = 0.95 si S_max ≥ 0.95 (cota superior del intervalo publicado)
-        jw = J_required(d0, d["window"][0], "V", J_lo=lo, J_hi=hi) if r.get("S_max_cross") and r["S_max_cross"] >= d["window"][0] else None
+        # ventana: |J| con S_cross = 0.95 si S_tope ≥ 0.95 (cota superior del intervalo publicado)
+        jw = J_required(d0, d["window"][0], "V", J_lo=lo, J_hi=hi) if r.get("S_cross_threshold") and r["S_cross_threshold"] >= d["window"][0] else None
         rig = J_min_threshold(d0, "rho2", J_lo=lo, J_hi=hi, rtol=d["bisection_rtol"])
-        print(f"   rígida: |J|_min = {rig['J_min']}, S_max = {rig.get('S_max_cross')}, W_J/T₀ = {rig.get('W_J_over_T0')}, "
+        print(f"   rígida: |J|_min = {rig['J_min']}, S_tope = {rig.get('S_cross_threshold')}, W_J/T₀ = {rig.get('W_J_over_T0')}, "
               f"|S − f − W_J/T₀| = {rig.get('S_equals_f_max_diff')}, monotonía = {rig.get('monotonia_pass')}", flush=True)
         rows.append({"delta0": d0, "V": r, "V_window_upper": jw, "rho2": rig,
                      "baseline_J0": diagonal_crossing_S(d0, 0.0, "V")})
@@ -181,24 +181,24 @@ def analyze() -> int:
         v = row["V"]
         if not v["bracket_ok"]:
             gates["bracket_ok_all"] = False
-            per.append({"delta0": row["delta0"], "letter": None, "J_min": None, "S_max": None})
+            per.append({"delta0": row["delta0"], "letter": None, "J_min": None, "S_tope": None})
             continue
         boundary = bool(v["returns_to_boundary"])
         if not boundary and v["S_equals_f_max_diff"] > R["gates"]["identity_interior_C_V"]:
             gates["identity_interior_C_V_ok"] = False
         if not v["monotonia_pass"]:
             gates["monotonia_C_V_ok"] = False
-        letter = "F" if boundary else ("A" if v["S_max_cross"] >= w_lo else "B")
+        letter = "F" if boundary else ("A" if v["S_cross_threshold"] >= w_lo else "B")
         rig = row["rho2"]
         rig_ok = rig["bracket_ok"]
-        rigid_in_window = bool(rig_ok and rig["S_max_cross"] is not None and w_lo <= rig["S_max_cross"] <= w_hi)
+        rigid_in_window = bool(rig_ok and rig["S_cross_threshold"] is not None and w_lo <= rig["S_cross_threshold"] <= w_hi)
         rigid_cost = bool(rig_ok and (abs(rig.get("W_J_over_T0") or 0.0) > 1e-6 or (rig.get("S_equals_f_max_diff") or 0.0) > 1e-6
                                       or not rig.get("monotonia_pass", True)))
-        per.append({"delta0": row["delta0"], "letter": letter, "J_min": v["J_min"], "S_max": v["S_max_cross"],
+        per.append({"delta0": row["delta0"], "letter": letter, "J_min": v["J_min"], "S_tope": v["S_cross_threshold"],
                     "theta_final_at_J_min": v["theta_final_at_J_min"], "W_J_over_T0": v["W_J_over_T0"], "finished": v["finished"],
                     "J_window_upper": (row["V_window_upper"] or {}).get("J_required"),
                     "J_estimate_E13": v["J_estimate_pi4_over_int_gradC"], "ratio_J_min_over_estimate": v["ratio_J_min_over_estimate"],
-                    "rigid_J": rig.get("J_min"), "rigid_S_cross": rig.get("S_max_cross"), "rigid_W_J_over_T0": rig.get("W_J_over_T0"),
+                    "rigid_J": rig.get("J_min"), "rigid_S_cross": rig.get("S_cross_threshold"), "rigid_W_J_over_T0": rig.get("W_J_over_T0"),
                     "rigid_S_equals_f_max_diff": rig.get("S_equals_f_max_diff"), "rigid_monotonia": rig.get("monotonia_pass"),
                     "rigid_in_window": rigid_in_window, "rigid_cost": rigid_cost, "C_rigid_letter": bool(rigid_in_window and rigid_cost)})
     letters = [p["letter"] for p in per if p["letter"]]
@@ -225,11 +225,11 @@ def analyze() -> int:
           f"Corridas en `{runs['code_commit'][:9]}`; análisis en `{res['code_commit_analysis'][:9]}`. Puertas: {gates}.", "",
           f"## Veredicto global: **{glob}**" + (f" (mayor δ₀ con A: {dstar}; menor δ₀ con F: {dF})" if glob == "MIXTO" else ""), "",
           res["reading"] + ".", "",
-          "| δ₀ | letra | \\|J\\|_min (C = V) | S_max del cruce | θ_final | W_J/T₀ | descenso completo | \\|J\\| para S = 0.95 | E13: \\|J\\|_est | cociente | rígida \\|J\\|_min | rígida S_max | rígida W_J/T₀ | rígida \\|S − f − W_J/T₀\\| |",
+          "| δ₀ | letra | \\|J\\|_min (C = V) | S_tope del cruce | θ_final | W_J/T₀ | descenso completo | \\|J\\| para S = 0.95 | E13: \\|J\\|_est | cociente | rígida \\|J\\|_min | rígida S_tope | rígida W_J/T₀ | rígida \\|S − f − W_J/T₀\\| |",
           "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for p in per:
         f = lambda x, fmt="{:.4g}": "—" if x is None else fmt.format(x)  # noqa: E731
-        md.append(f"| {p['delta0']:.4g} | {p['letter']} | {f(p['J_min'])} | {f(p['S_max'])} | {f(p.get('theta_final_at_J_min'))} | "
+        md.append(f"| {p['delta0']:.4g} | {p['letter']} | {f(p['J_min'])} | {f(p['S_tope'])} | {f(p.get('theta_final_at_J_min'))} | "
                   f"{f(p.get('W_J_over_T0'), '{:.2e}')} | {'sí' if p.get('finished') else 'no'} | "
                   f"{f(p.get('J_window_upper'))} | {f(p.get('J_estimate_E13'))} | {f(p.get('ratio_J_min_over_estimate'), '{:.3f}')} | "
                   f"{f(p.get('rigid_J'))} | {f(p.get('rigid_S_cross'))} | {f(p.get('rigid_W_J_over_T0'))} | {f(p.get('rigid_S_equals_f_max_diff'), '{:.2e}')} |")
