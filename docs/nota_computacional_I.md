@@ -1035,6 +1035,42 @@ dimensionalidad del instantón, §3.22) y C (cuál disparo es «el
 colapso»: umbral impuesto, espinodal D = 0 o inestabilidad de masa)
 (`results/2026-09-21_s_clock/`, secciones `v1_*`).
 
+### 3.24 Γ₀(δ₀) condicional a n_dim: la ley lineal por prefactor (n = 1), la supresión ∝ δ₀⁻¹ (n = 4) y el camino que no se curva — bajo preinscripción congelada (21-sep-2026, tarde)
+
+La ronda 2 de la nucleación hace explícito lo que §3.22 dejaba como
+convención: la dimensionalidad del instantón, n_dim, se declara (∈ {1,
+3, 4}; el tramo pre-geométrico no tiene espacio-tiempo) y la ley Γ₀(δ₀)
+se publica condicional a ella. Para n = 1 el objeto es el túnel 0+1 del
+Flujo del Camino como grado de libertad único — B₁ = 2∫√(2G(V − V_fv))dρ
+entre el falso vacío y el punto de escape, con el prefactor de Gamow
+ω_fv/2π = m̄δ₀/2π (frecuencia de intento) —, y el punto de salida WKB es
+exactamente el punto de escape V = V_fv que el reloj v0 usaba como
+convención: con `nucleation='gamow'` el reloj arranca desde Γ₀ y publica
+la espera σ_nuc = 1/Γ₀. Para n ∈ {3, 4} es el bounce de §3.22. La
+preinscripción (congelada en un commit posterior al generador, sha256
+`46f486e1cc84…`) fijó el barrido — ē ∈ {0.5, 1, 2}, ocho δ₀ en [10⁻⁴,
+0.9·δ₀_max(ē)] —, la ventana de ajuste (los tres puntos más bajos, porque
+la inclinación corrige las leyes puras en O(√δ₀) amplificado por
+T₀/altura de barrera) y las reglas A/B/C/INDETERMINADO con tolerancias
+a priori; tres pilotos declarados fijaron solo la cuadratura.
+**Resultado bajo la regla congelada: A sí, B sí, C no, todas las puertas
+superadas.** A (n = 1): el exponente de Γ₀(δ₀) es 0.9998 / 0.9993 /
+0.9978 para ē = 0.5 / 1 / 2, y B₁/δ₀² → 0.507 / 0.497 / 0.476 frente a
+b₁ = 0.518 sin inclinación: Γ₀ → 0 **linealmente por el prefactor**, con
+la exponencial e^{−B₁} → 1. B (n = 4): el exponente de B es −1.03 /
+−1.06 / −1.11 frente al argumento −1: Γ₀ = e^{−B} → 0 exponencialmente.
+C: la segunda pasada deja al camino de túnel curvarse en el Plano Dual
+(θ(s) = θ_end·s + Σ a_k sin(kπs), extremo sobre la superficie V = V_fv) y
+el optimizador devuelve el rayo θ = 0 con B_min/B_ray = 1.0000 en los
+seis (δ₀, ē): la inclinación −η·χ es máxima sobre θ = 0 dentro del
+dominio φ ≥ 0 y ningún otro término del Basal favorece caminos curvos.
+n = 3 se publica sin letra: B₃ → constante (exponente −0.03 / −0.05 /
+−0.08), Γ₀(0) = 0 solo si A(δ₀) → 0. Las tres leyes cumplen el axioma
+Γ₀(0) = 0 por mecanismos distintos (prefactor, exponencial, prefactor
+externo): **cuál es la del tratado es la decisión B del autor**, no del
+código, y la fila `nucleacion-gamma0` queda condicional a n_dim (E8,
+E13; `results/2026-09-21_nucleation_gamma0/`).
+
 ### 3.26 Oort–K_z: la vecindad solar excluye la amplitud única del 5E en el plano y deja A ≲ 0.06·A_Sculptor, con una banda ×4 por la losa (21-sep-2026, tarde)
 
 La aplicación (2) del criterio de Cronos–Jeans (§3.21) se convierte
