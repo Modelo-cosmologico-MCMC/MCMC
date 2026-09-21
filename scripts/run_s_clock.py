@@ -153,7 +153,8 @@ def main() -> int:
                   f"{r['S_final']:.4f} | {r['stop_reason']} |")
     md += ["", "Lectura: con el cierre canónico D se hunde (Obs. 8.6) pero en ninguna corrida cruza cero antes del fin del "
            "recorrido: para τ grande M0² cruza cero ANTES que D (el falso vacío se destabiliza por la masa, no por la "
-           "espinodal) y para τ pequeño el descenso termina con D > 0. En el rango explorado los colapsos NO emergen del "
+           "espinodal) y para τ pequeño el descenso termina, o se agota el presupuesto de pasos con el flujo ya muy "
+           "lento sobre un potencial aplanado, con D > 0. En el rango explorado los colapsos NO emergen del "
            "Cruce de Victoria — resultado diagnóstico que depende del diccionario τ (frente 2), publicado sin verdicto.", "",
            "## Lo que NO afirma", ""] + [f"- {s}" for s in doc["what_is_not_claimed"]]
     (OUTDIR / "report.md").write_text("\n".join(md) + "\n", encoding="utf-8")
