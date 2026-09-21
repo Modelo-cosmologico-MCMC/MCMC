@@ -1,6 +1,6 @@
 # El reloj S como simulador de consistencia — recorrido S₀ → S_{1,001} (21-sep-2026)
 
-Commit `a1ab55399`. Modo con estatuto: umbrales IMPUESTOS (Prop. 8.1). δ₀ primario = 0.01 (valor de prueba: el tratado no asigna valor a δ₀). Formas del Basal: m̄ = 1.0, b̄ = 3.0, ē = 1.0, C0 = 1.0.
+Commit `de5c7736c`. Modo con estatuto: umbrales IMPUESTOS (Prop. 8.1). δ₀ primario = 0.01 (valor de prueba: el tratado no asigna valor a δ₀). Formas del Basal: m̄ = 1.0, b̄ = 3.0, ē = 1.0, C0 = 1.0.
 
 **Lectura obligatoria**: simulador de consistencia (E8): umbrales de la Década impuestos (Prop. 8.1, λ = 10 calibrado — frente 2), nucleación declarada en el punto de escape, sellados con forma paramétrica declarada, diagonal impuesta para la entrega; el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente).
 
@@ -49,23 +49,91 @@ Acoplos por las β de Fokker–Planck (cierre canónico) con diccionario τ decl
 |---|---|---|---|---|---|---|
 | 0.01 | 0 | 5.00e-04 | 5.00e-04 | — | 0.9990 | descenso completado (residuo de descarga alcanzado) |
 | 0.01 | 0.001 | 5.00e-04 | 3.69e-04 | — | 0.6241 | max_steps agotado |
-| 0.01 | 0.01 | 5.00e-04 | 3.00e-04 | — | 0.1057 | acoplos fuera del dominio (C0 ≤ 0 o M0² ≤ 0) |
-| 0.01 | 0.1 | 5.00e-04 | 3.03e-04 | — | 0.0105 | acoplos fuera del dominio (C0 ≤ 0 o M0² ≤ 0) |
-| 0.01 | 1 | 5.00e-04 | 3.12e-04 | — | 0.0011 | acoplos fuera del dominio (C0 ≤ 0 o M0² ≤ 0) |
+| 0.01 | 0.01 | 5.00e-04 | 2.26e-04 | — | 0.1766 | max_steps agotado |
+| 0.01 | 0.1 | 5.00e-04 | 2.04e-04 | — | 0.0251 | max_steps agotado |
+| 0.01 | 1 | 5.00e-04 | 2.42e-04 | — | 0.0028 | max_steps agotado |
 | 0.05 | 0 | 1.25e-02 | 1.25e-02 | — | 0.9990 | descenso completado (residuo de descarga alcanzado) |
 | 0.05 | 0.001 | 1.25e-02 | 1.15e-02 | — | 0.8927 | max_steps agotado |
 | 0.05 | 0.01 | 1.25e-02 | 7.74e-03 | — | 0.4953 | max_steps agotado |
-| 0.05 | 0.1 | 1.25e-02 | 7.50e-03 | — | 0.0530 | acoplos fuera del dominio (C0 ≤ 0 o M0² ≤ 0) |
-| 0.05 | 1 | 1.25e-02 | 7.54e-03 | — | 0.0053 | acoplos fuera del dominio (C0 ≤ 0 o M0² ≤ 0) |
+| 0.05 | 0.1 | 1.25e-02 | 5.04e-03 | — | 0.1180 | max_steps agotado |
+| 0.05 | 1 | 1.25e-02 | 5.13e-03 | — | 0.0157 | max_steps agotado |
 
-Lectura: con el cierre canónico D se hunde (Obs. 8.6) pero en ninguna corrida cruza cero antes del fin del recorrido: para τ grande M0² cruza cero ANTES que D (el falso vacío se destabiliza por la masa, no por la espinodal) y para τ pequeño el descenso termina, o se agota el presupuesto de pasos con el flujo ya muy lento sobre un potencial aplanado, con D > 0. En el rango explorado los colapsos NO emergen del Cruce de Victoria — resultado diagnóstico que depende del diccionario τ (frente 2), publicado sin verdicto.
+Lectura: con el cierre canónico D se hunde (Obs. 8.6) pero en ninguna corrida cruza cero antes del fin del recorrido: para τ > 0 M0² cruza cero ANTES que D (el falso vacío se destabiliza por la masa, no por la espinodal; evento `inestabilidad_masa`, tabla siguiente) y el bucle sigue sobre un potencial aplanado hasta agotar el presupuesto de pasos con D > 0. En el rango explorado los colapsos NO emergen del Cruce de Victoria — resultado diagnóstico que depende del diccionario τ (frente 2), publicado sin verdicto.
+
+## v1 (21-sep, tarde): corrección de la inclinación a primer orden
+
+κ₁ = ē·√κ₊/(√2·c̄) = **1.361** con las formas por defecto; T₀_full/T₀_ley − 1 = κ₁·√δ₀ + O(δ₀).
+
+| δ₀ | medido | κ₁√δ₀ | cociente | residuo/δ₀ |
+|---|---|---|---|---|
+| 0.0030 | 0.0737 | 0.0745 | 0.989 | -0.273 |
+| 0.0100 | 0.1333 | 0.1361 | 0.980 | -0.274 |
+| 0.0300 | 0.2273 | 0.2357 | 0.964 | -0.280 |
+| 0.0581 | 0.3113 | 0.3281 | 0.949 | -0.288 |
+| 0.1000 | 0.3994 | 0.4303 | 0.928 | -0.309 |
+
+## v1: el Techo W_max con las dos T₀ (círculo de δ₀)
+
+En δ_H = 0.0581: ley 3.4 c̄·δ_H³ = **1.6523e-04**; paisaje completo V_fv − V_tv = **2.1667e-04** (+31.1 %). En 0.012: 1.4530e-06 frente a 1.6648e-06. Cuál nombra el Lema 10.3 es decisión del autor (A); la fila circulo-delta0 hereda la corrección como condicional, no la resuelve.
+
+## v1: δ₀_max en forma cerrada y naturalidad
+
+δ₀_max = 2·g_max(m̄, b̄, C0)²/ē² ∝ ē⁻² (el origen es el falso vacío exacto sin inclinación: δ₀_max = ∞ con ē = 0, raíz que la malla de la v0 no veía).
+
+| ē | bisección | forma cerrada | δ₀_max·ē² |
+|---|---|---|---|
+| 0.5 | 0.41113 | 0.41113 | 0.10278 |
+| 1.0 | 0.10278 | 0.10278 | 0.10278 |
+| 2.0 | 0.02570 | 0.02570 | 0.10278 |
+
+Sobre los paisajes viables de `landscape_priors` (n = 4000 por prior; filtro fértil como en la cartografía):
+
+| prior | fracción con falso vacío en δ₀ = 0.012 | en δ₀ = δ_H = 0.0581 | mediana δ₀_max | forma cerrada vs bisección |
+|---|---|---|---|---|
+| uniform | 0.557 | 0.257 | 0.0160 | 5.9e-06 |
+| loguniform | 0.508 | 0.206 | 0.0123 | 8.6e-06 |
+| normal | 0.739 | 0.377 | 0.0347 | 5.8e-06 |
+
+Lectura: la metastabilidad en δ_H NO es genérica sobre el prior (una fracción minoritaria de paisajes la admite); cartografía publicada sin veredicto — el prior es declarado.
+
+## v1: inestabilidad de masa (modo diagnóstico) y la tabla τ_k (E13)
+
+En modo emergente el cruce M0² = 0 se publica como evento y el bucle continúa (se detiene solo con C0 ≤ 0). Forma cerrada de primer orden: S_flip ≃ δ₀·[b̄ − √(b̄² − 6C0m̄²)]/(24·a·τ·C0) = 0.1057·δ₀/τ.
+
+| δ₀ | τ | S_flip medido | S_flip 1er orden | cociente | S final | fin |
+|---|---|---|---|---|---|---|
+| 0.01 | 0 | — | — | — | 0.9990 | descenso completado (residuo de descarga alcanzado) |
+| 0.01 | 0.001 | — | — | — | 0.6241 | max_steps agotado |
+| 0.01 | 0.01 | 0.10556 | 0.10566 | 0.999 | 0.1766 | max_steps agotado |
+| 0.01 | 0.1 | 0.01049 | 0.01057 | 0.993 | 0.0251 | max_steps agotado |
+| 0.01 | 1 | 0.00100 | 0.00106 | 0.944 | 0.0028 | max_steps agotado |
+| 0.05 | 0 | — | — | — | 0.9990 | descenso completado (residuo de descarga alcanzado) |
+| 0.05 | 0.001 | — | — | — | 0.8927 | max_steps agotado |
+| 0.05 | 0.01 | — | — | — | 0.4953 | max_steps agotado |
+| 0.05 | 0.1 | 0.05278 | 0.05283 | 0.999 | 0.1180 | max_steps agotado |
+| 0.05 | 1 | 0.00525 | 0.00528 | 0.994 | 0.0157 | max_steps agotado |
+
+Tabla τ_k — el τ que haría caer la inestabilidad de masa en cada umbral de la Década, τ_k = S_flip(τ = 1)·δ₀/S_k (≈ 11.8·δ₀·10⁻ᵏ): es el diccionario τ leído al revés desde los umbrales calibrados, **no una derivación** (E13: el número no es señal).
+
+| δ₀ | τ₀ (S = 0.009) | τ₁ (S = 0.099) | τ₂ (S = 0.999) |
+|---|---|---|---|
+| 0.01 | 1.1740e-01 | 1.0673e-02 | 1.0577e-03 |
+| 0.05 | 5.8701e-01 | 5.3365e-02 | 5.2884e-03 |
+
+Hipótesis declarada τ_d (opcional): τ por dimensión igual a la tabla τ_k y M0² repuesto en cada inestabilidad — publica dónde caerían los colapsos:
+
+- δ₀ = 0.01: colapsos en S = [0.0089] con disparos ['inestabilidad de masa M0² = 0 (hipótesis τ_d declarada, E13)']; fin: max_steps agotado.
+- δ₀ = 0.05: colapsos en S = [0.009] con disparos ['inestabilidad de masa M0² = 0 (hipótesis τ_d declarada, E13)']; fin: max_steps agotado.
 
 ## Lo que NO afirma
 
 - ningún umbral emerge: los colapsos se disparan en 0.009/0.099/0.999 por la Ley de la Década (calibrada, frente 2)
-- la nucleación (Γ₀) no se calcula: el reloj arranca en el punto de escape con σ = 0 declarado
+- la nucleación (Γ₀) no se calcula en la corrida primaria: el reloj arranca en el punto de escape con σ = 0 declarado (nucleation='bounce' es opcional, fila nucleacion-salida-s0)
 - las leyes de sellado de c_eff y m_eff tienen forma paramétrica declarada, no la ec. (5.3)
 - la diagonal θ = π/4 no la cruza el flujo del Basal: se impone para la entrega
 - V3D y Florencia son cuantos declarados tras el residuo de descarga
 - el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente); m_H depende de δ₀ (input) y β₃ es condicional
 - el modo emergente es diagnóstico: el diccionario τ no es derivable
+- la inestabilidad de masa (M0² = 0) es un evento publicado del modo diagnóstico, no un colapso con estatuto; la tabla τ_k reformula el diccionario, no lo deriva (E13)
+- W_max se publica con las dos T₀ (ley 3.4 y paisaje completo) sin elegir cuál nombra el Lema 10.3 (decisión A)
+- la unidad de S tras Florencia no se deriva de T₀ (hueco: fila diccionario-unidad-S-post-florencia)

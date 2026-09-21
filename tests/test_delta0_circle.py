@@ -36,12 +36,12 @@ def test_W_max_required_fiducial():
 
 def test_W_max_required_published_with_both_T0():
     """Reloj S v1: el Techo se publica con las dos T₀ — la ley 3.4 y el
-    paisaje completo con la inclinación (+31 % en δ_H: 1.649e-4 →
-    2.162e-4). Ninguna se elige: decisión A del autor."""
+    paisaje completo con la inclinación (+31 % en δ_H: 1.652e-4 →
+    2.167e-4). Ninguna se elige: decisión A del autor."""
     both = W_max_required_both(delta0_H())
     assert both["T0_law_3_4"] == W_max_required(delta0_H())
-    assert abs(both["T0_law_3_4"] - 1.649e-4) < 4e-7
-    assert abs(both["T0_full_landscape"] - 2.162e-4) < 1e-6
+    assert abs(both["T0_law_3_4"] - 1.652e-4) < 1e-7
+    assert abs(both["T0_full_landscape"] - 2.167e-4) < 1e-7
     assert 0.30 < both["tilt_correction"] < 0.32 and both["metastable"]
     # el residuo del primer orden es O(δ_H): coeficiente por debajo de κ₁/2 (como en s_clock)
     assert abs(both["kappa1_sqrt_delta"] - both["tilt_correction"]) < 0.5 * 1.3607 * delta0_H()

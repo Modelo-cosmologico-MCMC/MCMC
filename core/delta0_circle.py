@@ -100,7 +100,7 @@ def W_max_required_both(delta_star: float, m_bar: float = M_BAR,
     v1, 21-sep-2026): la ley 3.4 (c̄·δ*³, sin inclinación) y la Tensión
     Primordial medida en el paisaje completo (V_fv − V_tv con −η·χ), que
     la supera en κ₁·√δ* + O(δ*) (κ₁ = ē√κ₊/(√2c̄); 31 % en δ_H con las
-    formas fiduciales: 1.649e-4 → 2.162e-4). Cuál de las dos nombra el
+    formas fiduciales: 1.652e-4 → 2.167e-4 con δ_H = 0.130/√5). Cuál de las dos nombra el
     Lema 10.3 (W_max = T₀ ¿de la ley o del paisaje?) es decisión del
     autor (decisión A del 21-sep), no del código: se publican ambas."""
     from .s_clock import kappa1_tilt, radial_landscape
