@@ -278,15 +278,23 @@ claims:
   - claim_id: circulo-delta0
     entity: Círculo de δ₀
     law: "Cap. 10 + H.8"
-    derivation: condicional a W_max (frente 4)
+    derivation: >-
+      condicional a W_max (frente 4): el círculo cierra ⟺ W_max = T₀(δ_H).
+      Desde el reloj S v1 (21-sep-2026) el Techo requerido se publica con
+      LAS DOS T₀ — la ley 3.4 c̄·δ_H³ = 1.652e-4 y la Tensión Primordial
+      medida en el paisaje completo con la inclinación −η·χ, 2.167e-4
+      (+31 % = κ₁·√δ_H + O(δ_H), κ₁ = ē√κ₊/(√2c̄) = 1.361) — porque el
+      Lema 10.3 no dice cuál de las dos es el Techo (decisión A del autor,
+      pendiente). La fila hereda la corrección como condicional, no la
+      resuelve (core.delta0_circle.W_max_required_both).
     implementation: core/delta0_circle.py
     test: tests/test_delta0_circle.py
     observable: "—"
     dataset: "—"
-    falsifier: W_max incompatible con el círculo
-    evidence_level: condicional (W_max, frente 4)
+    falsifier: W_max incompatible con el círculo (con cualquiera de las dos T₀)
+    evidence_level: condicional (W_max, frente 4; y cuál T₀ nombra el Lema 10.3)
     status: condicional
-    artifact: results/2026-08-02_delta0_circle
+    artifact: results/2026-08-02_delta0_circle + results/2026-09-21_s_clock
 
   - claim_id: fertilidad
     entity: Fertilidad
@@ -1073,6 +1081,32 @@ claims:
     status: hueco-declarado
     artifact: results/2026-09-21_s_clock
 
+  - claim_id: diccionario-unidad-S-post-florencia
+    entity: Unidad del índice S tras Florencia — el reloj pre-geométrico mide S en fracción de T₀ y la cronología post-geométrica lo lee en otra unidad; la relación no está derivada (hueco declarado, 21-sep-2026)
+    law: "C1 (índice entrópico S = ∫Σ̇dσ); Tabla F.1 (sellos posteriores a S_1,001); F.4 («el cuanto es real, su número es convencional», ΔS = 1e-3)"
+    derivation: >-
+      NO EXISTE. En el reloj S (core/s_clock.py) la normalización es
+      declarada: S = ∫Σ̇dσ/T₀ con T₀ = V_fv − V_tv del paisaje completo, de
+      modo que S = 1 ⟺ descarga completa de la Tensión Primordial, y los
+      umbrales de la Década se leen en esa unidad. Tras Florencia
+      (S ≥ 1,001) el reloj se detiene: los sellos posteriores de la Tabla
+      F.1, el cuanto ΔS del Calibre de Cronos y el S de la cosmología
+      (mapa S(z), fila mapa-s-z) viven en una unidad POST-geométrica que
+      el repositorio no deriva de T₀ ni de Σ̇ — nada liga «una unidad de
+      S» después de 1,001 con la descarga de T₀ antes. Se declara como
+      DECLARED_FORMS["S_post_unit"] en el reloj (v1) para que el hueco
+      sea un campo del artefacto, no una frase. Es parte del diccionario
+      (fila diccionario-primordial-cosmologico), con nombre propio porque
+      afecta a la lectura de TODO número post-Florencia en S.
+    implementation: core/s_clock.py
+    test: tests/test_s_clock.py
+    observable: "—"
+    dataset: "—"
+    falsifier: "— (no hay afirmación contrastable hasta que exista la relación entre unidades)"
+    evidence_level: hueco declarado — ni derivación ni implementación; exhibido por el reloj S como forma declarada
+    status: hueco-declarado
+    artifact: results/2026-09-21_s_clock
+
   - claim_id: contenido-materia-lectura-operativa
     entity: Contenido de materia — lectura operativa ΛCDM + canales + Cronos; la lectura fuerte (sin CDM) es hipótesis distinta, no implementada
     law: "Ap. A.2 y B.2 (ρ_cdm y ρ̄_m δ_m presentes) frente a epílogo, E.13 y 14.5 («materia oscura efectiva, sin partículas nuevas»)"
@@ -1252,7 +1286,26 @@ claims:
       sellado, diagonal, cuantos de confirmación V3D/Florencia, Φ_ten =
       0, δ₀ del ciclo siguiente (γ_R, frente 4). m_H(δ₀) se publica como
       dependiente del input (52 GeV en 0.01; 125.4 en δ_H por
-      construcción de δ_H).
+      construcción de δ_H). V1 (21-sep, tarde): la corrección de la
+      inclinación tiene forma cerrada a primer orden, T₀_full/T₀_ley − 1
+      = κ₁√δ₀ + O(δ₀) con κ₁ = ē√κ₊/(√2c̄) = 1.361 (comprobación
+      T0_tilt_first_order; residuo ≈ −0.27·δ₀ publicado); δ₀_max también,
+      δ₀_max = 2·g_max(m̄, b̄, C0)²/ē² = 0.1028·ē⁻² (bisección a 3e-8), con
+      la raíz del origen restituida en radial_landscape (sin inclinación
+      el origen es el falso vacío exacto y δ₀_max = ∞: defecto de la
+      malla v0 corregido); barrido de naturalidad sobre landscape_priors
+      publicado sin veredicto (la metastabilidad en δ_H la admite una
+      minoría de paisajes viables). Modo emergente: el cruce M0² = 0 ya no
+      detiene el bucle — evento `inestabilidad_masa` con S_flip medido
+      frente a la forma cerrada δ₀·[b̄ − √(b̄² − 6C0m̄²)]/(24aτC0) =
+      0.1057·δ₀/τ (cociente 0.94–1.00), continuación hasta C0 ≤ 0; la
+      tabla τ_k = S_flip(τ=1)·δ₀/S_k ≈ 11.8·δ₀·10⁻ᵏ («Década ⟺ τ_k») es
+      el diccionario τ leído desde los umbrales calibrados, etiquetada
+      E13, no una derivación; hipótesis declarada τ_d con reposición de
+      M0² publicada como opción. Formas declaradas nuevas: S_post_unit
+      (fila diccionario-unidad-S-post-florencia), mass_instability,
+      tau_per_dim. El guion v32 del autor se archiva como
+      viewer/legacy_v3_storyboard.html (contrato de interfaz, no cálculo).
     implementation: core/s_clock.py + scripts/run_s_clock.py
     test: tests/test_s_clock.py
     observable: "— (recorrido interno; ningún observable)"

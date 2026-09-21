@@ -46,8 +46,13 @@ los colapsos se disparan en los umbrales de la Ley de la Década (Prop.
 8.1, CALIBRADOS: λ = 10 es el frente 2) leídos sobre el reloj f; en el
 modo 'emergent' (DIAGNÓSTICO, sin estatuto) los colapsos se disparan
 donde D(S) = 0 con el diccionario τ declarado — publica dónde caerían,
-no decide λ. La nucleación (Γ₀(δ₀), Prop. 3.5) no está en el repo: el
-reloj arranca en el punto de escape con σ = 0 declarado. El transporte
+no decide λ. En ese modo (v1, 21-sep) el cruce M0² = 0 se publica como
+evento `inestabilidad_masa` (S_flip medido frente a su forma cerrada de
+primer orden) y el bucle sigue hasta C0 ≤ 0; la lectura «Década ⟺ τ_k ≈
+S_flip·δ₀/S_k» es diagnóstico E13 (reformulación del diccionario τ, no
+derivación). La nucleación (Γ₀(δ₀), Prop. 3.5) es opcional
+(`nucleation='bounce'`, core.nucleation); por defecto el reloj arranca
+en el punto de escape con σ = 0 declarado. El transporte
 azimutal hasta la diagonal (Prop. 3.5) no lo produce el Basal solo: se
 publica el θ del flujo y se impone el perfil declarado para la entrega.
 Los cuantos de confirmación (V3D en 1,000 y Florencia en 1,001 tras el
@@ -78,6 +83,7 @@ from .basal import (
     T0_numeric,
     c_bar,
     chi_residue,
+    kappa_plus,
     quasi_cancellation_ok,
     scaled_params,
 )
@@ -125,6 +131,26 @@ DECLARED_FORMS = {
                            "1,000 y Florencia en 1,001 (Prop. 8.1).",
     "Phi_ten_at_florencia": "Φ_ten(S_1,001) = 0 por normalización declarada "
                             "(N = 1): no derivado.",
+    "S_post_unit": "tras Florencia (S ≥ 1,001) el índice S deja de medir la fracción "
+                   "descargada de T₀ (S = 1 ⟺ descarga completa, normalización "
+                   "pre-geométrica de este reloj): los sellos posteriores de la Tabla "
+                   "F.1 y el cuanto ΔS = 1e-3 (Calibre de Cronos, F.4) se leen en una "
+                   "unidad POST-geométrica que el repositorio NO deriva de T₀ ni de "
+                   "Σ̇ — la relación entre ambas unidades es un diccionario ausente "
+                   "(fila diccionario-unidad-S-post-florencia). DECLARADO, hueco.",
+    "mass_instability": "en modo emergente el reloj sigue integrando cuando M0² cruza "
+                        "cero (el origen deja de ser mínimo; V sigue acotado por C0 > 0) "
+                        "y publica el evento `inestabilidad_masa` con el S del cruce, "
+                        "S_flip, junto a su forma cerrada de primer orden "
+                        "S_flip ≃ δ₀·[b̄ − √(b̄² − 6C0m̄²)]/(24·a·τ·C0) (β canónicas, "
+                        "M0⁴ despreciado); se detiene solo cuando C0 ≤ 0. DIAGNÓSTICO: "
+                        "«Década ⟺ τ_k ≈ S_flip·δ₀/S_k» es una reformulación del "
+                        "diccionario τ, no una derivación (E13: el número no es señal).",
+    "tau_per_dim": "HIPÓTESIS DECLARADA (opcional, modo emergente): τ toma un valor "
+                   "por dimensión, τ_d, y en cada inestabilidad de masa el colapso "
+                   "d → d+1 se dispara y M0² se repone a su valor inicial (el "
+                   "escalón del potencial); publica dónde caerían los tres colapsos "
+                   "bajo esa hipótesis frente a la Década. Sin estatuto (E13).",
 }
 
 
@@ -157,6 +183,8 @@ class ClockConfig:
     # instantón O(d) de core.nucleation: el estado que la nucleación entrega)
     nucleation: str = "escape_point"
     bounce_d: int = 4
+    # modo emergente: hipótesis declarada τ por dimensión (None = τ único de fp)
+    tau_per_dim: tuple | None = None
 
 
 def sextic_coupling_dimension(d: int) -> float:
@@ -191,11 +219,24 @@ def radial_landscape(delta0: float, theta: float = 0.0, m_bar: float = M_BAR,
     grid = np.linspace(1e-9, r_max, 4001)
     vals = dV(grid)
     roots = []
+    # la raíz del origen: dV(0) = −tilt. Sin inclinación el origen ES el falso
+    # vacío (raíz exacta que la malla, que arranca en 1e-9, no ve — defecto v0
+    # corregido en v1); con inclinación pequeña la raíz cae entre 0 y la malla.
+    if tilt == 0.0:
+        roots.append(0.0)
+    elif -tilt * vals[0] < 0.0:
+        roots.append(float(brentq(dV, 0.0, grid[0], xtol=1e-16)))
     for i in range(len(grid) - 1):
         if vals[i] == 0.0:
             roots.append(float(grid[i]))
         elif vals[i] * vals[i + 1] < 0.0:
-            roots.append(float(brentq(dV, grid[i], grid[i + 1], xtol=1e-14)))
+            fa, fb = dV(float(grid[i])), dV(float(grid[i + 1]))
+            if fa * fb < 0.0:
+                roots.append(float(brentq(dV, grid[i], grid[i + 1], xtol=1e-14)))
+            else:
+                # tangencia numérica (barrera doble en δ₀ ≃ δ₀_max): la evaluación
+                # vectorizada y la escalar discrepan en el redondeo; raíz en el centro
+                roots.append(float(0.5 * (grid[i] + grid[i + 1])))
     roots = sorted(roots)
     out = {"roots": roots, "metastable": len(roots) >= 3, "tilt": float(tilt)}
     if len(roots) >= 3:
@@ -233,6 +274,105 @@ def delta0_metastability_max(m_bar: float = M_BAR, b_bar: float = B_BAR,
         else:
             hi = mid
     return float(0.5 * (lo + hi))
+
+
+def _g_max(m_bar: float, b_bar: float, C0: float) -> float:
+    """Máximo local de g(s) = m̄²s − b̄s³ + C0s⁵ (dV₀/dρ en la variable
+    escalada ρ = √δ₀·s: dV₀/dρ = δ₀^{5/2}·g(s)); existe si 9b̄² > 20C0m̄²
+    (más débil que la casi-cancelación (3.3))."""
+    disc = 9.0 * b_bar ** 2 - 20.0 * C0 * m_bar ** 2
+    if disc <= 0.0:
+        return 0.0
+    s2 = (3.0 * b_bar - np.sqrt(disc)) / (10.0 * C0)
+    s = np.sqrt(s2)
+    return float(m_bar ** 2 * s - b_bar * s ** 3 + C0 * s ** 5)
+
+
+def delta0_metastability_max_analytic(m_bar: float = M_BAR, b_bar: float = B_BAR,
+                                      e_bar: float = E_BAR, C0: float = C0_DEFAULT,
+                                      theta: float = 0.0) -> float:
+    """Forma cerrada de δ₀_max: la barrera existe mientras la inclinación
+    ē·δ₀³·(cos θ − sin θ)/√2 no supere el máximo local de dV₀/dρ =
+    δ₀^{5/2}·g_max, es decir
+
+        δ₀_max = 2·g_max(m̄, b̄, C0)² / (ē·(cos θ − sin θ))²   ∝ ē⁻²
+
+    (0.1028·ē⁻² con las formas por defecto; ∞ sin inclinación o sobre la
+    diagonal θ = π/4, donde el origen es el falso vacío exacto). Se
+    comprueba contra la bisección de `delta0_metastability_max`."""
+    fac = e_bar * (np.cos(theta) - np.sin(theta))
+    if fac <= 0.0:
+        return float("inf")
+    return float(2.0 * _g_max(m_bar, b_bar, C0) ** 2 / fac ** 2)
+
+
+def kappa1_tilt(m_bar: float = M_BAR, b_bar: float = B_BAR, e_bar: float = E_BAR,
+                C0: float = C0_DEFAULT, theta: float = 0.0) -> float:
+    """Coeficiente de primer orden de la corrección de la inclinación a T₀:
+    T₀_full/T₀_ley − 1 ≃ κ₁·√δ₀ con κ₁ = ē·(cos θ − sin θ)·√κ₊/(√2·c̄)
+    (= 1.361 con las formas por defecto en θ = 0): la inclinación baja el
+    vacío verdadero en η·χ_tv = ē·δ₀³·ρ₊·(cos θ − sin θ)/√2 y ρ₊ = √(κ₊δ₀)."""
+    return float(e_bar * (np.cos(theta) - np.sin(theta)) * np.sqrt(kappa_plus(m_bar, b_bar, C0))
+                 / (np.sqrt(2.0) * c_bar(m_bar, b_bar, C0)))
+
+
+def T0_tilt_first_order(delta0: float, m_bar: float = M_BAR, b_bar: float = B_BAR,
+                        e_bar: float = E_BAR, C0: float = C0_DEFAULT, theta: float = 0.0) -> float:
+    """T₀ de la ley 3.4 corregida a primer orden en la inclinación:
+    c̄·δ₀³·(1 + κ₁·√δ₀)."""
+    return T0_analytic(delta0, m_bar, b_bar, C0) * (1.0 + kappa1_tilt(m_bar, b_bar, e_bar, C0, theta) * np.sqrt(delta0))
+
+
+def S_flip_first_order(delta0: float, tau: float, m_bar: float = M_BAR, b_bar: float = B_BAR,
+                       C0: float = C0_DEFAULT, a: float = 0.5) -> float | None:
+    """S del cruce M0² = 0 bajo las β canónicas con M0⁴ despreciado:
+    M0²(S) = m̄²δ₀² − 8aτ·b̄δ₀·S + 96a²τ²C0·S² (B también fluye,
+    β_B ≃ −24aC0) ⟹ S_flip = δ₀·[b̄ − √(b̄² − 6C0m̄²)]/(24·a·τ·C0)
+    (0.1057·δ₀/τ con las formas por defecto). None si b̄² < 6C0m̄² (M0²
+    no llega a cero en esta aproximación) o τ = 0."""
+    if tau <= 0.0:
+        return None
+    disc = b_bar ** 2 - 6.0 * C0 * m_bar ** 2
+    if disc < 0.0:
+        return None
+    return float(delta0 * (b_bar - np.sqrt(disc)) / (24.0 * a * tau * C0))
+
+
+def tau_decade_table(delta0: float, m_bar: float = M_BAR, b_bar: float = B_BAR,
+                     C0: float = C0_DEFAULT, a: float = 0.5) -> dict:
+    """Reformulación E13: el τ_k que haría caer la inestabilidad de masa
+    en cada umbral S_k de la Década, τ_k = S_flip(τ = 1)·δ₀/S_k
+    (≈ 11.8·δ₀·10⁻ᵏ con las formas por defecto). Es el diccionario τ
+    leído al revés desde los umbrales calibrados, no una derivación: el
+    número no es señal."""
+    s1 = S_flip_first_order(delta0, 1.0, m_bar, b_bar, C0, a)
+    th = C.decade_thresholds()[:3]
+    return {"coefficient_S_flip_tau_over_delta0": None if s1 is None else s1 / delta0,
+            "tau_k": None if s1 is None else [s1 / S_k for S_k in th], "thresholds": th,
+            "status": "diagnóstico E13: reformulación del diccionario τ, no derivación"}
+
+
+def naturalness_sweep(n: int = 4000, seed: int = 20260921, prior: str = "uniform",
+                      delta0_probe: tuple = (0.012, 0.0581), n_check: int = 24,
+                      **prior_kwargs) -> dict:
+    """δ₀_max sobre los paisajes viables de `landscape_priors`: fracción
+    de paisajes con falso vacío metastable en cada δ₀ sondeado (0.012 del
+    ε_Λ heredado, 0.0581 del empalme), percentiles de δ₀_max y la
+    comprobación forma cerrada frente a bisección en una submuestra."""
+    from .landscape_priors import sample_shapes_prior
+    sh = sample_shapes_prior(n, seed, prior, **prior_kwargs)
+    d0max = np.array([delta0_metastability_max_analytic(m, b, e, c0)
+                      for m, b, e, c0 in zip(sh["m_bar"], sh["b_bar"], sh["e_bar"], sh["C0"])])
+    idx = np.linspace(0, len(d0max) - 1, min(n_check, len(d0max))).astype(int)
+    bis = np.array([delta0_metastability_max(sh["m_bar"][i], sh["b_bar"][i], sh["e_bar"][i], sh["C0"][i], hi=5.0)
+                    for i in idx])
+    rel = np.abs(bis - d0max[idx]) / d0max[idx]
+    return {"prior": prior, "n": int(len(d0max)), "seed": seed,
+            "fraction_metastable_at": {str(d): float(np.mean(d0max > d)) for d in delta0_probe},
+            "delta0_max_percentiles": {p: float(np.percentile(d0max, p)) for p in (5, 25, 50, 75, 95)},
+            "closed_form_vs_bisection_max_rel_err": float(rel.max()),
+            "scaling": "δ₀_max = 2·g_max(m̄, b̄, C0)²/ē² (∝ ē⁻²)",
+            "status": "publicado (cartografía sobre priors declarados; sin veredicto)"}
 
 
 def _logistic_rate(S: float, beta_c0: float, S_c: float) -> float:
@@ -335,6 +475,11 @@ class SClock:
         u_frozen_at, m_frozen_at = None, None
         lam_out_of_domain = None
         emergent = c.thresholds == "emergent"
+        mass_events = []                      # cruces M0² = 0 (modo emergente)
+        tau_seq = list(c.tau_per_dim) if c.tau_per_dim else None
+        tau_now = float(tau_seq[0]) if tau_seq else float(c.fp.tau)
+        if tau_seq and not emergent:
+            raise ValueError("tau_per_dim es una hipótesis del modo 'emergent'")
 
         def clock_of(f_val, S_val):
             return S_val if emergent else f_val
@@ -411,8 +556,31 @@ class SClock:
             # --- acoplos (Def. 4.4) en el reloj, si se pide ---------------
             if c.couplings_flow and dclk > 0.0:
                 beta = beta_functions(lam[0], lam[1], lam[2], c.fp.a, c.fp.b)
-                lam = lam + c.fp.flow_sign * c.fp.tau * beta * dclk
-                if lam[2] <= 0.0 or lam[0] <= 0.0:
+                lam_new = lam + c.fp.flow_sign * tau_now * beta * dclk
+                if lam[0] > 0.0 >= lam_new[0]:
+                    # inestabilidad de masa: el origen deja de ser mínimo. Se
+                    # publica y se SIGUE integrando (V acotado por C0 > 0)
+                    w = float(lam[0] / (lam[0] - lam_new[0]))
+                    S_flip = float(clk + w * dclk)
+                    ev = {"kind": "inestabilidad_masa", "S": S_flip, "S_integrated": float(S_new),
+                          "sigma": float(sigma + w * d_sigma), "tau": tau_now, "n_flip": len(mass_events) + 1,
+                          "S_flip_first_order": S_flip_first_order(c.delta0, tau_now, c.m_bar, c.b_bar, c.C0, c.fp.a),
+                          "lam_at_flip": lam_new.tolist(), "D_at_event": float(lam_new[1] ** 2 - 4.0 * lam_new[2] * lam_new[0]),
+                          "d_after": d_dim, "form": DECLARED_FORMS["mass_instability"],
+                          "status": "diagnóstico (M0² = 0 con τ declarado; E13: el número no es señal)"}
+                    mass_events.append(ev)
+                    events.append(ev)
+                    if tau_seq is not None and d_dim < 3:
+                        # hipótesis τ_d declarada: colapso d → d+1 y reposición de M0²
+                        collapse_event(S_flip, sigma + w * d_sigma,
+                                       "inestabilidad de masa M0² = 0 (hipótesis τ_d declarada, E13)")
+                        lam_new[0] = self.lam0[0]
+                        tau_now = float(tau_seq[min(d_dim, len(tau_seq) - 1)])
+                        ev["reset"] = {"M0_sq_to": float(self.lam0[0]), "tau_next": tau_now, "d_after": d_dim}
+                        # el salto de D que produce la reposición no es un cruce de la espinodal
+                        prev_D = float(lam_new[1] ** 2 - 4.0 * lam_new[2] * lam_new[0])
+                lam = lam_new
+                if lam[2] <= 0.0:
                     lam_out_of_domain = {"S": float(clk_new), "lam": lam.tolist()}
             # --- sellados con forma declarada -----------------------------
             if dclk > 0.0:
@@ -450,7 +618,7 @@ class SClock:
                             or lam_out_of_domain is not None)
                 stop_reason = (None if not finished else
                                "S ≥ S_end (fin del recorrido)" if clk >= c.S_end_emergent else
-                               "acoplos fuera del dominio (C0 ≤ 0 o M0² ≤ 0)" if lam_out_of_domain else
+                               "acoplos fuera del dominio (C0 ≤ 0)" if lam_out_of_domain else
                                "descenso completado (residuo de descarga alcanzado)" if done_descent else
                                "descenso completado (∇V ≈ 0)")
             if n % 5 == 0 or finished:
@@ -501,7 +669,9 @@ class SClock:
                             "landscape": self.land, "trajectory": {k: v.tolist() for k, v in rec.items()},
                             "events": events, "checks": checks, "delivered_state": delivered,
                             "steps": n, "finished": finished, "stop_reason": stop_reason,
-                            "couplings_out_of_domain": lam_out_of_domain})
+                            "couplings_out_of_domain": lam_out_of_domain,
+                            "mass_instability_events": mass_events,
+                            "tau_per_dim": list(c.tau_per_dim) if c.tau_per_dim else None})
 
     # ------------------------------------------------------ comprobaciones
     @staticmethod
@@ -532,8 +702,28 @@ class SClock:
         c = self.cfg
         t0n = T0_numeric(c.delta0, c.m_bar, c.b_bar, c.C0)
         d0max = delta0_metastability_max(c.m_bar, c.b_bar, c.e_bar, c.C0, c.theta_nuc)
+        d0max_an = delta0_metastability_max_analytic(c.m_bar, c.b_bar, c.e_bar, c.C0, c.theta_nuc)
+        k1 = kappa1_tilt(c.m_bar, c.b_bar, c.e_bar, c.C0, c.theta_nuc)
+        corr = self.T0 / self.T0_law - 1.0
+        first = k1 * np.sqrt(c.delta0)
         ld = self.land
         return {"quasi_cancellation_3_3": {"pass": quasi_cancellation_ok(c.m_bar, c.b_bar, c.C0), "status": "derivado"},
+                "T0_tilt_first_order": {"kappa1": k1, "kappa1_form": "ē·(cos θ − sin θ)·√κ₊/(√2·c̄)",
+                                        "predicted_correction": first, "measured_correction": corr,
+                                        "ratio_measured_over_first_order": corr / first if first else None,
+                                        "residual_over_delta0": (corr - first) / c.delta0,
+                                        "T0_first_order": T0_tilt_first_order(c.delta0, c.m_bar, c.b_bar, c.e_bar, c.C0, c.theta_nuc),
+                                        # el residuo es el orden siguiente, O(δ₀) relativo: se exige que su
+                                        # coeficiente quede por debajo de κ₁/2 (declarado)
+                                        "pass": bool(abs(corr - first) < 0.5 * k1 * c.delta0),
+                                        "note": "T₀_full/T₀_ley − 1 ≃ κ₁·√δ₀ + O(δ₀); κ₁ = 1.361 con las formas por defecto",
+                                        "status": "derivado"},
+                "delta0_max_closed_form": {"analytic": d0max_an, "bisection": d0max,
+                                           "rel_err": abs(d0max_an - d0max) / d0max if np.isfinite(d0max) and d0max > 0 else 0.0,
+                                           "form": "2·g_max(m̄, b̄, C0)²/(ē·(cos θ − sin θ))² ∝ ē⁻²",
+                                           "pass": bool((not np.isfinite(d0max) and not np.isfinite(d0max_an))
+                                                        or abs(d0max_an - d0max) < 1e-6 * d0max),
+                                           "status": "derivado"},
                 "metastability_8_6_D_only": {"pass": metastability_bound(c.delta0, c.m_bar, c.b_bar, c.C0),
                                              "D_S0": discriminant_basal(c.delta0, c.m_bar, c.b_bar, c.C0), "status": "derivado"},
                 "metastability_with_tilt": {"pass": ld["metastable"], "delta0": c.delta0, "delta0_max": d0max,
@@ -683,9 +873,19 @@ def emergent_diagnostic(delta0: float, tau: float = 1.0, **kwargs) -> dict:
                              fp=fp, **kwargs)).run()
     crossings = [e["S"] for e in out["events"] if e["kind"].startswith("colapso")]
     D = np.asarray(out["trajectory"]["D"])
+    flips = out["mass_instability_events"]
+    first = flips[0] if flips else None
     return {"delta0": delta0, "tau": tau, "S_crossings": crossings,
             "decade_thresholds": C.decade_thresholds()[:3],
             "D_initial": float(D[0]), "D_final": float(D[-1]), "D_min": float(D.min()),
             "D_sinks": bool(D[-1] < D[0]), "S_final": float(out["trajectory"]["S"][-1]),
             "stop_reason": out["stop_reason"], "couplings_out_of_domain": out["couplings_out_of_domain"],
+            "mass_instability": None if first is None else {
+                "S_flip": first["S"], "S_flip_first_order": first["S_flip_first_order"],
+                "ratio": (first["S"] / first["S_flip_first_order"]) if first["S_flip_first_order"] else None,
+                "n_flips": len(flips), "status": first["status"]},
+            "tau_decade_table": tau_decade_table(delta0, kwargs.get("m_bar", M_BAR), kwargs.get("b_bar", B_BAR),
+                                                 kwargs.get("C0", C0_DEFAULT), fp.a),
+            "tau_per_dim": out["tau_per_dim"],
+            "collapse_triggers": [e["trigger"] for e in out["events"] if e["kind"].startswith("colapso")],
             "status": "diagnóstico sin estatuto: el diccionario τ no es derivable (frente 2)"}
