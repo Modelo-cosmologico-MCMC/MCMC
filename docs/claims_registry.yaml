@@ -1282,7 +1282,7 @@ claims:
       cambiaría el veredicto C si un término no radial del Basal (fuera
       de −η·χ) favoreciera caminos curvos
     evidence_level: comprobación interna (E8) bajo preinscripción congelada; veredicto (A sí, B sí, C no) condicional a n_dim declarado; E13 (Γ₀(0) = 0 se cumple en las tres leyes, ninguna es señal)
-    status: interno-condicional
+    status: interno
     artifact: results/2026-09-21_nucleation_gamma0
 
   - claim_id: s-clock-simulador-consistencia
