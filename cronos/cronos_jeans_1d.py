@@ -20,13 +20,40 @@ import numpy as np
 
 
 def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: float = 2e-3,
-               seed: int = 1, nmodes: int = 8, sample_every: int = 25) -> dict:
+               seed: int = 1, nmodes: int = 8, sample_every: int = 25,
+               quiet_start: bool = False, seed_mode: int | None = None, seed_amp: float = 0.0,
+               n_beams: int = 256) -> dict:
     """Integra el sistema de láminas (leapfrog, densidad CIC) y devuelve
-    muestras de rms(δ) y de |δ_k| para los primeros modos."""
+    muestras de rms(δ) y de |δ_k| para los primeros modos.
+
+    quiet_start: arranque silencioso multihaz (Denavit–Walsh): n_beams
+    haces con velocidades en los cuantiles estratificados de la
+    gaussiana y, dentro de cada haz, posiciones en un retículo uniforme
+    desplazado una fracción de celda — la densidad es exactamente
+    uniforme en t = 0 y el ruido de Poisson no existe a los modos bajos;
+    solo la no linealidad lo genera. seed_mode/seed_amp: siembra un solo
+    modo k_n = 2πn/L con x → x + (A/k)·sin(kx), es decir |δ_k| = A/2 en
+    la normalización de _modes — el instrumento del test preinscrito del
+    criterio (fase lineal resuelta, tasa por modo medible)."""
+    from scipy.special import erfinv
     rng = np.random.default_rng(seed)
     L = 1.0
-    x = rng.random(N) * L                      # ruido de Poisson como semilla
-    v = rng.standard_normal(N)                 # σ = 1
+    if quiet_start:
+        per_beam = max(1, N // n_beams)
+        N = per_beam * n_beams
+        u = (np.arange(n_beams) + 0.5) / n_beams
+        v_beam = np.sqrt(2.0) * erfinv(2.0 * u - 1.0)          # σ = 1, cuantiles
+        j = np.repeat(np.arange(n_beams), per_beam)
+        i = np.tile(np.arange(per_beam), n_beams)
+        x = ((i + (j + 0.5) / n_beams) * L / per_beam) % L
+        v = v_beam[j]
+        v = v - v.mean()                                     # centro de masa exacto
+    else:
+        x = rng.random(N) * L                  # ruido de Poisson como semilla
+        v = rng.standard_normal(N)             # σ = 1
+    if seed_mode is not None and seed_amp != 0.0:
+        k_seed = 2.0 * np.pi * seed_mode / L
+        x = (x + (seed_amp / k_seed) * np.sin(k_seed * x)) % L
     m = L / N                                  # ρ₀ = 1
     c2A = q * 2.0 / 3.0                        # (3/2)·c²A·ρ₀^{3/2} = q
     dx = L / ng
@@ -55,8 +82,37 @@ def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: fl
             samples.append((t, float(rho.std()), _modes(k, x, N)))
     poisson = float(np.sqrt(N / ng) / (N / ng))  # rms de Poisson por celda ≈ 1/√(N/ng)
     return {"q": q, "N": N, "ng": ng, "T": T, "dt": dt, "seed": seed, "k": k.tolist(),
+            "quiet_start": quiet_start, "n_beams": n_beams if quiet_start else None,
+            "seed_mode": seed_mode, "seed_amp": seed_amp, "delta_k_seeded_expected": 0.5 * seed_amp,
             "poisson_rms_per_cell": poisson,
             "samples": [{"t": t_, "rms_delta": r_, "delta_k": dk_} for t_, r_, dk_ in samples]}
+
+
+def fit_growth(res: dict, mode: int, amp_lo: float, amp_hi: float) -> dict:
+    """Ajuste log-lineal de |δ_k|(t) del modo `mode` (1-based) en la
+    ventana de amplitud [amp_lo, amp_hi] (la fase lineal declarada):
+    tasa γ, γ/k, r² y número de puntos. Sin puntos suficientes devuelve
+    n_points y NaN (el analizador decide INDETERMINADO)."""
+    ts = np.array([s["t"] for s in res["samples"]])
+    amp = np.array([s["delta_k"][mode - 1] for s in res["samples"]])
+    k = res["k"][mode - 1]
+    sel = (amp >= amp_lo) & (amp <= amp_hi)
+    # solo la primera racha contigua dentro de la ventana (antes de saturar)
+    idx = np.nonzero(sel)[0]
+    if idx.size:
+        breaks = np.nonzero(np.diff(idx) > 1)[0]
+        idx = idx[: breaks[0] + 1] if breaks.size else idx
+    if idx.size < 3:
+        return {"mode": mode, "k": k, "n_points": int(idx.size), "gamma": float("nan"),
+                "gamma_over_k": float("nan"), "r2": float("nan"), "amp_max": float(amp.max()),
+                "amp_initial": float(amp[0])}
+    y = np.log(amp[idx])
+    p = np.polyfit(ts[idx], y, 1)
+    resid = y - np.polyval(p, ts[idx])
+    r2 = 1.0 - float(np.sum(resid ** 2) / max(np.sum((y - y.mean()) ** 2), 1e-300))
+    return {"mode": mode, "k": k, "n_points": int(idx.size), "gamma": float(p[0]),
+            "gamma_over_k": float(p[0] / k), "r2": r2, "t_window": [float(ts[idx[0]]), float(ts[idx[-1]])],
+            "amp_max": float(amp.max()), "amp_initial": float(amp[0])}
 
 
 def _modes(k: np.ndarray, x: np.ndarray, N: int) -> list:

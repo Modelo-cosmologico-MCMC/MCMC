@@ -1270,6 +1270,45 @@ claims:
     status: experimento-no-ejecutado
     artifact: results/2026-09-21_sculptor_profile
 
+  - claim_id: test-criterio-cronos-jeans
+    entity: Test preinscrito del criterio de Cronos–Jeans (frente 5a) — instrumento de láminas con arranque silencioso multihaz y predicción cinética exacta con la función de transferencia del instrumento; desenlace INDETERMINADO por la puerta «fase lineal resuelta» en tres modos bajos; donde se resuelve, γ/k coincide con la predicción cinética al 1 % (21-sep-2026)
+    law: "Def. 11.1 + Cor. 11.3c (fuerza local +c²∇ε_c, ε_c = A·ρ^(3/2)); ecuación de Vlasov lineal del medio maxwelliano con la fuerza local: 1 = q·[1 + ζZ(ζ)], modo creciente √π·y·e^{y²}·erfc(y) = 1 − 1/q, γ = √2·k·σ·y(q)"
+    derivation: >-
+      preinscripción congelada (sha256 3dcd7417db06…, commit b24f2b4,
+      posterior al generador 18bccf5) ANTES de ninguna corrida de
+      producción: q ∈ {0.5, 0.8, 1.2, 2.0} × modos {4, 8, 16}, N = 2e6,
+      ng = 512, 1024 haces (Denavit–Walsh), siembra |δ_k|(0) = 1e-5,
+      ventana lineal [3e-5, 3e-4], predicción por (q, modo) con la
+      corrección del instrumento W(k) = sinc⁴(kh/2)·sin(kh)/(kh),
+      tolerancias 25 %/25 %/10 %, puertas (fase lineal resuelta: ≥ 8 puntos
+      con r² ≥ 0.98 en cada modo con q > 1; siembra; convergencia en
+      haces), desenlaces C/B/A/INDETERMINADO; tres rondas de pilotos
+      declaradas que fijaron solo el instrumento. RESULTADO bajo la regla
+      congelada: INDETERMINADO — la puerta de fase lineal falla en q = 1.2
+      n = 4 (r² = 0.917), q = 2.0 n = 4 (0.276) y q = 2.0 n = 8 (0.973):
+      los modos bajos a q > 1 no dan fase lineal limpia con esta siembra
+      (batido con modos amortiguados, como advirtieron los pilotos en
+      q = 2). Se retiene tal cual. Lo que las corridas resueltas muestran,
+      publicado como tabla y no como veredicto: q < 1 estable en los seis
+      modos (×1.0); q = 1.2: γ/k = 0.1459 / 0.1375 (n = 8 / 16) frente a
+      0.1465 / 0.1384 cinético con W(k) y 0.447 fluido; q = 2.0, n = 16:
+      0.5976 frente a 0.5994 (fluido 1.000); convergencia en haces 0.7 %.
+      La independencia de k falla por los modos no resueltos (dispersión
+      0.43 / 0.39). Ninguna tolerancia se toca; la ronda siguiente exige
+      preinscripción nueva (siembra y ventana específicas para n = 4, 8 a
+      q ≥ 1.2, o excluirlos del brazo y añadir n = 32).
+    implementation: cronos/cronos_jeans_kinetic.py + cronos/cronos_jeans_1d.py + scripts/run_cj_test_prereg.py + scripts/run_cj_test.py
+    test: tests/test_cronos_jeans_kinetic.py + tests/test_cj_criterion_lock.py
+    observable: "— (experimento numérico interno; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      en una ronda resuelta, γ/k fuera de la tolerancia de la predicción
+      cinética (desenlace B) o crecimiento con q < 1 (C) refutarían la
+      derivación del criterio; esta ronda no decide
+    evidence_level: experimento numérico interno (E8) bajo preinscripción congelada; desenlace INDETERMINADO por puerta; la concordancia al 1 % en los modos con fase lineal limpia se publica sin veredicto
+    status: interno
+    artifact: results/2026-09-21_cj_criterion_test
+
   - claim_id: halo-serie-resolucion-campo
     entity: Frente 5 (b) — serie de resolución del campo de Cronos (k_inner 64/128/256) en el halo NFW a A_Sculptor y a 0.05·A_Sculptor con campo instantáneo que sigue a las partículas y balance K + W + (2/5)U_C + W_fric, bajo preinscripción congelada; desenlace INDETERMINADO por la puerta de energía (21-sep-2026, tarde)
     law: "Cor. 11.3 completo (fuerza, fricción con compuerta, lapso) con ε_c = A·ρ^(3/2); criterio de Cronos–Jeans (fila criterio-cronos-jeans): q > 1 dentro de r_CJ ⟹ inestabilidad ultravioleta ⟹ sin convergencia en resolución"

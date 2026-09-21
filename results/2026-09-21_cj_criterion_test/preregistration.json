@@ -1,0 +1,228 @@
+{
+  "title": "Test del criterio de Cronos–Jeans con predicción convergida (teoría cinética lineal) en un medio homogéneo de láminas sin gravedad",
+  "frozen_utc": "2026-09-21T12:03:48.219023+00:00",
+  "code_commit": "18bccf550fa2b983ddd637e2bd9135625ff74de0",
+  "generator": "scripts/run_cj_test_prereg.py",
+  "question": "¿Reproduce el instrumento de láminas el umbral q = 1 y la tasa cinética exacta γ/k = √2·σ·y(q), proporcional a k, de la ley local ε_c = A·ρ^(3/2)? Si no, ningún halo con esta ley dice nada.",
+  "system": {
+    "sigma": 1.0,
+    "rho0": 1.0,
+    "L": 1.0,
+    "gravity": false,
+    "force": "+c²∂_x ε_c(ρ), ε_c = A·ρ^(3/2), con (3/2)c²A·ρ0^(3/2) ≡ q·σ²"
+  },
+  "instrument": {
+    "N": 2000000,
+    "ng": 512,
+    "dt": 0.001,
+    "sample_every": 2,
+    "quiet_start": true,
+    "n_beams": 1024,
+    "per_beam_rule": "N/n_beams ≥ 2·ng: el retículo de cada haz debe ser más fino que la malla CIC",
+    "seed_amp": 2e-05,
+    "seed": 1,
+    "T_rule": "q > 1: T = 1.5·ln(1e-3/|δ_k|(0))/γ_cin(k) + 0.1 (llegar a 1e-3, treinta veces por encima de la ventana); q < 1: T = 0.6 L/σ",
+    "T_stable": 0.6,
+    "T_safety": 1.5,
+    "delta_end": 0.001,
+    "beam_convergence_run": {
+      "q": 1.2,
+      "mode": 8,
+      "n_beams_alt": 512
+    }
+  },
+  "q_grid": [
+    0.5,
+    0.8,
+    1.2,
+    2.0
+  ],
+  "modes": [
+    4,
+    8,
+    16
+  ],
+  "prediction_kinetic": [
+    {
+      "q": 0.5,
+      "y": 0.0,
+      "gamma_over_k_kinetic": 0.0,
+      "gamma_over_k_fluid": 0.0,
+      "unstable": false
+    },
+    {
+      "q": 0.8,
+      "y": 0.0,
+      "gamma_over_k_kinetic": 0.0,
+      "gamma_over_k_fluid": 0.0,
+      "unstable": false
+    },
+    {
+      "q": 1.2,
+      "y": 0.10550447715076941,
+      "gamma_over_k_kinetic": 0.14920586247770043,
+      "gamma_over_k_fluid": 0.44721359549995787,
+      "unstable": true
+    },
+    {
+      "q": 2.0,
+      "y": 0.43275159936630797,
+      "gamma_over_k_kinetic": 0.6120031809624809,
+      "gamma_over_k_fluid": 1.0,
+      "unstable": true
+    }
+  ],
+  "windows_and_T": {
+    "q0.5_n4": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9991970917162399,
+      "q_eff": 0.49959854585811997,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0
+    },
+    "q0.5_n8": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9967917501673835,
+      "q_eff": 0.49839587508369176,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0
+    },
+    "q0.5_n16": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9872209634732488,
+      "q_eff": 0.4936104817366244,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0
+    },
+    "q0.8_n4": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9991970917162399,
+      "q_eff": 0.799357673372992,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0
+    },
+    "q0.8_n8": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9967917501673835,
+      "q_eff": 0.7974334001339068,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0
+    },
+    "q0.8_n16": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9872209634732488,
+      "q_eff": 0.7897767707785991,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0
+    },
+    "q1.2_n4": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 1.9504530930354826,
+      "W_k": 0.9991970917162399,
+      "q_eff": 1.199036510059488,
+      "gamma_over_k_instrument": 0.14853164914811226,
+      "gamma_over_k_continuum": 0.14920586247770043
+    },
+    "q1.2_n8": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 1.0379965152046309,
+      "W_k": 0.9967917501673835,
+      "q_eff": 1.19615010020086,
+      "gamma_over_k_instrument": 0.14650952595480843,
+      "gamma_over_k_continuum": 0.14920586247770043
+    },
+    "q1.2_n16": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 0.5963759686818763,
+      "W_k": 0.9872209634732488,
+      "q_eff": 1.1846651561678985,
+      "gamma_over_k_instrument": 0.13842876515036093,
+      "gamma_over_k_continuum": 0.14920586247770043
+    },
+    "q2.0_n4": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 0.5496777821486357,
+      "W_k": 0.9991970917162399,
+      "q_eff": 1.9983941834324799,
+      "gamma_over_k_instrument": 0.611217321581916,
+      "gamma_over_k_continuum": 0.6120031809624809
+    },
+    "q2.0_n8": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 0.3257092262254671,
+      "W_k": 0.9967917501673835,
+      "q_eff": 1.993583500334767,
+      "gamma_over_k_instrument": 0.6088604665748786,
+      "gamma_over_k_continuum": 0.6120031809624809
+    },
+    "q2.0_n16": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 0.2146274339997109,
+      "W_k": 0.9872209634732488,
+      "q_eff": 1.9744419269464977,
+      "gamma_over_k_instrument": 0.5994438678189348,
+      "gamma_over_k_continuum": 0.6120031809624809
+    }
+  },
+  "delta_k_initial": 1e-05,
+  "prediction_text": "umbral exacto en q = 1 (F(0) = 1); para q > 1, √π·y·e^{y²}·erfc(y) = 1 − 1/q y γ = √2·k·σ·y(q): γ/k independiente de k; para q < 1 ningún modo crece (amortiguamiento de Landau). El límite fluido γ = kσ√(q−1) sobreestima la tasa cerca del umbral (×3 en q = 1.2). PREDICCIÓN PARA EL INSTRUMENTO (la que se contrasta): el depósito/recogida CIC y el gradiente centrado multiplican el acoplo por W(k) = sinc⁴(kh/2)·sin(kh)/(kh) (derivado, no ajustado), así que γ/k = √2·σ·y(q·W(k)); cerca del umbral una corrección del 1–2 % en q es del 5–10 % en γ. La independencia de k se contrasta sobre el cociente medido/predicho.",
+  "rules": {
+    "linear_window_rule": "fase lineal = |δ_k| ∈ [3·|δ_k|(0), 30·|δ_k|(0)] = [3e-5, 3e-4]: una década de amplitud, ≥ 30 veces por debajo de la escala donde los pilotos vieron no linealidad (~1e-2) y tras el transitorio de mezcla de fases (los primeros ~3·(kσ)⁻¹)",
+    "linear_window_lo_factor": 3.0,
+    "linear_window_hi_factor": 30.0,
+    "min_points_linear": 8,
+    "min_r2": 0.98,
+    "rate_rel_tol": 0.25,
+    "k_independence_rel_spread": 0.25,
+    "stable_max_growth_factor": 3.0,
+    "beam_convergence_rel_tol": 0.1,
+    "fluid_discriminates_if": "|γ_cin − γ_fluido|/γ_cin ≥ 0.25 en q = 1.2 y 2.0 (aquí: 2.0 y 0.63)"
+  },
+  "gates": {
+    "linear_phase_resolved": "≥ min_points_linear puntos en la ventana con r² ≥ min_r2 para CADA modo con q > 1",
+    "seed_noise": "con arranque silencioso, |δ_k|(0) de los modos NO sembrados < 0.1·|δ_k|(0) sembrado",
+    "beam_convergence": "γ/k en (q = 1.2, n = 8) con 512 haces difiere del de 1024 haces en ≤ 10 %: el instrumento no depende de la discretización en velocidad; si falla → INDETERMINADO"
+  },
+  "outcomes": {
+    "order": "puertas → C → B → A → INDETERMINADO; nunca se ajustan umbrales tras ver los números",
+    "C_criterion_or_instrument_broken": "crecimiento (factor > 2) en q < 1, o ausencia de fase lineal creciente en q > 1 en todos los modos: sospecha de error primero (instrumento), después el criterio",
+    "B_threshold_ok_rate_off": "umbral correcto (estable en q < 1, crece en q > 1) pero γ/k fuera de la tolerancia cinética en algún q, o dependencia de k más allá de la dispersión permitida: se publica γ/k medido frente a cinético y fluido; el instrumento no reproduce la tasa",
+    "A_kinetic_reproduced": "umbral correcto, γ/k dentro de ±25 % de la predicción cinética en q = 1.2 y 2.0 y dispersión entre modos ≤ 25 %: el instrumento reproduce el criterio con su predicción convergida",
+    "INDETERMINADO": "fase lineal no resuelta (puntos o r² insuficientes) en algún modo con q > 1, o corridas ausentes"
+  },
+  "expectations_E13": "A; la tasa cinética, no la fluida (el test 1D del autor con ruido de Poisson dio tasa/k ≈ 0.2–0.6 en q = 1.2, compatible con ambas)",
+  "development_declaration": {
+    "pilots": "tres rondas de pilotos con N = 5e5 y ng = 256, declaradas: (i) siembra 0.005 con arranque silencioso por permutación — la amplitud se estancaba en ~1e-2 y el ruido de fondo era ~1e-3: no había ventana lineal; (ii) arranque multihaz con 128–4096 haces y siembra 1e-4 — con pocos haces aparecían modos de haz y recurrencias, con demasiados (retículo por haz más grueso que la malla) aliasing, y para q = 2 la fase puramente creciente solo se separa de los modos amortiguados a amplitudes ≲ 1e-3; (iii) siembra 1e-5, ventana de una década [3e-5, 3e-4], modos 8 y 16, 1024 haces con retículo más fino que la malla: fase exponencial limpia. Los pilotos SÍ mostraron tasas; se declaran como lo que son (calibración del instrumento) y ninguna tolerancia ni desenlace se ajustó a ellas: las tolerancias (25 %, 10 %) y los desenlaces se fijaron antes de la ronda (iii)",
+    "what_they_fixed": "solo el instrumento (siembra, arranque multihaz, ventana, modos, muestreo y T); NO se tocó ninguna tolerancia ni desenlace tras ver tasas medidas",
+    "budget": "13 corridas (4 q × 3 modos + control de haces) con N = 2e6: ~1–4 min cada una"
+  },
+  "prohibitions": {
+    "no_threshold_tuning": true,
+    "no_data": true,
+    "no_change_to_A_sculptor": true
+  }
+}
