@@ -6,6 +6,35 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Decisiones A, B y C del autor (22-sep), derivadas del tratado y
+  ejecutadas por el reloj S**. **A** — la T₀ que el Lema 10.3 iguala a
+  W_max es la del paisaje completo (el contenido del Lema es T₀ ≤ W_max;
+  c̄δ³ es la expresión de la Prop. 3.4, que declara la inclinación como
+  corrección). Con la inclinación en los dos lados, δ_H se recalcula como
+  raíz de λ_Ad_full(δ) = λ_H (`B7_empalme.sealed_curvature_lambda_full`,
+  `delta0_required_full`; espejo `core.delta0_circle.delta0_H_full`):
+  δ_H_full = 0.05544 (−4.6 %; la curvatura sellada sube ×1.050 en δ_H) y
+  el Techo decidido es W_max = T₀_full(δ_H_full) = 1.869e-4, entre la ley
+  3.4 en δ_H_ley (1.652e-4) y el paisaje completo en δ_H_ley (2.167e-4);
+  las tres cadenas se publican (`W_max_required_decided`, `DECISION_A`).
+  **B** — la nucleación de S₀ es de un grado de libertad (n = 1: sin
+  soporte espacial en S₀; el bounce O(4) entrega f₀ = 0.9996 y se traga
+  la descarga): `nucleation='kramers'` (Axioma 4, D_ent DECLARADA como
+  fracción de la barrera) y `'gamow'` como cota; `'bounce'` queda como
+  control negativo etiquetado. Corridas: Γ_K = 8.4e-10 / 6.8e-6 / 1.7e-5
+  en δ₀ = 0.01 y 1.7e-8 / 1.4e-4 / 3.4e-4 en δ_H_full para D_ent/ΔV_b =
+  0.1 / 1 / 10 (Gamow 1.6e-3 / 7.4e-3), identidad S ≡ f a 2e-13. Lo
+  abierto no es n_dim sino D_ent (frente 2). **C** — «el colapso» es
+  D = 0 (Cruce de Victoria, Def. 8.4 / Obs. 8.6), el gatillo del estado
+  ocupado; M0² = 0 es la desaparición del falso vacío que el campo ya
+  abandonó: diagnóstico (`DECLARED_FORMS['collapse_trigger']`). Bajo el
+  cierre canónico D no cruza cero en ninguna corrida (M0² = 0 ocurre en
+  5): el colapso del tratado exige β del frente 2 y los umbrales siguen
+  impuestos. El código ejecuta las decisiones, no las demuestra (E8).
+  Artefacto `results/2026-09-21_s_clock/` regenerado con la sección v2;
+  filas `circulo-delta0`, `nucleacion-gamma0`, `s-clock-simulador-consistencia`
+  y `diagonal-j-requerido` actualizadas; Nota I §3.30; tests nuevos.
+
 - **Frente 5 (b) (21-sep, tarde): serie de resolución del campo de
   Cronos (k_inner 64/128/256) a A_Sculptor y 0.05·A_Sculptor con campo
   instantáneo y balance K + W + (2/5)U_C + W_fric, bajo preinscripción
