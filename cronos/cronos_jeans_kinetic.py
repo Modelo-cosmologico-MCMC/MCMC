@@ -15,7 +15,7 @@ decreciente de 1 (y = 0) a 0 (y → ∞). Por tanto:
     q > 1:    √π·y·e^{y²}·erfc(y) = 1 − 1/q,   γ = √2·k·σ·y(q):
               la tasa es EXACTAMENTE proporcional a k (catástrofe
               ultravioleta) y γ/(kσ) = √2·y(q) es una función universal
-              de q, sin parámetros libres;
+              de q (ningún parámetro ajustado: solo q entra);
     q ≫ 1:    F(y) ≈ 1/(2y²) ⟹ γ → kσ√q, el límite fluido γ = kσ√(q−1)
               de dynamics.cronos_jeans a orden dominante.
     q < 1:    ningún modo creciente (los modos acústicos se amortiguan

@@ -6,6 +6,29 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Test preinscrito del criterio de Cronos–Jeans (frente 5a, 21-sep):
+  desenlace INDETERMINADO bajo la regla congelada; donde la fase lineal
+  se resuelve, γ/k coincide con la predicción cinética exacta al 1 %**.
+  Tres commits (instrumento + predicción · congelación · corridas).
+  `cronos/cronos_jeans_kinetic.py`: relación de dispersión de Vlasov con
+  la fuerza local, 1 = q[1 + ζZ(ζ)]; modo creciente √π·y·e^{y²}·erfc(y) =
+  1 − 1/q, γ = √2kσy(q) (0.149 en q = 1.2 frente a 0.447 del fluido;
+  0.612 en q = 2); función de transferencia del instrumento W(k).
+  `cronos/cronos_jeans_1d.py`: arranque silencioso multihaz
+  (Denavit–Walsh) y siembra de un modo. Preinscripción (sha256
+  3dcd7417db06…): q ∈ {0.5, 0.8, 1.2, 2.0} × modos {4, 8, 16}, N = 2e6,
+  1024 haces, ventana [3e-5, 3e-4], tolerancias 25 %/25 %/10 %, puertas,
+  C/B/A/INDETERMINADO; tres rondas de pilotos declaradas. **Resultado**:
+  INDETERMINADO — la puerta «fase lineal resuelta» (≥ 8 puntos con r² ≥
+  0.98) falla en q = 1.2 n = 4, q = 2.0 n = 4 y q = 2.0 n = 8 (modos bajos
+  a q > 1: batido con modos amortiguados); se retiene sin tocar nada.
+  Publicado como tabla: q < 1 estable en los seis modos; q = 1.2: γ/k =
+  0.1459 / 0.1375 (n = 8 / 16) frente a 0.1465 / 0.1384 cinético; q = 2,
+  n = 16: 0.5976 frente a 0.5994; convergencia en haces 0.7 %. Ronda
+  siguiente: preinscripción nueva para los modos bajos. Fila nueva
+  `test-criterio-cronos-jeans` (interno). Nota I §3.28. Registro: 57
+  claims (sobre la base de esta rama).
+
 - **La salida de S₀ (21-sep): `core/nucleation.py` — bounce de Coleman
   O(d) sobre el Basal completo, escape de Kramers del Flujo del Camino
   y el reloj S arrancando en el estado nucleado; hallazgo: con pared
