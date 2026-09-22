@@ -34,6 +34,17 @@ def test_oort_kz_prereg_frozen_and_rules_from_json():
     runs = KZ / "runs.json"
     if runs.exists():
         assert json.loads(runs.read_text(encoding="utf-8"))["preregistration_sha256"] == _sha(KZ / "preregistration.json")
+    if "erratum" in doc:
+        # un erratum copia las reglas verbatim de la v1 (que sigue en el repositorio, con su sha) y el
+        # analizador comprueba que los números coinciden con los de la v1
+        v1 = KZ / doc["erratum"]["of_file"]
+        assert v1.exists() and _sha(v1) == doc["erratum"]["of_sha256"]
+        assert json.loads(v1.read_text(encoding="utf-8"))["rules"] == doc["rules"]
+        assert 'v1["rules"] != R' in body and "values_identical_to_v1" in body
+        res = KZ / "results.json"
+        if res.exists():
+            chk = json.loads(res.read_text(encoding="utf-8"))["erratum_check"]
+            assert chk["rules_identical"] and chk["values_identical_to_v1"] and chk["max_abs_deviation_from_v1"] <= 1e-9
 
 
 @pytest.mark.skipif(not (SC / "preregistration.json").exists(), reason="preinscripción Sculptor no congelada")

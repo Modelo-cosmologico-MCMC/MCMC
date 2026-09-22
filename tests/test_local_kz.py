@@ -1,7 +1,8 @@
 """Vecindad solar como contraste de la Ley de Cronos débil (dynamics/local_kz.py).
 
 Se comprueba: el dataset transcrito pasa el guard (AVAILABLE, esquema,
-sha256) y declara que los bytes oficiales no están verificados; el
+sha256), declara que los bytes de las tablas no están descargados y que
+los valores se verificaron contra los resúmenes de arXiv (22-sep); el
 incremento efectivo es lineal en A y escala como h⁻² con las alturas de
 la losa; el margen observacional es positivo; la cota A_2σ invierte la
 linealidad. Nada es resultado observacional verificado (E8)."""
@@ -21,8 +22,13 @@ from dynamics.local_kz import (
 
 def test_dataset_guard_and_caveat():
     b = load_bounds()
-    assert b["official_bytes_verified"] is False and "verificar" in b["values"]["rho_dyn_0_HF2000"]["transcribed_from"]
-    assert set(b["values"]) == {"rho_dyn_0_HF2000", "rho_dyn_0_MPH2015", "rho_bar_0_MPH2015", "Sigma_1p1_BT2012", "Sigma_bar_1p1_MPH2015"}
+    # bytes de las tablas no descargados (aviso), valores verificados contra los resúmenes de arXiv (22-sep-2026)
+    assert b["official_bytes_verified"] is False and b["values_verified_against_arxiv_abstracts"] is True
+    assert "verificado" in b["values"]["rho_dyn_0_HF2000"]["transcribed_from"]
+    assert set(b["values"]) == {"rho_dyn_0_HF2000", "rho_dyn_0_MPH2015", "rho_bar_0_MPH2015", "Sigma_1p1_BR2013", "Sigma_bar_1p1_MPH2015"}
+    # erratum: la cifra de Σ(<1.1 kpc) es de Bovy & Rix 2013; ρ_bar es resta declarada
+    assert "Bovy & Rix 2013" in b["values"]["Sigma_1p1_BR2013"]["source"] and "Tremaine" not in b["values"]["Sigma_1p1_BR2013"]["source"]
+    assert "resta" in b["values"]["rho_bar_0_MPH2015"]["derived"]
 
 
 def test_increments_linear_in_A_and_h_minus_two():
