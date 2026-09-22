@@ -87,10 +87,14 @@ def truncated_nfw_density(r, p: dict, r_decay_factor: float = 0.3):
 
 
 def _eddington_tables(p: dict, r_decay_factor: float, n_r: int = 3000,
-                      n_E: int = 500) -> dict:
+                      n_E: int = 500, r_min_factor: float = 1e-4, n_u: int = 200, edge_dense: bool = False) -> dict:
+    # r_min_factor: borde interior de las tablas en unidades de r_s. El valor por defecto (1e-4) es el del
+    # N-cuerpos (frente 5, rondas 1 y 5b; ICs reproducibles). El código de capas (halo_shells) lo baja porque
+    # la inversión de Eddington tiene un pico numérico de f(E) en el último nodo (E ≈ Ψ(r_min)) que enfría
+    # ~25 % las capas muestreadas cerca de ese borde (piloto declarado en la ronda 2).
     rs, rt = p["r_s"], p["r200"]
     rd = r_decay_factor * rt
-    r_min, r_max = 1e-4 * rs, rt + 12.0 * rd
+    r_min, r_max = r_min_factor * rs, rt + 12.0 * rd
     r = np.geomspace(r_min, r_max, n_r)
     rho = truncated_nfw_density(r, p, r_decay_factor)
     # masa: analítica dentro de r_min (NFW: ≈ 2πρ_s r_s x² para x ≪ 1)
@@ -110,12 +114,18 @@ def _eddington_tables(p: dict, r_decay_factor: float, n_r: int = 3000,
     Psi_s, d1_s, d2_s = Psi[order], d1[order], d2[order]
     d2_of_Psi = interp1d(Psi_s, d2_s, bounds_error=False, fill_value=(d2_s[0], d2_s[-1]))
     d1_at_0 = float(d1_s[0])
-    E_grid = np.geomspace(Psi_s[0] * 1.001, Psi_s[-1] * 0.999, n_E)
+    if edge_dense:
+        # malla de E densa hacia Ψ_max (la cúspide NFW tiene Ψ(0) finito y f(E) diverge al acercarse E a Ψ(0):
+        # las capas con r ≲ 0.1 kpc viven a (Ψ_max − E)/Ψ_max ≲ 1e-2, donde la malla geométrica no resuelve f)
+        y = np.geomspace(1e-7, 1.0 - Psi_s[0] * 1.001 / Psi_s[-1], n_E)[::-1]
+        E_grid = Psi_s[-1] * (1.0 - y)
+    else:
+        E_grid = np.geomspace(Psi_s[0] * 1.001, Psi_s[-1] * 0.999, n_E)
     f = np.empty_like(E_grid)
-    u = (np.arange(200) + 0.5) / 200.0                    # Ψ = E − (u√E)² ⇒ dΨ = −2u E du
+    u = (np.arange(n_u) + 0.5) / n_u                      # Ψ = E − (u√E)² ⇒ dΨ = −2u E du
     for i, E in enumerate(E_grid):
         Psi_q = E * (1.0 - u ** 2)
-        f[i] = np.sum(2.0 * np.sqrt(E) * d2_of_Psi(Psi_q) / 200.0) + d1_at_0 / np.sqrt(E)
+        f[i] = np.sum(2.0 * np.sqrt(E) * d2_of_Psi(Psi_q) / n_u) + d1_at_0 / np.sqrt(E)
     f /= np.sqrt(8.0) * np.pi ** 2
     neg = float(np.mean(f < 0.0))
     f = np.clip(f, 0.0, None)

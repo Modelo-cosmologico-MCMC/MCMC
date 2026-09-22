@@ -1,0 +1,183 @@
+{
+  "title": "Frente 5 (b), ronda 2: serie de resolución del campo de Cronos con código de capas esféricas (ds = 0.02/0.04/0.08 = Δln r ×½/×1/×2, N = 1e5/1e6, refinamiento de masa interior, campo conservativo), balance K + W + (2/5)U_C + W_fric a precisión de máquina",
+  "frozen_utc": "2026-09-22T10:03:24.665619+00:00",
+  "code_commit": "0b804fe257231d8b80069a97b5627debdf758113",
+  "generator": "scripts/run_halo_shells.py prereg",
+  "generator_commit_must_precede_freeze": true,
+  "round1": "results/2026-09-21_halo_resolution (INDETERMINADO por la puerta de energía a A_Sculptor; interior no resuelto): intacta",
+  "question": "¿Converge el interior del halo al refinar la resolución del campo de Cronos cuando el interior está resuelto (≥ 2000 capas dentro de 0.4 kpc) y el campo no tiene ruido de conteo? El criterio predice que NO a A_Sculptor (q > 1 dentro de r_CJ) y que SÍ a 0.05·A_Sculptor.",
+  "prediction_from_criterion": {
+    "r_CJ_kpc_A_sculptor": 0.7091372682907996,
+    "r_CJ_kpc_0p05": 0.18018067110148347,
+    "M_within_r_CJ": 160973752.15182835,
+    "expected": "A"
+  },
+  "amplitudes": {
+    "A_sculptor": 6.201588782789579e-07,
+    "fraction_arm": 0.05,
+    "units": "(M_sol/pc^3)^(-3/2); epsilon_c = A * rho^(3/2)"
+  },
+  "system": {
+    "M200_msun": 100000000000.0,
+    "c": 10.0,
+    "H0": 67.86705532886631,
+    "seed": 1,
+    "eps_soft_kpc": 0.1,
+    "r_decay_factor": 0.3,
+    "refine_r_kpc": 2.0,
+    "refine_beta": 1.5,
+    "refinement": "capas con r < r_ref llevan masa m = m₀(r/r_ref)^β y se muestrean ∝ ρr²/m (importancia sobre la masa): misma M(<r) y misma f(E), interior resuelto con capas ligeras; N fija m₀ = M_tot/N",
+    "structural": {
+      "M200": 100000000000.0,
+      "c": 10.0,
+      "H0": 67.86705532886631,
+      "rho_s": 5723373.75271517,
+      "r_s": 9.774625607060127,
+      "r200": 97.74625607060126,
+      "rho_crit": 127.81475727256635
+    },
+    "ics": "NFW truncado (Kazantzidis+2004), Eddington isótropo con tablas densas hacia Ψ(0) y borde interior 1e-6·r_s (el borde 1e-4·r_s del N-cuerpos enfría ~25 % las capas de r < 0.1 kpc: piloto), velocidades por CDF inversa (el método del N-cuerpos), capas (r, v_r, L²); MISMA semilla"
+  },
+  "instrument": {
+    "code": "cronos/halo_shells.py (capas esféricas)",
+    "gravity": "M(<r) exacta por rango (Hénon: M_i = M_interior + ½m_i); gravedad y término centrífugo suavizados con la misma ε_soft (hamiltoniano por capa v_r²/2 + L²/(2(r² + ε²)) + Φ_Plummer)",
+    "field": "KernelCronosField: depósito B-spline cúbico de la masa sobre malla fija en s = ln √(r² + ε²) de paso ds, ρ_b = M_b/V_b (V_b = volumen del núcleo), ε_b = Aρ_b^{3/2}, ε̃(r) interpolada con el MISMO núcleo ⟹ a = c²dε̃/dr es el gradiente exacto de U = −(2/5)c²A Σ_b V_b ρ_b^{5/2} (conservativo por construcción); actualizado en CADA paso",
+    "why_not_spline": "el estimador spline del frente 5b no deriva de un funcional: piloto |ΔE_self/E| ≈ 1e-2 a A_Sculptor, independiente de dt y malla",
+    "law": "fuerza +c²dε_c/dr, fricción con compuerta Γ = (3/2)(ρ̇/ρ)ε_cΘ(ρ̇), lapso N = 1 + Φ_N/c² − ε_c",
+    "integrator": "salto de rana KDK con paso GLOBAL dt_max = 0.15 Myr (campo congelado dentro del paso: rangos M(<r), ε̃, lapso, fricción) y SUBPASOS por capa 2^k, k = ⌈log₂(dt/(η_dt·τ))⌉ ≤ 10 con τ = min(r/|v|, √(r³/GM), L/v²) y η_dt = 0.05 (el pericentro de las capas casi radiales, L²/r³ exacto, queda resuelto sin frenar al resto); con Cronos el paso global se acorta para que ε_c máx cambie ≤ η_field = 0.02 por paso; suelo dt_min = 0.0001 Myr (alcanzarlo es parada declarada)",
+    "eta_dt": 0.05,
+    "eta_field": 0.02,
+    "k_max": 10,
+    "dt_min_myr": 0.0001,
+    "not_captured": "modos no radiales (declarado): el código captura exactamente los radiales, que son los inestables del criterio"
+  },
+  "energy_balance": "E_self = K + W + (2/5)Σm(−c²ε_c) + W_fric (la fuerza deriva de −(2/5)c²A∫ρ^{5/2}dV); K + W + Σm(−c²ε_c) solo con campo congelado",
+  "t_end_gyr": 0.1,
+  "snapshots_gyr": [
+    0.0,
+    0.0001,
+    0.0002,
+    0.0005,
+    0.001,
+    0.002,
+    0.005,
+    0.01,
+    0.02,
+    0.05,
+    0.1
+  ],
+  "arms": {
+    "a_N1e6": {
+      "label": "newtoniano, N = 1e6",
+      "cronos": false,
+      "amplitude": 0.0,
+      "ds": 0.04,
+      "N": 1000000
+    },
+    "a_N1e5": {
+      "label": "newtoniano, N = 1e5",
+      "cronos": false,
+      "amplitude": 0.0,
+      "ds": 0.04,
+      "N": 100000
+    },
+    "bAS_ds0.02_N1e6": {
+      "label": "Cronos v3 a A_Sculptor, ds = 0.02, N = 1e6",
+      "cronos": true,
+      "amplitude": 1.0,
+      "ds": 0.02,
+      "N": 1000000
+    },
+    "bAS_ds0.04_N1e6": {
+      "label": "Cronos v3 a A_Sculptor, ds = 0.04, N = 1e6",
+      "cronos": true,
+      "amplitude": 1.0,
+      "ds": 0.04,
+      "N": 1000000
+    },
+    "bAS_ds0.08_N1e6": {
+      "label": "Cronos v3 a A_Sculptor, ds = 0.08, N = 1e6",
+      "cronos": true,
+      "amplitude": 1.0,
+      "ds": 0.08,
+      "N": 1000000
+    },
+    "b005_ds0.02_N1e6": {
+      "label": "Cronos v3 a 0.05·A_Sculptor, ds = 0.02, N = 1e6",
+      "cronos": true,
+      "amplitude": 0.05,
+      "ds": 0.02,
+      "N": 1000000
+    },
+    "b005_ds0.04_N1e6": {
+      "label": "Cronos v3 a 0.05·A_Sculptor, ds = 0.04, N = 1e6",
+      "cronos": true,
+      "amplitude": 0.05,
+      "ds": 0.04,
+      "N": 1000000
+    },
+    "b005_ds0.08_N1e6": {
+      "label": "Cronos v3 a 0.05·A_Sculptor, ds = 0.08, N = 1e6",
+      "cronos": true,
+      "amplitude": 0.05,
+      "ds": 0.08,
+      "N": 1000000
+    },
+    "bAS_ds0.04_N1e5": {
+      "label": "Cronos v3 a A_Sculptor, ds = 0.04, N = 1e5 (control de N)",
+      "cronos": true,
+      "amplitude": 1.0,
+      "ds": 0.04,
+      "N": 100000
+    },
+    "b005_ds0.04_N1e5": {
+      "label": "Cronos v3 a 0.05·A_Sculptor, ds = 0.04, N = 1e5 (control de N)",
+      "cronos": true,
+      "amplitude": 0.05,
+      "ds": 0.04,
+      "N": 100000
+    }
+  },
+  "gates": {
+    "tol_E_newton": 0.0001,
+    "tol_E_cronos": 0.03,
+    "n_min_shells_within_0p4_N1e6": 2000,
+    "newton_stationarity_dex": 0.1,
+    "N_control_factor": 2.0,
+    "stop_rules": {
+      "weak_regime_eps_max": 0.001,
+      "max_wall_hours_per_run": 3.0,
+      "dt_min_myr": 0.0001
+    }
+  },
+  "rules": {
+    "metric": "t_weak = instante en que ε_c máx supera 1e-3 (la ley débil deja de ser aplicable: parada declarada), r_exit = radio de la celda de ε_c máx en ese instante, M(<0.1) y M(<0.4) en ese instante; None si la corrida llega a t_end dentro del régimen débil",
+    "UV": "t_weak decrece estrictamente al refinar ds (0.08 → 0.04 → 0.02): la firma γ ∝ k del criterio (ronda 2 del test)",
+    "letters": {
+      "A": "las dos amplitudes salen del régimen débil en las tres resoluciones, con UV en ambas, r_exit < r_CJ(A) en todas las celdas y t_weak(0.05) > t_weak(A_Sculptor) a cada ds (el criterio ordena las amplitudes): predicción del criterio",
+      "B": "A_Sculptor NO sale del régimen débil antes de t_end en ninguna resolución (saturación no lineal: el criterio no describe ese régimen)",
+      "C": "A_Sculptor sale pero sin UV (t_weak no decrece al refinar) o con r_exit ≥ r_CJ(A_Sculptor), o 0.05·A_Sculptor no sale en ninguna resolución mientras A_Sculptor sí (el criterio falla en la amplitud pequeña)",
+      "INDETERMINADO": "puerta violada (energía, capas interiores, estacionariedad newtoniana, control de N) o corridas ausentes; ningún otro patrón se clasifica"
+    },
+    "gates_meaning": {
+      "energy": "|Δ(K+W)/E| ≤ tol_E_newton en las corridas newtonianas y |ΔE_self/E| ≤ tol_E_cronos en las de Cronos hasta su parada (dos puertas: el piloto muestra que el error de cruce de capas durante el colapso de la cúspide no baja con η_dt ni η_field)",
+      "inner_shells": "≥ n_min capas dentro de 0.4 kpc en los brazos de 1e6",
+      "newton_stationarity": "|log10 M(<0.4)(t)/M(<0.4)(0)| ≤ newton_stationarity_dex en a_N1e6 durante todo el recorrido",
+      "N_control": "t_weak(1e5)/t_weak(1e6) ∈ [1/N_control_factor, N_control_factor] a ds = 0.04 en las dos amplitudes (si ambas salen)"
+    },
+    "publish": [
+      "t_weak, r_exit, M(<0.1) y M(<0.4) en la salida por brazo",
+      "|ΔE_self/E|, |Δ(K+W)/E|, W_fric/|E|, pasos y subpasos por brazo",
+      "cociente b/a por bandas [0.1,0.2], [0.2,0.4], [0.4,1], [1,2.3], [2.3,5] kpc en el instante común con a_N1e6",
+      "control de N: 1e5 frente a 1e6 a ds = 0.04",
+      "M(<0.4)(t) del control newtoniano (estacionariedad)"
+    ],
+    "order": "puertas → letra (A, B, C en ese orden de comprobación; lo que no encaje es INDETERMINADO); ningún umbral se toca tras ver los números"
+  },
+  "pilot_declared": "Pilotos del instrumento (declarados íntegros en el commit del generador, capas(1/3)): campo por núcleo conservativo tras |ΔE_self/E| ≈ 1e-2 con el estimador spline; CDF inversa tras aceptación ~1e-7 del rechazo; tablas de Eddington densas hacia Ψ(0) tras un déficit de ~25 % en σ_r bajo 0.1 kpc; L²/r³ exacto con subpasos tras M(<0.2 kpc) +75 % con la barrera suavizada; ε_L = ε_soft/20 tras patadas no acotadas en el pericentro. Control newtoniano (N = 3e5, 0.1 Gyr): |ΔE/E| = 7e-6, M(<0.4) dentro de ±11 % (respiración común a las ICs). Colapso de la cúspide a A_Sculptor (N = 3e5): sale del régimen débil en 0.18 / 0.55 / 1.14 Myr para ds = 0.02 / 0.04 / 0.08 con |ΔE_self/E| = 2.4e-3 / 3.9e-3 / 5.0e-3, que no baja con η_dt (0.05 → 0.01: 3.7e-3, 5.1e-3) ni con η_field (0.02 → 0.005: 1.8e-3): suelo del instrumento por cruce de capas con el rango congelado; 0.05·A_Sculptor (ds = 0.04): ε_c máx 3.3e-7 → 4.0e-4 en 26.5 Myr (presupuesto de pared del piloto agotado) con |ΔE_self/E| = 1.7e-2. Por eso dos puertas de energía: tol_E_newton = 1e-4 (capacidad demostrada 7e-6) y tol_E_cronos = 3e-2 (por encima del suelo demostrado, por debajo del trasvase físico |Δ(K+W)/E| = 5–20 %). Ningún umbral de las letras (UV, r_CJ, orden de amplitudes) se ha mirado en el piloto con las reglas finales; las reglas se congelan antes de la primera corrida de producción. Los números del piloto son de 3e5 capas; la producción usa 1e6 y 1e5.",
+  "what_this_cannot_decide": [
+    "si la Ley de Cronos débil es la ley correcta (forma ε_c(ρ): diccionario)",
+    "la amplitud (A_Sculptor es hipótesis del 5E; 0.05 es brazo)",
+    "los modos no radiales y el interior por debajo de ε_soft = 0.1 kpc"
+  ]
+}
