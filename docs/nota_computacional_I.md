@@ -1379,6 +1379,64 @@ un hallazgo independiente de la forma y una predicción congelada sin
 contrastar; ningún parámetro se ajusta; A_Sculptor no se toca
 (`results/2026-09-22_dictionary_eps_c/`).
 
+### 3.32 Test del criterio de Cronos–Jeans, ronda 2: el retículo exacto resuelve lo que la siembra no podía, once celdas al 1–2 % de la cinética exacta, e INDETERMINADO por la celda más lenta (22-sep-2026)
+
+La ronda 1 (§3.28) quedó INDETERMINADA por la puerta de fase lineal en
+tres modos bajos. El texto del autor pedía sembrar el modo propio
+creciente exacto; se implementó (amplitud |v|/√(v² + y'²) y fase
+arg(v + iy') por haz, `cronos_jeans_kinetic.eigenmode_beam_amplitudes`,
+cuya suma ponderada reproduce la relación de dispersión) y dos pilotos
+de instrumento, declarados en la preinscripción, mostraron que mejora
+r² (0.39 → 0.67 en q = 2, n = 4) pero **no** resuelve: la causa
+dominante era el **batido retículo/malla** del arranque silencioso. Con
+N/n_beams no múltiplo entero de ng (1953 = 3.81·512 en la ronda 1) el
+depósito CIC de cada haz deja un rizado en k = 2π·|per_beam − p·ng| que,
+con γ ∝ k, crece desde ~1e-6 y se traga al modo bajo antes de que su
+ventana lineal cierre. Con N/n_beams = p·ng entero el depósito es
+**exactamente** uniforme (partición de la unidad de la B-spline lineal):
+(q = 2, n = 4, ng = 256) pasó a r² = 1.0000 y γ/k = 0.6086 frente a
+0.6089. Los pilotos fijaron solo el instrumento; la preinscripción nueva
+(sha256 `3fd12bf24888…`) congeló las mismas tolerancias que la ronda 1
+(25 %, 25 %, ≥ 8 puntos con r² ≥ 0.98) con haces al 2 %, y la ronda 1
+queda intacta.
+
+**Resultado bajo la regla congelada: INDETERMINADO**, por una celda.
+
+| q | n | γ/k medido | γ/k cinético (W(k)) | r² | fila |
+|---|---|---|---|---|---|
+| 0.8 | 4 / 8 / 16 / 32 | < 0 (Landau) | 0 | — | estable (4/4) |
+| 1.2 | 4 | 0.1498 | 0.1485 | 0.9998 | dentro de tol. |
+| 1.2 | 8 | 0.1462 | 0.1465 | 1.0000 | dentro de tol. |
+| 1.2 | 16 | 0.1376 | 0.1384 | 1.0000 | dentro de tol. |
+| 1.2 | 32 | 0.1034 | 0.1062 | 1.0000 | dentro de tol. |
+| 2.0 | 4 | 1.0079 | 0.6112 | 0.806 | **no resuelto** |
+| 2.0 | 8 | 0.6080 | 0.6089 | 1.0000 | dentro de tol. |
+| 2.0 | 16 | 0.5978 | 0.5994 | 1.0000 | dentro de tol. |
+| 2.0 | 32 | 0.5560 | 0.5619 | 1.0000 | dentro de tol. |
+
+Independencia de k: 3.6 % en q = 1.2 (pasa); en q = 2 la celda no
+resuelta la rompe (57 %). Convergencia en haces 0.04 % (tolerancia
+2 %). Los modos n = 4 que la ronda 1 no resolvía en q = 1.2 ahora dan
+0.1498 frente a 0.1485; el que sigue sin resolverse es el más lento en
+términos de su ventana frente a la banda ultravioleta: con ng = 512 la
+banda alta del instrumento crece más deprisa (γ ∝ k hasta kh ≈ 1) que
+en el piloto con ng = 256, y desde el ruido de redondeo alcanza 1e-5
+antes de que la ventana de (q = 2, n = 4) cierre. **Ese es el diagnóstico
+publicado**: no es la siembra sino la catástrofe ultravioleta de la ley
+actuando sobre el ruido de redondeo — la misma inestabilidad que el test
+mide, en el instrumento. La preinscripción decía que un nuevo
+INDETERMINADO exige «otro instrumento (Vlasov euleriano), no otra
+siembra» y se cumple tal cual; se anota, sin mover nada, que un Vlasov
+euleriano tiene el mismo problema (ruido de redondeo a todas las k) y que
+la salida plausible es limitar la banda (malla más gruesa o filtro
+declarado), en una preinscripción nueva.
+
+**Estatuto**: test numérico interno (E8) bajo preinscripción nueva;
+INDETERMINADO por una celda; las once celdas resueltas coinciden con la
+cinética exacta al 1–2 % y se publican sin veredicto (E13). A_Sculptor,
+la fila `criterio-cronos-jeans` y la ronda 1 no se tocan
+(`results/2026-09-22_cj_criterion_round2/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

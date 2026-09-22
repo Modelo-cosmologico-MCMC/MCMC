@@ -22,7 +22,8 @@ import numpy as np
 def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: float = 2e-3,
                seed: int = 1, nmodes: int = 8, sample_every: int = 25,
                quiet_start: bool = False, seed_mode: int | None = None, seed_amp: float = 0.0,
-               n_beams: int = 256) -> dict:
+               n_beams: int = 256, seed_eigen_gamma_over_k: float | None = None, q_seed: float | None = None,
+               full_modes_every: int = 1) -> dict:
     """Integra el sistema de láminas (leapfrog, densidad CIC) y devuelve
     muestras de rms(δ) y de |δ_k| para los primeros modos.
 
@@ -34,13 +35,34 @@ def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: fl
     solo la no linealidad lo genera. seed_mode/seed_amp: siembra un solo
     modo k_n = 2πn/L con x → x + (A/k)·sin(kx), es decir |δ_k| = A/2 en
     la normalización de _modes — el instrumento del test preinscrito del
-    criterio (fase lineal resuelta, tasa por modo medible)."""
+    criterio (fase lineal resuelta, tasa por modo medible).
+    seed_eigen_gamma_over_k (ronda 2): con arranque silencioso, en vez de
+    desplazar todos los haces con la misma fase (siembra en densidad, que
+    proyecta sobre el continuo de modos amortiguados), cada haz j se
+    desplaza con la amplitud y la FASE del modo propio creciente exacto
+    (cronos_jeans_kinetic.eigenmode_beam_amplitudes con y' = γ/k dado):
+    ξ_j(x) = −Im[c_j e^{ikx}]/k, de modo que δρ_j/ρ_j = Re[c_j e^{ikx}] y la
+    densidad total sembrada tiene |δ_k| = seed_amp/2 (misma normalización).
+    q_seed es la q que entra en c_j (la del sistema).
+    full_modes_every (ronda 2): todos los modos se miden en la muestra 0 y
+    cada full_modes_every muestras; en las demás solo el modo sembrado (el
+    resto queda a None). Con N = 2e6 y 32 modos medir todo cada muestra
+    costaría más que la integración.
+    REGLA DEL RETÍCULO (ronda 2, hallazgo del piloto): con arranque
+    silencioso, N/n_beams debe ser múltiplo ENTERO de ng — el depósito CIC
+    de un retículo con p partículas por celda es EXACTAMENTE uniforme
+    (partición de la unidad de la B-spline lineal); si no lo es, el batido
+    retículo/malla siembra un modo alto (|per_beam − p·ng|) a ~1e-6 que,
+    con γ ∝ k, se traga al modo bajo antes de que su ventana lineal cierre.
+    Se publica `lattice_exact`."""
     from scipy.special import erfinv
     rng = np.random.default_rng(seed)
     L = 1.0
+    lattice_exact = None
     if quiet_start:
         per_beam = max(1, N // n_beams)
         N = per_beam * n_beams
+        lattice_exact = bool(per_beam % ng == 0)
         u = (np.arange(n_beams) + 0.5) / n_beams
         v_beam = np.sqrt(2.0) * erfinv(2.0 * u - 1.0)          # σ = 1, cuantiles
         j = np.repeat(np.arange(n_beams), per_beam)
@@ -51,9 +73,18 @@ def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: fl
     else:
         x = rng.random(N) * L                  # ruido de Poisson como semilla
         v = rng.standard_normal(N)             # σ = 1
+    eigen_residual = None
     if seed_mode is not None and seed_amp != 0.0:
         k_seed = 2.0 * np.pi * seed_mode / L
-        x = (x + (seed_amp / k_seed) * np.sin(k_seed * x)) % L
+        if seed_eigen_gamma_over_k is not None and quiet_start:
+            from cronos.cronos_jeans_kinetic import eigenmode_beam_amplitudes
+            # δρ̂/ρ₀ = seed_amp ⟹ |δ_k| = seed_amp/2, como en la siembra en densidad
+            c = eigenmode_beam_amplitudes(v_beam, q if q_seed is None else q_seed, seed_eigen_gamma_over_k, seed_amp)
+            eigen_residual = float(abs(np.mean(c) / seed_amp - 1.0))
+            xi = -np.imag(c[j] * np.exp(1j * k_seed * x)) / k_seed
+            x = (x + xi) % L
+        else:
+            x = (x + (seed_amp / k_seed) * np.sin(k_seed * x)) % L
     m = L / N                                  # ρ₀ = 1
     c2A = q * 2.0 / 3.0                        # (3/2)·c²A·ρ₀^{3/2} = q
     dx = L / ng
@@ -69,8 +100,15 @@ def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: fl
         g = (np.roll(eps, -1) - np.roll(eps, 1)) / (2.0 * dx)
         return g[i0] * (1.0 - w1) + g[(i0 + 1) % ng] * w1, rho
 
+    def measure(x, i_sample):
+        if full_modes_every <= 1 or seed_mode is None or i_sample % full_modes_every == 0:
+            return _modes(k, x, N)
+        out = [None] * len(k)
+        out[seed_mode - 1] = _modes(k[seed_mode - 1:seed_mode], x, N)[0]
+        return out
+
     a, rho = accel(x)
-    samples = [(0.0, float(rho.std()), _modes(k, x, N))]
+    samples = [(0.0, float(rho.std()), measure(x, 0))]
     t = 0.0
     for s in range(int(round(T / dt))):
         v += 0.5 * dt * a
@@ -79,11 +117,13 @@ def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: fl
         v += 0.5 * dt * a
         t += dt
         if (s + 1) % sample_every == 0:
-            samples.append((t, float(rho.std()), _modes(k, x, N)))
+            samples.append((t, float(rho.std()), measure(x, len(samples))))
     poisson = float(np.sqrt(N / ng) / (N / ng))  # rms de Poisson por celda ≈ 1/√(N/ng)
     return {"q": q, "N": N, "ng": ng, "T": T, "dt": dt, "seed": seed, "k": k.tolist(),
-            "quiet_start": quiet_start, "n_beams": n_beams if quiet_start else None,
+            "quiet_start": quiet_start, "n_beams": n_beams if quiet_start else None, "lattice_exact": lattice_exact,
+            "full_modes_every": full_modes_every,
             "seed_mode": seed_mode, "seed_amp": seed_amp, "delta_k_seeded_expected": 0.5 * seed_amp,
+            "seed_eigen_gamma_over_k": seed_eigen_gamma_over_k, "eigen_dispersion_residual": eigen_residual,
             "poisson_rms_per_cell": poisson,
             "samples": [{"t": t_, "rms_delta": r_, "delta_k": dk_} for t_, r_, dk_ in samples]}
 
@@ -94,8 +134,10 @@ def fit_growth(res: dict, mode: int, amp_lo: float, amp_hi: float) -> dict:
     tasa γ, γ/k, r² y número de puntos. Sin puntos suficientes devuelve
     n_points y NaN (el analizador decide INDETERMINADO)."""
     ts = np.array([s["t"] for s in res["samples"]])
-    amp = np.array([s["delta_k"][mode - 1] for s in res["samples"]])
+    amp = np.array([s["delta_k"][mode - 1] for s in res["samples"]], dtype=float)   # None → nan (modo no medido)
     k = res["k"][mode - 1]
+    ok = np.isfinite(amp)
+    ts, amp = ts[ok], amp[ok]
     sel = (amp >= amp_lo) & (amp <= amp_hi)
     # solo la primera racha contigua dentro de la ventana (antes de saturar)
     idx = np.nonzero(sel)[0]
@@ -116,8 +158,8 @@ def fit_growth(res: dict, mode: int, amp_lo: float, amp_hi: float) -> dict:
 
 
 def _modes(k: np.ndarray, x: np.ndarray, N: int) -> list:
-    ph = np.exp(-1j * np.outer(k, x))
-    return (np.abs(ph.sum(axis=1)) / N).tolist()
+    # un modo a la vez: con N = 2e6 y 32 modos el producto exterior ocuparía 1 GB
+    return [float(abs(np.exp(-1j * kk * x).sum()) / N) for kk in k]
 
 
 def rms_at(res: dict, t: float) -> float:
