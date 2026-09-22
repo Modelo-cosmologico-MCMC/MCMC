@@ -181,6 +181,16 @@ DECLARED_FORMS = {
                      "durante el descenso. El reloj publica el |J| que sitúa el cruce de la "
                      "diagonal en S_target (calibración con significado, no derivación: J "
                      "desde la ontología es el frente 2).",
+    "vacuum_2d": "El vacío verdadero 2D del Basal está sobre el polo de masa (θ = 0) y ningún "
+                 "término que se anule en el vacío (J∇C) lo mueve (§3.25). Dos cierres DECLARADOS "
+                 "como brazos: (ii) corriente de conversión dΦ/dσ = −G⁻¹∇V + κΣ̇ê_E, κ = κ̂·ρ₊/T₀ "
+                 "(la conversión Mp → Ep es creación de espacio, Prop. 3.5: deriva a lo largo de ê_E "
+                 "proporcional a la producción entrópica; θ monótona porque Σ̇ ≥ 0, Teo. 4.5; se apaga "
+                 "cuando la descarga termina, no en el vacío; identidad S = f − f₀ + (W_J + W_conv)/T₀ "
+                 "con W_conv = ∫∇V·κΣ̇ê_E dσ); (i) rotación de la inclinación η_eff = η₀(1 − f/f_×) (en "
+                 "f_× el potencial es O(2)-simétrico, Prop. 10.2; después el polo de espacio es el "
+                 "mínimo), con W_tilt = ∫(∇V_ref − ∇V_eff)·dΦ publicado. κ̂ o f_× son CALIBRACIONES "
+                 "con significado (el cruce de la diagonal en S = 1); derivarlos es el frente 2.",
     "tau_per_dim": "HIPÓTESIS DECLARADA (opcional, modo emergente): τ toma un valor "
                    "por dimensión, τ_d, y en cada inestabilidad de masa el colapso "
                    "d → d+1 se dispara y M0² se repone a su valor inicial (el "
@@ -231,6 +241,17 @@ class ClockConfig:
     # 'rho2' (C = ρ²/2, rotación rígida: trabaja contra la inclinación)
     J_circ: float = 0.0
     circulation_C: str = "V"
+    # vacío 2D (preinscripción del 22-sep, §5 del texto del autor): dos cierres
+    # compatibles con el tratado, como BRAZOS declarados (J∇C queda de control).
+    # (ii) corriente de conversión: dΦ/dσ = −G⁻¹∇V + κ·Σ̇·ê_E con κ = κ̂·ρ₊/T₀
+    #      (κ̂ adimensional; E13: κ̂ ≈ 1). θ es monótona por construcción (φ_E solo
+    #      crece porque Σ̇ ≥ 0, Teo. 4.5); el término se apaga cuando la descarga
+    #      termina, no en el vacío; el espacio acumulado es ∫κΣ̇dσ = κT₀f.
+    kappa_conv: float = 0.0
+    # (i) rotación de la inclinación: η_eff = η₀·(1 − f/f_×) (f del paisaje de
+    #      referencia); en f = f_× el potencial es O(2)-simétrico y después el
+    #      polo de espacio es el mínimo. None = inclinación fija.
+    tilt_cross_f: float | None = None
 
 
 def sextic_coupling_dimension(d: int) -> float:
@@ -469,6 +490,11 @@ class SClock:
         self.T0 = self.land["T0_full"]
         self.V_fv = self.land["V_fv"]
         self.x_plus0 = self.land["rho_tv"] ** 2
+        self.eta0 = self.eta                  # inclinación del paisaje de referencia (f, T₀, V_fv)
+        if c.tilt_cross_f is not None and not (0.0 < c.tilt_cross_f <= 1.0):
+            raise ValueError("tilt_cross_f debe estar en (0, 1]")
+        if c.kappa_conv < 0.0:
+            raise ValueError("kappa_conv ≥ 0 (la corriente de conversión crea espacio, no lo destruye)")
         self.bounce = None
         self.gamow = None
         self.kramers = None
@@ -505,18 +531,25 @@ class SClock:
         self.S_V3D, self.S_flor = C.S_SEALS["V3D"], C.S_SEALS["C4"]
 
     # ---------------------------------------------------------- potencial
-    def _V(self, phi: np.ndarray, lam: np.ndarray) -> float:
+    def _V(self, phi: np.ndarray, lam: np.ndarray, eta: float | None = None) -> float:
         M0_sq, B, C0 = lam
+        eta = self.eta if eta is None else eta
         x = float(phi[0] ** 2 + phi[1] ** 2)
         chi = (phi[0] - phi[1]) / np.sqrt(2.0)
-        return float(0.5 * M0_sq * x - 0.25 * B * x ** 2 + (C0 / 6.0) * x ** 3 - self.eta * chi)
+        return float(0.5 * M0_sq * x - 0.25 * B * x ** 2 + (C0 / 6.0) * x ** 3 - eta * chi)
 
-    def _grad(self, phi: np.ndarray, lam: np.ndarray) -> np.ndarray:
+    def _grad(self, phi: np.ndarray, lam: np.ndarray, eta: float | None = None) -> np.ndarray:
         M0_sq, B, C0 = lam
+        eta = self.eta if eta is None else eta
         x = float(phi[0] ** 2 + phi[1] ** 2)
         radial = M0_sq - B * x + C0 * x ** 2
-        return np.array([radial * phi[0] - self.eta / np.sqrt(2.0),
-                         radial * phi[1] + self.eta / np.sqrt(2.0)])
+        return np.array([radial * phi[0] - eta / np.sqrt(2.0),
+                         radial * phi[1] + eta / np.sqrt(2.0)])
+
+    def _eta_eff(self, f_ref: float) -> float:
+        """Rotación de la inclinación (brazo i): η_eff = η₀(1 − f/f_×); η₀ si no se pide."""
+        c = self.cfg
+        return self.eta0 if c.tilt_cross_f is None else self.eta0 * (1.0 - f_ref / c.tilt_cross_f)
 
     def _circulation(self, phi: np.ndarray, grad: np.ndarray, lam: np.ndarray) -> np.ndarray:
         """J∇C con J = |J|·ε y orientación declarada: θ crece hacia la
@@ -534,8 +567,8 @@ class SClock:
 
     def _f(self, phi: np.ndarray, lam: np.ndarray) -> float:
         """f = (V_fv − V(Φ))/T₀: fracción de la Tensión Primordial ya
-        descargada (paisaje inicial como referencia)."""
-        return float((self.V_fv - self._V(phi, lam)) / self.T0)
+        descargada (paisaje inicial como referencia: η = η₀ siempre)."""
+        return float((self.V_fv - self._V(phi, lam, self.eta0)) / self.T0)
 
     # --------------------------------------------------------------- bucle
     def run(self) -> dict:
@@ -549,7 +582,7 @@ class SClock:
         d_dim = 0
         pending = list(self.thresholds[:3])   # colapsos 1D, 2D, 3D
         keys = ("sigma", "S", "f", "clock", "V", "theta", "chi", "rho", "D", "Sprod",
-                "u", "c_eff", "m_eff", "M0_sq", "B", "C0", "W_J")
+                "u", "c_eff", "m_eff", "M0_sq", "B", "C0", "W_J", "W_conv", "W_tilt", "eta_eff")
         rec = {k: [] for k in keys}
         events = []
         c_eff_max, c_eff_max_S = 0.0, 0.0
@@ -558,6 +591,9 @@ class SClock:
         emergent = c.thresholds == "emergent"
         mass_events = []                      # cruces M0² = 0 (modo emergente)
         W_J = 0.0                             # trabajo de la circulación ∫∇V·J∇C dσ (0 si C = V en el interior)
+        W_conv = 0.0                          # trabajo de la corriente de conversión ∫∇V·κΣ̇ê_E dσ (brazo ii)
+        W_tilt = 0.0                          # ∫(∇V_ref − ∇V_eff)·dΦ: lo que la rotación de η mueve en f (brazo i)
+        kappa = c.kappa_conv * np.sqrt(self.x_plus0) / self.T0      # κ = κ̂·ρ₊/T₀
         if c.circulation_C not in ("V", "rho2"):
             raise ValueError("circulation_C: 'V' | 'rho2'")
         tau_seq = list(c.tau_per_dim) if c.tau_per_dim else None
@@ -571,9 +607,9 @@ class SClock:
         def record(f_val, g, clk):
             dual = to_dual(phi[0], phi[1])
             D = float(lam[1] ** 2 - 4.0 * lam[2] * lam[0])
-            vals = (sigma, S_int, f_val, clk, self._V(phi, lam), float(dual["theta"]), float(dual["chi"]),
+            vals = (sigma, S_int, f_val, clk, self._V(phi, lam, self.eta), float(dual["theta"]), float(dual["chi"]),
                     float(dual["rho"]), D, float(g @ g) * G_inv, u, c_eff_max, m,
-                    float(lam[0]), float(lam[1]), float(lam[2]), W_J)
+                    float(lam[0]), float(lam[1]), float(lam[2]), W_J, W_conv, W_tilt, float(self.eta))
             for k, v in zip(keys, vals):
                 rec[k].append(v)
 
@@ -600,8 +636,9 @@ class SClock:
                              else "diagnóstico (D = 0 con τ declarado)")}
             events.append(ev)
 
-        g = self._grad(phi, lam)
         f_val = self._f(phi, lam)
+        self.eta = self._eta_eff(f_val)        # inclinación efectiva del paso (η₀ salvo brazo i)
+        g = self._grad(phi, lam)
         self.f0 = float(f_val)         # entropía de nucleación: 0 en el punto de escape, > 0 en el bounce
         clk = clock_of(f_val, S_int)
         record(f_val, g, clk)
@@ -623,29 +660,42 @@ class SClock:
                 # en la frontera φ_i = 0 con velocidad saliente, la componente se
                 # anula y la ligadura no trabaja — Σ̇ = −∇V·(dΦ/dσ) cuenta solo
                 # las componentes activas (así S ≡ f exactamente, Teo. 4.5)
-                gg = self._grad(ph, lam)
+                gg = self._grad(ph, lam)               # ∇V_eff (η del paso; η₀ salvo brazo i)
                 v = -G_inv * gg
+                extra = np.zeros(2)
                 if c.J_circ != 0.0:
                     # nivel conservativo J∇C (declarado). La ligadura (normal a la
                     # frontera) actúa sobre la velocidad TOTAL: en el interior
                     # ∇V·J∇V = 0 exactamente, pero sobre la frontera la componente
                     # tangencial de la circulación sobrevive y TRABAJA (W_J ≠ 0):
                     # se publica, y la identidad pasa a ser S = f − f₀ + W_J/T₀
-                    vc = self._circulation(ph, gg, lam)
-                    active = ~((ph <= 0.0) & (v + vc < 0.0))
-                    v, vc = np.where(active, v, 0.0), np.where(active, vc, 0.0)
-                    return v + vc, float(-(gg @ v)) / self.T0, float(gg @ vc)
-                v = np.where((ph <= 0.0) & (v < 0.0), 0.0, v)
-                return v, float(-(gg @ v)) / self.T0, 0.0
-            k1, s1, w1 = rhs(phi)
-            k2, s2, w2 = rhs(phi + 0.5 * d_sigma * k1)
-            k3, s3, w3 = rhs(phi + 0.5 * d_sigma * k2)
-            k4, s4, w4 = rhs(phi + d_sigma * k3)
+                    extra = extra + self._circulation(ph, gg, lam)
+                vconv = np.zeros(2)
+                if kappa != 0.0:
+                    # brazo (ii): corriente de conversión κ·Σ̇·ê_E con Σ̇ = ∇VᵀG⁻¹∇V del nivel disipativo
+                    vconv = np.array([0.0, kappa * G_inv * float(gg @ gg)])
+                if c.J_circ != 0.0 or kappa != 0.0:
+                    vt = v + extra + vconv
+                    active = ~((ph <= 0.0) & (vt < 0.0))
+                    v, extra, vconv = np.where(active, v, 0.0), np.where(active, extra, 0.0), np.where(active, vconv, 0.0)
+                else:
+                    v = np.where((ph <= 0.0) & (v < 0.0), 0.0, v)
+                vt = v + extra + vconv
+                # brazo (i): lo que la rotación de η desplaza en f: (∇V_ref − ∇V_eff)·dΦ
+                w_tilt = float((self._grad(ph, lam, self.eta0) - gg) @ vt) if c.tilt_cross_f is not None else 0.0
+                return vt, float(-(gg @ v)) / self.T0, float(gg @ extra), float(gg @ vconv), w_tilt
+            k1, s1, w1, q1, t1 = rhs(phi)
+            k2, s2, w2, q2, t2 = rhs(phi + 0.5 * d_sigma * k1)
+            k3, s3, w3, q3, t3 = rhs(phi + 0.5 * d_sigma * k2)
+            k4, s4, w4, q4, t4 = rhs(phi + d_sigma * k3)
             phi_new = np.clip(phi + (d_sigma / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4), 0.0, None)
             dS = (d_sigma / 6.0) * (s1 + 2 * s2 + 2 * s3 + s4)
             W_J += (d_sigma / 6.0) * (w1 + 2 * w2 + 2 * w3 + w4)
+            W_conv += (d_sigma / 6.0) * (q1 + 2 * q2 + 2 * q3 + q4)
+            W_tilt += (d_sigma / 6.0) * (t1 + 2 * t2 + 2 * t3 + t4)
             S_new = S_int + dS
             f_new = self._f(phi_new, lam)
+            self.eta = self._eta_eff(f_new)     # η_eff del paso siguiente (brazo i); η₀ si no se pide
             clk_new = clock_of(f_new, S_new)
             dclk = clk_new - clk
             # --- acoplos (Def. 4.4) en el reloj, si se pide ---------------
@@ -705,9 +755,14 @@ class SClock:
             # con acoplos en movimiento f no es un reloj fiable: el descenso se da
             # por completado cuando |∇V| cae bajo 1e-6 de la escala T₀/ρ₊
             gnorm_small = float(np.sqrt(g @ g)) < 1e-6 * self.T0 / np.sqrt(self.x_plus0)
+            # velocidad total PROYECTADA (la ligadura de frontera puede sostener un gradiente no nulo en φ_i = 0)
+            vnorm_small = float(np.sqrt(k4 @ k4)) < 1e-6 * self.T0 / np.sqrt(self.x_plus0)
             if not emergent:
-                finished = done_descent
-                stop_reason = "residuo de descarga alcanzado" if finished else None
+                # brazo (i): con la inclinación rotada el vacío efectivo no es el de referencia y f
+                # puede no alcanzar 1 − ε_res; el descenso termina cuando la velocidad proyectada ≈ 0
+                finished = done_descent or (c.tilt_cross_f is not None and vnorm_small)
+                stop_reason = (None if not finished else "residuo de descarga alcanzado" if done_descent
+                               else "descenso completado en el paisaje efectivo (∇V_eff ≈ 0; f de referencia < 1 − ε_res)")
             else:
                 finished = (clk >= c.S_end_emergent or gnorm_small or done_descent
                             or lam_out_of_domain is not None)
@@ -747,6 +802,12 @@ class SClock:
                       "rate_after_seal": _m_rate(max(S_end, self.S_c2), c.gamma_m, self.S_c2),
                       "sealed": m_frozen_at is not None, "status": "declarado (forma) + derivado (punto fijo)"}}
         checks["diagonal"] = self._diagonal_checks(rec)
+        checks["diagonal"]["vacuum_2d"] = {
+            "kappa_conv": c.kappa_conv, "kappa": float(kappa), "tilt_cross_f": c.tilt_cross_f, "form": DECLARED_FORMS["vacuum_2d"],
+            "W_conv_over_T0": float(W_conv / self.T0), "W_tilt_over_T0": float(W_tilt / self.T0),
+            "eta_eff_final": float(self.eta), "eta0": float(self.eta0),
+            "status": ("declarado (κ̂ = 0, inclinación fija: Basal solo)" if c.kappa_conv == 0.0 and c.tilt_cross_f is None else
+                       "declarado (κ̂ y/o f_×) + publicado (cruce, monotonía de θ, trabajos)")}
         checks["diagonal"]["circulation"] = {
             "J_circ": c.J_circ, "C": c.circulation_C, "form": DECLARED_FORMS["J_circulation"],
             "W_J_over_T0": float(W_J / self.T0),
@@ -885,10 +946,12 @@ class SClock:
                 "produccion_entropica_4_5": {"min": float(Sp.min()), "pass": bool(Sp.min() >= 0.0), "status": "derivado"},
                 "exclusion_4_7": {"pass": bool(np.all(np.diff(x) >= -1e-12 * self.x_plus0)) if not emergent else None,
                                   "status": "derivado"},
-                "S_equals_f_identity": {"max_abs_diff": float(np.max(np.abs(S - (f - self.f0) - rec["W_J"] / self.T0))),
+                "S_equals_f_identity": {"max_abs_diff": float(np.max(np.abs(S - (f - self.f0) - (rec["W_J"] + rec["W_conv"] + rec["W_tilt"]) / self.T0))),
+                                        "W_conv_over_T0_final": float(rec["W_conv"][-1] / self.T0),
+                                        "W_tilt_over_T0_final": float(rec["W_tilt"][-1] / self.T0),
                                         "f0_nucleation": float(self.f0),
                                         "W_J_over_T0_final": float(rec["W_J"][-1] / self.T0),
-                                        "pass": bool(np.max(np.abs(S - (f - self.f0) - rec["W_J"] / self.T0)) < 1e-6) if not emergent else None,
+                                        "pass": bool(np.max(np.abs(S - (f - self.f0) - (rec["W_J"] + rec["W_conv"] + rec["W_tilt"]) / self.T0)) < 1e-6) if not emergent else None,
                                         "note": "Σ̇ = −dV/dσ ⟹ ∫Σ̇dσ = V(σ=0) − V = T₀·(f − f₀) exactamente en el flujo de "
                                                 "gradiente (Teo. 4.5) con la normalización declarada; f₀ = 0 en el punto de "
                                                 "escape y > 0 si la nucleación entrega el campo ya parcialmente descargado "
@@ -906,8 +969,14 @@ class SClock:
         th, clk = rec["theta"], rec["clock"]
         crossed = bool(np.any(th >= THETA_DIAGONAL))
         S_cross_flow = float(clk[np.argmax(th >= THETA_DIAGONAL)]) if crossed else None
+        # monotonía de θ: la mayor caída respecto del máximo alcanzado hasta ese momento (0 ⟺ monótona)
+        theta_max_drop = float(np.max(np.maximum.accumulate(th) - th)) if len(th) else 0.0
         return {"flow": {"crossed": crossed, "S_at_crossing": S_cross_flow, "theta_final": float(th[-1]),
-                         "theta_max": float(th.max()),
+                         "theta_max": float(th.max()), "theta_max_drop": theta_max_drop,
+                         "mp_ep_panel": {"S": clk[::max(1, len(clk) // 200)].tolist(),
+                                         "cos2_theta": (np.cos(th[::max(1, len(th) // 200)]) ** 2).tolist(),
+                                         "sin2_theta": (np.sin(th[::max(1, len(th) // 200)]) ** 2).tolist(),
+                                         "status": "DERIVADO del flujo (cos²θ, sin²θ): el panel Mp/Ep del visor ya no se dibuja a mano"},
                          "finding": "el Basal solo lleva θ al polo de masa y lo mantiene: el transporte azimutal "
                                     "hasta la diagonal (Prop. 3.5) no está implementado", "status": "publicado"},
                 "imposed": {"S_at_crossing": self.S_V3D, "form": DECLARED_FORMS["theta_imposed"], "status": "impuesto"}}
@@ -983,7 +1052,10 @@ def diagonal_crossing_S(delta0: float, J: float, circulation_C: str = "V", **kwa
     out = SClock(ClockConfig(delta0=delta0, J_circ=J, circulation_C=circulation_C, **kwargs)).run()
     fl = out["checks"]["diagonal"]["flow"]
     return {"J": J, "crossed": fl["crossed"], "S_cross": fl["S_at_crossing"], "theta_final": fl["theta_final"],
-            "theta_max": fl["theta_max"], "W_J_over_T0": out["checks"]["diagonal"]["circulation"]["W_J_over_T0"],
+            "theta_max": fl["theta_max"], "theta_max_drop": fl["theta_max_drop"],
+            "W_conv_over_T0": out["checks"]["diagonal"]["vacuum_2d"]["W_conv_over_T0"],
+            "W_tilt_over_T0": out["checks"]["diagonal"]["vacuum_2d"]["W_tilt_over_T0"],
+            "W_J_over_T0": out["checks"]["diagonal"]["circulation"]["W_J_over_T0"],
             "S_equals_f_max_diff": out["checks"]["descent"]["S_equals_f_identity"]["max_abs_diff"],
             "monotonia_pass": out["checks"]["descent"]["monotonia_4_5"]["pass"],
             "grad_norm_integral": out["checks"]["diagonal"]["circulation"]["grad_norm_integral"],
