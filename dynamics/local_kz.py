@@ -19,8 +19,9 @@ de escala declaradas); su sensibilidad se publica variando las alturas
 ×½ y ×2, porque Δρ_eff(0) ∝ ρ''(0) ∝ h⁻².
 
 Estatuto: cálculo de consistencia (E8) que consume la tabla transcrita
-`local_kz_bounds` (bytes oficiales no verificados: aviso propagado);
-ningún parámetro se ajusta; A_Sculptor no se toca.
+`local_kz_bounds` (valores verificados por el autor contra los resúmenes
+de arXiv el 22-sep-2026; bytes de las tablas no descargados: aviso
+propagado); ningún parámetro se ajusta; A_Sculptor no se toca.
 """
 
 from __future__ import annotations
@@ -76,14 +77,14 @@ def cronos_increments(A: float, slab: dict = SLAB_DECLARED, h_factor: float = 1.
 def room(bounds: dict) -> dict:
     """El margen observacional (valor ± error en cuadratura) en el plano
     (media ponderada de HF2000 y MPH2015 menos bariones MPH2015) y en la
-    columna a 1.1 kpc (BT2012 menos bariones MPH2015)."""
+    columna a 1.1 kpc (Bovy & Rix 2013 menos bariones MPH2015)."""
     v = bounds["values"]
     r1, r2 = v["rho_dyn_0_HF2000"], v["rho_dyn_0_MPH2015"]
     w1, w2 = 1.0 / r1["err"] ** 2, 1.0 / r2["err"] ** 2
     rho_dyn = (w1 * r1["value"] + w2 * r2["value"]) / (w1 + w2)
     rho_dyn_err = (w1 + w2) ** -0.5
     rb = v["rho_bar_0_MPH2015"]
-    s, sb = v["Sigma_1p1_BT2012"], v["Sigma_bar_1p1_MPH2015"]
+    s, sb = v["Sigma_1p1_BR2013"], v["Sigma_bar_1p1_MPH2015"]
     return {"rho_dyn_0": rho_dyn, "rho_dyn_0_err": rho_dyn_err,
             "rho_room_0": rho_dyn - rb["value"], "rho_room_0_err": float(np.hypot(rho_dyn_err, rb["err"])),
             "Sigma_room_1p1": s["value"] - sb["value"], "Sigma_room_1p1_err": float(np.hypot(s["err"], sb["err"]))}

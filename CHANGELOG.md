@@ -6,6 +6,21 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Oort–K_z (22-sep): erratum de cita y verificación de los cinco
+  valores de `local_kz_bounds`, con preinscripción v2 por erratum**. El
+  autor verificó los valores contra los resúmenes de arXiv
+  (astro-ph/9812404, 1509.05334, 1309.0809): todos exactos; ρ_bar(0)
+  declarado como resta total − DM de MPH2015. La cifra Σ(<1.1 kpc) =
+  68 ± 4 M☉/pc² es de Bovy & Rix 2013 (ApJ 779, 115), no de Bovy &
+  Tremaine 2012: cita corregida en dataset (clave `Sigma_1p1_BR2013`),
+  manifiesto, `sources.yaml` y preinscripción. `run_oort_kz.py prereg
+  --erratum-of` copia reglas, piloto y límites verbatim de la v1
+  (archivada con su sha) y el analizador falla cerrado si difieren o si
+  algún número difiere de las corridas v1. Re-ejecutado: desviación
+  máxima 0.0, letras idénticas. `official_bytes_verified` sigue en false
+  (bytes de las tablas no descargados); el aviso se propaga con la
+  verificación añadida. Fila `oort-kz-cota-cronos` actualizada.
+
 - **Decisiones A, B y C del autor (22-sep), derivadas del tratado y
   ejecutadas por el reloj S**. **A** — la T₀ que el Lema 10.3 iguala a
   W_max es la del paisaje completo (el contenido del Lema es T₀ ≤ W_max;
