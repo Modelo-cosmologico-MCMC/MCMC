@@ -55,6 +55,18 @@ def test_theta_max_drop_is_zero_for_monotone_and_positive_otherwise():
     assert np.max(np.maximum.accumulate(th) - th) == pytest.approx(0.05)
 
 
+def test_divergent_arm_is_published_not_crashed():
+    """Guarda del instrumento: κ̂ grande no es integrable con el d_sigma declarado; la corrida
+    se publica como diverged (finished = False ⟹ puerta fallida en el analizador), sin OverflowError."""
+    import warnings
+    with warnings.catch_warnings():
+        warnings.simplefilter("error")
+        r = diagonal_crossing_S(0.01, 0.0, kappa_conv=200.0)
+    assert r["diverged"] and not r["finished"] and "divergencia numérica" in r["stop_reason"]
+    ok = diagonal_crossing_S(0.01, 0.0, kappa_conv=0.5)
+    assert ok["finished"] and not ok["diverged"] and ok["stop_reason"] == "residuo de descarga alcanzado"
+
+
 def test_analyzer_reads_rules_from_json_and_fails_closed(tmp_path):
     body = (REPO / "scripts" / "run_vacuum_2d.py").read_text(encoding="utf-8").split("def _letter_for_arm(")[1]
     assert 'R["S_window"]' in body and 'R["width_ratio_A"]' in body and 'R["tol_theta_drop_rad"]' in body

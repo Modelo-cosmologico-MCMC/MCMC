@@ -113,6 +113,11 @@ STATUS = ("simulador de consistencia (E8): umbrales de la Década impuestos "
           "impuesta para la entrega; el estado entregado en S = 1,001 no es legible "
           "por la cosmología (diccionario ausente)")
 
+# Guarda de divergencia del integrador (instrumento, no regla): si |Φ|² supera este
+# múltiplo de ρ₊ o deja de ser finito, la corrida se publica como no integrable
+# (finished = False, diverged = True) en vez de reescalarse o de romper con OverflowError
+DIVERGENCE_X_OVER_X_PLUS = 1e6
+
 # Formas paramétricas DECLARADAS de las leyes de sellado por congelación.
 # El tratado fija la PROPIEDAD (logística; β_c(S_c) = 0; dm_eff/dS = 0 en
 # S_c²); la forma concreta de la tasa es una elección del simulador y se
@@ -534,17 +539,21 @@ class SClock:
     def _V(self, phi: np.ndarray, lam: np.ndarray, eta: float | None = None) -> float:
         M0_sq, B, C0 = lam
         eta = self.eta if eta is None else eta
-        x = float(phi[0] ** 2 + phi[1] ** 2)
-        chi = (phi[0] - phi[1]) / np.sqrt(2.0)
-        return float(0.5 * M0_sq * x - 0.25 * B * x ** 2 + (C0 / 6.0) * x ** 3 - eta * chi)
+        # aritmética en np.float64: un desbordamiento da inf (que el bucle detecta y
+        # publica como «divergencia numérica»), no OverflowError del float de Python
+        with np.errstate(over="ignore", invalid="ignore"):
+            x = np.float64(phi[0] ** 2 + phi[1] ** 2)
+            chi = (phi[0] - phi[1]) / np.sqrt(2.0)
+            return float(0.5 * M0_sq * x - 0.25 * B * x ** 2 + (C0 / 6.0) * x ** 3 - eta * chi)
 
     def _grad(self, phi: np.ndarray, lam: np.ndarray, eta: float | None = None) -> np.ndarray:
         M0_sq, B, C0 = lam
         eta = self.eta if eta is None else eta
-        x = float(phi[0] ** 2 + phi[1] ** 2)
-        radial = M0_sq - B * x + C0 * x ** 2
-        return np.array([radial * phi[0] - eta / np.sqrt(2.0),
-                         radial * phi[1] + eta / np.sqrt(2.0)])
+        with np.errstate(over="ignore", invalid="ignore"):
+            x = np.float64(phi[0] ** 2 + phi[1] ** 2)
+            radial = M0_sq - B * x + C0 * x ** 2
+            return np.array([radial * phi[0] - eta / np.sqrt(2.0),
+                             radial * phi[1] + eta / np.sqrt(2.0)])
 
     def _eta_eff(self, f_ref: float) -> float:
         """Rotación de la inclinación (brazo i): η_eff = η₀(1 − f/f_×); η₀ si no se pide."""
@@ -651,7 +660,7 @@ class SClock:
         f_stop = 1.0 - c.eps_res
         prev_D = float(lam[1] ** 2 - 4.0 * lam[2] * lam[0])
         n = 0
-        finished, stop_reason = False, None
+        finished, stop_reason, diverged = False, None, False
         while n < c.max_steps:
             n += 1
 
@@ -684,11 +693,21 @@ class SClock:
                 # brazo (i): lo que la rotación de η desplaza en f: (∇V_ref − ∇V_eff)·dΦ
                 w_tilt = float((self._grad(ph, lam, self.eta0) - gg) @ vt) if c.tilt_cross_f is not None else 0.0
                 return vt, float(-(gg @ v)) / self.T0, float(gg @ extra), float(gg @ vconv), w_tilt
-            k1, s1, w1, q1, t1 = rhs(phi)
-            k2, s2, w2, q2, t2 = rhs(phi + 0.5 * d_sigma * k1)
-            k3, s3, w3, q3, t3 = rhs(phi + 0.5 * d_sigma * k2)
-            k4, s4, w4, q4, t4 = rhs(phi + d_sigma * k3)
-            phi_new = np.clip(phi + (d_sigma / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4), 0.0, None)
+            with np.errstate(over="ignore", invalid="ignore"):
+                k1, s1, w1, q1, t1 = rhs(phi)
+                k2, s2, w2, q2, t2 = rhs(phi + 0.5 * d_sigma * k1)
+                k3, s3, w3, q3, t3 = rhs(phi + 0.5 * d_sigma * k2)
+                k4, s4, w4, q4, t4 = rhs(phi + d_sigma * k3)
+                phi_new = np.clip(phi + (d_sigma / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4), 0.0, None)
+            # guarda de divergencia (instrumento): un brazo cuya corriente crece más deprisa de lo
+            # que d_sigma resuelve (p. ej. κ grande) se PUBLICA como no integrable, no se corta ni se
+            # reescala en silencio — la corrida queda finished = False y el analizador la trata como puerta fallida
+            if not (np.all(np.isfinite(phi_new)) and np.isfinite(s1 + 2 * s2 + 2 * s3 + s4)
+                    and float(phi_new @ phi_new) <= DIVERGENCE_X_OVER_X_PLUS * self.x_plus0):
+                diverged = True
+                stop_reason = ("divergencia numérica: |Φ|² > %g·ρ₊ o no finito en el paso %d (brazo no integrable "
+                               "con d_sigma declarado; se publica, no se reescala)" % (DIVERGENCE_X_OVER_X_PLUS, n))
+                break
             dS = (d_sigma / 6.0) * (s1 + 2 * s2 + 2 * s3 + s4)
             W_J += (d_sigma / 6.0) * (w1 + 2 * w2 + 2 * w3 + w4)
             W_conv += (d_sigma / 6.0) * (q1 + 2 * q2 + 2 * q3 + q4)
@@ -775,7 +794,7 @@ class SClock:
                 record(f_val, g, clk)
             if finished:
                 break
-        if not finished:
+        if not finished and not diverged:
             stop_reason = "max_steps agotado"
         rec = {k: np.asarray(v) for k, v in rec.items()}
         checks = {"S0": self._s0_checks(), "descent": self._descent_checks(rec, finished, n, stop_reason)}
@@ -832,7 +851,7 @@ class SClock:
                             "T0": self.T0, "T0_law_3_4": self.T0_law, "x_esc": self.x_esc, "x_plus": self.x_plus0,
                             "landscape": self.land, "trajectory": {k: v.tolist() for k, v in rec.items()},
                             "events": events, "checks": checks, "delivered_state": delivered,
-                            "steps": n, "finished": finished, "stop_reason": stop_reason,
+                            "steps": n, "finished": finished, "stop_reason": stop_reason, "diverged": diverged,
                             "couplings_out_of_domain": lam_out_of_domain,
                             "mass_instability_events": mass_events,
                             "tau_per_dim": list(c.tau_per_dim) if c.tau_per_dim else None})
@@ -1059,7 +1078,7 @@ def diagonal_crossing_S(delta0: float, J: float, circulation_C: str = "V", **kwa
             "S_equals_f_max_diff": out["checks"]["descent"]["S_equals_f_identity"]["max_abs_diff"],
             "monotonia_pass": out["checks"]["descent"]["monotonia_4_5"]["pass"],
             "grad_norm_integral": out["checks"]["diagonal"]["circulation"]["grad_norm_integral"],
-            "finished": out["finished"]}
+            "finished": out["finished"], "diverged": out["diverged"], "stop_reason": out["stop_reason"]}
 
 
 def J_min_threshold(delta0: float, circulation_C: str = "V", J_lo: float = 0.05, J_hi: float = 50.0,
