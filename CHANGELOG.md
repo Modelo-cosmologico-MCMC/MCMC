@@ -6,6 +6,20 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Frente 5 (b), ronda 2 (22-sep): serie de resolución del campo de
+  Cronos con capas esféricas bajo preinscripción congelada (sha256
+  `1d6682f968fa…`) — INDETERMINADO** por puertas del instrumento: energía en los
+  brazos a 0.05·A_Sculptor (5.6e-02, 1.8e-01) y suelo de dt (1e-4 Myr)
+  en los brazos finos a A_Sculptor antes de salir del régimen débil.
+  Publicado sin letra: a A_Sculptor la cúspide sale del régimen débil en
+  3.83 Myr (ds = 0.08) y colapsa más deprisa cuanto más fina la malla;
+  a 0.05·A_Sculptor en 28.28 Myr (ds = 0.02); r_exit = 0 en todas las
+  salidas (celda central, bajo ε_soft). Control newtoniano: energía
+  2.2e-06, M(<0.4) dentro de 0.028 dex en 100 Myr. Corridas y
+  análisis (`scripts/run_halo_shells.py run/analyze`), fila
+  `halo-capas-ronda2`, Nota I §3.34, artefacto
+  `results/2026-09-22_halo_shells/` (código y preinscripción ya en #40).
+
 - **Vacío 2D fuera del polo de masa (22-sep): brazos corriente de
   conversión κΣ̇ê_E y rotación de la inclinación η_eff = η₀(1 − f/f_×) en
   el reloj S, con J∇C de control, bajo preinscripción congelada (sha256

@@ -1484,6 +1484,59 @@ nueva exigiría preinscribir d_sigma y max_steps que superen las puertas
 en toda la rejilla; no se toca la de esta. Fila
 `vacio-2d-conversion-y-rotacion`; artefacto `results/2026-09-22_vacuum_2d/`.
 
+### 3.34 Frente 5 (b), ronda 2: la serie de resolución con capas esféricas — INDETERMINADO por puertas del instrumento; la cúspide sale del régimen débil en Myr (22-sep-2026)
+
+La ronda 1 (§3.29) quedó INDETERMINADA por la puerta de energía con
+18–87 partículas dentro de 0.4 kpc. La ronda 2 cambia el instrumento
+(`cronos/halo_shells.py`): capas esféricas (r, v_r, L²) con masas
+refinadas en el centro (≈ 18 000 capas dentro de 0.4 kpc a N = 1e6),
+gravedad de Hénon exacta por rango con Plummer ε_soft = 0.1 kpc, L²/r³
+exacto, y un campo de Cronos **conservativo por construcción**: la masa
+se deposita con un B-spline cúbico sobre una malla fija en
+s = ln √(r² + ε²) de paso ds y ε̃ se interpola con el mismo núcleo, así
+que c²dε̃/dr es el gradiente exacto de U = −(2/5)c²A Σ_b V_b ρ_b^{5/2}
+(identidad publicada a 1e-16) y K + W + U_self + W_fric se conserva salvo
+el paso. Los pilotos del instrumento se declaran íntegros en la
+preinscripción (sha256 `1d6682f968fa…`): el estimador spline del frente 5b
+no deriva de un funcional (|ΔE/E| ≈ 1e-2 a A_Sculptor, independiente de
+dt y malla), el borde de las tablas de Eddington enfriaba ~25 % las capas
+de r < 0.1 kpc, suavizar el término centrífugo contraía el núcleo
+newtoniano (+75 % en M(<0.2 kpc)), y durante el colapso de la cúspide el
+error de energía tiene un suelo 2e-3–5e-3 que no baja con el paso — de
+ahí dos puertas de energía (1e-4 newtoniana, 3e-2 Cronos). Métrico
+congelado: **t_weak**, el instante en que ε_c máx supera 1e-3 y la ley
+débil deja de ser aplicable (parada declarada), r_exit, M(<0.1) y
+M(<0.4) en la salida; firma UV = t_weak decrece al refinar ds.
+
+**Desenlace: INDETERMINADO.** Puertas: energía False (los brazos a
+0.05·A_Sculptor acumulan 5.6e-02 y 1.8e-01), capas interiores
+True, estacionariedad newtoniana True
+(0.028 dex; energía 2.2e-06), control de N True. Y la
+serie a A_Sculptor no tiene t_weak en dos de tres celdas: con ds = 0.04 y
+0.02 el paso global cae bajo el suelo declarado (1e-4 Myr) a
+0.70 y 0.156 Myr, con ε_c máx =
+8.0e-04 y 3.5e-04, antes de salir. Lo medido se
+publica sin letra: a A_Sculptor la cúspide sale del régimen débil en
+3.83 Myr (ds = 0.08) y colapsa más deprisa cuanto más fina es la malla;
+a 0.05·A_Sculptor sale en 28.28 Myr (ds = 0.02), llega a t_end = 100 Myr
+con ε_c máx = 9.13e-04 (ds = 0.04) y también a t_end con
+ε_c máx = 1.39e-04 (ds = 0.08: el más grueso, el más lento); a N = 1e5 los controles salen en
+— (A_Sculptor, suelo de dt) y 31.39 Myr (0.05). En todas
+las salidas r_exit = 0: el colapso ocurre en la celda central, bajo
+ε_soft, en la región que el instrumento declara no decidible.
+
+**Lectura.** Con la cúspide resuelta hasta ε_soft, la ley débil con
+A_Sculptor abandona su propio dominio de validez en Myr, y con
+0.05·A_Sculptor en decenas de Myr — el criterio de Cronos–Jeans (§3.24)
+predecía inestabilidad dentro de r_CJ = 0.71 y 0.18 kpc, y el
+instrumento la sitúa aún más adentro. Pero la letra es INDETERMINADO y
+así se publica: el suelo de dt y el error de cruce de capas durante el
+colapso son límites del instrumento, no física (E8); los tiempos de
+salida son números, no señal (E13). Una ronda 3 exigiría actualizar el
+rango M(<r) en los subpasos y un suelo de dt menor, bajo preinscripción
+nueva; la de esta no se toca. Fila `halo-capas-ronda2`; artefacto
+`results/2026-09-22_halo_shells/`.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
