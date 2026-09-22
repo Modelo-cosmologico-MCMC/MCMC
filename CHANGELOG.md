@@ -6,6 +6,29 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Test del criterio de Cronos–Jeans, ronda 2 (22-sep): siembra del
+  modo propio exacto, retículo exacto, modos 4/8/16/32 — INDETERMINADO
+  por una celda; once celdas al 1–2 % de la cinética exacta**. Tres
+  commits (instrumento + generador · congelación · corridas). Dos
+  pilotos declarados mostraron la causa de la ronda 1: no la proyección
+  sobre el continuo de van Kampen (la siembra del modo propio,
+  `eigenmode_beam_amplitudes`, mejora pero no resuelve) sino el batido
+  retículo/malla del arranque silencioso — con N/n_beams no múltiplo
+  entero de ng el depósito CIC siembra un modo alto que, con γ ∝ k, se
+  traga al bajo; con N/n_beams = p·ng el depósito es exactamente uniforme
+  (`lattice_exact`). Preinscripción nueva (sha256 3fd12bf24888…), la
+  ronda 1 intacta. Resultado: q = 0.8 estable (4/4); q = 1.2 las cuatro
+  celdas dentro de tolerancia (0.1498 / 0.1462 / 0.1376 / 0.1034 frente
+  a 0.1485 / 0.1465 / 0.1384 / 0.1062; dispersión 3.6 %); q = 2.0 tres de
+  cuatro (0.6080 / 0.5978 / 0.5560 frente a 0.6089 / 0.5994 / 0.5619) y
+  la celda n = 4 no resuelta (r² = 0.806): la regla congelada devuelve
+  INDETERMINADO. Haces 0.04 %. Diagnóstico: con ng = 512 la banda
+  ultravioleta del instrumento crece más deprisa que la del piloto (ng =
+  256) y se traga la ventana del modo más lento — la catástrofe
+  ultravioleta de la ley sobre el ruido de redondeo; el paso siguiente
+  (limitar la banda) exige preinscripción nueva. Fila nueva
+  `test-criterio-cronos-jeans-ronda2`; Nota I §3.32.
+
 - **Frente 5 (b) (21-sep, tarde): serie de resolución del campo de
   Cronos (k_inner 64/128/256) a A_Sculptor y 0.05·A_Sculptor con campo
   instantáneo y balance K + W + (2/5)U_C + W_fric, bajo preinscripción

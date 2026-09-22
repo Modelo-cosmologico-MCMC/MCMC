@@ -1309,6 +1309,55 @@ claims:
     status: interno
     artifact: results/2026-09-21_cj_criterion_test
 
+  - claim_id: test-criterio-cronos-jeans-ronda2
+    entity: >-
+      Test del criterio de Cronos–Jeans, ronda 2 — siembra del modo propio exacto por haz y
+      retículo exacto (N/n_beams = p·ng), modos 4/8/16/32 y q ∈ {0.8, 1.2, 2.0} bajo
+      preinscripción nueva; desenlace INDETERMINADO por una celda (q = 2, n = 4); once
+      celdas resueltas al 1–2 % de la cinética exacta (22-sep-2026)
+    law: "Def. 11.1 y Cor. 11.3 (ley local ε_c = A·ρ^(3/2)); teoría cinética lineal del medio maxwelliano (1 = q[1 + ζZ(ζ)]); §3.21 (criterio)"
+    derivation: >-
+      preinscripción nueva congelada (sha256 3fd12bf24888…) en un commit
+      posterior al generador; la ronda 1 queda intacta. Dos pilotos de
+      instrumento declarados: sembrar el modo propio exacto (amplitud
+      |v|/√(v² + y'²) y fase arg(v + iy') por haz; su suma ponderada
+      reproduce la relación de dispersión) mejora r² de 0.39 a 0.67 en
+      (q = 2, n = 4) pero NO lo resuelve; la causa dominante era el batido
+      retículo/malla del arranque silencioso (N/n_beams no múltiplo entero
+      de ng), que siembra un modo alto a ~1e-6 que con γ ∝ k se traga al
+      bajo; con N/n_beams = 4·ng el depósito CIC es exactamente uniforme
+      y (q = 2, n = 4, ng = 256) dio r² = 1.0000, γ/k = 0.6086 frente a
+      0.6089. Producción (ng = 512, N = 2 097 152, 13 corridas): q = 0.8
+      estable en los cuatro modos (amortiguamiento de Landau, γ/k < 0);
+      q = 1.2: γ/k = 0.1498 / 0.1462 / 0.1376 / 0.1034 frente a 0.1485 /
+      0.1465 / 0.1384 / 0.1062 de la cinética con W(k) (r² ≥ 0.9998,
+      dispersión entre modos 3.6 %); q = 2.0: 0.6080 / 0.5978 / 0.5560
+      frente a 0.6089 / 0.5994 / 0.5619 en n = 8 / 16 / 32 (r² = 1.0000)
+      y la celda n = 4 NO resuelta (r² = 0.806, 60 puntos, γ/k medido
+      1.008): la puerta de fase lineal falla y la regla congelada devuelve
+      INDETERMINADO. Convergencia en haces 0.04 % (tolerancia 2 %).
+      Diagnóstico publicado: con ng = 512 la banda ultravioleta del
+      instrumento crece más deprisa (γ ∝ k hasta kh ≈ 1) que con ng = 256
+      y se traga la ventana del modo más lento antes de que cierre — es la
+      catástrofe ultravioleta de la propia ley actuando sobre el ruido de
+      redondeo, no la siembra; la preinscripción decía «otro instrumento
+      (Vlasov euleriano), no otra siembra», y se cumple tal cual, con la
+      nota de que un Vlasov euleriano tiene el mismo problema y la salida
+      más plausible es limitar la banda (malla más gruesa o filtro) en una
+      preinscripción nueva.
+    implementation: cronos/cronos_jeans_1d.py + cronos/cronos_jeans_kinetic.py + scripts/run_cj_round2.py
+    test: tests/test_cronos_jeans_kinetic.py + tests/test_cj_round2_lock.py
+    observable: "— (test numérico interno; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      bajo una preinscripción que resuelva la celda (q = 2, n = 4), una tasa
+      fuera del 25 % de γ_cin(q, k)·W(k) o una dispersión entre modos > 25 %
+      falsaría la predicción cinética del criterio; crecimiento con q = 0.8
+      falsaría el umbral
+    evidence_level: comprobación interna (E8) bajo preinscripción nueva; INDETERMINADO por una celda; las once celdas resueltas coinciden con la cinética exacta al 1–2 % y se publican sin veredicto (E13)
+    status: interno
+    artifact: results/2026-09-22_cj_criterion_round2
+
   - claim_id: halo-serie-resolucion-campo
     entity: Frente 5 (b) — serie de resolución del campo de Cronos (k_inner 64/128/256) en el halo NFW a A_Sculptor y a 0.05·A_Sculptor con campo instantáneo que sigue a las partículas y balance K + W + (2/5)U_C + W_fric, bajo preinscripción congelada; desenlace INDETERMINADO por la puerta de energía (21-sep-2026, tarde)
     law: "Cor. 11.3 completo (fuerza, fricción con compuerta, lapso) con ε_c = A·ρ^(3/2); criterio de Cronos–Jeans (fila criterio-cronos-jeans): q > 1 dentro de r_CJ ⟹ inestabilidad ultravioleta ⟹ sin convergencia en resolución"
