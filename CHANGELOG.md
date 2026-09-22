@@ -6,6 +6,25 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Vacío 2D fuera del polo de masa (22-sep): brazos corriente de
+  conversión κΣ̇ê_E y rotación de la inclinación η_eff = η₀(1 − f/f_×) en
+  el reloj S, con J∇C de control, bajo preinscripción congelada (sha256
+  `3990f7bcaee7…`) — INDETERMINADO en los dos brazos y los cuatro δ₀** por
+  puertas falladas dentro de la rejilla (κ̂ ≥ 4.5–7.4 no integrable con el
+  d_sigma declarado; f_× ≥ 0.75–0.87 sin terminar el descenso; identidad
+  > 1e-6 en celdas de f_× pequeño). Publicado sin letra: la corriente
+  cruza solo con κ̂ ≥ 2.11 (1.65 en δ₀ ≥ 0.03), siempre con S_cross ≤ 0.87
+  y retorno al polo de masa; la rotación cruza en el mismo S que el
+  control J∇C (0.931 / 0.880 / 0.807 / 0.753): el S del cruce lo fija la
+  descarga, no el término; para f_× ≤ 0.72 el campo se queda en el polo
+  de espacio. `ClockConfig.kappa_conv`, `tilt_cross_f`; W_conv y W_tilt
+  en la identidad S = f − f₀ + (W_J + W_conv + W_tilt)/T₀; panel Mp/Ep
+  derivado; guarda de divergencia del integrador (arreglo del instrumento
+  posterior a la preinscripción, declarado; publica `diverged`, no
+  reescala). `scripts/run_vacuum_2d.py`, `tests/test_vacuum_2d_lock.py`,
+  fila `vacio-2d-conversion-y-rotacion`, Nota I §3.33, artefacto
+  `results/2026-09-22_vacuum_2d/`.
+
 - **Decisiones A, B y C del autor (22-sep), derivadas del tratado y
   ejecutadas por el reloj S**. **A** — la T₀ que el Lema 10.3 iguala a
   W_max es la del paisaje completo (el contenido del Lema es T₀ ≤ W_max;
