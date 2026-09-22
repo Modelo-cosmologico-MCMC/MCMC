@@ -1,38 +1,46 @@
 {
   "dataset": "local_kz_bounds",
   "purpose": "densidad dinámica local en el plano ρ_dyn(0), densidad bariónica local ρ_bar(0) y densidad superficial dinámica Σ(<1.1 kpc) de la vecindad solar, para acotar la amplitud A de la Ley de Cronos débil (ε_c = A·ρ^{3/2}) por su fuerza vertical g_C = −c²dε_c/dz (frente 5c, preinscripción «Oort–K_z»)",
-  "provenance_caveat": "VALORES PUBLICADOS TRANSCRITOS A MANO desde la literatura anotada en la sesión de código (21-sep-2026). arXiv, ADS, DOI y revistas no son alcanzables desde el entorno (egreso denegado): ningún byte oficial ni DOI se ha verificado. Verificación por el autor pendiente; hasta entonces, todo artefacto que consuma este fichero propaga el aviso.",
+  "provenance_caveat": "VALORES PUBLICADOS TRANSCRITOS A MANO (sesión de código, 21-sep-2026) y VERIFICADOS por el autor (sesión de verificación, 22-sep-2026) contra los resúmenes de arXiv de las fuentes primarias: astro-ph/9812404 (Holmberg & Flynn 2000), arXiv:1509.05334 (McKee, Parravano & Hollenbach 2015) y arXiv:1309.0809 (Bovy & Rix 2013). Los bytes de las tablas de los artículos NO se han descargado (ADS y las revistas no son alcanzables desde el entorno): official_bytes_verified sigue en false y todo artefacto que consuma este fichero lo declara. Erratum del 22-sep: la cifra Σ(<1.1 kpc) = 68 ± 4 M☉/pc² es de Bovy & Rix 2013 (ApJ 779, 115), no de Bovy & Tremaine 2012 como se citó el 21-sep (Bovy & Tremaine 2012 da ρ_DM = 0.008 ± 0.003 M☉/pc³ y no cita 68 ± 4); el valor no cambia. ρ_bar(0) = 0.084 ± 0.012 es la resta total − materia oscura de MPH2015 (0.097 − 0.013), no una cifra citada con ese error: declarado como derivado.",
   "official_bytes_verified": false,
+  "values_verified_against_arxiv_abstracts": true,
+  "verification": {
+    "by": "autor (sesión de verificación, 22-sep-2026)",
+    "against": ["astro-ph/9812404", "arXiv:1509.05334", "arXiv:1309.0809"],
+    "table_bytes_downloaded": false,
+    "erratum_2026_09_22": "cita de Σ(<1.1 kpc) corregida de Bovy & Tremaine 2012 (ApJ 756, 89) a Bovy & Rix 2013 (ApJ 779, 115; arXiv:1309.0809); clave renombrada Sigma_1p1_BT2012 → Sigma_1p1_BR2013; ningún valor ni error cambia"
+  },
   "values": {
     "rho_dyn_0_HF2000": {
       "value": 0.102, "err": 0.010, "unit": "Msun/pc^3",
       "meaning": "densidad de masa dinámica total en el plano galáctico (límite de Oort) desde la cinemática vertical de estrellas A/F de Hipparcos",
-      "source": "Holmberg & Flynn 2000 (MNRAS 313, 209)",
-      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificar"
+      "source": "Holmberg & Flynn 2000 (MNRAS 313, 209; astro-ph/9812404)",
+      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificado contra el resumen de astro-ph/9812404 (22-sep-2026): «0.102 ± 0.010 solar masses per cubic parsec» — exacto"
     },
     "rho_dyn_0_MPH2015": {
       "value": 0.097, "err": 0.013, "unit": "Msun/pc^3",
-      "meaning": "densidad total local (bariones 0.084 ± 0.012 + materia oscura ≈ 0.013) del censo de McKee, Parravano & Hollenbach",
-      "source": "McKee, Parravano & Hollenbach 2015 (ApJ 814, 13)",
-      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificar"
+      "meaning": "densidad total local (bariones + materia oscura ≈ 0.013 ± 0.003) del censo de McKee, Parravano & Hollenbach",
+      "source": "McKee, Parravano & Hollenbach 2015 (ApJ 814, 13; arXiv:1509.05334)",
+      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificado contra el resumen de arXiv:1509.05334 (22-sep-2026): «The local density of all matter is 0.097 ± 0.013» — exacto"
     },
     "rho_bar_0_MPH2015": {
       "value": 0.084, "err": 0.012, "unit": "Msun/pc^3",
       "meaning": "densidad bariónica local en el plano (estrellas + remanentes + gas)",
-      "source": "McKee, Parravano & Hollenbach 2015 (ApJ 814, 13)",
-      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificar"
+      "source": "McKee, Parravano & Hollenbach 2015 (ApJ 814, 13; arXiv:1509.05334)",
+      "derived": "resta declarada: total 0.097 ± 0.013 menos materia oscura 0.013 ± 0.003 (ambas citadas en el resumen); el cuerpo del artículo da estrellas 0.043 (±10 %) + gas ≈ 0.041. El error 0.012 es la transcripción del 21-sep, consistente con la cuadratura de la resta (√(0.013² − 0.003²) ≈ 0.0126), no una cifra citada con ese error",
+      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificado como consistente (derivado por resta) contra el resumen de arXiv:1509.05334 (22-sep-2026)"
     },
-    "Sigma_1p1_BT2012": {
+    "Sigma_1p1_BR2013": {
       "value": 68.0, "err": 4.0, "unit": "Msun/pc^2",
-      "meaning": "densidad superficial dinámica total dentro de |z| < 1.1 kpc (K_z a 1.1 kpc), SEGUE G dwarfs",
-      "source": "Bovy & Tremaine 2012 (ApJ 756, 89)",
-      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificar"
+      "meaning": "densidad superficial dinámica total dentro de |z| < 1.1 kpc (K_z a 1.1 kpc) en R₀, SEGUE G dwarfs (38 ± 4 de estrellas + remanentes)",
+      "source": "Bovy & Rix 2013 (ApJ 779, 115; arXiv:1309.0809)",
+      "transcribed_from": "literatura (sesión de código, 21-sep-2026, citada erróneamente como Bovy & Tremaine 2012); verificado contra el resumen de arXiv:1309.0809 (22-sep-2026): «Σ_{R₀}(Z = 1.1 kpc) = 68 ± 4 M☉/pc²» — valor exacto, cita corregida"
     },
     "Sigma_bar_1p1_MPH2015": {
       "value": 47.1, "err": 3.4, "unit": "Msun/pc^2",
       "meaning": "densidad superficial bariónica local total (columna completa; a 1.1 kpc prácticamente toda)",
-      "source": "McKee, Parravano & Hollenbach 2015 (ApJ 814, 13)",
-      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificar"
+      "source": "McKee, Parravano & Hollenbach 2015 (ApJ 814, 13; arXiv:1509.05334)",
+      "transcribed_from": "literatura (sesión de código, 21-sep-2026); verificado contra el resumen de arXiv:1509.05334 (22-sep-2026): «47.1 ± 3.4 M☉/pc²» — exacto"
     }
   },
   "derived_room": {

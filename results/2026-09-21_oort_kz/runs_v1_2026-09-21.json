@@ -1,8 +1,8 @@
 {
- "preregistration_sha256": "f35e90f77962141fbc00d98a30fe74f409d052574ce9958018e4c36085569749",
- "code_commit": "7bf3a1853a1bfae5f56f4f6c2fbe014364152253",
- "executed_utc": "2026-09-21T22:56:19.078706+00:00",
- "dataset_caveat": "VALORES PUBLICADOS TRANSCRITOS A MANO (sesión de código, 21-sep-2026) y VERIFICADOS por el autor (sesión de verificación, 22-sep-2026) contra los resúmenes de arXiv de las fuentes primarias: astro-ph/9812404 (Holmberg & Flynn 2000), arXiv:1509.05334 (McKee, Parravano & Hollenbach 2015) y arXiv:1309.0809 (Bovy & Rix 2013). Los bytes de las tablas de los artículos NO se han descargado (ADS y las revistas no son alcanzables desde el entorno): official_bytes_verified sigue en false y todo artefacto que consuma este fichero lo declara. Erratum del 22-sep: la cifra Σ(<1.1 kpc) = 68 ± 4 M☉/pc² es de Bovy & Rix 2013 (ApJ 779, 115), no de Bovy & Tremaine 2012 como se citó el 21-sep (Bovy & Tremaine 2012 da ρ_DM = 0.008 ± 0.003 M☉/pc³ y no cita 68 ± 4); el valor no cambia. ρ_bar(0) = 0.084 ± 0.012 es la resta total − materia oscura de MPH2015 (0.097 − 0.013), no una cifra citada con ese error: declarado como derivado.",
+ "preregistration_sha256": "5d5a84d26d20e4890f51a8ef58e6741434185332bda053b900f0de6bee4c9366",
+ "code_commit": "534d009f23f496897c97885db7889d7c2669d487",
+ "executed_utc": "2026-09-21T14:11:56.396805+00:00",
+ "dataset_caveat": "VALORES PUBLICADOS TRANSCRITOS A MANO desde la literatura anotada en la sesión de código (21-sep-2026). arXiv, ADS, DOI y revistas no son alcanzables desde el entorno (egreso denegado): ningún byte oficial ni DOI se ha verificado. Verificación por el autor pendiente; hasta entonces, todo artefacto que consuma este fichero propaga el aviso.",
  "room": {
   "rho_dyn_0": 0.10014126394052045,
   "rho_dyn_0_err": 0.007926239891046,
