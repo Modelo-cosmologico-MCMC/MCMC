@@ -79,3 +79,35 @@ def gamma_over_k_instrument(q: float, k: float, h: float, sigma: float = 1.0) ->
     """Predicción cinética para el sistema DISCRETIZADO: γ/k = √2·σ·y(q·W(k)).
     Cerca del umbral la corrección es grande aunque W ≈ 1 (y ∝ √(q_ef − 1))."""
     return gamma_over_k_kinetic(q * transfer_function_cic(k, h), sigma)
+
+
+# ------------------------------------------------ el modo propio creciente (ronda 2)
+def eigenmode_beam_amplitudes(v_beams, q: float, gamma_over_k: float, delta_rho_hat: float,
+                              sigma: float = 1.0, rho0: float = 1.0) -> np.ndarray:
+    """Amplitud COMPLEJA de la perturbación relativa de densidad de cada haz
+    en el modo propio puramente creciente ω = iγ de la relación de
+    dispersión 1 = q[1 + ζZ(ζ)].
+
+    De la ecuación de Vlasov linealizada con a = κ∂_xδρ (κ = qσ²/ρ₀):
+    (−iω + ikv)ĝ + ikκδρ̂ f₀' = 0 ⟹ ĝ(v) = κ v f₀(v) (v + iy')/(σ²(v² + y'²))·δρ̂,
+    con y' = γ/k. Para un haz de velocidad v_j (peso f₀(v_j)dv), la
+    perturbación relativa es c_j = κ v_j (v_j + iy')/(σ²(v_j² + y'²))·δρ̂: su
+    módulo |v_j|/√(v_j² + y'²) y su FASE arg(v_j + iy') dependen de la
+    velocidad — eso es lo que la siembra en densidad (misma fase para todos
+    los haces) no reproduce, y por lo que proyecta sobre el continuo de
+    modos amortiguados de van Kampen. La consistencia Σ_j w_j c_j = δρ̂/ρ₀
+    (con w_j = 1/n_beams para haces de cuantiles) es exactamente la relación
+    de dispersión F(y) = 1/q evaluada con la cuadratura de los haces: se
+    publica el residuo como comprobación del instrumento, no se ajusta."""
+    v = np.asarray(v_beams, dtype=float)
+    kappa = q * sigma ** 2 / rho0
+    return kappa * v * (v + 1j * gamma_over_k) / (sigma ** 2 * (v ** 2 + gamma_over_k ** 2)) * delta_rho_hat
+
+
+def eigenmode_dispersion_residual(v_beams, q: float, gamma_over_k: float, sigma: float = 1.0) -> float:
+    """Residuo |Σ_j w_j c_j / δρ̂ − 1| con la cuadratura de los haces (equal
+    weight): mide cuán bien la discretización en velocidad representa el
+    modo propio; con y' = γ/k de la relación de dispersión continua y
+    n_beams → ∞ tiende a 0 (la parte imaginaria se anula por paridad)."""
+    c = eigenmode_beam_amplitudes(v_beams, q, gamma_over_k, 1.0, sigma)
+    return float(abs(np.mean(c) - 1.0))

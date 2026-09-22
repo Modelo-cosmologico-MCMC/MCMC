@@ -1,0 +1,259 @@
+{
+  "title": "Test del criterio de Cronos–Jeans, ronda 2: siembra del modo propio exacto, retículo exacto, modos 4/8/16/32",
+  "frozen_utc": "2026-09-21T23:41:56.191911+00:00",
+  "code_commit": "1d7f199d75536237e229fe4aadcb7eef21fe11fa",
+  "generator": "scripts/run_cj_round2.py prereg",
+  "generator_commit_must_precede_freeze": true,
+  "round1": "results/2026-09-21_cj_criterion_test (INDETERMINADO por la puerta de fase lineal en q1.2_n4, q2.0_n4, q2.0_n8): intacta",
+  "question": "¿Reproduce el instrumento de láminas, con fase lineal resuelta en TODAS las celdas, el umbral q = 1 y la tasa cinética exacta γ/k = √2·σ·y(q·W(k)) proporcional a k de la ley local ε_c = A·ρ^(3/2)?",
+  "system": {
+    "sigma": 1.0,
+    "rho0": 1.0,
+    "L": 1.0,
+    "gravity": false,
+    "force": "+c²∂_x ε_c(ρ), ε_c = A·ρ^(3/2), con (3/2)c²A·ρ0^(3/2) ≡ q·σ²"
+  },
+  "instrument": {
+    "N": 2097152,
+    "ng": 512,
+    "dt": 0.001,
+    "sample_every": 1,
+    "full_modes_every": 50,
+    "quiet_start": true,
+    "n_beams": 1024,
+    "cells_per_beam": 4,
+    "lattice_rule": "N/n_beams = p·ng con p ENTERO (p = 4): depósito CIC de cada haz exactamente uniforme; sin batido retículo/malla (la regla de la ronda 1, N/n_beams ≥ 2·ng, no bastaba)",
+    "seed_eigenmode": true,
+    "seed_eigenmode_rule": "cada haz j se desplaza ξ_j = −Im[c_j e^{ikx}]/k con c_j = κ v_j (v_j + iy')/(σ²(v_j² + y'²))·δρ̂ e y' = γ/k de la predicción cinética PARA EL INSTRUMENTO (q·W(k)); q ≤ 1: siembra en densidad (no hay modo creciente)",
+    "seed_amp_by_mode": {
+      "4": 2e-05,
+      "8": 2e-05,
+      "16": 2e-06,
+      "32": 2e-06
+    },
+    "seed_amp_rule": "|δ_k|(0) = seed_amp/2: 1e-5 en los modos bajos y 1e-6 en los altos (los armónicos de la siembra escalan como δ²: una siembra menor baja el suelo de los modos altos, que crecen más deprisa)",
+    "seed": 1,
+    "T_rule": "q > 1: T = 1.5·ln(1e-3/|δ_k|(0))/(γ_inst/k · k) + 0.1; q < 1: T = 0.6 L/σ",
+    "T_stable": 0.6,
+    "T_safety": 1.5,
+    "delta_end": 0.001,
+    "beam_convergence_run": {
+      "q": 1.2,
+      "mode": 8,
+      "n_beams_alt": 512,
+      "cells_per_beam_alt": 8
+    }
+  },
+  "q_grid": [
+    0.8,
+    1.2,
+    2.0
+  ],
+  "modes": [
+    4,
+    8,
+    16,
+    32
+  ],
+  "prediction_kinetic": [
+    {
+      "q": 0.8,
+      "y": 0.0,
+      "gamma_over_k_kinetic": 0.0,
+      "gamma_over_k_fluid": 0.0,
+      "unstable": false
+    },
+    {
+      "q": 1.2,
+      "y": 0.10550447715076941,
+      "gamma_over_k_kinetic": 0.14920586247770043,
+      "gamma_over_k_fluid": 0.44721359549995787,
+      "unstable": true
+    },
+    {
+      "q": 2.0,
+      "y": 0.43275159936630797,
+      "gamma_over_k_kinetic": 0.6120031809624809,
+      "gamma_over_k_fluid": 1.0,
+      "unstable": true
+    }
+  ],
+  "windows_and_T": {
+    "q0.8_n4": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9991970917162399,
+      "q_eff": 0.799357673372992,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0,
+      "delta_k_initial": 1e-05
+    },
+    "q0.8_n8": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9967917501673835,
+      "q_eff": 0.7974334001339068,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0,
+      "delta_k_initial": 1e-05
+    },
+    "q0.8_n16": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9872209634732488,
+      "q_eff": 0.7897767707785991,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0,
+      "delta_k_initial": 1e-06
+    },
+    "q0.8_n32": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9497364738053421,
+      "q_eff": 0.7597891790442737,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0,
+      "delta_k_initial": 1e-06
+    },
+    "q1.2_n4": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 1.9504530930354826,
+      "W_k": 0.9991970917162399,
+      "q_eff": 1.199036510059488,
+      "gamma_over_k_instrument": 0.14853164914811226,
+      "gamma_over_k_continuum": 0.14920586247770043,
+      "delta_k_initial": 1e-05,
+      "expected_points_in_window": 616.8176976784941
+    },
+    "q1.2_n8": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 1.0379965152046309,
+      "W_k": 0.9967917501673835,
+      "q_eff": 1.19615010020086,
+      "gamma_over_k_instrument": 0.14650952595480843,
+      "gamma_over_k_continuum": 0.14920586247770043,
+      "delta_k_initial": 1e-05,
+      "expected_points_in_window": 312.6655050682103
+    },
+    "q1.2_n16": {
+      "window": [
+        3e-06,
+        2.9999999999999997e-05
+      ],
+      "T": 0.8445639530228143,
+      "W_k": 0.9872209634732488,
+      "q_eff": 1.1846651561678985,
+      "gamma_over_k_instrument": 0.13842876515036093,
+      "gamma_over_k_continuum": 0.14920586247770043,
+      "delta_k_initial": 1e-06,
+      "expected_points_in_window": 165.45865622729207
+    },
+    "q1.2_n32": {
+      "window": [
+        3e-06,
+        2.9999999999999997e-05
+      ],
+      "T": 0.5851305542727889,
+      "W_k": 0.9497364738053421,
+      "q_eff": 1.1396837685664105,
+      "gamma_over_k_instrument": 0.10622817681203375,
+      "gamma_over_k_continuum": 0.14920586247770043,
+      "delta_k_initial": 1e-06,
+      "expected_points_in_window": 107.80678983839755
+    },
+    "q2.0_n4": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 0.5496777821486357,
+      "W_k": 0.9991970917162399,
+      "q_eff": 1.9983941834324799,
+      "gamma_over_k_instrument": 0.611217321581916,
+      "gamma_over_k_continuum": 0.6120031809624809,
+      "delta_k_initial": 1e-05,
+      "expected_points_in_window": 149.89259404954524
+    },
+    "q2.0_n8": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 0.3257092262254671,
+      "W_k": 0.9967917501673835,
+      "q_eff": 1.993583500334767,
+      "gamma_over_k_instrument": 0.6088604665748786,
+      "gamma_over_k_continuum": 0.6120031809624809,
+      "delta_k_initial": 1e-05,
+      "expected_points_in_window": 75.23640874182236
+    },
+    "q2.0_n16": {
+      "window": [
+        3e-06,
+        2.9999999999999997e-05
+      ],
+      "T": 0.2719411509995663,
+      "W_k": 0.9872209634732488,
+      "q_eff": 1.9744419269464977,
+      "gamma_over_k_instrument": 0.5994438678189348,
+      "gamma_over_k_continuum": 0.6120031809624809,
+      "delta_k_initial": 1e-06,
+      "expected_points_in_window": 38.20914466657029
+    },
+    "q2.0_n32": {
+      "window": [
+        3e-06,
+        2.9999999999999997e-05
+      ],
+      "T": 0.1917067828304468,
+      "W_k": 0.9497364738053421,
+      "q_eff": 1.8994729476106842,
+      "gamma_over_k_instrument": 0.5619489933638825,
+      "gamma_over_k_continuum": 0.6120031809624809,
+      "delta_k_initial": 1e-06,
+      "expected_points_in_window": 20.379285073432623
+    }
+  },
+  "rules": {
+    "linear_window_rule": "fase lineal = |δ_k| ∈ [3·|δ_k|(0), 30·|δ_k|(0)]: una década de amplitud, tras el transitorio",
+    "linear_window_lo_factor": 3.0,
+    "linear_window_hi_factor": 30.0,
+    "min_points_linear": 8,
+    "min_r2": 0.98,
+    "rate_rel_tol": 0.25,
+    "k_independence_rel_spread": 0.25,
+    "stable_max_growth_factor": 3.0,
+    "beam_convergence_rel_tol": 0.02
+  },
+  "gates": {
+    "linear_phase_resolved": "≥ min_points_linear puntos en la ventana con r² ≥ min_r2 en CADA celda con q > 1",
+    "seed_noise": "|δ_k|(0) de los modos NO sembrados < 0.1·|δ_k|(0) sembrado",
+    "lattice_exact": "cada corrida declara lattice_exact = true (N/n_beams múltiplo entero de ng)",
+    "beam_convergence": "γ/k en (q = 1.2, n = 8) con 512 haces (p = 8) difiere del de 1024 haces (p = 4) en ≤ 2 %"
+  },
+  "outcomes": {
+    "order": "puertas → C → B → A; INDETERMINADO si una puerta falla; ningún umbral se ajusta tras ver los números",
+    "C_criterion_fails": "crecimiento (factor > 3) en q = 0.8, o ausencia de crecimiento en alguna q > 1, o tasa NO proporcional a k (dispersión del cociente medido/predicho entre modos > 25 % en alguna q > 1)",
+    "B_finite_size": "umbral y proporcionalidad correctos pero γ/k dentro del 25 % solo para n ≥ 8 (el modo n = 4 fuera de tolerancia en alguna q > 1): efecto de tamaño finito real, a entender, no un fallo del criterio",
+    "A_kinetic_reproduced": "todas las celdas con q > 1 dentro del 25 % de γ_cin(q, k)·W(k), dispersión entre modos ≤ 25 % y estabilidad en q = 0.8: el instrumento reproduce el criterio con su predicción convergida",
+    "INDETERMINADO": "puerta violada de nuevo (fase lineal, ruido de siembra, retículo, convergencia en haces) o corridas ausentes: entonces se cambia de instrumento (Vlasov euleriano 1D), no de siembra"
+  },
+  "expectations_E13": "A (la ronda 1 dio 3/3 celdas resueltas al 1 % de la cinética; el piloto del retículo exacto dio 0.6086 frente a 0.6089 en q2_n4)",
+  "development_declaration": {
+    "pilots": "22-sep, N = 5e5–2e6, ng = 256, q = 2, n ∈ {4, 8}: (i) siembra del modo propio frente a siembra en densidad con N/n_beams = 488 y 976 (no múltiplo de ng): r² 0.39 → 0.67 en n = 4, ambas con el mismo crecimiento explosivo de modos altos a t ≈ 0.15–0.18 dominado al final por el modo 8 ó 4 y con los modos altos partiendo de ~1e-10; la siembra conjugada (−y') decae al principio, confirmando el signo del modo; (ii) N/n_beams = 4·ng: los modos no sembrados arrancan en 1.5e-10 y solo se hacen relevantes tras cerrar la ventana; r² = 1.0000 y γ/k = 0.6086 frente a 0.6089. Los pilotos mostraron tasas y se declaran como calibración del instrumento.",
+    "what_they_fixed": "solo el instrumento: regla del retículo exacto, siembra del modo propio, amplitudes por modo, muestreo; NINGUNA tolerancia ni desenlace (25 %, 25 %, 2 %, 8 puntos, r² 0.98) se ajustó a ellos",
+    "budget": "13 corridas (3 q × 4 modos + control de haces) con N = 2 097 152: ~2–5 min cada una"
+  },
+  "prohibitions": {
+    "no_threshold_tuning": true,
+    "no_data": true,
+    "no_change_to_A_sculptor": true,
+    "round1_untouched": true
+  }
+}
