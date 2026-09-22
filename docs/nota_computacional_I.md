@@ -1133,6 +1133,25 @@ sin verificar — el autor debe verificar los cinco números antes de
 citar la letra; condicional a la forma ε_c = A·ρ^{3/2}, que es tarea
 del diccionario (`results/2026-09-21_oort_kz/`).
 
+**Erratum y verificación (22-sep-2026, sesión de verificación del autor).**
+Los cinco valores de `local_kz_bounds` se verificaron contra los resúmenes
+de arXiv de las fuentes primarias (astro-ph/9812404, 1509.05334,
+1309.0809): ρ_dyn(0) de HF2000 y de MPH2015, Σ_bar de MPH2015 y Σ(<1.1
+kpc) son exactos; ρ_bar(0) = 0.084 ± 0.012 es la resta total − materia
+oscura de MPH2015 y queda declarado como derivado. La cifra Σ(<1.1 kpc) =
+68 ± 4 M☉/pc² es de **Bovy & Rix 2013** (ApJ 779, 115), no de Bovy &
+Tremaine 2012 como se citó arriba (ese artículo da ρ_DM = 0.008 ± 0.003
+y no cita 68 ± 4): cita corregida en el dataset (clave `Sigma_1p1_BR2013`),
+el manifiesto, `sources.yaml` y la preinscripción. Como el manifiesto
+cambia por esos metadatos, la preinscripción se recongeló como **v2 por
+erratum** (sha256 `f35e90f77962…`; la v1 `5d5a84d26d20…` sigue archivada
+con su sha): reglas, piloto y límites copiados verbatim de la v1, y el
+analizador falla cerrado si difieren o si algún número difiere de las
+corridas v1. Re-ejecutado: desviación máxima 0.0; letras idénticas
+(excluido / compatible / tensión-en-la-frontera). Los bytes de las tablas
+siguen sin descargar (`official_bytes_verified: false`), así que el aviso
+de procedencia se mantiene con la verificación añadida.
+
 ### 3.27 El perfil σ_los(R) de Sculptor: predicción y regla congeladas, resultado en fallo cerrado hasta la ingesta de Walker et al. 2009 (21-sep-2026, tarde)
 
 La aplicación (3) de §3.21 queda preinscrita (sha256 `604f9c254c7e…`):

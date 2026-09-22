@@ -163,16 +163,18 @@ datasets:
 
   local_kz_bounds:
     role: local_vertical_dynamics_bounds
-    host: literatura — egreso denegado desde el entorno (21-sep-2026)
+    host: literatura — egreso denegado desde el entorno (21-sep-2026); valores verificados por el autor contra arXiv (22-sep-2026)
     raw_dir: data/raw/local_kz_bounds
-    citation: "Holmberg & Flynn 2000 (ρ_dyn(0)); McKee, Parravano & Hollenbach 2015 (ρ_bar(0), ρ_dyn(0), Σ_bar); Bovy & Tremaine 2012 (Σ(<1.1 kpc))"
-    state: AVAILABLE          # 5 valores publicados TRANSCRITOS; bytes oficiales NO verificados (declarado en manifest y schema_report)
+    citation: "Holmberg & Flynn 2000 (ρ_dyn(0); astro-ph/9812404); McKee, Parravano & Hollenbach 2015 (ρ_bar(0) por resta, ρ_dyn(0), Σ_bar; arXiv:1509.05334); Bovy & Rix 2013 (Σ(<1.1 kpc); ApJ 779, 115; arXiv:1309.0809)"
+    state: AVAILABLE          # 5 valores publicados TRANSCRITOS y verificados contra los resúmenes de arXiv; bytes de las tablas NO descargados (declarado en manifest y schema_report)
     note: >
       Densidad dinámica local en el plano, densidad bariónica local y Σ(<1.1 kpc)
       para acotar la amplitud A de la Ley de Cronos débil por su fuerza vertical
-      (frente 5c, preinscripción «Oort–K_z»). Transcripción manual; la
-      verificación contra las fuentes es tarea del autor y queda declarada como
-      pendiente. El artefacto que la consuma propaga el aviso.
+      (frente 5c, preinscripción «Oort–K_z»). Transcripción manual del 21-sep,
+      verificada por el autor el 22-sep contra los resúmenes de arXiv (erratum:
+      Σ(<1.1 kpc) es de Bovy & Rix 2013, no de Bovy & Tremaine 2012; ningún
+      valor cambia). Los bytes de las tablas siguen sin descargar; el artefacto
+      que la consuma propaga ambos avisos.
 
   ppn_bounds:
     role: ppn_preferred_frame_bounds

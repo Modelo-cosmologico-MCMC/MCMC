@@ -1,7 +1,7 @@
 {
   "title": "Oort–K_z: la vecindad solar acota la amplitud de la Ley de Cronos débil por su fuerza vertical",
-  "frozen_utc": "2026-09-21T22:55:40.106211+00:00",
-  "code_commit": "2b5089411137e004ebde421cb21a4e14a7ab8968",
+  "frozen_utc": "2026-09-21T14:11:19.799697+00:00",
+  "code_commit": "5ea39a61795b5c1b68c9ea6e1c67dfcbdc5237a0",
   "generator": "scripts/run_oort_kz.py prereg",
   "generator_commit_must_precede_freeze": true,
   "declared": {
@@ -15,9 +15,9 @@
       "rho_dm": 0.013
     },
     "slab_sensitivity_band": "alturas de escala × 0.5 y × 2 (Δρ_eff ∝ h⁻²): banda publicada, no brazo",
-    "dataset": "local_kz_bounds (transcripción verificada por el autor contra los resúmenes de arXiv; bytes de las tablas NO descargados — aviso propagado)",
-    "dataset_manifest_sha256": "39a362141dc1d3131e0de575d307cb867beac7001f608da09031483d8ffb5942",
-    "room": "ρ_dyn(0) − ρ_bar(0) con ρ_dyn = media ponderada HF2000 + MPH2015; Σ_dyn(1.1) − Σ_bar(1.1) con Bovy & Rix 2013 − MPH2015; errores en cuadratura; TODO el margen para Cronos",
+    "dataset": "local_kz_bounds (transcripción; bytes oficiales NO verificados — aviso propagado)",
+    "dataset_manifest_sha256": "e8abeed30d09948827fea56897677543d4733a5418e60b6e5dd2b4ff98760453",
+    "room": "ρ_dyn(0) − ρ_bar(0) con ρ_dyn = media ponderada HF2000 + MPH2015; Σ_dyn(1.1) − Σ_bar(1.1) con BT2012 − MPH2015; errores en cuadratura; TODO el margen para Cronos",
     "arms": {
       "A_sculptor": 6.201588782789579e-07,
       "A_0p05": 3.1007943913947895e-08,
@@ -51,13 +51,5 @@
     "si la Ley de Cronos débil es la ley correcta (forma ε_c(ρ): tarea del diccionario)",
     "la amplitud A del frente 5b (0.05·A_S es brazo, no resultado)",
     "la losa real (declarada; la banda mide su peso)"
-  ],
-  "erratum": {
-    "of_file": "preregistration_v1_2026-09-21.json",
-    "of_sha256": "5d5a84d26d20e4890f51a8ef58e6741434185332bda053b900f0de6bee4c9366",
-    "of_frozen_utc": "2026-09-21T14:11:19.799697+00:00",
-    "reason": "cita de Σ(<1.1 kpc) corregida (Bovy & Tremaine 2012 → Bovy & Rix 2013, ApJ 779, 115); ρ_bar(0) declarado como resta; valores verificados por el autor contra los resúmenes de arXiv; el manifest del dataset cambia por esos metadatos, ningún valor ni error cambia",
-    "rules_identical_to_v1": true,
-    "values_must_match_v1": "el analizador compara cada número con runs de la v1 y falla cerrado si difieren"
-  }
+  ]
 }
