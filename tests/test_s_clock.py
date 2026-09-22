@@ -249,3 +249,38 @@ def test_declared_forms_include_post_florencia_unit_gap():
     assert "S_post_unit" in DECLARED_FORMS and "hueco" in DECLARED_FORMS["S_post_unit"]
     assert "diccionario-unidad-S-post-florencia" in DECLARED_FORMS["S_post_unit"]
     assert "E13" in DECLARED_FORMS["mass_instability"]
+
+
+# ---------------------------------------------------------------- v2 (22-sep): decisiones A, B, C
+def test_decision_B_kramers_mode_publishes_rate_and_requires_D_ent():
+    """Decisión B: n = 1 con Kramers (Axioma 4). El modo exige D_ent
+    declarada, arranca en el punto de escape (misma convención que Gamow),
+    publica Γ_K y la espera 1/Γ_K, y el bounce queda etiquetado como
+    control negativo."""
+    import pytest
+
+    from core.s_clock import ClockConfig, SClock, radial_landscape
+    with pytest.raises(ValueError):
+        SClock(ClockConfig(delta0=0.01, nucleation="kramers"))
+    ld = radial_landscape(0.01)
+    r = SClock(ClockConfig(delta0=0.01, nucleation="kramers", D_ent=ld["barrier_height"])).run()
+    nuc = r["checks"]["S0"]["nucleation"]
+    assert nuc["mode"] == "kramers" and nuc["kramers"]["Gamma_K"] > 0.0
+    assert nuc["Gamma0"] == nuc["kramers"]["Gamma_K"]
+    assert abs(nuc["sigma_wait_before_nucleation"] * nuc["Gamma0"] - 1.0) < 1e-12
+    assert abs(nuc["x_esc"] - ld["rho_esc"] ** 2) < 1e-12          # mismo punto de escape que la convención v0
+    assert "Kramers" in nuc["status"] and "n_dim = 1" in nuc["status"]
+    assert r["checks"]["descent"]["S_equals_f_identity"]["max_abs_diff"] < 1e-9
+    ctrl = SClock(ClockConfig(delta0=0.01, nucleation="bounce")).run()["checks"]["S0"]["nucleation"]
+    assert "CONTROL NEGATIVO" in ctrl["status"]
+
+
+def test_decision_C_collapse_trigger_declared_as_D_zero():
+    """Decisión C: «el colapso» es D = 0 (Def. 8.4 / Obs. 8.6); M0² = 0 es
+    diagnóstico. Declarado en DECLARED_FORMS, no derivado."""
+    from core.s_clock import DECLARED_FORMS
+    f = DECLARED_FORMS["collapse_trigger"]
+    assert "D(S) = B² − 4C0M0² = 0" in f and "Obs. 8.6" in f
+    assert "diagnóstico" in f and "no-evento" in f
+    assert "frente 2" in f            # el cierre canónico no lo produce: las β son del frente 2
+    assert "DECISIÓN B" in DECLARED_FORMS["nucleation"] and "CONTROL NEGATIVO" in DECLARED_FORMS["nucleation"]
