@@ -61,11 +61,29 @@ from .victoria import iterate_cycles, lydia_gain, memory_mode_mass_sq
 LAMBDA_H_SEAL = 0.130
 
 STATUS_CIRCLE = (
-    "condicional (F.2): el círculo se cierra ⟺ W_max = c̄·δ_H³; el "
+    "condicional (F.2): el círculo se cierra ⟺ W_max = T₀(δ_H); el "
     "tratado declara el Techo (Lema 10.3) pero no asigna valor a W_max "
     "— la ecuación de consistencia liga Teo. 10.6 con H.8 y transfiere "
-    "la pregunta a W_max"
+    "la pregunta a W_max. DECISIÓN A (autor, 22-sep-2026): la T₀ que el "
+    "Lema 10.3 iguala a W_max es la del PAISAJE COMPLETO (T₀_full, con la "
+    "inclinación −η·χ); c̄·δ³ queda como orden dominante de la Prop. 3.4"
 )
+
+# Decisión A del autor (22-sep-2026), derivada del texto del Lema 10.3: el
+# contenido físico es T₀(δ′) ≤ W_max — la tensión que el ciclo siguiente
+# debe CONSTRUIR no puede exceder el trabajo reinvertible — y c̄δ′³ es solo
+# la expresión de la Prop. 3.4, que declara la inclinación como corrección
+# «subdominante O(δ₀^{7/2})». El reloj la midió: +31 % en δ_H. Luego el
+# Techo iguala W_max a T₀_full y δ_sat es la raíz de T₀_full(δ) = W_max.
+DECISION_A = {
+    "decided_utc": "2026-09-22", "by": "autor",
+    "T0_named_by_Lemma_10_3": "T0_full_landscape",
+    "law_3_4_role": "orden dominante (c̄·δ³); su corrección κ₁√δ + O(δ) es parte de T₀",
+    "consequences": ["Techo requerido en δ_H: T₀_full(δ_H) (2.167e-4 con δ_H = 0.130/√5, formas fiduciales)",
+                     "δ_H se calcula sobre el mismo paisaje: raíz de λ_Ad_full(δ) = λ_H (mass_program.B7_empalme."
+                     "delta0_required_full); la inclinación sube la curvatura y baja δ_H ≈ 5 %",
+                     "δ_sat = raíz de T₀_full(δ) = W_max, menor que (W_max/c̄)^{1/3}"],
+}
 
 
 def delta0_H(m_bar: float = M_BAR, b_bar: float = B_BAR,
@@ -111,8 +129,51 @@ def W_max_required_both(delta_star: float, m_bar: float = M_BAR,
             "metastable": ld["metastable"],
             "tilt_correction": None if full is None else full / law - 1.0,
             "kappa1_sqrt_delta": kappa1_tilt(m_bar, b_bar, e_bar, C0) * float(np.sqrt(delta_star)),
+            "W_max_decided": full, "decision_A": DECISION_A["T0_named_by_Lemma_10_3"],
             "note": "W_max = T₀(δ*): la ley 3.4 ignora la inclinación −η·χ; el paisaje completo la "
-                    "incluye. El Lema 10.3 no dice cuál de las dos es el Techo: decisión pendiente (A)."}
+                    "incluye. Decisión A (autor, 22-sep-2026): el Lema 10.3 nombra T₀_full; la ley 3.4 "
+                    "es el orden dominante. Se publican las dos."}
+
+
+def delta0_H_full(m_bar: float = M_BAR, b_bar: float = B_BAR, e_bar: float = E_BAR,
+                  C0: float = C0_DEFAULT, lambda_target: float = LAMBDA_H_SEAL) -> float:
+    """δ_H sobre el paisaje completo (decisión A): raíz de λ_Ad_full(δ) =
+    λ_H con la inclinación encendida (espejo de
+    mass_program.B7_empalme.delta0_required_full; core no importa
+    mass_program, así que se resuelve aquí con radial_landscape)."""
+    from scipy.optimize import brentq
+
+    from .basal import scaled_params
+    from .s_clock import radial_landscape
+
+    def lam_full(d: float) -> float:
+        land = radial_landscape(d, 0.0, m_bar, b_bar, e_bar, C0)
+        if not land["metastable"] or land["rho_tv"] is None:
+            raise ValueError(f"sin vacío verdadero metastable en δ0 = {d:g}")
+        rp, p = float(land["rho_tv"]), scaled_params(d, m_bar, b_bar, e_bar)
+        return (p["M0_sq"] - 3.0 * p["B"] * rp ** 2 + 5.0 * C0 * rp ** 4) / (2.0 * rp ** 2)
+
+    d_law = delta0_H(m_bar, b_bar, C0, lambda_target)
+    return float(brentq(lambda d: lam_full(d) - lambda_target, 0.5 * d_law, d_law * (1.0 + 1e-9), xtol=1e-12))
+
+
+def W_max_required_decided(m_bar: float = M_BAR, b_bar: float = B_BAR, e_bar: float = E_BAR,
+                           C0: float = C0_DEFAULT) -> dict:
+    """El Techo que cierra el círculo BAJO LA DECISIÓN A: W_max = T₀_full(δ_H)
+    con δ_H y T₀ sobre el mismo paisaje (inclinación encendida). Publica
+    también la cadena de la ley 3.4 (δ_H_ley, c̄·δ_H_ley³) y la corrección."""
+    from .s_clock import radial_landscape
+    d_law = delta0_H(m_bar, b_bar, C0)
+    d_full = delta0_H_full(m_bar, b_bar, e_bar, C0)
+    ld_full = radial_landscape(d_full, 0.0, m_bar, b_bar, e_bar, C0)
+    ld_law_d = radial_landscape(d_law, 0.0, m_bar, b_bar, e_bar, C0)
+    return {"decision_A": DECISION_A,
+            "delta_H_law": d_law, "delta_H_full": d_full, "delta_H_shift": d_full / d_law - 1.0,
+            "W_max_law_3_4_at_delta_H_law": T0_analytic(d_law, m_bar, b_bar, C0),
+            "W_max_full_at_delta_H_law": ld_law_d["T0_full"],
+            "W_max_decided": ld_full["T0_full"],
+            "note": "W_max_decided = T₀_full(δ_H_full): T₀ y δ_H sobre el mismo paisaje (Lema 10.3 ↔ H.8 con la "
+                    "inclinación en ambos lados). Las otras dos cadenas se publican para la trazabilidad."}
 
 
 def attractor_analytic(gamma_R: float, W_max: float, *, delta_min: float,

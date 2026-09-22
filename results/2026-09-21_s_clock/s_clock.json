@@ -1,18 +1,170 @@
 {
   "kind": "simulador de consistencia (E8), sin desenlaces preinscritos",
   "status": "simulador de consistencia (E8): umbrales de la Década impuestos (Prop. 8.1, λ = 10 calibrado — frente 2), nucleación declarada en el punto de escape, sellados con forma paramétrica declarada, diagonal impuesta para la entrega; el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente)",
-  "executed_utc": "2026-09-21T12:36:50.960180+00:00",
-  "code_commit": "de5c7736c8b25e8f351203ee0c1e5d20ee343793",
+  "v2_decisions_22sep": {
+    "A": {
+      "decision": {
+        "decided_utc": "2026-09-22",
+        "by": "autor",
+        "T0_named_by_Lemma_10_3": "T0_full_landscape",
+        "law_3_4_role": "orden dominante (c̄·δ³); su corrección κ₁√δ + O(δ) es parte de T₀",
+        "consequences": [
+          "Techo requerido en δ_H: T₀_full(δ_H) (2.167e-4 con δ_H = 0.130/√5, formas fiduciales)",
+          "δ_H se calcula sobre el mismo paisaje: raíz de λ_Ad_full(δ) = λ_H (mass_program.B7_empalme.delta0_required_full); la inclinación sube la curvatura y baja δ_H ≈ 5 %",
+          "δ_sat = raíz de T₀_full(δ) = W_max, menor que (W_max/c̄)^{1/3}"
+        ]
+      },
+      "delta_H_law": 0.05813776741499453,
+      "delta_H_full": 0.055444201949872325,
+      "delta_H_shift": -0.04633073447583913,
+      "W_max_law_3_4_at_delta_H_law": 0.0001652312868651721,
+      "W_max_full_at_delta_H_law": 0.00021667016744921375,
+      "W_max_decided_T0_full_at_delta_H_full": 0.00018694507577430317,
+      "reading": "el Lema 10.3 iguala W_max a T₀_full; con δ_H recalculado sobre el mismo paisaje (λ_Ad_full = λ_H) el Techo requerido es T₀_full(δ_H_full); se publican las tres cadenas para la trazabilidad"
+    },
+    "B": {
+      "decision": "n = 1: Kramers (Axioma 4, D_ent declarada) con Gamow como cota; bounce O(3)/O(4) solo control negativo",
+      "kramers_runs": [
+        {
+          "delta0": 0.01,
+          "D_ent_over_barrier": 0.1,
+          "D_ent": 5.121566323555678e-09,
+          "Gamma_K": 8.392056987009824e-10,
+          "sigma_wait": 1191602966.4096813,
+          "prefactor": 1.8484735617244027e-05,
+          "exponent": 9.999999999999998,
+          "f0": 0.0,
+          "events": [
+            "colapso_1D",
+            "colapso_2D",
+            "colapso_3D",
+            "V3D",
+            "Florencia"
+          ],
+          "S_equals_f_max_diff": 1.9373391779708982e-13
+        },
+        {
+          "delta0": 0.01,
+          "D_ent_over_barrier": 1.0,
+          "D_ent": 5.1215663235556774e-08,
+          "Gamma_K": 6.8001542090735885e-06,
+          "sigma_wait": 147055.48863372524,
+          "prefactor": 1.8484735617244027e-05,
+          "exponent": 1.0,
+          "f0": 0.0,
+          "events": [
+            "colapso_1D",
+            "colapso_2D",
+            "colapso_3D",
+            "V3D",
+            "Florencia"
+          ],
+          "S_equals_f_max_diff": 1.9373391779708982e-13
+        },
+        {
+          "delta0": 0.01,
+          "D_ent_over_barrier": 10.0,
+          "D_ent": 5.121566323555678e-07,
+          "Gamma_K": 1.6725680448984423e-05,
+          "sigma_wait": 59788.299976801216,
+          "prefactor": 1.8484735617244027e-05,
+          "exponent": 0.09999999999999999,
+          "f0": 0.0,
+          "events": [
+            "colapso_1D",
+            "colapso_2D",
+            "colapso_3D",
+            "V3D",
+            "Florencia"
+          ],
+          "S_equals_f_max_diff": 1.9373391779708982e-13
+        },
+        {
+          "delta0": 0.055444201949872325,
+          "D_ent_over_barrier": 0.1,
+          "D_ent": 2.0620916288849775e-07,
+          "Gamma_K": 1.7228784471022332e-08,
+          "sigma_wait": 58042400.01271903,
+          "prefactor": 0.0003794892318370705,
+          "exponent": 10.0,
+          "f0": 0.0,
+          "events": [
+            "colapso_1D",
+            "colapso_2D",
+            "colapso_3D",
+            "V3D",
+            "Florencia"
+          ],
+          "S_equals_f_max_diff": 2.0972112935169207e-13
+        },
+        {
+          "delta0": 0.055444201949872325,
+          "D_ent_over_barrier": 1.0,
+          "D_ent": 2.0620916288849773e-06,
+          "Gamma_K": 0.0001396062865388014,
+          "sigma_wait": 7163.001214290342,
+          "prefactor": 0.0003794892318370705,
+          "exponent": 1.0,
+          "f0": 0.0,
+          "events": [
+            "colapso_1D",
+            "colapso_2D",
+            "colapso_3D",
+            "V3D",
+            "Florencia"
+          ],
+          "S_equals_f_max_diff": 2.0972112935169207e-13
+        },
+        {
+          "delta0": 0.055444201949872325,
+          "D_ent_over_barrier": 10.0,
+          "D_ent": 2.0620916288849773e-05,
+          "Gamma_K": 0.0003433760567079045,
+          "sigma_wait": 2912.258966415523,
+          "prefactor": 0.0003794892318370705,
+          "exponent": 0.1,
+          "f0": 0.0,
+          "events": [
+            "colapso_1D",
+            "colapso_2D",
+            "colapso_3D",
+            "V3D",
+            "Florencia"
+          ],
+          "S_equals_f_max_diff": 2.0972112935169207e-13
+        }
+      ],
+      "gamow_Gamma0_reference": {
+        "0.01": 0.0015542269631451124,
+        "0.055444201949872325": 0.007362524540995406
+      },
+      "bounce_negative_control": {
+        "status": "CONTROL NEGATIVO (decisión B): bounce O(4), excluido por la ontología (sin soporte espacial en S₀)",
+        "f0": 0.9996130215946543
+      },
+      "reading": "Γ_K(0) = 0 por el prefactor ∝ δ₀²; D_ent no la fija el corpus (diccionario τ, frente 2): la ley de Γ₀ es condicional a D_ent, no a n_dim"
+    },
+    "C": {
+      "decision": "DECISIÓN C (autor, 22-sep-2026): «el colapso» d → d+1 es el Cruce de Victoria D(S) = B² − 4C0M0² = 0 (Def. 8.4, Obs. 8.6): la desaparición del VACÍO VERDADERO, el estado que el campo ocupa tras la nucleación. M0² = 0 (inestabilidad_masa) es la desaparición del FALSO vacío, que el campo ya abandonó (f₀ = 0, f creciente): un no-evento para el estado ocupado, publicado como diagnóstico. El cruce de la diagonal y el retorno a la frontera φ_E = 0 son marcas de la trayectoria, no gatillos del Cap. 8. Bajo el cierre canónico de Fokker–Planck D nunca cruza cero (M0² cambia de signo antes y D vuelve a crecer): el cierre canónico NO produce el colapso del tratado — las β que hagan D → 0 son del frente 2. Hasta entonces los umbrales de la Década siguen impuestos.",
+      "canonical_closure_crosses_D_zero": false,
+      "mass_instability_events_in_emergent_runs": 5,
+      "reading": "bajo el cierre canónico D no cruza cero en ninguna corrida; M0² = 0 sí ocurre y se publica como diagnóstico (no-evento para el estado ocupado); el colapso del tratado exige β del frente 2"
+    }
+  },
+  "executed_utc": "2026-09-21T23:06:09.477596+00:00",
+  "code_commit": "41af2700f0892bed78b8d75e96b0fad4016aec23",
   "declared_forms": {
     "c_eff": "du/dS = β_c(S)·u·(1 − u), β_c(S) = β_c0·max(0, 1 − S/S_c), S_c = S_0,099; c_eff ≡ max|du/dS| alcanzado antes del sello; u(0) = u0. FORMA DECLARADA, no la ec. (5.3) del tratado.",
     "m_eff": "dm/dS = −γ_m·(m − m_min)·max(0, 1 − S/S_c²), S_c² = S_0,999; dm/dS|_{S_c²} = 0 fija m_min (§5.4). FORMA DECLARADA.",
     "theta_imposed": "θ_imp(S) = (π/4)·min(1, S/S_diag), S_diag = S_V3D = 1,000: cruce de la diagonal en S ≃ 1 POR CONSTRUCCIÓN (Prop. 3.5 declarada, no producida).",
     "S_normalization": "S ≡ ∫Σ̇ dσ / T₀ con T₀ = V_fv − V_tv medida en el paisaje completo — descarga completa ⟺ S = 1 (el número del cuanto ΔS es convencional, F.4).",
-    "nucleation": "punto de escape de Coleman: ρ_esc > ρ_barrera con V(ρ_esc) = V_fv (emerge sin velocidad con la tensión del falso vacío) en la dirección θ_nuc declarada; Γ₀(δ₀) no calculada.",
+    "nucleation": "punto de escape de Coleman: ρ_esc > ρ_barrera con V(ρ_esc) = V_fv (emerge sin velocidad con la tensión del falso vacío) en la dirección θ_nuc declarada. DECISIÓN B (autor, 22-sep-2026): la nucleación de S₀ es un proceso de UN grado de libertad (n = 1: en S₀ no hay soporte espacial, Axioma 6 / C2; el bounce O(4) se traga la descarga, f₀ = 0.9996, contra Cap. 4 y Prop. 8.1); el mecanismo propio del Axioma 4 es el escape de Kramers sobreamortiguado (nucleation='kramers', D_ent DECLARADA) y el túnel de Gamow (nucleation='gamow') es su cota conservativa; ambos anulan Γ₀(0) por el prefactor. 'bounce' O(3)/O(4) queda solo como CONTROL NEGATIVO.",
+    "collapse_trigger": "DECISIÓN C (autor, 22-sep-2026): «el colapso» d → d+1 es el Cruce de Victoria D(S) = B² − 4C0M0² = 0 (Def. 8.4, Obs. 8.6): la desaparición del VACÍO VERDADERO, el estado que el campo ocupa tras la nucleación. M0² = 0 (inestabilidad_masa) es la desaparición del FALSO vacío, que el campo ya abandonó (f₀ = 0, f creciente): un no-evento para el estado ocupado, publicado como diagnóstico. El cruce de la diagonal y el retorno a la frontera φ_E = 0 son marcas de la trayectoria, no gatillos del Cap. 8. Bajo el cierre canónico de Fokker–Planck D nunca cruza cero (M0² cambia de signo antes y D vuelve a crecer): el cierre canónico NO produce el colapso del tratado — las β que hagan D → 0 son del frente 2. Hasta entonces los umbrales de la Década siguen impuestos.",
     "confirmation_quanta": "tras alcanzar f = 1 − ε_res (residuo de descarga, F.3) el reloj avanza ΔS por cuanto declarado: V3D en 1,000 y Florencia en 1,001 (Prop. 8.1).",
     "Phi_ten_at_florencia": "Φ_ten(S_1,001) = 0 por normalización declarada (N = 1): no derivado.",
     "S_post_unit": "tras Florencia (S ≥ 1,001) el índice S deja de medir la fracción descargada de T₀ (S = 1 ⟺ descarga completa, normalización pre-geométrica de este reloj): los sellos posteriores de la Tabla F.1 y el cuanto ΔS = 1e-3 (Calibre de Cronos, F.4) se leen en una unidad POST-geométrica que el repositorio NO deriva de T₀ ni de Σ̇ — la relación entre ambas unidades es un diccionario ausente (fila diccionario-unidad-S-post-florencia). DECLARADO, hueco.",
     "mass_instability": "en modo emergente el reloj sigue integrando cuando M0² cruza cero (el origen deja de ser mínimo; V sigue acotado por C0 > 0) y publica el evento `inestabilidad_masa` con el S del cruce, S_flip, junto a su forma cerrada de primer orden S_flip ≃ δ₀·[b̄ − √(b̄² − 6C0m̄²)]/(24·a·τ·C0) (β canónicas, M0⁴ despreciado); se detiene solo cuando C0 ≤ 0. DIAGNÓSTICO: «Década ⟺ τ_k ≈ S_flip·δ₀/S_k» es una reformulación del diccionario τ, no una derivación (E13: el número no es señal).",
+    "J_circulation": "Camino de dos niveles (propuesta v36): dΦ/dσ = −G⁻¹∇V + J∇C con J = |J|·ε antisimétrica (ε = [[0, −1], [1, 0]]) y |J| DECLARADO; C = V por defecto (J∇V ⊥ ∇V: la Monotonía 4.5 y la identidad S ≡ f se conservan EXACTAMENTE; Σ̇ cuenta solo el nivel disipativo) o C = ρ²/2 (rotación rígida; trabaja contra la inclinación: W_J = ∫∇V·J∇C dσ ≠ 0, publicado). Orientación de J fijada para que θ crezca hacia la diagonal durante el descenso. El reloj publica el |J| que sitúa el cruce de la diagonal en S_target (calibración con significado, no derivación: J desde la ontología es el frente 2).",
     "tau_per_dim": "HIPÓTESIS DECLARADA (opcional, modo emergente): τ toma un valor por dimensión, τ_d, y en cada inestabilidad de masa el colapso d → d+1 se dispara y M0² se repone a su valor inicial (el escalón del potencial); publica dónde caerían los tres colapsos bajo esa hipótesis frente a la Década. Sin estatuto (E13)."
   },
   "delta0_metastability_max_default_shapes": 0.10278281782685247,
@@ -75,7 +227,10 @@
       "S_end_emergent": 1.001,
       "nucleation": "escape_point",
       "bounce_d": 4,
-      "tau_per_dim": null
+      "D_ent": null,
+      "tau_per_dim": null,
+      "J_circ": 0.0,
+      "circulation_C": "V"
     },
     "status": "simulador de consistencia (E8): umbrales de la Década impuestos (Prop. 8.1, λ = 10 calibrado — frente 2), nucleación declarada en el punto de escape, sellados con forma paramétrica declarada, diagonal impuesta para la entrega; el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente)",
     "ledger": {
@@ -214,6 +369,13 @@
           "sealed": null
         },
         {
+          "section": "diagonal",
+          "item": "circulation",
+          "status": "declarado (|J| = 0: flujo de gradiente puro)",
+          "pass": null,
+          "sealed": null
+        },
+        {
           "section": "handshake_cosmology",
           "item": "newton_seal_9_3",
           "status": "derivado",
@@ -279,7 +441,7 @@
       ],
       "counts_by_status_word": {
         "derivado": 18,
-        "declarado": 4,
+        "declarado": 5,
         "publicado": 1,
         "impuesto": 4,
         "hueco": 1
@@ -292,11 +454,13 @@
       "m_eff": "dm/dS = −γ_m·(m − m_min)·max(0, 1 − S/S_c²), S_c² = S_0,999; dm/dS|_{S_c²} = 0 fija m_min (§5.4). FORMA DECLARADA.",
       "theta_imposed": "θ_imp(S) = (π/4)·min(1, S/S_diag), S_diag = S_V3D = 1,000: cruce de la diagonal en S ≃ 1 POR CONSTRUCCIÓN (Prop. 3.5 declarada, no producida).",
       "S_normalization": "S ≡ ∫Σ̇ dσ / T₀ con T₀ = V_fv − V_tv medida en el paisaje completo — descarga completa ⟺ S = 1 (el número del cuanto ΔS es convencional, F.4).",
-      "nucleation": "punto de escape de Coleman: ρ_esc > ρ_barrera con V(ρ_esc) = V_fv (emerge sin velocidad con la tensión del falso vacío) en la dirección θ_nuc declarada; Γ₀(δ₀) no calculada.",
+      "nucleation": "punto de escape de Coleman: ρ_esc > ρ_barrera con V(ρ_esc) = V_fv (emerge sin velocidad con la tensión del falso vacío) en la dirección θ_nuc declarada. DECISIÓN B (autor, 22-sep-2026): la nucleación de S₀ es un proceso de UN grado de libertad (n = 1: en S₀ no hay soporte espacial, Axioma 6 / C2; el bounce O(4) se traga la descarga, f₀ = 0.9996, contra Cap. 4 y Prop. 8.1); el mecanismo propio del Axioma 4 es el escape de Kramers sobreamortiguado (nucleation='kramers', D_ent DECLARADA) y el túnel de Gamow (nucleation='gamow') es su cota conservativa; ambos anulan Γ₀(0) por el prefactor. 'bounce' O(3)/O(4) queda solo como CONTROL NEGATIVO.",
+      "collapse_trigger": "DECISIÓN C (autor, 22-sep-2026): «el colapso» d → d+1 es el Cruce de Victoria D(S) = B² − 4C0M0² = 0 (Def. 8.4, Obs. 8.6): la desaparición del VACÍO VERDADERO, el estado que el campo ocupa tras la nucleación. M0² = 0 (inestabilidad_masa) es la desaparición del FALSO vacío, que el campo ya abandonó (f₀ = 0, f creciente): un no-evento para el estado ocupado, publicado como diagnóstico. El cruce de la diagonal y el retorno a la frontera φ_E = 0 son marcas de la trayectoria, no gatillos del Cap. 8. Bajo el cierre canónico de Fokker–Planck D nunca cruza cero (M0² cambia de signo antes y D vuelve a crecer): el cierre canónico NO produce el colapso del tratado — las β que hagan D → 0 son del frente 2. Hasta entonces los umbrales de la Década siguen impuestos.",
       "confirmation_quanta": "tras alcanzar f = 1 − ε_res (residuo de descarga, F.3) el reloj avanza ΔS por cuanto declarado: V3D en 1,000 y Florencia en 1,001 (Prop. 8.1).",
       "Phi_ten_at_florencia": "Φ_ten(S_1,001) = 0 por normalización declarada (N = 1): no derivado.",
       "S_post_unit": "tras Florencia (S ≥ 1,001) el índice S deja de medir la fracción descargada de T₀ (S = 1 ⟺ descarga completa, normalización pre-geométrica de este reloj): los sellos posteriores de la Tabla F.1 y el cuanto ΔS = 1e-3 (Calibre de Cronos, F.4) se leen en una unidad POST-geométrica que el repositorio NO deriva de T₀ ni de Σ̇ — la relación entre ambas unidades es un diccionario ausente (fila diccionario-unidad-S-post-florencia). DECLARADO, hueco.",
       "mass_instability": "en modo emergente el reloj sigue integrando cuando M0² cruza cero (el origen deja de ser mínimo; V sigue acotado por C0 > 0) y publica el evento `inestabilidad_masa` con el S del cruce, S_flip, junto a su forma cerrada de primer orden S_flip ≃ δ₀·[b̄ − √(b̄² − 6C0m̄²)]/(24·a·τ·C0) (β canónicas, M0⁴ despreciado); se detiene solo cuando C0 ≤ 0. DIAGNÓSTICO: «Década ⟺ τ_k ≈ S_flip·δ₀/S_k» es una reformulación del diccionario τ, no una derivación (E13: el número no es señal).",
+      "J_circulation": "Camino de dos niveles (propuesta v36): dΦ/dσ = −G⁻¹∇V + J∇C con J = |J|·ε antisimétrica (ε = [[0, −1], [1, 0]]) y |J| DECLARADO; C = V por defecto (J∇V ⊥ ∇V: la Monotonía 4.5 y la identidad S ≡ f se conservan EXACTAMENTE; Σ̇ cuenta solo el nivel disipativo) o C = ρ²/2 (rotación rígida; trabaja contra la inclinación: W_J = ∫∇V·J∇C dσ ≠ 0, publicado). Orientación de J fijada para que θ crezca hacia la diagonal durante el descenso. El reloj publica el |J| que sitúa el cruce de la diagonal en S_target (calibración con significado, no derivación: J desde la ontología es el frente 2).",
       "tau_per_dim": "HIPÓTESIS DECLARADA (opcional, modo emergente): τ toma un valor por dimensión, τ_d, y en cada inestabilidad de masa el colapso d → d+1 se dispara y M0² se repone a su valor inicial (el escalón del potencial); publica dónde caerían los tres colapsos bajo esa hipótesis frente a la Década. Sin estatuto (E13)."
     },
     "mode": "imposed",
@@ -512,6 +676,10 @@
           "bounce": null,
           "V_esc_minus_V_fv_over_T0": -2.410923322102488e-15,
           "Gamma0": null,
+          "gamow": null,
+          "kramers": null,
+          "sigma_wait_before_nucleation": null,
+          "decision_B": "n = 1 (Kramers por el Axioma 4; Gamow como cota); bounce O(3)/O(4) solo control negativo",
           "status": "declarado (Γ₀ no calculada; punto de escape V = V_fv)"
         }
       },
@@ -534,8 +702,9 @@
         "S_equals_f_identity": {
           "max_abs_diff": 1.9373391779708982e-13,
           "f0_nucleation": 2.410923322102488e-15,
+          "W_J_over_T0_final": 0.0,
           "pass": true,
-          "note": "Σ̇ = −dV/dσ ⟹ ∫Σ̇dσ = V(σ=0) − V = T₀·(f − f₀) exactamente en el flujo de gradiente (Teo. 4.5) con la normalización declarada; f₀ = 0 en el punto de escape y > 0 si la nucleación entrega el campo ya parcialmente descargado (bounce); en modo emergente V cambia con λ",
+          "note": "Σ̇ = −dV/dσ ⟹ ∫Σ̇dσ = V(σ=0) − V = T₀·(f − f₀) exactamente en el flujo de gradiente (Teo. 4.5) con la normalización declarada; f₀ = 0 en el punto de escape y > 0 si la nucleación entrega el campo ya parcialmente descargado (bounce); con circulación J∇C la identidad es S = f − f₀ + W_J/T₀ (W_J = 0 en el interior para C = V; ≠ 0 sobre la frontera o con C rígida); en modo emergente V cambia con λ",
           "status": "derivado"
         },
         "exit_to_mass_pole_3_5": {
@@ -585,6 +754,15 @@
           "S_at_crossing": 1.0,
           "form": "θ_imp(S) = (π/4)·min(1, S/S_diag), S_diag = S_V3D = 1,000: cruce de la diagonal en S ≃ 1 POR CONSTRUCCIÓN (Prop. 3.5 declarada, no producida).",
           "status": "impuesto"
+        },
+        "circulation": {
+          "J_circ": 0.0,
+          "C": "V",
+          "form": "Camino de dos niveles (propuesta v36): dΦ/dσ = −G⁻¹∇V + J∇C con J = |J|·ε antisimétrica (ε = [[0, −1], [1, 0]]) y |J| DECLARADO; C = V por defecto (J∇V ⊥ ∇V: la Monotonía 4.5 y la identidad S ≡ f se conservan EXACTAMENTE; Σ̇ cuenta solo el nivel disipativo) o C = ρ²/2 (rotación rígida; trabaja contra la inclinación: W_J = ∫∇V·J∇C dσ ≠ 0, publicado). Orientación de J fijada para que θ crezca hacia la diagonal durante el descenso. El reloj publica el |J| que sitúa el cruce de la diagonal en S_target (calibración con significado, no derivación: J desde la ontología es el frente 2).",
+          "W_J_over_T0": 0.0,
+          "monotonicity_preserved_exactly": true,
+          "grad_norm_integral": 0.08092324540526485,
+          "status": "declarado (|J| = 0: flujo de gradiente puro)"
         }
       },
       "handshake_cosmology": {
@@ -1208,7 +1386,9 @@
       "metastable": true,
       "tilt_correction": 0.3113144100004226,
       "kappa1_sqrt_delta": 0.32808364599975687,
-      "note": "W_max = T₀(δ*): la ley 3.4 ignora la inclinación −η·χ; el paisaje completo la incluye. El Lema 10.3 no dice cuál de las dos es el Techo: decisión pendiente (A)."
+      "W_max_decided": 0.00021667016744921375,
+      "decision_A": "T0_full_landscape",
+      "note": "W_max = T₀(δ*): la ley 3.4 ignora la inclinación −η·χ; el paisaje completo la incluye. Decisión A (autor, 22-sep-2026): el Lema 10.3 nombra T₀_full; la ley 3.4 es el orden dominante. Se publican las dos."
     },
     "delta_0.012": {
       "delta_star": 0.012,
@@ -1217,7 +1397,9 @@
       "metastable": true,
       "tilt_correction": 0.1457553062008119,
       "kappa1_sqrt_delta": 0.14905482211604257,
-      "note": "W_max = T₀(δ*): la ley 3.4 ignora la inclinación −η·χ; el paisaje completo la incluye. El Lema 10.3 no dice cuál de las dos es el Techo: decisión pendiente (A)."
+      "W_max_decided": 1.6647646685067217e-06,
+      "decision_A": "T0_full_landscape",
+      "note": "W_max = T₀(δ*): la ley 3.4 ignora la inclinación −η·χ; el paisaje completo la incluye. Decisión A (autor, 22-sep-2026): el Lema 10.3 nombra T₀_full; la ley 3.4 es el orden dominante. Se publican las dos."
     }
   },
   "v1_delta0_max_vs_e_bar": {
@@ -1539,14 +1721,15 @@
   },
   "what_is_not_claimed": [
     "ningún umbral emerge: los colapsos se disparan en 0.009/0.099/0.999 por la Ley de la Década (calibrada, frente 2)",
-    "la nucleación (Γ₀) no se calcula en la corrida primaria: el reloj arranca en el punto de escape con σ = 0 declarado (nucleation='bounce' es opcional, fila nucleacion-salida-s0)",
+    "la nucleación (Γ₀) no se calcula en la corrida primaria: el reloj arranca en el punto de escape con σ = 0 declarado; con la decisión B (n = 1) Γ₀ se publica en modo 'kramers' (D_ent declarada) o 'gamow' (cota), y 'bounce' es control negativo",
     "las leyes de sellado de c_eff y m_eff tienen forma paramétrica declarada, no la ec. (5.3)",
     "la diagonal θ = π/4 no la cruza el flujo del Basal: se impone para la entrega",
     "V3D y Florencia son cuantos declarados tras el residuo de descarga",
     "el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente); m_H depende de δ₀ (input) y β₃ es condicional",
     "el modo emergente es diagnóstico: el diccionario τ no es derivable",
     "la inestabilidad de masa (M0² = 0) es un evento publicado del modo diagnóstico, no un colapso con estatuto; la tabla τ_k reformula el diccionario, no lo deriva (E13)",
-    "W_max se publica con las dos T₀ (ley 3.4 y paisaje completo) sin elegir cuál nombra el Lema 10.3 (decisión A)",
+    "W_max se publica con las tres cadenas (ley 3.4 en δ_H_ley; paisaje completo en δ_H_ley; paisaje completo en δ_H_full): la decisión A del autor (22-sep) nombra T₀_full, pero el valor de W_max sigue sin asignar en el tratado (frente 4)",
+    "las decisiones A, B y C son del autor, derivadas del texto del tratado y declaradas en DECLARED_FORMS/DECISION_A: el código las ejecuta, no las demuestra (E8); D_ent y las β que hagan D → 0 siguen siendo del frente 2",
     "la unidad de S tras Florencia no se deriva de T₀ (hueco: fila diccionario-unidad-S-post-florencia)"
   ]
 }

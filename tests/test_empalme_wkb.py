@@ -113,3 +113,17 @@ def test_kappa_too_small_fails_honestly():
     """Con κ insuficiente la escalera no cubre el rango y lo dice."""
     with pytest.raises(ValueError):
         ladder(DELTA0, kappa=0.5 * kappa_minimum(DELTA0))
+
+
+def test_decision_A_delta_H_on_full_landscape():
+    """Decisión A (22-sep): λ_Ad evaluada en el vacío verdadero REAL con la
+    inclinación encendida. Sin inclinación coincide con la forma analítica;
+    con ella la curvatura sube (×1.05 en δ_H) y δ_H baja ≈ 5 %; la raíz
+    reproduce λ_H exactamente."""
+    d_law = B7.delta0_required()
+    assert abs(B7.sealed_curvature_lambda_full(0.03, e_bar=0.0) - B7.sealed_curvature_lambda(0.03)) < 1e-12
+    ratio = B7.sealed_curvature_lambda_full(d_law) / B7.sealed_curvature_lambda(d_law)
+    assert 1.03 < ratio < 1.07
+    d_full = B7.delta0_required_full()
+    assert 0.94 < d_full / d_law < 0.97
+    assert abs(B7.sealed_curvature_lambda_full(d_full) - 0.130) < 1e-9

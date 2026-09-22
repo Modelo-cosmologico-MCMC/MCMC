@@ -1,6 +1,6 @@
 # El reloj S como simulador de consistencia — recorrido S₀ → S_{1,001} (21-sep-2026)
 
-Commit `de5c7736c`. Modo con estatuto: umbrales IMPUESTOS (Prop. 8.1). δ₀ primario = 0.01 (valor de prueba: el tratado no asigna valor a δ₀). Formas del Basal: m̄ = 1.0, b̄ = 3.0, ē = 1.0, C0 = 1.0.
+Commit `41af2700f`. Modo con estatuto: umbrales IMPUESTOS (Prop. 8.1). δ₀ primario = 0.01 (valor de prueba: el tratado no asigna valor a δ₀). Formas del Basal: m̄ = 1.0, b̄ = 3.0, ē = 1.0, C0 = 1.0.
 
 **Lectura obligatoria**: simulador de consistencia (E8): umbrales de la Década impuestos (Prop. 8.1, λ = 10 calibrado — frente 2), nucleación declarada en el punto de escape, sellados con forma paramétrica declarada, diagonal impuesta para la entrega; el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente).
 
@@ -125,15 +125,43 @@ Hipótesis declarada τ_d (opcional): τ por dimensión igual a la tabla τ_k y 
 - δ₀ = 0.01: colapsos en S = [0.0089] con disparos ['inestabilidad de masa M0² = 0 (hipótesis τ_d declarada, E13)']; fin: max_steps agotado.
 - δ₀ = 0.05: colapsos en S = [0.009] con disparos ['inestabilidad de masa M0² = 0 (hipótesis τ_d declarada, E13)']; fin: max_steps agotado.
 
+## v2 (22-sep): las decisiones A, B y C del autor, ejecutadas
+
+**A — qué T₀ nombra el Lema 10.3: la del paisaje completo.** El contenido físico del Lema es T₀(δ′) ≤ W_max; c̄δ′³ es la expresión de la Prop. 3.4, cuya corrección el reloj midió. Con la inclinación en los dos lados (Techo y empalme H.8), δ_H se recalcula como raíz de λ_Ad_full(δ) = λ_H:
+
+| cadena | δ_H | W_max requerido |
+|---|---|---|
+| ley 3.4 en δ_H_ley | 0.05814 | 1.6523e-04 |
+| paisaje completo en δ_H_ley | 0.05814 | 2.1667e-04 |
+| **decidida**: paisaje completo en δ_H_full | **0.05544** (-4.6 %) | **1.8695e-04** |
+
+el Lema 10.3 iguala W_max a T₀_full; con δ_H recalculado sobre el mismo paisaje (λ_Ad_full = λ_H) el Techo requerido es T₀_full(δ_H_full); se publican las tres cadenas para la trazabilidad.
+
+**B — n = 1 con Kramers (Axioma 4) y Gamow como cota; el bounce es control negativo.** D_ent DECLARADA como fracción de la altura de la barrera:
+
+| δ₀ | D_ent/ΔV_b | prefactor | ΔV_b/D_ent | Γ_K | σ_espera = 1/Γ_K | Γ₀ Gamow (ref.) | S ≡ f |
+|---|---|---|---|---|---|---|---|
+| 0.0100 | 0.1 | 1.848e-05 | 10.00 | 8.392e-10 | 1.192e+09 | 1.554e-03 | 1.9e-13 |
+| 0.0100 | 1 | 1.848e-05 | 1.00 | 6.800e-06 | 1.471e+05 | 1.554e-03 | 1.9e-13 |
+| 0.0100 | 10 | 1.848e-05 | 0.10 | 1.673e-05 | 5.979e+04 | 1.554e-03 | 1.9e-13 |
+| 0.0554 | 0.1 | 3.795e-04 | 10.00 | 1.723e-08 | 5.804e+07 | 7.363e-03 | 2.1e-13 |
+| 0.0554 | 1 | 3.795e-04 | 1.00 | 1.396e-04 | 7.163e+03 | 7.363e-03 | 2.1e-13 |
+| 0.0554 | 10 | 3.795e-04 | 0.10 | 3.434e-04 | 2.912e+03 | 7.363e-03 | 2.1e-13 |
+
+Control negativo: CONTROL NEGATIVO (decisión B): bounce O(4), excluido por la ontología (sin soporte espacial en S₀) (f₀ = 0.9996: la descarga entera caería dentro de la nucleación). Γ_K(0) = 0 por el prefactor ∝ δ₀²; D_ent no la fija el corpus (diccionario τ, frente 2): la ley de Γ₀ es condicional a D_ent, no a n_dim.
+
+**C — «el colapso» es D = 0 (Cruce de Victoria).** bajo el cierre canónico D no cruza cero en ninguna corrida; M0² = 0 sí ocurre y se publica como diagnóstico (no-evento para el estado ocupado); el colapso del tratado exige β del frente 2 (cruces D = 0 en las corridas emergentes: ninguno; eventos M0² = 0: 5).
+
 ## Lo que NO afirma
 
 - ningún umbral emerge: los colapsos se disparan en 0.009/0.099/0.999 por la Ley de la Década (calibrada, frente 2)
-- la nucleación (Γ₀) no se calcula en la corrida primaria: el reloj arranca en el punto de escape con σ = 0 declarado (nucleation='bounce' es opcional, fila nucleacion-salida-s0)
+- la nucleación (Γ₀) no se calcula en la corrida primaria: el reloj arranca en el punto de escape con σ = 0 declarado; con la decisión B (n = 1) Γ₀ se publica en modo 'kramers' (D_ent declarada) o 'gamow' (cota), y 'bounce' es control negativo
 - las leyes de sellado de c_eff y m_eff tienen forma paramétrica declarada, no la ec. (5.3)
 - la diagonal θ = π/4 no la cruza el flujo del Basal: se impone para la entrega
 - V3D y Florencia son cuantos declarados tras el residuo de descarga
 - el estado entregado en S = 1,001 no es legible por la cosmología (diccionario ausente); m_H depende de δ₀ (input) y β₃ es condicional
 - el modo emergente es diagnóstico: el diccionario τ no es derivable
 - la inestabilidad de masa (M0² = 0) es un evento publicado del modo diagnóstico, no un colapso con estatuto; la tabla τ_k reformula el diccionario, no lo deriva (E13)
-- W_max se publica con las dos T₀ (ley 3.4 y paisaje completo) sin elegir cuál nombra el Lema 10.3 (decisión A)
+- W_max se publica con las tres cadenas (ley 3.4 en δ_H_ley; paisaje completo en δ_H_ley; paisaje completo en δ_H_full): la decisión A del autor (22-sep) nombra T₀_full, pero el valor de W_max sigue sin asignar en el tratado (frente 4)
+- las decisiones A, B y C son del autor, derivadas del texto del tratado y declaradas en DECLARED_FORMS/DECISION_A: el código las ejecuta, no las demuestra (E8); D_ent y las β que hagan D → 0 siguen siendo del frente 2
 - la unidad de S tras Florencia no se deriva de T₀ (hueco: fila diccionario-unidad-S-post-florencia)
