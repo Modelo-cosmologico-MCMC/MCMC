@@ -283,16 +283,26 @@ claims:
       Desde el reloj S v1 (21-sep-2026) el Techo requerido se publica con
       LAS DOS T₀ — la ley 3.4 c̄·δ_H³ = 1.652e-4 y la Tensión Primordial
       medida en el paisaje completo con la inclinación −η·χ, 2.167e-4
-      (+31 % = κ₁·√δ_H + O(δ_H), κ₁ = ē√κ₊/(√2c̄) = 1.361) — porque el
-      Lema 10.3 no dice cuál de las dos es el Techo (decisión A del autor,
-      pendiente). La fila hereda la corrección como condicional, no la
-      resuelve (core.delta0_circle.W_max_required_both).
+      (+31 % = κ₁·√δ_H + O(δ_H), κ₁ = ē√κ₊/(√2c̄) = 1.361). DECISIÓN A del
+      autor (22-sep-2026, derivada del texto del Lema 10.3: su contenido
+      es T₀(δ′) ≤ W_max y c̄δ′³ es solo la expresión de la Prop. 3.4, que
+      declara la inclinación como corrección): el Lema nombra la T₀ del
+      PAISAJE COMPLETO. Con la inclinación en los dos lados (Techo y
+      empalme H.8) δ_H se recalcula como raíz de λ_Ad_full(δ) = λ_H:
+      δ_H_full = 0.05544 (−4.6 % frente a 0.05814; la curvatura sellada
+      sube ×1.050 en δ_H) y el Techo decidido es W_max = T₀_full(δ_H_full)
+      = 1.869e-4, entre la ley 3.4 en δ_H_ley (1.652e-4) y el paisaje
+      completo en δ_H_ley (2.167e-4); las tres cadenas se publican
+      (core.delta0_circle.DECISION_A, W_max_required_decided,
+      delta0_H_full; mass_program.B7_empalme.delta0_required_full). El
+      valor de W_max sigue sin asignar en el tratado: la fila sigue
+      condicional a W_max, ya no a cuál T₀.
     implementation: core/delta0_circle.py
     test: tests/test_delta0_circle.py
     observable: "—"
     dataset: "—"
-    falsifier: W_max incompatible con el círculo (con cualquiera de las dos T₀)
-    evidence_level: condicional (W_max, frente 4; y cuál T₀ nombra el Lema 10.3)
+    falsifier: W_max incompatible con el círculo (W_max ≠ T₀_full(δ_H_full) = 1.869e-4 con las formas fiduciales)
+    evidence_level: condicional (W_max, frente 4); la T₀ del Lema 10.3 es la del paisaje completo por decisión A del autor (22-sep-2026), declarada y ejecutada, no derivada por el código
     status: condicional
     artifact: results/2026-08-02_delta0_circle + results/2026-09-21_s_clock
 
@@ -1450,7 +1460,11 @@ claims:
     artifact: results/2026-09-21_nucleation
 
   - claim_id: nucleacion-gamma0
-    entity: Γ₀(δ₀) condicional a la dimensionalidad declarada del instantón n_dim ∈ {1, 3, 4} — ley lineal por prefactor (n = 1) o supresión exponencial ∝ δ₀⁻¹ (n = 4); la deformación del camino no cambia B₁ (21-sep-2026, tarde)
+    entity: >-
+      Γ₀(δ₀) — ley lineal por prefactor (n = 1, Gamow) o supresión exponencial
+      ∝ δ₀⁻¹ (n = 4); la deformación del camino no cambia B₁ (21-sep-2026,
+      tarde). DECISIÓN B del autor (22-sep-2026) — n = 1 con Kramers (Axioma 4)
+      y Gamow como cota; O(3)/O(4) solo control negativo; lo abierto es D_ent
     law: "Prop. 3.5 (Γ₀(0) = 0, inercia eterna del perfecto); Def. 3.1 y ec. 3.2 (Basal completo con −η·χ); Axioma 4 / Def. 4.4 (el Flujo del Camino como grado de libertad que tunela)"
     derivation: >-
       preinscripción congelada (sha256 46f486e1cc84…) ANTES de correr, en
@@ -1472,7 +1486,21 @@ claims:
       cumplen Γ₀(0) = 0 por mecanismos distintos; cuál es la del tratado
       es la decisión B del autor, no del código. El reloj S arranca desde
       Γ₀ con nucleation='gamow' (mismo punto de escape que la convención
-      v0; publica Γ₀ y la espera σ_nuc = 1/Γ₀).
+      v0; publica Γ₀ y la espera σ_nuc = 1/Γ₀). DECISIÓN B del autor
+      (22-sep-2026, derivada del tratado): (i) en S₀ no hay soporte
+      espacial (Axioma 6 / C2): un bounce O(3)/O(4) presupone direcciones
+      euclidianas de base que no existen antes de V3D — el único parámetro
+      es σ, la nucleación es de UN grado de libertad; (ii) el bounce O(4)
+      entrega el campo con f₀ = 0.9996 y se traga la descarga y sus tres
+      umbrales (contra Cap. 4 y Prop. 8.1); (iii) el Axioma 4 es
+      disipativo de primer orden y la Def. 4.4 añade difusión: el
+      mecanismo propio es Kramers sobreamortiguado (Γ_K, prefactor ∝ δ₀²,
+      ΔV_b/D_ent), del que Gamow es la cota conservativa; ambos anulan
+      Γ₀(0) por el prefactor (Prop. 3.5). El reloj ejecuta
+      nucleation='kramers' (D_ent DECLARADA como fracción de la barrera:
+      en δ₀ = 0.01, Γ_K = 8.4e-10 / 6.8e-6 / 1.7e-5 para D_ent/ΔV_b =
+      0.1 / 1 / 10) y 'gamow'; 'bounce' queda como control negativo. Lo
+      que sigue abierto no es n_dim sino D_ent (diccionario τ, frente 2).
     implementation: core/nucleation.py + scripts/run_nucleation_gamma0.py
     test: tests/test_nucleation.py + tests/test_nucleation_gamma0_lock.py
     observable: "— (recorrido interno; ningún observable)"
@@ -1483,7 +1511,7 @@ claims:
       como δ₀²; con n = 4 si B no divergiera como δ₀⁻¹; la deformación
       cambiaría el veredicto C si un término no radial del Basal (fuera
       de −η·χ) favoreciera caminos curvos
-    evidence_level: comprobación interna (E8) bajo preinscripción congelada; veredicto (A sí, B sí, C no) condicional a n_dim declarado; E13 (Γ₀(0) = 0 se cumple en las tres leyes, ninguna es señal)
+    evidence_level: comprobación interna (E8) bajo preinscripción congelada; veredicto (A sí, B sí, C no); n = 1 por decisión B del autor (22-sep-2026, derivada del tratado, declarada), con la ley de Γ₀ condicional a D_ent (Kramers) y Gamow como cota; E13 (Γ₀(0) = 0 se cumple en las tres leyes, ninguna es señal)
     status: interno
     artifact: results/2026-09-21_nucleation_gamma0
 
@@ -1516,7 +1544,12 @@ claims:
       puertas superadas. |J| es una CALIBRACIÓN declarada con significado
       (el frente 2 debe reproducirla junto con λ), no una derivación; la
       diagonal como estado final no es cuestión de |J| sino de otro
-      término (el vacío 2D en el polo de masa).
+      término (el vacío 2D en el polo de masa). Lectura del autor
+      (22-sep-2026): el término que falta actúa DURANTE la descarga y no
+      en el vacío — corriente de conversión κ·Σ̇·ê_E (θ monótona por el
+      Teo. 4.5) o rotación de la inclinación η_eff = η₀(1 − f/f_×) —, a
+      preinscribir como brazos con J∇C de control (fila propia cuando se
+      ejecute).
     implementation: core/path_flow.py + core/s_clock.py + scripts/run_j_circulation.py
     test: tests/test_s_clock.py + tests/test_j_circulation_lock.py
     observable: "— (recorrido interno; ningún observable)"
@@ -1589,6 +1622,18 @@ claims:
       (fila diccionario-unidad-S-post-florencia), mass_instability,
       tau_per_dim. El guion v32 del autor se archiva como
       viewer/legacy_v3_storyboard.html (contrato de interfaz, no cálculo).
+      V2 (22-sep): las decisiones A, B y C del autor, derivadas del
+      tratado, se declaran y ejecutan (DECLARED_FORMS['collapse_trigger'],
+      DECLARED_FORMS['nucleation'], core.delta0_circle.DECISION_A): A —
+      la T₀ del Lema 10.3 es la del paisaje completo (δ_H_full = 0.05544,
+      Techo decidido 1.869e-4); B — nucleación de un grado de libertad,
+      nucleation='kramers' (D_ent declarada) o 'gamow', bounce como
+      control negativo; C — «el colapso» es D = 0 (Cruce de Victoria, Def.
+      8.4 / Obs. 8.6), el gatillo del estado ocupado, y M0² = 0 es
+      diagnóstico (el falso vacío que el campo ya abandonó); bajo el
+      cierre canónico D no cruza cero en ninguna corrida, así que el
+      colapso del tratado exige β del frente 2 y los umbrales siguen
+      impuestos. El código ejecuta las decisiones, no las demuestra.
     implementation: core/s_clock.py + scripts/run_s_clock.py
     test: tests/test_s_clock.py
     observable: "— (recorrido interno; ningún observable)"

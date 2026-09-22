@@ -1227,6 +1227,79 @@ resolver el interior y un métrico en una banda con ≥ 2000 partículas —,
 no un retoque de esta. **Estatuto**: experimento numérico interno (E8)
 bajo regla congelada (`results/2026-09-21_halo_resolution/`).
 
+### 3.30 Las decisiones A, B y C del autor (22-sep-2026), derivadas del tratado y ejecutadas: T₀ del paisaje completo en el Lema 10.3, nucleación de un grado de libertad (Kramers/Gamow), D = 0 como colapso
+
+Las tres decisiones que §3.23–§3.25 dejaron al autor las tomó el autor
+desde el texto del tratado, no desde los números; el código las declara
+(`DECLARED_FORMS`, `core.delta0_circle.DECISION_A`) y las ejecuta.
+
+**A — qué T₀ nombra el Lema 10.3.** El Lema dice «T₀(δ′) = c̄δ′³ ≤ W_max»
+y su demostración cita la Prop. 3.4, que declara la inclinación como
+corrección subdominante O(δ₀^{7/2}). El contenido físico es la
+desigualdad T₀ ≤ W_max; c̄δ′³ es solo la expresión que la Prop. 3.4 tenía
+a mano, y el reloj midió la corrección (+31 % en δ_H). Luego el Lema
+nombra la **T₀ del paisaje completo**. Con la inclinación en los dos lados
+(Techo y empalme H.8), δ_H deja de ser λ_H/√(b̄² − 4C0m̄²) y pasa a ser la
+raíz de λ_Ad_full(δ) = λ_H, con λ_Ad_full = V''(ρ₊)/(2ρ₊²) evaluada en el
+vacío verdadero real (la inclinación desplaza ρ₊, no V''):
+`B7_empalme.sealed_curvature_lambda_full` y `delta0_required_full`
+(espejo `core.delta0_circle.delta0_H_full`; sin inclinación reproducen la
+forma analítica a 1e-17). Resultado: la curvatura sellada sube ×1.050 en
+δ_H (×1.023 en 0.012), **δ_H_full = 0.05544** (−4.6 % frente a 0.05814)
+y el Techo decidido es **W_max = T₀_full(δ_H_full) = 1.869e-4**, entre la
+ley 3.4 en δ_H_ley (1.652e-4) y el paisaje completo en δ_H_ley (2.167e-4,
+el número de §3.23). Las tres cadenas se publican
+(`W_max_required_decided`); el valor de W_max sigue sin asignar en el
+tratado, así que `circulo-delta0` queda condicional a W_max, ya no a cuál
+T₀. Consecuencia para el tratado (v36): la Prop. 3.4 se enuncia con su
+corrección y el Lema 10.3 con T₀_full.
+
+**B — la dimensionalidad del instantón.** Tres argumentos del propio
+tratado: (i) en S₀ no hay soporte espacial (Axioma 6 / C2): un bounce
+O(3) u O(4) presupone direcciones euclidianas de base que no existen
+antes de V3D, y el único parámetro es σ — la nucleación es de **un grado
+de libertad**; (ii) el bounce O(4) de §3.22 entrega el campo con f₀ =
+0.9996: la descarga entera y sus tres umbrales caerían dentro de la
+nucleación, contra el Cap. 4 y la Prop. 8.1; (iii) el Axioma 4 es
+disipativo y de primer orden y la Def. 4.4 añade difusión entrópica: el
+mecanismo propio es **Kramers sobreamortiguado**, del que el túnel de
+Gamow (§3.24) es la cota conservativa; ambos anulan Γ₀(0) por el
+prefactor (Prop. 3.5). El reloj ejecuta `nucleation='kramers'` con D_ent
+DECLARADA como fracción de la altura de la barrera y arranca en el punto
+de escape (la misma convención que Gamow):
+
+| δ₀ | D_ent/ΔV_b | prefactor | Γ_K | σ_espera = 1/Γ_K | Γ₀ Gamow (cota) |
+|---|---|---|---|---|---|
+| 0.01 | 0.1 / 1 / 10 | 1.85e-5 | 8.4e-10 / 6.8e-6 / 1.7e-5 | 1.2e9 / 1.5e5 / 6.0e4 | 1.6e-3 |
+| δ_H_full = 0.05544 | 0.1 / 1 / 10 | 3.80e-4 | 1.7e-8 / 1.4e-4 / 3.4e-4 | 5.8e7 / 7.2e3 / 2.9e3 | 7.4e-3 |
+
+La identidad S ≡ f se conserva (2e-13) y el recorrido completa sus cinco
+estaciones. `nucleation='bounce'` queda etiquetado **control negativo**.
+Lo que sigue abierto no es n_dim sino **D_ent**, que pertenece al
+diccionario τ del frente 2: la fila `nucleacion-gamma0` pasa de
+«condicional a n_dim» a «n = 1 por decisión declarada, condicional a
+D_ent».
+
+**C — cuál gatillo es «el colapso».** La Def. 8.4 define el discriminante
+D = B² − 4C0M0² y la Obs. 8.6 hace del cruce D = 0 el disparador. D = 0 es
+la desaparición del **vacío verdadero**, el estado que el campo *ocupa*
+tras la nucleación; M0² = 0 es la desaparición del **falso vacío**, que el
+campo ya *abandonó* (f₀ = 0, f creciente): para el estado ocupado es un
+no-evento, y `inestabilidad_masa` queda como diagnóstico. El cruce de la
+diagonal y el retorno a la frontera φ_E = 0 son marcas de la trayectoria,
+no gatillos del Cap. 8. La consecuencia honesta del diagnóstico de §3.20
+se mantiene: bajo el cierre canónico de Fokker–Planck D no cruza cero en
+ninguna corrida (M0² = 0 sí, en 5 de 10): **el cierre canónico no produce
+el colapso del tratado**, las β que hagan D → 0 son del frente 2 y los
+umbrales de la Década siguen impuestos (`DECLARED_FORMS['collapse_trigger']`).
+
+**Estatuto**: las decisiones son del autor, derivadas del texto del
+tratado y declaradas; el código las ejecuta y publica sus consecuencias,
+no las demuestra (E8). Artefacto `results/2026-09-21_s_clock/` (sección
+v2). Lo que abren: la preinscripción del término que mueve el vacío 2D
+fuera del polo de masa (corriente de conversión κΣ̇ê_E y rotación de la
+inclinación, con J∇C de control), que §3.25 dejó como «otro término».
+
 ### 3.31 Diccionario, ecuaciones 1–3: la forma saturante de ε_c(ρ) bajo sus ligaduras, la calibración de Sculptor como hecho independiente de la forma, la unidad de S post-Florencia y C(S) desde κ (22-sep-2026)
 
 **Ecuación 1.** La Def. 6.4 (N = r/r̄ ≥ 0) hace ontológica la saturación
