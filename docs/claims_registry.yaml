@@ -1676,6 +1676,66 @@ claims:
     status: interno
     artifact: results/2026-09-22_vacuum_2d
 
+  - claim_id: halo-capas-ronda2
+    entity: Frente 5 (b), ronda 2 — la serie de resolución del campo de Cronos con un código de CAPAS ESFÉRICAS (campo conservativo por núcleo, subpasos por capa, interior refinado), bajo preinscripción congelada; desenlace INDETERMINADO por puertas del instrumento (suelo de dt en los brazos finos a A_Sculptor, energía en los brazos a 0.05·A_Sculptor) (22-sep-2026)
+    law: "Def. 11.1 / Prop. 11.2 / Cor. 11.3 (Ley de Cronos débil: ε_c = Aρ^{3/2}, fuerza +c²∇ε_c, fricción con compuerta, lapso); criterio de Cronos–Jeans (fila test-criterio-cronos-jeans: q = (3/2)c²ε_c/σ², γ ∝ k); A_Sculptor del 5E como hipótesis"
+    derivation: >-
+      preinscripción congelada (sha256 1d6682f968fa…) en un commit posterior al
+      generador y anterior a toda corrida; piloto del instrumento declarado
+      íntegro. Instrumento nuevo (cronos/halo_shells.py): capas (r, v_r, L²)
+      con masas refinadas en el centro (≈ 18 000 capas dentro de 0.4 kpc a
+      N = 1e6), gravedad de Hénon por rango con Plummer ε_soft = 0.1 kpc,
+      L²/r³ exacto (barrera regularizada solo bajo ε_soft/20), campo de
+      Cronos por depósito B-spline sobre malla fija en s = ln √(r² + ε²) de
+      paso ds e interpolación con el MISMO núcleo, de modo que la fuerza
+      c²dε̃/dr es el gradiente exacto de U = −(2/5)c²A Σ_b V_b ρ_b^{5/2}
+      (identidad publicada a 1e-16); integrador KDK con paso global (campo
+      congelado) y subpasos por capa; tablas de Eddington densas hacia Ψ(0)
+      (el borde del N-cuerpos enfriaba ~25 % las capas de r < 0.1 kpc).
+      Métrico congelado: t_weak (instante en que ε_c máx > 1e-3, donde la ley
+      DÉBIL deja de ser aplicable: parada declarada), r_exit, M(<0.1) y
+      M(<0.4) en la salida; firma UV = t_weak decrece al refinar ds. Puertas:
+      energía (1e-4 newtoniana, 3e-2 Cronos: dos puertas declaradas del
+      piloto, que mostró un suelo 2e-3–5e-3 por cruce de capas durante el
+      colapso), ≥ 2000 capas en 0.4 kpc, estacionariedad newtoniana ≤ 0.1
+      dex, control de N dentro de ×2. RESULTADO: INDETERMINADO. Puertas:
+      energía False, capas interiores True,
+      estacionariedad True (0.028 dex), control de
+      N True, corridas completas True. Lo medido,
+      publicado sin letra: a A_Sculptor la cúspide sale del régimen débil en
+      3.83 Myr con ds = 0.08 (|ΔE_self/E| = 9.6e-03), y con ds = 0.04 y
+      0.02 el paso global cae bajo el suelo declarado (1e-4 Myr) a 0.70 y
+      0.156 Myr con ε_c máx = 8.0e-04 y
+      3.5e-04 (más deprisa cuanto más fino, pero sin t_weak
+      definido: la regla no lo permite); a 0.05·A_Sculptor el brazo ds = 0.02
+      sale en 28.28 Myr (|ΔE_self/E| = 5.6e-02), el ds = 0.04 llega a t_end =
+      100 Myr con ε_c máx = 9.13e-04 (|ΔE_self/E| = 1.8e-01) y el
+      ds = 0.08 llega también a t_end = 100 Myr con ε_c máx = 1.39e-4 (|ΔE_self/E| =
+      1.5e-02); control de N a ds = 0.04: t_weak = — / 31.39 Myr
+      a 1e5 (A_Sculptor / 0.05). En todas las salidas r_exit = 0 (la celda
+      central, bajo ε_soft): el colapso ocurre en la cúspide que el
+      instrumento declara no decidible. El control newtoniano conserva la
+      energía a 2.2e-06 y M(<0.4) dentro de 0.028 dex en 100 Myr.
+      Diagnóstico del instrumento: durante el colapso el error de energía
+      no baja con el paso (piloto: η_dt 0.05 → 0.01, η_field 0.02 → 0.005)
+      porque el rango M(<r) congelado en el paso global salta en cada cruce
+      de capas; a 0.05·A_Sculptor el colapso dura decenas de Myr y acumula
+      5e-2–2e-1. Ninguna regla ni umbral se tocó tras ver los números; la
+      ronda 1 (results/2026-09-21_halo_resolution) queda intacta.
+    implementation: cronos/halo_shells.py + scripts/run_halo_shells.py
+    test: tests/test_halo_shells.py
+    observable: "— (halo aislado sintético; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      una ronda 3 preinscrita con rango M(<r) actualizado en los subpasos (o
+      suelo de dt menor y presupuesto de pared mayor) que supere las puertas
+      en las seis celdas de Cronos y clasifique con letra; o una forma de
+      ε_c(ρ) del diccionario (saturante) bajo la que la cúspide no salga del
+      régimen débil
+    evidence_level: comprobación interna (E8) bajo preinscripción congelada; INDETERMINADO por puertas del instrumento; los tiempos de salida del régimen débil se publican sin letra (E13)
+    status: interno
+    artifact: results/2026-09-22_halo_shells
+
   - claim_id: s-clock-simulador-consistencia
     entity: El reloj S — orquestador de la trayectoria S₀ → S_{1,001} como simulador de CONSISTENCIA (umbrales impuestos), no emergente (21-sep-2026)
     law: "C1 (índice entrópico S = ∫Σ̇dσ); Def. 4.4 / Teo. 4.5 / Lema 4.7 (Flujo del Camino); Prop. 3.4–3.5 (T₀, salida al polo de masa); Def. 8.4 y Prop. 8.1 (discriminante, Ley de la Década); §5.1–5.4 (cadena C(d+1,0), sellos de c y c²); §6.1–6.2 (Rotación de Florencia); Cap. 7 (RP); ec. 12.1 (m_H = √(2β₃)v₃)"
