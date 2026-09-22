@@ -6,6 +6,29 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Diccionario, ecuaciones 1–3 (22-sep)**. (1) Forma saturante
+  ε_c(ρ) = ε_max·ρ^{3/2}/(ρ^{3/2} + ρ*^{3/2}) (Def. 6.4, §11.4) DECLARADA y
+  acotada sin ajuste por tres ligaduras ya derivadas
+  (`dynamics/epsilon_c_saturating.py`, `scripts/run_dictionary_eq1.py`,
+  `results/2026-09-22_dictionary_eps_c/`): Oort–K_z (ε_c'(ρ₀) ≤ 1.74e-8,
+  el 0.060·A_S de §3.26 en la ley débil), estabilidad q = c²ρε_c'/σ² < 1
+  en una tabla declarada de sistemas, y el perfil de Sculptor (fallo
+  cerrado). Región permitida 58 %. Calibrar la FUERZA del 5E en Sculptor
+  fija ε_c'(ρ_S): con Υ⋆ = 1 hay ρ* que pasan Oort y el resto de sistemas
+  (la ley débil pura no podía), con Υ⋆ = 3 ninguno; pero q_S bajo su
+  propia calibración es independiente de la forma (1.98 / 5.60 / 10.29 >
+  1): Sculptor es Cronos–Jeans-inestable bajo la amplitud del 5E sea cual
+  sea ε_c(ρ). Predicción CONGELADA del escalón en la RAR (sha256
+  9566a2ac0457…) para discos exponenciales declarados, a contrastar con
+  SPARC bajo preinscripción propia cuando haya bytes. (2) Unidad de S
+  post-Florencia declarada como dS_post = Σ̇_post·dσ/T_sellada
+  (`core/s_post_unit.py`): el hueco se estrecha a dos magnitudes
+  nombradas, no se cierra. (3) C(S) = d ln a/dS como continuación de la
+  corriente de conversión κΣ̇ê_E, pendiente de κ (preinscripción del vacío
+  2D); S_hoy = 95 sigue siendo convención. Fila nueva
+  `diccionario-epsilon-c-saturante`; fila `diccionario-unidad-S-post-florencia`
+  actualizada; Nota I §3.31. 64 claims.
+
 - **Frente 5 (b) (21-sep, tarde): serie de resolución del campo de
   Cronos (k_inner 64/128/256) a A_Sculptor y 0.05·A_Sculptor con campo
   instantáneo y balance K + W + (2/5)U_C + W_fric, bajo preinscripción

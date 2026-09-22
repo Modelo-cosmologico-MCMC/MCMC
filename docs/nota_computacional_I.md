@@ -1227,6 +1227,66 @@ resolver el interior y un métrico en una banda con ≥ 2000 partículas —,
 no un retoque de esta. **Estatuto**: experimento numérico interno (E8)
 bajo regla congelada (`results/2026-09-21_halo_resolution/`).
 
+### 3.31 Diccionario, ecuaciones 1–3: la forma saturante de ε_c(ρ) bajo sus ligaduras, la calibración de Sculptor como hecho independiente de la forma, la unidad de S post-Florencia y C(S) desde κ (22-sep-2026)
+
+**Ecuación 1.** La Def. 6.4 (N = r/r̄ ≥ 0) hace ontológica la saturación
+de la energía de Cronos; la forma mínima compatible con la ley débil a
+baja densidad y un techo a alta es ε_c(ρ) = ε_max·ρ^{3/2}/(ρ^{3/2} +
+ρ*^{3/2}), con fuerza local c²ε_c'(ρ)∇ρ y ε_c' que se anula a alta
+densidad: la fuerza vive en ρ ≈ ρ*. Tres ligaduras ya derivadas la
+acotan sin ajustar nada (`dynamics/epsilon_c_saturating.py`): (i)
+Oort–K_z (§3.26), que es una cota superior ε_c'(ρ₀) ≤ 1.74e-8 en ρ₀ =
+0.097 M☉/pc³ (reproduce el A ≤ 0.060·A_S de la ley débil); (ii)
+estabilidad, el criterio de Cronos–Jeans generalizado q = c²ρε_c'(ρ)/σ²
+< 1 en una tabla declarada de sistemas (plano solar, Sculptor, halo NFW
+en 0.05/0.4/1/5 kpc); (iii) el perfil σ_los(R) de Sculptor, no evaluable
+hasta la ingesta de walker2009. Sobre log ε_max ∈ [−14, −2] × log ρ* ∈
+[−5, 2] sobreviven el 58 % de los puntos.
+
+**La calibración de Sculptor.** El 5E calibró A_Sculptor por la fuerza
+en Sculptor; que la forma la reproduzca exige ε_c'(ρ_S) = (3/2)A_S√ρ_S en
+la densidad estelar central del Plummer congelado (ρ_S = 0.016 / 0.032 /
+0.048 M☉/pc³ para Υ⋆ = 1 / 2 / 3). Dos hechos: (a) la saturación **sí**
+puede reconciliar la fuerza de Sculptor con la vecindad solar, cosa que
+la ley débil pura no podía (×17): con Υ⋆ = 1 hay 72 de 141 valores de ρ*
+que pasan Oort y el resto de sistemas (exceso mínimo ×0.07), con Υ⋆ = 2
+12, con Υ⋆ = 3 ninguno; (b) **q_S bajo su propia calibración es
+independiente de la forma**, porque la calibración fija ρ_S·ε_c'(ρ_S):
+q_S = 1.98 / 5.60 / 10.29 > 1 para los tres Υ⋆. Sculptor es
+Cronos–Jeans-inestable bajo la amplitud del 5E sea cual sea ε_c(ρ), y
+ningún ρ* pasa las tres ligaduras a la vez. Lo que ese hecho deja son
+tres salidas, ninguna del diccionario: la amplitud del 5E no es la fuerza
+de Sculptor; el criterio no se aplica a Sculptor (σ_los no es la σ del
+medio); o la inestabilidad es real y el perfil σ_los(R) la mostrará
+(ligadura iii, pendiente de bytes).
+
+**Predicción congelada.** Con saturación g_C = c²ε_c'(ρ)|∇ρ| actúa solo
+donde ρ ≈ ρ*: en la relación aceleración radial la desviación g_obs −
+g_bar es un **escalón** en el intervalo de g_bar donde ρ_disco(R) cruza
+ρ*, no una función continua de g_bar. `rar_step_prediction.json` (sha256
+`9566a2ac0457…`) lo publica para doce curvas (cuatro puntos declarados de
+(ε_max, ρ*) × tres discos exponenciales) antes de cualquier byte de
+SPARC; el contraste será una preinscripción propia (letras y tolerancias
+congeladas) cuando el autor aporte los bytes. E13: no es señal hasta el
+contraste.
+
+**Ecuaciones 2 y 3** (`core/s_post_unit.py`). La unidad de S tras
+Florencia se declara como dS_post = Σ̇_post·dσ/T_sellada: la producción
+entrópica de los canales (J_id, J_lat; B.1.2) sobre el depósito sellado
+ρ_id + ρ_lat, en la misma unidad ΔS que dS_pre = Σ̇dσ/T₀. El hueco de la
+fila `diccionario-unidad-S-post-florencia` se estrecha a dos magnitudes
+nombradas que el repositorio no deriva (`cronos/channels` refresca los
+canales con tasas calibradas, no con su producción entrópica); no se
+cierra. C(S) = d ln a/dS se declara como la continuación post-Florencia
+de la corriente de conversión κΣ̇ê_E; hasta que κ exista (preinscripción
+del vacío 2D, brazo `conversion_current`), S_hoy = 95 sigue siendo
+convención.
+
+**Estatuto**: mapa de consistencia (E8) sobre una forma declarada, con
+un hallazgo independiente de la forma y una predicción congelada sin
+contrastar; ningún parámetro se ajusta; A_Sculptor no se toca
+(`results/2026-09-22_dictionary_eps_c/`).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
