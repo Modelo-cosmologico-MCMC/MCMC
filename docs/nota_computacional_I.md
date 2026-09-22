@@ -1437,6 +1437,53 @@ cinética exacta al 1–2 % y se publican sin veredicto (E13). A_Sculptor,
 la fila `criterio-cronos-jeans` y la ronda 1 no se tocan
 (`results/2026-09-22_cj_criterion_round2/`).
 
+### 3.33 El término que mueve el vacío 2D fuera del polo de masa: corriente de conversión y rotación de la inclinación bajo preinscripción congelada — INDETERMINADO en los dos brazos (22-sep-2026)
+
+§3.25 dejó el cruce de la diagonal como cuestión de «otro término»: con
+J∇C y C = V el flujo cruza y VUELVE al polo de masa, porque el vacío
+verdadero 2D está en θ = 0. La lectura del autor del 22-sep sitúa el
+término que falta DURANTE la descarga, no en el vacío, y propone dos
+candidatos que aquí se ejecutan como brazos del reloj S con J∇C de
+control: **(ii) la corriente de conversión** dΦ/dσ = −G⁻¹∇V + κΣ̇ê_E
+(κ = κ̂ρ₊/T₀, Σ̇ = ∇VᵀG⁻¹∇V: la entropía que la descarga produce crea
+φ_E) y **(i) la rotación de la inclinación** η_eff = η₀(1 − f/f_×) (la
+inclinación cambia de signo en f_×). Los dos trabajos entran en la
+identidad, S = f − f₀ + (W_J + W_conv + W_tilt)/T₀, comprobada a 1e-6.
+Preinscripción congelada (`results/2026-09-22_vacuum_2d/preregistration.json`,
+sha256 `3990f7bcaee7…`) antes de ninguna corrida: κ̂ ∈ [0.05, 20] (25 celdas),
+f_× ∈ [0.30, 0.99] (24), δ₀ ∈ {0.003, 0.01, 0.03, δ_H_full}; letra A si
+alguna celda con puertas (identidad ≤ 1e-6, descenso terminado, Monotonía)
+sitúa el cruce en S = 1 ± 0.05; INDETERMINADO si alguna celda de la
+rejilla falla una puerta.
+
+**Desenlace: INDETERMINADO en (i) y (ii) para los cuatro δ₀** — la
+rejilla contiene celdas que fallan puertas, y la regla congelada no
+permite excluirlas. Lo que las celdas con puertas superadas muestran se
+publica sin letra: la corriente cruza solo con κ̂ ≥ 2.11 (δ₀ ≤ 0.01) o
+≥ 1.65 (δ₀ ≥ 0.03), siempre con S_cross ≤ 0.87 (0.866 / 0.795 / 0.794 /
+0.745 en la primera celda que cruza), y θ vuelve al polo de masa (caída
+de θ ≈ θ_max): la corriente adelanta el cruce, como |J|, y no lo lleva a
+S = 1. La rotación cruza para f_× ≤ 0.84 **en el mismo S que el control
+J∇C del mismo δ₀** (0.931 / 0.880 / 0.807 / 0.753 frente a 0.930 / 0.879
+/ 0.806): el S del cruce lo fija la descarga f(σ) — cuándo θ llega a
+π/4 depende de cuánto ha bajado el campo, no del término — y, para
+f_× ≤ 0.72, el campo pasa al polo de ESPACIO y se queda (θ_final = π/2;
+la Monotonía 4.5 respecto de la V de referencia se rompe, como el
+brazo declara). Las puertas que fallan: κ̂ ≥ 4.5–7.4 no es integrable con
+el d_sigma declarado (la guarda del instrumento publica la celda como
+divergente en vez de romper: arreglo posterior a la preinscripción,
+declarado, sin tocar reglas ni rejillas); f_× ≥ 0.75–0.87 no termina el
+descenso en max_steps (la frontera φ_i = 0 sostiene un ∇V_eff no nulo);
+la identidad excede 1e-6 (hasta 1.9e-6) en celdas de f_× pequeño.
+
+**Lectura**: ninguna celda con puertas superadas sitúa el cruce en la
+ventana; el término que mueve el vacío 2D no es ninguno de los dos con
+sus formas declaradas, y el perfil θ_imp(S) sigue impuesto (E8). κ̂ y
+f_× son calibraciones con significado, no derivaciones (E13). Una ronda
+nueva exigiría preinscribir d_sigma y max_steps que superen las puertas
+en toda la rejilla; no se toca la de esta. Fila
+`vacio-2d-conversion-y-rotacion`; artefacto `results/2026-09-22_vacuum_2d/`.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

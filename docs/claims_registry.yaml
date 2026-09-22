@@ -1624,6 +1624,58 @@ claims:
     status: interno
     artifact: results/2026-09-21_j_circulation
 
+  - claim_id: vacio-2d-conversion-y-rotacion
+    entity: El término que mueve el vacío 2D fuera del polo de masa — brazos corriente de conversión κΣ̇ê_E y rotación de la inclinación η_eff = η₀(1 − f/f_×) en el reloj S, con J∇C de control, bajo preinscripción congelada; desenlace INDETERMINADO en los dos brazos y los cuatro δ₀ (22-sep-2026)
+    law: "Def. 2.2 / Prop. 3.5 (diagonal dual, transporte azimutal); Def. 4.4 / Teo. 4.5 (Flujo del Camino, Monotonía; Σ̇ del nivel disipativo); Prop. 3.4 (inclinación −η·χ como corrección); lectura del autor del 22-sep (el término actúa DURANTE la descarga, no en el vacío)"
+    derivation: >-
+      preinscripción congelada (sha256 3990f7bcaee7…) en un commit posterior al
+      generador, antes de ninguna corrida de producción. Formas DECLARADAS
+      (DECLARED_FORMS['vacuum_2d']): (ii) dΦ/dσ = −G⁻¹∇V + κΣ̇ê_E con κ =
+      κ̂ρ₊/T₀ y Σ̇ = ∇VᵀG⁻¹∇V (la corriente crea φ_E con la entropía que la
+      descarga produce; su trabajo W_conv entra en la identidad S = f − f₀ +
+      (W_J + W_conv + W_tilt)/T₀); (i) η_eff = η₀(1 − f/f_×) (la inclinación
+      rota con f y cambia de signo en f_×; W_tilt = ∫(∇V_ref − ∇V_eff)·dΦ
+      publicado); control J∇C con el |J|_min de §3.25. Rejillas: κ̂ ∈
+      [0.05, 20] (25, geométrica), f_× ∈ [0.30, 0.99] (24), δ₀ ∈ {0.003,
+      0.01, 0.03, δ_H_full}. Regla: A si alguna celda con puertas
+      (identidad ≤ 1e-6, descenso terminado, Monotonía) sitúa el cruce en
+      S = 1 ± 0.05 con θ monótona; B si cruza fuera de la ventana; C si
+      ninguna cruza; INDETERMINADO si alguna celda de la rejilla falla una
+      puerta. RESULTADO: INDETERMINADO en (i) y (ii) para los cuatro δ₀ por
+      puertas falladas dentro de la rejilla. Lo que las celdas con puertas
+      superadas muestran, publicado sin letra: (ii) la corriente cruza la
+      diagonal solo con κ̂ ≥ 2.11 (δ₀ ≤ 0.01) o ≥ 1.65 (δ₀ ≥ 0.03), siempre
+      con S_cross ≤ 0.87 (0.866 / 0.795 / 0.794 / 0.745 en la primera celda
+      que cruza) y θ VUELVE al polo de masa (caída de θ ≈ θ_max, como J∇C);
+      κ̂ ≥ 4.5–7.4 no es integrable con el d_sigma declarado (divergencia
+      publicada por la guarda del instrumento, no reescalada). (i) la
+      rotación cruza para f_× ≤ 0.84 (0.75 en δ_H) SIEMPRE en el mismo S
+      que el control J∇C del mismo δ₀ (0.931 / 0.880 / 0.807 / 0.753 frente
+      a 0.930 / 0.879 / 0.806): el S del cruce lo fija la descarga f(σ),
+      no el término; para f_× ≤ 0.72 (0.48 en δ_H) el campo va al polo de
+      ESPACIO y se queda (θ_final = θ_max = π/2, Monotonía 4.5 rota respecto
+      de la V de referencia); para f_× ≥ 0.75–0.87 el descenso no termina
+      en max_steps (∇V_eff ≠ 0 sostenido por la frontera) y la identidad
+      excede 1e-6 en varias celdas de f_× pequeño (hasta 1.9e-6). Ninguna
+      celda con puertas superadas sitúa el cruce en la ventana. Arreglo del
+      instrumento posterior a la preinscripción y declarado: guarda de
+      divergencia (|Φ|² ≤ 1e6·ρ₊, aritmética np.float64) que publica la
+      celda no integrable con diverged = True en vez de romper con
+      OverflowError; ninguna regla ni rejilla se tocó. κ̂ y f_× son
+      calibraciones declaradas, no derivaciones (E13).
+    implementation: core/s_clock.py + scripts/run_vacuum_2d.py
+    test: tests/test_vacuum_2d_lock.py + tests/test_s_clock.py
+    observable: "— (recorrido interno; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      una preinscripción nueva con d_sigma y max_steps que superen las
+      puertas en toda la rejilla y sitúen el cruce en S = 1 ± 0.05 con
+      alguno de los dos términos (letra A); o una derivación de κ̂ o f_×
+      desde la ontología (frente 2) que fije su valor sin calibración
+    evidence_level: comprobación interna (E8) bajo preinscripción congelada; INDETERMINADO por puertas del instrumento; lo publicado fuera de la letra es descriptivo, sin veredicto (E13)
+    status: interno
+    artifact: results/2026-09-22_vacuum_2d
+
   - claim_id: s-clock-simulador-consistencia
     entity: El reloj S — orquestador de la trayectoria S₀ → S_{1,001} como simulador de CONSISTENCIA (umbrales impuestos), no emergente (21-sep-2026)
     law: "C1 (índice entrópico S = ∫Σ̇dσ); Def. 4.4 / Teo. 4.5 / Lema 4.7 (Flujo del Camino); Prop. 3.4–3.5 (T₀, salida al polo de masa); Def. 8.4 y Prop. 8.1 (discriminante, Ley de la Década); §5.1–5.4 (cadena C(d+1,0), sellos de c y c²); §6.1–6.2 (Rotación de Florencia); Cap. 7 (RP); ec. 12.1 (m_H = √(2β₃)v₃)"
