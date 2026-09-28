@@ -171,7 +171,7 @@ def main() -> None:
             "chains_<brazo>.npz con semilla", "dovekie_real.json",
             "report.md con los tres desenlaces enumerados y el alcanzado",
             "comparación STATONLY/STAT+SYS", "fila(s) del registry",
-            "CHANGELOG y Nota I (vocabulario v35.1: E8, comprobación interna "
+            "CHANGELOG y Nota I (vocabulario de la fe de erratas FE-08-2026: E8, comprobación interna "
             "≠ demostración física)",
         ],
     }

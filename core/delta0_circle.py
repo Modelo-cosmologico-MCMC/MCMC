@@ -17,7 +17,7 @@ del suelo, el atractor es el Techo de Victoria:
 Por tanto el círculo se cierra  ⟺  W_max = c̄·δ_H³  (≈ 1.65e-4 con las
 formas fiduciales): una ECUACIÓN DE CONSISTENCIA que liga el Techo
 (Lema 10.3 / Teo. 10.6) con el empalme C¹ (H.8). MATIZ DE AUTORÍA
-(auditoría v35.1): los ingredientes están en el tratado — el Lema 10.3
+(auditoría epistemológica FE-08-2026): los ingredientes están en el tratado — el Lema 10.3
 ya deriva δ_sat = (W_max/c̄)^{1/3} y H.8 da δ_H; la aportación del
 programa es la CONEXIÓN (igualar δ_sat con δ_H como condición de
 cierre) y la observación de que γR desaparece del punto fijo, que es

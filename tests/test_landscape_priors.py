@@ -1,4 +1,4 @@
-"""Tests de la sensibilidad de δ_H a los priors del paisaje (v35.1)."""
+"""Tests de la sensibilidad de δ_H a los priors del paisaje (FE-08-2026)."""
 
 import numpy as np
 import pytest
