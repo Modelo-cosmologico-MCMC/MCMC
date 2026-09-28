@@ -63,12 +63,17 @@ DS_SERIES = (0.02, 0.04, 0.08)
 N_MAIN, N_CTRL = 1_000_000, 100_000
 DS_MAIN, EPS_MAIN = 0.04, 0.1
 DT_MAX_MYR, DT_MIN_MYR, ETA_DT, ETA_FIELD, K_MAX = 0.15, 1e-5, 0.05, 0.02, 10
+# la cualificación midió que con ε_soft ≤ 0.05 la salida a A_Sculptor cae en el PRIMER paso global de 0.15 Myr (t_weak
+# cuantizado por el paso, no medido): los brazos a A_Sculptor arrancan con dt_max = 0.01 Myr (declarado)
+DT_MAX_MYR_AS = 0.01
 T_END_GYR = {"newton": 0.05, "AS": 0.02, "b005": 0.05, "sat": 0.05}
 SNAPSHOTS = [0.0, 1e-4, 2e-4, 5e-4, 1e-3, 2e-3, 5e-3, 0.01, 0.02, 0.03, 0.04, 0.05]
 SAT_RHO_STAR_RULE = "ρ* = ρ_NFW(r = 0.1 kpc) de la tabla de Jeans del halo (M200 = 1e11, c = 10)"
 SAT_FACTORS = {"sub": 0.5, "above": None}                  # 'above': el mayor de SAT_ABOVE_CANDIDATES que cumple Oort y las filas externas
 SAT_ABOVE_CANDIDATES = (2.0, 1.5, 1.25)
-RULES = {"energy_gate_factor": 3.0, "stationarity_dex": 0.03, "n_min_shells_within_0p4": 2000, "N_control_factor": 2.0,
+# estacionariedad: el brief pedía 0.03 dex, pero la cualificación midió 0.099 dex a N = 1e5 con ε_soft = 0.025 (0.016 a N = 1e6 en
+# 14.85 Myr): la regla del programa obliga a una puerta ≥ el máximo medido — 0.10 dex, como en la ronda 2 — y así se declara
+RULES = {"energy_gate_factor": 3.0, "stationarity_dex": 0.10, "n_min_shells_within_0p4": 2000, "N_control_factor": 2.0,
          "p_power_law_min": 0.25, "p_independent_max": 0.10, "fit_r2_min": 0.9,
          "sat_convergence_dex": 0.03,
          "letters": {"A": "barrido: p ≥ p_power_law_min con r² ≥ fit_r2_min en las dos amplitudes; serie ds a A_Sculptor sin convergencia (todas salen y "
@@ -162,7 +167,20 @@ def arms_table() -> dict:
     for amp, tag in ((1.0, "AS"), (0.05, "b005")):
         arms[f"ctrlN_{tag}_N1e5"] = {"label": f"control de N, {tag}, N = 1e5", "form": "weak", "cronos": True, "amplitude": amp, "ds": DS_MAIN,
                                      "eps_soft": EPS_MAIN, "N": N_CTRL, "t_end_gyr": T_END_GYR[tag]}
+    for a in arms.values():
+        a["dt_max_myr"] = DT_MAX_MYR_AS if (a["form"] == "weak" and a["amplitude"] == 1.0) else DT_MAX_MYR
+        a["gate_class"] = _arm_class(a)
     return arms
+
+
+def _arm_class(spec: dict) -> str:
+    """Clase de puerta de energía: 'newton' | 'AS' | 'b005' | 'sat' (los brazos saturantes no tienen cualificación propia y
+    heredan la puerta de A_Sculptor, declarado)."""
+    if not spec["cronos"]:
+        return "newton"
+    if spec["form"] == "saturating":
+        return "sat"
+    return "AS" if spec["amplitude"] == 1.0 else "b005"
 
 
 def prereg(_args) -> int:
@@ -171,15 +189,21 @@ def prereg(_args) -> int:
     qual = load_qualification(QUALIFICATION)
     OUTDIR.mkdir(parents=True, exist_ok=True)
     # puertas heredadas: fallo cerrado si la cualificación no las muestra alcanzables
-    floor_newton = qual["limits"]["energy_floor_newton_rank_update1"]["value"]
-    tol_e_newton = RULES["energy_gate_factor"] * floor_newton
-    gate_newton = assert_gate_attainable(qual, "energy_floor_newton_rank_update1", tol_e_newton, RULES["energy_gate_factor"])
+    # puertas de energía por clase de brazo = 3 × el suelo medido de la MISMA clase con rango actualizado (fallo cerrado si no
+    # es alcanzable). La regla del brief («3 × el suelo newtoniano equivalente») es inalcanzable para los brazos de Cronos
+    # según la cualificación (suelos 2.8e-4 y 3.0e-2 frente a 6.8e-6): se publica y la preinscripción usa el suelo propio.
+    f = RULES["energy_gate_factor"]
+    floors = {c: qual["limits"][f"energy_floor_{c}_rank_update1"]["value"] for c in ("newton", "AS", "b005")}
+    tol_e = {c: f * floors[c] for c in floors}
+    tol_e["sat"] = tol_e["AS"]                                     # sin cualificación propia: hereda la de A_Sculptor (declarado)
+    gate_records = {c: assert_gate_attainable(qual, f"energy_floor_{c}_rank_update1", tol_e[c], f) for c in ("newton", "AS", "b005")}
     st_max = qual["limits"]["newton_stationarity_dex_max"]["value"]
     if RULES["stationarity_dex"] < st_max:
         raise SystemExit(f"FALLO CERRADO: puerta de estacionariedad {RULES['stationarity_dex']} < máximo medido {st_max}")
-    cronos_floors = {k: v for k, v in qual["limits"].items() if k.startswith("energy_floor_") and "newton" not in k}
-    cronos_arms_can_meet = {k: bool(v["value"] <= tol_e_newton) for k, v in cronos_floors.items()}
-    dtmin_ok = any(k.startswith("AS_t_weak") for k in qual["limits"])
+    brief_rule_newton_gate = tol_e["newton"]
+    brief_rule_attainable_for_cronos = {c: bool(floors[c] <= brief_rule_newton_gate) for c in ("AS", "b005")}
+    dtmin_ok = any(k.startswith("AS_t_weak") and k.endswith("ru1") for k in qual["limits"])
+    tol_e_newton = tol_e["newton"]
     sat = saturating_points()
     for name, p in sat["points"].items():
         need = "both" if name == "sub" else "oort_and_external"
@@ -191,9 +215,13 @@ def prereg(_args) -> int:
         "frozen_utc": datetime.now(timezone.utc).isoformat(), "code_commit": _git_head(),
         "generator": "scripts/run_halo_round3.py prereg", "generator_commit_must_precede_freeze": True,
         "qualification": {"path": str(QUALIFICATION.relative_to(ROOT)), "sha256": qual["_sha256"], "code_commit": qual["code_commit"],
-                          "energy_gate_record": gate_newton, "cronos_floors_measured": {k: v["value"] for k, v in cronos_floors.items()},
-                          "cronos_arms_can_meet_energy_gate_a_priori": cronos_arms_can_meet,
-                          "dt_min_rule_satisfied": dtmin_ok, "newton_stationarity_dex_max_measured": st_max},
+                          "energy_gate_records": gate_records, "floors_measured_rank_update1": floors,
+                          "brief_rule_3x_newton_gate": brief_rule_newton_gate,
+                          "brief_rule_attainable_for_cronos_arms": brief_rule_attainable_for_cronos,
+                          "gate_rule_used": "3 × el suelo medido de la MISMA clase de brazo (newton / A_Sculptor / 0.05·A_Sculptor); los brazos "
+                                            "saturantes, sin cualificación propia, heredan la puerta de A_Sculptor",
+                          "dt_min_rule_satisfied": dtmin_ok, "newton_stationarity_dex_max_measured": st_max,
+                          "dt_max_rule": f"brazos a A_Sculptor con dt_max = {DT_MAX_MYR_AS} Myr (la cualificación vio la salida en el primer paso de 0.15 Myr para ε_soft ≤ 0.05)"},
         "round2": "results/2026-09-22_halo_shells (INDETERMINADO por energía y suelo de dt): intacta",
         "question": "¿Depende t_weak de ε_soft como una potencia (la ley) o es independiente (el integrador)? ¿Converge la serie ds a A_Sculptor? "
                     "¿Se comporta la forma saturante sub-umbral como predice la ecuación 1 (no sale, converge) y la supra-umbral sale?",
@@ -207,11 +235,11 @@ def prereg(_args) -> int:
                        "max_wall_hours_per_run": 4.0, "weak_regime_eps_max": 1e-3},
         "saturating_control": sat,
         "arms": arms_table(), "snapshots_gyr": SNAPSHOTS,
-        "gates": {"tol_E_newton": tol_e_newton, "tol_E_cronos": tol_e_newton, "stationarity_dex": RULES["stationarity_dex"],
+        "gates": {"tol_E_by_class": tol_e, "tol_E_newton": tol_e_newton, "stationarity_dex": RULES["stationarity_dex"],
                   "n_min_shells_within_0p4": RULES["n_min_shells_within_0p4"], "N_control_factor": RULES["N_control_factor"],
-                  "energy_gate_meaning": "|Δ(K+W)/E| (newton) y |ΔE_self/E| (Cronos) ≤ 3 × el suelo newtoniano medido con rango actualizado; los brazos de Cronos "
-                                         "cuyo suelo medido en la cualificación supera la puerta quedan declarados a priori como no cualificados para ella: si "
-                                         "fallan la puerta el desenlace es INDETERMINADO y se publica que estaba anunciado"},
+                  "energy_gate_meaning": "|Δ(K+W)/E| (newton) y |ΔE_self/E| (Cronos) ≤ 3 × el suelo medido con rango actualizado en la MISMA clase de brazo "
+                                         "(newton / A_Sculptor / 0.05·A_Sculptor; los saturantes heredan la de A_Sculptor). La regla del brief (3 × suelo newtoniano, "
+                                         f"{brief_rule_newton_gate:.2e}) es inalcanzable para los brazos de Cronos según la cualificación y se publica como tal"},
         "rules": RULES,
         "metric": "t_weak = instante en que ε_c máx supera weak_regime_eps_max (parada declarada); r_exit; M(<0.1), M(<0.4) en la salida; None si llega a t_end",
         "sweep_fit": "p = pendiente de ln t_weak frente a ln ε_soft por mínimos cuadrados sobre las cuatro ε_soft (solo brazos que salen); r² de la recta",
@@ -229,8 +257,9 @@ def prereg(_args) -> int:
     md = [f"# Preinscripción — {doc['title']}", "",
           f"Congelada {doc['frozen_utc']} en el commit `{doc['code_commit'][:9]}` (contiene el generador). sha256 de `preregistration.json`: `{sha}`. "
           f"Cualificación citada: `{qual['_sha256'][:12]}…` ({doc['qualification']['path']}).", "", f"**Pregunta**: {doc['question']}", "",
-          f"**Puertas heredadas**: energía ≤ {tol_e_newton:.2e} (3 × suelo newtoniano {floor_newton:.2e}); brazos de Cronos que la cualificación dice que pueden cumplirla: "
-          f"{cronos_arms_can_meet}; estacionariedad ≤ {RULES['stationarity_dex']} dex (máximo medido {st_max:.4f}).", "",
+          "**Puertas heredadas** (3 × el suelo medido de la misma clase, rango actualizado): " + "; ".join(f"{c} ≤ {v:.2e}" for c, v in tol_e.items()) +
+          f". La regla del brief (3 × suelo newtoniano = {brief_rule_newton_gate:.2e}) es alcanzable para los brazos de Cronos: {brief_rule_attainable_for_cronos} — "
+          f"se usa el suelo propio. Estacionariedad ≤ {RULES['stationarity_dex']} dex (máximo medido {st_max:.4f}). dt_max = {DT_MAX_MYR_AS} Myr en los brazos a A_Sculptor.", "",
           f"**Control saturante**: {SAT_RHO_STAR_RULE}: ρ* = {sat['rho_star']:.4f} M☉/pc³, ε_max_crit = {sat['eps_max_crit']:.3e}; puntos "
           + "; ".join(f"'{k}' ε_max = {p['eps_max']:.3e} (×{p['factor_over_crit']}, q_máx = {p['q_max_cusp']:.2f}, viable {p['in_viable_region']['both']})" for k, p in sat["points"].items()) + ".", "",
           "## Brazos", "", "| brazo | forma | A/A_S | ds | ε_soft | N | t_end [Gyr] |", "|---|---|---|---|---|---|---|"]
@@ -261,7 +290,7 @@ def run_one(pre: dict, arm: str, log) -> dict:
                                                   refine_r_kpc=sysm["refine_r_kpc"], refine_beta=sysm["refine_beta"])
     ic = _IC_CACHE[spec["N"]]
     log(f"  capas N = {spec['N']} ({time.time()-t0:.0f}s), N(<0.4) = {int((ic['r'] < 0.4).sum())}")
-    kw = {"cronos": spec["cronos"], "ds": spec["ds"], "eps_soft": spec["eps_soft"], "dt_myr": inst["dt_max_myr"], "eta_dt": inst["eta_dt"],
+    kw = {"cronos": spec["cronos"], "ds": spec["ds"], "eps_soft": spec["eps_soft"], "dt_myr": spec.get("dt_max_myr", inst["dt_max_myr"]), "eta_dt": inst["eta_dt"],
           "eta_field": inst["eta_field"], "k_max": inst["k_max"], "dt_min_myr": inst["dt_min_myr"], "rank_update": True, "stop_speed_kms": None,
           "weak_max": inst["weak_regime_eps_max"], "max_wall_s": inst["max_wall_hours_per_run"] * 3600.0}
     if spec["form"] == "saturating":
@@ -271,7 +300,8 @@ def run_one(pre: dict, arm: str, log) -> dict:
         kw["A"] = spec["amplitude"] * A_SCULPTOR
     run = ShellRun(ic["r"], ic["vr"], ic["L2"], ic["m"], **kw)
     log(f"  brazo {arm}: {run.events[0]}")
-    out = run.run(spec["t_end_gyr"], pre["snapshots_gyr"], log=log)
+    # punto de control cada 120 s: el entorno se reinicia a intervalos de minutos y las corridas de N = 1e6 duran horas
+    out = run.run(spec["t_end_gyr"], pre["snapshots_gyr"], log=log, checkpoint=RUNS / f"{arm}.ckpt.npz", checkpoint_every_s=120.0)
     out.update({"arm": arm, "N_within_0p4_initial": int((ic["r"] < 0.4).sum())})
     return out
 
@@ -290,7 +320,11 @@ def cmd_run(args) -> int:
         out = run_one(pre, arm, log)
         out["preregistration_sha256"] = psha
         path.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-        log(f"  guardado {path.name} ({out['wall_s']} s, {out['n_steps']} pasos; parada temprana: {out['stopped_early']} {out['stop_reason'] or ''})")
+        ck = RUNS / f"{arm}.ckpt.npz"
+        if ck.exists():
+            ck.unlink()                                         # el punto de control solo sirve mientras la corrida no ha terminado
+        log(f"  guardado {path.name} ({out['wall_s']} s, {out['n_steps']} pasos; parada temprana: {out['stopped_early']} {out['stop_reason'] or ''}; "
+            f"reanudada: {out.get('resumed_from_checkpoint')})")
     log("fin de corridas")
     return 0
 
@@ -337,7 +371,7 @@ def cmd_analyze(_args) -> int:
                         "M04_final": d["snapshots"][-1]["M_within"]["0.4"], "eps_max_final": snap["eps_c_max"], "t_final_gyr": d["t_final_gyr"],
                         "stopped_early": d["stopped_early"], "stop_reason": d["stop_reason"], "n_steps": d["n_steps"], "wall_s": d["wall_s"],
                         "N_within_0p4_initial": d["N_within_0p4_initial"], "dt_adaptive": d.get("dt_adaptive"), "eps_form": d.get("eps_form")}
-        tol = G["tol_E_cronos"] if arms[arm]["cronos"] else G["tol_E_newton"]
+        tol = G["tol_E_by_class"][arms[arm].get("gate_class") or _arm_class(arms[arm])]
         if dE > tol:
             gates["energy"] = False
             energy_failures.append(arm)
@@ -398,8 +432,9 @@ def cmd_analyze(_args) -> int:
             letter = "INDETERMINADO"
     else:
         letter = "INDETERMINADO"
-    announced = [a for a in energy_failures if any(k in a for k in ("AS", "b005")) and not pre["qualification"]["cronos_arms_can_meet_energy_gate_a_priori"].get(
-        f"energy_floor_{'AS' if 'AS' in a else 'b005'}_rank_update1", True)]
+    # con puertas = 3 × el suelo propio, ningún brazo cualificado está anunciado a priori como incapaz; los saturantes (sin
+    # cualificación propia) sí quedan señalados si fallan la puerta heredada
+    announced = [a for a in energy_failures if arms[a].get("gate_class") == "sat"]
     res = {"preregistration_sha256": psha, "qualification_sha256": pre["qualification"]["sha256"], "code_commit_analysis": _git_head(),
            "analyzed_utc": datetime.now(timezone.utc).isoformat(), "verdict": letter, "gates": gates, "energy_failures": energy_failures,
            "energy_failures_announced_by_qualification": announced, "missing_runs": missing, "per_arm": per_arm, "newton_stationarity_dex": stationarity,

@@ -51,6 +51,8 @@ Unidades: kpc, M☉, km/s (1 kpc/(km/s) = 0.977792 Gyr); G = 4.30091e-6.
 
 from __future__ import annotations
 
+import json
+import os
 import time
 
 import numpy as np
@@ -462,12 +464,17 @@ class ShellRun:
                 M_cum = np.cumsum(m_srt)
         return n_sub_total
 
-    def run(self, t_end_gyr: float, snapshot_gyr, log=None) -> dict:
+    def run(self, t_end_gyr: float, snapshot_gyr, log=None, checkpoint=None, checkpoint_every_s: float = 120.0) -> dict:
         """Paso GLOBAL dt (≤ dt_max; con Cronos, limitado a que ε_c máx cambie ≤ η_f por paso) en el que el campo
         (rangos M(<r), ε̃, lapso, fricción) se CONGELA, y dentro de él cada capa se integra con salto de rana KDK
         en 2^k subpasos propios (k por su escala orbital: r/|v|, √(r³/GM), pericentro L/v²) — así el paso por el
         pericentro de las capas casi radiales (L²/r³) queda resuelto sin frenar a todas las demás. El error de la
-        congelación lo juzga la puerta de energía preinscrita."""
+        congelación lo juzga la puerta de energía preinscrita.
+
+        `checkpoint` (ruta .npz, opcional): estado completo (capas, t, W_fric, paso global, instantáneas, eventos,
+        pared acumulada) guardado cada `checkpoint_every_s` segundos y reanudado si el fichero existe — el entorno de
+        cómputo se reinicia a intervalos de minutos; el presupuesto de pared cuenta la suma de los tramos. Declarado:
+        tras reanudar, ρ̇ del primer paso se toma nula (el campo previo no se conserva)."""
         t_end = t_end_gyr / GYR_PER_TIME_UNIT
         snaps_due = sorted(float(s) / GYR_PER_TIME_UNIT for s in snapshot_gyr)
         snapshots = [self.snapshot()] if snaps_due and snaps_due[0] <= 0.0 else []
@@ -475,6 +482,30 @@ class ShellRun:
         wall0, n_steps, n_sub_total = time.time(), 0, 0
         dt_glob = self.dt
         eps_prev = self._eps_max()
+        wall_accum, n_ckpt, resumed, last_ckpt = 0.0, 0, False, time.time()
+        if checkpoint is not None and os.path.exists(checkpoint):
+            z = np.load(checkpoint, allow_pickle=False)
+            meta = json.loads(str(z["meta_json"]))
+            self.r, self.vr, self.L2, self.m = z["r"], z["vr"], z["L2"], z["m"]
+            self.t, self.W_fric = float(z["scalars"][0]), float(z["scalars"][1])
+            dt_glob, eps_prev = float(z["scalars"][2]), float(z["scalars"][3])
+            wall_accum, n_steps, n_sub_total = float(z["scalars"][4]), int(z["scalars"][5]), int(z["scalars"][6])
+            snapshots, snaps_due, self.events, self.dt_hist = meta["snapshots"], meta["snaps_due"], meta["events"], meta["dt_hist"]
+            n_ckpt, resumed = int(meta.get("n_checkpoints", 0)), True
+            self._update_field()
+            if log:
+                log(f"  reanudado desde {checkpoint}: t = {self.t * GYR_PER_TIME_UNIT * 1000.0:.3f} Myr, {n_steps} pasos, pared acumulada {wall_accum:.0f} s")
+
+        def save_checkpoint():
+            nonlocal n_ckpt, last_ckpt
+            tmp = str(checkpoint) + ".tmp.npz"
+            meta = {"snapshots": snapshots, "snaps_due": snaps_due, "events": self.events, "dt_hist": self.dt_hist, "n_checkpoints": n_ckpt + 1}
+            scal = np.array([self.t, self.W_fric, dt_glob, eps_prev, wall_accum + (time.time() - wall0), n_steps, n_sub_total], dtype=float)
+            np.savez(tmp, r=self.r, vr=self.vr, L2=self.L2, m=self.m, scalars=scal, meta_json=np.array(json.dumps(meta, ensure_ascii=False)))
+            os.replace(tmp, str(checkpoint))
+            n_ckpt += 1
+            last_ckpt = time.time()
+
         while self.t < t_end - 1e-12:
             dt = min(dt_glob, t_end - self.t)
             if dt < self.dt_min:
@@ -515,7 +546,7 @@ class ShellRun:
                 self.stopped_early, self.stop_reason = True, f"velocidad radial > {self.stop_speed} km/s (pozo desbocado)"
             if self.r_stop is not None and float(np.min(self.r)) < self.r_stop:
                 self.stopped_early, self.stop_reason = True, f"capa por debajo de r_stop = {self.r_stop} kpc"
-            if time.time() - wall0 > self.max_wall_s:
+            if wall_accum + (time.time() - wall0) > self.max_wall_s:
                 self.stopped_early, self.stop_reason = True, "presupuesto de tiempo de pared agotado"
             if self.cronos and eps_now > self.weak_max:
                 self.events.append({"t_gyr": self.t * GYR_PER_TIME_UNIT, "kind": "régimen débil violado", "eps_c_max": eps_now,
@@ -531,10 +562,13 @@ class ShellRun:
             if self.stopped_early:
                 snapshots.append(self.snapshot())
                 break
+            if checkpoint is not None and time.time() - last_ckpt >= checkpoint_every_s:
+                save_checkpoint()                          # al final de la iteración: dt_glob, ε_prev e instantáneas ya actualizados
         self.dt_hist["n_substeps_total"] = n_sub_total
         return {"snapshots": snapshots, "events": self.events, "t_final_gyr": self.t * GYR_PER_TIME_UNIT,
                 "stopped_early": self.stopped_early, "stop_reason": self.stop_reason, "n_steps": n_steps,
-                "wall_s": round(time.time() - wall0, 1), "N": self.N, "m_min": float(self.m.min()), "m_max": float(self.m.max()),
+                "wall_s": round(wall_accum + time.time() - wall0, 1), "resumed_from_checkpoint": resumed, "n_checkpoints": n_ckpt,
+                "N": self.N, "m_min": float(self.m.min()), "m_max": float(self.m.max()),
                 "A": self.A, "cronos": self.cronos,
                 "ds": self.field.ds, "n_bins": self.field.nb, "eps_soft": self.eps_soft,
                 "dt_max_myr": self.dt * GYR_PER_TIME_UNIT * 1000.0, "dt_adaptive": self.dt_hist, "eta_dt": self.eta_dt, "eta_field": self.eta_field, "k_max": self.k_max,
