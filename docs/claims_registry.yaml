@@ -1066,7 +1066,7 @@ claims:
       20, incompatibilidad interna de la ley local a amplitud única,
       pendiente de la preinscripción observacional «Oort–K_z» (frente 5
       refundado)
-    evidence_level: cálculo de consistencia interna (E8) con control externo del autor reproducido; no demostración física
+    evidence_level: cálculo de consistencia interna (E8) con control externo del autor reproducido; no demostración física; la amplitud A_Sculptor es calibrada (5E congelado), no derivada del tramo pre-geométrico
     status: interno
     artifact: results/2026-09-17_cronos_amplitude_validity
 
@@ -1166,9 +1166,16 @@ claims:
       tasas calibradas, no con su producción entrópica). Ecuación 3: C(S) =
       d ln a/dS como continuación de la corriente de conversión κΣ̇ê_E;
       hasta que κ exista (preinscripción del vacío 2D), S_hoy = 95 sigue
-      siendo convención.
-    implementation: core/s_clock.py + core/s_post_unit.py
-    test: tests/test_s_clock.py + tests/test_epsilon_c_saturating.py
+      siendo convención. CONECTADO EN MODO DECLARADO (28-sep-2026, PR-7):
+      cosmology.dark_channels.S_of_z_declared devuelve el mapa S(z)
+      vigente junto con la procedencia de su unidad (convención S_hoy = 95
+      y el STATUS de core/s_post_unit — E2 y E3 declaradas, Σ̇_post y
+      T_sellada no derivadas, κ pendiente): el número no cambia, cambia
+      lo que el artefacto dice de él. La tabla de puentes
+      (docs/diccionario_puentes.md, generada desde este registro) clasifica
+      cada magnitud del diccionario por el estatuto de sus filas.
+    implementation: core/s_clock.py + core/s_post_unit.py + cosmology/dark_channels.py + scripts/make_dictionary_bridges.py
+    test: tests/test_s_clock.py + tests/test_epsilon_c_saturating.py + tests/test_dictionary_bridges.py
     observable: "—"
     dataset: "—"
     falsifier: "— (no hay afirmación contrastable hasta que Σ̇_post y T_sellada se deriven)"

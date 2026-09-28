@@ -50,6 +50,18 @@ def S_of_z(z: np.ndarray | float, S_today: float = 95.0,
     return float(out) if out.ndim == 0 else out
 
 
+def S_of_z_declared(z: np.ndarray | float, S_today: float = 95.0, S_birth: float = C.S_SEALS["C4"]) -> dict:
+    """El mapa S(z) vigente CON la procedencia de su unidad (PR-7, 28-sep-2026): la cosmología consume la
+    unidad de S de Florencia en modo declarado — el número es la convención S_today = 95 (LEGACY_V32) y el
+    estatuto viene de core.s_post_unit (E2: dS_post = Σ̇_post·dσ/T_sellada, con Σ̇_post y T_sellada nombradas y
+    no derivadas; E3: C(S) desde κ, κ pendiente). Nada cambia numéricamente; cambia lo que el artefacto dice."""
+    from core.s_post_unit import E2_FORM, E3_FORM, STATUS, C_of_S_from_kappa
+    return {"S": S_of_z(z, S_today, S_birth), "S_today": S_today, "S_birth": float(S_birth),
+            "convention": "S_today = 95 (LEGACY_V32; mapa-s-z-convencion): a(S) = exp(−(S_today − S)/(S_today − S_birth))",
+            "unit": {"mode": "declarado", "E2": STATUS["E2"], "E3": STATUS["E3"], "E2_form": E2_FORM, "E3_form": E3_FORM,
+                     "C_of_S": C_of_S_from_kappa(None, None)}}
+
+
 def f_steps(S: np.ndarray | float,
             alphas: Sequence[float] = (),
             S_post: Sequence[float] = (),
