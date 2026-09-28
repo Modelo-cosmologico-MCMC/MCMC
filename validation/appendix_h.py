@@ -1,6 +1,6 @@
 """La suite espejo del apéndice H (v35, H.1/H.3 y §13.5).
 
-ESTATUTO (v35.1, E8): estas son COMPROBACIONES INTERNAS DE CONSISTENCIA
+ESTATUTO (FE-08-2026, E8): estas son COMPROBACIONES INTERNAS DE CONSISTENCIA
 DE LA IMPLEMENTACIÓN — identidades, signos, límites de recuperación y
 controles negativos. Establecen que el formalismo hace lo que declara;
 no establecen, por sí mismas, que el ansatz sea físicamente verdadero,

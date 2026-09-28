@@ -44,7 +44,7 @@ def test_declared_gaps_are_marked():
 
 
 def test_statuses_carry_no_overclaim():
-    """Ninguna fila reclama lo prohibido por la v35.1: los estatutos
+    """Ninguna fila reclama lo prohibido por la fe de erratas epistemológica FE-08-2026: los estatutos
     usan el vocabulario de E8 («interna demostrada», «juguete»,
     «condicional», «calibrado», «prototipo»...) y jamás «resuelto» ni
     demostración a secas sin cualificar."""
