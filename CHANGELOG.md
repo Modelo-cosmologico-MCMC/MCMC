@@ -27,6 +27,8 @@ estado en que afirme exactamente lo que hace»).
   (evidence_level explicita que A_Sculptor es calibrada, 5E congelado, no
   derivada). Ecuación 4 del diccionario sin ejecutar (sin orden).
 
+- **Informe integral del autor (22-sep, con adenda) en `docs/informe_integral_2026-09-22.md`**: lectura del estado computacional de cada parte del modelo frente a su ontología. Se integra con advertencia de cabecera (las palabras interpretativas son del informe, no del registro; lo citable es la fila), anexo de citas a filas y nota de verificación de la sesión de código (r_CJ(0.05·A_S) y r_CJ(0.01·A_S) reproducidos; el exponente 2/5 es aproximado; r_CJ(1e-4·A_S) no verificable con el módulo). No cambia ningún claim ni artefacto.
+
 - **Frente 5 (b), ronda 2 (22-sep): serie de resolución del campo de
   Cronos con capas esféricas bajo preinscripción congelada (sha256
   `1d6682f968fa…`) — INDETERMINADO** por puertas del instrumento: energía en los
