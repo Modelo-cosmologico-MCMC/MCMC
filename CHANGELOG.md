@@ -6,6 +6,27 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Diccionario (28-sep, PR-7): la tabla de puentes fundamental →
+  cosmología pasa de nota a vista regenerable** —
+  `scripts/make_dictionary_bridges.py` genera `docs/diccionario_puentes.md`
+  desde `docs/claims_registry.yaml`: 14 puentes (δ₀; f y T₀; Φ_ten; ε_K; ξ;
+  λ_K y α_a; A y ρ*; S_post; C(S); T(S); S_hoy; Ω_id,0/ε_Λ/z_trans;
+  escalones; κ_lat/η_lat) clasificados por una regla declarada sobre
+  `status`, `evidence_level` y `dataset` de las filas que los sostienen
+  (ausente ≻ convencional ≻ calibrado ≻ condicional ≻ derivado). Recuento
+  vigente: derivado 1, condicional 2, calibrado 6, convencional 2,
+  ausente 3. `tests/test_dictionary_bridges.py` falla si la vista
+  difiere de la regeneración o cita filas inexistentes. La unidad de S de
+  Florencia queda CONECTADA EN MODO DECLARADO a la cosmología:
+  `cosmology.dark_channels.S_of_z_declared` devuelve S(z) con la
+  procedencia de su unidad (convención S_hoy = 95, LEGACY_V32; STATUS de
+  `core/s_post_unit`: E2 y E3 declaradas, Σ̇_post y T_sellada no derivadas,
+  κ pendiente) — el número no cambia, cambia lo que el artefacto dice de
+  él. Filas tocadas: `diccionario-unidad-S-post-florencia` (conexión
+  declarada, implementación y test añadidos) y `cronos-amplitud-unica`
+  (evidence_level explicita que A_Sculptor es calibrada, 5E congelado, no
+  derivada). Ecuación 4 del diccionario sin ejecutar (sin orden).
+
 - **Frente 5 (b), ronda 2 (22-sep): serie de resolución del campo de
   Cronos con capas esféricas bajo preinscripción congelada (sha256
   `1d6682f968fa…`) — INDETERMINADO** por puertas del instrumento: energía en los
