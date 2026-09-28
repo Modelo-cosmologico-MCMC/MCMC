@@ -6,6 +6,8 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Etiqueta «v35.1» retirada (28-sep, decisión del autor: esa versión intermedia no existirá; la siguiente será la v36)**. La fe de erratas epistemológica del 4-ago-2026 se cita como **FE-08-2026** con sus códigos E1–E14 intactos; `docs/erratas_v35.1.md` pasa a `docs/erratas_epistemologicas_2026-08-04.md` (redirección en el README); README, docstrings de `core/`, `cosmology/`, `quantum/`, `mass_program/`, `validation/`, `mcmc_ontology/constants.py`, scripts, tests y el cuaderno de la cadena deductiva sustituyen la etiqueta; la guarda de lenguaje del CI apunta al fichero renombrado. Guarda nueva `tests/test_no_v351_label.py`: la cadena solo puede aparecer en CHANGELOG, Nota I y `results/` (historia). Sin cambio científico; sin depósito.
+
 - **Frente 5 (b), ronda 2 (22-sep): serie de resolución del campo de
   Cronos con capas esféricas bajo preinscripción congelada (sha256
   `1d6682f968fa…`) — INDETERMINADO** por puertas del instrumento: energía en los

@@ -20,7 +20,7 @@ ESTATUTO (Tratado de Fundamentos v35, 12.5):
   tensional (Prop. 12.5); la forma del Funcional del Camino,
   m_i = Σ_n c_in · ϑ_n · v_n (Def. 12.3). Ngen = 3 es una
   IDENTIFICACIÓN estructural propuesta, pendiente de derivación
-  (v35.1, E4: la 12.4 se enuncia sin demostración; sub-frente del
+  (FE-08-2026, E4: la 12.4 se enuncia sin demostración; sub-frente del
   frente 7).
 - Pendiente o potencialmente circular (a resolver antes de reclamar
   predicción): el cálculo WKB explícito de los pesos c_in; la derivación

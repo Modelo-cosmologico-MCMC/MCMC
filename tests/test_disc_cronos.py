@@ -1,7 +1,7 @@
 """Tests del 5C estructural, la curva ρ_id y el comparador binado.
 
 Comprobación interna de la implementación, no demostración física
-(v35.1, E8).
+(FE-08-2026, E8).
 """
 
 import numpy as np
