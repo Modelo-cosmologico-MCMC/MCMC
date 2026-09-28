@@ -173,6 +173,55 @@ claims:
     status: claim-no-derivado
     artifact: results/2026-09-21_s_clock
 
+  - claim_id: beta-extra-cribado
+    entity: Cribado preinscrito de candidatos a β del frente 2 en el reloj S — primer candidato, la contribución del término κΣ̇ê_E a las β vía la Def. 4.4, NO PASA los criterios (i)–(ii) bajo los cierres declarados (28-sep-2026)
+    law: "Def. 4.4 (jerarquía de Fokker–Planck, deriva más difusión); Def. 8.4 y Prop. 8.1 (discriminante D = B² − 4C₀M₀², Ley de la Década); §14.2 (frente 2)"
+    derivation: >-
+      regla nueva del programa (orden del 28-sep, PR-6): cualquier candidato a
+      segundo nivel del Camino que entre en el flujo de acoplos se somete, ANTES
+      de discutir λ, a tres criterios preinscritos — (i) reduce D de forma
+      monótona sin llevar M₀² a cero antes del primer cruce; (ii) produce tres
+      cruces D = 0; (iii) se publican los S de los cruces frente a
+      0.009/0.099/0.999 y los cocientes sucesivos (la Década sería 10). El reloj
+      lo implementa como Δβ DECLARADA sumada a las β canónicas
+      (ClockConfig.beta_extra, core/beta_candidates.py), con escalón del
+      potencial opcional en cada cruce (reset_mass_on_collapse, como en τ_d).
+      Candidato 1 (conversion_current): la deriva del Polchinski acompaña a la
+      producción entrópica TOTAL, Σ̇_total = (∇V)² − ∇V·u con u = κΣ̇ê_E, luego
+      Δ(dV/dt) = b·κ·r(x)³·x·φ_E — impar en φ_E, fuera de la base cúbica del
+      Basal; dos cierres de proyección declarados, 'plane' (⟨φ_E⟩ = 0 ⟹ Δβ ≡ 0,
+      control negativo) y 'quadrant' (⟨φ_E⟩ sobre el dominio físico y mínimos
+      cuadrados sobre {x, x², x³} en [0, x₊]). Preinscripción congelada (sha256
+      41fd300c006e…) tras el generador y antes de toda corrida; piloto declarado
+      (regla de parada en la frontera del modo emergente, separación Δβ/κ_conv,
+      malla de κ̂). RESULTADO: «no pasa». 147 corridas: δ₀ ∈ {0.01, 0.03} × τ ∈
+      {0.01, 0.1, 1} × κ̂ ∈ [0.1, 1e4] (11 valores) × escalón {sin, con}; ninguna
+      corrida produce un cruce D = 0 — ni en la ventana plausible κ̂ ∈ [0.5, 5]
+      (24/24 celdas terminadas, 0 pasan) ni en toda la malla. En el punto
+      inicial Δβ_C₀/β_C₀ = −0.21·κ̂ (δ₀ = 0.01) y Δβ_{M₀²}/β_{M₀²} = −2.5e-7·κ̂:
+      el candidato mueve C₀ pero no la escala de S en que M₀² cruza cero
+      (β_{M₀²} = −8aB), que llega antes que D en todas las celdas, como en la
+      canónica. Controles: 'plane' idéntico a la canónica en las 6 celdas; la
+      canónica se detiene en la frontera con una inestabilidad de masa y D > 0.
+      Brazo con la corriente en la trayectoria (κ_conv = κ̂): κ̂ = 0.5 termina;
+      κ̂ = 1 y 2.11 divergen numéricamente (con B < 0 desaparece el vacío
+      verdadero y Σ̇ crece sin cota) — límite del instrumento, publicado. La fila
+      decada-discriminante no cambia. Ninguna regla ni ventana se tocó tras ver
+      los números.
+    implementation: core/beta_candidates.py + core/s_clock.py + scripts/run_beta_screening.py
+    test: tests/test_beta_screening.py + tests/test_s_clock.py
+    observable: "—"
+    dataset: "—"
+    falsifier: >-
+      un candidato, o un cierre de proyección derivado del tratado (no declarado),
+      que pase (i)–(ii) en la ventana plausible; entonces la fila
+      decada-discriminante se revisa. El cribado no excluye el término κΣ̇ê_E
+      como término del Camino (vacío 2D): excluye que su contribución a las β,
+      bajo estos cierres, produzca la Década
+    evidence_level: cribado diagnóstico (E13) bajo preinscripción congelada — «no pasa» bajo cierres declarados; ninguna letra sobre λ; ningún cruce D = 0 en 147 corridas
+    status: resultado-negativo
+    artifact: results/2026-09-28_beta_screening
+
   - claim_id: kls-flujo
     entity: Flujo KLS integrado
     law: "Cap. 8 (frente E)"

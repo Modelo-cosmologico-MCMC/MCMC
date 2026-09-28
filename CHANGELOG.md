@@ -6,6 +6,29 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Reloj S, frente 2 (28-sep, PR-6): cribado preinscrito de candidatos a β
+  — el candidato «corriente de conversión» NO PASA** (sha256 de la
+  preinscripción `41fd300c006e…`; sin letra sobre λ). Regla nueva del
+  programa: cualquier candidato a segundo nivel del Camino que entre en el
+  flujo de acoplos se somete, antes de discutir λ, a (i) reducir D de forma
+  monótona sin llevar M₀² a cero antes del primer cruce, (ii) producir tres
+  cruces D = 0 y (iii) publicar los S de los cruces frente a
+  0.009/0.099/0.999 y sus cocientes (la Década sería 10). Instrumento:
+  `ClockConfig.beta_extra` (Δβ declarada sumada a las β canónicas,
+  `core/beta_candidates.py`), escalón del potencial opcional en cada cruce,
+  regla de parada en la frontera del modo emergente (antes agotaba
+  max_steps con S parado). Candidato 1: la deriva del Polchinski acompaña a
+  Σ̇_total = (∇V)² − ∇V·κΣ̇ê_E ⟹ Δ(dV/dt) = b·κ·r(x)³·x·φ_E, impar en φ_E,
+  proyectado con dos cierres declarados ('plane' ⟹ Δβ ≡ 0, control;
+  'quadrant'). 147 corridas (δ₀ ∈ {0.01, 0.03} × τ ∈ {0.01, 0.1, 1} × κ̂ ∈
+  [0.1, 1e4] × escalón): ningún cruce D = 0 en la ventana κ̂ ∈ [0.5, 5] ni en
+  toda la malla; Δβ_C₀/β_C₀ = −0.21·κ̂ pero Δβ_{M₀²}/β_{M₀²} = −2.5e-7·κ̂,
+  y M₀² cruza cero antes que D como en la canónica. Con la corriente
+  también en la trayectoria (κ_conv = κ̂ ≥ 1) el reloj diverge (publicado
+  como límite del instrumento). Fila nueva `beta-extra-cribado`
+  (resultado-negativo); `decada-discriminante` no cambia. Nota I §3.35;
+  artefacto `results/2026-09-28_beta_screening/`.
+
 - **Informe integral del autor (22-sep, con adenda) en `docs/informe_integral_2026-09-22.md`**: lectura del estado computacional de cada parte del modelo frente a su ontología. Se integra con advertencia de cabecera (las palabras interpretativas son del informe, no del registro; lo citable es la fila), anexo de citas a filas y nota de verificación de la sesión de código (r_CJ(0.05·A_S) y r_CJ(0.01·A_S) reproducidos; el exponente 2/5 es aproximado; r_CJ(1e-4·A_S) no verificable con el módulo). No cambia ningún claim ni artefacto.
 
 - **Frente 5 (b), ronda 2 (22-sep): serie de resolución del campo de
