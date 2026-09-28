@@ -23,7 +23,7 @@ def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: fl
                seed: int = 1, nmodes: int = 8, sample_every: int = 25,
                quiet_start: bool = False, seed_mode: int | None = None, seed_amp: float = 0.0,
                n_beams: int = 256, seed_eigen_gamma_over_k: float | None = None, q_seed: float | None = None,
-               full_modes_every: int = 1) -> dict:
+               full_modes_every: int = 1, k_cut_frac: float | None = None, uv_band_frac: float = 0.5) -> dict:
     """Integra el sistema de láminas (leapfrog, densidad CIC) y devuelve
     muestras de rms(δ) y de |δ_k| para los primeros modos.
 
@@ -54,7 +54,17 @@ def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: fl
     (partición de la unidad de la B-spline lineal); si no lo es, el batido
     retículo/malla siembra un modo alto (|per_beam − p·ng|) a ~1e-6 que,
     con γ ∝ k, se traga al modo bajo antes de que su ventana lineal cierre.
-    Se publica `lattice_exact`."""
+    Se publica `lattice_exact`.
+    k_cut_frac (cualificación E8-Q / ronda 3): FILTRO ESPECTRAL DECLARADO en
+    el depósito — la densidad CIC se filtra en Fourier con corte
+    k_c = k_cut_frac·k_Nyquist (k_Nyquist = π/h) ANTES de la no linealidad
+    ε_c ∝ ρ^{3/2}; los modos k ≤ k_c no se tocan (W(k) del CIC intacta) y la
+    banda ultravioleta, que crece desde el ruido de redondeo con γ ∝ k, se
+    elimina en cada paso. None = sin filtro (rondas 1 y 2).
+    uv_band_frac: en cada muestra se publica `uv_rms`, la rms de la densidad
+    depositada (sin filtrar) en la banda k ≥ uv_band_frac·k_Nyquist — la
+    medida de la banda UV que la cualificación del instrumento usa para
+    estimar γ_UV y el criterio de exclusión de celdas."""
     from scipy.special import erfinv
     rng = np.random.default_rng(seed)
     L = 1.0
@@ -90,13 +100,27 @@ def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: fl
     dx = L / ng
     k = 2.0 * np.pi * np.arange(1, nmodes + 1) / L
 
+    k_grid = np.fft.rfftfreq(ng, d=dx) * 2.0 * np.pi          # k de la malla (rfft)
+    k_nyq = np.pi / dx
+    filt = None if k_cut_frac is None else (k_grid <= k_cut_frac * k_nyq)
+    uv_mask = k_grid >= uv_band_frac * k_nyq
+
+    def uv_rms(rho):
+        # rms de δ en la banda UV de la densidad DEPOSITADA (Parseval sobre la rfft; modos ≠ 0 y Nyquist contados una vez)
+        rk = np.fft.rfft(rho - rho.mean()) / ng
+        w = np.full(rk.shape, 2.0); w[0] = 1.0
+        if ng % 2 == 0:
+            w[-1] = 1.0
+        return float(np.sqrt(np.sum(w[uv_mask] * np.abs(rk[uv_mask]) ** 2)))
+
     def accel(x):
         xi = x / dx
         i0 = np.floor(xi).astype(int) % ng
         w1 = xi - np.floor(xi)
         rho = (np.bincount(i0, weights=(1.0 - w1), minlength=ng)
                + np.bincount((i0 + 1) % ng, weights=w1, minlength=ng)) * m / dx
-        eps = c2A * rho ** 1.5                 # c²ε_c
+        rho_f = rho if filt is None else np.fft.irfft(np.fft.rfft(rho) * filt, n=ng)
+        eps = c2A * np.clip(rho_f, 0.0, None) ** 1.5          # c²ε_c (el filtro puede dar ρ < 0 a 1e-16: se recorta)
         g = (np.roll(eps, -1) - np.roll(eps, 1)) / (2.0 * dx)
         return g[i0] * (1.0 - w1) + g[(i0 + 1) % ng] * w1, rho
 
@@ -108,7 +132,7 @@ def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: fl
         return out
 
     a, rho = accel(x)
-    samples = [(0.0, float(rho.std()), measure(x, 0))]
+    samples = [(0.0, float(rho.std()), measure(x, 0), uv_rms(rho))]
     t = 0.0
     for s in range(int(round(T / dt))):
         v += 0.5 * dt * a
@@ -117,7 +141,7 @@ def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: fl
         v += 0.5 * dt * a
         t += dt
         if (s + 1) % sample_every == 0:
-            samples.append((t, float(rho.std()), measure(x, len(samples))))
+            samples.append((t, float(rho.std()), measure(x, len(samples)), uv_rms(rho)))
     poisson = float(np.sqrt(N / ng) / (N / ng))  # rms de Poisson por celda ≈ 1/√(N/ng)
     return {"q": q, "N": N, "ng": ng, "T": T, "dt": dt, "seed": seed, "k": k.tolist(),
             "quiet_start": quiet_start, "n_beams": n_beams if quiet_start else None, "lattice_exact": lattice_exact,
@@ -125,7 +149,9 @@ def run_sheets(q: float, N: int = 400_000, ng: int = 256, T: float = 0.5, dt: fl
             "seed_mode": seed_mode, "seed_amp": seed_amp, "delta_k_seeded_expected": 0.5 * seed_amp,
             "seed_eigen_gamma_over_k": seed_eigen_gamma_over_k, "eigen_dispersion_residual": eigen_residual,
             "poisson_rms_per_cell": poisson,
-            "samples": [{"t": t_, "rms_delta": r_, "delta_k": dk_} for t_, r_, dk_ in samples]}
+            "k_cut_frac": k_cut_frac, "k_cut": (None if k_cut_frac is None else float(k_cut_frac * k_nyq)),
+            "uv_band_frac": uv_band_frac, "k_nyquist": float(k_nyq),
+            "samples": [{"t": t_, "rms_delta": r_, "delta_k": dk_, "uv_rms": u_} for t_, r_, dk_, u_ in samples]}
 
 
 def fit_growth(res: dict, mode: int, amp_lo: float, amp_hi: float) -> dict:
