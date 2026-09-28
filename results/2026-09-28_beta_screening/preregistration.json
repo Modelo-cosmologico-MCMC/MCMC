@@ -1,0 +1,95 @@
+{
+  "title": "Cribado del candidato «corriente de conversión» a las β del frente 2 en el reloj S (modo emergente)",
+  "frozen_utc": "2026-09-28T08:14:22.691342+00:00",
+  "code_commit": "d52d5b3e3989205d26c2cc9fbb08f40548c28e86",
+  "generator": "scripts/run_beta_screening.py prereg",
+  "generator_commit_must_precede_freeze": true,
+  "question": "¿Puede la contribución del término κΣ̇ê_E a las β (Def. 4.4, cierres declarados) producir tres cruces D = 0 sin llevar M₀² a cero antes, para algún κ̂ en la ventana plausible?",
+  "form": "CRIBADO (orden del 28-sep, PR-6; modo emergente): un candidato a segundo nivel del Camino que entre en el flujo de acoplos se añade como Δβ DECLARADA a las β canónicas (core/beta_candidates.py) y se somete, antes de discutir λ, a tres criterios preinscritos: (i) reduce D de forma monótona sin llevar M0² a cero antes del primer cruce; (ii) produce tres cruces D = 0; (iii) se publican los S de los cruces frente a 0.009/0.099/0.999 y los cocientes entre cruces sucesivos (la Década sería 10). Con reset_mass_on_collapse el escalón del potencial (M0² repuesto) se aplica en cada cruce D = 0, como en la hipótesis τ_d; sin él, un segundo cruce exige que D vuelva a subir. Primer candidato: la contribución del término κΣ̇ê_E a las β vía la Def. 4.4 (deriva −b·Σ̇_total) bajo dos cierres de proyección declarados ('plane' ⟹ Δβ ≡ 0, control negativo; 'quadrant' ⟹ proyección sobre la base cúbica en el dominio físico). Sin letra sobre λ (E13).",
+  "declared": {
+    "candidate": "conversion_current",
+    "delta0_grid": [
+      0.01,
+      0.03
+    ],
+    "tau_grid": [
+      0.01,
+      0.1,
+      1.0
+    ],
+    "kappa_hat_grid": [
+      0.1,
+      0.3162,
+      1.0,
+      3.1623,
+      10.0,
+      31.6228,
+      100.0,
+      316.2278,
+      1000.0,
+      3162.2777,
+      10000.0
+    ],
+    "closures": [
+      "quadrant (todas las κ̂)",
+      "plane (control: Δβ ≡ 0, una vez por δ₀ y τ)",
+      "canónica (sin candidato, control)"
+    ],
+    "reset_arms": [
+      false,
+      true
+    ],
+    "trajectory_kappa_conv": 0.0,
+    "trajectory_current_arm": {
+      "delta0": 0.01,
+      "tau": 0.1,
+      "kappa_hat": [
+        0.5,
+        1.0,
+        2.11
+      ]
+    },
+    "max_steps": 400000,
+    "d_sigma_hat": 0.0005,
+    "kappa_definition": "κ = κ̂·ρ₊/T₀ (la misma del vacío 2D)"
+  },
+  "rules": {
+    "kappa_hat_window": [
+      0.5,
+      5.0
+    ],
+    "closure_for_verdict": "quadrant",
+    "tol_monotone": 0.0,
+    "criteria": {
+      "i": "D monótono (sin subidas > tol_monotone·|D₀|) hasta el primer cruce y M₀² > 0 en ese cruce",
+      "ii": "n_cruces ≥ 3 (con o sin escalón del potencial: se publican los dos brazos)",
+      "iii": "S de los cruces frente a 0.009/0.099/0.999 y cocientes sucesivos (Década = 10) — se publica, no se juzga"
+    },
+    "outcomes": {
+      "pasa": "alguna celda con κ̂ en kappa_hat_window, cierre 'quadrant', cumple (i) y (ii)",
+      "no pasa": "ninguna celda de la ventana cumple (i) y (ii), con todas las corridas de la ventana terminadas",
+      "INDETERMINADO": "alguna corrida de la ventana no terminó (divergencia o max_steps) o falta"
+    },
+    "no_letter_on_lambda": true,
+    "decada_discriminante_row_unchanged_unless_pass": true
+  },
+  "expectations_E13": {
+    "outcome": "no pasa: en el punto inicial Δβ_C₀ ≈ 6.8e-4·κ̂ frente a β_C₀ = −3.3e-3 y Δβ_{M₀²} ≈ 3e-8·κ̂ frente a β_{M₀²} = −0.12; para que 4C₀M₀² alcance B² antes de M₀² = 0 haría falta κ̂ ~ 1e6, fuera de la malla",
+    "kappa_hat_plausible": "≈ 1 (E13 del vacío 2D); el cruce de la diagonal exigía κ̂ ≥ 2.11",
+    "trajectory_current_arm": "divergencia numérica (límite del instrumento, publicado)"
+  },
+  "development_declaration": {
+    "pilot": "δ₀ = 0.01, τ ∈ {0.1, 1}, κ̂ ∈ {0.1, 1, 10, 100, 1000, 3000}: ningún cruce; C₀ final 1.004/1.041/1.136 para κ̂ = 100/1000/3000; con la corriente en la trayectoria (κ_conv = κ̂ ≥ 1) el reloj diverge",
+    "what_it_fixed": "solo el instrumento: regla de parada en la frontera del modo emergente, separación Δβ/κ_conv, malla de κ̂; ningún criterio ni la ventana"
+  },
+  "what_this_cannot_decide": [
+    "λ (la Década): el cribado dice si el candidato PUEDE ser la β del frente 2, no que lo sea (E13)",
+    "cuál cierre de proyección es el del tratado: los dos son declarados",
+    "nada observable: recorrido interno del reloj (E8)"
+  ],
+  "prohibitions": {
+    "no_threshold_tuning": true,
+    "no_data": true,
+    "decada_discriminante_untouched_unless_pass": true
+  }
+}
