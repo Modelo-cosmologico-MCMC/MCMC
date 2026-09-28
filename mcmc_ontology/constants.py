@@ -23,7 +23,7 @@ import math
 # como «input de ciclo; atractor δ₀* (Teo. 10.6)» SIN asignarle valor
 # numérico. REGLA CANÓNICA (ronda 5): no identificar δ₀ con ε_Λ en
 # ningún material — la identificación δ₀ ≡ ε = 0.012 era herencia
-# operativa del v32. El convenio C6 (v35.1, E9) blinda los CUATRO
+# operativa del v32. El convenio C6 (FE-08-2026, E9) blinda los CUATRO
 # épsilon como objetos distintos: δ₀ (input de ciclo, sin valor
 # asignado), ε_Λ (amplitud de la transición de Λ_rel, 0.012 ± 0.003,
 # A.3), ε_K (residuo del Sello de Newton ≈ 0.012, ec. 9.5) y ε_c(ρ)
@@ -119,7 +119,7 @@ DZ_TRANS = 1.5         # Ancho Δz de la transición tanh (v35 A.3)
 
 EPSILON_K = 0.012      # ε_K — residuo del Sello de Newton, ε_K ≡
                        # λK(S_act) − 1 ≈ 0.012 (v35 §9.5/F.4). PARÁMETRO
-                       # PROPIO por el convenio C6 (v35.1, E9): la
+                       # PROPIO por el convenio C6 (FE-08-2026, E9): la
                        # coincidencia numérica con ε_Λ no implica
                        # identidad conceptual — el contraste de los
                        # Residuos (frente 6) lo consume como suyo.
@@ -197,7 +197,7 @@ PDG_MASSES_GEV = {
 # =====================================================================
 N_GEN = 3   # Ngen = 3: IDENTIFICACIÓN estructural con la dimensión del
             # módulo espinorial de la Cadena de Álgebras en V3+1D
-            # (v35 Prop. 12.4; reclasificada en v35.1, E4: la
+            # (v35 Prop. 12.4; reclasificada en FE-08-2026, E4: la
             # derivación que excluya otras multiplicidades queda
             # pendiente — sub-frente del frente 7).
 

@@ -1,6 +1,6 @@
 """Sensibilidad de la naturalidad de δ_H a los priors del paisaje.
 
-Tarea nacida de la auditoría v35.1: la afirmación de naturalidad —
+Tarea nacida de la auditoría epistemológica de agosto de 2026 (FE-08-2026): la afirmación de naturalidad —
 «δ_H = O(0.05) es genérico en el paisaje O(1) fértil» (Nota I, §3.2) —
 se midió con UN prior (uniforme) sobre UN dominio ((0.5, 2), con b̄
 extendido a (0.5, 4)). Este módulo la condiciona correctamente: repite
