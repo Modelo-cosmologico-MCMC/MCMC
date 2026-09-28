@@ -44,7 +44,8 @@ from validation.qualification import (  # noqa: E402
 OUTDIR = Path(__file__).resolve().parent.parent / "results" / "2026-09-28_qualification_sheets"
 RUNS = OUTDIR / "runs"
 GRID = {"ng": [256, 512], "cells_per_beam": [2, 4], "q": [0.8, 1.2, 2.0], "k_cut_frac": [None, 0.5],
-        "n_beams": 256, "T": 0.4, "dt": 1e-3, "sample_every": 5, "seed": 1,
+        # n_beams = 1024 con ng = 512 y p = 4 es el instrumento de la ronda 2 (N = 2 097 152): el que la ronda 3 hereda
+        "n_beams": [256, 1024], "T": 0.4, "dt": 1e-3, "sample_every": 5, "seed": 1,
         "uv_band_frac": 0.5, "amp_nonlinear_declared": 1e-2,
         "round3_cells": {"q": [1.2, 2.0], "modes": [4, 8, 16, 32]},
         "linear_window_factors": [3.0, 30.0], "seed_amp_by_mode": {"4": 2e-5, "8": 2e-5, "16": 2e-6, "32": 2e-6}}
@@ -90,20 +91,23 @@ def _r2(v) -> str:
 def cmd_run(_args) -> int:
     RUNS.mkdir(parents=True, exist_ok=True)
     runs = []
-    for ng in GRID["ng"]:
+    for nb in GRID["n_beams"]:
+      for ng in GRID["ng"]:
         for p in GRID["cells_per_beam"]:
+            if nb != 256 and not (ng == 512 and p == 4):
+                continue                        # n_beams = 1024 solo en la configuración de la ronda 2
             for q in GRID["q"]:
                 for kc in GRID["k_cut_frac"]:
-                    key = f"ng{ng}_p{p}_q{q}_kc{kc}"
+                    key = f"ng{ng}_nb{nb}_p{p}_q{q}_kc{kc}"
                     path = RUNS / f"{key}.json"
                     if path.exists():
                         runs.append(json.loads(path.read_text(encoding="utf-8"))); print(f"  {key}: existe"); continue
                     t0 = time.time()
-                    res = run_sheets(q, N=GRID["n_beams"] * ng * p, ng=ng, T=GRID["T"], dt=GRID["dt"], seed=GRID["seed"],
-                                     nmodes=4, sample_every=GRID["sample_every"], quiet_start=True, n_beams=GRID["n_beams"],
+                    res = run_sheets(q, N=nb * ng * p, ng=ng, T=GRID["T"], dt=GRID["dt"], seed=GRID["seed"],
+                                     nmodes=4, sample_every=GRID["sample_every"], quiet_start=True, n_beams=nb,
                                      k_cut_frac=kc, uv_band_frac=GRID["uv_band_frac"], full_modes_every=1000)
                     fit = fit_uv_growth(res["samples"])
-                    rec = {"key": key, "ng": ng, "cells_per_beam": p, "N": res["N"], "q": q, "k_cut_frac": kc,
+                    rec = {"key": key, "ng": ng, "n_beams": nb, "cells_per_beam": p, "N": res["N"], "q": q, "k_cut_frac": kc,
                            "lattice_exact": res["lattice_exact"], "wall_s": round(time.time() - t0, 1), **fit,
                            "low_modes_final": res["samples"][-1]["delta_k"], "low_modes_initial": res["samples"][0]["delta_k"],
                            "uv_curve": [[s["t"], s["uv_rms"]] for s in res["samples"]]}
@@ -118,13 +122,17 @@ def write_artifact(runs: list) -> int:
     for r in runs:                       # regla única de ajuste, aplicada a las curvas guardadas (recomponible)
         if "uv_curve" in r:
             r.update(fit_uv_growth(r["uv_curve"]))
+    for r in runs:
+        r.setdefault("n_beams", 256)
     limits = {}
-    for kc in GRID["k_cut_frac"]:
-        for ng in GRID["ng"]:
-            grp = [r for r in runs if r["k_cut_frac"] == kc and r["ng"] == ng]
+    groups = sorted({(r["n_beams"], r["ng"]) for r in runs})
+    for nb, ng in groups:
+        tag = f"ng{ng}_nb{nb}"
+        for kc in GRID["k_cut_frac"]:
+            grp = [r for r in runs if r["k_cut_frac"] == kc and r["ng"] == ng and r["n_beams"] == nb]
             if not grp:
                 continue
-            limits[f"uv_noise_max_ng{ng}_kc{kc}"] = {"value": max(r["uv_rms_initial"] for r in grp), "runs": [r["key"] for r in grp]}
+            limits[f"uv_noise_max_{tag}_kc{kc}"] = {"value": max(r["uv_rms_initial"] for r in grp), "runs": [r["key"] for r in grp]}
             for q in GRID["q"]:
                 sel = [r for r in grp if r["q"] == q]
                 if not sel:
@@ -132,30 +140,30 @@ def write_artifact(runs: list) -> int:
                 unfit = [r["key"] for r in sel if not np.isfinite(r["gamma_uv"])]
                 # fallo cerrado: una corrida que creció sin racha ajustable hace INFINITO el límite (todas sus celdas excluidas)
                 g_max = math.inf if unfit else max(r["gamma_uv"] for r in sel)
-                limits[f"gamma_uv_max_ng{ng}_kc{kc}_q{q}"] = {"value": g_max, "unit": "1/(L/σ)", "unfittable_runs": unfit,
-                                                              "per_run": {r["key"]: r["gamma_uv"] for r in sel},
-                                                              "uv_final_max": max(r["uv_rms_final"] for r in sel)}
+                limits[f"gamma_uv_max_{tag}_kc{kc}_q{q}"] = {"value": g_max, "unit": "1/(L/σ)", "unfittable_runs": unfit,
+                                                             "per_run": {r["key"]: r["gamma_uv"] for r in sel},
+                                                             "uv_final_max": max(r["uv_rms_final"] for r in sel)}
                 # instante en que la banda UV, desde el ruido de redondeo y sin siembra, alcanza A_nl: cota superior de T por celda
-                a_noise = max(limits[f"uv_noise_max_ng{ng}_kc{kc}"]["value"], 1e-16)
-                limits[f"t_uv_nonlinear_ng{ng}_kc{kc}_q{q}"] = {
+                a_noise = max(limits[f"uv_noise_max_{tag}_kc{kc}"]["value"], 1e-16)
+                limits[f"t_uv_nonlinear_{tag}_kc{kc}_q{q}"] = {
                     "value": (math.log(GRID["amp_nonlinear_declared"] / a_noise) / g_max) if g_max > 0 else math.inf,
-                    "meaning": "ln(A_nl/A_ruido)/γ_UV: la preinscripción no puede pedir T mayor para esta (ng, k_c, q)"}
-    # efecto del filtro declarado sobre la banda UV del depósito: cociente de tasas con y sin filtro, misma (ng, q)
-    for ng in GRID["ng"]:
+                    "meaning": "ln(A_nl/A_ruido)/γ_UV: la preinscripción no puede pedir T mayor para esta (ng, n_beams, k_c, q)"}
+        # efecto del filtro declarado sobre la banda UV del depósito: cociente de tasas con y sin filtro, misma (ng, n_beams, q)
         for q in GRID["q"]:
-            a, b = limits.get(f"gamma_uv_max_ng{ng}_kcNone_q{q}"), limits.get(f"gamma_uv_max_ng{ng}_kc0.5_q{q}")
+            a, b = limits.get(f"gamma_uv_max_{tag}_kcNone_q{q}"), limits.get(f"gamma_uv_max_{tag}_kc0.5_q{q}")
             if a and b and np.isfinite(a["value"]) and a["value"] > 0 and np.isfinite(b["value"]):
-                limits[f"filter_gamma_ratio_ng{ng}_q{q}"] = {"value": b["value"] / a["value"],
-                                                             "meaning": "γ_UV(k_c = ½ k_Nyq) / γ_UV(sin filtro) sobre la densidad depositada"}
+                limits[f"filter_gamma_ratio_{tag}_q{q}"] = {"value": b["value"] / a["value"],
+                                                            "meaning": "γ_UV(k_c = ½ k_Nyq) / γ_UV(sin filtro) sobre la densidad depositada"}
     excl = {}
-    for ng in GRID["ng"]:
+    for nb, ng in groups:
+        tag = f"ng{ng}_nb{nb}"
         h = 1.0 / ng
         for kc in GRID["k_cut_frac"]:
-            n_key = f"uv_noise_max_ng{ng}_kc{kc}"
+            n_key = f"uv_noise_max_{tag}_kc{kc}"
             if n_key not in limits:
                 continue
             for q in GRID["round3_cells"]["q"]:
-                g_key = f"gamma_uv_max_ng{ng}_kc{kc}_q{q}"
+                g_key = f"gamma_uv_max_{tag}_kc{kc}_q{q}"
                 if g_key not in limits:
                     continue
                 g_uv = limits[g_key]["value"]
@@ -171,8 +179,8 @@ def write_artifact(runs: list) -> int:
                     reason = ("sin ventana lineal (γ_inst ≤ 0)" if not math.isfinite(t_win) else
                               "γ_UV no ajustable (fallo cerrado)" if not math.isfinite(g_uv) else
                               "la banda UV alcanza A_nl dentro de la ventana" if c["excluded"] else "")
-                    excl[f"ng{ng}_kc{kc}_q{q}_n{n}"] = {"W_k": transfer_function_cic(k, h), "gamma_inst": g_inst, "t_window": t_win,
-                                                        "gamma_uv": g_uv, "amp_noise_eff": a_noise, "reason": reason, **c}
+                    excl[f"{tag}_kc{kc}_q{q}_n{n}"] = {"W_k": transfer_function_cic(k, h), "gamma_inst": g_inst, "t_window": t_win,
+                                                       "gamma_uv": g_uv, "amp_noise_eff": a_noise, "reason": reason, **c}
     criteria = {"rule": "celda (q, n) excluida si γ_UV(ng, k_c, q) · t_ventana > ln(A_nl / A_ruido_ef), con t_ventana = ln(hi/lo)/γ_inst(q, k) "
                         "(hi/lo = factores de la ventana lineal), A_nl declarada antes de correr y A_ruido_ef = máx(ruido UV medido, A_semilla²); "
                         "γ_UV se toma de la MISMA q (máximo sobre celdas por haz); una corrida sin racha ajustable excluye todas sus celdas; "
@@ -186,8 +194,8 @@ def write_artifact(runs: list) -> int:
     sha = write_qualification(OUTDIR, "láminas (cronos_jeans_1d)", _git_head(), GRID, runs, limits, criteria, notes,
                               md_extra=["## Exclusión de las celdas de la ronda 3", "", "| celda | W(k) | γ_inst | t_ventana | γ_UV | γ_UV·t | ln(A_nl/A_ruido_ef) | excluida | motivo |", "|---|---|---|---|---|---|---|---|---|"]
                               + [f"| {k} | {v['W_k']:.3f} | {v['gamma_inst']:.2f} | {v['t_window']:.3f} | {v['gamma_uv']:.1f} | {v['gamma_uv_times_t_window']:.2f} | {v['ln_budget']:.1f} | {'sí' if v['excluded'] else 'no'} | {v['reason'] or '—'} |" for k, v in excl.items()]
-                              + ["", "## Corridas", "", "| clave | N | γ_UV | puntos | r² | A_ruido | UV final | pared [s] |", "|---|---|---|---|---|---|---|---|"]
-                              + [f"| {r['key']} | {r['N']} | {r['gamma_uv']:.2f} | {r['n_points']} | {_r2(r['r2'])} | {r['uv_rms_initial']:.1e} | {r['uv_rms_final']:.1e} | {r['wall_s']} |" for r in runs])
+                              + ["", "## Corridas", "", "| clave | N | haces | γ_UV | puntos | r² | A_ruido | UV final | pared [s] |", "|---|---|---|---|---|---|---|---|---|"]
+                              + [f"| {r['key']} | {r['N']} | {r['n_beams']} | {r['gamma_uv']:.2f} | {r['n_points']} | {_r2(r['r2'])} | {r['uv_rms_initial']:.1e} | {r['uv_rms_final']:.1e} | {r['wall_s']} |" for r in runs])
     print(f"cualificación escrita: {OUTDIR} sha256 {sha}")
     return 0
 
