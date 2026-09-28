@@ -6,6 +6,29 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Reloj S, frente 2 (28-sep, PR-6): cribado preinscrito de candidatos a β
+  — el candidato «corriente de conversión» NO PASA** (sha256 de la
+  preinscripción `41fd300c006e…`; sin letra sobre λ). Regla nueva del
+  programa: cualquier candidato a segundo nivel del Camino que entre en el
+  flujo de acoplos se somete, antes de discutir λ, a (i) reducir D de forma
+  monótona sin llevar M₀² a cero antes del primer cruce, (ii) producir tres
+  cruces D = 0 y (iii) publicar los S de los cruces frente a
+  0.009/0.099/0.999 y sus cocientes (la Década sería 10). Instrumento:
+  `ClockConfig.beta_extra` (Δβ declarada sumada a las β canónicas,
+  `core/beta_candidates.py`), escalón del potencial opcional en cada cruce,
+  regla de parada en la frontera del modo emergente (antes agotaba
+  max_steps con S parado). Candidato 1: la deriva del Polchinski acompaña a
+  Σ̇_total = (∇V)² − ∇V·κΣ̇ê_E ⟹ Δ(dV/dt) = b·κ·r(x)³·x·φ_E, impar en φ_E,
+  proyectado con dos cierres declarados ('plane' ⟹ Δβ ≡ 0, control;
+  'quadrant'). 147 corridas (δ₀ ∈ {0.01, 0.03} × τ ∈ {0.01, 0.1, 1} × κ̂ ∈
+  [0.1, 1e4] × escalón): ningún cruce D = 0 en la ventana κ̂ ∈ [0.5, 5] ni en
+  toda la malla; Δβ_C₀/β_C₀ = −0.21·κ̂ pero Δβ_{M₀²}/β_{M₀²} = −2.5e-7·κ̂,
+  y M₀² cruza cero antes que D como en la canónica. Con la corriente
+  también en la trayectoria (κ_conv = κ̂ ≥ 1) el reloj diverge (publicado
+  como límite del instrumento). Fila nueva `beta-extra-cribado`
+  (resultado-negativo); `decada-discriminante` no cambia. Nota I §3.35;
+  artefacto `results/2026-09-28_beta_screening/`.
+
 - **Diccionario (28-sep, PR-7): la tabla de puentes fundamental →
   cosmología pasa de nota a vista regenerable** —
   `scripts/make_dictionary_bridges.py` genera `docs/diccionario_puentes.md`
