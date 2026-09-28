@@ -29,6 +29,8 @@ estado en que afirme exactamente lo que hace»).
   (resultado-negativo); `decada-discriminante` no cambia. Nota I §3.35;
   artefacto `results/2026-09-28_beta_screening/`.
 
+- **Etiqueta «v35.1» retirada (28-sep, decisión del autor: esa versión intermedia no existirá; la siguiente será la v36)**. La fe de erratas epistemológica del 4-ago-2026 se cita como **FE-08-2026** con sus códigos E1–E14 intactos; `docs/erratas_v35.1.md` pasa a `docs/erratas_epistemologicas_2026-08-04.md` (redirección en el README); README, docstrings de `core/`, `cosmology/`, `quantum/`, `mass_program/`, `validation/`, `mcmc_ontology/constants.py`, scripts, tests y el cuaderno de la cadena deductiva sustituyen la etiqueta; la guarda de lenguaje del CI apunta al fichero renombrado. Guarda nueva `tests/test_no_v351_label.py`: la cadena solo puede aparecer en CHANGELOG, Nota I y `results/` (historia). Sin cambio científico; sin depósito.
+
 - **Informe integral del autor (22-sep, con adenda) en `docs/informe_integral_2026-09-22.md`**: lectura del estado computacional de cada parte del modelo frente a su ontología. Se integra con advertencia de cabecera (las palabras interpretativas son del informe, no del registro; lo citable es la fila), anexo de citas a filas y nota de verificación de la sesión de código (r_CJ(0.05·A_S) y r_CJ(0.01·A_S) reproducidos; el exponente 2/5 es aproximado; r_CJ(1e-4·A_S) no verificable con el módulo). No cambia ningún claim ni artefacto.
 
 - **Frente 5 (b), ronda 2 (22-sep): serie de resolución del campo de

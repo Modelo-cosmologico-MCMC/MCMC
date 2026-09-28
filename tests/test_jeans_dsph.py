@@ -1,7 +1,7 @@
 """Tests del frente 5 (5A/5B/5D): potencial débil y Jeans esférico.
 
 Comprobación interna de la implementación, no demostración física
-(v35.1, E8): identidades analíticas, límites de recuperación y las
+(FE-08-2026, E8): identidades analíticas, límites de recuperación y las
 premisas del problema inverso de la amplitud de Cronos.
 """
 

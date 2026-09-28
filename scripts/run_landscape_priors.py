@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Sensibilidad de la naturalidad de δ_H a los priors del paisaje (v35.1).
+"""Sensibilidad de la naturalidad de δ_H a los priors del paisaje (FE-08-2026).
 
 La tarea de código nacida de la auditoría: la afirmación «δ_H = O(0.05)
 es genérico» se midió con un prior y un dominio; aquí se condiciona con
@@ -111,7 +111,7 @@ def main() -> None:
         f"Barrido con semilla {opts.seed}, n = {opts.n} paisajes por "
         "configuración: priors (uniforme, log-uniforme, normal truncada) "
         "× dominios O(1) × extensión de b̄ × filtro fértil. Tarea "
-        "nacida de la auditoría v35.1: condicionar la afirmación de "
+        "nacida de la auditoría epistemológica FE-08-2026: condicionar la afirmación de "
         "naturalidad de la Nota I (§3.2).\n\n"
         "| prior | dominio | b̄×2 | fértil | mediana | [p5, p95] | mín "
         "| cota |\n|---|---|---|---|---|---|---|---|\n"

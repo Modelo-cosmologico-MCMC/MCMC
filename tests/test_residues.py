@@ -24,7 +24,7 @@ def test_within_bbn_at_point_three_sigma():
 def test_sign_coincides_without_significance():
     """El central BBN (0.99 < 1) está del mismo lado que la predicción
     (también < 1): coincidencia descriptiva, declarada SIN
-    significancia a ~0.3σ (v35.1, E13)."""
+    significancia a ~0.3σ (FE-08-2026, E13)."""
     assert sign_coincides()
     assert "sin significancia" in report()
 
