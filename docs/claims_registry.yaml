@@ -1792,6 +1792,104 @@ claims:
     status: interno
     artifact: results/2026-09-22_halo_shells
 
+  - claim_id: cualificacion-laminas-e8q
+    entity: Cualificación E8-Q del instrumento de láminas (cronos_jeans_1d) — tasa de crecimiento de la banda ultravioleta desde el ruido de redondeo, con y sin filtro k_c, y criterio de exclusión computable de las celdas de la ronda 3 (28-sep-2026)
+    law: "— (instrumento numérico; ninguna ley del tratado: la cualificación mide el instrumento, no la física)"
+    derivation: >-
+      tipo de artefacto nuevo del programa (orden del 28-sep, PR-3):
+      qualification/ (E8-Q) — sin letras ni umbrales de desenlace (claves
+      verdict/letter/outcome prohibidas, fallo cerrado al escribir y al
+      leer), publica límites computables del instrumento y criterios de
+      exclusión calculables ANTES de correr; regla nueva del programa: una
+      preinscripción solo puede congelar puertas que una cualificación haya
+      mostrado alcanzables (validation.qualification.assert_gate_attainable,
+      puerta ≥ 3 × el suelo medido; fallo cerrado). Láminas: 30 corridas con
+      arranque silencioso SIN siembra (retículo exacto), ng ∈ {256, 512} ×
+      celdas por haz ∈ {2, 4} × q ∈ {0.8, 1.2, 2.0} × filtro k_c ∈ {sin,
+      ½ k_Nyquist} con 256 haces, más el instrumento de la ronda 2 (ng 512,
+      1024 haces, p = 4). γ_UV por ajuste log-lineal en la racha más larga
+      entre 10× el ruido y 1e-4 (regla única aplicada a las curvas guardadas
+      al recomponer; NaN = creció sin racha ajustable, excluye). Medido: con
+      1024 haces γ_UV = 8.3 / 10.2 / 152 (q = 0.8 / 1.2 / 2.0, sin filtro) y
+      4.8 / 5.8 / 129 (con filtro); con 256 haces ng 256 → 10 / 11 / 75 y
+      ng 512 → 24 / 32 / 143 (sin filtro); γ_UV crece con q y con ng, no con
+      las celdas por haz; el filtro declarado reduce γ_UV ×0.57–0.85 en
+      q ≤ 1.2 y apenas en q = 2 (×0.85–0.99): la banda UV del depósito la
+      regenera la no linealidad de los modos que el filtro deja pasar;
+      t_uv_nonlinear (cota de T por celda) = 0.21–0.24 en q = 2 con ng 512.
+      Criterio de exclusión: celda (q, n) excluida si γ_UV(ng, n_beams, k_c,
+      q)·t_ventana > ln(A_nl/A_ruido_ef), con t_ventana = ln(30/3)/γ_inst,
+      A_nl = 1e-2 declarada y A_ruido_ef = máx(ruido UV medido, A_semilla²).
+      Con el instrumento de la ronda 2 queda excluida a priori UNA celda,
+      q = 2.0 n = 4 (22.8 y 19.3 frente a 17.0) — la misma cuya fase lineal
+      no se resolvió en la ronda 2 (fila test-criterio-cronos-jeans-ronda2):
+      comprobación interna del criterio (E8), no demostración. Ninguna letra
+      ni tolerancia se decide aquí.
+    implementation: validation/qualification.py + scripts/qualify_sheets.py + cronos/cronos_jeans_1d.py
+    test: tests/test_qualification.py + tests/test_instrument_extensions.py
+    observable: "—"
+    dataset: "—"
+    falsifier: >-
+      una ronda 3 cuya celda excluida a priori resolviera la fase lineal, o
+      cuya celda no excluida fallara por la banda UV, refutaría el criterio
+      de exclusión como predictor del instrumento (E8-Q, no física)
+    evidence_level: cualificación de instrumento (E8-Q), sin letra — límites medidos y criterio de exclusión calculable antes de correr; la exclusión coincide con la celda fallida de la ronda 2
+    status: interno
+    artifact: results/2026-09-28_qualification_sheets
+
+  - claim_id: cualificacion-capas-e8q
+    entity: Cualificación E8-Q del instrumento de capas esféricas (halo_shells) — suelo del error de energía frente a N, ds, ε_soft, dt_min y modo de rango (congelado / actualizado en los subpasos), estacionariedad newtoniana, instantes de salida del régimen débil y coste (28-sep-2026)
+    law: "— (instrumento numérico; ninguna ley del tratado: la cualificación mide el instrumento, no la física)"
+    derivation: >-
+      69 corridas (E8-Q, sin letras): N = 1e5 × ds ∈ {0.02, 0.04, 0.08} ×
+      ε_soft ∈ {0.2, 0.1, 0.05} × rango {congelado, actualizado} × dt_min
+      1e-4 Myr, más N = 3e5 y 1e6, dt_min 1e-5 y ε_soft = 0.025; brazos
+      newtoniano (50 Myr), A_Sculptor (20 Myr) y 0.05·A_Sculptor (10 Myr);
+      presupuesto de pared 480 s por corrida (las que lo agotan publican su
+      t_final). SUELOS de |ΔE/E| (máximo sobre la rejilla): newtoniano
+      1.0e-5 con rango congelado y 2.3e-6 con rango actualizado; 0.05·A_S
+      6.8e-3 → 2.8e-4 (el rango actualizado baja el suelo ×25); A_Sculptor
+      7.7e-2 → 3.0e-2 en el peor caso y 2.5e-3–8.5e-3 en las celdas típicas,
+      1.2e-3 a N = 1e6: durante el colapso de la cúspide el rango
+      actualizado NO baja el suelo a A_Sculptor. Consecuencia para la regla
+      del programa: la puerta «3 × el suelo newtoniano equivalente»
+      (6.8e-6) es inalcanzable para los brazos de Cronos por tres a cuatro
+      órdenes de magnitud; una preinscripción de la ronda 3 solo puede
+      congelar, para ellos, puertas ≥ 3 × su propio suelo medido (0.05·A_S:
+      8.3e-4; A_Sculptor: 8.9e-2), y así se publica antes de correr.
+      ESTACIONARIEDAD newtoniana |Δlog10 M(<0.4)| en 50 Myr a N = 1e5:
+      0.008–0.009 dex con ε_soft = 0.2, 0.056–0.057 con 0.1, 0.096 con 0.05 y
+      0.099 con 0.025 (independiente de ds y del modo de rango); a N = 3e5,
+      0.021 dex en 32 Myr; a N = 1e6, 0.016 dex en 14.85 Myr (truncada por la
+      pared): el máximo medido, 0.099, fija la puerta mínima de
+      estacionariedad de cualquier preinscripción con ε_soft ≤ 0.05 a
+      N = 1e5. SALIDA del régimen débil a A_Sculptor (t_weak, Myr): ε_soft =
+      0.2 → 0.91 (congelado) y 2.09 (actualizado) con ds = 0.02; 0.1 → 0.18
+      (ds 0.02), 0.55 (ds 0.04, dt_min 1e-5) y 0.99 (ds 0.08); 0.05 → 0.15 y
+      0.34 (ds 0.08); 0.025 → 0.15. Con ε_soft ≤ 0.05 y ds ≤ 0.04 la salida
+      ocurre en el PRIMER paso global (dt_max = 0.15 Myr; 1–2 pasos): t_weak
+      queda cuantizado por dt_max, no medido — la ronda 3 debe declarar
+      dt_max ≪ 0.15 Myr para el barrido de suavizado. Con dt_min = 1e-4 los
+      brazos A_Sculptor de ds = 0.04 y ε_soft ≤ 0.1 alcanzan el suelo de dt
+      antes de salir (regla: la preinscripción debe declarar dt_min ≤ 1e-5,
+      con el que la celda ds 0.04 / ε 0.1 sale en 0.551 Myr). 0.05·A_S no
+      sale en ninguna celda dentro del presupuesto (ε_c máx ≤ 4.9e-4). Coste:
+      el rango actualizado multiplica la pared ×3–4 (reordenación en cada
+      subpaso). Ninguna letra ni tolerancia se decide aquí: la cualificación
+      fija qué puertas puede congelar la ronda 3 y cuáles no.
+    implementation: validation/qualification.py + scripts/qualify_shells.py + cronos/halo_shells.py
+    test: tests/test_qualification.py + tests/test_instrument_extensions.py
+    observable: "—"
+    dataset: "—"
+    falsifier: >-
+      una ronda 3 cuyos brazos de Cronos cumplieran la puerta newtoniana
+      (6.8e-6) refutaría el suelo medido; una serie que midiera t_weak
+      distinto de 0.15 Myr con dt_max = 0.15 en ε_soft ≤ 0.05 refutaría la
+      cuantización declarada (E8-Q, no física)
+    evidence_level: cualificación de instrumento (E8-Q), sin letra — suelos, estacionariedad, salidas y coste medidos; la puerta newtoniana ×3 es inalcanzable para los brazos de Cronos y se publica antes de preinscribir
+    status: interno
+    artifact: results/2026-09-28_qualification_shells
+
   - claim_id: s-clock-simulador-consistencia
     entity: El reloj S — orquestador de la trayectoria S₀ → S_{1,001} como simulador de CONSISTENCIA (umbrales impuestos), no emergente (21-sep-2026)
     law: "C1 (índice entrópico S = ∫Σ̇dσ); Def. 4.4 / Teo. 4.5 / Lema 4.7 (Flujo del Camino); Prop. 3.4–3.5 (T₀, salida al polo de masa); Def. 8.4 y Prop. 8.1 (discriminante, Ley de la Década); §5.1–5.4 (cadena C(d+1,0), sellos de c y c²); §6.1–6.2 (Rotación de Florencia); Cap. 7 (RP); ec. 12.1 (m_H = √(2β₃)v₃)"
