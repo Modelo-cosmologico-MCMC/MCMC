@@ -44,7 +44,9 @@ GRID = {"N": [100_000], "ds": [0.02, 0.04, 0.08], "eps_soft": [0.2, 0.1, 0.05], 
                   {"N": 100_000, "ds": 0.04, "eps_soft": 0.025, "rank_update": False, "dt_min_myr": 1e-4},
                   {"N": 100_000, "ds": 0.04, "eps_soft": 0.025, "rank_update": True, "dt_min_myr": 1e-4},
                   {"N": 1_000_000, "ds": 0.04, "eps_soft": 0.1, "rank_update": True, "dt_min_myr": 1e-4}],
-        "max_wall_s_per_run": 1500}
+        # presupuesto de pared por corrida: 480 s (el entorno de cómputo se reinicia cada 10–45 min; una corrida que agote el
+        # presupuesto se publica con su t_final y su parada declarada, no se descarta)
+        "max_wall_s_per_run": 480}
 
 
 def _git_head() -> str:
@@ -98,20 +100,23 @@ def cmd_run(args) -> int:
     RUNS.mkdir(parents=True, exist_ok=True)
     only = set(args.only.split(",")) if args.only else None
     runs = []
-    # --reverse: un segundo trabajador recorre la rejilla desde el final; ambos saltan las corridas ya guardadas
-    for cfg in (configs()[::-1] if args.reverse else configs()):
-        for arm in GRID["arms"]:
-            key = key_of(cfg, arm)
-            if only and key not in only:
-                continue
-            path = RUNS / f"{key}.json"
-            if path.exists():
-                runs.append(json.loads(path.read_text(encoding="utf-8"))); continue
-            rec = run_one(cfg, arm)
-            path.write_text(json.dumps(rec, ensure_ascii=False) + "\n", encoding="utf-8")
-            runs.append(rec)
-            print(f"  {key}: |ΔE/E| = {rec['dE_rel_max']:.1e}, t_fin = {rec['t_final_myr']:.2f} Myr, ε = {rec['eps_max_final']:.1e}, "
-                  f"{rec['n_steps']} pasos, {rec['wall_s']} s, {rec['stop_reason'] or ''}", flush=True)
+    # --reverse: un trabajador recorre la rejilla desde el final; --stride/--phase: varios trabajadores se reparten las
+    # corridas (índice % stride == phase). Todos saltan las corridas ya guardadas.
+    jobs = [(cfg, arm) for cfg in (configs()[::-1] if args.reverse else configs()) for arm in GRID["arms"]]
+    for j, (cfg, arm) in enumerate(jobs):
+        if j % args.stride != args.phase:
+            continue
+        key = key_of(cfg, arm)
+        if only and key not in only:
+            continue
+        path = RUNS / f"{key}.json"
+        if path.exists():
+            runs.append(json.loads(path.read_text(encoding="utf-8"))); continue
+        rec = run_one(cfg, arm)
+        path.write_text(json.dumps(rec, ensure_ascii=False) + "\n", encoding="utf-8")
+        runs.append(rec)
+        print(f"  {key}: |ΔE/E| = {rec['dE_rel_max']:.1e}, t_fin = {rec['t_final_myr']:.2f} Myr, ε = {rec['eps_max_final']:.1e}, "
+              f"{rec['n_steps']} pasos, {rec['wall_s']} s, {rec['stop_reason'] or ''}", flush=True)
     return write_artifact([json.loads(p.read_text(encoding="utf-8")) for p in sorted(RUNS.glob("*.json"))])
 
 
@@ -159,6 +164,7 @@ def cmd_table(_args) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser(); sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run"); r.add_argument("--only", type=str, default=""); r.add_argument("--reverse", action="store_true")
+    r.add_argument("--stride", type=int, default=1); r.add_argument("--phase", type=int, default=0)
     sub.add_parser("table")
     args = ap.parse_args()
     return {"run": cmd_run, "table": cmd_table}[args.cmd](args)
