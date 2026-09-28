@@ -6,6 +6,35 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Cualificación de instrumentos E8-Q (28-sep, PR-3): tipo de artefacto
+  nuevo sin letras y regla nueva del programa — una preinscripción solo
+  puede congelar puertas que una cualificación haya mostrado alcanzables**
+  (`validation/qualification.py`: `write_qualification`,
+  `load_qualification`, `assert_gate_attainable` con factor 3, claves de
+  desenlace prohibidas; fallo cerrado). Instrumentos extendidos sin
+  cambiar los valores por defecto: láminas con banda UV publicada y filtro
+  espectral declarado k_c; capas con rango M(<r) actualizado en los
+  subpasos (`rank_update`). **Láminas** (`scripts/qualify_sheets.py`, 30
+  corridas sin siembra): γ_UV crece con q y ng, no con las celdas por haz;
+  con el instrumento de la ronda 2 (ng 512, 1024 haces) γ_UV = 8.3 / 10.2 /
+  152 (q = 0.8 / 1.2 / 2.0) y 4.8 / 5.8 / 129 con k_c = ½ k_Nyq; el criterio
+  de exclusión γ_UV·t_ventana > ln(A_nl/A_ruido_ef) excluye a priori una
+  celda, q = 2.0 n = 4 — la que falló la fase lineal en la ronda 2.
+  **Capas** (`scripts/qualify_shells.py`, 69 corridas): suelos de |ΔE/E|
+  newtoniano 1.0e-5 → 2.3e-6 con rango actualizado, 0.05·A_S 6.8e-3 →
+  2.8e-4, A_Sculptor 7.7e-2 → 3.0e-2 (peor caso; 2.5e-3–8.5e-3 típico): el
+  rango actualizado no baja el suelo durante el colapso de la cúspide, y la
+  puerta «3 × suelo newtoniano» es inalcanzable para Cronos por 3–4
+  órdenes; estacionariedad newtoniana a N = 1e5 en 50 Myr 0.008 → 0.099 dex
+  al bajar ε_soft de 0.2 a 0.025; t_weak(A_S) por ε_soft publicado, con la
+  salida en el primer paso global (dt_max 0.15 Myr) para ε_soft ≤ 0.05:
+  cuantizado, no medido; dt_min ≤ 1e-5 para que salgan las celdas finas.
+  Filas nuevas `cualificacion-laminas-e8q` y `cualificacion-capas-e8q`
+  (interno, sin letra); Nota I §3.36; artefactos
+  `results/2026-09-28_qualification_sheets/` y
+  `results/2026-09-28_qualification_shells/`. Ninguna letra ni tolerancia
+  se decide; las rondas 3 (PR-4, PR-5) heredan de aquí sus puertas.
+
 - **Reloj S, frente 2 (28-sep, PR-6): cribado preinscrito de candidatos a β
   — el candidato «corriente de conversión» NO PASA** (sha256 de la
   preinscripción `41fd300c006e…`; sin letra sobre λ). Regla nueva del
