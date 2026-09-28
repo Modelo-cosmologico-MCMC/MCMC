@@ -1537,6 +1537,57 @@ rango M(<r) en los subpasos y un suelo de dt menor, bajo preinscripción
 nueva; la de esta no se toca. Fila `halo-capas-ronda2`; artefacto
 `results/2026-09-22_halo_shells/`.
 
+### 3.35 Reloj S, frente 2: el cribado de las β — un candidato que entra en el flujo de acoplos se somete a tres criterios antes de discutir λ; el primero, la corriente de conversión, no pasa (28-sep-2026)
+
+Bajo el cierre canónico de Fokker–Planck (§3.20) el discriminante
+D = B² − 4C₀M₀² se hunde pero no cruza cero: M₀² cambia de signo antes
+(β_{M₀²} = −8aB) y los colapsos del tratado no emergen; la Década sigue
+impuesta (fila `decada-discriminante`). La orden del 28-sep añade una
+regla al programa: **cualquier candidato a segundo nivel del Camino que
+entre en las β se criba antes de discutir λ** — (i) reduce D de forma
+monótona sin llevar M₀² a cero antes del primer cruce; (ii) produce tres
+cruces D = 0; (iii) se publican los S de los cruces frente a
+0.009/0.099/0.999 y los cocientes sucesivos (la Década sería 10). El
+reloj lo implementa como Δβ DECLARADA sumada a las β canónicas
+(`ClockConfig.beta_extra`, `core/beta_candidates.py`), con escalón del
+potencial opcional en cada cruce (M₀² repuesto, como en la hipótesis
+τ_d) y una regla de parada nueva del modo emergente: con la ligadura de
+frontera activa la velocidad proyectada ≈ 0 detiene el recorrido con
+razón declarada (antes agotaba max_steps con S parado).
+
+**Primer candidato**: la contribución del término κΣ̇ê_E (brazo (ii) del
+vacío 2D, §3.33) a las β vía la Def. 4.4. Lectura declarada: la deriva
+del Polchinski acompaña a la producción entrópica TOTAL,
+Σ̇_total = (∇V)² − ∇V·u con u = κΣ̇ê_E, luego
+Δ(dV/dt) = b·κ·r(x)³·x·φ_E con r(x) = M₀² − Bx + C₀x². El término es
+impar en φ_E y no vive en la base cúbica del Basal: hace falta un cierre
+de proyección, y se declaran dos como brazos — 'plane' (promedio sobre
+el plano completo, ⟨φ_E⟩ = 0 ⟹ Δβ ≡ 0: control negativo) y 'quadrant'
+(promedio sobre el dominio físico φ_i ≥ 0, ⟨φ_E⟩_Q = (2/π)√x, y
+mínimos cuadrados sobre {x, x², x³} en [0, x₊]).
+
+**Desenlace: no pasa** (preinscripción sha256 `41fd300c006e…`, congelada
+tras el generador y antes de toda corrida; 147 corridas: δ₀ ∈ {0.01,
+0.03} × τ ∈ {0.01, 0.1, 1} × κ̂ ∈ [0.1, 1e4] × escalón {sin, con}).
+Ninguna corrida produce un cruce D = 0: ni en la ventana plausible
+κ̂ ∈ [0.5, 5] (24/24 celdas terminadas, 0 pasan) ni en toda la malla. En
+el punto inicial (δ₀ = 0.01) Δβ_{C₀}/β_{C₀} = −0.21·κ̂ — el candidato sí
+mueve C₀ — pero Δβ_{M₀²}/β_{M₀²} = −2.5e-7·κ̂: no toca la escala de S en
+que M₀² cruza cero, que llega antes que D en todas las celdas, como en
+la canónica. Controles: 'plane' idéntico a la canónica en las seis
+celdas; la canónica se detiene en la frontera con una inestabilidad de
+masa y D > 0. Con la corriente también en la trayectoria
+(κ_conv = κ̂), κ̂ = 0.5 termina y κ̂ = 1 y 2.11 divergen numéricamente
+(con B < 0 desaparece el vacío verdadero y Σ̇ crece sin cota): límite
+del instrumento, publicado.
+
+**Lectura.** El cribado no excluye κΣ̇ê_E como término del Camino (eso
+lo decide el vacío 2D, §3.33): excluye que su contribución a las β, bajo
+estos dos cierres, produzca la Década. Ninguna letra sobre λ (E13); la
+fila `decada-discriminante` no cambia; el siguiente candidato entra por
+la misma puerta. Fila `beta-extra-cribado` (resultado-negativo);
+artefacto `results/2026-09-28_beta_screening/`.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
