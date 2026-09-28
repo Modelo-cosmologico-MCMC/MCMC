@@ -12,10 +12,13 @@
 > tales —no como salidas del código—, la parametrización superada se conserva en
 > el bloque `LEGACY_V32`, y la integración continua mantiene esos criterios como
 > guardias permanentes.
-> **v35.1 (4 de agosto de 2026)**: fe de erratas epistemológica del
+> **FE-08-2026 (4 de agosto de 2026)**: fe de erratas epistemológica del
 > tratado — reclasificaciones E1–E13 y convenio C6 de los cuatro
-> épsilon (`docs/erratas_v35.1.md`); donde v35 y v35.1 difieran sobre
-> el estatuto de una afirmación, prevalece la v35.1.
+> épsilon (`docs/erratas_epistemologicas_2026-08-04.md`); donde la v35 y la
+> fe de erratas difieran sobre el estatuto de una afirmación, prevalece la
+> fe de erratas. No es una versión del tratado: la siguiente será la v36
+> (decisión del autor, 28-sep-2026; el nombre anterior del fichero queda
+> registrado en el CHANGELOG). Los códigos E1–E14 se citan como «FE-08-2026, E_n».
 > Enlace permanente a la última versión del tratado: [10.5281/zenodo.14167831](https://doi.org/10.5281/zenodo.14167831).
 
 Implementación de referencia en Python del **Modelo Cosmológico de Múltiples
@@ -191,7 +194,7 @@ Los capítulos 2–10 del tratado están implementados como código cuyo
 principio de diseño es: **cada módulo implementa las definiciones de su
 capítulo y sus tests verifican identidades, límites y consecuencias
 numéricas de los teoremas y ansätze implementados** — comprobación
-interna de la implementación, no demostración física (v35.1, E8). La
+interna de la implementación, no demostración física (FE-08-2026, E8). La
 ley de escala
 T₀ = c̄·δ₀³ se mide (exponente ajustado = 3); la Monotonía del Camino
 (Teo. 4.5) y la Exclusión (Lema 4.7) se comprueban sobre trayectorias —
@@ -279,7 +282,7 @@ cierra ni rompe el círculo, y ambos desenlaces siguen abiertos. Sobre
 el paisaje O(1) fértil, δ_H = O(0.05) es genérico (mediana 0.054,
 5–95% en [0.037, 0.116]) y **ninguna forma O(1) cierra el empalme en
 δ₀ = 0.012** — refuerzo independiente de la regla canónica que separa
-δ₀ de ε_Λ. El análisis de sensibilidad a priors (v35.1;
+δ₀ de ε_Λ. El análisis de sensibilidad a priors (FE-08-2026;
 `results/2026-08-04_landscape_priors/`) separa lo robusto de lo
 fiducial: la inaccesibilidad del 0.012 es analítica (vale para todo
 prior sobre los dominios O(1)) y el orden pocas×10⁻² es robusto; la
@@ -400,7 +403,7 @@ executable. Design principle: each `core/` module implements the
 definitions of its treatise chapter and its tests verify identities,
 limits and numerical consequences of the implemented theorems and
 ansätze — internal consistency checks of the implementation, not
-physical demonstrations (v35.1, E8); conditional results are exposed as
+physical demonstrations (FE-08-2026, E8); conditional results are exposed as
 parameters with their condition, never
 silently resolved; unfavorable outcomes are published front-page with the
 same tone as favorable ones. Honest headlines as of August 2026: the
@@ -412,7 +415,7 @@ give **ΔBIC = +14.5/+14.6 favoring ΛCDM** (ε = 0.017 ± 0.04, compatible
 with 0, from the corrected, unbiased posteriors) — while
 the Residues check (G_cosmo/G_N − 1 ≈ −1.8% vs. the BBN bound) is a
 **consistency passed** at ~0.3σ — no detection, no sign significance
-(v35.1, E13); the C¹ splice measures δ_H ≈ 0.0581 without the
+(FE-08-2026, E13); the C¹ splice measures δ_H ≈ 0.0581 without the
 Higgs mass as input; and the δ₀ circle reduces to a consistency equation
 W_max = c̄·δ_H³ whose value awaits open front #4.
 
@@ -441,7 +444,7 @@ para su depósito citable en Zenodo junto a la release v0.2.0 (ver
 La **[matriz de trazabilidad](docs/matriz_trazabilidad.md)**
 (manuscrito ↔ código ↔ test ↔ estatuto, 32 filas) es EJECUTABLE:
 `tests/test_traceability.py` verifica que toda ruta citada existe y
-que ningún estatuto reclama más que su categoría v35.1. Las
+que ningún estatuto reclama más que su categoría en la fe de erratas FE-08-2026. Las
 correspondencias filosóficas nuevas E.18/E.19 (propuesta para el
 Apéndice E de la v36) están en
 [docs/correspondencias_E18_E19.md](docs/correspondencias_E18_E19.md).

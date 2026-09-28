@@ -1,11 +1,11 @@
 """El contraste de los Residuos — frente nº 6 (v35, Conj. 9.6 y H.2.5).
 
 EL ÚNICO FRENTE CON UNA CONSISTENCIA OBSERVACIONAL YA SUPERADA
-(v35.1, E13: «consistencia superada», no detección).
+(FE-08-2026, E13: «consistencia superada», no detección).
 
 Predicción (Conjetura 9.6, ec. 9.5): si el residuo del sello ε_K ≡
 λK(S_act) − 1 es del orden de la amplitud de transición ε_Λ = 0.012 del
-ajuste (v35.1, E9: son parámetros distintos — convenio C6),
+ajuste (FE-08-2026, E9: son parámetros distintos — convenio C6),
 
     G_cosmo/G_N − 1 ≃ −(3/2)·ε_K ≈ −1.8%
 
@@ -19,7 +19,7 @@ Cota observacional (H.2.5): la nucleosíntesis primordial da
 
 La predicción (ratio 0.982) cae dentro de la cota, a ~0.3σ del valor
 central 0.99. A este nivel de significancia NO hay detección ni
-preferencia de signo (v35.1, E13): el resultado es una CONSISTENCIA
+preferencia de signo (FE-08-2026, E13): el resultado es una CONSISTENCIA
 SUPERADA — el contraste podía excluir el valor predicho y no lo
 excluye. La coincidencia de lado con el central (ambos < 1) se declara
 como descriptiva, sin significancia. El modelo queda a la espera de
@@ -68,7 +68,7 @@ def within_bbn_bound(eps_K: float = C.EPSILON_K) -> bool:
 
 def sign_coincides(eps_K: float = C.EPSILON_K) -> bool:
     """¿Está el central BBN del mismo lado de 1 que la predicción?
-    Coincidencia DESCRIPTIVA, sin significancia a ~0.3σ (v35.1, E13):
+    Coincidencia DESCRIPTIVA, sin significancia a ~0.3σ (FE-08-2026, E13):
     no es una preferencia de signo."""
     pred = predicted_ratio(eps_K)
     return (pred - 1.0) * (BBN_RATIO_CENTRAL - 1.0) > 0.0
@@ -82,5 +82,5 @@ def report(eps_K: float = C.EPSILON_K) -> str:
             f" (2σ): dentro={within_bbn_bound(eps_K)}, "
             f"tensión={tension_sigma(eps_K):.2f}σ — consistencia "
             f"superada, sin significancia de signo (coincidencia "
-            f"descriptiva={sign_coincides(eps_K)}; v35.1, E13) "
+            f"descriptiva={sign_coincides(eps_K)}; FE-08-2026, E13) "
             f"[{BBN_REFERENCE}]")

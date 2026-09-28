@@ -3,7 +3,7 @@
 Principio de diseño: cada módulo implementa las definiciones de su
 capítulo y sus tests verifican identidades, límites y consecuencias
 numéricas de los teoremas y ansätze implementados — COMPROBACIÓN
-INTERNA de la implementación, no demostración física (v35.1, E8).
+INTERNA de la implementación, no demostración física (FE-08-2026, E8).
 Donde el tratado declara condicional, el módulo expone el parámetro y
 lo dice — nunca lo resuelve en silencio.
 
