@@ -1,6 +1,6 @@
 """RP con acoplos no estacionarios — el juguete del frente nº 1 (v35, §13.4).
 
-La Prop. 7.4 (reclasificada de Teorema en v35.1, E3) deja CONDICIONAL
+La Prop. 7.4 (reclasificada de Teorema en FE-08-2026, E3) deja CONDICIONAL
 la positividad por reflexión del sector
 espinorial de Wilson con acoplos no estacionarios. Este módulo NO toca
 ese sector: construye el análogo escalar exacto de la pregunta — una
@@ -80,7 +80,7 @@ def V_site(phi: np.ndarray, m2: float, lam4: float = 0.05) -> np.ndarray:
 
     λ₄ (lam4) es el REGULARIZADOR CUÁRTICO del juguete — mantiene la
     medida normalizable para m² de cualquier signo; su valor 0.05 es de
-    demostración. NOTA C6 (v35.1, E9 extendido): λ₄ no guarda relación
+    demostración. NOTA C6 (FE-08-2026, E9 extendido): λ₄ no guarda relación
     alguna con λ (la razón de la Década) ni con λ_H = 0.130 (el
     cuártico del Higgs) — colisión de notación evitada por declaración."""
     return 0.5 * m2 * phi ** 2 + lam4 * phi ** 4

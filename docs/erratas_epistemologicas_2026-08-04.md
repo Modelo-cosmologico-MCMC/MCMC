@@ -1,6 +1,6 @@
 ---
 title: "Modelo Cosmológico de Múltiples Colapsos — Tratado de Fundamentos"
-subtitle: "v35.1 — Fe de erratas epistemológica"
+subtitle: "Fe de erratas epistemológica (FE-08-2026, 4 de agosto de 2026)"
 author: "Adrián Martínez Estellés · ORCID 0009-0009-4314-9642"
 date: "4 de agosto de 2026"
 lang: es
@@ -18,7 +18,7 @@ lang: es
 
 # Tabla resumen de reclasificaciones
 
-| Ítem | v35 | v35.1 |
+| Ítem | v35 | fe de erratas (FE-08-2026) |
 |---|---|---|
 | Teorema de Adrián | Teorema único, «todas las constantes selladas» | Teorema 13.1a basal (demostrado) + Conjetura 13.1b completa (programa) — E1/E2 |
 | RP de Wilson (7.4) | «Teorema» con esquema | Proposición condicional — E3 |
