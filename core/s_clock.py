@@ -94,6 +94,7 @@ from .basal import (
     quasi_cancellation_ok,
     scaled_params,
 )
+from .beta_candidates import CANDIDATES, CLOSURES, delta_beta
 from .decade import discriminant_basal, metastability_bound
 from .dual_plane import THETA_DIAGONAL, to_dual
 from .florencia import (
@@ -201,6 +202,17 @@ DECLARED_FORMS = {
                    "d → d+1 se dispara y M0² se repone a su valor inicial (el "
                    "escalón del potencial); publica dónde caerían los tres colapsos "
                    "bajo esa hipótesis frente a la Década. Sin estatuto (E13).",
+    "beta_extra": "CRIBADO (orden del 28-sep, PR-6; modo emergente): un candidato a segundo nivel del Camino "
+                  "que entre en el flujo de acoplos se añade como Δβ DECLARADA a las β canónicas "
+                  "(core/beta_candidates.py) y se somete, antes de discutir λ, a tres criterios preinscritos: "
+                  "(i) reduce D de forma monótona sin llevar M0² a cero antes del primer cruce; (ii) produce "
+                  "tres cruces D = 0; (iii) se publican los S de los cruces frente a 0.009/0.099/0.999 y los "
+                  "cocientes entre cruces sucesivos (la Década sería 10). Con reset_mass_on_collapse el escalón "
+                  "del potencial (M0² repuesto) se aplica en cada cruce D = 0, como en la hipótesis τ_d; sin él, "
+                  "un segundo cruce exige que D vuelva a subir. Primer candidato: la contribución del término "
+                  "κΣ̇ê_E a las β vía la Def. 4.4 (deriva −b·Σ̇_total) bajo dos cierres de proyección "
+                  "declarados ('plane' ⟹ Δβ ≡ 0, control negativo; 'quadrant' ⟹ proyección sobre la base "
+                  "cúbica en el dominio físico). Sin letra sobre λ (E13).",
 }
 
 
@@ -257,6 +269,13 @@ class ClockConfig:
     #      referencia); en f = f_× el potencial es O(2)-simétrico y después el
     #      polo de espacio es el mínimo. None = inclinación fija.
     tilt_cross_f: float | None = None
+    # cribado de β (PR-6, modo emergente): candidato declarado que se AÑADE a las β canónicas
+    # (None = solo canónicas), cierre de proyección, κ̂ propio (None = kappa_conv) y escalón
+    # del potencial en cada cruce D = 0 (M0² repuesto a su valor inicial, como en τ_d)
+    beta_extra: str | None = None
+    beta_extra_closure: str = "quadrant"
+    beta_extra_kappa_hat: float | None = None
+    reset_mass_on_collapse: bool = False
 
 
 def sextic_coupling_dimension(d: int) -> float:
@@ -500,6 +519,16 @@ class SClock:
             raise ValueError("tilt_cross_f debe estar en (0, 1]")
         if c.kappa_conv < 0.0:
             raise ValueError("kappa_conv ≥ 0 (la corriente de conversión crea espacio, no lo destruye)")
+        if c.beta_extra is not None:
+            # cribado de β: solo en modo emergente con acoplos en movimiento; candidato y cierre declarados
+            if c.beta_extra not in CANDIDATES:
+                raise ValueError(f"beta_extra desconocido: {c.beta_extra!r} (declarados: {', '.join(CANDIDATES)})")
+            if c.beta_extra_closure not in CLOSURES:
+                raise ValueError(f"beta_extra_closure: {' | '.join(CLOSURES)}")
+            if c.thresholds != "emergent" or not c.couplings_flow:
+                raise ValueError("beta_extra es un cribado del modo 'emergent' con couplings_flow=True")
+        if c.reset_mass_on_collapse and c.thresholds != "emergent":
+            raise ValueError("reset_mass_on_collapse es una hipótesis del modo 'emergent'")
         self.bounce = None
         self.gamow = None
         self.kramers = None
@@ -603,6 +632,10 @@ class SClock:
         W_conv = 0.0                          # trabajo de la corriente de conversión ∫∇V·κΣ̇ê_E dσ (brazo ii)
         W_tilt = 0.0                          # ∫(∇V_ref − ∇V_eff)·dΦ: lo que la rotación de η mueve en f (brazo i)
         kappa = c.kappa_conv * np.sqrt(self.x_plus0) / self.T0      # κ = κ̂·ρ₊/T₀
+        # cribado de β: κ del candidato (κ̂ propio o el de la corriente) y última Δβ aplicada (publicada)
+        kappa_beta = (c.kappa_conv if c.beta_extra_kappa_hat is None else c.beta_extra_kappa_hat) * np.sqrt(self.x_plus0) / self.T0
+        dbeta_last = np.zeros(3)
+        n_mass_resets = 0
         if c.circulation_C not in ("V", "rho2"):
             raise ValueError("circulation_C: 'V' | 'rho2'")
         tau_seq = list(c.tau_per_dim) if c.tau_per_dim else None
@@ -720,6 +753,12 @@ class SClock:
             # --- acoplos (Def. 4.4) en el reloj, si se pide ---------------
             if c.couplings_flow and dclk > 0.0:
                 beta = beta_functions(lam[0], lam[1], lam[2], c.fp.a, c.fp.b)
+                if c.beta_extra is not None:
+                    # cribado (PR-6): Δβ declarada del candidato, sumada a las β canónicas con el mismo τ y signo
+                    dbeta = delta_beta(c.beta_extra, lam[0], lam[1], lam[2], kappa=kappa_beta, x_plus=self.x_plus0,
+                                       closure=c.beta_extra_closure, b=c.fp.b)
+                    beta = beta + dbeta
+                    dbeta_last = dbeta
                 lam_new = lam + c.fp.flow_sign * tau_now * beta * dclk
                 if lam[0] > 0.0 >= lam_new[0]:
                     # inestabilidad de masa: el origen deja de ser mínimo. Se
@@ -767,6 +806,13 @@ class SClock:
                 D_new = float(lam[1] ** 2 - 4.0 * lam[2] * lam[0])
                 if prev_D > 0.0 >= D_new and d_dim < 3:
                     collapse_event(clk_new, sigma + d_sigma, "cruce de la espinodal D = 0")
+                    if c.reset_mass_on_collapse:
+                        # escalón del potencial declarado (como en τ_d): M0² repuesto tras el colapso; el salto
+                        # de D que produce la reposición no es un cruce de la espinodal
+                        events[-1]["reset"] = {"M0_sq_from": float(lam[0]), "M0_sq_to": float(self.lam0[0]), "d_after": d_dim}
+                        lam = lam.copy(); lam[0] = self.lam0[0]
+                        n_mass_resets += 1
+                        D_new = float(lam[1] ** 2 - 4.0 * lam[2] * lam[0])
                 prev_D = D_new
             phi, S_int, sigma, f_val, clk = phi_new, S_new, sigma + d_sigma, f_new, clk_new
             g = self._grad(phi, lam)
@@ -783,13 +829,17 @@ class SClock:
                 stop_reason = (None if not finished else "residuo de descarga alcanzado" if done_descent
                                else "descenso completado en el paisaje efectivo (∇V_eff ≈ 0; f de referencia < 1 − ε_res)")
             else:
-                finished = (clk >= c.S_end_emergent or gnorm_small or done_descent
+                # la misma regla de frontera que el modo impuesto: con la ligadura activa la velocidad
+                # PROYECTADA puede ser ≈ 0 con gradiente no nulo; entonces S no avanza, los acoplos no
+                # fluyen y el recorrido está detenido (antes: bucle hasta max_steps)
+                finished = (clk >= c.S_end_emergent or gnorm_small or done_descent or vnorm_small
                             or lam_out_of_domain is not None)
                 stop_reason = (None if not finished else
                                "S ≥ S_end (fin del recorrido)" if clk >= c.S_end_emergent else
                                "acoplos fuera del dominio (C0 ≤ 0)" if lam_out_of_domain else
                                "descenso completado (residuo de descarga alcanzado)" if done_descent else
-                               "descenso completado (∇V ≈ 0)")
+                               "descenso completado (∇V ≈ 0)" if gnorm_small else
+                               "descenso detenido en la frontera (velocidad proyectada ≈ 0; S no avanza)")
             if n % 5 == 0 or finished:
                 record(f_val, g, clk)
             if finished:
@@ -854,7 +904,13 @@ class SClock:
                             "steps": n, "finished": finished, "stop_reason": stop_reason, "diverged": diverged,
                             "couplings_out_of_domain": lam_out_of_domain,
                             "mass_instability_events": mass_events,
-                            "tau_per_dim": list(c.tau_per_dim) if c.tau_per_dim else None})
+                            "tau_per_dim": list(c.tau_per_dim) if c.tau_per_dim else None,
+                            "beta_extra": None if c.beta_extra is None else {
+                                "candidate": c.beta_extra, "closure": c.beta_extra_closure, "kappa": float(kappa_beta),
+                                "kappa_hat": float(c.kappa_conv if c.beta_extra_kappa_hat is None else c.beta_extra_kappa_hat),
+                                "delta_beta_last": dbeta_last.tolist(), "reset_mass_on_collapse": c.reset_mass_on_collapse,
+                                "n_mass_resets": n_mass_resets, "form": DECLARED_FORMS["beta_extra"],
+                                "status": "cribado diagnóstico (E13): Δβ declarada, sin letra sobre λ"}})
 
     # ------------------------------------------------------ comprobaciones
     @staticmethod
