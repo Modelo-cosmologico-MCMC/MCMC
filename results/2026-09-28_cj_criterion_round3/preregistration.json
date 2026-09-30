@@ -1,0 +1,421 @@
+{
+  "title": "Test del criterio de Cronos–Jeans, ronda 3: banda ultravioleta controlada (filtro k_c declarado, celdas excluidas a priori por la cualificación E8-Q)",
+  "frozen_utc": "2026-09-30T14:25:07.048005+00:00",
+  "code_commit": "e0bac6c7ba07b94563f602e919589bf1a12c393e",
+  "generator": "scripts/run_cj_round3.py prereg",
+  "generator_commit_must_precede_freeze": true,
+  "qualification": {
+    "path": "results/2026-09-28_qualification_sheets",
+    "sha256": "8a35a6a4380b064612de16b533c24e413c0311cf6829223dbf9e3e29e9133f1a",
+    "code_commit": "4a456cd836ccaa9808b70e91006817aba7f3026f",
+    "rule": "una preinscripción solo puede incluir celdas que la cualificación no excluya y pedir T ≤ t_uv_nonlinear"
+  },
+  "round2": "results/2026-09-22_cj_criterion_round2 (INDETERMINADO por la fase lineal de q2.0_n4): intacta",
+  "question": "¿Reproduce el instrumento de láminas, con la banda ultravioleta controlada y la fase lineal resuelta en todas las celdas no excluidas, el umbral q = 1 y la tasa cinética exacta γ/k = √2·σ·y(q·W(k)) proporcional a k de la ley local ε_c = A·ρ^(3/2)?",
+  "system": {
+    "sigma": 1.0,
+    "rho0": 1.0,
+    "L": 1.0,
+    "gravity": false,
+    "force": "+c²∂_x ε_c(ρ_f), ε_c = A·ρ^(3/2), ρ_f = densidad filtrada (k ≤ k_c), con (3/2)c²A·ρ0^(3/2) ≡ q·σ²"
+  },
+  "instrument": {
+    "N": 2097152,
+    "ng": 512,
+    "dt": 0.001,
+    "sample_every": 1,
+    "full_modes_every": 50,
+    "quiet_start": true,
+    "n_beams": 1024,
+    "cells_per_beam": 4,
+    "lattice_rule": "N/n_beams = p·ng con p ENTERO (p = 4): depósito CIC de cada haz exactamente uniforme",
+    "k_cut_frac": 0.5,
+    "uv_band_frac": 0.5,
+    "filter_rule": "paso bajo de Fourier sobre la densidad depositada antes de la no linealidad: k ≤ k_cut_frac·k_Nyquist; corrección de W(k): γ_inst(q, k) = γ_cin(q·W(k)) si k ≤ k_c, 0 si k > k_c",
+    "seed_eigenmode": true,
+    "seed_eigenmode_rule": "cada haz j se desplaza ξ_j = −Im[c_j e^{ikx}]/k con c_j = κ v_j (v_j + iy')/(σ²(v_j² + y'²))·δρ̂ e y' = γ/k de la predicción cinética PARA EL INSTRUMENTO (q·W(k)); q ≤ 1: siembra en densidad (no hay modo creciente)",
+    "seed_amp_by_mode": {
+      "4": 2e-05,
+      "8": 2e-05,
+      "16": 2e-06,
+      "32": 2e-06
+    },
+    "seed": 1,
+    "T_rule": "q > 1: T = mín(1.5·ln(1e-3/|δ_k|(0))/(γ_inst/k · k) + 0.1, t_uv_nonlinear(ng 512, 1024 haces, k_c, q) de la cualificación); q < 1: T = 0.6 L/σ",
+    "T_stable": 0.6,
+    "T_safety": 1.5,
+    "delta_end": 0.001,
+    "beam_convergence_run": {
+      "q": 1.2,
+      "mode": 8,
+      "n_beams_alt": 512,
+      "cells_per_beam_alt": 8
+    }
+  },
+  "q_grid": [
+    0.8,
+    1.2,
+    2.0
+  ],
+  "modes": [
+    4,
+    8,
+    16,
+    32
+  ],
+  "k_cut": 804.247719318987,
+  "prediction_kinetic": [
+    {
+      "q": 0.8,
+      "y": 0.0,
+      "gamma_over_k_kinetic": 0.0,
+      "gamma_over_k_fluid": 0.0,
+      "unstable": false
+    },
+    {
+      "q": 1.2,
+      "y": 0.10550447715076941,
+      "gamma_over_k_kinetic": 0.14920586247770043,
+      "gamma_over_k_fluid": 0.44721359549995787,
+      "unstable": true
+    },
+    {
+      "q": 2.0,
+      "y": 0.43275159936630797,
+      "gamma_over_k_kinetic": 0.6120031809624809,
+      "gamma_over_k_fluid": 1.0,
+      "unstable": true
+    }
+  ],
+  "windows_and_T": {
+    "q0.8_n4": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9991970917162399,
+      "q_eff": 0.799357673372992,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0,
+      "delta_k_initial": 1e-05,
+      "excluded_a_priori": false
+    },
+    "q0.8_n8": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9967917501673835,
+      "q_eff": 0.7974334001339068,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0,
+      "delta_k_initial": 1e-05,
+      "excluded_a_priori": false
+    },
+    "q0.8_n16": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9872209634732488,
+      "q_eff": 0.7897767707785991,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0,
+      "delta_k_initial": 1e-06,
+      "excluded_a_priori": false
+    },
+    "q0.8_n32": {
+      "window": null,
+      "T": 0.6,
+      "W_k": 0.9497364738053421,
+      "q_eff": 0.7597891790442737,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.0,
+      "gamma_over_k_continuum": 0.0,
+      "delta_k_initial": 1e-06,
+      "excluded_a_priori": false
+    },
+    "q1.2_n4": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 1.9504530930354826,
+      "T_rule_round2": 1.9504530930354826,
+      "t_uv_nonlinear": 5.3872072345554285,
+      "t_window_close": 0.9111145315281507,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9991970917162399,
+      "q_eff": 1.199036510059488,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.14853164914811226,
+      "gamma_over_k_continuum": 0.14920586247770043,
+      "delta_k_initial": 1e-05,
+      "expected_points_in_window": 616.8176976784941,
+      "qualification_cell": {
+        "W_k": 0.9991970917162399,
+        "gamma_inst": 3.733007502314289,
+        "t_window": 0.6168176976784943,
+        "gamma_uv": 5.833250822713396,
+        "amp_noise_eff": 4.0000000000000007e-10,
+        "reason": "",
+        "gamma_uv_times_t_window": 3.598052342447259,
+        "ln_budget": 17.034386382832476,
+        "excluded": false
+      },
+      "excluded_a_priori": false
+    },
+    "q1.2_n8": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 1.0379965152046309,
+      "T_rule_round2": 1.0379965152046309,
+      "t_uv_nonlinear": 5.3872072345554285,
+      "t_window_close": 0.4618448631539117,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9967917501673835,
+      "q_eff": 1.19615010020086,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.14650952595480843,
+      "gamma_over_k_continuum": 0.14920586247770043,
+      "delta_k_initial": 1e-05,
+      "expected_points_in_window": 312.6655050682103,
+      "qualification_cell": {
+        "W_k": 0.9967917501673835,
+        "gamma_inst": 7.3643720067287886,
+        "t_window": 0.3126655050682103,
+        "gamma_uv": 5.833250822713396,
+        "amp_noise_eff": 4.0000000000000007e-10,
+        "reason": "",
+        "gamma_uv_times_t_window": 1.823856314673237,
+        "ln_budget": 17.034386382832476,
+        "excluded": false
+      },
+      "excluded_a_priori": false
+    },
+    "q1.2_n16": {
+      "window": [
+        3e-06,
+        2.9999999999999997e-05
+      ],
+      "T": 0.8445639530228143,
+      "T_rule_round2": 0.8445639530228143,
+      "t_uv_nonlinear": 5.3872072345554285,
+      "t_window_close": 0.24440249789068696,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9872209634732488,
+      "q_eff": 1.1846651561678985,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.13842876515036093,
+      "gamma_over_k_continuum": 0.14920586247770043,
+      "delta_k_initial": 1e-06,
+      "expected_points_in_window": 165.45865622729207,
+      "qualification_cell": {
+        "W_k": 0.9872209634732488,
+        "gamma_inst": 13.916377332540181,
+        "t_window": 0.16545865622729208,
+        "gamma_uv": 5.833250822713396,
+        "amp_noise_eff": 4e-12,
+        "reason": "",
+        "gamma_uv_times_t_window": 0.9651618425629045,
+        "ln_budget": 21.639556568820566,
+        "excluded": false
+      },
+      "excluded_a_priori": false
+    },
+    "q1.2_n32": {
+      "window": [
+        3e-06,
+        2.9999999999999997e-05
+      ],
+      "T": 0.5851305542727889,
+      "T_rule_round2": 0.5851305542727889,
+      "t_uv_nonlinear": 5.3872072345554285,
+      "t_window_close": 0.15924370067339275,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9497364738053421,
+      "q_eff": 1.1396837685664105,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.10622817681203375,
+      "gamma_over_k_continuum": 0.14920586247770043,
+      "delta_k_initial": 1e-06,
+      "expected_points_in_window": 107.80678983839755,
+      "qualification_cell": {
+        "W_k": 0.9497364738053421,
+        "gamma_inst": 21.358442232123064,
+        "t_window": 0.10780678983839756,
+        "gamma_uv": 5.833250822713396,
+        "amp_noise_eff": 4e-12,
+        "reason": "",
+        "gamma_uv_times_t_window": 0.6288640455189227,
+        "ln_budget": 21.639556568820566,
+        "excluded": false
+      },
+      "excluded_a_priori": false
+    },
+    "q2.0_n4": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 0.24406132583352624,
+      "T_rule_round2": 0.5496777821486357,
+      "t_uv_nonlinear": 0.24406132583352624,
+      "t_window_close": 0.22140953659564924,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9991970917162399,
+      "q_eff": 1.9983941834324799,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.611217321581916,
+      "gamma_over_k_continuum": 0.6120031809624809,
+      "delta_k_initial": 1e-05,
+      "expected_points_in_window": 149.89259404954524,
+      "qualification_cell": {
+        "W_k": 0.9991970917162399,
+        "gamma_inst": 15.36156677782862,
+        "t_window": 0.14989259404954525,
+        "gamma_uv": 128.75833942872578,
+        "amp_noise_eff": 4.0000000000000007e-10,
+        "reason": "la banda UV alcanza A_nl dentro de la ventana",
+        "gamma_uv_times_t_window": 19.29992150248355,
+        "ln_budget": 17.034386382832476,
+        "excluded": true
+      },
+      "excluded_a_priori": true
+    },
+    "q2.0_n8": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 0.24406132583352624,
+      "T_rule_round2": 0.3257092262254671,
+      "t_uv_nonlinear": 0.24406132583352624,
+      "t_window_close": 0.11113329848132203,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9967917501673835,
+      "q_eff": 1.993583500334767,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.6088604665748786,
+      "gamma_over_k_continuum": 0.6120031809624809,
+      "delta_k_initial": 1e-05,
+      "expected_points_in_window": 75.23640874182236,
+      "qualification_cell": {
+        "W_k": 0.9967917501673835,
+        "gamma_inst": 30.604665101646276,
+        "t_window": 0.07523640874182237,
+        "gamma_uv": 128.75833942872578,
+        "amp_noise_eff": 4.0000000000000007e-10,
+        "reason": "",
+        "gamma_uv_times_t_window": 9.687315054177915,
+        "ln_budget": 17.034386382832476,
+        "excluded": false
+      },
+      "excluded_a_priori": false
+    },
+    "q2.0_n16": {
+      "window": [
+        3e-06,
+        2.9999999999999997e-05
+      ],
+      "T": 0.24406132583352624,
+      "T_rule_round2": 0.2719411509995663,
+      "t_uv_nonlinear": 0.24406132583352624,
+      "t_window_close": 0.0564395397116494,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9872209634732488,
+      "q_eff": 1.9744419269464977,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.5994438678189348,
+      "gamma_over_k_continuum": 0.6120031809624809,
+      "delta_k_initial": 1e-06,
+      "expected_points_in_window": 38.20914466657029,
+      "qualification_cell": {
+        "W_k": 0.9872209634732488,
+        "gamma_inst": 60.26267044414133,
+        "t_window": 0.03820914466657029,
+        "gamma_uv": 128.75833942872578,
+        "amp_noise_eff": 4e-12,
+        "reason": "",
+        "gamma_uv_times_t_window": 4.919746018259545,
+        "ln_budget": 21.639556568820566,
+        "excluded": false
+      },
+      "excluded_a_priori": false
+    },
+    "q2.0_n32": {
+      "window": [
+        3e-06,
+        2.9999999999999997e-05
+      ],
+      "T": 0.1917067828304468,
+      "T_rule_round2": 0.1917067828304468,
+      "t_uv_nonlinear": 0.24406132583352624,
+      "t_window_close": 0.030102675137958484,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9497364738053421,
+      "q_eff": 1.8994729476106842,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.5619489933638825,
+      "gamma_over_k_continuum": 0.6120031809624809,
+      "delta_k_initial": 1e-06,
+      "expected_points_in_window": 20.379285073432623,
+      "qualification_cell": {
+        "W_k": 0.9497364738053421,
+        "gamma_inst": 112.98654907162577,
+        "t_window": 0.020379285073432625,
+        "gamma_uv": 128.75833942872578,
+        "amp_noise_eff": 4e-12,
+        "reason": "",
+        "gamma_uv_times_t_window": 2.6240029047998026,
+        "ln_budget": 21.639556568820566,
+        "excluded": false
+      },
+      "excluded_a_priori": false
+    }
+  },
+  "excluded_cells_a_priori": [
+    "q2.0_n4"
+  ],
+  "rules": {
+    "linear_window_rule": "fase lineal = |δ_k| ∈ [3·|δ_k|(0), 30·|δ_k|(0)]: una década de amplitud, tras el transitorio",
+    "linear_window_lo_factor": 3.0,
+    "linear_window_hi_factor": 30.0,
+    "min_points_linear": 8,
+    "min_r2": 0.98,
+    "rate_rel_tol": 0.25,
+    "k_independence_rel_spread": 0.25,
+    "stable_max_growth_factor": 3.0,
+    "beam_convergence_rel_tol": 0.02,
+    "uv_amp_nonlinear": 0.01,
+    "exclusion_source": "results/2026-09-28_qualification_sheets (E8-Q): celda excluida si γ_UV·t_ventana > ln(A_nl/A_ruido_ef) con ng 512, 1024 haces, k_c = ½ k_Nyq; las celdas excluidas no se corren ni cuentan"
+  },
+  "gates": {
+    "linear_phase_resolved": "≥ min_points_linear puntos en la ventana con r² ≥ min_r2 en CADA celda no excluida con q > 1",
+    "seed_noise": "|δ_k|(0) de los modos NO sembrados < 0.1·|δ_k|(0) sembrado",
+    "lattice_exact": "cada corrida declara lattice_exact = true",
+    "filter_declared": "cada corrida declara k_cut_frac = 0.5",
+    "uv_controlled": "uv_rms < uv_amp_nonlinear hasta t_window_close en cada celda no excluida con q > 1",
+    "beam_convergence": "γ/k en (q = 1.2, n = 8) con 512 haces (p = 8) difiere del de 1024 haces (p = 4) en ≤ 2 %"
+  },
+  "outcomes": {
+    "order": "puertas → C → B → A; INDETERMINADO si una puerta falla; ningún umbral se ajusta tras ver los números; las celdas excluidas a priori no cuentan",
+    "C_criterion_fails": "crecimiento (factor > 3) en q = 0.8, o ausencia de crecimiento en alguna q > 1, o tasa NO proporcional a k (dispersión del cociente medido/predicho entre los modos no excluidos > 25 % en alguna q > 1)",
+    "B_finite_size": "umbral y proporcionalidad correctos pero γ/k dentro del 25 % solo para n ≥ 8 (el modo n = 4 fuera de tolerancia en alguna q > 1 no excluida): efecto de tamaño finito real, a entender, no un fallo del criterio",
+    "A_kinetic_reproduced": "todas las celdas no excluidas con q > 1 dentro del 25 % de γ_cin(q, k)·W(k), dispersión entre modos ≤ 25 % y estabilidad en q = 0.8: el instrumento reproduce el criterio con su predicción convergida",
+    "INDETERMINADO": "puerta violada (fase lineal, ruido de siembra, retículo, filtro, UV, convergencia en haces) o corridas ausentes"
+  },
+  "expectations_E13": "A: la ronda 2 dio 11/12 celdas al 1–2 % de la cinética y la celda que falló es la que la cualificación excluye a priori",
+  "consequence_if_A": "la fila criterio-cronos-jeans pasa a «derivado y confirmado por el test numérico» (E8: comprobación interna, no demostración física)",
+  "development_declaration": {
+    "pilots": "ninguno específico de la ronda 3: el filtro k_c y la banda UV se cualificaron en results/2026-09-28_qualification_sheets (30 corridas sin siembra), que fija la exclusión y las cotas de T; la ronda 2 fijó el retículo exacto y la siembra del modo propio",
+    "what_they_fixed": "solo el instrumento; NINGUNA tolerancia ni desenlace (25 %, 25 %, 2 %, 8 puntos, r² 0.98) se ajustó",
+    "budget": "11 celdas + control de haces, N = 2 097 152: ~2–5 min cada una"
+  },
+  "prohibitions": {
+    "no_threshold_tuning": true,
+    "no_data": true,
+    "no_change_to_A_sculptor": true,
+    "round2_untouched": true,
+    "qualification_untouched": true
+  }
+}
