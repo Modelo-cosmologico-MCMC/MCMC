@@ -186,7 +186,7 @@ class ShellRun:
                  eps_soft: float = 0.1, dt_myr: float = 0.15, weak_max: float = 1e-3,
                  stop_speed_kms: float | None = 1000.0, r_stop_kpc: float | None = None, max_wall_s: float = 3600.0 * 3,
                  eta_dt: float = 0.05, eta_field: float = 0.02, k_max: int = 10, dt_min_myr: float = 1e-4,
-                 eps_L_factor: float = 0.05):
+                 eps_L_factor: float = 0.05, rank_update: bool = False, rank_full_frac: float = 0.02):
         self.r, self.vr, self.L2 = np.asarray(r, float).copy(), np.asarray(vr, float).copy(), np.asarray(L2, float).copy()
         self.N = len(self.r)
         self.m = np.broadcast_to(np.asarray(m, float), (self.N,)).copy()     # masas de capa (pueden variar: refinamiento)
@@ -197,7 +197,11 @@ class ShellRun:
         # suelo dt_min declarado (alcanzarlo es parada declarada)
         self.eta_dt, self.eta_field, self.k_max = float(eta_dt), float(eta_field), int(k_max)
         self.dt_min = dt_min_myr / 1000.0 / GYR_PER_TIME_UNIT
-        self.dt_hist = {"min_myr": dt_myr, "n_reduced": 0, "n_clamped": 0, "k_max_seen": 0}
+        self.dt_hist = {"min_myr": dt_myr, "n_reduced": 0, "n_clamped": 0, "k_max_seen": 0, "n_full_sorts": 0}
+        # rank_update (ronda 3 / cualificación E8-Q): la masa de Hénon M(<r) se recalcula en los subpasos con las
+        # posiciones actuales (pasos de bloque entrelazados) en vez de congelarse en el paso global — el cruce de
+        # capas con rango congelado era el suelo del error de energía durante el colapso (ronda 2)
+        self.rank_update, self.rank_full_frac = bool(rank_update), float(rank_full_frac)
         self.eps_soft, self.weak_max = float(eps_soft), float(weak_max)
         # barrera centrífuga L²/(2(r² + ε_L²)) con ε_L = ε_soft·eps_L_factor (declarado): SOLO regulariza el paso por
         # pericentros r_p < ε_L (fracción ~1e-3 de las capas) — con ε_L = ε_soft la barrera desaparece para
@@ -310,6 +314,98 @@ class ShellRun:
                 "half_mass_r_kpc": float(rs[np.searchsorted(m_cum, 0.5 * m_cum[-1])])}
 
     # -------------------------------------------------------------- integración
+    def _kdk_group(self, sel, h, lap_g, damp_g, M_h_fn):
+        """Un paso KDK de tamaño h para las capas `sel` con M_Hénon dado por la función M_h_fn(r)."""
+        r_g, vr_g, L2_g, m_g = self.r[sel], self.vr[sel], self.L2[sel], self.m[sel]
+        a_g = self._frozen_accel(r_g, L2_g, M_h_fn(r_g))
+        vr_g = vr_g + 0.5 * h * lap_g * a_g
+        K0 = 0.5 * float(np.sum(m_g * (vr_g ** 2 + L2_g / (r_g ** 2 + self.eps_L ** 2))))
+        vr_g, L2_g = vr_g * damp_g, L2_g * damp_g ** 2
+        self.W_fric += K0 - 0.5 * float(np.sum(m_g * (vr_g ** 2 + L2_g / (r_g ** 2 + self.eps_L ** 2))))
+        r_new = r_g + h * lap_g * vr_g
+        through = r_new < 0.0
+        r_g = np.abs(r_new)
+        vr_g = np.where(through, -vr_g, vr_g)
+        self.r[sel], self.L2[sel] = r_g, L2_g          # posiciones nuevas ANTES del segundo kick (rango con ellas)
+        a_g = self._frozen_accel(r_g, L2_g, M_h_fn(r_g))
+        vr_g = vr_g + 0.5 * h * lap_g * a_g
+        K0 = 0.5 * float(np.sum(m_g * (vr_g ** 2 + L2_g / (r_g ** 2 + self.eps_L ** 2))))
+        vr_g, L2_g = vr_g * damp_g, L2_g * damp_g ** 2
+        self.W_fric += K0 - 0.5 * float(np.sum(m_g * (vr_g ** 2 + L2_g / (r_g ** 2 + self.eps_L ** 2))))
+        self.vr[sel], self.L2[sel] = vr_g, L2_g
+
+    def _frozen_substeps(self, dt, k, lapse, gam, r_sorted, M_h_sorted) -> int:
+        """Ronda 2: cada nivel k integra sus 2^k subpasos seguidos con el rango M(<r) CONGELADO del inicio del paso."""
+        n_sub_total = 0
+        M_fn = lambda r: np.interp(r, r_sorted, M_h_sorted)  # noqa: E731
+        for kk in np.unique(k):
+            sel = np.nonzero(k == kk)[0]
+            n_sub = 2 ** int(kk)
+            h = dt / n_sub
+            lap_g, damp_g = lapse[sel], np.exp(-0.5 * h * gam[sel])
+            for _ in range(n_sub):
+                self._kdk_group(sel, h, lap_g, damp_g, M_fn)
+            n_sub_total += n_sub * len(sel)
+        return n_sub_total
+
+    def _block_substeps(self, dt, k, lapse, gam) -> int:
+        """Ronda 3 (rango ACTUALIZADO): pasos de bloque entrelazados — en el subpaso j del nivel más fino
+        avanzan todas las capas cuyo nivel divide a j, y la masa de Hénon que sienten es la de las
+        posiciones ACTUALES de todas las capas. Si el conjunto activo es grande (> rank_full_frac de N) se
+        reordena todo (argsort); si es pequeño, M(<r) sale de las tablas ordenadas vigentes descontando las
+        posiciones viejas de las activas y sumando las nuevas (searchsorted: O(n_act log N))."""
+        k_top = int(k.max())
+        n_fine = 2 ** k_top
+        levels = {int(kk): np.nonzero(k == kk)[0] for kk in np.unique(k)}
+        # tablas ordenadas vigentes (posiciones actuales de TODAS las capas)
+        order = np.argsort(self.r)
+        r_srt, m_srt = self.r[order], self.m[order]
+        M_cum = np.cumsum(m_srt)
+        n_sub_total = 0
+        for j in range(1, n_fine + 1):
+            act = [levels[kk] for kk in levels if j % (2 ** (k_top - kk)) == 0]
+            if not act:
+                continue
+            sel = np.concatenate(act)
+            h_sel = np.concatenate([np.full(len(levels[kk]), dt / 2 ** kk) for kk in levels if j % (2 ** (k_top - kk)) == 0])
+            lap_g, damp_g = lapse[sel], np.exp(-0.5 * h_sel * gam[sel])
+            r_old, m_act = self.r[sel].copy(), self.m[sel]
+            large = len(sel) > self.rank_full_frac * self.N
+
+            def M_h_fn(r_new, r_old=r_old, m_act=m_act, r_srt=r_srt, M_cum=M_cum, m_srt=m_srt):
+                # masa interior en las tablas vigentes (incluye a las activas en sus posiciones viejas)
+                idx = np.searchsorted(r_srt, r_new, side="left")
+                M_tab = np.where(idx > 0, M_cum[np.clip(idx - 1, 0, None)], 0.0)
+                # descontar las activas que en las tablas están por debajo de r_new, y sumar las que AHORA lo están
+                o = np.argsort(r_old)
+                ro, mo = r_old[o], np.cumsum(m_act[o])
+                i_old = np.searchsorted(ro, r_new, side="left")
+                M_old_below = np.where(i_old > 0, mo[np.clip(i_old - 1, 0, None)], 0.0)
+                on = np.argsort(r_new)
+                rn, mn = r_new[on], np.cumsum(m_act[on])
+                i_new = np.searchsorted(rn, r_new, side="left")
+                M_new_below = np.where(i_new > 0, mn[np.clip(i_new - 1, 0, None)], 0.0)
+                return M_tab - M_old_below + M_new_below + 0.5 * m_act
+            self._kdk_group(sel, h_sel, lap_g, damp_g, M_h_fn)
+            n_sub_total += len(sel)
+            if large or j == n_fine:
+                order = np.argsort(self.r)
+                r_srt, m_srt = self.r[order], self.m[order]
+                M_cum = np.cumsum(m_srt)
+                self.dt_hist["n_full_sorts"] += 1
+            else:
+                # tablas vigentes: reinsertar las activas en sus posiciones nuevas (merge O(N) sin argsort completo)
+                keep = np.ones(len(r_srt), bool)
+                keep[np.searchsorted(r_srt, r_old, side="left")] = False   # quita una entrada por activa (misma r vieja)
+                r_keep, m_keep = r_srt[keep], m_srt[keep]
+                r_new = self.r[sel]
+                on = np.argsort(r_new)
+                pos = np.searchsorted(r_keep, r_new[on], side="left")
+                r_srt = np.insert(r_keep, pos, r_new[on])
+                m_srt = np.insert(m_keep, pos, m_act[on])
+                M_cum = np.cumsum(m_srt)
+        return n_sub_total
+
     def run(self, t_end_gyr: float, snapshot_gyr, log=None) -> dict:
         """Paso GLOBAL dt (≤ dt_max; con Cronos, limitado a que ε_c máx cambie ≤ η_f por paso) en el que el campo
         (rangos M(<r), ε̃, lapso, fricción) se CONGELA, y dentro de él cada capa se integra con salto de rana KDK
@@ -342,30 +438,10 @@ class ShellRun:
             k = np.clip(np.ceil(np.log2(np.clip(dt / (self.eta_dt * tau), 1.0, None))), 0, self.k_max).astype(int)
             self.dt_hist["n_clamped"] += int(np.sum(dt / (self.eta_dt * tau) > 2.0 ** self.k_max))
             self.dt_hist["k_max_seen"] = max(self.dt_hist["k_max_seen"], int(k.max()))
-            for kk in np.unique(k):
-                sel = np.nonzero(k == kk)[0]
-                n_sub = 2 ** int(kk)
-                h = dt / n_sub
-                r_g, vr_g, L2_g = self.r[sel], self.vr[sel], self.L2[sel]
-                lap_g, damp_g = lapse[sel], np.exp(-0.5 * h * gam[sel])
-                m_g = self.m[sel]
-                a_g = self._frozen_accel(r_g, L2_g, np.interp(r_g, r_sorted, M_h_sorted))
-                for _ in range(n_sub):
-                    vr_g = vr_g + 0.5 * h * lap_g * a_g
-                    K0 = 0.5 * float(np.sum(m_g * (vr_g ** 2 + L2_g / (r_g ** 2 + self.eps_L ** 2))))
-                    vr_g, L2_g = vr_g * damp_g, L2_g * damp_g ** 2
-                    self.W_fric += K0 - 0.5 * float(np.sum(m_g * (vr_g ** 2 + L2_g / (r_g ** 2 + self.eps_L ** 2))))
-                    r_new = r_g + h * lap_g * vr_g
-                    through = r_new < 0.0
-                    r_g = np.abs(r_new)
-                    vr_g = np.where(through, -vr_g, vr_g)
-                    a_g = self._frozen_accel(r_g, L2_g, np.interp(r_g, r_sorted, M_h_sorted))
-                    vr_g = vr_g + 0.5 * h * lap_g * a_g
-                    K0 = 0.5 * float(np.sum(m_g * (vr_g ** 2 + L2_g / (r_g ** 2 + self.eps_L ** 2))))
-                    vr_g, L2_g = vr_g * damp_g, L2_g * damp_g ** 2
-                    self.W_fric += K0 - 0.5 * float(np.sum(m_g * (vr_g ** 2 + L2_g / (r_g ** 2 + self.eps_L ** 2))))
-                self.r[sel], self.vr[sel], self.L2[sel] = r_g, vr_g, L2_g
-                n_sub_total += n_sub * len(sel)
+            if self.rank_update:
+                n_sub_total += self._block_substeps(dt, k, lapse, gam)
+            else:
+                n_sub_total += self._frozen_substeps(dt, k, lapse, gam, r_sorted, M_h_sorted)
             self.t += dt
             self._update_field()
             n_steps += 1
@@ -406,7 +482,7 @@ class ShellRun:
                 "A": self.A, "cronos": self.cronos,
                 "ds": self.field.ds, "n_bins": self.field.nb, "eps_soft": self.eps_soft,
                 "dt_max_myr": self.dt * GYR_PER_TIME_UNIT * 1000.0, "dt_adaptive": self.dt_hist, "eta_dt": self.eta_dt, "eta_field": self.eta_field, "k_max": self.k_max,
-                "eps_L_kpc": self.eps_L}
+                "eps_L_kpc": self.eps_L, "rank_update": self.rank_update}
 
 
 def _speeds_inverse_cdf(Psi: np.ndarray, E_t: np.ndarray, f_t: np.ndarray, rng, n_v: int = 96, chunk: int = 20000) -> np.ndarray:

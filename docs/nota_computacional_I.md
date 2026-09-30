@@ -1588,6 +1588,73 @@ fila `decada-discriminante` no cambia; el siguiente candidato entra por
 la misma puerta. Fila `beta-extra-cribado` (resultado-negativo);
 artefacto `results/2026-09-28_beta_screening/`.
 
+### 3.36 Cualificación de instrumentos (E8-Q): un tipo de artefacto sin letras — las láminas excluyen a priori la celda que falló en la ronda 2 y las capas muestran que la puerta newtoniana ×3 es inalcanzable para Cronos (28-sep-2026)
+
+Las rondas 2 del frente 5 (§3.32, §3.34) quedaron INDETERMINADAS por
+puertas del instrumento, no por física. La orden del 28-sep separa las
+dos cosas con un tipo de artefacto nuevo, `results/<fecha>_qualification_<instrumento>/`
+(`validation/qualification.py`): una **cualificación** no tiene letras ni
+umbrales de desenlace (las claves `verdict`/`letter` están prohibidas y el
+lector falla cerrado si aparecen); publica los límites computables del
+instrumento y **criterios de exclusión calculables antes de correr**. Y
+una regla nueva del programa: **una preinscripción solo puede congelar
+puertas que una cualificación haya mostrado alcanzables**
+(`assert_gate_attainable`: puerta ≥ 3 × el suelo medido; fallo cerrado).
+Ninguna regla ya congelada se relaja.
+
+**Láminas** (`cronos_jeans_1d`; 30 corridas sin siembra, retículo
+exacto): la banda ultravioleta k ≥ ½ k_Nyquist de la densidad depositada
+crece desde el ruido de redondeo (~1e-16) a una tasa γ_UV que crece con q
+y con ng, no con las celdas por haz — con el instrumento de la ronda 2
+(ng 512, 1024 haces) γ_UV = 8.3 / 10.2 / 152 (L/σ)⁻¹ para q = 0.8 / 1.2 /
+2.0 sin filtro y 4.8 / 5.8 / 129 con el filtro declarado k_c = ½ k_Nyq. El
+filtro reduce γ_UV ×0.57–0.85 en q ≤ 1.2 y apenas en q = 2 (×0.85–0.99):
+la banda del depósito la regenera la no linealidad de los modos que el
+filtro deja pasar. Criterio de exclusión: celda (q, n) excluida si
+γ_UV·t_ventana > ln(A_nl/A_ruido_ef), con t_ventana = ln(30/3)/γ_inst,
+A_nl = 1e-2 y A_ruido_ef = máx(ruido medido, A_semilla²). Con el
+instrumento de la ronda 2 queda excluida **una** celda, q = 2.0, n = 4
+(22.8 y 19.3 frente a 17.0, sin y con filtro): exactamente la celda cuya
+fase lineal no se resolvió en la ronda 2 — una comprobación interna del
+criterio (E8), no una demostración. La cota t_uv_nonlinear (0.21–0.24 en
+q = 2, ng 512) limita el T que la ronda 3 puede pedir.
+
+**Capas** (`halo_shells`; 69 corridas: N = 1e5 × ds ∈ {0.02, 0.04, 0.08} ×
+ε_soft ∈ {0.2, 0.1, 0.05} × rango congelado/actualizado, más N = 3e5 y
+1e6, dt_min 1e-5 y ε_soft = 0.025; presupuesto de pared 480 s por
+corrida). Suelos de |ΔE/E|: newtoniano 1.0e-5 → 2.3e-6 con el rango
+M(<r) actualizado en los subpasos; 0.05·A_Sculptor 6.8e-3 → 2.8e-4 (×25);
+A_Sculptor 7.7e-2 → 3.0e-2 en el peor caso y 2.5e-3–8.5e-3 en las celdas
+típicas (1.2e-3 a N = 1e6): **durante el colapso de la cúspide el rango
+actualizado no baja el suelo a A_Sculptor**. La puerta «3 × el suelo
+newtoniano equivalente» (6.8e-6) es por tanto inalcanzable para los
+brazos de Cronos por tres a cuatro órdenes de magnitud; la ronda 3 solo
+puede congelar, para ellos, puertas ≥ 3 × su propio suelo (0.05·A_S:
+8.3e-4; A_S: 8.9e-2), y lo sabe antes de correr. Estacionariedad
+newtoniana en 50 Myr a N = 1e5: 0.008 dex con ε_soft = 0.2, 0.056 con
+0.1, 0.096 con 0.05 y 0.099 con 0.025 (independiente de ds y del rango) —
+con suavizado pequeño el control newtoniano a N = 1e5 no es estacionario;
+a N = 1e6, 0.016 dex en 14.85 Myr. Salidas a A_Sculptor: ε_soft = 0.2 →
+0.91 / 2.09 Myr (rango congelado / actualizado); 0.1 → 0.18 (ds 0.02), 0.55
+(ds 0.04 con dt_min 1e-5), 0.99 (ds 0.08); con ε_soft ≤ 0.05 y ds ≤ 0.04
+la salida cae en el **primer paso global** (dt_max = 0.15 Myr): t_weak
+queda cuantizado por el paso, no medido, y el barrido de suavizado de la
+ronda 3 debe declarar dt_max ≪ 0.15 Myr. Con dt_min = 1e-4 los brazos
+A_S de ds = 0.04 y ε_soft ≤ 0.1 tocan el suelo de dt antes de salir
+(regla: dt_min ≤ 1e-5). 0.05·A_S no sale en ninguna celda dentro del
+presupuesto (ε_c máx ≤ 4.9e-4). El rango actualizado cuesta ×3–4 en
+pared.
+
+**Lectura.** Nada de esto es física ni letra: es lo que el instrumento
+puede y no puede medir, publicado antes de que las rondas 3 congelen sus
+puertas (E8-Q). Las dos lecturas del brief (integrador frente a ley)
+siguen abiertas: la cualificación dice que la energía a A_Sculptor no
+mejora con el rango actualizado y que t_weak depende de ε_soft en el
+rango medido — eso es lo que la ronda 3 preinscribe. Filas
+`cualificacion-laminas-e8q` y `cualificacion-capas-e8q`; artefactos
+`results/2026-09-28_qualification_sheets/` y
+`results/2026-09-28_qualification_shells/`.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
