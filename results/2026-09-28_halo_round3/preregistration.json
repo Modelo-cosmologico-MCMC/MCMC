@@ -1,0 +1,524 @@
+{
+  "title": "Frente 5 (b), ronda 3: integrador con rango M(<r) actualizado, barrido de suavizado ε_soft, serie ds y brazo de control saturante, bajo puertas heredadas de la cualificación E8-Q",
+  "frozen_utc": "2026-09-30T14:25:08.272589+00:00",
+  "code_commit": "5ec25b04322ad9fbca3cb1dee13cc40aa2fdfdfc",
+  "generator": "scripts/run_halo_round3.py prereg",
+  "generator_commit_must_precede_freeze": true,
+  "qualification": {
+    "path": "results/2026-09-28_qualification_shells",
+    "sha256": "64b9693e6d9a2d8b490ded802129ba313dd9ee1aca15266957282f12d895e4e0",
+    "code_commit": "0dbbd56790652352abeac6e730ebea672c0cab57",
+    "energy_gate_records": {
+      "newton": {
+        "limit_key": "energy_floor_newton_rank_update1",
+        "gate": 6.753225863202257e-06,
+        "measured_floor": 2.251075287734086e-06,
+        "factor": 3.0,
+        "qualification_sha256": "64b9693e6d9a2d8b490ded802129ba313dd9ee1aca15266957282f12d895e4e0",
+        "qualification_instrument": "capas esféricas (halo_shells)"
+      },
+      "AS": {
+        "limit_key": "energy_floor_AS_rank_update1",
+        "gate": 0.08880316201535281,
+        "measured_floor": 0.029601054005117602,
+        "factor": 3.0,
+        "qualification_sha256": "64b9693e6d9a2d8b490ded802129ba313dd9ee1aca15266957282f12d895e4e0",
+        "qualification_instrument": "capas esféricas (halo_shells)"
+      },
+      "b005": {
+        "limit_key": "energy_floor_b005_rank_update1",
+        "gate": 0.0008342998244686957,
+        "measured_floor": 0.00027809994148956526,
+        "factor": 3.0,
+        "qualification_sha256": "64b9693e6d9a2d8b490ded802129ba313dd9ee1aca15266957282f12d895e4e0",
+        "qualification_instrument": "capas esféricas (halo_shells)"
+      }
+    },
+    "floors_measured_rank_update1": {
+      "newton": 2.251075287734086e-06,
+      "AS": 0.029601054005117602,
+      "b005": 0.00027809994148956526
+    },
+    "brief_rule_3x_newton_gate": 6.753225863202257e-06,
+    "brief_rule_attainable_for_cronos_arms": {
+      "AS": false,
+      "b005": false
+    },
+    "gate_rule_used": "3 × el suelo medido de la MISMA clase de brazo (newton / A_Sculptor / 0.05·A_Sculptor); los brazos saturantes, sin cualificación propia, heredan la puerta de A_Sculptor",
+    "dt_min_rule_satisfied": true,
+    "newton_stationarity_dex_max_measured": 0.09941444993176006,
+    "dt_max_rule": "brazos a A_Sculptor con dt_max = 0.01 Myr (la cualificación vio la salida en el primer paso de 0.15 Myr para ε_soft ≤ 0.05)"
+  },
+  "round2": "results/2026-09-22_halo_shells (INDETERMINADO por energía y suelo de dt): intacta",
+  "question": "¿Depende t_weak de ε_soft como una potencia (la ley) o es independiente (el integrador)? ¿Converge la serie ds a A_Sculptor? ¿Se comporta la forma saturante sub-umbral como predice la ecuación 1 (no sale, converge) y la supra-umbral sale?",
+  "prediction_from_criterion": {
+    "r_CJ_kpc_A_sculptor": 0.7091372682907996,
+    "r_CJ_kpc_0p05": 0.18018067110148347,
+    "expected": "A"
+  },
+  "amplitudes": {
+    "A_sculptor": 6.201588782789579e-07,
+    "fraction_arm": 0.05
+  },
+  "system": {
+    "M200_msun": 100000000000.0,
+    "c": 10.0,
+    "H0": 67.86705532886631,
+    "seed": 1,
+    "r_decay_factor": 0.3,
+    "refine_r_kpc": 2.0,
+    "refine_beta": 1.5,
+    "structural": {
+      "M200": 100000000000.0,
+      "c": 10.0,
+      "H0": 67.86705532886631,
+      "rho_s": 5723373.75271517,
+      "r_s": 9.774625607060127,
+      "r200": 97.74625607060126,
+      "rho_crit": 127.81475727256635
+    }
+  },
+  "instrument": {
+    "code": "cronos/halo_shells.py (capas esféricas, rango M(<r) ACTUALIZADO en los subpasos: rank_update = True)",
+    "dt_max_myr": 0.15,
+    "dt_min_myr": 1e-05,
+    "eta_dt": 0.05,
+    "eta_field": 0.02,
+    "k_max": 10,
+    "saturating_form": "ε_c = ε_max ρ^{3/2}/(ρ^{3/2} + ρ*^{3/2}); fuerza = gradiente exacto de U = −c²Σ_b V_b G(ρ_b), G' = ε_c; Γ = ε_c'(ρ)ρ̇Θ(ρ̇)",
+    "max_wall_hours_per_run": 4.0,
+    "weak_regime_eps_max": 0.001
+  },
+  "saturating_control": {
+    "rule": "ρ* = ρ_NFW(r = 0.1 kpc) de la tabla de Jeans del halo (M200 = 1e11, c = 10)",
+    "eps_max_crit": 1.0829231501781754e-08,
+    "rho_star": 0.5482132600429312,
+    "points": {
+      "sub": {
+        "eps_max": 5.414615750890877e-09,
+        "rho_star": 0.5482132600429312,
+        "factor_over_crit": 0.5,
+        "A_weak_equivalent": 1.333961631949788e-08,
+        "q_profile": [
+          {
+            "r_kpc": 0.05,
+            "q": 0.5
+          },
+          {
+            "r_kpc": 0.1,
+            "q": 0.39611957254130475
+          },
+          {
+            "r_kpc": 0.2,
+            "q": 0.1895752244362591
+          },
+          {
+            "r_kpc": 0.3,
+            "q": 0.10077689128863415
+          },
+          {
+            "r_kpc": 0.4,
+            "q": 0.06043644717617875
+          },
+          {
+            "r_kpc": 0.5,
+            "q": 0.03959252767677434
+          },
+          {
+            "r_kpc": 0.7,
+            "q": 0.020255035574916674
+          },
+          {
+            "r_kpc": 0.9,
+            "q": 0.012034906652406854
+          },
+          {
+            "r_kpc": 1.0,
+            "q": 0.009632959493799203
+          },
+          {
+            "r_kpc": 1.5,
+            "q": 0.003997590415930664
+          },
+          {
+            "r_kpc": 2.3,
+            "q": 0.001516731126551422
+          },
+          {
+            "r_kpc": 5.0,
+            "q": 0.00022514935256137748
+          }
+        ],
+        "q_max_cusp": 0.5,
+        "in_viable_region": {
+          "oort": true,
+          "stability_table": true,
+          "stability_table_external_rows": true,
+          "both": true,
+          "oort_and_external": true
+        }
+      },
+      "above": {
+        "eps_max": 1.6243847252672632e-08,
+        "rho_star": 0.5482132600429312,
+        "factor_over_crit": 1.5,
+        "A_weak_equivalent": 4.001884895849364e-08,
+        "q_profile": [
+          {
+            "r_kpc": 0.05,
+            "q": 1.5
+          },
+          {
+            "r_kpc": 0.1,
+            "q": 1.1883587176239145
+          },
+          {
+            "r_kpc": 0.2,
+            "q": 0.5687256733087773
+          },
+          {
+            "r_kpc": 0.3,
+            "q": 0.30233067386590246
+          },
+          {
+            "r_kpc": 0.4,
+            "q": 0.1813093415285362
+          },
+          {
+            "r_kpc": 0.5,
+            "q": 0.11877758303032301
+          },
+          {
+            "r_kpc": 0.7,
+            "q": 0.060765106724750016
+          },
+          {
+            "r_kpc": 0.9,
+            "q": 0.03610471995722056
+          },
+          {
+            "r_kpc": 1.0,
+            "q": 0.02889887848139761
+          },
+          {
+            "r_kpc": 1.5,
+            "q": 0.011992771247791991
+          },
+          {
+            "r_kpc": 2.3,
+            "q": 0.004550193379654267
+          },
+          {
+            "r_kpc": 5.0,
+            "q": 0.0006754480576841324
+          }
+        ],
+        "q_max_cusp": 1.5,
+        "in_viable_region": {
+          "oort": true,
+          "stability_table": false,
+          "stability_table_external_rows": true,
+          "both": false,
+          "oort_and_external": true
+        }
+      }
+    },
+    "above_candidates_tried": {
+      "2.0": {
+        "oort": false,
+        "stability_table": false,
+        "stability_table_external_rows": true,
+        "both": false,
+        "oort_and_external": false
+      },
+      "1.5": {
+        "oort": true,
+        "stability_table": false,
+        "stability_table_external_rows": true,
+        "both": false,
+        "oort_and_external": true
+      }
+    },
+    "viability_rule": "'sub' debe estar en el 58 % viable completo; 'above' viola las filas del halo NFW por definición y es el mayor factor de [2.0, 1.5, 1.25] que cumple Oort y las filas externas",
+    "dictionary_artifact": "results/2026-09-22_dictionary_eps_c/eps_c_saturating.json",
+    "dictionary_sha256": "ab6d66441fb0aa95a602617aca009cf2609bf76c7eff9bbdb22f4400239ca4a3"
+  },
+  "arms": {
+    "newton_N1e6": {
+      "label": "newtoniano, N = 1e6",
+      "form": "weak",
+      "cronos": false,
+      "amplitude": 0.0,
+      "ds": 0.04,
+      "eps_soft": 0.1,
+      "N": 1000000,
+      "t_end_gyr": 0.05,
+      "dt_max_myr": 0.15,
+      "gate_class": "newton"
+    },
+    "sweep_AS_eps0.2": {
+      "label": "barrido ε_soft = 0.2 kpc, AS",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 1.0,
+      "ds": 0.04,
+      "eps_soft": 0.2,
+      "N": 1000000,
+      "t_end_gyr": 0.02,
+      "dt_max_myr": 0.01,
+      "gate_class": "AS"
+    },
+    "sweep_AS_eps0.1": {
+      "label": "barrido ε_soft = 0.1 kpc, AS",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 1.0,
+      "ds": 0.04,
+      "eps_soft": 0.1,
+      "N": 1000000,
+      "t_end_gyr": 0.02,
+      "dt_max_myr": 0.01,
+      "gate_class": "AS"
+    },
+    "sweep_AS_eps0.05": {
+      "label": "barrido ε_soft = 0.05 kpc, AS",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 1.0,
+      "ds": 0.04,
+      "eps_soft": 0.05,
+      "N": 1000000,
+      "t_end_gyr": 0.02,
+      "dt_max_myr": 0.01,
+      "gate_class": "AS"
+    },
+    "sweep_AS_eps0.025": {
+      "label": "barrido ε_soft = 0.025 kpc, AS",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 1.0,
+      "ds": 0.04,
+      "eps_soft": 0.025,
+      "N": 1000000,
+      "t_end_gyr": 0.02,
+      "dt_max_myr": 0.01,
+      "gate_class": "AS"
+    },
+    "sweep_b005_eps0.2": {
+      "label": "barrido ε_soft = 0.2 kpc, b005",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 0.05,
+      "ds": 0.04,
+      "eps_soft": 0.2,
+      "N": 1000000,
+      "t_end_gyr": 0.05,
+      "dt_max_myr": 0.15,
+      "gate_class": "b005"
+    },
+    "sweep_b005_eps0.1": {
+      "label": "barrido ε_soft = 0.1 kpc, b005",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 0.05,
+      "ds": 0.04,
+      "eps_soft": 0.1,
+      "N": 1000000,
+      "t_end_gyr": 0.05,
+      "dt_max_myr": 0.15,
+      "gate_class": "b005"
+    },
+    "sweep_b005_eps0.05": {
+      "label": "barrido ε_soft = 0.05 kpc, b005",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 0.05,
+      "ds": 0.04,
+      "eps_soft": 0.05,
+      "N": 1000000,
+      "t_end_gyr": 0.05,
+      "dt_max_myr": 0.15,
+      "gate_class": "b005"
+    },
+    "sweep_b005_eps0.025": {
+      "label": "barrido ε_soft = 0.025 kpc, b005",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 0.05,
+      "ds": 0.04,
+      "eps_soft": 0.025,
+      "N": 1000000,
+      "t_end_gyr": 0.05,
+      "dt_max_myr": 0.15,
+      "gate_class": "b005"
+    },
+    "series_AS_ds0.02": {
+      "label": "serie ds = 0.02, A_Sculptor, ε_soft = 0.1",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 1.0,
+      "ds": 0.02,
+      "eps_soft": 0.1,
+      "N": 1000000,
+      "t_end_gyr": 0.02,
+      "dt_max_myr": 0.01,
+      "gate_class": "AS"
+    },
+    "series_AS_ds0.08": {
+      "label": "serie ds = 0.08, A_Sculptor, ε_soft = 0.1",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 1.0,
+      "ds": 0.08,
+      "eps_soft": 0.1,
+      "N": 1000000,
+      "t_end_gyr": 0.02,
+      "dt_max_myr": 0.01,
+      "gate_class": "AS"
+    },
+    "sat_sub_ds0.02": {
+      "label": "control saturante 'sub', ds = 0.02",
+      "form": "saturating",
+      "cronos": true,
+      "amplitude": null,
+      "ds": 0.02,
+      "eps_soft": 0.1,
+      "N": 1000000,
+      "t_end_gyr": 0.05,
+      "sat_point": "sub",
+      "dt_max_myr": 0.15,
+      "gate_class": "sat"
+    },
+    "sat_sub_ds0.04": {
+      "label": "control saturante 'sub', ds = 0.04",
+      "form": "saturating",
+      "cronos": true,
+      "amplitude": null,
+      "ds": 0.04,
+      "eps_soft": 0.1,
+      "N": 1000000,
+      "t_end_gyr": 0.05,
+      "sat_point": "sub",
+      "dt_max_myr": 0.15,
+      "gate_class": "sat"
+    },
+    "sat_sub_ds0.08": {
+      "label": "control saturante 'sub', ds = 0.08",
+      "form": "saturating",
+      "cronos": true,
+      "amplitude": null,
+      "ds": 0.08,
+      "eps_soft": 0.1,
+      "N": 1000000,
+      "t_end_gyr": 0.05,
+      "sat_point": "sub",
+      "dt_max_myr": 0.15,
+      "gate_class": "sat"
+    },
+    "sat_above_ds0.04": {
+      "label": "control saturante 'above', ds = 0.04",
+      "form": "saturating",
+      "cronos": true,
+      "amplitude": null,
+      "ds": 0.04,
+      "eps_soft": 0.1,
+      "N": 1000000,
+      "t_end_gyr": 0.05,
+      "sat_point": "above",
+      "dt_max_myr": 0.15,
+      "gate_class": "sat"
+    },
+    "ctrlN_AS_N1e5": {
+      "label": "control de N, AS, N = 1e5",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 1.0,
+      "ds": 0.04,
+      "eps_soft": 0.1,
+      "N": 100000,
+      "t_end_gyr": 0.02,
+      "dt_max_myr": 0.01,
+      "gate_class": "AS"
+    },
+    "ctrlN_b005_N1e5": {
+      "label": "control de N, b005, N = 1e5",
+      "form": "weak",
+      "cronos": true,
+      "amplitude": 0.05,
+      "ds": 0.04,
+      "eps_soft": 0.1,
+      "N": 100000,
+      "t_end_gyr": 0.05,
+      "dt_max_myr": 0.15,
+      "gate_class": "b005"
+    }
+  },
+  "snapshots_gyr": [
+    0.0,
+    0.0001,
+    0.0002,
+    0.0005,
+    0.001,
+    0.002,
+    0.005,
+    0.01,
+    0.02,
+    0.03,
+    0.04,
+    0.05
+  ],
+  "gates": {
+    "tol_E_by_class": {
+      "newton": 6.753225863202257e-06,
+      "AS": 0.08880316201535281,
+      "b005": 0.0008342998244686957,
+      "sat": 0.08880316201535281
+    },
+    "tol_E_newton": 6.753225863202257e-06,
+    "stationarity_dex": 0.1,
+    "n_min_shells_within_0p4": 2000,
+    "N_control_factor": 2.0,
+    "energy_gate_meaning": "|Δ(K+W)/E| (newton) y |ΔE_self/E| (Cronos) ≤ 3 × el suelo medido con rango actualizado en la MISMA clase de brazo (newton / A_Sculptor / 0.05·A_Sculptor; los saturantes heredan la de A_Sculptor). La regla del brief (3 × suelo newtoniano, 6.75e-06) es inalcanzable para los brazos de Cronos según la cualificación y se publica como tal"
+  },
+  "rules": {
+    "energy_gate_factor": 3.0,
+    "stationarity_dex": 0.1,
+    "n_min_shells_within_0p4": 2000,
+    "N_control_factor": 2.0,
+    "p_power_law_min": 0.25,
+    "p_independent_max": 0.1,
+    "fit_r2_min": 0.9,
+    "sat_convergence_dex": 0.03,
+    "letters": {
+      "A": "barrido: p ≥ p_power_law_min con r² ≥ fit_r2_min en las dos amplitudes; serie ds a A_Sculptor sin convergencia (todas salen y t_weak decrece estrictamente al refinar); control saturante: 'sub' no sale en ninguna ds y M(<0.4) converge con ds (≤ sat_convergence_dex), 'above' sale",
+      "B": "barrido con p ≥ p_power_law_min pero el control saturante 'sub' TAMBIÉN sale del régimen débil",
+      "C": "barrido con |p| ≤ p_independent_max en A_Sculptor (t_weak independiente de ε_soft: el integrador manda; la lectura de la adenda se retira)",
+      "INDETERMINADO": "puerta violada (energía, capas interiores, estacionariedad, control de N, corridas ausentes) o p entre p_independent_max y p_power_law_min o r² < fit_r2_min; ningún otro patrón se clasifica"
+    },
+    "order": "puertas → C → B → A; ningún umbral se toca tras ver los números"
+  },
+  "metric": "t_weak = instante en que ε_c máx supera weak_regime_eps_max (parada declarada); r_exit; M(<0.1), M(<0.4) en la salida; None si llega a t_end",
+  "sweep_fit": "p = pendiente de ln t_weak frente a ln ε_soft por mínimos cuadrados sobre las cuatro ε_soft (solo brazos que salen); r² de la recta",
+  "expectations_E13": {
+    "letter": "A",
+    "p": "p > 0: r_CJ ∝ A^{2/5}-ish y la cúspide resuelta más adentro colapsa antes (adenda del autor); el brief espera independencia (C)",
+    "sat_sub": "no sale; M(<0.4) converge con ds",
+    "sat_above": "sale"
+  },
+  "development_declaration": {
+    "pilots": "ninguno específico de la ronda 3: la cualificación E8-Q de las capas midió el suelo de energía por N, ds, ε_soft, dt_min y modo de rango (results/2026-09-28_qualification_shells); el instrumento saturante se probó solo en tests (gradiente exacto, energía a 1e-5 en 4 Myr)",
+    "what_they_fixed": "solo el instrumento y las puertas alcanzables; ninguna letra"
+  },
+  "what_this_cannot_decide": [
+    "si la Ley de Cronos débil o la saturante es la ley (el brazo saturante es CONTROL: prueba la ecuación 1 como física solo si se cumple la predicción)",
+    "la amplitud (A_Sculptor es hipótesis del 5E)",
+    "los modos no radiales y el interior por debajo de ε_soft"
+  ],
+  "prohibitions": {
+    "no_threshold_tuning": true,
+    "no_data": true,
+    "no_change_to_A_sculptor": true,
+    "round2_untouched": true,
+    "qualification_untouched": true
+  }
+}
