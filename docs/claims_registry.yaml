@@ -1319,7 +1319,7 @@ claims:
       preinscripciones Oort–K_z (desenlace C si g_C/K_z > 1 donde el
       modelo pone ×2–7) y perfil de Sculptor (C si el χ² excluye el pico
       central a > 3σ) deciden la amplitud única contra datos
-    evidence_level: derivación (E8) con control externo del autor reproducido y test 1D del umbral; expectativas declaradas (E13); sin datos ingeridos; no resultado observacional
+    evidence_level: derivación (E8) con control externo del autor reproducido y test 1D del umbral; derivado y confirmado por el test numérico preinscrito (ronda 3, fila criterio-cronos-jeans-ronda3, desenlace A — comprobación interna, no demostración física); expectativas declaradas (E13); sin datos ingeridos; no resultado observacional
     status: interno
     artifact: results/2026-09-21_cronos_jeans
 
@@ -1489,6 +1489,62 @@ claims:
     evidence_level: comprobación interna (E8) bajo preinscripción nueva; INDETERMINADO por una celda; las once celdas resueltas coinciden con la cinética exacta al 1–2 % y se publican sin veredicto (E13)
     status: interno
     artifact: results/2026-09-22_cj_criterion_round2
+
+  - claim_id: criterio-cronos-jeans-ronda3
+    entity: Test preinscrito del criterio de Cronos–Jeans, ronda 3 — banda ultravioleta controlada por filtro declarado k_c = ½ k_Nyquist, celda (q = 2, n = 4) excluida a priori por la cualificación E8-Q, once celdas más control de haces; desenlace A bajo la regla congelada (30-sep-2026)
+    law: "Def. 11.1 y Cor. 11.3 (ley local ε_c = A·ρ^(3/2)); teoría cinética lineal del medio maxwelliano (1 = q[1 + ζZ(ζ)]); §3.21 (criterio); regla del programa «solo puertas alcanzables» (fila cualificacion-laminas-e8q)"
+    derivation: >-
+      preinscripción nueva congelada (sha256 ae9abba01c26…) en un commit
+      posterior al generador y anterior a toda corrida, sobre main con la
+      cualificación de láminas fusionada (sha256 8a35a6a4380b…). Sin
+      pilotos propios: el filtro y la banda UV se cualificaron en
+      results/2026-09-28_qualification_sheets; la ronda 2 fijó el retículo
+      exacto y la siembra del modo propio. Instrumento: ng = 512, 1024
+      haces con p = 4 celdas por haz (N = 2 097 152), paso bajo de Fourier
+      sobre la densidad depositada con k_c = ½ k_Nyquist antes de la no
+      linealidad, predicción del instrumento γ_inst(q, k) = γ_cin(q·W(k))
+      si k ≤ k_c, y T de cada celda = mín(regla de la ronda 2,
+      t_uv_nonlinear de la cualificación). Celda excluida a priori:
+      q = 2.0, n = 4 (γ_UV·t_ventana = 19.3 > 17.0): no se corre ni cuenta.
+      Tolerancias idénticas a las rondas 1 y 2 (25 %, 25 %, ≥ 8 puntos con
+      r² ≥ 0.98, haces al 2 %) más las puertas uv_controlled (uv_rms < 1e-2
+      hasta el cierre de la ventana) y filter_declared. RESULTADO bajo la
+      regla congelada: A. q = 0.8 estable en los cuatro modos (γ/k < 0,
+      amortiguamiento de Landau; crecimiento ×1.0); q = 1.2: γ/k =
+      0.1498 / 0.1462 / 0.1376 / 0.1034 frente a 0.1485 / 0.1465 / 0.1384 /
+      0.1062 del instrumento (r² ≥ 0.9998, 111–597 puntos; dispersión entre
+      modos 3.6 %); q = 2.0: 0.6080 / 0.5978 / 0.5560 frente a 0.6089 /
+      0.5994 / 0.5619 en n = 8 / 16 / 32 (r² = 1.0000, 21–76 puntos;
+      dispersión 0.9 %). Banda UV dentro de la ventana ≤ 1.0e-3 (q = 1.2,
+      n = 4) y ≤ 1.0e-4 en el resto (puerta 1e-2); tras la ventana la banda
+      llega a 2–4 % en q = 2 (publicado, fuera de la regla). Convergencia
+      en haces (q = 1.2, n = 8; 512 haces, p = 8): 0.04 % (tolerancia 2 %).
+      Declarado: la comparación congelada es con γ_cin(q·W(k)), la
+      predicción cinética corregida por la ventana W(k) del depósito CIC;
+      frente al continuo (0.1492 / 0.6120) el modo n = 32 queda un 29–31 %
+      por debajo porque W(k) = 0.95 — el instrumento mide su propia
+      predicción, no el límite continuo, y así estaba escrito. Ninguna
+      tolerancia se tocó; el número no es señal (E13: la ronda 2 ya daba
+      11/12 celdas al 1–2 % y la celda que falló es la que la cualificación
+      excluye). Consecuencia congelada en la preinscripción: la fila
+      criterio-cronos-jeans pasa a «derivado y confirmado por el test
+      numérico» — comprobación interna (E8), no demostración física. Lo que
+      A NO dice: nada sobre datos, sobre A_Sculptor, sobre el halo (frente
+      5 (b), ronda 3, en curso) ni sobre la validez física de la ley; la
+      celda excluida no se midió.
+    implementation: cronos/cronos_jeans_1d.py + cronos/cronos_jeans_kinetic.py + scripts/run_cj_round3.py
+    test: tests/test_cronos_jeans_kinetic.py + tests/test_cj_round3_lock.py
+    observable: "— (test numérico interno; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      un instrumento independiente (Vlasov euleriano con banda declarada, o
+      láminas con otro filtro cualificado) que, bajo su propia
+      preinscripción, midiera tasas fuera del 25 % de γ_cin(q, k)·W(k) o
+      crecimiento con q = 0.8 falsaría la reproducción; el criterio mismo
+      solo lo deciden los datos (filas oort-kz y sculptor-perfil)
+    evidence_level: comprobación interna (E8) bajo preinscripción nueva con celda excluida a priori por una cualificación E8-Q; desenlace A; predicción cinética reproducida en las once celdas; sin datos; no resultado observacional
+    status: interno
+    artifact: results/2026-09-28_cj_criterion_round3
 
   - claim_id: halo-serie-resolucion-campo
     entity: Frente 5 (b) — serie de resolución del campo de Cronos (k_inner 64/128/256) en el halo NFW a A_Sculptor y a 0.05·A_Sculptor con campo instantáneo que sigue a las partículas y balance K + W + (2/5)U_C + W_fric, bajo preinscripción congelada; desenlace INDETERMINADO por la puerta de energía (21-sep-2026, tarde)
