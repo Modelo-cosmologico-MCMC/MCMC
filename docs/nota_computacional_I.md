@@ -1655,6 +1655,72 @@ rango medido — eso es lo que la ronda 3 preinscribe. Filas
 `results/2026-09-28_qualification_sheets/` y
 `results/2026-09-28_qualification_shells/`.
 
+### 3.37 Test del criterio de Cronos–Jeans, ronda 3: con la banda ultravioleta controlada y la celda lenta excluida a priori, las once celdas reproducen la cinética exacta — desenlace A bajo la regla congelada (30-sep-2026)
+
+La ronda 2 (§3.32) quedó INDETERMINADA por una celda, (q = 2, n = 4), y
+su diagnóstico publicado fue la catástrofe ultravioleta de la propia ley
+actuando sobre el ruido de redondeo del instrumento. La cualificación de
+láminas (§3.36) convirtió ese diagnóstico en un criterio calculable
+antes de correr y excluyó exactamente esa celda. La ronda 3 se
+preinscribió (sha256 `ae9abba01c26…`) en un commit posterior al
+generador y anterior a toda corrida, solo después de fusionar la
+cualificación (PR-3, #46), como exige la regla nueva del programa. Sin
+pilotos propios. Instrumento: ng = 512, 1024 haces con p = 4 (retículo
+exacto), siembra del modo propio exacto, **filtro declarado** k_c = ½
+k_Nyquist (paso bajo de Fourier sobre la densidad depositada antes de la
+no linealidad) con la predicción del instrumento γ_inst(q, k) =
+γ_cin(q·W(k)), y T de cada celda acotado por t_uv_nonlinear de la
+cualificación. Tolerancias idénticas a las rondas 1 y 2 (25 %, 25 %, ≥ 8
+puntos con r² ≥ 0.98, haces al 2 %) más dos puertas nuevas: uv_rms <
+1e-2 hasta el cierre de la ventana lineal y k_c declarado en cada
+corrida. Once celdas más el control de haces (512 haces, p = 8), 1–10
+min cada una.
+
+**Resultado bajo la regla congelada: A.**
+
+| q | n | γ/k medido | γ/k instrumento (W(k)) | γ/k continuo | r² | puntos | UV máx (ventana) | fila |
+|---|---|---|---|---|---|---|---|---|
+| 0.8 | 4 / 8 / 16 / 32 | < 0 (Landau) | 0 | 0 | — | 123–601 | ≤ 1.4e-6 | estable (4/4) |
+| 1.2 | 4 | 0.1498 | 0.1485 | 0.1492 | 0.9998 | 597 | 1.0e-3 | dentro de tol. |
+| 1.2 | 8 | 0.1462 | 0.1465 | 0.1492 | 1.0000 | 314 | 1.5e-5 | dentro de tol. |
+| 1.2 | 16 | 0.1376 | 0.1384 | 0.1492 | 1.0000 | 166 | 4.6e-7 | dentro de tol. |
+| 1.2 | 32 | 0.1034 | 0.1062 | 0.1492 | 1.0000 | 111 | 9.7e-7 | dentro de tol. |
+| 2.0 | 4 | — | — | — | — | — | — | **excluida a priori** |
+| 2.0 | 8 | 0.6080 | 0.6089 | 0.6120 | 1.0000 | 76 | 1.0e-4 | dentro de tol. |
+| 2.0 | 16 | 0.5978 | 0.5994 | 0.6120 | 1.0000 | 38 | 2.5e-8 | dentro de tol. |
+| 2.0 | 32 | 0.5560 | 0.5619 | 0.6120 | 1.0000 | 21 | 2.5e-8 | dentro de tol. |
+
+Independencia de k: dispersión relativa 3.6 % en q = 1.2 y 0.9 % en
+q = 2.0 (tolerancia 25 %). Convergencia en haces: 0.1462 frente a
+0.1462, 0.04 % (tolerancia 2 %). Tras el cierre de la ventana la banda
+UV llega al 2–4 % en q = 2 — publicado, fuera de la regla, y coherente
+con lo que la cualificación midió (la no linealidad regenera la banda).
+
+**Tres cosas declaradas.** (i) La comparación congelada es con la
+predicción del instrumento γ_cin(q·W(k)), no con el límite continuo: en
+n = 32 el continuo queda un 29–31 % por encima porque W(k) = 0.95 (la
+ventana del depósito CIC baja el q efectivo); así estaba escrito en las
+tres rondas y el instrumento mide su propia predicción. (ii) La celda
+(q = 2, n = 4) no se midió: se excluyó antes de correr por una regla
+calculable y publicada, y la letra A cuenta solo las celdas no
+excluidas. Quien quiera medirla necesita otro instrumento (ng menor o un
+filtro más agresivo, cualificados). (iii) El número no es señal (E13):
+la ronda 2 ya daba 11/12 celdas al 1–2 % y la que falló es la que la
+cualificación excluye; A era el desenlace esperado y se publica con el
+mismo peso que habrían tenido B, C o INDETERMINADO.
+
+**Consecuencia, congelada en la preinscripción**: la fila
+`criterio-cronos-jeans` pasa a «derivado y confirmado por el test
+numérico» — comprobación interna (E8), no demostración física. Lo que A
+**no** dice: nada sobre datos ni sobre A_Sculptor (la amplitud única la
+deciden las preinscripciones Oort–K_z y perfil de Sculptor, ambas a la
+espera de bytes), nada sobre el halo (frente 5 (b), ronda 3, en curso
+bajo su propia preinscripción), nada sobre si la ley local es la
+correcta (eso es trabajo del diccionario: saturación, no localidad o
+amplitud pequeña). Fila `criterio-cronos-jeans-ronda3`; artefacto
+`results/2026-09-28_cj_criterion_round3/`; la ronda 2 y la cualificación
+no se tocan.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

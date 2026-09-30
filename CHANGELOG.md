@@ -6,6 +6,26 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — septiembre de 2026
 
+- **Test del criterio de Cronos–Jeans, ronda 3 (30-sep, PR-4): desenlace A
+  bajo la regla congelada** (sha256 de la preinscripción `ae9abba01c26…`,
+  congelada tras fusionar PR-3 y antes de toda corrida). Instrumento de la
+  ronda 2 (ng 512, 1024 haces, retículo exacto, modo propio sembrado) con
+  filtro declarado k_c = ½ k_Nyquist, predicción del instrumento
+  γ_cin(q·W(k)), T acotado por t_uv_nonlinear y la celda (q = 2, n = 4)
+  excluida a priori por la cualificación de láminas; tolerancias idénticas
+  a las rondas 1–2 más las puertas uv_controlled (uv_rms < 1e-2 hasta el
+  cierre de la ventana) y filter_declared. Once celdas + control de haces:
+  q = 0.8 estable (4/4); q = 1.2 γ/k = 0.1498 / 0.1462 / 0.1376 / 0.1034
+  frente a 0.1485 / 0.1465 / 0.1384 / 0.1062 (dispersión 3.6 %); q = 2.0
+  0.6080 / 0.5978 / 0.5560 frente a 0.6089 / 0.5994 / 0.5619 (n = 8 / 16 /
+  32; dispersión 0.9 %); r² ≥ 0.9998; UV en ventana ≤ 1e-3; haces 0.04 %.
+  Consecuencia congelada: la fila `criterio-cronos-jeans` pasa a «derivado
+  y confirmado por el test numérico» (comprobación interna E8, no
+  demostración física; E13: A era el desenlace esperado). Nada sobre
+  datos, A_Sculptor, el halo ni la validez física de la ley. Fila nueva
+  `criterio-cronos-jeans-ronda3`; Nota I §3.37; artefacto
+  `results/2026-09-28_cj_criterion_round3/` (12 corridas).
+
 - **Cualificación de instrumentos E8-Q (28-sep, PR-3): tipo de artefacto
   nuevo sin letras y regla nueva del programa — una preinscripción solo
   puede congelar puertas que una cualificación haya mostrado alcanzables**
