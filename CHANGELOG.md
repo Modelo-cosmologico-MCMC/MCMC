@@ -4,6 +4,27 @@ Formato: cada versión lista lo que el repositorio AFIRMA tras ella —
 el contrato de honestidad manda («cada commit deja el repositorio en un
 estado en que afirme exactamente lo que hace»).
 
+## Sin publicar — octubre de 2026
+
+- **Diccionario: Φ_ten del fondo derivado por la Def. 6.4, un solo hueco
+  post-Florencia, y matriz compacta de claims en español e inglés (18-oct,
+  revisión del autor del 30-sep).** La Ley de Cronos da N = r/r̄; en el fondo
+  homogéneo r = r̄ en todo punto, luego N ≡ 1 y Φ_ten = 0 exactamente. El
+  reloj S lo calcula ahora así (`phi_ten_background`, `lapse_ley_de_cronos`,
+  `phi_ten_from_lapse`) en lugar de declararlo como normalización; el valor
+  entregado no cambia (0). Fila nueva `phi-ten-fondo-ley-cronos` (interno).
+  La tabla de puentes separa Φ_ten en fondo (derivado) y perturbaciones
+  (condicional, canal Atlas), y marca S_post y C(S) como un solo hueco
+  («ecuación 4»; la ecuación 4 sigue sin ejecutarse). La nota de C(S) cita
+  el cribado de β: κ no ganó estatuto. Recuento: derivado 2, condicional 3,
+  calibrado 6, convencional 2, ausente 2, con un solo hueco distinto.
+  `scripts/make_claim_matrix.py` genera `docs/matriz_claims.md` y
+  `docs/claim_matrix_en.md` desde el registro y los puentes: matriz por
+  categoría, puentes y falsadores; la edición inglesa traduce el marco y el
+  vocabulario de estatutos y cita en español los textos de cada fila. Tests
+  de no divergencia, de cobertura de filas, de fallo cerrado y de lenguaje
+  del marco. README actualizado.
+
 ## Sin publicar — septiembre de 2026
 
 - **Test del criterio de Cronos–Jeans, ronda 3 (30-sep, PR-4): desenlace A

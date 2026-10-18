@@ -161,8 +161,12 @@ DECLARED_FORMS = {
     "confirmation_quanta": "tras alcanzar f = 1 − ε_res (residuo de descarga, "
                            "F.3) el reloj avanza ΔS por cuanto declarado: V3D en "
                            "1,000 y Florencia en 1,001 (Prop. 8.1).",
-    "Phi_ten_at_florencia": "Φ_ten(S_1,001) = 0 por normalización declarada "
-                            "(N = 1): no derivado.",
+    "Phi_ten_at_florencia": "Φ_ten(S_1,001) = 0 en el fondo homogéneo por la Ley de Cronos "
+                            "(Def. 6.4: N = r/r̄; con r = r̄ en todo punto, N ≡ 1 y Φ_ten = ln N = 0): "
+                            "derivado para el fondo por definición (derivación del autor, 30-sep; "
+                            "comprobación interna, E8). Φ_ten ≠ 0 solo con r ≠ r̄, en las "
+                            "perturbaciones: canal Atlas, condicional (fila gea-newton-atlas). "
+                            "Antes del 18-oct se declaraba como normalización (N = 1).",
     "S_post_unit": "tras Florencia (S ≥ 1,001) el índice S deja de medir la fracción "
                    "descargada de T₀ (S = 1 ⟺ descarga completa, normalización "
                    "pre-geométrica de este reloj): los sellos posteriores de la Tabla "
@@ -276,6 +280,28 @@ class ClockConfig:
     beta_extra_closure: str = "quadrant"
     beta_extra_kappa_hat: float | None = None
     reset_mass_on_collapse: bool = False
+
+
+def lapse_ley_de_cronos(r_local, r_mean):
+    """Ley de Cronos (Def. 6.4): N = r/r̄, la tasa local de descarga sobre su media global (N ≥ 0;
+    «cuando la descarga local cesa, el tiempo propio se congela»)."""
+    r_local, r_mean = np.asarray(r_local, dtype=float), float(r_mean)
+    if r_mean <= 0.0 or np.any(r_local < 0.0):
+        raise ValueError("Def. 6.4 exige r ≥ 0 y r̄ > 0")
+    return r_local / r_mean
+
+
+def phi_ten_from_lapse(N):
+    """Φ_ten = ln N (A.7: N = e^{Φ_ten}); N = 0 (descarga local detenida) da −∞."""
+    N = np.asarray(N, dtype=float)
+    with np.errstate(divide="ignore"):
+        return np.log(N)
+
+
+def phi_ten_background() -> float:
+    """Φ_ten del fondo homogéneo: r = r̄ en todo punto ⟹ N ≡ 1 ⟹ Φ_ten = 0 exacto (derivación del autor, 30-sep).
+    El reloj es homogéneo (sin estructura espacial), así que su Φ_ten entregado es este."""
+    return float(phi_ten_from_lapse(lapse_ley_de_cronos(1.0, 1.0)))
 
 
 def sextic_coupling_dimension(d: int) -> float:
@@ -1115,7 +1141,7 @@ class SClock:
                 "delta0_input": c.delta0,
                 "delta0_next_cycle": None,
                 "delta0_next_cycle_note": "F_Vic(δ₀) exige γ_R (frente 4): no calculado (core.victoria.STATUS_LYDIA)",
-                "Phi_ten": 0.0, "Phi_ten_note": DECLARED_FORMS["Phi_ten_at_florencia"],
+                "Phi_ten": phi_ten_background(), "Phi_ten_note": DECLARED_FORMS["Phi_ten_at_florencia"],
                 "channels_initial": None,
                 "readable_by_cosmology": False,
                 "readable_note": "el diccionario primordial → cosmológico no existe: cosmology/ no puede consumir "

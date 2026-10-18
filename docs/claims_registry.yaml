@@ -1114,6 +1114,37 @@ claims:
     status: calibrado
     artifact: "—"
 
+  - claim_id: phi-ten-fondo-ley-cronos
+    entity: Φ_ten en el fondo homogéneo — la Ley de Cronos (Def. 6.4, N = r/r̄) da N ≡ 1 y Φ_ten = 0 exactamente; Φ_ten no trivial solo en las perturbaciones, canal Atlas (derivación del autor del 30-sep, registrada el 18-oct-2026)
+    law: "Def. 6.4 (Ley de Cronos: N = r/r̄, «cuando la descarga local cesa, el tiempo propio se congela»); (6.3) dτ = N t_c dS; A.7 (N(S) = e^{Φ_ten(S)}); Def. 9.4 (Atlas: modo escalar identificado con Φ_ten)"
+    derivation: >-
+      Derivación del autor (revisión del 30-sep). En el fondo homogéneo la
+      tasa local de descarga coincide con su media global en todo punto,
+      r = r̄, luego N = r/r̄ ≡ 1 y Φ_ten = ln N = 0 para todo S, en
+      particular en Florencia (S_1,001). El valor que el reloj S entregaba
+      como «normalización declarada (N = 1), no derivado»
+      (DECLARED_FORMS['Phi_ten_at_florencia']) es una consecuencia de la
+      definición para el fondo, no una convención. El reloj, que es
+      homogéneo, lo calcula ahora así (core.s_clock.phi_ten_background,
+      con lapse_ley_de_cronos y phi_ten_from_lapse). Φ_ten ≠ 0 solo con
+      r ≠ r̄, es decir en las perturbaciones, donde el canal Atlas lo trata
+      (fila gea-newton-atlas, condicional). El puente Φ_ten de la tabla del
+      diccionario se separa en fondo (derivado) y perturbaciones
+      (condicional). Nada de esto toca el hueco del diccionario
+      primordial → cosmológico para el resto del estado entregado.
+    implementation: core/s_clock.py + scripts/make_dictionary_bridges.py
+    test: tests/test_s_clock.py + tests/test_dictionary_bridges.py
+    observable: "— (fondo: N ≡ 1, el lapso que la cosmología FRW ya usa)"
+    dataset: "—"
+    falsifier: >-
+      un fondo con r ≠ r̄ en algún punto (inhomogéneo) o una definición de r̄
+      que no sea la media de r sobre la misma hipersuperficie daría N ≠ 1;
+      dentro del fondo FRW homogéneo no hay falsador observacional porque
+      es una identidad de la definición
+    evidence_level: derivación del autor por definición (Def. 6.4) para el fondo homogéneo; comprobación interna (E8) en el reloj, no demostración física; las perturbaciones siguen en el canal Atlas (condicional)
+    status: interno
+    artifact: "—"
+
   - claim_id: diccionario-primordial-cosmologico
     entity: Diccionario primordial → cosmológico — frente con nombre propio (hueco declarado)
     law: "Ap. A.1 («ρ_id y ρ_lat nacen del potencial V(Φ_Ad; S)»), §9.5 (Λ_ten(Φ_ten) desde V₀), F.3 (parámetros calibrados)"
@@ -1130,7 +1161,11 @@ claims:
       core/s_clock.py entrega en S = 1.001 el estado (constantes
       selladas, β₃ y λ_Ad, f residual, θ, χ, Φ_ten declarado) con
       readable_by_cosmology = False y channels_initial = None — el hueco
-      es ahora un campo vacío en un artefacto, no una frase.
+      es ahora un campo vacío en un artefacto, no una frase. Desde el
+      18-oct, Φ_ten(S_1,001) = 0 del fondo ya no es una normalización
+      declarada sino una consecuencia de la Def. 6.4 (fila
+      phi-ten-fondo-ley-cronos); el hueco sigue siendo la fórmula del resto
+      del estado entregado a los parámetros cosmológicos.
     implementation: "—"
     test: tests/test_s_clock.py
     observable: "—"
