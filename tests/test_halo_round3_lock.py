@@ -49,6 +49,25 @@ def test_runs_if_present_cite_frozen_sha():
         assert json.loads(p.read_text(encoding="utf-8"))["preregistration_sha256"] == FROZEN_SHA, p.name
 
 
+@pytest.mark.skipif(not (OUT / "halo_round3.json").exists(), reason="ronda 3 sin analizar")
+def test_outcome_pinned_indeterminate_by_the_energy_gate_of_the_b005_class():
+    d = json.loads((OUT / "halo_round3.json").read_text(encoding="utf-8"))
+    assert d["verdict"] == "INDETERMINADO" and d["preregistration_sha256"] == FROZEN_SHA and d["missing_runs"] == []
+    assert d["gates"] == {"energy": False, "inner_shells": True, "newton_stationarity": True, "N_control": True, "runs_complete": True}
+    assert sorted(d["energy_failures"]) == sorted(["sweep_b005_eps0.2", "sweep_b005_eps0.1", "sweep_b005_eps0.05",
+                                                   "sweep_b005_eps0.025", "ctrlN_b005_N1e5"])
+    assert d["sweep"]["b005"]["n_exit"] == 2 and not d["sweep"]["b005"]["power_law"]   # D2: el barrido a 0.05·A_S no está completo
+    assert not d["saturating_control"]["above_exits"]                                   # D1: 'above' no puede salir
+
+
+@pytest.mark.skipif(not (OUT / "per_cell_energy.json").exists(), reason="tabla por celda no escrita")
+def test_per_cell_table_published_without_letter():
+    d = json.loads((OUT / "per_cell_energy.json").read_text(encoding="utf-8"))
+    assert "verdict" not in d and d["missing_runs"] == []
+    assert d["counts"] == {"cualificada": 1, "no llegó al instante de evaluación": 4, "sin celda equivalente": 12}
+    assert d["rows"]["ctrlN_AS_N1e5"]["cell_floor"] == pytest.approx(4.31e-3, rel=0.01)
+
+
 def test_analyze_fails_closed_without_prereg(tmp_path):
     code = ("import sys, pathlib; sys.path.insert(0, %r); import importlib.util as u; "
             "s = u.spec_from_file_location('m', %r); m = u.module_from_spec(s); s.loader.exec_module(m); "
