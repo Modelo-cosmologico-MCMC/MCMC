@@ -1396,7 +1396,25 @@ claims:
       ζ₀ρ/(ρ+ρ*) (criterio acotado por c²ε_max/4; introduce ρ*), no
       localidad (promedio a escala L corta k > 1/L) o amplitud pequeña
       (A ≲ 3e-8, que hace fallar 5E por construcción) — decidir cuál es
-      trabajo del diccionario, no del N-cuerpos.
+      trabajo del diccionario, no del N-cuerpos. REVISIÓN DEL AUTOR DEL
+      18-OCT (el estatus no cambia; fila lecturas-rondas3-3b). Robustez, a
+      posteriori y sin letra: sin las dos celdas de la ronda 3 que cerraron
+      su ventana con la banda inestable bajo k_c ya no lineal, (q = 1.2,
+      n = 4) y (q = 2.0, n = 8), las nueve restantes cumplen por sí solas
+      los criterios de A — q = 1.2 (n = 8, 16, 32) con |1 − medido /
+      instrumento| ≤ 0.027 y dispersión 0.025, q = 2.0 (n = 16, 32) con
+      ≤ 0.011 y 0.008, y q = 0.8 sin crecimiento en las cuatro. Cobertura:
+      γ ∝ k queda confirmada con la banda limpia en n = 8–32 (q = 1.2) y
+      n = 16–32 (q = 2.0); el régimen n = 4 no tiene ninguna medida limpia
+      con q > 1 — (2.0, 4) se excluyó a priori, (1.2, 4) tiene cobertura
+      incompleta y (1.5, 4) quedó sin resolver —; la ronda 3c, opcional, lo
+      cerraría. Alcance: es un resultado sobre la ley local del Cap. 11
+      (ε_c = Aρ^{3/2} como fuerza); con la formulación del autor del 18-oct
+      no describe la MCV de un halo, y se conserva como propiedad
+      matemática de esa ley y como motivo para reescribir la Cor. 11.3(c)
+      en la v36. Solo una C en una ronda limpia (tasas fuera del 25 % o sin
+      proporcionalidad) cambiaría el estatus; una B en n = 4 añadiría una
+      nota de tamaño finito sin cambiar «confirmado».
     implementation: dynamics/cronos_jeans.py + cronos/cronos_jeans_1d.py + scripts/run_cronos_jeans.py
     test: tests/test_cronos_jeans.py
     observable: "— (derivación); indirectamente ρ_dyn(0) y K_z(z ≤ 500 pc) locales y σ_los(R) de Sculptor, cuando se preinscriban"
@@ -1408,7 +1426,7 @@ claims:
       preinscripciones Oort–K_z (desenlace C si g_C/K_z > 1 donde el
       modelo pone ×2–7) y perfil de Sculptor (C si el χ² excluye el pico
       central a > 3σ) deciden la amplitud única contra datos
-    evidence_level: derivación (E8) con control externo del autor reproducido y test 1D del umbral; derivado y confirmado por el test numérico preinscrito (ronda 3, fila criterio-cronos-jeans-ronda3, desenlace A — comprobación interna, no demostración física; matiz del 18-oct sobre la cobertura de su puerta UV y ampliación a q = 1.5 INDETERMINADA, fila criterio-cronos-jeans-ronda3b); expectativas declaradas (E13); sin datos ingeridos; no resultado observacional
+    evidence_level: derivación (E8) con control externo del autor reproducido y test 1D del umbral; derivado y confirmado por el test numérico preinscrito (ronda 3, fila criterio-cronos-jeans-ronda3, desenlace A — comprobación interna, no demostración física; matiz del 18-oct sobre la cobertura de su puerta UV y ampliación a q = 1.5 INDETERMINADA, fila criterio-cronos-jeans-ronda3b); estatus sin cambio tras la revisión del autor del 18-oct (nueve celdas limpias cumplen A, n = 4 sin medida limpia con q > 1, alcance limitado a la ley local del Cap. 11); expectativas declaradas (E13); sin datos ingeridos; no resultado observacional
     status: interno
     artifact: results/2026-09-21_cronos_jeans
 
@@ -1688,7 +1706,15 @@ claims:
       una preinscripción que quiera medir (q = 1.5, n = 4) necesita que la
       cualificación mida esa banda en las mismas condiciones de siembra.
       Qué cambiar en el instrumento es decisión del autor; aquí no se
-      corre nada más. La ronda 3 y su letra no se tocan.
+      corre nada más. La ronda 3 y su letra no se tocan. DECISIÓN DEL AUTOR
+      DEL 18-OCT (fila lecturas-rondas3-3b): para medir (q = 1.5, n = 4),
+      un k_c por celda elegido con la regla de banda nueva
+      (validation.qualification.admissible_k_cut; n_c = 19 con el suelo
+      estimado a posteriori ≈ 1e-10 y margen ×10). Otra amplitud de siembra
+      no sirve: la ventana es relativa y el suelo de la banda no escala con
+      la siembra (haría falta < 3.1e-15). Excluir la celda sin más dejaría
+      la B inalcanzable. La ronda 3b sigue INDETERMINADA; la ronda 3c es
+      opcional.
     implementation: cronos/cronos_jeans_1d.py + cronos/cronos_jeans_kinetic.py + scripts/run_cj_round3b.py + scripts/qualify_sheets.py
     test: tests/test_cronos_jeans_kinetic.py + tests/test_cj_round3b_lock.py
     observable: "— (test numérico interno; ningún observable)"
@@ -2037,7 +2063,18 @@ claims:
       q = 2.0 n = 4 (22.8 y 19.3 frente a 17.0) — la misma cuya fase lineal
       no se resolvió en la ronda 2 (fila test-criterio-cronos-jeans-ronda2):
       comprobación interna del criterio (E8), no demostración. Ninguna letra
-      ni tolerancia se decide aquí.
+      ni tolerancia se decide aquí. MATIZ DEL 18-OCT (revisión del autor,
+      fila lecturas-rondas3-3b): el criterio de exclusión tenía dos huecos.
+      Solo cubre la banda k ≥ k_c, cuando con q > 1 también crecen los
+      modos con q·W(k) > 1 por debajo de k_c (n ≤ 59 / 88 / 114 en q =
+      1.2 / 1.5 / 2.0). Y se aplicó con la DURACIÓN de la ventana,
+      ln(hi/lo)/γ, en vez de su cierre, ln(hi)/γ contado desde t = 0,
+      aunque el ruido crece desde t = 0. Con el segundo hueco corregido, la
+      regla UV sola habría excluido (1.5, 4) (17.19 > 17.03), no (1.2, 4)
+      (5.31) ni (2.0, 8) (14.31). Para preinscripciones nuevas rige la regla
+      de banda (validation.qualification.band_rule_cell, admissible_k_cut,
+      sheet_cell_excluded_at_close); esta cualificación y las rondas 3 y 3b
+      no se tocan.
     implementation: validation/qualification.py + scripts/qualify_sheets.py + cronos/cronos_jeans_1d.py
     test: tests/test_qualification.py + tests/test_instrument_extensions.py
     observable: "—"
@@ -2046,7 +2083,7 @@ claims:
       una ronda 3 cuya celda excluida a priori resolviera la fase lineal, o
       cuya celda no excluida fallara por la banda UV, refutaría el criterio
       de exclusión como predictor del instrumento (E8-Q, no física)
-    evidence_level: cualificación de instrumento (E8-Q), sin letra — límites medidos y criterio de exclusión calculable antes de correr; la exclusión coincide con la celda fallida de la ronda 2
+    evidence_level: cualificación de instrumento (E8-Q), sin letra — límites medidos y criterio de exclusión calculable antes de correr; la exclusión coincide con la celda fallida de la ronda 2; matiz del 18-oct sobre dos huecos del criterio (banda bajo k_c y cierre de la ventana)
     status: interno
     artifact: results/2026-09-28_qualification_sheets
 
@@ -2189,9 +2226,77 @@ claims:
       de la adenda del autor. Reescrito el 18-oct: el falsador anterior
       («el brazo saturante sub-umbral saliendo del régimen débil»)
       describía un suceso imposible, porque ε_max = 5.41e-9 < 1e-3
-    evidence_level: comprobación interna (E8) bajo preinscripción congelada; INDETERMINADO por la puerta de energía (clase 0.05·A_Sculptor) y por el barrido a 0.05·A_Sculptor incompleto; con la regla congelada solo C e INDETERMINADO eran alcanzables (errata del 18-oct); la dependencia de t_weak con ε_soft y con ds a A_Sculptor se publica sin letra (E13); sin datos; no resultado observacional
+    evidence_level: comprobación interna (E8) bajo preinscripción congelada; INDETERMINADO por la puerta de energía (clase 0.05·A_Sculptor) y por el barrido a 0.05·A_Sculptor incompleto; con la regla congelada solo C e INDETERMINADO eran alcanzables (errata del 18-oct); la dependencia de t_weak con ε_soft y con ds a A_Sculptor se publica sin letra (E13); lecturas a posteriori L1–L6 en la fila lecturas-rondas3-3b; sin datos; no resultado observacional
     status: interno
     artifact: results/2026-09-28_halo_round3
+
+  - claim_id: lecturas-rondas3-3b
+    entity: Lecturas a posteriori de las rondas 3 y 3b, sin letra y sin corridas — la banda inestable bajo k_c y la regla de banda para preinscripciones nuevas (láminas), y seis lecturas del halo (L1–L6) con las que el frente 5 (b) de la ley local se cierra sin ronda 4 (decisiones del autor del 18-oct-2026)
+    law: "Cor. 11.3 y §3.21 (criterio de Cronos–Jeans: q·W(k) > 1 ⟹ γ ∝ k); teoría cinética lineal del instrumento γ_inst = γ_cin(q·W(k)); forma saturante del diccionario (ecuación 1); equilibrio Newton + Cronos σ² = σ_N² + P_C/ρ con P_C = c²(ρε − G(ρ))"
+    derivation: >-
+      decisiones del autor del 18-oct sobre #51–#53; sus guiones de
+      comprobación, portados a scripts/lecturas_rondas3_3b.py, leen
+      artefactos publicados y dan las mismas cifras. LÁMINAS. Con q > 1
+      crecen todos los modos con q·W(k) > 1, también por debajo de k_c: n ≤
+      59 / 88 / 114 en q = 1.2 / 1.5 / 2.0, con el más rápido (n = 34 / 51
+      / 66) a 5.76 / 8.46 / 10.86 veces la tasa de n = 4. El suelo implícito
+      de esa banda, estimado de los cruces de A_nl en las 12 corridas con
+      q > 1, es ≈ 1e-10 (1e-12 a 1.4e-8) y no escala con la siembra. La
+      regla de banda (excluida si γ_banda·t_cierre > ln(A_nl/(10·A_suelo)),
+      t_cierre = ln 30/γ desde t = 0) marca exactamente (1.2, 4) con 19.6
+      e-pliegues, (2.0, 8) con 18.5, (1.5, 4) con 28.8 y (2.0, 4) con 36.9;
+      las otras ocho celdas con q > 1 quedan en ≤ 14.5 (presupuesto 16.1).
+      Banda prevista frente a medida en el cierre: 2.0e-4 / 2.1e-4 en
+      (1.5, 8), 1.2e-2 / 1.3e-2 en (2.0, 8), 3.4e-2 / 2.0e-2 en (1.2, 4).
+      n_c admisible: 21 / 19 / 19 / 44 en (1.2, 4) / (1.5, 4) / (2.0, 4) /
+      (2.0, 8) y 128 en el resto. Otra siembra no sirve: en (1.5, 4) haría
+      falta un suelo < 3.1e-15. Sin (1.2, 4) ni (2.0, 8), las nueve celdas
+      de la ronda 3 cumplen los criterios de A (|1 − c| ≤ 0.027 y
+      dispersión 0.025 en q = 1.2; ≤ 0.011 y 0.008 en q = 2.0; q = 0.8 sin
+      crecimiento). HALO. L1: la contracción del control saturante responde
+      a una fuerza añadida — Δ_C(<0.1) de «above» y «sub» en cociente 3.34 y
+      3.02 a 0.6 y 1.05 Myr, el de sus ε_max (3.00), con «sub» ≤ 2e-4 dex
+      antes; D_F(ε_soft, 0) = 1.25 y 3.75; Δ_C(<0.4) a 50 Myr de +0.045 y
+      +0.126 dex; q_N > 1 en «above» solo en r ≲ 0.118 kpc; con σ de
+      equilibrio Newton + Cronos, q_eq máx = 0.33 y 0.67. L2: ningún punto
+      saturante viable (Oort y filas externas; ρ* = ρ_NFW(r_u) con r_u de
+      0.1 a 1 kpc) tiene q_eq > 1 en r ≥ 3·ε_soft (máximos 0.05–0.25 con
+      ε_soft = 0.1 y 0.05–0.55 con 0.05). L3: r_CJ(0.05·A_S) = 0.180 kpc;
+      superar 1e-3 exige ×7.37 de densidad; en la salida Δlog M(<0.1) =
+      +0.42 frente a +0.006 (ε_soft = 0.05); cociente de t_weak 128 y 45
+      frente a 4.47 de la caída libre. L4: η_E = |ΔE_self|/|ΔU_C| es
+      0.018–0.048 a A_S con N = 1e6, 0.12 con 1e5, 0.13–0.18 a 0.05·A_S y
+      0.63 con ε_soft = 0.025 (7 pasos); el primer tramo de 0.15 Myr a
+      0.05·A_S con ε_soft = 0.05 deja 0.80: la puerta global ordena los
+      brazos al revés. L5: el newtoniano respira −0.222 dex en M(<0.1)
+      (mínimo hacia 30 Myr) con +0.029 dex en M(<0.4) al final; hubo un
+      solo newtoniano. L6: pendientes locales p_ε = 2.29 / 2.98 / 2.84
+      (mayores que el 7/4 de la caída libre porque el umbral queda más
+      cerca, de ×435 a ×19) y p_ds = 0.97 y 2.14, la firma ultravioleta que
+      predice el criterio. Decisiones: la ronda 4 del halo no se corre (con
+      la formulación del autor del 18-oct la MCV de un halo no es la fuerza
+      local; D1 no tiene arreglo físico aquí por L1–L2; D2 obligaría a
+      rehacerlo casi todo); para (q = 1.5, n = 4), k_c por celda con la
+      regla de banda; la cualificación por réplica pasa a ser regla del
+      programa para el código dinámico de la MCV. Dos correcciones del
+      autor: la letra B de la ronda 3 del halo también era inalcanzable
+      (fila halo-capas-ronda3), y su propuesta del 14-oct de retirar la
+      preinscripción «sin corridas» partía de una premisa falsa, porque la
+      primera ejecución ya se había lanzado y se habían visto cifras
+      parciales.
+    implementation: validation/qualification.py + scripts/lecturas_rondas3_3b.py
+    test: tests/test_band_rule.py + tests/test_lecturas_rondas3_3b.py
+    observable: "— (lecturas internas; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      una ronda 3c con el k_c de cada celda fijado por la regla de banda en
+      la que una celda no excluida cerrara su ventana con la banda bajo k_c
+      por encima de A_nl refutaría la regla como predictor del instrumento
+      (E8-Q); un punto saturante viable con q_eq > 1 en r ≥ 3·ε_soft
+      refutaría L2
+    evidence_level: lectura a posteriori sin letra (E13) sobre artefactos publicados, con las cifras de la comprobación del autor reproducidas; no da letra a las rondas 3 o 3b ni toca reglas congeladas; sin datos; no resultado observacional
+    status: interno
+    artifact: results/2026-10-18_lecturas_rondas3_3b
 
   - claim_id: s-clock-simulador-consistencia
     entity: El reloj S — orquestador de la trayectoria S₀ → S_{1,001} como simulador de CONSISTENCIA (umbrales impuestos), no emergente (21-sep-2026)

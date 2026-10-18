@@ -2034,6 +2034,127 @@ letra sobre λ ni sobre la ley. Fila `beta-un-lazo-sextico` (interno);
 artefacto `results/2026-10-18_beta_one_loop_sextic/`; la fila
 `decada-discriminante` lo registra.
 
+### 3.41 Lecturas a posteriori de las rondas 3 y 3b: la banda inestable bajo k_c, una regla de banda para preinscripciones nuevas, y el cierre del frente 5 (b) de la ley local sin ronda 4 (18-oct-2026)
+
+Esta sección recoge las decisiones del autor del 18-oct sobre las rondas
+3 y 3b (§3.37–§3.39). Todo es **lectura a posteriori, sin letra y sin
+corridas**: nada vuelve a dar letra a las rondas 3 o 3b, y los umbrales
+nuevos son solo para preinscripciones futuras. Los guiones de
+comprobación del autor leen artefactos publicados y evalúan fórmulas
+cerradas. Se portaron a `scripts/lecturas_rondas3_3b.py` y dan las mismas
+cifras (`results/2026-10-18_lecturas_rondas3_3b/`).
+
+**Las tres decisiones.**
+
+1. **La ronda 4 del halo no se corre.** El frente 5 (b) de la ley local
+   se cierra con la ronda 3 (INDETERMINADO) y con las seis lecturas de
+   abajo. Con la formulación del autor del 18-oct, la MCV de un halo es
+   energía sellada atrapada en equilibrio, no la fuerza local
+   +c²∇ε_c(ρ). Además, D1 no tiene arreglo físico en este halo (L1, L2) y
+   D2 obligaría a rehacerlo casi todo (L3–L5).
+2. **Para medir (q = 1.5, n = 4):** un k_c por celda, elegido con la
+   regla de banda. Otra siembra no sirve, y excluir la celda sin más
+   dejaría la B inalcanzable. La ronda 3b sigue INDETERMINADA.
+3. **La fila `criterio-cronos-jeans` no cambia de estatus.** Se le añaden
+   tres frases: robustez, cobertura y alcance (abajo).
+
+**Láminas: la banda y la regla.** Con q > 1 crecen todos los modos con
+q·W(k) > 1, también por debajo de k_c:
+
+| q | modos inestables | más rápido | su tasa / la de n = 4 |
+|---|---|---|---|
+| 1.2 | n ≤ 59 | n = 34 | 5.76 |
+| 1.5 | n ≤ 88 | n = 51 | 8.46 |
+| 2.0 | n ≤ 114 | n = 66 | 10.86 |
+
+La regla de exclusión de #46 tenía dos huecos:
+
+- solo cubre la banda k ≥ k_c;
+- se aplicó con la duración de la ventana, ln(hi/lo)/γ, en vez de su
+  cierre, ln(hi)/γ contado desde t = 0, aunque el ruido crece desde
+  t = 0.
+
+Con el segundo hueco corregido, la regla UV sola habría excluido
+(1.5, 4) (17.19 > 17.03), pero no (1.2, 4) (5.31) ni (2.0, 8) (14.31).
+
+La **regla de banda** nueva (`validation.qualification.band_rule_cell`)
+excluye una celda si γ_banda(q, k_c)·t_cierre > ln(A_nl/(10·A_suelo)):
+
+- γ_banda es la mayor γ_cin(q·W(k))·k bajo k_c, sin el modo sembrado
+  (derivada);
+- t_cierre = ln 30/γ_inst, contado desde t = 0;
+- A_suelo se mide en una cualificación E8-Q con la misma siembra;
+- el k_c de la celda es el mayor n_c ≤ ½ n_Nyq que pasa
+  (`admissible_k_cut`);
+- un candado comprueba que cada letra sigue siendo alcanzable
+  (`assert_letters_reachable`).
+
+Comprobación a posteriori. El suelo se estima de los cruces de A_nl en
+las 12 corridas con q > 1: ≈ 1e-10, entre 1e-12 y 1.4e-8, sin escalar con
+la siembra. Con él la regla marca exactamente cuatro celdas:
+
+| celda | e-pliegues hasta el cierre |
+|---|---|
+| (1.2, 4) | 19.6 |
+| (2.0, 8) | 18.5 |
+| (1.5, 4) | 28.8 |
+| (2.0, 4), ya excluida | 36.9 |
+
+Las otras ocho con q > 1 quedan en ≤ 14.5 (presupuesto 16.1). La banda
+prevista en el cierre coincide con la medida: 2.0e-4 frente a 2.1e-4 en
+(1.5, 8) y 1.2e-2 frente a 1.3e-2 en (2.0, 8). n_c admisible: 21, 19, 19
+y 44 en esas cuatro celdas; 128, el instrumento actual, en el resto. Una
+siembra distinta no basta: en (1.5, 4) haría falta un suelo < 3.1e-15. El
+k_c por celda es una regularización numérica; la predicción para k ≤ k_c
+no cambia.
+
+**Fila `criterio-cronos-jeans`.**
+
+- **Robustez.** Sin (1.2, 4) ni (2.0, 8), las nueve celdas restantes de
+  la ronda 3 cumplen los criterios de A: |1 − c| ≤ 0.027 y dispersión
+  0.025 en q = 1.2; ≤ 0.011 y 0.008 en q = 2.0; q = 0.8 sin crecimiento.
+- **Cobertura.** El régimen n = 4 no tiene ninguna medida limpia con
+  q > 1; la ronda 3c, opcional, lo cerraría.
+- **Alcance.** Es un resultado sobre la ley local del Cap. 11, no sobre
+  la MCV de un halo.
+
+**Halo: seis lecturas sin letra.**
+
+| # | lectura | cifras |
+|---|---|---|
+| L1 | El control saturante responde a una fuerza añadida; no es una inestabilidad | Δ_C(<0.1) de «above» y «sub» en cociente 3.34 y 3.02 a 0.6 y 1.05 Myr, el de sus ε_max (3.00); D_F(ε_soft, 0) = 1.25 y 3.75; con σ de equilibrio, q_eq máx = 0.33 y 0.67 |
+| L2 | Ningún punto saturante viable es inestable en la zona resuelta | q_eq máx en r ≥ 3·ε_soft: 0.05–0.25 (ε_soft = 0.1) y 0.05–0.55 (0.05), con ρ* = ρ_NFW(r_u), r_u de 0.1 a 1 kpc |
+| L3 | t_weak no es un hito común entre amplitudes | r_CJ(0.05·A_S) = 0.180 kpc; ×7.37 de densidad para superar 1e-3; cociente de t_weak 128 y 45 frente a 4.47 de la caída libre |
+| L4 | La puerta global de energía ordena los brazos al revés | η_E = \|ΔE_self\|/\|ΔU_C\|: 0.018–0.048 a A_S (N = 1e6), 0.12 (1e5), 0.13–0.18 a 0.05·A_S, 0.63 con ε_soft = 0.025 |
+| L5 | El newtoniano respira | −0.222 dex en M(<0.1) hacia 30 Myr; +0.029 dex en M(<0.4) al final; un solo newtoniano |
+| L6 | Firma ultravioleta a A_Sculptor | p_ε local 2.29 / 2.98 / 2.84; p_ds 0.97 y 2.14 |
+
+**Reglas del programa que deja.**
+
+- **La regla de banda**, para las láminas.
+- **La cualificación por réplica**, para el código dinámico de la MCV,
+  todavía sin código:
+  - cada celda de producción se cualifica con una réplica de la misma
+    configuración y otra semilla, hasta el instante de evaluación;
+  - se congelan energía ≤ 3 × η_E de la réplica, presupuesto ≥ 1.5 × su
+    pared y estacionariedad ≥ la medida;
+  - un exponente cuenta solo si |p| > 3σ_p;
+  - la celda cuya réplica no llega al instante de evaluación se retira
+    antes de congelar.
+
+**Dos correcciones del autor.**
+
+- La letra B de la ronda 3 del halo también era inalcanzable por
+  construcción (errata en §3.38).
+- Su propuesta del 14-oct de retirar la preinscripción «sin corridas»
+  partía de una premisa falsa: la primera ejecución ya se había lanzado
+  y se habían visto cifras parciales. Re-ejecutar bajo la regla congelada
+  fue lo correcto.
+
+**No se hace:** la ronda 4; tocar A_S, ρ*, q_S o la RAR; tocar reglas
+congeladas; volver a dar letra a las rondas 3 o 3b. Fila
+`lecturas-rondas3-3b` (interno, sin letra).
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación

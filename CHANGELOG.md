@@ -6,6 +6,39 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **Lecturas a posteriori de las rondas 3 y 3b, sin letra y sin corridas
+  (decisiones del autor del 18-oct sobre #51–#53).** Tres decisiones:
+  - la ronda 4 del halo no se corre;
+  - para medir (q = 1.5, n = 4), un k_c por celda elegido con una regla de
+    banda nueva;
+  - la fila `criterio-cronos-jeans` no cambia de estatus.
+
+  En `validation/qualification.py`, para preinscripciones nuevas y sin
+  efecto retroactivo: `band_growth_rate`, `window_close_time`,
+  `band_rule_cell` (excluida si γ_banda·t_cierre > ln(A_nl/(10·A_suelo))),
+  `admissible_k_cut`, `sheet_cell_excluded_at_close` (la regla UV de #46
+  con el cierre de la ventana) y `assert_letters_reachable` (candado de
+  letras). La cualificación por réplica queda escrita como regla del
+  programa para el código dinámico de la MCV.
+
+  `scripts/lecturas_rondas3_3b.py` porta los guiones del autor y escribe
+  `results/2026-10-18_lecturas_rondas3_3b/` con las mismas cifras:
+  - la regla marca exactamente (1.2, 4), (1.5, 4), (2.0, 4) y (2.0, 8);
+  - n_c admisible 21 / 19 / 19 / 44;
+  - sin esas dos celdas de la ronda 3, las otras nueve cumplen los
+    criterios de A;
+  - halo, L1–L6: el saturante responde a una fuerza añadida; ningún
+    punto viable es inestable en la zona resuelta; t_weak no es un hito
+    común; η_E ordena al revés que la puerta global; el newtoniano
+    respira; firma UV a A_S.
+
+  Fila nueva `lecturas-rondas3-3b` y frases fechadas en
+  `criterio-cronos-jeans` (robustez, cobertura, alcance),
+  `criterio-cronos-jeans-ronda3b`, `cualificacion-laminas-e8q` (los dos
+  huecos de la regla de #46) y `halo-capas-ronda3`. Nota I §3.41; tests
+  `tests/test_band_rule.py` y `tests/test_lecturas_rondas3_3b.py`; vistas
+  regeneradas (76 claims).
+
 - **Frente 5 (b), ronda 3 del halo (segunda ejecución, 18-oct, PR-5):
   desenlace INDETERMINADO bajo la regla congelada** (sha256 de la
   preinscripción `6fba6b53d929…`, congelada el 30-sep). La primera
