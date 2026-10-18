@@ -24,6 +24,17 @@ estado en que afirme exactamente lo que hace»).
   §3.36, adenda del 18-oct; tests nuevos, incluidos los que fijan la
   consecuencia sobre el artefacto congelado.
 
+- **Criterio de Cronos–Jeans: r_min como argumento (18-oct, revisión del autor del
+  30-sep).** `dynamics.cronos_jeans.nfw_jeans_table` busca r_CJ en
+  [r_min, 5] kpc con r_min = ε_soft/10 por defecto (0.01 kpc con el suavizado
+  de producción de 0.1 kpc) o el `r_min_kpc` dado, y publica la horquilla
+  (`r_search_kpc`, `r_min_rule`). Si q ≤ 1 ya en r_min devuelve None, nunca un
+  valor extrapolado. Antes la horquilla empezaba en 0.2 kpc para la amplitud
+  principal y en 0.02 kpc para las fracciones. Con la nueva, r_CJ(10⁻⁴·A_S) =
+  0.0115 kpc reproduce el valor del autor (0.011), que la adenda del informe
+  integral daba como no reproducible; r_CJ(A_S) = 0.709 kpc no cambia. Nota
+  fechada en el informe integral §18; tests nuevos.
+
 ## Sin publicar — septiembre de 2026
 
 - **Test del criterio de Cronos–Jeans, ronda 3 (30-sep, PR-4): desenlace A
