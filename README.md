@@ -442,9 +442,14 @@ para su depósito citable en Zenodo junto a la release v0.2.0 (ver
 `CHANGELOG.md`).
 
 La **[matriz de trazabilidad](docs/matriz_trazabilidad.md)**
-(manuscrito ↔ código ↔ test ↔ estatuto, 32 filas) es EJECUTABLE:
+(manuscrito ↔ código ↔ test ↔ estatuto, una fila por claim del registro) es EJECUTABLE:
 `tests/test_traceability.py` verifica que toda ruta citada existe y
-que ningún estatuto reclama más que su categoría en la fe de erratas FE-08-2026. Las
+que ningún estatuto reclama más que su categoría en la fe de erratas FE-08-2026.
+La **[matriz compacta de claims](docs/matriz_claims.md)**
+([English](docs/claim_matrix_en.md)) reúne en una página los supuestos,
+las derivaciones completadas, las calibraciones, los falsadores y los
+huecos, y se genera desde el mismo registro y la
+[tabla de puentes del diccionario](docs/diccionario_puentes.md). Las
 correspondencias filosóficas nuevas E.18/E.19 (propuesta para el
 Apéndice E de la v36) están en
 [docs/correspondencias_E18_E19.md](docs/correspondencias_E18_E19.md).

@@ -344,3 +344,9 @@ Sobre `main` = `330b2e4`, con `dynamics.cronos_jeans.nfw_jeans_table` (Jeans is�
 - r_CJ(0.05·A_S) = 0.180 kpc y r_CJ(0.01·A_S) = 0.087 kpc se reproducen; r_CJ(10⁻³·A_S) = 0.031 kpc. El exponente efectivo entre 0.05 y 0.01 es 0.45, así que «r_CJ ∝ A^{2/5}» es la escala aproximada que da σ_r² ∝ r, no una ley exacta (con la ley pura, 0.05·A_S daría 0.214 kpc).
 - r_CJ(10⁻⁴·A_S) = 0.011 kpc **no es reproducible con el módulo**: su horquilla de raíces empieza en 0.02 kpc y a esa amplitud q < 1 en toda ella. El valor queda como cálculo del autor, sin verificar aquí.
 - Los números de la ronda 2 de capas citados en la adenda §2 coinciden con `results/2026-09-22_halo_shells/halo_shells.json`.
+
+**Actualización (18-oct-2026).** `nfw_jeans_table` acepta ahora `r_min_kpc` y, por defecto, busca r_CJ desde
+ε_soft/10 = 0.01 kpc (suavizado de producción de las capas, 0.1 kpc), y publica la horquilla usada. Con ella el módulo
+da r_CJ(10⁻⁴·A_S) = 0.0115 kpc: **el valor del autor (0.011 kpc) se reproduce**, y era un límite del módulo, no del
+cálculo. Con r_min = 10⁻³ kpc, r_CJ(10⁻⁵·A_S) = 0.0043 kpc. El exponente efectivo es 0.45 entre 0.05 y 0.01·A_S y
+0.44 entre 10⁻³ y 10⁻⁴·A_S. El enunciado que importa sigue siendo analítico: q diverge en el centro para toda A > 0.
