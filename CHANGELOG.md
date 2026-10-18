@@ -6,6 +6,29 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **Test del criterio de Cronos–Jeans, ronda 3b (18-oct, revisión del
+  autor del 30-sep): q = 1.5, desenlace INDETERMINADO bajo la regla
+  congelada.** Adenda de cualificación E8-Q en q = 1.5 (perfil `q1p5` de
+  `scripts/qualify_sheets.py`; sha256 `1a3283f3d200…`; γ_UV 50.1 / 43.5,
+  t_uv_nonlinear 0.632 / 0.723, ninguna celda excluida). Preinscripción
+  (sha256 `d0c16affe650…`) congelada antes de toda corrida, con el
+  instrumento, las tolerancias y las puertas de la ronda 3. La puerta de
+  fase lineal falla en (q = 1.5, n = 4): r² = 0.932 < 0.98. Las otras tres
+  celdas quedan a −0.1 / −0.3 / −1.5 % de la predicción del instrumento
+  (r² = 1.0000) y el control de haces a 0.01 %. Diagnóstico a posteriori
+  sin letra (`scripts/run_cj_round3b.py diagnose`): la puerta UV solo mide
+  k ≥ k_c, pero con q·W(k) > 1 crecen también los modos n ≤ 88, por debajo
+  de k_c. Esa banda supera 1e-2 en t = 0.254 y la ventana de n = 4 cierra
+  en t = 0.294 con la banda en 0.11. Matiz con el mismo peso: en la ronda 3,
+  (q = 1.2, n = 4) y (q = 2.0, n = 8) cerraron su ventana con esa banda en
+  2.0e-2 y 1.3e-2. Sus tasas no se movieron (+0.9 %, −0.15 %) y la letra A
+  no cambia, pero la cobertura de su puerta queda declarada incompleta.
+  Fila nueva `criterio-cronos-jeans-ronda3b`; matiz fechado en
+  `criterio-cronos-jeans-ronda3` y `criterio-cronos-jeans`; Nota I §3.39;
+  artefactos `results/2026-10-18_qualification_sheets_q1p5/` y
+  `results/2026-10-18_cj_criterion_round3b_q1p5/`. Qué cambiar en el
+  instrumento lo decide el autor.
+
 - **Cribado de β: criterio (i) en forma integral y candidato 2 excluido por
   derivación (18-oct, revisión del autor del 30-sep).**
   `core.beta_candidates.integral_criterion` escribe el criterio (i) como

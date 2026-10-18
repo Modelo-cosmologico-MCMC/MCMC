@@ -1408,7 +1408,7 @@ claims:
       preinscripciones Oort–K_z (desenlace C si g_C/K_z > 1 donde el
       modelo pone ×2–7) y perfil de Sculptor (C si el χ² excluye el pico
       central a > 3σ) deciden la amplitud única contra datos
-    evidence_level: derivación (E8) con control externo del autor reproducido y test 1D del umbral; derivado y confirmado por el test numérico preinscrito (ronda 3, fila criterio-cronos-jeans-ronda3, desenlace A — comprobación interna, no demostración física); expectativas declaradas (E13); sin datos ingeridos; no resultado observacional
+    evidence_level: derivación (E8) con control externo del autor reproducido y test 1D del umbral; derivado y confirmado por el test numérico preinscrito (ronda 3, fila criterio-cronos-jeans-ronda3, desenlace A — comprobación interna, no demostración física; matiz del 18-oct sobre la cobertura de su puerta UV y ampliación a q = 1.5 INDETERMINADA, fila criterio-cronos-jeans-ronda3b); expectativas declaradas (E13); sin datos ingeridos; no resultado observacional
     status: interno
     artifact: results/2026-09-21_cronos_jeans
 
@@ -1620,7 +1620,18 @@ claims:
       numérico» — comprobación interna (E8), no demostración física. Lo que
       A NO dice: nada sobre datos, sobre A_Sculptor, sobre el halo (frente
       5 (b), ronda 3, en curso) ni sobre la validez física de la ley; la
-      celda excluida no se midió.
+      celda excluida no se midió. MATIZ DEL 18-OCT (diagnóstico a
+      posteriori sin letra de la ronda 3b, fila
+      criterio-cronos-jeans-ronda3b): la puerta uv_controlled solo medía la
+      banda k ≥ k_c; con q·W(k) > 1 los modos por debajo de k_c también
+      crecen (q = 1.2: n ≤ 59, el más rápido n = 34 a 5.8 veces la tasa de
+      n = 4; q = 2.0: n ≤ 114, n = 66 a 10.9 veces), y dos de las once
+      celdas cerraron su ventana con esa banda ya por encima del mismo
+      A_nl = 1e-2: (q = 1.2, n = 4) con 2.0e-2 y (q = 2.0, n = 8) con
+      1.3e-2. Sus tasas quedaron a +0.9 % y −0.15 % de la predicción del
+      instrumento con r² ≥ 0.9998, de modo que la contaminación no se ve
+      en ellas; la letra A se obtuvo bajo la regla congelada y no cambia,
+      pero la cobertura de esa puerta queda declarada incompleta.
     implementation: cronos/cronos_jeans_1d.py + cronos/cronos_jeans_kinetic.py + scripts/run_cj_round3.py
     test: tests/test_cronos_jeans_kinetic.py + tests/test_cj_round3_lock.py
     observable: "— (test numérico interno; ningún observable)"
@@ -1631,9 +1642,66 @@ claims:
       preinscripción, midiera tasas fuera del 25 % de γ_cin(q, k)·W(k) o
       crecimiento con q = 0.8 falsaría la reproducción; el criterio mismo
       solo lo deciden los datos (filas oort-kz y sculptor-perfil)
-    evidence_level: comprobación interna (E8) bajo preinscripción nueva con celda excluida a priori por una cualificación E8-Q; desenlace A; predicción cinética reproducida en las once celdas; sin datos; no resultado observacional
+    evidence_level: comprobación interna (E8) bajo preinscripción nueva con celda excluida a priori por una cualificación E8-Q; desenlace A; predicción cinética reproducida en las once celdas; sin datos; no resultado observacional; matiz del 18-oct sobre la cobertura de la puerta UV (fila criterio-cronos-jeans-ronda3b)
     status: interno
     artifact: results/2026-09-28_cj_criterion_round3
+
+  - claim_id: criterio-cronos-jeans-ronda3b
+    entity: Test preinscrito del criterio de Cronos–Jeans, ronda 3b — ampliación a q = 1.5 con el instrumento, las tolerancias y la regla de exclusión de la ronda 3, bajo una adenda de cualificación en la misma q; desenlace INDETERMINADO por la celda (q = 1.5, n = 4), cuya ventana lineal cerró con la banda inestable por debajo de k_c ya no lineal (18-oct-2026)
+    law: "Def. 11.1 y Cor. 11.3 (ley local ε_c = A·ρ^(3/2)); teoría cinética lineal del medio maxwelliano (1 = q[1 + ζZ(ζ)]); §3.21 (criterio); regla del programa «solo puertas alcanzables» (fila cualificacion-laminas-e8q)"
+    derivation: >-
+      la revisión del autor del 30-sep pedía q ∈ {0.8, 1.2, 1.5}; la
+      ronda 3 cubrió 0.8, 1.2 y 2.0, así que faltaba q = 1.5. Adenda de
+      cualificación E8-Q en esa q (sin letras; dos corridas sin siembra
+      con el instrumento de la ronda 3; sha256 1a3283f3d200…): γ_UV =
+      50.1 sin filtro y 43.5 con k_c = ½ k_Nyquist, t_uv_nonlinear =
+      0.632 y 0.723, ninguna celda excluida por la regla de #46.
+      Preinscripción congelada (sha256 d0c16affe650…) en un commit
+      posterior al generador y a la adenda y anterior a toda corrida, con
+      el instrumento, las tolerancias, las puertas y el control de haces
+      de la ronda 3 (comprobado campo a campo en el candado). Cuatro
+      celdas (n = 4 / 8 / 16 / 32) y el control de haces (n = 8, 512
+      haces con p = 8), 1.3–3.6 min cada una. RESULTADO bajo la regla
+      congelada: INDETERMINADO — puerta de fase lineal violada en
+      (q = 1.5, n = 4): r² = 0.932 < 0.98 (166 puntos; γ/k ajustado 0.4212
+      frente a 0.3420 del instrumento). Las otras tres celdas resuelven la
+      fase lineal: γ/k = 0.3395 / 0.3302 / 0.2924 frente a 0.3398 /
+      0.3312 / 0.2969 (−0.1 %, −0.3 %, −1.5 %; r² = 1.0000); haces 0.01 %
+      (tolerancia 2 %); banda UV en ventana ≤ 5.5e-3 (puerta 1e-2). Se
+      publican sin veredicto (E13). DIAGNÓSTICO A POSTERIORI SIN LETRA
+      (scripts/run_cj_round3b.py diagnose): la puerta UV solo mide k ≥
+      k_c, pero con W(k) = sinc⁴(kh/2)·sin(kh)/(kh) los modos con
+      q·W(k) > 1 están por debajo de k_c y también crecen — en q = 1.5,
+      n ≤ 88, con el más rápido (n = 51) a 8.5 veces la tasa de n = 4. La
+      rms de esa banda (densidad depositada sin la banda UV ni el modo
+      sembrado) supera A_nl = 1e-2 en t = 0.254; la ventana de n = 4
+      cierra en t = 0.294 (0.396 prevista para crecimiento limpio) con la
+      banda en 0.11. Las celdas n = 8 / 16 / 32 cierran en t = 0.200 /
+      0.103 / 0.058, antes de que la banda cruce (0.259 / 0.261 / 0.185).
+      La adenda de cualificación no registraba esa banda, y sin siembra
+      queda mucho más abajo: los modos bajos valen ≤ 3.9e-10 en t = 0.4,
+      frente a n = 32 = 9.9e-6 en t = 0.2 con n = 4 sembrado. El mismo
+      diagnóstico sobre la ronda 3 encuentra dos ventanas cerradas con la
+      banda por encima de A_nl, sin efecto visible en sus tasas (matiz en
+      la fila criterio-cronos-jeans-ronda3). Lo que esto implica: la regla
+      de exclusión de #46 no cubre la banda inestable por debajo de k_c;
+      una preinscripción que quiera medir (q = 1.5, n = 4) necesita que la
+      cualificación mida esa banda en las mismas condiciones de siembra.
+      Qué cambiar en el instrumento es decisión del autor; aquí no se
+      corre nada más. La ronda 3 y su letra no se tocan.
+    implementation: cronos/cronos_jeans_1d.py + cronos/cronos_jeans_kinetic.py + scripts/run_cj_round3b.py + scripts/qualify_sheets.py
+    test: tests/test_cronos_jeans_kinetic.py + tests/test_cj_round3b_lock.py
+    observable: "— (test numérico interno; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      bajo una preinscripción con la banda inestable por debajo de k_c
+      cualificada, una tasa en q = 1.5 fuera del 25 % de γ_cin(q, k)·W(k)
+      o una dispersión entre modos > 25 % contradiría la ronda 3; el
+      criterio mismo solo lo deciden los datos (filas oort-kz y
+      sculptor-perfil)
+    evidence_level: comprobación interna (E8) bajo preinscripción nueva; INDETERMINADO por una celda; tres celdas resueltas a 0.1–1.5 % de la predicción del instrumento, publicadas sin veredicto (E13); diagnóstico a posteriori sin letra; sin datos; no resultado observacional
+    status: interno
+    artifact: results/2026-10-18_cj_criterion_round3b_q1p5
 
   - claim_id: halo-serie-resolucion-campo
     entity: Frente 5 (b) — serie de resolución del campo de Cronos (k_inner 64/128/256) en el halo NFW a A_Sculptor y a 0.05·A_Sculptor con campo instantáneo que sigue a las partículas y balance K + W + (2/5)U_C + W_fric, bajo preinscripción congelada; desenlace INDETERMINADO por la puerta de energía (21-sep-2026, tarde)

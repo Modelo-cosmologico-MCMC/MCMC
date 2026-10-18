@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 """Cualificación E8-Q del instrumento de láminas (cronos/cronos_jeans_1d.py) — PR-3 de la orden del 28-sep.
 
-    python scripts/qualify_sheets.py run       # corre la rejilla y escribe results/<fecha>_qualification_sheets/
-    python scripts/qualify_sheets.py table     # imprime los límites y la tabla de exclusión de las celdas de la ronda 3
+    python scripts/qualify_sheets.py run [--profile base|q1p5]    # corre la rejilla y escribe el artefacto del perfil
+    python scripts/qualify_sheets.py table [--profile base|q1p5]  # recompone el artefacto desde las corridas guardadas
+
+Perfiles: «base» es la cualificación del 28-sep (results/2026-09-28_qualification_sheets/, intacta); «q1p5» es la adenda
+del 18-oct en q = 1.5 con el instrumento de la ronda 3 (ng 512, 1024 haces, p = 4, con y sin filtro), artefacto propio
+results/2026-10-18_qualification_sheets_q1p5/, que la ronda 3b necesita porque la regla de exclusión de #46 exige la γ_UV
+medida en la MISMA q (revisión del autor del 30-sep: añadir q = 1.5). Misma regla de ajuste y de exclusión.
 
 Sin letras ni umbrales de desenlace. Mide, para cada (ng, celdas por haz p, q, filtro k_c):
   * γ_UV: tasa de crecimiento de la banda ultravioleta (k ≥ ½ k_Nyquist) de la densidad depositada, que
@@ -49,6 +54,11 @@ GRID = {"ng": [256, 512], "cells_per_beam": [2, 4], "q": [0.8, 1.2, 2.0], "k_cut
         "uv_band_frac": 0.5, "amp_nonlinear_declared": 1e-2,
         "round3_cells": {"q": [1.2, 2.0], "modes": [4, 8, 16, 32]},
         "linear_window_factors": [3.0, 30.0], "seed_amp_by_mode": {"4": 2e-5, "8": 2e-5, "16": 2e-6, "32": 2e-6}}
+# adenda del 18-oct: q = 1.5 con el instrumento de la ronda 3 (los demás campos, idénticos a la base)
+OUTDIR_Q15 = Path(__file__).resolve().parent.parent / "results" / "2026-10-18_qualification_sheets_q1p5"
+GRID_Q15 = {**GRID, "ng": [512], "cells_per_beam": [4], "q": [1.5], "n_beams": [1024],
+            "round3_cells": {"q": [1.5], "modes": [4, 8, 16, 32]}}
+PROFILES = {"base": (GRID, OUTDIR, "la ronda 3"), "q1p5": (GRID_Q15, OUTDIR_Q15, "la ronda 3b (q = 1.5)")}
 
 
 def _git_head() -> str:
@@ -88,24 +98,26 @@ def _r2(v) -> str:
     return "—" if v is None else f"{v:.3f}"
 
 
-def cmd_run(_args) -> int:
-    RUNS.mkdir(parents=True, exist_ok=True)
+def cmd_run(args) -> int:
+    grid, outdir, label = PROFILES[getattr(args, "profile", "base")]
+    runs_dir = outdir / "runs"
+    runs_dir.mkdir(parents=True, exist_ok=True)
     runs = []
-    for nb in GRID["n_beams"]:
-      for ng in GRID["ng"]:
-        for p in GRID["cells_per_beam"]:
+    for nb in grid["n_beams"]:
+      for ng in grid["ng"]:
+        for p in grid["cells_per_beam"]:
             if nb != 256 and not (ng == 512 and p == 4):
                 continue                        # n_beams = 1024 solo en la configuración de la ronda 2
-            for q in GRID["q"]:
-                for kc in GRID["k_cut_frac"]:
+            for q in grid["q"]:
+                for kc in grid["k_cut_frac"]:
                     key = f"ng{ng}_nb{nb}_p{p}_q{q}_kc{kc}"
-                    path = RUNS / f"{key}.json"
+                    path = runs_dir / f"{key}.json"
                     if path.exists():
                         runs.append(json.loads(path.read_text(encoding="utf-8"))); print(f"  {key}: existe"); continue
                     t0 = time.time()
-                    res = run_sheets(q, N=nb * ng * p, ng=ng, T=GRID["T"], dt=GRID["dt"], seed=GRID["seed"],
-                                     nmodes=4, sample_every=GRID["sample_every"], quiet_start=True, n_beams=nb,
-                                     k_cut_frac=kc, uv_band_frac=GRID["uv_band_frac"], full_modes_every=1000)
+                    res = run_sheets(q, N=nb * ng * p, ng=ng, T=grid["T"], dt=grid["dt"], seed=grid["seed"],
+                                     nmodes=4, sample_every=grid["sample_every"], quiet_start=True, n_beams=nb,
+                                     k_cut_frac=kc, uv_band_frac=grid["uv_band_frac"], full_modes_every=1000)
                     fit = fit_uv_growth(res["samples"])
                     rec = {"key": key, "ng": ng, "n_beams": nb, "cells_per_beam": p, "N": res["N"], "q": q, "k_cut_frac": kc,
                            "lattice_exact": res["lattice_exact"], "wall_s": round(time.time() - t0, 1), **fit,
@@ -114,10 +126,11 @@ def cmd_run(_args) -> int:
                     path.write_text(json.dumps(rec, ensure_ascii=False) + "\n", encoding="utf-8")
                     runs.append(rec)
                     print(f"  {key}: γ_UV = {fit['gamma_uv']}, A_ruido = {fit['uv_rms_initial']:.1e}, UV final {fit['uv_rms_final']:.1e} ({rec['wall_s']} s)", flush=True)
-    return write_artifact(runs)
+    return write_artifact(runs, grid, outdir, label)
 
 
-def write_artifact(runs: list) -> int:
+def write_artifact(runs: list, grid: dict = GRID, outdir: Path = OUTDIR, label: str = "la ronda 3") -> int:
+    GRID = grid                                    # noqa: N806 — el perfil fija la rejilla; el cuerpo es el de la base
     # límites: γ_UV máxima por (ng, filtro) y A_ruido máxima; tabla de exclusión para las celdas de la ronda 3
     for r in runs:                       # regla única de ajuste, aplicada a las curvas guardadas (recomponible)
         if "uv_curve" in r:
@@ -190,24 +203,27 @@ def write_artifact(runs: list) -> int:
     notes = ["La banda UV se mide sobre la densidad DEPOSITADA (antes del filtro): con filtro, γ_UV mide lo que el filtro deja pasar al campo de fuerzas a través de la no linealidad, no lo que queda en el depósito.",
              f"γ_UV = 0 significa que la banda no creció por encima de {NOISE_FACTOR:g}× el ruido inicial en T; NaN, que creció sin racha ajustable de ≥ 4 muestras (fallo cerrado: excluye).",
              "Todas las corridas arrancan del retículo exacto sin siembra: γ_UV es la tasa a la que el instrumento amplifica su propio ruido de redondeo, y crece con q y con ng (no con las celdas por haz).",
-             "Nada de esta cualificación decide una letra ni una tolerancia: fija qué celdas puede incluir la preinscripción de la ronda 3."]
-    sha = write_qualification(OUTDIR, "láminas (cronos_jeans_1d)", _git_head(), GRID, runs, limits, criteria, notes,
-                              md_extra=["## Exclusión de las celdas de la ronda 3", "", "| celda | W(k) | γ_inst | t_ventana | γ_UV | γ_UV·t | ln(A_nl/A_ruido_ef) | excluida | motivo |", "|---|---|---|---|---|---|---|---|---|"]
+             f"Nada de esta cualificación decide una letra ni una tolerancia: fija qué celdas puede incluir la preinscripción de {label}."]
+    sha = write_qualification(outdir, "láminas (cronos_jeans_1d)", _git_head(), GRID, runs, limits, criteria, notes,
+                              md_extra=[f"## Exclusión de las celdas de {label}", "", "| celda | W(k) | γ_inst | t_ventana | γ_UV | γ_UV·t | ln(A_nl/A_ruido_ef) | excluida | motivo |", "|---|---|---|---|---|---|---|---|---|"]
                               + [f"| {k} | {v['W_k']:.3f} | {v['gamma_inst']:.2f} | {v['t_window']:.3f} | {v['gamma_uv']:.1f} | {v['gamma_uv_times_t_window']:.2f} | {v['ln_budget']:.1f} | {'sí' if v['excluded'] else 'no'} | {v['reason'] or '—'} |" for k, v in excl.items()]
                               + ["", "## Corridas", "", "| clave | N | haces | γ_UV | puntos | r² | A_ruido | UV final | pared [s] |", "|---|---|---|---|---|---|---|---|---|"]
                               + [f"| {r['key']} | {r['N']} | {r['n_beams']} | {r['gamma_uv']:.2f} | {r['n_points']} | {_r2(r['r2'])} | {r['uv_rms_initial']:.1e} | {r['uv_rms_final']:.1e} | {r['wall_s']} |" for r in runs])
-    print(f"cualificación escrita: {OUTDIR} sha256 {sha}")
+    print(f"cualificación escrita: {outdir} sha256 {sha}")
     return 0
 
 
-def cmd_table(_args) -> int:
-    runs = [json.loads(p.read_text(encoding="utf-8")) for p in sorted(RUNS.glob("*.json"))]
-    return write_artifact(runs)
+def cmd_table(args) -> int:
+    grid, outdir, label = PROFILES[getattr(args, "profile", "base")]
+    runs = [json.loads(p.read_text(encoding="utf-8")) for p in sorted((outdir / "runs").glob("*.json"))]
+    return write_artifact(runs, grid, outdir, label)
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(); sub = ap.add_subparsers(dest="cmd", required=True)
-    sub.add_parser("run"); sub.add_parser("table")
+    for name in ("run", "table"):
+        sp = sub.add_parser(name)
+        sp.add_argument("--profile", choices=sorted(PROFILES), default="base")
     args = ap.parse_args()
     return {"run": cmd_run, "table": cmd_table}[args.cmd](args)
 
