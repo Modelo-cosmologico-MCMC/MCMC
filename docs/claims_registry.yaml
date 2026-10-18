@@ -164,6 +164,12 @@ claims:
       grande M0² cruza cero antes que D; para τ pequeño el descenso
       termina con D > 0): los colapsos no emergen del Cruce de Victoria
       en el rango explorado — publicado sin veredicto, depende de τ.
+      Candidatos a β del frente 2 cribados: el 1 (corriente de conversión)
+      no pasa (fila beta-extra-cribado); el 2 (β a un lazo del séxtico en
+      d = 1, 2, 3) queda excluido por derivación para el campo del reloj
+      (N = 2) con las formas por defecto: R₀ = 9/4 está por encima del umbral
+      R_c = 25/12 a partir del cual R = B²/(4C₀M₀²) solo crece (fila
+      beta-un-lazo-sextico, 18-oct).
     implementation: core/decade.py + core/s_clock.py
     test: tests/test_core_florencia_decade.py + tests/test_s_clock.py
     observable: "—"
@@ -207,7 +213,12 @@ claims:
       κ̂ = 1 y 2.11 divergen numéricamente (con B < 0 desaparece el vacío
       verdadero y Σ̇ crece sin cota) — límite del instrumento, publicado. La fila
       decada-discriminante no cambia. Ninguna regla ni ventana se tocó tras ver
-      los números.
+      los números. Informativo (18-oct, sin cambiar la letra): re-corridas las
+      celdas de la ventana y los controles canónicos con el criterio (i) en
+      forma integral, la integral nunca baja de cero (fracción del exigido 0),
+      R crece monótonamente hasta M₀² = 0 (S = 0.002–0.32 según δ₀ y τ) y
+      ninguna celda alcanza T₀ = 0 ni D = 0
+      (results/2026-10-18_beta_one_loop_sextic).
     implementation: core/beta_candidates.py + core/s_clock.py + scripts/run_beta_screening.py
     test: tests/test_beta_screening.py + tests/test_s_clock.py
     observable: "—"
@@ -221,6 +232,49 @@ claims:
     evidence_level: cribado diagnóstico (E13) bajo preinscripción congelada — «no pasa» bajo cierres declarados; ninguna letra sobre λ; ningún cruce D = 0 en 147 corridas
     status: resultado-negativo
     artifact: results/2026-09-28_beta_screening
+
+  - claim_id: beta-un-lazo-sextico
+    entity: Candidato 2 del cribado de β — las β a un lazo (LPA) del potencial séxtico del Basal en dimensión d = 1, 2, 3 no pueden producir D = 0 desde las formas por defecto con el campo del reloj (N = 2); derivación con teorema de signo y verificación numérica, sin letra (revisión del autor del 30-sep; Ap. L, Ruta II; 18-oct-2026)
+    law: "Def. 4.4 (jerarquía de Fokker–Planck: Polchinski en dimensión cero); Def. 8.4 y Prop. 8.1 (discriminante D = B² − 4C₀M₀², Década); (3.2) escalado M₀² = m̄²δ₀², B = b̄δ₀; Ap. L, Ruta II (grupo de renormalización entrópico en S)"
+    derivation: >-
+      core/beta_one_loop.py deriva las β de la aproximación de potencial local
+      para u(x) = ½M₀²x − (B/4)x² + (C₀/6)x³, x = |φ|², O(N), adimensionales y
+      hacia el infrarrojo, en dos esquemas declarados: Wetterich con regulador
+      de Litim (reproduce en d = 4 el coeficiente de libro 3λ²/(16π²)) y
+      Polchinski normalizado, que con N = 2 y sin términos de escala ES el
+      flujo canónico del reloj. Cada β está fijada por un test contra los
+      coeficientes de Taylor del lado derecho exacto. El cruce D = 0 depende
+      solo de R = B²/(4C₀M₀²), invariante bajo toda reescala (dimensión
+      canónica, dimensión anómala, normalizaciones): la d entra en la
+      trayectoria de los acoplos pero no en el flujo instantáneo de R. Formas
+      cerradas: en Polchinski d ln R/ds = (8aC₀/B)[(N+2)R − (N+4)] +
+      2bM₀²(12R − 1); en Wetterich d ln R/ds = 8C₀/(B(1+m̃²)⁴)·F(R, m̃²; N). Teorema
+      de signo con B, C₀ > 0: F > 0 para todo m̃² si R > R_c(N) =
+      (13N + 74)/(12(N + 2)) (N = 2: 25/12; N = 1: 29/12), y en Polchinski el
+      flujo de ln R es positivo si R > (N + 4)/(N + 2) y M₀² > 0. Con las formas
+      por defecto (m̄ = 1, b̄ = 3, C₀ = 1 ⟹ R₀ = 9/4) y N = 2, R solo crece en
+      toda d: D no cruza cero y el criterio (i) integral, que exige
+      ∫[2β_B/B − β_C₀/C₀ − β_M₀²/M₀²] = −ln R₀ = −0.811 antes de M₀² = 0, no se
+      alcanza (fracción 0). Con un escalar (N = 1) hay una ventana de masa en la
+      que R decrece (m̃² ∈ (0.0200, 0.0577) en R = 9/4), pero desde el escalado
+      (3.2) M₀² se anula antes de entrar en ella. Verificación numérica: 24
+      flujos (2 esquemas × N ∈ {1, 2} × d ∈ {1, 2, 3} × δ₀ ∈ {0.01, 0.03})
+      llegan a M₀² = 0 en s = 0.0005–0.0044 con R creciente, sin T₀ = 0 ni
+      D = 0; en el reloj s = τ·S y el flujo de acoplos es autónomo, así que vale
+      para todo τ. Esquema, regulador, truncamiento séxtico, N y la lectura de
+      los acoplos del reloj como adimensionales en k = Λ son declarados.
+    implementation: core/beta_one_loop.py + core/beta_candidates.py + scripts/run_beta_one_loop.py
+    test: tests/test_beta_one_loop.py
+    observable: "—"
+    dataset: "—"
+    falsifier: >-
+      un error en el teorema de signo (un m̃² con F < 0 para R > R_c) o en las
+      β frente al lado derecho exacto lo refutaría; la conclusión no cubre
+      formas iniciales con R₀ < 25/12, truncamientos más altos, el sector de
+      la inclinación η·χ ni esquemas con anomalía distinta de la LPA
+    evidence_level: derivación (E8) con teorema de signo y verificación numérica, sin letra; excluye el candidato 2 para N = 2 con las formas por defecto; no decide λ ni la ley
+    status: interno
+    artifact: results/2026-10-18_beta_one_loop_sextic
 
   - claim_id: kls-flujo
     entity: Flujo KLS integrado
@@ -1114,6 +1168,37 @@ claims:
     status: calibrado
     artifact: "—"
 
+  - claim_id: phi-ten-fondo-ley-cronos
+    entity: Φ_ten en el fondo homogéneo — la Ley de Cronos (Def. 6.4, N = r/r̄) da N ≡ 1 y Φ_ten = 0 exactamente; Φ_ten no trivial solo en las perturbaciones, canal Atlas (derivación del autor del 30-sep, registrada el 18-oct-2026)
+    law: "Def. 6.4 (Ley de Cronos: N = r/r̄, «cuando la descarga local cesa, el tiempo propio se congela»); (6.3) dτ = N t_c dS; A.7 (N(S) = e^{Φ_ten(S)}); Def. 9.4 (Atlas: modo escalar identificado con Φ_ten)"
+    derivation: >-
+      Derivación del autor (revisión del 30-sep). En el fondo homogéneo la
+      tasa local de descarga coincide con su media global en todo punto,
+      r = r̄, luego N = r/r̄ ≡ 1 y Φ_ten = ln N = 0 para todo S, en
+      particular en Florencia (S_1,001). El valor que el reloj S entregaba
+      como «normalización declarada (N = 1), no derivado»
+      (DECLARED_FORMS['Phi_ten_at_florencia']) es una consecuencia de la
+      definición para el fondo, no una convención. El reloj, que es
+      homogéneo, lo calcula ahora así (core.s_clock.phi_ten_background,
+      con lapse_ley_de_cronos y phi_ten_from_lapse). Φ_ten ≠ 0 solo con
+      r ≠ r̄, es decir en las perturbaciones, donde el canal Atlas lo trata
+      (fila gea-newton-atlas, condicional). El puente Φ_ten de la tabla del
+      diccionario se separa en fondo (derivado) y perturbaciones
+      (condicional). Nada de esto toca el hueco del diccionario
+      primordial → cosmológico para el resto del estado entregado.
+    implementation: core/s_clock.py + scripts/make_dictionary_bridges.py
+    test: tests/test_s_clock.py + tests/test_dictionary_bridges.py
+    observable: "— (fondo: N ≡ 1, el lapso que la cosmología FRW ya usa)"
+    dataset: "—"
+    falsifier: >-
+      un fondo con r ≠ r̄ en algún punto (inhomogéneo) o una definición de r̄
+      que no sea la media de r sobre la misma hipersuperficie daría N ≠ 1;
+      dentro del fondo FRW homogéneo no hay falsador observacional porque
+      es una identidad de la definición
+    evidence_level: derivación del autor por definición (Def. 6.4) para el fondo homogéneo; comprobación interna (E8) en el reloj, no demostración física; las perturbaciones siguen en el canal Atlas (condicional)
+    status: interno
+    artifact: "—"
+
   - claim_id: diccionario-primordial-cosmologico
     entity: Diccionario primordial → cosmológico — frente con nombre propio (hueco declarado)
     law: "Ap. A.1 («ρ_id y ρ_lat nacen del potencial V(Φ_Ad; S)»), §9.5 (Λ_ten(Φ_ten) desde V₀), F.3 (parámetros calibrados)"
@@ -1130,7 +1215,11 @@ claims:
       core/s_clock.py entrega en S = 1.001 el estado (constantes
       selladas, β₃ y λ_Ad, f residual, θ, χ, Φ_ten declarado) con
       readable_by_cosmology = False y channels_initial = None — el hueco
-      es ahora un campo vacío en un artefacto, no una frase.
+      es ahora un campo vacío en un artefacto, no una frase. Desde el
+      18-oct, Φ_ten(S_1,001) = 0 del fondo ya no es una normalización
+      declarada sino una consecuencia de la Def. 6.4 (fila
+      phi-ten-fondo-ley-cronos); el hueco sigue siendo la fórmula del resto
+      del estado entregado a los parámetros cosmológicos.
     implementation: "—"
     test: tests/test_s_clock.py
     observable: "—"
@@ -1319,7 +1408,7 @@ claims:
       preinscripciones Oort–K_z (desenlace C si g_C/K_z > 1 donde el
       modelo pone ×2–7) y perfil de Sculptor (C si el χ² excluye el pico
       central a > 3σ) deciden la amplitud única contra datos
-    evidence_level: derivación (E8) con control externo del autor reproducido y test 1D del umbral; derivado y confirmado por el test numérico preinscrito (ronda 3, fila criterio-cronos-jeans-ronda3, desenlace A — comprobación interna, no demostración física); expectativas declaradas (E13); sin datos ingeridos; no resultado observacional
+    evidence_level: derivación (E8) con control externo del autor reproducido y test 1D del umbral; derivado y confirmado por el test numérico preinscrito (ronda 3, fila criterio-cronos-jeans-ronda3, desenlace A — comprobación interna, no demostración física; matiz del 18-oct sobre la cobertura de su puerta UV y ampliación a q = 1.5 INDETERMINADA, fila criterio-cronos-jeans-ronda3b); expectativas declaradas (E13); sin datos ingeridos; no resultado observacional
     status: interno
     artifact: results/2026-09-21_cronos_jeans
 
@@ -1531,7 +1620,18 @@ claims:
       numérico» — comprobación interna (E8), no demostración física. Lo que
       A NO dice: nada sobre datos, sobre A_Sculptor, sobre el halo (frente
       5 (b), ronda 3, en curso) ni sobre la validez física de la ley; la
-      celda excluida no se midió.
+      celda excluida no se midió. MATIZ DEL 18-OCT (diagnóstico a
+      posteriori sin letra de la ronda 3b, fila
+      criterio-cronos-jeans-ronda3b): la puerta uv_controlled solo medía la
+      banda k ≥ k_c; con q·W(k) > 1 los modos por debajo de k_c también
+      crecen (q = 1.2: n ≤ 59, el más rápido n = 34 a 5.8 veces la tasa de
+      n = 4; q = 2.0: n ≤ 114, n = 66 a 10.9 veces), y dos de las once
+      celdas cerraron su ventana con esa banda ya por encima del mismo
+      A_nl = 1e-2: (q = 1.2, n = 4) con 2.0e-2 y (q = 2.0, n = 8) con
+      1.3e-2. Sus tasas quedaron a +0.9 % y −0.15 % de la predicción del
+      instrumento con r² ≥ 0.9998, de modo que la contaminación no se ve
+      en ellas; la letra A se obtuvo bajo la regla congelada y no cambia,
+      pero la cobertura de esa puerta queda declarada incompleta.
     implementation: cronos/cronos_jeans_1d.py + cronos/cronos_jeans_kinetic.py + scripts/run_cj_round3.py
     test: tests/test_cronos_jeans_kinetic.py + tests/test_cj_round3_lock.py
     observable: "— (test numérico interno; ningún observable)"
@@ -1542,9 +1642,66 @@ claims:
       preinscripción, midiera tasas fuera del 25 % de γ_cin(q, k)·W(k) o
       crecimiento con q = 0.8 falsaría la reproducción; el criterio mismo
       solo lo deciden los datos (filas oort-kz y sculptor-perfil)
-    evidence_level: comprobación interna (E8) bajo preinscripción nueva con celda excluida a priori por una cualificación E8-Q; desenlace A; predicción cinética reproducida en las once celdas; sin datos; no resultado observacional
+    evidence_level: comprobación interna (E8) bajo preinscripción nueva con celda excluida a priori por una cualificación E8-Q; desenlace A; predicción cinética reproducida en las once celdas; sin datos; no resultado observacional; matiz del 18-oct sobre la cobertura de la puerta UV (fila criterio-cronos-jeans-ronda3b)
     status: interno
     artifact: results/2026-09-28_cj_criterion_round3
+
+  - claim_id: criterio-cronos-jeans-ronda3b
+    entity: Test preinscrito del criterio de Cronos–Jeans, ronda 3b — ampliación a q = 1.5 con el instrumento, las tolerancias y la regla de exclusión de la ronda 3, bajo una adenda de cualificación en la misma q; desenlace INDETERMINADO por la celda (q = 1.5, n = 4), cuya ventana lineal cerró con la banda inestable por debajo de k_c ya no lineal (18-oct-2026)
+    law: "Def. 11.1 y Cor. 11.3 (ley local ε_c = A·ρ^(3/2)); teoría cinética lineal del medio maxwelliano (1 = q[1 + ζZ(ζ)]); §3.21 (criterio); regla del programa «solo puertas alcanzables» (fila cualificacion-laminas-e8q)"
+    derivation: >-
+      la revisión del autor del 30-sep pedía q ∈ {0.8, 1.2, 1.5}; la
+      ronda 3 cubrió 0.8, 1.2 y 2.0, así que faltaba q = 1.5. Adenda de
+      cualificación E8-Q en esa q (sin letras; dos corridas sin siembra
+      con el instrumento de la ronda 3; sha256 1a3283f3d200…): γ_UV =
+      50.1 sin filtro y 43.5 con k_c = ½ k_Nyquist, t_uv_nonlinear =
+      0.632 y 0.723, ninguna celda excluida por la regla de #46.
+      Preinscripción congelada (sha256 d0c16affe650…) en un commit
+      posterior al generador y a la adenda y anterior a toda corrida, con
+      el instrumento, las tolerancias, las puertas y el control de haces
+      de la ronda 3 (comprobado campo a campo en el candado). Cuatro
+      celdas (n = 4 / 8 / 16 / 32) y el control de haces (n = 8, 512
+      haces con p = 8), 1.3–3.6 min cada una. RESULTADO bajo la regla
+      congelada: INDETERMINADO — puerta de fase lineal violada en
+      (q = 1.5, n = 4): r² = 0.932 < 0.98 (166 puntos; γ/k ajustado 0.4212
+      frente a 0.3420 del instrumento). Las otras tres celdas resuelven la
+      fase lineal: γ/k = 0.3395 / 0.3302 / 0.2924 frente a 0.3398 /
+      0.3312 / 0.2969 (−0.1 %, −0.3 %, −1.5 %; r² = 1.0000); haces 0.01 %
+      (tolerancia 2 %); banda UV en ventana ≤ 5.5e-3 (puerta 1e-2). Se
+      publican sin veredicto (E13). DIAGNÓSTICO A POSTERIORI SIN LETRA
+      (scripts/run_cj_round3b.py diagnose): la puerta UV solo mide k ≥
+      k_c, pero con W(k) = sinc⁴(kh/2)·sin(kh)/(kh) los modos con
+      q·W(k) > 1 están por debajo de k_c y también crecen — en q = 1.5,
+      n ≤ 88, con el más rápido (n = 51) a 8.5 veces la tasa de n = 4. La
+      rms de esa banda (densidad depositada sin la banda UV ni el modo
+      sembrado) supera A_nl = 1e-2 en t = 0.254; la ventana de n = 4
+      cierra en t = 0.294 (0.396 prevista para crecimiento limpio) con la
+      banda en 0.11. Las celdas n = 8 / 16 / 32 cierran en t = 0.200 /
+      0.103 / 0.058, antes de que la banda cruce (0.259 / 0.261 / 0.185).
+      La adenda de cualificación no registraba esa banda, y sin siembra
+      queda mucho más abajo: los modos bajos valen ≤ 3.9e-10 en t = 0.4,
+      frente a n = 32 = 9.9e-6 en t = 0.2 con n = 4 sembrado. El mismo
+      diagnóstico sobre la ronda 3 encuentra dos ventanas cerradas con la
+      banda por encima de A_nl, sin efecto visible en sus tasas (matiz en
+      la fila criterio-cronos-jeans-ronda3). Lo que esto implica: la regla
+      de exclusión de #46 no cubre la banda inestable por debajo de k_c;
+      una preinscripción que quiera medir (q = 1.5, n = 4) necesita que la
+      cualificación mida esa banda en las mismas condiciones de siembra.
+      Qué cambiar en el instrumento es decisión del autor; aquí no se
+      corre nada más. La ronda 3 y su letra no se tocan.
+    implementation: cronos/cronos_jeans_1d.py + cronos/cronos_jeans_kinetic.py + scripts/run_cj_round3b.py + scripts/qualify_sheets.py
+    test: tests/test_cronos_jeans_kinetic.py + tests/test_cj_round3b_lock.py
+    observable: "— (test numérico interno; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      bajo una preinscripción con la banda inestable por debajo de k_c
+      cualificada, una tasa en q = 1.5 fuera del 25 % de γ_cin(q, k)·W(k)
+      o una dispersión entre modos > 25 % contradiría la ronda 3; el
+      criterio mismo solo lo deciden los datos (filas oort-kz y
+      sculptor-perfil)
+    evidence_level: comprobación interna (E8) bajo preinscripción nueva; INDETERMINADO por una celda; tres celdas resueltas a 0.1–1.5 % de la predicción del instrumento, publicadas sin veredicto (E13); diagnóstico a posteriori sin letra; sin datos; no resultado observacional
+    status: interno
+    artifact: results/2026-10-18_cj_criterion_round3b_q1p5
 
   - claim_id: halo-serie-resolucion-campo
     entity: Frente 5 (b) — serie de resolución del campo de Cronos (k_inner 64/128/256) en el halo NFW a A_Sculptor y a 0.05·A_Sculptor con campo instantáneo que sigue a las partículas y balance K + W + (2/5)U_C + W_fric, bajo preinscripción congelada; desenlace INDETERMINADO por la puerta de energía (21-sep-2026, tarde)
@@ -1929,10 +2086,21 @@ claims:
       brazos A_Sculptor de ds = 0.04 y ε_soft ≤ 0.1 alcanzan el suelo de dt
       antes de salir (regla: la preinscripción debe declarar dt_min ≤ 1e-5,
       con el que la celda ds 0.04 / ε 0.1 sale en 0.551 Myr). 0.05·A_S no
-      sale en ninguna celda dentro del presupuesto (ε_c máx ≤ 4.9e-4). Coste:
-      el rango actualizado multiplica la pared ×3–4 (reordenación en cada
-      subpaso). Ninguna letra ni tolerancia se decide aquí: la cualificación
-      fija qué puertas puede congelar la ronda 3 y cuáles no.
+      sale en ninguna celda dentro del presupuesto (ε_c máx ≤ 4.6e-4; errata
+      del 18-oct, decía 4.9e-4, que es un |ΔE/E|). Coste: el rango
+      actualizado multiplica la pared ×3–4 (reordenación en cada subpaso).
+      Ninguna letra ni tolerancia se decide aquí: la cualificación fija qué
+      puertas puede congelar la ronda 3 y cuáles no. REGLA POR CELDA
+      (revisión del autor del 30-sep, vigente desde el 18-oct para
+      preinscripciones nuevas, no retroactiva): la puerta de una celda es
+      ≥ 3 × el suelo de la misma (brazo, N, ds, ε_soft, rango), evaluado en
+      t_weak para la energía de Cronos, con presupuesto de pared y
+      estacionariedad por celda; fallo cerrado si ninguna corrida de la
+      celda llega al instante de evaluación. Sobre esta cualificación
+      cualifica una de las 17 configuraciones de la ronda 3 del halo (el
+      control de N a A_Sculptor, N = 1e5): la celda de producción a N = 1e6
+      se cortó a 0.167 Myr antes de salir. Una ronda 4 con esa regla
+      necesita una cualificación en sus propias celdas.
     implementation: validation/qualification.py + scripts/qualify_shells.py + cronos/halo_shells.py
     test: tests/test_qualification.py + tests/test_instrument_extensions.py
     observable: "—"
@@ -1942,7 +2110,7 @@ claims:
       (6.8e-6) refutaría el suelo medido; una serie que midiera t_weak
       distinto de 0.15 Myr con dt_max = 0.15 en ε_soft ≤ 0.05 refutaría la
       cuantización declarada (E8-Q, no física)
-    evidence_level: cualificación de instrumento (E8-Q), sin letra — suelos, estacionariedad, salidas y coste medidos; la puerta newtoniana ×3 es inalcanzable para los brazos de Cronos y se publica antes de preinscribir
+    evidence_level: cualificación de instrumento (E8-Q), sin letra — suelos, estacionariedad, salidas y coste medidos; la puerta newtoniana ×3 es inalcanzable para los brazos de Cronos y se publica antes de preinscribir; con la regla por celda solo cualifica 1 de las 17 configuraciones de la ronda 3
     status: interno
     artifact: results/2026-09-28_qualification_shells
 

@@ -1,0 +1,245 @@
+{
+  "title": "Test del criterio de Cronos–Jeans, ronda 3b: ampliación a q = 1.5 con el instrumento, las tolerancias y la regla de exclusión de la ronda 3",
+  "frozen_utc": "2026-10-18T09:36:50.072405+00:00",
+  "code_commit": "fb9e52b9d95117650f86f0b72dcce441fdff6d75",
+  "generator": "scripts/run_cj_round3b.py prereg",
+  "generator_commit_must_precede_freeze": true,
+  "qualification": {
+    "path": "results/2026-10-18_qualification_sheets_q1p5",
+    "sha256": "1a3283f3d200f6a31ca1b8abba93b1ad39db14edb95a7e826525ca0a6e37dc56",
+    "code_commit": "04bd812dc5c0916bedc58c0a8a8bc52adc920d3b",
+    "rule": "una preinscripción solo puede incluir celdas que la cualificación no excluya y pedir T ≤ t_uv_nonlinear"
+  },
+  "round3": {
+    "path": "results/2026-09-28_cj_criterion_round3",
+    "outcome": "A",
+    "preregistration_sha256": "ae9abba01c26834464249edb2bcdadf9627aec2d8704bf2d6519998309d8cdbe",
+    "note": "intacta: esta ampliación no reinterpreta su letra"
+  },
+  "question": "¿Reproduce el instrumento de láminas, en q = 1.5 y con la fase lineal resuelta en todas las celdas no excluidas, la tasa cinética exacta γ/k = √2·σ·y(q·W(k)) proporcional a k de la ley local ε_c = A·ρ^(3/2)?",
+  "system": {
+    "sigma": 1.0,
+    "rho0": 1.0,
+    "L": 1.0,
+    "gravity": false,
+    "force": "+c²∂_x ε_c(ρ_f), ε_c = A·ρ^(3/2), ρ_f = densidad filtrada (k ≤ k_c), con (3/2)c²A·ρ0^(3/2) ≡ q·σ²"
+  },
+  "instrument": {
+    "N": 2097152,
+    "ng": 512,
+    "dt": 0.001,
+    "sample_every": 1,
+    "full_modes_every": 50,
+    "quiet_start": true,
+    "n_beams": 1024,
+    "cells_per_beam": 4,
+    "lattice_rule": "N/n_beams = p·ng con p ENTERO (p = 4): depósito CIC de cada haz exactamente uniforme",
+    "k_cut_frac": 0.5,
+    "uv_band_frac": 0.5,
+    "filter_rule": "paso bajo de Fourier sobre la densidad depositada antes de la no linealidad: k ≤ k_cut_frac·k_Nyquist; corrección de W(k): γ_inst(q, k) = γ_cin(q·W(k)) si k ≤ k_c, 0 si k > k_c",
+    "seed_eigenmode": true,
+    "seed_eigenmode_rule": "cada haz j se desplaza ξ_j = −Im[c_j e^{ikx}]/k con c_j = κ v_j (v_j + iy')/(σ²(v_j² + y'²))·δρ̂ e y' = γ/k de la predicción cinética PARA EL INSTRUMENTO (q·W(k))",
+    "seed_amp_by_mode": {
+      "4": 2e-05,
+      "8": 2e-05,
+      "16": 2e-06,
+      "32": 2e-06
+    },
+    "seed": 1,
+    "T_rule": "T = mín(1.5·ln(1e-3/|δ_k|(0))/(γ_inst/k · k) + 0.1, t_uv_nonlinear(ng 512, 1024 haces, k_c, q = 1.5) de la adenda de cualificación)",
+    "T_safety": 1.5,
+    "delta_end": 0.001,
+    "beam_convergence_run": {
+      "q": 1.5,
+      "mode": 8,
+      "n_beams_alt": 512,
+      "cells_per_beam_alt": 8
+    }
+  },
+  "q_grid": [
+    1.5
+  ],
+  "modes": [
+    4,
+    8,
+    16,
+    32
+  ],
+  "k_cut": 804.247719318987,
+  "prediction_kinetic": [
+    {
+      "q": 1.5,
+      "y": 0.24232219138406771,
+      "gamma_over_k_kinetic": 0.34269532951931736,
+      "gamma_over_k_fluid": 0.7071067811865476,
+      "unstable": true
+    }
+  ],
+  "windows_and_T": {
+    "q1.5_n4": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 0.7229843980137272,
+      "T_rule_round2": 0.9037141254088514,
+      "t_uv_nonlinear": 0.7229843980137272,
+      "t_window_close": 0.39572773911994624,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9991970917162399,
+      "q_eff": 1.4987956375743599,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.34197588531863626,
+      "gamma_over_k_continuum": 0.34269532951931736,
+      "delta_k_initial": 1e-05,
+      "expected_points_in_window": 267.90470846961716,
+      "qualification_cell": {
+        "W_k": 0.9991970917162399,
+        "gamma_inst": 8.594791432175146,
+        "t_window": 0.26790470846961717,
+        "gamma_uv": 43.450694505861144,
+        "amp_noise_eff": 4.0000000000000007e-10,
+        "reason": "",
+        "gamma_uv_times_t_window": 11.640645644395127,
+        "ln_budget": 17.034386382832476,
+        "excluded": false
+      },
+      "excluded_a_priori": false
+    },
+    "q1.5_n8": {
+      "window": [
+        3.0000000000000004e-05,
+        0.00030000000000000003
+      ],
+      "T": 0.5044087229042609,
+      "T_rule_round2": 0.5044087229042609,
+      "t_uv_nonlinear": 0.7229843980137272,
+      "t_window_close": 0.199120240065306,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9967917501673835,
+      "q_eff": 1.4951876252510754,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.3398181518019002,
+      "gamma_over_k_continuum": 0.34269532951931736,
+      "delta_k_initial": 1e-05,
+      "expected_points_in_window": 134.8029076347536,
+      "qualification_cell": {
+        "W_k": 0.9967917501673835,
+        "gamma_inst": 17.081123348116975,
+        "t_window": 0.1348029076347536,
+        "gamma_uv": 43.450694505861144,
+        "amp_noise_eff": 4.0000000000000007e-10,
+        "reason": "",
+        "gamma_uv_times_t_window": 5.857279958139496,
+        "ln_budget": 17.034386382832476,
+        "excluded": false
+      },
+      "excluded_a_priori": false
+    },
+    "q1.5_n16": {
+      "window": [
+        3e-06,
+        2.9999999999999997e-05
+      ],
+      "T": 0.41120246633209145,
+      "T_rule_round2": 0.41120246633209145,
+      "t_uv_nonlinear": 0.7229843980137272,
+      "t_window_close": 0.10215195056451387,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9872209634732488,
+      "q_eff": 1.4808314452098732,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.33119618172444726,
+      "gamma_over_k_continuum": 0.34269532951931736,
+      "delta_k_initial": 1e-06,
+      "expected_points_in_window": 69.15610362935367,
+      "qualification_cell": {
+        "W_k": 0.9872209634732488,
+        "gamma_inst": 33.295471724880436,
+        "t_window": 0.06915610362935365,
+        "gamma_uv": 43.450694505861144,
+        "amp_noise_eff": 4e-12,
+        "reason": "",
+        "gamma_uv_times_t_window": 3.0048807320147204,
+        "ln_budget": 21.639556568820566,
+        "excluded": false
+      },
+      "excluded_a_priori": false
+    },
+    "q1.5_n32": {
+      "window": [
+        3e-06,
+        2.9999999999999997e-05
+      ],
+      "T": 0.27360444096159187,
+      "T_rule_round2": 0.27360444096159187,
+      "t_uv_nonlinear": 0.7229843980137272,
+      "t_window_close": 0.0569855132573538,
+      "window_closes_before_uv_nonlinear": true,
+      "W_k": 0.9497364738053421,
+      "q_eff": 1.424604710708013,
+      "k_below_cut": true,
+      "gamma_over_k_instrument": 0.2968503225537372,
+      "gamma_over_k_continuum": 0.34269532951931736,
+      "delta_k_initial": 1e-06,
+      "expected_points_in_window": 38.57876465813152,
+      "qualification_cell": {
+        "W_k": 0.9497364738053421,
+        "gamma_inst": 59.6852987232372,
+        "t_window": 0.03857876465813152,
+        "gamma_uv": 43.450694505861144,
+        "amp_noise_eff": 4e-12,
+        "reason": "",
+        "gamma_uv_times_t_window": 1.6762741175739855,
+        "ln_budget": 21.639556568820566,
+        "excluded": false
+      },
+      "excluded_a_priori": false
+    }
+  },
+  "excluded_cells_a_priori": [],
+  "rules": {
+    "linear_window_rule": "fase lineal = |δ_k| ∈ [3·|δ_k|(0), 30·|δ_k|(0)]: una década de amplitud, tras el transitorio",
+    "linear_window_lo_factor": 3.0,
+    "linear_window_hi_factor": 30.0,
+    "min_points_linear": 8,
+    "min_r2": 0.98,
+    "rate_rel_tol": 0.25,
+    "k_independence_rel_spread": 0.25,
+    "stable_max_growth_factor": 3.0,
+    "beam_convergence_rel_tol": 0.02,
+    "uv_amp_nonlinear": 0.01,
+    "exclusion_source": "results/2026-10-18_qualification_sheets_q1p5 (E8-Q, adenda en q = 1.5): celda excluida si γ_UV·t_ventana > ln(A_nl/A_ruido_ef) con ng 512, 1024 haces, k_c = ½ k_Nyq; las celdas excluidas no se corren ni cuentan",
+    "same_as_round3": "tolerancias, puertas, instrumento y regla de exclusión idénticos a results/2026-09-28_cj_criterion_round3"
+  },
+  "gates": {
+    "linear_phase_resolved": "≥ min_points_linear puntos en la ventana con r² ≥ min_r2 en CADA celda no excluida",
+    "seed_noise": "|δ_k|(0) de los modos NO sembrados < 0.1·|δ_k|(0) sembrado",
+    "lattice_exact": "cada corrida declara lattice_exact = true",
+    "filter_declared": "cada corrida declara k_cut_frac = 0.5",
+    "uv_controlled": "uv_rms < uv_amp_nonlinear hasta t_window_close en cada celda no excluida",
+    "beam_convergence": "γ/k en (q = 1.5, n = 8) con 512 haces (p = 8) difiere del de 1024 haces (p = 4) en ≤ 2 %"
+  },
+  "outcomes": {
+    "order": "puertas → C → B → A; INDETERMINADO si una puerta falla; ningún umbral se ajusta tras ver los números; las celdas excluidas a priori no cuentan",
+    "C_criterion_fails": "ausencia de crecimiento (factor ≤ 3) en q = 1.5, o tasa NO proporcional a k (dispersión del cociente medido/predicho entre los modos no excluidos > 25 %), o algún modo n ≥ 8 fuera del 25 %",
+    "B_finite_size": "proporcionalidad correcta pero γ/k dentro del 25 % solo para n ≥ 8 (el modo n = 4 fuera de tolerancia)",
+    "A_kinetic_reproduced": "todas las celdas no excluidas dentro del 25 % de γ_cin(1.5, k)·W(k) y dispersión entre modos ≤ 25 %",
+    "INDETERMINADO": "puerta violada (fase lineal, ruido de siembra, retículo, filtro, UV, convergencia en haces) o corridas ausentes"
+  },
+  "expectations_E13": "A: la ronda 3 reprodujo la cinética exacta en q = 1.2 y q = 2.0 dentro de 0.4–3 %; q = 1.5 está entre ambas",
+  "consequence_if_A": "ninguna sobre la fila criterio-cronos-jeans, ya «derivado y confirmado por el test numérico» por la ronda 3; la evidencia interna (E8) añade q = 1.5. B o C se publicarían como matiz o contradicción de la ronda 3, con el mismo peso",
+  "development_declaration": {
+    "pilots": "ninguno: la adenda de cualificación en q = 1.5 (2 corridas sin siembra) fija la exclusión y la cota de T; el resto es la ronda 3",
+    "what_they_fixed": "solo el instrumento; NINGUNA tolerancia ni desenlace se ajustó (25 %, 25 %, 2 %, 8 puntos, r² 0.98, como la ronda 3)",
+    "budget": "4 celdas + control de haces, N = 2 097 152: ~2–5 min cada una",
+    "author_review": "la revisión del 30-sep pedía q ∈ {0.8, 1.2, 1.5} y q = 2 solo con n ≥ 8; la ronda 3 ya cubrió q ∈ {0.8, 1.2, 2.0} con (q = 2, n = 4) excluida, así que lo que falta es q = 1.5"
+  },
+  "prohibitions": {
+    "no_threshold_tuning": true,
+    "no_data": true,
+    "no_change_to_A_sculptor": true,
+    "round3_untouched": true,
+    "qualification_untouched": true
+  }
+}

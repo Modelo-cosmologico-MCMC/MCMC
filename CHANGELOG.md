@@ -45,6 +45,99 @@ estado en que afirme exactamente lo que hace»).
   celda, con condiciones iniciales en equilibrio Newton + Cronos. La
   ronda 4 no se corre.
 
+- **Test del criterio de Cronos–Jeans, ronda 3b (18-oct, revisión del
+  autor del 30-sep): q = 1.5, desenlace INDETERMINADO bajo la regla
+  congelada.** Adenda de cualificación E8-Q en q = 1.5 (perfil `q1p5` de
+  `scripts/qualify_sheets.py`; sha256 `1a3283f3d200…`; γ_UV 50.1 / 43.5,
+  t_uv_nonlinear 0.632 / 0.723, ninguna celda excluida). Preinscripción
+  (sha256 `d0c16affe650…`) congelada antes de toda corrida, con el
+  instrumento, las tolerancias y las puertas de la ronda 3. La puerta de
+  fase lineal falla en (q = 1.5, n = 4): r² = 0.932 < 0.98. Las otras tres
+  celdas quedan a −0.1 / −0.3 / −1.5 % de la predicción del instrumento
+  (r² = 1.0000) y el control de haces a 0.01 %. Diagnóstico a posteriori
+  sin letra (`scripts/run_cj_round3b.py diagnose`): la puerta UV solo mide
+  k ≥ k_c, pero con q·W(k) > 1 crecen también los modos n ≤ 88, por debajo
+  de k_c. Esa banda supera 1e-2 en t = 0.254 y la ventana de n = 4 cierra
+  en t = 0.294 con la banda en 0.11. Matiz con el mismo peso: en la ronda 3,
+  (q = 1.2, n = 4) y (q = 2.0, n = 8) cerraron su ventana con esa banda en
+  2.0e-2 y 1.3e-2. Sus tasas no se movieron (+0.9 %, −0.15 %) y la letra A
+  no cambia, pero la cobertura de su puerta queda declarada incompleta.
+  Fila nueva `criterio-cronos-jeans-ronda3b`; matiz fechado en
+  `criterio-cronos-jeans-ronda3` y `criterio-cronos-jeans`; Nota I §3.39;
+  artefactos `results/2026-10-18_qualification_sheets_q1p5/` y
+  `results/2026-10-18_cj_criterion_round3b_q1p5/`. Qué cambiar en el
+  instrumento lo decide el autor.
+
+- **Cribado de β: criterio (i) en forma integral y candidato 2 excluido por
+  derivación (18-oct, revisión del autor del 30-sep).**
+  `core.beta_candidates.integral_criterion` escribe el criterio (i) como
+  número: I(S) = ln R(S) − ln R(S₀), con R = B²/(4C₀M₀²), debe llegar a
+  −ln R(S₀) (−0.811 con las formas por defecto) antes de M₀² = 0. Se
+  publican la fracción alcanzada y los S de T₀ = 0 (R = 4/3), D = 0 (R = 1)
+  y M₀² = 0; el candidato 1 conserva su criterio congelado.
+  `core/beta_one_loop.py` deriva las β a un lazo (LPA) del séxtico O(N) en
+  dimensión d en dos esquemas declarados. Wetterich con regulador de Litim
+  reproduce 3λ²/(16π²) en d = 4; Polchinski con N = 2 y sin escala es el
+  flujo canónico del reloj. R es invariante bajo toda reescala, así que d
+  no entra en su flujo instantáneo. Teorema de signo: con B, C₀ > 0, R solo
+  crece si R > R_c(N) = (13N + 74)/(12(N + 2)) (Wetterich; N = 2: 25/12) o
+  si R > (N + 4)/(N + 2) con M₀² > 0 (Polchinski). Con las formas por
+  defecto (R₀ = 9/4) y el campo del reloj (N = 2) el candidato 2 no puede
+  producir D = 0 en ninguna d; 24 flujos de verificación llegan a M₀² = 0 con
+  R creciente. El candidato 1, re-corrido en su ventana con el criterio
+  nuevo, tampoco baja R (informativo; su letra no cambia). Fila nueva
+  `beta-un-lazo-sextico` (interno); `decada-discriminante` y
+  `beta-extra-cribado` lo registran; Nota I §3.40; artefacto
+  `results/2026-10-18_beta_one_loop_sextic/`. Sin letra sobre λ.
+
+- **Diccionario: Φ_ten del fondo derivado por la Def. 6.4, un solo hueco
+  post-Florencia, y matriz compacta de claims en español e inglés (18-oct,
+  revisión del autor del 30-sep).** La Ley de Cronos da N = r/r̄; en el fondo
+  homogéneo r = r̄ en todo punto, luego N ≡ 1 y Φ_ten = 0 exactamente. El
+  reloj S lo calcula ahora así (`phi_ten_background`, `lapse_ley_de_cronos`,
+  `phi_ten_from_lapse`) en lugar de declararlo como normalización; el valor
+  entregado no cambia (0). Fila nueva `phi-ten-fondo-ley-cronos` (interno).
+  La tabla de puentes separa Φ_ten en fondo (derivado) y perturbaciones
+  (condicional, canal Atlas), y marca S_post y C(S) como un solo hueco
+  («ecuación 4»; la ecuación 4 sigue sin ejecutarse). La nota de C(S) cita
+  el cribado de β: κ no ganó estatuto. Recuento: derivado 2, condicional 3,
+  calibrado 6, convencional 2, ausente 2, con un solo hueco distinto.
+  `scripts/make_claim_matrix.py` genera `docs/matriz_claims.md` y
+  `docs/claim_matrix_en.md` desde el registro y los puentes: matriz por
+  categoría, puentes y falsadores; la edición inglesa traduce el marco y el
+  vocabulario de estatutos y cita en español los textos de cada fila. Tests
+  de no divergencia, de cobertura de filas, de fallo cerrado y de lenguaje
+  del marco. README actualizado.
+
+- **Regla de puertas por celda (18-oct, revisión del autor del 30-sep a #46)**,
+  para las preinscripciones nuevas y no retroactiva: la ronda 3 del halo se
+  congeló el 30-sep con la regla por clase y la conserva. En
+  `validation/qualification.py`, la puerta de energía de una celda es ≥ 3 ×
+  el suelo de la misma celda (brazo, N, ds, ε_soft, rango), evaluado en
+  t_weak para los brazos de Cronos (`assert_cell_gate_attainable`). El
+  presupuesto de pared se declara por celda (`assert_wall_budget_attainable`)
+  y la estacionariedad newtoniana se exige por celda
+  (`assert_cell_stationarity_attainable`). Todo falla cerrado si ninguna
+  corrida de la celda llega al instante de evaluación; `cell_report` da el
+  diagnóstico sin fallar. Sobre la cualificación de capas del 28-sep, la regla
+  cualifica 1 de las 17 configuraciones de la ronda 3 (el control de N a
+  A_Sculptor): una ronda 4 necesita antes una cualificación en sus propias
+  celdas. Erratas: el ε_c máximo a 0.05·A_Sculptor en esa cualificación es
+  4.6e-4, no 4.9e-4 (Nota I §3.36 y fila `cualificacion-capas-e8q`). Nota I
+  §3.36, adenda del 18-oct; tests nuevos, incluidos los que fijan la
+  consecuencia sobre el artefacto congelado.
+
+- **Criterio de Cronos–Jeans: r_min como argumento (18-oct, revisión del autor del
+  30-sep).** `dynamics.cronos_jeans.nfw_jeans_table` busca r_CJ en
+  [r_min, 5] kpc con r_min = ε_soft/10 por defecto (0.01 kpc con el suavizado
+  de producción de 0.1 kpc) o el `r_min_kpc` dado, y publica la horquilla
+  (`r_search_kpc`, `r_min_rule`). Si q ≤ 1 ya en r_min devuelve None, nunca un
+  valor extrapolado. Antes la horquilla empezaba en 0.2 kpc para la amplitud
+  principal y en 0.02 kpc para las fracciones. Con la nueva, r_CJ(10⁻⁴·A_S) =
+  0.0115 kpc reproduce el valor del autor (0.011), que la adenda del informe
+  integral daba como no reproducible; r_CJ(A_S) = 0.709 kpc no cambia. Nota
+  fechada en el informe integral §18; tests nuevos.
+
 ## Sin publicar — septiembre de 2026
 
 - **Test del criterio de Cronos–Jeans, ronda 3 (30-sep, PR-4): desenlace A
