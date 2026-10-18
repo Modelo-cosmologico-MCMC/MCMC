@@ -6,6 +6,45 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **Frente 5 (b), ronda 3 del halo (segunda ejecución, 18-oct, PR-5):
+  desenlace INDETERMINADO bajo la regla congelada** (sha256 de la
+  preinscripción `6fba6b53d929…`, congelada el 30-sep). La primera
+  ejecución se perdió con el contenedor. La declaración previa a la
+  segunda declaró, sin tocar la regla, dos defectos: D1, A inalcanzable
+  por construcción, y D2, las cuatro salidas a 0.05·A_S no cualificadas.
+  También anunció una tabla por celda sin letra, cuyo código
+  (`scripts/run_halo_round3.py cells`) se confirmó antes de que
+  terminara ninguna corrida. Resultado de las 17 corridas:
+  - La puerta de energía falla en los cinco brazos de la clase
+    0.05·A_Sculptor: |ΔE_self/E| de 1.4e-3 a 7.9e-2, frente a la puerta
+    8.3e-4.
+  - El barrido a 0.05·A_S solo tiene dos salidas de cuatro; ε_soft = 0.2
+    y 0.1 agotan la pared en 40.0 y 10.4 Myr.
+  - Las demás puertas se cumplen: estacionariedad 0.029 dex y control de
+    N a A_S 0.93.
+
+  Sin letra (E13):
+  - A_Sculptor: t_weak = 2.932 / 0.599 / 0.076 / 0.0106 Myr en ε_soft =
+    0.2 / 0.1 / 0.05 / 0.025, con p = 2.73 y r² = 0.997.
+  - Serie ds: 1.172 / 0.599 / 0.136 Myr, decreciente al refinar.
+  - Control saturante: «sub» no sale y converge con ds (0.015 dex);
+    «above» no sale (D1) y acaba con M(<0.4) = 7.61e7 frente a 5.69e7 del
+    newtoniano.
+  - Tabla por celda: 1 configuración de 17 con celda cualificada.
+
+  Fila nueva `halo-capas-ronda3`; Nota I §3.38; artefacto
+  `results/2026-09-28_halo_round3/` (corridas, análisis, tabla por celda,
+  registro de ejecución). Candado `tests/test_halo_round3_lock.py`.
+
+  **Errata del 18-oct (revisión del autor):** la letra B también era
+  inalcanzable por construcción. «sub» tiene ε_max = 5.41e-9 < 1e-3 y no
+  puede salir del régimen débil, así que bajo `6fba6b53` solo eran
+  alcanzables C e INDETERMINADO. La errata va fechada en la Nota I §3.38 y
+  en la fila; la declaración previa no se edita. El falsador de la fila se
+  reescribe: contracción de M(<r_u) frente al newtoniano de la misma
+  celda, con condiciones iniciales en equilibrio Newton + Cronos. La
+  ronda 4 no se corre.
+
 - **Test del criterio de Cronos–Jeans, ronda 3b (18-oct, revisión del
   autor del 30-sep): q = 1.5, desenlace INDETERMINADO bajo la regla
   congelada.** Adenda de cualificación E8-Q en q = 1.5 (perfil `q1p5` de

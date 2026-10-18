@@ -1759,6 +1759,132 @@ amplitud pequeña). Fila `criterio-cronos-jeans-ronda3`; artefacto
 `results/2026-09-28_cj_criterion_round3/`; la ronda 2 y la cualificación
 no se tocan.
 
+### 3.38 Frente 5 (b), ronda 3: el barrido de suavizado con capas esféricas — INDETERMINADO por la puerta de energía a 0.05·A_Sculptor; a A_Sculptor, t_weak ∝ ε_soft^2.7 publicado sin letra (segunda ejecución, 18-oct-2026)
+
+La ronda 2 (§3.34) quedó INDETERMINADA por puertas del instrumento. La
+cualificación de capas (§3.36) midió los suelos de energía y mostró que
+el rango M(<r) actualizado en los subpasos es el instrumento que puede
+superarlas. La ronda 3 se preinscribió el 30-sep (sha256 `6fba6b53d929…`)
+con puertas = 3 × el suelo medido de la misma clase de brazo
+(newtoniano, A_Sculptor, 0.05·A_Sculptor; los brazos saturantes heredan
+la de A_Sculptor). Comprende:
+
+- un barrido ε_soft ∈ {0.2, 0.1, 0.05, 0.025} kpc en las dos amplitudes,
+  para medir si t_weak ∝ ε_soft^p con p > 0, como lee la adenda del autor,
+  o es independiente de ε_soft, como diría el integrador;
+- la serie ds a A_Sculptor;
+- el brazo de control saturante en dos puntos, «sub» y «above».
+
+**Dos ejecuciones.** La primera (30-sep) se perdió entera con el
+contenedor, sin que se hubiera confirmado ningún fichero. Antes de
+relanzar se publicó una declaración previa
+(`declaracion_previa_segunda_ejecucion.md`) con dos defectos de la regla
+congelada, que no se tocó:
+
+- **D1.** La letra A es inalcanzable por construcción: el brazo «above»
+  tiene ε_max = 1.62e-8 ≪ 1e-3 y no puede salir del régimen débil.
+- **D2.** La condición de que salgan los cuatro brazos a 0.05·A_Sculptor
+  no la había mostrado alcanzable ninguna cualificación.
+
+La declaración anunciaba también una tabla por celda sin letra. Su
+código se confirmó con 0 de 17 corridas terminadas.
+
+La segunda ejecución (18-oct) usa el mismo código, la misma
+preinscripción y las mismas reglas: 17 corridas con N = 1e6 (1e5 en los
+controles de N). Se reanudaron desde su punto de control tras dos
+reinicios del contenedor y una parada deliberada para repartir la cola
+en un núcleo libre. El presupuesto de pared de 4 h cuenta solo el tiempo
+corrido.
+
+**Resultado bajo la regla congelada: INDETERMINADO.** Falla la puerta de
+energía en los cinco brazos de la clase 0.05·A_Sculptor:
+
+- barrido, ε_soft = 0.2 / 0.1 / 0.05 / 0.025: |ΔE_self/E| = 1.4e-3 /
+  2.9e-3 / 1.3e-2 / 2.3e-3;
+- control de N: 7.9e-2.
+
+La puerta es 8.3e-4, tres veces el suelo de esa clase en la
+cualificación, donde ninguna corrida a 0.05·A_S llegó a salir del
+régimen débil. Las demás puertas se cumplen:
+
+- capas interiores;
+- estacionariedad newtoniana: 0.029 dex en 50 Myr, con energía 2.0e-7;
+- control de N a A_S: cociente 0.93;
+- las 17 corridas completas.
+
+Con independencia de la puerta, el barrido a 0.05·A_S tiene solo dos
+salidas de cuatro. ε_soft = 0.2 y 0.1 agotan las 4 h en 40.0 y 10.4 Myr,
+con ε_c máx 2.2e-5 y 1.4e-4; 0.05 sale en 9.66 Myr y 0.025 en 0.477 Myr.
+Así que ni A ni B eran posibles, como anunciaba la declaración previa.
+
+**Errata (18-oct, revisión del autor).** La frase anterior no es exacta:
+la letra B **también era inalcanzable por construcción**. Exige que el
+brazo «sub» salga del régimen débil, y «sub» tiene ε_max = 5.41e-9 <
+10⁻³, así que ε_c nunca puede superar el umbral. Bajo la preinscripción
+`6fba6b53` solo eran alcanzables C e INDETERMINADO. La declaración previa,
+que decía «C, B (si…) e INDETERMINADO», no se edita. Re-ejecutar bajo la
+regla congelada, con los defectos declarados antes, fue lo correcto: la
+primera ejecución se había lanzado y se habían visto cifras parciales, de
+modo que retirar la preinscripción ya no era legítimo. El falsador de la
+fila `halo-capas-ronda3`, que describía ese suceso imposible, se reescribe
+en términos de contracción de M(<r_u) frente al newtoniano de la misma
+celda, con condiciones iniciales en equilibrio Newton + Cronos. La ronda 4
+no se corre (decisión del autor del 18-oct).
+
+**Lo medido, sin letra (E13):**
+
+| brazo | ε_soft | ds | t_weak [Myr] | \|ΔE/E\| | parada |
+|---|---|---|---|---|---|
+| A_Sculptor | 0.2 | 0.04 | 2.932 | 2.4e-2 | salida |
+| A_Sculptor | 0.1 | 0.04 | 0.599 | 4.0e-3 | salida |
+| A_Sculptor | 0.05 | 0.04 | 0.076 | 4.0e-4 | salida |
+| A_Sculptor | 0.025 | 0.04 | 0.0106 | 7.7e-4 | salida |
+| A_Sculptor | 0.1 | 0.08 | 1.172 | 3.1e-3 | salida |
+| A_Sculptor | 0.1 | 0.02 | 0.136 | 9.3e-4 | salida |
+| A_Sculptor, N = 1e5 | 0.1 | 0.04 | 0.558 | 1.0e-2 | salida |
+| 0.05·A_S | 0.2 / 0.1 | 0.04 | — | 1.4e-3 / 2.9e-3 | pared (40.0 / 10.4 Myr) |
+| 0.05·A_S | 0.05 / 0.025 | 0.04 | 9.661 / 0.477 | 1.3e-2 / 2.3e-3 | salida |
+| 0.05·A_S, N = 1e5 | 0.1 | 0.04 | 30.764 | 7.9e-2 | salida |
+
+- **Barrido a A_Sculptor.** t_weak ∝ ε_soft^p con p = 2.73 y r² = 0.997.
+  t_weak cambia un factor ≈ 280 entre ε_soft = 0.2 y 0.025. La condición
+  C de la regla, |p| ≤ 0.10, queda lejos.
+- **Serie ds.** t_weak decrece al refinar: 1.172 → 0.599 → 0.136 Myr.
+- **Salidas.** Todas ocurren en la celda central, bajo ε_soft.
+
+Ese patrón es el que la regla pedía para la parte A_Sculptor de A. No es
+una letra, por las dos razones de arriba. Y no es una demostración: el
+integrador resuelve aquí exactamente la cúspide que el instrumento
+declara no decidible bajo ε_soft (E8).
+
+**Control saturante.** «sub» (0.5·ε_max_crit) no sale en ninguna ds. Su
+M(<0.4) final converge con ds: 6.27e7 / 6.31e7 / 6.49e7 M☉ en ds = 0.08 /
+0.04 / 0.02, dentro de 0.015 dex (tolerancia 0.03). «above» no sale (ε_c
+máx 1.61e-8, D1) y acaba con M(<0.4) = 7.61e7 M☉, frente a 5.69e7 M☉ del
+newtoniano. Es una contracción que la prueba codificada (el umbral del
+régimen débil) no puede registrar; se publica como número.
+
+**Tabla por celda, sin letra** (`per_cell_energy.md`). Usa el criterio de
+la revisión del autor del 30-sep, que no es retroactivo. De las 17
+configuraciones:
+
+- 1 tiene celda equivalente cualificada: el control de N a A_Sculptor,
+  con suelo 4.31e-3; el brazo da 1.01e-2, un cociente de 2.3.
+- 4 tienen corridas en la cualificación que no llegaron al instante de
+  evaluación.
+- 12 no tienen celda equivalente.
+
+Es lo que ya anticipaba la regla por celda: una ronda 4 necesita
+cualificar sus propias celdas.
+
+**Lo que se sigue.** Una ronda 4 con letras alcanzables necesita tres
+cosas: corregir D1 (que la prueba de la forma saturante mida la
+contracción, no el umbral débil), corregir D2 y cualificar sus celdas con
+la regla por celda. Nada de esto decide la ley ni la amplitud. Fila
+`halo-capas-ronda3`; artefacto `results/2026-09-28_halo_round3/` (17
+corridas, `halo_round3.json`, `report.md`, `per_cell_energy.*`,
+`run.log`). Las rondas 1 y 2 y la cualificación no se tocan.
+
 ### 3.39 Test del criterio de Cronos–Jeans, ronda 3b: q = 1.5 — INDETERMINADO por la celda más lenta, y la puerta UV no cubría la banda inestable por debajo de k_c (18-oct-2026)
 
 La revisión del autor del 30-sep pedía q ∈ {0.8, 1.2, 1.5}; la ronda 3

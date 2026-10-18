@@ -1,0 +1,434 @@
+{
+  "artifact": "tabla sin letra (declarada el 18-oct antes de la segunda ejecución); no es una puerta ni entra en el desenlace",
+  "preregistration_sha256": "6fba6b53d92910db86e21ed5ae9c8943d9c50f32dcb33b52e3d6eae01bf513ec",
+  "qualification_sha256": "64b9693e6d9a2d8b490ded802129ba313dd9ee1aca15266957282f12d895e4e0",
+  "code_commit": "2d65c8b1ac4926ae28bb7c8f0d304f47fcff7eef",
+  "written_utc": "2026-10-18T19:02:46.700105+00:00",
+  "missing_runs": [],
+  "criterion": "misma celda (clase, N, ds, ε_soft, rango actualizado) y mismo instante de evaluación (Cronos: t_weak; newtoniano: t_end); suelo = el mayor |ΔE/E| de las corridas de la celda que llegaron a ese instante",
+  "rows": {
+    "newton_N1e6": {
+      "cell": {
+        "class": "newton",
+        "N": 1000000,
+        "ds": 0.04,
+        "eps_soft": 0.1,
+        "rank_update": true
+      },
+      "evaluation": "t_end",
+      "t_eval_myr": 50.0,
+      "dE_rel_max": 1.9659500750822222e-07,
+      "arm_reached_evaluation": true,
+      "t_weak_myr": null,
+      "t_final_myr": 50.0,
+      "stop_reason": null,
+      "frozen_class_gate": 6.753225863202257e-06,
+      "qualification_status": "no llegó al instante de evaluación",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": [
+        {
+          "key": "newton_N1000000_ds0.04_eps0.1_ru1_dtmin0.0001",
+          "t_weak_myr": null,
+          "t_final_myr": 14.849999999999966,
+          "dE_rel_max": 6.679183991254908e-08,
+          "stop_reason": "presupuesto de tiempo de pared agotado",
+          "wall_s": 1502.1
+        }
+      ]
+    },
+    "sweep_AS_eps0.2": {
+      "cell": {
+        "class": "AS",
+        "N": 1000000,
+        "ds": 0.04,
+        "eps_soft": 0.2,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.023687023938134027,
+      "arm_reached_evaluation": true,
+      "t_weak_myr": 2.9316981435224987,
+      "t_final_myr": 2.9316981435224987,
+      "stop_reason": "ε_c máx = 1.01e-03 > 0.001 (fuera del régimen débil)",
+      "frozen_class_gate": 0.08880316201535281,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "sweep_AS_eps0.1": {
+      "cell": {
+        "class": "AS",
+        "N": 1000000,
+        "ds": 0.04,
+        "eps_soft": 0.1,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.004026273878599503,
+      "arm_reached_evaluation": true,
+      "t_weak_myr": 0.5993826638942289,
+      "t_final_myr": 0.5993826638942289,
+      "stop_reason": "ε_c máx = 1.02e-03 > 0.001 (fuera del régimen débil)",
+      "frozen_class_gate": 0.08880316201535281,
+      "qualification_status": "no llegó al instante de evaluación",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": [
+        {
+          "key": "AS_N1000000_ds0.04_eps0.1_ru1_dtmin0.0001",
+          "t_weak_myr": null,
+          "t_final_myr": 0.16675898090266997,
+          "dE_rel_max": 0.0012370161951096939,
+          "stop_reason": "presupuesto de tiempo de pared agotado",
+          "wall_s": 489.4
+        }
+      ]
+    },
+    "sweep_AS_eps0.05": {
+      "cell": {
+        "class": "AS",
+        "N": 1000000,
+        "ds": 0.04,
+        "eps_soft": 0.05,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.0003976815043041384,
+      "arm_reached_evaluation": true,
+      "t_weak_myr": 0.07573079762711772,
+      "t_final_myr": 0.07573079762711772,
+      "stop_reason": "ε_c máx = 1.01e-03 > 0.001 (fuera del régimen débil)",
+      "frozen_class_gate": 0.08880316201535281,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "sweep_AS_eps0.025": {
+      "cell": {
+        "class": "AS",
+        "N": 1000000,
+        "ds": 0.04,
+        "eps_soft": 0.025,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.000765361502271076,
+      "arm_reached_evaluation": true,
+      "t_weak_myr": 0.010584294884056518,
+      "t_final_myr": 0.010584294884056518,
+      "stop_reason": "ε_c máx = 1.02e-03 > 0.001 (fuera del régimen débil)",
+      "frozen_class_gate": 0.08880316201535281,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "sweep_b005_eps0.2": {
+      "cell": {
+        "class": "b005",
+        "N": 1000000,
+        "ds": 0.04,
+        "eps_soft": 0.2,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.0014072634503917891,
+      "arm_reached_evaluation": false,
+      "t_weak_myr": null,
+      "t_final_myr": 39.996306053588256,
+      "stop_reason": "presupuesto de tiempo de pared agotado",
+      "frozen_class_gate": 0.0008342998244686957,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "sweep_b005_eps0.1": {
+      "cell": {
+        "class": "b005",
+        "N": 1000000,
+        "ds": 0.04,
+        "eps_soft": 0.1,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.0028695370248731757,
+      "arm_reached_evaluation": false,
+      "t_weak_myr": null,
+      "t_final_myr": 10.37142613164039,
+      "stop_reason": "presupuesto de tiempo de pared agotado",
+      "frozen_class_gate": 0.0008342998244686957,
+      "qualification_status": "no llegó al instante de evaluación",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": [
+        {
+          "key": "b005_N1000000_ds0.04_eps0.1_ru1_dtmin0.0001",
+          "t_weak_myr": null,
+          "t_final_myr": 0.23133858641876237,
+          "dE_rel_max": 9.039046142145827e-07,
+          "stop_reason": "presupuesto de tiempo de pared agotado",
+          "wall_s": 482.9
+        }
+      ]
+    },
+    "sweep_b005_eps0.05": {
+      "cell": {
+        "class": "b005",
+        "N": 1000000,
+        "ds": 0.04,
+        "eps_soft": 0.05,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.013236318300466897,
+      "arm_reached_evaluation": true,
+      "t_weak_myr": 9.660895019321412,
+      "t_final_myr": 9.660895019321412,
+      "stop_reason": "ε_c máx = 1.00e-03 > 0.001 (fuera del régimen débil)",
+      "frozen_class_gate": 0.0008342998244686957,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "sweep_b005_eps0.025": {
+      "cell": {
+        "class": "b005",
+        "N": 1000000,
+        "ds": 0.04,
+        "eps_soft": 0.025,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.0022683807675679363,
+      "arm_reached_evaluation": true,
+      "t_weak_myr": 0.47650686364458433,
+      "t_final_myr": 0.47650686364458433,
+      "stop_reason": "ε_c máx = 1.29e-03 > 0.001 (fuera del régimen débil)",
+      "frozen_class_gate": 0.0008342998244686957,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "series_AS_ds0.02": {
+      "cell": {
+        "class": "AS",
+        "N": 1000000,
+        "ds": 0.02,
+        "eps_soft": 0.1,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.0009311767497997573,
+      "arm_reached_evaluation": true,
+      "t_weak_myr": 0.1359114892117779,
+      "t_final_myr": 0.1359114892117779,
+      "stop_reason": "ε_c máx = 1.02e-03 > 0.001 (fuera del régimen débil)",
+      "frozen_class_gate": 0.08880316201535281,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "series_AS_ds0.08": {
+      "cell": {
+        "class": "AS",
+        "N": 1000000,
+        "ds": 0.08,
+        "eps_soft": 0.1,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.003139672673781552,
+      "arm_reached_evaluation": true,
+      "t_weak_myr": 1.1717114343039328,
+      "t_final_myr": 1.1717114343039328,
+      "stop_reason": "ε_c máx = 1.01e-03 > 0.001 (fuera del régimen débil)",
+      "frozen_class_gate": 0.08880316201535281,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "sat_sub_ds0.02": {
+      "cell": {
+        "class": "sat",
+        "N": 1000000,
+        "ds": 0.02,
+        "eps_soft": 0.1,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 3.3665761007660714e-05,
+      "arm_reached_evaluation": false,
+      "t_weak_myr": null,
+      "t_final_myr": 50.0,
+      "stop_reason": null,
+      "frozen_class_gate": 0.08880316201535281,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "sat_sub_ds0.04": {
+      "cell": {
+        "class": "sat",
+        "N": 1000000,
+        "ds": 0.04,
+        "eps_soft": 0.1,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 8.647747725464223e-06,
+      "arm_reached_evaluation": false,
+      "t_weak_myr": null,
+      "t_final_myr": 50.0,
+      "stop_reason": null,
+      "frozen_class_gate": 0.08880316201535281,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "sat_sub_ds0.08": {
+      "cell": {
+        "class": "sat",
+        "N": 1000000,
+        "ds": 0.08,
+        "eps_soft": 0.1,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 1.309617469198527e-06,
+      "arm_reached_evaluation": false,
+      "t_weak_myr": null,
+      "t_final_myr": 50.0,
+      "stop_reason": null,
+      "frozen_class_gate": 0.08880316201535281,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "sat_above_ds0.04": {
+      "cell": {
+        "class": "sat",
+        "N": 1000000,
+        "ds": 0.04,
+        "eps_soft": 0.1,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 2.7441203041252936e-05,
+      "arm_reached_evaluation": false,
+      "t_weak_myr": null,
+      "t_final_myr": 50.0,
+      "stop_reason": null,
+      "frozen_class_gate": 0.08880316201535281,
+      "qualification_status": "sin celda equivalente",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": []
+    },
+    "ctrlN_AS_N1e5": {
+      "cell": {
+        "class": "AS",
+        "N": 100000,
+        "ds": 0.04,
+        "eps_soft": 0.1,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.010076002612632397,
+      "arm_reached_evaluation": true,
+      "t_weak_myr": 0.5576134656356315,
+      "t_final_myr": 0.5576134656356315,
+      "stop_reason": "ε_c máx = 1.00e-03 > 0.001 (fuera del régimen débil)",
+      "frozen_class_gate": 0.08880316201535281,
+      "qualification_status": "cualificada",
+      "cell_floor": 0.004309498291073443,
+      "ratio_to_cell_floor": 2.3380917991088443,
+      "qualification_runs_same_cell": [
+        {
+          "key": "AS_N100000_ds0.04_eps0.1_ru1_dtmin0.0001",
+          "t_weak_myr": null,
+          "t_final_myr": 0.5494860044768419,
+          "dE_rel_max": 0.004052702761839456,
+          "stop_reason": "paso global por debajo del suelo dt_min = 1.0e-04 Myr",
+          "wall_s": 250.8
+        },
+        {
+          "key": "AS_N100000_ds0.04_eps0.1_ru1_dtmin1e-05",
+          "t_weak_myr": 0.5513286598968014,
+          "t_final_myr": 0.5513286598968014,
+          "dE_rel_max": 0.004309498291073443,
+          "stop_reason": "ε_c máx = 1.01e-03 > 0.001 (fuera del régimen débil)",
+          "wall_s": 267.9
+        }
+      ]
+    },
+    "ctrlN_b005_N1e5": {
+      "cell": {
+        "class": "b005",
+        "N": 100000,
+        "ds": 0.04,
+        "eps_soft": 0.1,
+        "rank_update": true
+      },
+      "evaluation": "t_weak",
+      "t_eval_myr": null,
+      "dE_rel_max": 0.07927045320745263,
+      "arm_reached_evaluation": true,
+      "t_weak_myr": 30.76389365300668,
+      "t_final_myr": 30.76389365300668,
+      "stop_reason": "ε_c máx = 1.00e-03 > 0.001 (fuera del régimen débil)",
+      "frozen_class_gate": 0.0008342998244686957,
+      "qualification_status": "no llegó al instante de evaluación",
+      "cell_floor": null,
+      "ratio_to_cell_floor": null,
+      "qualification_runs_same_cell": [
+        {
+          "key": "b005_N100000_ds0.04_eps0.1_ru1_dtmin0.0001",
+          "t_weak_myr": null,
+          "t_final_myr": 2.2862520266705024,
+          "dE_rel_max": 0.00011964611922655719,
+          "stop_reason": "presupuesto de tiempo de pared agotado",
+          "wall_s": 480.2
+        },
+        {
+          "key": "b005_N100000_ds0.04_eps0.1_ru1_dtmin1e-05",
+          "t_weak_myr": null,
+          "t_final_myr": 2.3326307331312246,
+          "dE_rel_max": 0.00020910761750264165,
+          "stop_reason": "presupuesto de tiempo de pared agotado",
+          "wall_s": 480.7
+        }
+      ]
+    }
+  },
+  "counts": {
+    "cualificada": 1,
+    "no llegó al instante de evaluación": 4,
+    "sin celda equivalente": 12
+  }
+}

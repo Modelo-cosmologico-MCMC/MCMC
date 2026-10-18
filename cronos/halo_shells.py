@@ -51,6 +51,8 @@ Unidades: kpc, M☉, km/s (1 kpc/(km/s) = 0.977792 Gyr); G = 4.30091e-6.
 
 from __future__ import annotations
 
+import json
+import os
 import time
 
 import numpy as np
@@ -99,7 +101,19 @@ class KernelCronosField:
     es ds (= Δln r lejos del centro); la serie la varía ×½/×1/×2. Bajo r ≲ ε el radio
     suavizado hace dε̃/dr → 0 (declarado: no decidible por el instrumento)."""
 
-    def __init__(self, A: float, eps_soft: float, ds: float, r_max: float = 400.0):
+    def __init__(self, A: float, eps_soft: float, ds: float, r_max: float = 400.0,
+                 eps_form: str = "weak", eps_max: float | None = None, rho_star: float | None = None):
+        # forma de ε_c(ρ) (ρ en M☉/pc³): 'weak' — ley débil ε_c = Aρ^{3/2} (Def. 11.1; la de las rondas 1–2);
+        # 'saturating' — ecuación 1 del diccionario, ε_c = ε_max·ρ^{3/2}/(ρ^{3/2} + ρ*^{3/2}) (brazo de CONTROL de la
+        # ronda 3, PR-5: etiquetado control, no decisión). Para cualquier forma la fuerza c²dε̃/dr es el gradiente
+        # exacto de U = −c² Σ_b V_b G(ρ_b) con G' = ε_c; para la ley débil G = (2/5)Aρ^{5/2} y U = (2/5)Σm(−c²ε̃).
+        if eps_form not in ("weak", "saturating"):
+            raise ValueError("eps_form: 'weak' | 'saturating'")
+        if eps_form == "saturating" and not (eps_max is not None and rho_star is not None and eps_max > 0.0 and rho_star > 0.0):
+            raise ValueError("eps_form='saturating' exige eps_max > 0 y rho_star > 0 declarados")
+        self.eps_form, self.eps_max_decl, self.rho_star = eps_form, eps_max, rho_star
+        if eps_form == "saturating":
+            A = eps_max / rho_star ** 1.5                        # A de la ley débil que la forma reproduce para ρ ≪ ρ*
         self.A, self.eps, self.ds = float(A), float(eps_soft), float(ds)
         s_min, s_max = np.log(self.eps), np.log(np.sqrt(r_max ** 2 + self.eps ** 2))
         self.s0 = s_min - 2.0 * self.ds                        # margen del núcleo (soporte 2 celdas)
@@ -138,7 +152,7 @@ class KernelCronosField:
         M_b = np.bincount(idx.ravel(), weights=(W * m[:, None]).ravel(), minlength=self.nb)
         self.rho_b_prev, self.t_prev = self.rho_b, self.t
         self.rho_b, self.t = M_b / self.V_b, float(t)
-        self.eps_b = self.A * (self.rho_b * KPC3_TO_PC3) ** 1.5
+        self.eps_b = self._eps_of_rho(self.rho_b * KPC3_TO_PC3)
         self.M_tot = float(m.sum())
 
     # --------------------------------------------------------- interpolación
@@ -171,12 +185,49 @@ class KernelCronosField:
         return self._interp(r, self.eps_b, deriv=True)
 
     def U_self_bins(self) -> float:
-        """−(2/5)c²A Σ_b V_b ρ_b^{5/2}: debe coincidir con (2/5)Σ_i m_i(−c²ε̃(r_i)) (identidad del núcleo)."""
+        """U = −c² Σ_b V_b G(ρ_b) con G' = ε_c: para la ley débil −(2/5)c²A Σ_b V_b ρ_b^{5/2}, que debe coincidir con
+        (2/5)Σ_i m_i(−c²ε̃(r_i)) (identidad del núcleo); para la forma saturante, G en forma cerrada."""
         ok = np.isfinite(self.V_b)
-        return -0.4 * C_KMS ** 2 * self.A * float(np.sum(self.V_b[ok] * (self.rho_b[ok] * KPC3_TO_PC3) ** 2.5 / KPC3_TO_PC3))
+        return -C_KMS ** 2 * float(np.sum(self.V_b[ok] / KPC3_TO_PC3 * self._G_of_rho(self.rho_b[ok] * KPC3_TO_PC3)))
 
     def eps_max(self) -> float:
         return float(self.eps_b.max())
+
+    # ------------------------------------------------------ la forma de ε_c(ρ)
+    def _eps_of_rho(self, rho):
+        rho = np.clip(np.asarray(rho, float), 0.0, None)
+        if self.eps_form == "weak":
+            return self.A * rho ** 1.5
+        x = rho ** 1.5
+        return self.eps_max_decl * x / (x + self.rho_star ** 1.5)
+
+    def _deps_of_rho(self, rho):
+        """ε_c'(ρ)."""
+        rho = np.clip(np.asarray(rho, float), 0.0, None)
+        if self.eps_form == "weak":
+            return 1.5 * self.A * np.sqrt(rho)
+        s = self.rho_star ** 1.5
+        return 1.5 * self.eps_max_decl * np.sqrt(rho) * s / (rho ** 1.5 + s) ** 2
+
+    def _G_of_rho(self, rho):
+        """G(ρ) = ∫₀^ρ ε_c(ρ')dρ'. Ley débil: (2/5)Aρ^{5/2}. Saturante, con X = (ρ/ρ*)^{1/2}:
+        G = 2ε_maxρ*·[X²/2 − ∫₀^X x/(x³+1)dx] y ∫₀^X x/(x³+1)dx = −ln(X+1)/3 + ln(X²−X+1)/6 + [arctan((2X−1)/√3) + π/6]/√3."""
+        rho = np.clip(np.asarray(rho, float), 0.0, None)
+        if self.eps_form == "weak":
+            return 0.4 * self.A * rho ** 2.5
+        X = np.sqrt(rho / self.rho_star)
+        with np.errstate(invalid="ignore", divide="ignore"):
+            integral = (-np.log(X + 1.0) / 3.0 + np.log(X ** 2 - X + 1.0) / 6.0
+                        + (np.arctan((2.0 * X - 1.0) / np.sqrt(3.0)) + np.pi / 6.0) / np.sqrt(3.0))
+            closed = 0.5 * X ** 2 - integral
+        # para X ≪ 1 la forma cerrada cancela (X²/2 − X²/2 + X⁵/5 …): serie ∫₀^X x⁴/(1+x³) = Σ_k (−1)^k X^{5+3k}/(5+3k)
+        Xs = np.where(X < 0.05, X, 0.0)
+        series = sum((-1.0) ** k * Xs ** (5 + 3 * k) / (5.0 + 3.0 * k) for k in range(8))
+        return 2.0 * self.eps_max_decl * self.rho_star * np.where(X < 0.05, series, closed)
+
+    def deps_drho(self, r):
+        """ε_c'(ρ̃(r)) sobre la densidad interpolada (para la fricción de la forma general)."""
+        return self._deps_of_rho(self.rho(r) * KPC3_TO_PC3)
 
 
 class ShellRun:
@@ -186,7 +237,8 @@ class ShellRun:
                  eps_soft: float = 0.1, dt_myr: float = 0.15, weak_max: float = 1e-3,
                  stop_speed_kms: float | None = 1000.0, r_stop_kpc: float | None = None, max_wall_s: float = 3600.0 * 3,
                  eta_dt: float = 0.05, eta_field: float = 0.02, k_max: int = 10, dt_min_myr: float = 1e-4,
-                 eps_L_factor: float = 0.05, rank_update: bool = False, rank_full_frac: float = 0.02):
+                 eps_L_factor: float = 0.05, rank_update: bool = False, rank_full_frac: float = 0.02,
+                 eps_form: str = "weak", eps_max: float | None = None, rho_star: float | None = None):
         self.r, self.vr, self.L2 = np.asarray(r, float).copy(), np.asarray(vr, float).copy(), np.asarray(L2, float).copy()
         self.N = len(self.r)
         self.m = np.broadcast_to(np.asarray(m, float), (self.N,)).copy()     # masas de capa (pueden variar: refinamiento)
@@ -210,7 +262,8 @@ class ShellRun:
         self.eps_L = self.eps_soft * float(eps_L_factor)
         self.stop_speed, self.r_stop, self.max_wall_s = stop_speed_kms, r_stop_kpc, float(max_wall_s)
         # campo conservativo por núcleo (KernelCronosField): resolución ds; malla fija en s = ln √(r² + ε²)
-        self.field = KernelCronosField(A, eps_soft=eps_soft, ds=ds)
+        self.field = KernelCronosField(A, eps_soft=eps_soft, ds=ds, eps_form=eps_form, eps_max=eps_max, rho_star=rho_star)
+        self.A = self.field.A                                   # forma saturante: A de la ley débil equivalente (publicada)
         self.t, self.W_fric = 0.0, 0.0
         self.events, self.stopped_early, self.stop_reason = [], False, None
         self._update_field()
@@ -284,7 +337,10 @@ class ShellRun:
             return np.zeros(self.N)
         rho = self.field.rho(self.r)
         rdot = self.field.drho_dt(self.r) + self.vr * self.field.drho_dr(self.r)     # ρ̇ lagrangiana sobre el perfil
-        return np.where(rdot > 0.0, 1.5 * rdot / rho * self.field.eps_c(self.r), 0.0)
+        if self.field.eps_form == "weak":
+            return np.where(rdot > 0.0, 1.5 * rdot / rho * self.field.eps_c(self.r), 0.0)
+        # forma general: Γ = dε_c/dt|_{ρ̇>0} = ε_c'(ρ)·ρ̇ (para la ley débil coincide con (3/2)(ρ̇/ρ)ε_c)
+        return np.where(rdot > 0.0, self.field.deps_drho(self.r) * rdot * KPC3_TO_PC3, 0.0)
 
     # ----------------------------------------------------------------- energía
     def _kinetic(self) -> float:
@@ -294,7 +350,9 @@ class ShellRun:
         K = self._kinetic()
         W = -G_KPC * float(np.sum(self.m * self._M_in / np.sqrt(self.r ** 2 + self.eps_soft ** 2)))   # −Σ_{i<j} G m_i m_j /√(r_j² + ε²)
         U_ext = -C_KMS ** 2 * float(np.sum(self.m * self.field.eps_c(self.r))) if self.cronos else 0.0
-        U_self = 0.4 * U_ext
+        # U_self = −c² Σ_b V_b G(ρ_b): el funcional del que deriva la fuerza para cualquier forma de ε_c; para la ley
+        # débil coincide con (2/5)·U_ext salvo la identidad del núcleo (~1e-16), que se publica aparte
+        U_self = (self.field.U_self_bins() if self.field.eps_form != "weak" else 0.4 * U_ext) if self.cronos else 0.0
         return {"K": K, "W": W, "U_ext": U_ext, "U_self": U_self, "W_fric": self.W_fric,
                 "E_grav_only": K + W, "E": K + W + U_ext, "E_self": K + W + U_self + self.W_fric}
 
@@ -406,12 +464,17 @@ class ShellRun:
                 M_cum = np.cumsum(m_srt)
         return n_sub_total
 
-    def run(self, t_end_gyr: float, snapshot_gyr, log=None) -> dict:
+    def run(self, t_end_gyr: float, snapshot_gyr, log=None, checkpoint=None, checkpoint_every_s: float = 120.0) -> dict:
         """Paso GLOBAL dt (≤ dt_max; con Cronos, limitado a que ε_c máx cambie ≤ η_f por paso) en el que el campo
         (rangos M(<r), ε̃, lapso, fricción) se CONGELA, y dentro de él cada capa se integra con salto de rana KDK
         en 2^k subpasos propios (k por su escala orbital: r/|v|, √(r³/GM), pericentro L/v²) — así el paso por el
         pericentro de las capas casi radiales (L²/r³) queda resuelto sin frenar a todas las demás. El error de la
-        congelación lo juzga la puerta de energía preinscrita."""
+        congelación lo juzga la puerta de energía preinscrita.
+
+        `checkpoint` (ruta .npz, opcional): estado completo (capas, t, W_fric, paso global, instantáneas, eventos,
+        pared acumulada) guardado cada `checkpoint_every_s` segundos y reanudado si el fichero existe — el entorno de
+        cómputo se reinicia a intervalos de minutos; el presupuesto de pared cuenta la suma de los tramos. Declarado:
+        tras reanudar, ρ̇ del primer paso se toma nula (el campo previo no se conserva)."""
         t_end = t_end_gyr / GYR_PER_TIME_UNIT
         snaps_due = sorted(float(s) / GYR_PER_TIME_UNIT for s in snapshot_gyr)
         snapshots = [self.snapshot()] if snaps_due and snaps_due[0] <= 0.0 else []
@@ -419,6 +482,30 @@ class ShellRun:
         wall0, n_steps, n_sub_total = time.time(), 0, 0
         dt_glob = self.dt
         eps_prev = self._eps_max()
+        wall_accum, n_ckpt, resumed, last_ckpt = 0.0, 0, False, time.time()
+        if checkpoint is not None and os.path.exists(checkpoint):
+            z = np.load(checkpoint, allow_pickle=False)
+            meta = json.loads(str(z["meta_json"]))
+            self.r, self.vr, self.L2, self.m = z["r"], z["vr"], z["L2"], z["m"]
+            self.t, self.W_fric = float(z["scalars"][0]), float(z["scalars"][1])
+            dt_glob, eps_prev = float(z["scalars"][2]), float(z["scalars"][3])
+            wall_accum, n_steps, n_sub_total = float(z["scalars"][4]), int(z["scalars"][5]), int(z["scalars"][6])
+            snapshots, snaps_due, self.events, self.dt_hist = meta["snapshots"], meta["snaps_due"], meta["events"], meta["dt_hist"]
+            n_ckpt, resumed = int(meta.get("n_checkpoints", 0)), True
+            self._update_field()
+            if log:
+                log(f"  reanudado desde {checkpoint}: t = {self.t * GYR_PER_TIME_UNIT * 1000.0:.3f} Myr, {n_steps} pasos, pared acumulada {wall_accum:.0f} s")
+
+        def save_checkpoint():
+            nonlocal n_ckpt, last_ckpt
+            tmp = str(checkpoint) + ".tmp.npz"
+            meta = {"snapshots": snapshots, "snaps_due": snaps_due, "events": self.events, "dt_hist": self.dt_hist, "n_checkpoints": n_ckpt + 1}
+            scal = np.array([self.t, self.W_fric, dt_glob, eps_prev, wall_accum + (time.time() - wall0), n_steps, n_sub_total], dtype=float)
+            np.savez(tmp, r=self.r, vr=self.vr, L2=self.L2, m=self.m, scalars=scal, meta_json=np.array(json.dumps(meta, ensure_ascii=False)))
+            os.replace(tmp, str(checkpoint))
+            n_ckpt += 1
+            last_ckpt = time.time()
+
         while self.t < t_end - 1e-12:
             dt = min(dt_glob, t_end - self.t)
             if dt < self.dt_min:
@@ -459,7 +546,7 @@ class ShellRun:
                 self.stopped_early, self.stop_reason = True, f"velocidad radial > {self.stop_speed} km/s (pozo desbocado)"
             if self.r_stop is not None and float(np.min(self.r)) < self.r_stop:
                 self.stopped_early, self.stop_reason = True, f"capa por debajo de r_stop = {self.r_stop} kpc"
-            if time.time() - wall0 > self.max_wall_s:
+            if wall_accum + (time.time() - wall0) > self.max_wall_s:
                 self.stopped_early, self.stop_reason = True, "presupuesto de tiempo de pared agotado"
             if self.cronos and eps_now > self.weak_max:
                 self.events.append({"t_gyr": self.t * GYR_PER_TIME_UNIT, "kind": "régimen débil violado", "eps_c_max": eps_now,
@@ -475,14 +562,19 @@ class ShellRun:
             if self.stopped_early:
                 snapshots.append(self.snapshot())
                 break
+            if checkpoint is not None and time.time() - last_ckpt >= checkpoint_every_s:
+                save_checkpoint()                          # al final de la iteración: dt_glob, ε_prev e instantáneas ya actualizados
         self.dt_hist["n_substeps_total"] = n_sub_total
         return {"snapshots": snapshots, "events": self.events, "t_final_gyr": self.t * GYR_PER_TIME_UNIT,
                 "stopped_early": self.stopped_early, "stop_reason": self.stop_reason, "n_steps": n_steps,
-                "wall_s": round(time.time() - wall0, 1), "N": self.N, "m_min": float(self.m.min()), "m_max": float(self.m.max()),
+                "wall_s": round(wall_accum + time.time() - wall0, 1), "resumed_from_checkpoint": resumed, "n_checkpoints": n_ckpt,
+                "N": self.N, "m_min": float(self.m.min()), "m_max": float(self.m.max()),
                 "A": self.A, "cronos": self.cronos,
                 "ds": self.field.ds, "n_bins": self.field.nb, "eps_soft": self.eps_soft,
                 "dt_max_myr": self.dt * GYR_PER_TIME_UNIT * 1000.0, "dt_adaptive": self.dt_hist, "eta_dt": self.eta_dt, "eta_field": self.eta_field, "k_max": self.k_max,
-                "eps_L_kpc": self.eps_L, "rank_update": self.rank_update}
+                "eps_L_kpc": self.eps_L, "rank_update": self.rank_update,
+                "eps_form": self.field.eps_form, "eps_max_declared": self.field.eps_max_decl, "rho_star_msun_pc3": self.field.rho_star,
+                "A_weak_equivalent": self.field.A}
 
 
 def _speeds_inverse_cdf(Psi: np.ndarray, E_t: np.ndarray, f_t: np.ndarray, rng, n_v: int = 96, chunk: int = 20000) -> np.ndarray:

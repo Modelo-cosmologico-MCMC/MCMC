@@ -2114,6 +2114,85 @@ claims:
     status: interno
     artifact: results/2026-09-28_qualification_shells
 
+  - claim_id: halo-capas-ronda3
+    entity: Frente 5 (b), ronda 3 — capas esféricas con rango M(<r) actualizado, barrido de suavizado ε_soft ∈ {0.2, 0.1, 0.05, 0.025} a A_Sculptor y 0.05·A_Sculptor, serie ds a A_Sculptor y brazo de control saturante, bajo preinscripción congelada con puertas heredadas de la cualificación E8-Q; desenlace INDETERMINADO por la puerta de energía de la clase 0.05·A_Sculptor (segunda ejecución, 18-oct-2026)
+    law: "Def. 11.1 / Prop. 11.2 / Cor. 11.3 (Ley de Cronos débil ε_c = Aρ^{3/2}; forma saturante del diccionario como control); criterio de Cronos–Jeans (filas criterio-cronos-jeans y criterio-cronos-jeans-ronda3); A_Sculptor del 5E como hipótesis; regla del programa «solo puertas alcanzables» (fila cualificacion-capas-e8q)"
+    derivation: >-
+      preinscripción congelada el 30-sep (sha256 6fba6b53d929…) en un commit
+      posterior al generador y a la cualificación de capas, anterior a toda
+      corrida. La primera ejecución (30-sep) se perdió con el contenedor sin
+      que se hubiera confirmado ningún fichero; la declaración previa a la
+      segunda (declaracion_previa_segunda_ejecucion.md, publicada antes de
+      relanzar) declaró dos defectos de la regla congelada sin tocarla — D1,
+      la letra A es inalcanzable por construcción (el brazo saturante
+      «above» tiene ε_max = 1.62e-8 ≪ 1e-3 y no puede salir del régimen
+      débil); D2, la condición de que salgan los cuatro brazos a
+      0.05·A_Sculptor no estaba cualificada — y anunció una tabla por celda
+      sin letra, cuyo código se confirmó antes de que terminara ninguna
+      corrida. Segunda ejecución el 18-oct con el mismo código, la misma
+      preinscripción y las mismas reglas: 17 corridas, reanudadas desde
+      punto de control tras dos reinicios del contenedor y una parada
+      deliberada para repartir la cola (el presupuesto de pared de 4 h
+      cuenta solo el tiempo corrido). RESULTADO bajo la regla congelada:
+      INDETERMINADO. Puertas: energía False — los cinco brazos de la clase
+      0.05·A_S dan |ΔE_self/E| = 1.4e-3 / 2.9e-3 / 1.3e-2 / 2.3e-3 en
+      ε_soft = 0.2 / 0.1 / 0.05 / 0.025 y 7.9e-2 en el control de N, frente
+      a la puerta 8.3e-4 (3 × el suelo de la clase medido en la
+      cualificación, donde ninguna corrida de esa clase salió del régimen
+      débil) —; capas interiores True; estacionariedad newtoniana True
+      (0.029 dex en 50 Myr, puerta 0.10; energía 2.0e-7); control de N True
+      (A_S, cociente 0.93); corridas completas True. Con independencia de
+      la puerta, el barrido a 0.05·A_S solo tiene dos salidas de cuatro
+      (ε_soft = 0.2 y 0.1 agotan la pared en 40.0 y 10.4 Myr con ε_c máx
+      2.2e-5 y 1.4e-4; 0.05 sale en 9.66 Myr y 0.025 en 0.477), así que ni
+      A ni B eran posibles, como anunciaba la declaración previa. Lo medido,
+      publicado SIN LETRA (E13): a A_Sculptor t_weak = 2.932 / 0.599 /
+      0.076 / 0.0106 Myr en ε_soft = 0.2 / 0.1 / 0.05 / 0.025, con t_weak ∝
+      ε_soft^p, p = 2.73 y r² = 0.997 (la condición C de la regla, |p| ≤
+      0.10, queda lejos); la serie ds a A_S (ε_soft = 0.1) da t_weak =
+      1.172 / 0.599 / 0.136 Myr en ds = 0.08 / 0.04 / 0.02, decreciente al
+      refinar; control de N a A_S 0.558 Myr a N = 1e5 frente a 0.599 a 1e6;
+      |ΔE_self/E| de los brazos a A_S ≤ 2.4e-2 (puerta de clase 8.9e-2);
+      todas las salidas en la celda central, bajo ε_soft. Control
+      saturante: «sub» (0.5·ε_max_crit) no sale en ninguna ds y su M(<0.4)
+      final converge (6.27e7 / 6.31e7 / 6.49e7 M☉ en ds = 0.08 / 0.04 /
+      0.02, dentro de 0.015 dex; tolerancia 0.03); «above» no sale (ε_c
+      máx 1.61e-8, D1) y acaba con M(<0.4) = 7.61e7 M☉ frente a 5.69e7 del
+      newtoniano. Tabla por celda sin letra (criterio de la revisión del
+      autor del 30-sep, no retroactivo): de las 17 configuraciones solo el
+      control de N a A_Sculptor tiene celda equivalente cualificada (suelo
+      4.31e-3; el brazo da 1.01e-2, cociente 2.3); 4 tienen corridas en la
+      cualificación que no llegaron al instante de evaluación y 12 no
+      tienen celda equivalente. Ninguna regla ni umbral se tocó tras ver
+      los números; las rondas 1 y 2 y la cualificación quedan intactas.
+      ERRATA DEL 18-OCT (revisión del autor): la letra B también era
+      inalcanzable por construcción. Exige que el brazo «sub» salga del
+      régimen débil, y «sub» tiene ε_max = 5.41e-9 < 1e-3, así que ε_c no
+      puede superar el umbral. Bajo la preinscripción 6fba6b53 solo eran
+      alcanzables C e INDETERMINADO; la frase anterior «ni A ni B eran
+      posibles, como anunciaba la declaración previa» se corrige aquí (la
+      declaración previa decía «C, B (si…) e INDETERMINADO» y no se edita).
+      Re-ejecutar bajo la regla congelada, con los defectos declarados
+      antes, fue lo correcto: la primera ejecución se había lanzado y se
+      habían visto cifras parciales. La ronda 4 no se corre (decisión del
+      autor del 18-oct).
+    implementation: cronos/halo_shells.py + scripts/run_halo_round3.py
+    test: tests/test_halo_round3_lock.py + tests/test_halo_shells.py + tests/test_halo_shells_checkpoint.py + tests/test_halo_shells_saturating.py
+    observable: "— (halo aislado sintético; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      con condiciones iniciales en equilibrio Newton + Cronos, una
+      contracción de M(<r_u) del brazo saturante sub-umbral frente al
+      newtoniano de la misma celda retiraría la candidatura de la forma
+      saturante; t_weak independiente de ε_soft a A_Sculptor (|p| ≤ 0.10)
+      bajo una preinscripción con puertas alcanzables retiraría la lectura
+      de la adenda del autor. Reescrito el 18-oct: el falsador anterior
+      («el brazo saturante sub-umbral saliendo del régimen débil»)
+      describía un suceso imposible, porque ε_max = 5.41e-9 < 1e-3
+    evidence_level: comprobación interna (E8) bajo preinscripción congelada; INDETERMINADO por la puerta de energía (clase 0.05·A_Sculptor) y por el barrido a 0.05·A_Sculptor incompleto; con la regla congelada solo C e INDETERMINADO eran alcanzables (errata del 18-oct); la dependencia de t_weak con ε_soft y con ds a A_Sculptor se publica sin letra (E13); sin datos; no resultado observacional
+    status: interno
+    artifact: results/2026-09-28_halo_round3
+
   - claim_id: s-clock-simulador-consistencia
     entity: El reloj S — orquestador de la trayectoria S₀ → S_{1,001} como simulador de CONSISTENCIA (umbrales impuestos), no emergente (21-sep-2026)
     law: "C1 (índice entrópico S = ∫Σ̇dσ); Def. 4.4 / Teo. 4.5 / Lema 4.7 (Flujo del Camino); Prop. 3.4–3.5 (T₀, salida al polo de masa); Def. 8.4 y Prop. 8.1 (discriminante, Ley de la Década); §5.1–5.4 (cadena C(d+1,0), sellos de c y c²); §6.1–6.2 (Rotación de Florencia); Cap. 7 (RP); ec. 12.1 (m_H = √(2β₃)v₃)"

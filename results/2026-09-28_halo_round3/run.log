@@ -1,0 +1,230 @@
+[prereg] 6fba6b53d929… — inicio de corridas
+== brazo sweep_b005_eps0.2 (barrido ε_soft = 0.2 kpc, b005)
+[prereg] 6fba6b53d929… — inicio de corridas
+== brazo sweep_b005_eps0.05 (barrido ε_soft = 0.05 kpc, b005)
+[prereg] 6fba6b53d929… — inicio de corridas
+== brazo sweep_AS_eps0.2 (barrido ε_soft = 0.2 kpc, AS)
+[prereg] 6fba6b53d929… — inicio de corridas
+== brazo sweep_b005_eps0.1 (barrido ε_soft = 0.1 kpc, b005)
+  capas N = 1000000 (5s), N(<0.4) = 17953
+  capas N = 1000000 (5s), N(<0.4) = 17953
+  capas N = 1000000 (5s), N(<0.4) = 17953
+  capas N = 1000000 (5s), N(<0.4) = 17953
+  brazo sweep_b005_eps0.05: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 9.242920798630951e-07, 'weak_regime_ok': True, 'D_F_at_soft': 65.95262330666093, 'ds': 0.04, 'n_bins': 230, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 1.446716947189929e-16}
+  brazo sweep_b005_eps0.1: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 3.262008029829189e-07, 'weak_regime_ok': True, 'D_F_at_soft': 11.68118368390908, 'ds': 0.04, 'n_bins': 213, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 2.9602725528159085e-16}
+  brazo sweep_AS_eps0.2: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 2.2983921564363768e-06, 'weak_regime_ok': True, 'D_F_at_soft': 41.40096482580343, 'ds': 0.04, 'n_bins': 196, 'N': 1028500, 'dt_myr': 0.01, 'U_self_identity_rel': 4.8960003953258e-16}
+  brazo sweep_b005_eps0.2: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 1.1491960782181884e-07, 'weak_regime_ok': True, 'D_F_at_soft': 2.0700482412901726, 'ds': 0.04, 'n_bins': 196, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 3.060000247078625e-16}
+    t = 0.0001 Gyr: M(<0.4) = 5.327e+07, M(<0.1) = 3.479e+06, N(<0.4) = 17949, E_self = -3.464288e+14, W_fric = 2.858e+01, ε_máx = 6.47e-07
+    t = 0.0001 Gyr: M(<0.4) = 5.327e+07, M(<0.1) = 3.479e+06, N(<0.4) = 17949, E_self = -3.464637e+14, W_fric = 5.958e+01, ε_máx = 1.55e-05
+    t = 0.0001 Gyr: M(<0.4) = 5.325e+07, M(<0.1) = 3.479e+06, N(<0.4) = 17948, E_self = -3.463669e+14, W_fric = 2.509e+01, ε_máx = 1.22e-07
+    t = 0.0002 Gyr: M(<0.4) = 5.330e+07, M(<0.1) = 3.498e+06, N(<0.4) = 17950, E_self = -3.463669e+14, W_fric = 3.877e+01, ε_máx = 1.31e-07
+    t = 0.0002 Gyr: M(<0.4) = 5.332e+07, M(<0.1) = 3.483e+06, N(<0.4) = 17952, E_self = -3.464288e+14, W_fric = 2.876e+02, ε_máx = 1.14e-06
+    t = 0.0001 Gyr: M(<0.4) = 5.337e+07, M(<0.1) = 3.588e+06, N(<0.4) = 17958, E_self = -3.468408e+14, W_fric = 8.293e+03, ε_máx = 4.29e-06
+    t = 0.0005 Gyr: M(<0.4) = 5.330e+07, M(<0.1) = 3.596e+06, N(<0.4) = 17942, E_self = -3.463669e+14, W_fric = 1.410e+02, ε_máx = 2.44e-07
+    t = 0.0002 Gyr: M(<0.4) = 5.333e+07, M(<0.1) = 3.486e+06, N(<0.4) = 17953, E_self = -3.464649e+14, W_fric = 7.016e+05, ε_máx = 3.38e-05
+    t = 0.0002 Gyr: M(<0.4) = 5.335e+07, M(<0.1) = 3.905e+06, N(<0.4) = 17955, E_self = -3.468440e+14, W_fric = 2.005e+06, ε_máx = 2.82e-05
+    t = 0.0005 Gyr: M(<0.4) = 5.331e+07, M(<0.1) = 3.591e+06, N(<0.4) = 17943, E_self = -3.464292e+14, W_fric = 1.126e+05, ε_máx = 4.80e-06
+    t = 0.0010 Gyr: M(<0.4) = 5.339e+07, M(<0.1) = 3.957e+06, N(<0.4) = 17913, E_self = -3.463671e+14, W_fric = 9.560e+03, ε_máx = 1.65e-06
+    t = 0.0020 Gyr: M(<0.4) = 5.331e+07, M(<0.1) = 4.732e+06, N(<0.4) = 17758, E_self = -3.463674e+14, W_fric = 6.527e+04, ε_máx = 1.67e-06
+    t = 0.0005 Gyr: M(<0.4) = 5.353e+07, M(<0.1) = 5.010e+06, N(<0.4) = 17961, E_self = -3.468542e+14, W_fric = 2.949e+07, ε_máx = 4.09e-05
+    t = 0.0010 Gyr: M(<0.4) = 5.341e+07, M(<0.1) = 3.939e+06, N(<0.4) = 17914, E_self = -3.464316e+14, W_fric = 6.381e+05, ε_máx = 8.86e-06
+[prereg] 6fba6b53d929… — inicio de corridas
+== brazo sweep_AS_eps0.2 (barrido ε_soft = 0.2 kpc, AS)
+[prereg] 6fba6b53d929… — inicio de corridas
+== brazo sweep_b005_eps0.05 (barrido ε_soft = 0.05 kpc, b005)
+[prereg] 6fba6b53d929… — inicio de corridas
+[prereg] 6fba6b53d929… — inicio de corridas
+== brazo sweep_b005_eps0.2 (barrido ε_soft = 0.2 kpc, b005)
+== brazo sweep_b005_eps0.1 (barrido ε_soft = 0.1 kpc, b005)
+  capas N = 1000000 (4s), N(<0.4) = 17953
+  capas N = 1000000 (4s), N(<0.4) = 17953
+  capas N = 1000000 (5s), N(<0.4) = 17953
+  capas N = 1000000 (5s), N(<0.4) = 17953
+  brazo sweep_b005_eps0.1: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 3.262008029829189e-07, 'weak_regime_ok': True, 'D_F_at_soft': 11.68118368390908, 'ds': 0.04, 'n_bins': 213, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 2.9602725528159085e-16}
+  brazo sweep_b005_eps0.05: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 9.242920798630951e-07, 'weak_regime_ok': True, 'D_F_at_soft': 65.95262330666093, 'ds': 0.04, 'n_bins': 230, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 1.446716947189929e-16}
+  brazo sweep_b005_eps0.2: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 1.1491960782181884e-07, 'weak_regime_ok': True, 'D_F_at_soft': 2.0700482412901726, 'ds': 0.04, 'n_bins': 196, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 3.060000247078625e-16}
+  brazo sweep_AS_eps0.2: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 2.2983921564363768e-06, 'weak_regime_ok': True, 'D_F_at_soft': 41.40096482580343, 'ds': 0.04, 'n_bins': 196, 'N': 1028500, 'dt_myr': 0.01, 'U_self_identity_rel': 4.8960003953258e-16}
+  reanudado desde /home/user/mcmc-halo3/results/2026-09-28_halo_round3/runs/sweep_b005_eps0.1.ckpt.npz: t = 1.005 Myr, 171 pasos, pared acumulada 2145 s
+  reanudado desde /home/user/mcmc-halo3/results/2026-09-28_halo_round3/runs/sweep_b005_eps0.05.ckpt.npz: t = 0.448 Myr, 204 pasos, pared acumulada 2175 s
+  reanudado desde /home/user/mcmc-halo3/results/2026-09-28_halo_round3/runs/sweep_b005_eps0.2.ckpt.npz: t = 2.769 Myr, 162 pasos, pared acumulada 2193 s
+  reanudado desde /home/user/mcmc-halo3/results/2026-09-28_halo_round3/runs/sweep_AS_eps0.2.ckpt.npz: t = 0.559 Myr, 192 pasos, pared acumulada 2158 s
+    t = 0.0005 Gyr: M(<0.4) = 5.332e+07, M(<0.1) = 3.572e+06, N(<0.4) = 17944, E_self = -3.464754e+14, W_fric = 2.470e+07, ε_máx = 5.87e-05
+    t = 0.0010 Gyr: M(<0.4) = 5.493e+07, M(<0.1) = 6.596e+06, N(<0.4) = 18038, E_self = -3.469658e+14, W_fric = 6.992e+08, ε_máx = 8.40e-05
+    t = 0.0050 Gyr: M(<0.4) = 5.429e+07, M(<0.1) = 8.605e+06, N(<0.4) = 17059, E_self = -3.463719e+14, W_fric = 1.022e+06, ε_máx = 3.87e-06
+    t = 0.0020 Gyr: M(<0.4) = 5.349e+07, M(<0.1) = 4.221e+06, N(<0.4) = 17779, E_self = -3.464413e+14, W_fric = 9.031e+06, ε_máx = 1.24e-05
+    t = 0.0100 Gyr: M(<0.4) = 5.304e+07, M(<0.1) = 9.264e+06, N(<0.4) = 15400, E_self = -3.464115e+14, W_fric = 2.680e+07, ε_máx = 7.12e-06
+    t = 0.0010 Gyr: M(<0.4) = 5.336e+07, M(<0.1) = 3.655e+06, N(<0.4) = 17753, E_self = -3.465628e+14, W_fric = 4.722e+08, ε_máx = 1.16e-04
+    t = 0.0020 Gyr: M(<0.4) = 5.617e+07, M(<0.1) = 8.869e+06, N(<0.4) = 16843, E_self = -3.476857e+14, W_fric = 9.918e+09, ε_máx = 1.54e-04
+    t = 0.0200 Gyr: M(<0.4) = 5.565e+07, M(<0.1) = 1.539e+07, N(<0.4) = 14250, E_self = -3.465436e+14, W_fric = 3.526e+08, ε_máx = 1.60e-05
+    t = 0.0020 Gyr: M(<0.4) = 5.293e+07, M(<0.1) = 4.237e+06, N(<0.4) = 16516, E_self = -3.468999e+14, W_fric = 1.608e+10, ε_máx = 2.84e-04
+    t = 0.0050 Gyr: M(<0.4) = 5.449e+07, M(<0.1) = 5.829e+06, N(<0.4) = 15560, E_self = -3.464903e+14, W_fric = 5.442e+10, ε_máx = 2.92e-04
+  guardado sweep_AS_eps0.2.json (10846.4 s, 981 pasos; parada temprana: True ε_c máx = 1.01e-03 > 0.001 (fuera del régimen débil); reanudada: True)
+== brazo ctrlN_b005_N1e5 (control de N, b005, N = 1e5)
+  capas N = 100000 (0s), N(<0.4) = 1795
+  brazo ctrlN_b005_N1e5: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 3.261528017337983e-07, 'weak_regime_ok': True, 'D_F_at_soft': 11.508726974767278, 'ds': 0.04, 'n_bins': 213, 'N': 102850, 'dt_myr': 0.15, 'U_self_identity_rel': 0.0}
+    t = 0.0001 Gyr: M(<0.4) = 5.340e+07, M(<0.1) = 3.438e+06, N(<0.4) = 1796, E_self = -3.467802e+14, W_fric = 2.807e+01, ε_máx = 6.43e-07
+    t = 0.0002 Gyr: M(<0.4) = 5.354e+07, M(<0.1) = 3.486e+06, N(<0.4) = 1797, E_self = -3.467802e+14, W_fric = 3.230e+02, ε_máx = 1.16e-06
+    t = 0.0051 Gyr: M(<0.4) = 5.291e+07, M(<0.1) = 4.498e+06, N(<0.4) = 15490, E_self = -3.468000e+14, W_fric = 1.554e+09, ε_máx = 7.02e-05
+    t = 0.0005 Gyr: M(<0.4) = 5.350e+07, M(<0.1) = 3.607e+06, N(<0.4) = 1796, E_self = -3.467805e+14, W_fric = 9.134e+04, ε_máx = 5.18e-06
+    t = 0.0010 Gyr: M(<0.4) = 5.380e+07, M(<0.1) = 4.118e+06, N(<0.4) = 1795, E_self = -3.467836e+14, W_fric = 1.961e+06, ε_máx = 1.21e-05
+    t = 0.0020 Gyr: M(<0.4) = 5.406e+07, M(<0.1) = 4.606e+06, N(<0.4) = 1784, E_self = -3.467933e+14, W_fric = 6.517e+06, ε_máx = 1.16e-05
+    t = 0.0301 Gyr: M(<0.4) = 5.729e+07, M(<0.1) = 1.627e+07, N(<0.4) = 13952, E_self = -3.466703e+14, W_fric = 1.115e+09, ε_máx = 1.88e-05
+    t = 0.0050 Gyr: M(<0.4) = 5.688e+07, M(<0.1) = 7.914e+06, N(<0.4) = 1574, E_self = -3.470532e+14, W_fric = 7.330e+08, ε_máx = 5.44e-05
+    t = 0.0100 Gyr: M(<0.4) = 5.427e+07, M(<0.1) = 9.074e+06, N(<0.4) = 14238, E_self = -3.469304e+14, W_fric = 5.313e+09, ε_máx = 1.66e-04
+    t = 0.0100 Gyr: M(<0.4) = 6.175e+07, M(<0.1) = 7.520e+06, N(<0.4) = 1426, E_self = -3.489736e+14, W_fric = 3.231e+10, ε_máx = 1.50e-04
+[prereg] 6fba6b53d929… — inicio de corridas
+[prereg] 6fba6b53d929… — inicio de corridas
+== brazo sweep_b005_eps0.1 (barrido ε_soft = 0.1 kpc, b005)
+[prereg] 6fba6b53d929… — inicio de corridas
+== brazo sweep_b005_eps0.2 (barrido ε_soft = 0.2 kpc, b005)
+[prereg] 6fba6b53d929… — inicio de corridas
+== brazo sweep_b005_eps0.05 (barrido ε_soft = 0.05 kpc, b005)
+  sweep_AS_eps0.2.json ya existe: se omite
+== brazo ctrlN_b005_N1e5 (control de N, b005, N = 1e5)
+  capas N = 100000 (1s), N(<0.4) = 1795
+  brazo ctrlN_b005_N1e5: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 3.261528017337983e-07, 'weak_regime_ok': True, 'D_F_at_soft': 11.508726974767278, 'ds': 0.04, 'n_bins': 213, 'N': 102850, 'dt_myr': 0.15, 'U_self_identity_rel': 0.0}
+  reanudado desde /home/user/mcmc-halo3/results/2026-09-28_halo_round3/runs/ctrlN_b005_N1e5.ckpt.npz: t = 14.655 Myr, 2188 pasos, pared acumulada 1930 s
+  capas N = 1000000 (4s), N(<0.4) = 17953
+  capas N = 1000000 (4s), N(<0.4) = 17953
+  capas N = 1000000 (4s), N(<0.4) = 17953
+  brazo sweep_b005_eps0.05: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 9.242920798630951e-07, 'weak_regime_ok': True, 'D_F_at_soft': 65.95262330666093, 'ds': 0.04, 'n_bins': 230, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 1.446716947189929e-16}
+  brazo sweep_b005_eps0.1: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 3.262008029829189e-07, 'weak_regime_ok': True, 'D_F_at_soft': 11.68118368390908, 'ds': 0.04, 'n_bins': 213, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 2.9602725528159085e-16}
+  brazo sweep_b005_eps0.2: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 1.1491960782181884e-07, 'weak_regime_ok': True, 'D_F_at_soft': 2.0700482412901726, 'ds': 0.04, 'n_bins': 196, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 3.060000247078625e-16}
+  reanudado desde /home/user/mcmc-halo3/results/2026-09-28_halo_round3/runs/sweep_b005_eps0.05.ckpt.npz: t = 9.349 Myr, 1269 pasos, pared acumulada 12767 s
+  reanudado desde /home/user/mcmc-halo3/results/2026-09-28_halo_round3/runs/sweep_b005_eps0.2.ckpt.npz: t = 35.825 Myr, 905 pasos, pared acumulada 12788 s
+  reanudado desde /home/user/mcmc-halo3/results/2026-09-28_halo_round3/runs/sweep_b005_eps0.1.ckpt.npz: t = 10.100 Myr, 1038 pasos, pared acumulada 12772 s
+    t = 0.0200 Gyr: M(<0.4) = 6.869e+07, M(<0.1) = 2.044e+07, N(<0.4) = 1330, E_self = -3.655989e+14, W_fric = 1.487e+12, ε_máx = 6.69e-04
+  guardado sweep_b005_eps0.05.json (13366.7 s, 1304 pasos; parada temprana: True ε_c máx = 1.00e-03 > 0.001 (fuera del régimen débil); reanudada: True)
+== brazo sweep_b005_eps0.025 (barrido ε_soft = 0.025 kpc, b005)
+  capas N = 1000000 (0s), N(<0.4) = 17953
+  brazo sweep_b005_eps0.025: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 2.6166664524077834e-06, 'weak_regime_ok': True, 'D_F_at_soft': 372.3104907156194, 'ds': 0.04, 'n_bins': 248, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 1.4239558472094084e-16}
+    t = 0.0001 Gyr: M(<0.4) = 5.327e+07, M(<0.1) = 3.479e+06, N(<0.4) = 17949, E_self = -3.464771e+14, W_fric = 1.481e+02, ε_máx = 5.30e-05
+    t = 0.0300 Gyr: M(<0.4) = 7.974e+07, M(<0.1) = 3.430e+07, N(<0.4) = 1313, E_self = -3.643144e+14, W_fric = 8.162e+12, ε_máx = 8.94e-04
+  guardado ctrlN_b005_N1e5.json (3476.0 s, 3180 pasos; parada temprana: True ε_c máx = 1.00e-03 > 0.001 (fuera del régimen débil); reanudada: True)
+== brazo sat_sub_ds0.08 (control saturante 'sub', ds = 0.08)
+  capas N = 1000000 (3s), N(<0.4) = 17953
+  brazo sat_sub_ds0.08: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 5.078790052126715e-09, 'weak_regime_ok': True, 'D_F_at_soft': 1.2540078968740587, 'ds': 0.08, 'n_bins': 109, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 0.04935347641785482}
+    t = 0.0001 Gyr: M(<0.4) = 5.325e+07, M(<0.1) = 3.461e+06, N(<0.4) = 17948, E_self = -3.464120e+14, W_fric = 7.350e+00, ε_máx = 5.08e-09
+    t = 0.0003 Gyr: M(<0.4) = 5.331e+07, M(<0.1) = 3.460e+06, N(<0.4) = 17949, E_self = -3.464120e+14, W_fric = 1.484e+01, ε_máx = 5.08e-09
+    t = 0.0006 Gyr: M(<0.4) = 5.337e+07, M(<0.1) = 3.444e+06, N(<0.4) = 17943, E_self = -3.464120e+14, W_fric = 2.976e+01, ε_máx = 5.08e-09
+  guardado sweep_b005_eps0.2.json (14411.2 s, 989 pasos; parada temprana: True presupuesto de tiempo de pared agotado; reanudada: True)
+== brazo series_AS_ds0.08 (serie ds = 0.08, A_Sculptor, ε_soft = 0.1)
+  capas N = 1000000 (0s), N(<0.4) = 17953
+  brazo series_AS_ds0.08: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 3.806918703552071e-06, 'weak_regime_ok': True, 'D_F_at_soft': 238.9752564319458, 'ds': 0.08, 'n_bins': 109, 'N': 1028500, 'dt_myr': 0.01, 'U_self_identity_rel': 8.470027765291049e-16}
+  guardado sweep_b005_eps0.1.json (14400.4 s, 1138 pasos; parada temprana: True presupuesto de tiempo de pared agotado; reanudada: True)
+== brazo sat_above_ds0.04 (control saturante 'above', ds = 0.04)
+  capas N = 1000000 (0s), N(<0.4) = 17953
+  brazo sat_above_ds0.04: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 1.5640372185850843e-08, 'weak_regime_ok': True, 'D_F_at_soft': 3.7495356398052024, 'ds': 0.04, 'n_bins': 213, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 0.050015547587148504}
+    t = 0.0001 Gyr: M(<0.4) = 5.327e+07, M(<0.1) = 3.467e+06, N(<0.4) = 17949, E_self = -3.464307e+14, W_fric = 2.219e+01, ε_máx = 1.56e-08
+    t = 0.0003 Gyr: M(<0.4) = 5.331e+07, M(<0.1) = 3.478e+06, N(<0.4) = 17949, E_self = -3.464307e+14, W_fric = 4.593e+01, ε_máx = 1.57e-08
+    t = 0.0010 Gyr: M(<0.4) = 5.335e+07, M(<0.1) = 3.504e+06, N(<0.4) = 17906, E_self = -3.464120e+14, W_fric = 5.233e+01, ε_máx = 5.10e-09
+    t = 0.0006 Gyr: M(<0.4) = 5.342e+07, M(<0.1) = 3.494e+06, N(<0.4) = 17947, E_self = -3.464307e+14, W_fric = 9.307e+01, ε_máx = 1.57e-08
+    t = 0.0010 Gyr: M(<0.4) = 5.339e+07, M(<0.1) = 3.632e+06, N(<0.4) = 17909, E_self = -3.464307e+14, W_fric = 1.661e+02, ε_máx = 1.58e-08
+    t = 0.0021 Gyr: M(<0.4) = 5.335e+07, M(<0.1) = 3.598e+06, N(<0.4) = 17748, E_self = -3.464120e+14, W_fric = 1.048e+02, ε_máx = 5.12e-09
+    t = 0.0021 Gyr: M(<0.4) = 5.346e+07, M(<0.1) = 4.009e+06, N(<0.4) = 17759, E_self = -3.464307e+14, W_fric = 3.436e+02, ε_máx = 1.61e-08
+    t = 0.0002 Gyr: M(<0.4) = 5.332e+07, M(<0.1) = 3.487e+06, N(<0.4) = 17952, E_self = -3.464968e+14, W_fric = 1.855e+08, ε_máx = 2.36e-04
+    t = 0.0051 Gyr: M(<0.4) = 5.385e+07, M(<0.1) = 3.822e+06, N(<0.4) = 16880, E_self = -3.464120e+14, W_fric = 2.499e+02, ε_máx = 5.26e-09
+    t = 0.0051 Gyr: M(<0.4) = 5.495e+07, M(<0.1) = 5.905e+06, N(<0.4) = 17021, E_self = -3.464310e+14, W_fric = 9.249e+02, ε_máx = 1.61e-08
+    t = 0.0001 Gyr: M(<0.4) = 5.337e+07, M(<0.1) = 3.577e+06, N(<0.4) = 17958, E_self = -3.469087e+14, W_fric = 7.911e+05, ε_máx = 3.03e-05
+    t = 0.0100 Gyr: M(<0.4) = 5.305e+07, M(<0.1) = 4.870e+06, N(<0.4) = 15224, E_self = -3.464120e+14, W_fric = 4.823e+02, ε_máx = 5.26e-09
+    t = 0.0100 Gyr: M(<0.4) = 5.677e+07, M(<0.1) = 7.816e+06, N(<0.4) = 15838, E_self = -3.464316e+14, W_fric = 1.947e+03, ε_máx = 1.60e-08
+    t = 0.0002 Gyr: M(<0.4) = 5.334e+07, M(<0.1) = 3.918e+06, N(<0.4) = 17954, E_self = -3.469150e+14, W_fric = 2.741e+07, ε_máx = 5.53e-05
+    t = 0.0201 Gyr: M(<0.4) = 5.567e+07, M(<0.1) = 5.445e+06, N(<0.4) = 13748, E_self = -3.464120e+14, W_fric = 9.911e+02, ε_máx = 5.13e-09
+    t = 0.0201 Gyr: M(<0.4) = 6.437e+07, M(<0.1) = 7.617e+06, N(<0.4) = 15149, E_self = -3.464329e+14, W_fric = 4.291e+03, ε_máx = 1.58e-08
+    t = 0.0005 Gyr: M(<0.4) = 5.353e+07, M(<0.1) = 5.332e+06, N(<0.4) = 17961, E_self = -3.469630e+14, W_fric = 3.424e+08, ε_máx = 1.47e-04
+    t = 0.0301 Gyr: M(<0.4) = 5.815e+07, M(<0.1) = 4.751e+06, N(<0.4) = 13732, E_self = -3.464122e+14, W_fric = 1.598e+03, ε_máx = 5.23e-09
+    t = 0.0300 Gyr: M(<0.4) = 7.063e+07, M(<0.1) = 7.656e+06, N(<0.4) = 15369, E_self = -3.464351e+14, W_fric = 7.186e+03, ε_máx = 1.60e-08
+    t = 0.0400 Gyr: M(<0.4) = 6.305e+07, M(<0.1) = 4.673e+06, N(<0.4) = 14219, E_self = -3.464123e+14, W_fric = 2.185e+03, ε_máx = 5.25e-09
+    t = 0.0401 Gyr: M(<0.4) = 7.652e+07, M(<0.1) = 7.244e+06, N(<0.4) = 15773, E_self = -3.464374e+14, W_fric = 1.026e+04, ε_máx = 1.61e-08
+  guardado sweep_b005_eps0.025.json (5541.0 s, 606 pasos; parada temprana: True ε_c máx = 1.29e-03 > 0.001 (fuera del régimen débil); reanudada: False)
+== brazo sweep_AS_eps0.1 (barrido ε_soft = 0.1 kpc, AS)
+  capas N = 1000000 (0s), N(<0.4) = 17953
+  brazo sweep_AS_eps0.1: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 6.524016059658378e-06, 'weak_regime_ok': True, 'D_F_at_soft': 233.62367367818158, 'ds': 0.04, 'n_bins': 213, 'N': 1028500, 'dt_myr': 0.01, 'U_self_identity_rel': 1.1841090211263636e-16}
+    t = 0.0500 Gyr: M(<0.4) = 6.275e+07, M(<0.1) = 5.034e+06, N(<0.4) = 14908, E_self = -3.464124e+14, W_fric = 2.867e+03, ε_máx = 5.16e-09
+  guardado sat_sub_ds0.08.json (5072.8 s, 334 pasos; parada temprana: False ; reanudada: False)
+== brazo sweep_AS_eps0.05 (barrido ε_soft = 0.05 kpc, AS)
+  capas N = 1000000 (0s), N(<0.4) = 17953
+  brazo sweep_AS_eps0.05: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 1.8485841597261902e-05, 'weak_regime_ok': True, 'D_F_at_soft': 1319.0524661332195, 'ds': 0.04, 'n_bins': 230, 'N': 1028500, 'dt_myr': 0.01, 'U_self_identity_rel': 3.4721206732558295e-16}
+    t = 0.0010 Gyr: M(<0.4) = 5.461e+07, M(<0.1) = 8.039e+06, N(<0.4) = 17916, E_self = -3.472225e+14, W_fric = 6.183e+09, ε_máx = 2.11e-04
+    t = 0.0500 Gyr: M(<0.4) = 7.612e+07, M(<0.1) = 7.948e+06, N(<0.4) = 16069, E_self = -3.464402e+14, W_fric = 1.372e+04, ε_máx = 1.61e-08
+  guardado sat_above_ds0.04.json (5413.0 s, 334 pasos; parada temprana: False ; reanudada: False)
+== brazo sat_sub_ds0.04 (control saturante 'sub', ds = 0.04)
+  capas N = 1000000 (0s), N(<0.4) = 17953
+  brazo sat_sub_ds0.04: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 5.213457395283615e-09, 'weak_regime_ok': True, 'D_F_at_soft': 1.2498452132684006, 'ds': 0.04, 'n_bins': 213, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 0.05001554758714878}
+    t = 0.0001 Gyr: M(<0.4) = 5.325e+07, M(<0.1) = 3.461e+06, N(<0.4) = 17948, E_self = -3.464120e+14, W_fric = 7.415e+00, ε_máx = 5.21e-09
+    t = 0.0003 Gyr: M(<0.4) = 5.331e+07, M(<0.1) = 3.460e+06, N(<0.4) = 17949, E_self = -3.464120e+14, W_fric = 1.525e+01, ε_máx = 5.22e-09
+    t = 0.0006 Gyr: M(<0.4) = 5.337e+07, M(<0.1) = 3.444e+06, N(<0.4) = 17943, E_self = -3.464120e+14, W_fric = 3.091e+01, ε_máx = 5.22e-09
+    t = 0.0001 Gyr: M(<0.4) = 5.337e+07, M(<0.1) = 3.574e+06, N(<0.4) = 17958, E_self = -3.469250e+14, W_fric = 3.280e+07, ε_máx = 9.42e-05
+    t = 0.0010 Gyr: M(<0.4) = 5.335e+07, M(<0.1) = 3.502e+06, N(<0.4) = 17906, E_self = -3.464120e+14, W_fric = 5.476e+01, ε_máx = 5.24e-09
+    t = 0.0021 Gyr: M(<0.4) = 5.335e+07, M(<0.1) = 3.588e+06, N(<0.4) = 17748, E_self = -3.464121e+14, W_fric = 1.110e+02, ε_máx = 5.26e-09
+    t = 0.0051 Gyr: M(<0.4) = 5.384e+07, M(<0.1) = 3.780e+06, N(<0.4) = 16880, E_self = -3.464121e+14, W_fric = 2.672e+02, ε_máx = 5.35e-09
+    t = 0.0002 Gyr: M(<0.4) = 5.337e+07, M(<0.1) = 3.845e+06, N(<0.4) = 17956, E_self = -3.469488e+14, W_fric = 1.321e+08, ε_máx = 1.47e-04
+  guardado series_AS_ds0.08.json (6209.7 s, 537 pasos; parada temprana: True ε_c máx = 1.01e-03 > 0.001 (fuera del régimen débil); reanudada: False)
+== brazo sat_sub_ds0.02 (control saturante 'sub', ds = 0.02)
+  capas N = 1000000 (0s), N(<0.4) = 17953
+  brazo sat_sub_ds0.02: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 5.29431195249627e-09, 'weak_regime_ok': True, 'D_F_at_soft': 1.2541519642707066, 'ds': 0.02, 'n_bins': 420, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 0.050255916514173105}
+    t = 0.0001 Gyr: M(<0.4) = 5.325e+07, M(<0.1) = 3.461e+06, N(<0.4) = 17948, E_self = -3.464121e+14, W_fric = 7.414e+00, ε_máx = 5.29e-09
+    t = 0.0003 Gyr: M(<0.4) = 5.331e+07, M(<0.1) = 3.464e+06, N(<0.4) = 17949, E_self = -3.464121e+14, W_fric = 1.807e+01, ε_máx = 5.30e-09
+    t = 0.0006 Gyr: M(<0.4) = 5.337e+07, M(<0.1) = 3.447e+06, N(<0.4) = 17943, E_self = -3.464121e+14, W_fric = 4.046e+01, ε_máx = 5.31e-09
+    t = 0.0010 Gyr: M(<0.4) = 5.335e+07, M(<0.1) = 3.501e+06, N(<0.4) = 17906, E_self = -3.464121e+14, W_fric = 7.819e+01, ε_máx = 5.32e-09
+    t = 0.0021 Gyr: M(<0.4) = 5.338e+07, M(<0.1) = 3.583e+06, N(<0.4) = 17750, E_self = -3.464121e+14, W_fric = 1.659e+02, ε_máx = 5.34e-09
+    t = 0.0100 Gyr: M(<0.4) = 5.308e+07, M(<0.1) = 4.804e+06, N(<0.4) = 15228, E_self = -3.464122e+14, W_fric = 5.283e+02, ε_máx = 5.29e-09
+  guardado sweep_AS_eps0.05.json (1570.2 s, 218 pasos; parada temprana: True ε_c máx = 1.01e-03 > 0.001 (fuera del régimen débil); reanudada: False)
+fin de corridas
+    t = 0.0051 Gyr: M(<0.4) = 5.388e+07, M(<0.1) = 3.741e+06, N(<0.4) = 16886, E_self = -3.464122e+14, W_fric = 4.147e+02, ε_máx = 5.39e-09
+    t = 0.0100 Gyr: M(<0.4) = 5.307e+07, M(<0.1) = 4.629e+06, N(<0.4) = 15230, E_self = -3.464127e+14, W_fric = 8.668e+02, ε_máx = 5.33e-09
+    t = 0.0201 Gyr: M(<0.4) = 5.591e+07, M(<0.1) = 5.531e+06, N(<0.4) = 13764, E_self = -3.464126e+14, W_fric = 1.157e+03, ε_máx = 5.31e-09
+    t = 0.0201 Gyr: M(<0.4) = 5.603e+07, M(<0.1) = 5.588e+06, N(<0.4) = 13784, E_self = -3.464142e+14, W_fric = 2.017e+03, ε_máx = 5.39e-09
+    t = 0.0300 Gyr: M(<0.4) = 5.825e+07, M(<0.1) = 4.792e+06, N(<0.4) = 13736, E_self = -3.464133e+14, W_fric = 1.941e+03, ε_máx = 5.27e-09
+[prereg] 6fba6b53d929… — inicio de corridas
+  sweep_b005_eps0.05.json ya existe: se omite
+  sweep_b005_eps0.025.json ya existe: se omite
+== brazo sweep_AS_eps0.1 (barrido ε_soft = 0.1 kpc, AS)
+[prereg] 6fba6b53d929… — inicio de corridas
+== brazo series_AS_ds0.02 (serie ds = 0.02, A_Sculptor, ε_soft = 0.1)
+  capas N = 1000000 (4s), N(<0.4) = 17953
+  capas N = 1000000 (4s), N(<0.4) = 17953
+  brazo series_AS_ds0.02: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 1.1077900422303054e-05, 'weak_regime_ok': True, 'D_F_at_soft': 233.49519024600463, 'ds': 0.02, 'n_bins': 420, 'N': 1028500, 'dt_myr': 0.01, 'U_self_identity_rel': 0.0}
+  brazo sweep_AS_eps0.1: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 6.524016059658378e-06, 'weak_regime_ok': True, 'D_F_at_soft': 233.62367367818158, 'ds': 0.04, 'n_bins': 213, 'N': 1028500, 'dt_myr': 0.01, 'U_self_identity_rel': 1.1841090211263636e-16}
+  reanudado desde /home/user/mcmc-halo3/results/2026-09-28_halo_round3/runs/sweep_AS_eps0.1.ckpt.npz: t = 0.478 Myr, 485 pasos, pared acumulada 4325 s
+    t = 0.0005 Gyr: M(<0.4) = 5.345e+07, M(<0.1) = 4.407e+06, N(<0.4) = 17823, E_self = -3.478199e+14, W_fric = 1.207e+10, ε_máx = 4.82e-04
+    t = 0.0300 Gyr: M(<0.4) = 5.897e+07, M(<0.1) = 4.706e+06, N(<0.4) = 13784, E_self = -3.464169e+14, W_fric = 3.553e+03, ε_máx = 5.33e-09
+    t = 0.0401 Gyr: M(<0.4) = 6.383e+07, M(<0.1) = 4.665e+06, N(<0.4) = 14252, E_self = -3.464140e+14, W_fric = 2.728e+03, ε_máx = 5.34e-09
+  guardado sweep_AS_eps0.1.json (5360.2 s, 564 pasos; parada temprana: True ε_c máx = 1.02e-03 > 0.001 (fuera del régimen débil); reanudada: True)
+fin de corridas
+    t = 0.0001 Gyr: M(<0.4) = 5.337e+07, M(<0.1) = 3.557e+06, N(<0.4) = 17958, E_self = -3.469436e+14, W_fric = 1.339e+08, ε_máx = 1.59e-04
+    t = 0.0401 Gyr: M(<0.4) = 6.503e+07, M(<0.1) = 4.599e+06, N(<0.4) = 14295, E_self = -3.464200e+14, W_fric = 5.156e+03, ε_máx = 5.33e-09
+    t = 0.0500 Gyr: M(<0.4) = 6.309e+07, M(<0.1) = 4.974e+06, N(<0.4) = 14914, E_self = -3.464150e+14, W_fric = 3.664e+03, ε_máx = 5.32e-09
+  guardado sat_sub_ds0.04.json (5410.0 s, 334 pasos; parada temprana: False ; reanudada: False)
+== brazo newton_N1e6 (newtoniano, N = 1e6)
+  capas N = 1000000 (0s), N(<0.4) = 17953
+  brazo newton_N1e6: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 0.0, 'weak_regime_ok': True, 'D_F_at_soft': 0.0, 'ds': 0.04, 'n_bins': 213, 'N': 1028500, 'dt_myr': 0.15, 'U_self_identity_rel': 0.0}
+    t = 0.0001 Gyr: M(<0.4) = 5.325e+07, M(<0.1) = 3.461e+06, N(<0.4) = 17948, E_self = -3.464027e+14, W_fric = 0.000e+00, ε_máx = 0.00e+00
+    t = 0.0003 Gyr: M(<0.4) = 5.331e+07, M(<0.1) = 3.459e+06, N(<0.4) = 17949, E_self = -3.464027e+14, W_fric = 0.000e+00, ε_máx = 0.00e+00
+  guardado series_AS_ds0.02.json (2003.9 s, 268 pasos; parada temprana: True ε_c máx = 1.02e-03 > 0.001 (fuera del régimen débil); reanudada: False)
+fin de corridas
+    t = 0.0006 Gyr: M(<0.4) = 5.336e+07, M(<0.1) = 3.423e+06, N(<0.4) = 17942, E_self = -3.464027e+14, W_fric = 0.000e+00, ε_máx = 0.00e+00
+    t = 0.0010 Gyr: M(<0.4) = 5.333e+07, M(<0.1) = 3.439e+06, N(<0.4) = 17904, E_self = -3.464027e+14, W_fric = 0.000e+00, ε_máx = 0.00e+00
+    t = 0.0021 Gyr: M(<0.4) = 5.322e+07, M(<0.1) = 3.313e+06, N(<0.4) = 17736, E_self = -3.464027e+14, W_fric = 0.000e+00, ε_máx = 0.00e+00
+    t = 0.0051 Gyr: M(<0.4) = 5.309e+07, M(<0.1) = 2.822e+06, N(<0.4) = 16784, E_self = -3.464027e+14, W_fric = 0.000e+00, ε_máx = 0.00e+00
+    t = 0.0500 Gyr: M(<0.4) = 6.495e+07, M(<0.1) = 5.000e+06, N(<0.4) = 14978, E_self = -3.464237e+14, W_fric = 7.115e+03, ε_máx = 5.39e-09
+  guardado sat_sub_ds0.02.json (5363.8 s, 334 pasos; parada temprana: False ; reanudada: False)
+== brazo sweep_AS_eps0.025 (barrido ε_soft = 0.025 kpc, AS)
+  capas N = 1000000 (0s), N(<0.4) = 17953
+  brazo sweep_AS_eps0.025: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 5.233332904815567e-05, 'weak_regime_ok': True, 'D_F_at_soft': 7446.209814312384, 'ds': 0.04, 'n_bins': 248, 'N': 1028500, 'dt_myr': 0.01, 'U_self_identity_rel': 2.2783293555350535e-16}
+  guardado sweep_AS_eps0.025.json (22.4 s, 7 pasos; parada temprana: True ε_c máx = 1.02e-03 > 0.001 (fuera del régimen débil); reanudada: False)
+== brazo ctrlN_AS_N1e5 (control de N, AS, N = 1e5)
+  capas N = 100000 (0s), N(<0.4) = 1795
+  brazo ctrlN_AS_N1e5: {'t_gyr': 0.0, 'kind': 'inicio', 'eps_c_max': 6.523056034675967e-06, 'weak_regime_ok': True, 'D_F_at_soft': 230.17453949534553, 'ds': 0.04, 'n_bins': 213, 'N': 102850, 'dt_myr': 0.01, 'U_self_identity_rel': 1.1841286585041534e-16}
+    t = 0.0001 Gyr: M(<0.4) = 5.351e+07, M(<0.1) = 3.621e+06, N(<0.4) = 1797, E_self = -3.472783e+14, W_fric = 3.203e+07, ε_máx = 9.34e-05
+    t = 0.0100 Gyr: M(<0.4) = 5.118e+07, M(<0.1) = 2.519e+06, N(<0.4) = 14861, E_self = -3.464027e+14, W_fric = 0.000e+00, ε_máx = 0.00e+00
+    t = 0.0002 Gyr: M(<0.4) = 5.354e+07, M(<0.1) = 4.118e+06, N(<0.4) = 1797, E_self = -3.472990e+14, W_fric = 1.824e+08, ε_máx = 1.94e-04
+    t = 0.0005 Gyr: M(<0.4) = 5.401e+07, M(<0.1) = 4.430e+06, N(<0.4) = 1776, E_self = -3.479391e+14, W_fric = 1.330e+10, ε_máx = 4.31e-04
+  guardado ctrlN_AS_N1e5.json (235.1 s, 533 pasos; parada temprana: True ε_c máx = 1.00e-03 > 0.001 (fuera del régimen débil); reanudada: False)
+fin de corridas
+    t = 0.0201 Gyr: M(<0.4) = 5.077e+07, M(<0.1) = 2.373e+06, N(<0.4) = 12607, E_self = -3.464027e+14, W_fric = 0.000e+00, ε_máx = 0.00e+00
+    t = 0.0300 Gyr: M(<0.4) = 5.105e+07, M(<0.1) = 2.081e+06, N(<0.4) = 12211, E_self = -3.464027e+14, W_fric = 0.000e+00, ε_máx = 0.00e+00
+    t = 0.0401 Gyr: M(<0.4) = 5.621e+07, M(<0.1) = 2.552e+06, N(<0.4) = 12830, E_self = -3.464027e+14, W_fric = 0.000e+00, ε_máx = 0.00e+00
+    t = 0.0500 Gyr: M(<0.4) = 5.693e+07, M(<0.1) = 3.272e+06, N(<0.4) = 13819, E_self = -3.464027e+14, W_fric = 0.000e+00, ε_máx = 0.00e+00
+  guardado newton_N1e6.json (2630.7 s, 334 pasos; parada temprana: False ; reanudada: False)
+fin de corridas
