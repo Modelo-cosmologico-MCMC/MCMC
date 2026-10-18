@@ -385,13 +385,91 @@ def cmd_analyze(_args) -> int:
     return 0
 
 
+def _band_below_kc(d: dict, mode: int) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """rms de la densidad depositada en 0 < k < uv_band_frac·k_Nyq SIN el modo sembrado (Parseval: cada modo aporta
+    2|δ_k|² a la varianza): √(rms_δ² − uv_rms² − 2|δ_n|²). Devuelve (t, |δ_n|, banda)."""
+    t = np.array([s["t"] for s in d["samples"]])
+    a = np.array([s["delta_k"][mode - 1] for s in d["samples"]])
+    rms = np.array([s["rms_delta"] for s in d["samples"]])
+    uv = np.array([s["uv_rms"] for s in d["samples"]])
+    return t, a, np.sqrt(np.clip(rms ** 2 - uv ** 2 - 2.0 * a ** 2, 0.0, None))
+
+
+def cmd_diagnose(_args) -> int:
+    """DIAGNÓSTICO A POSTERIORI, SIN LETRA (escrito el 18-oct después de ver el INDETERMINADO de la ronda 3b): la
+    puerta UV de las rondas 3 y 3b mide solo la banda k ≥ uv_band_frac·k_Nyq (= k_c). Con q > 1 los modos k < k_c con
+    q·W(k) > 1 también son inestables, con γ ∝ k, y crecen desde el redondeo más deprisa que el modo sembrado. Para cada
+    celda corrida de ambas rondas se publica cuándo la banda bajo k_c (sin el modo sembrado) supera el mismo A_nl de la
+    puerta UV y cuánto vale cuando cierra la ventana lineal medida (|δ_n| ≥ hi). No cambia ninguna regla, puerta ni
+    desenlace: la ronda 3b sigue INDETERMINADA y la ronda 3 sigue A."""
+    rows = []
+    for tag, outdir, pre_path, ana_name in (("ronda 3", ROUND3, ROUND3 / "preregistration.json", "cj_criterion_round3.json"),
+                                            ("ronda 3b", OUTDIR, PREREG, "cj_criterion_round3b.json")):
+        pre = json.loads(pre_path.read_text(encoding="utf-8"))
+        psha = _sha(pre_path)
+        ana = json.loads((outdir / ana_name).read_text(encoding="utf-8"))
+        if ana["preregistration_sha256"] != psha:
+            raise SystemExit(f"FALLO CERRADO: el análisis de la {tag} no cita su preinscripción")
+        by_cell = {(r["q"], r["mode"]): r for r in ana["table"]}
+        a_nl = pre["rules"]["uv_amp_nonlinear"]
+        for p in sorted((outdir / "runs").glob("*.json")):
+            d = json.loads(p.read_text(encoding="utf-8"))
+            if d.get("preregistration_sha256") != psha:
+                raise SystemExit(f"FALLO CERRADO: {p.name} no cita la preinscripción de la {tag}")
+            q, mode = d["q"], d["seed_mode"]
+            w = pre["windows_and_T"][f"q{q}_n{mode}"]
+            hi = w["window"][1] if w.get("window") else None            # q < 1: celda estable, sin ventana de crecimiento
+            t, a, band = _band_below_kc(d, mode)
+            i_close = np.nonzero(a >= hi)[0] if hi is not None else np.array([], dtype=int)
+            i_band = np.nonzero(band >= a_nl)[0]
+            g = w["gamma_over_k_instrument"]
+            t_pred = float(np.log(pre["rules"]["linear_window_hi_factor"]) / (g * 2.0 * np.pi * mode)) if g > 0 else None
+            t_close = float(t[i_close[0]]) if i_close.size else None
+            t_band = float(t[i_band[0]]) if i_band.size else None
+            r = by_cell.get((q, mode)) if "beams" not in p.stem else None
+            rows.append({"round": tag, "run": p.stem, "q": q, "mode": mode, "n_beams": d.get("n_beams"),
+                         "t_window_close_predicted": t_pred, "t_window_close_measured": t_close, "t_band_below_kc_over_A_nl": t_band,
+                         "band_below_kc_at_close": float(band[i_close[0]]) if i_close.size else None,
+                         "band_below_kc_max": float(band.max()), "A_nl": a_nl,
+                         "window_closed_before_band_nonlinear": (None if t_close is None else bool(t_band is None or t_close < t_band)),
+                         "ratio_measured_over_instrument": None if r is None else r.get("ratio_measured_over_instrument",
+                                                                                          (r["gamma_over_k_measured"] / r["gamma_over_k_instrument"]
+                                                                                           if r.get("gamma_over_k_instrument") else None)),
+                         "r2": None if r is None else r.get("r2")})
+    late = [x["run"] for x in rows if x["window_closed_before_band_nonlinear"] is False]
+    doc = {"artifact": "diagnóstico a posteriori sin letra (18-oct): no cambia ninguna regla, puerta ni desenlace", "code_commit": _git_head(),
+           "written_utc": datetime.now(timezone.utc).isoformat(),
+           "definition": "banda bajo k_c = √(rms_δ² − uv_rms² − 2|δ_n|²) de la densidad depositada; umbral = A_nl de la puerta UV de cada preinscripción; "
+                         "cierre medido = primera muestra con |δ_n| ≥ el borde alto de la ventana",
+           "rows": rows, "windows_closed_after_band_nonlinear": late}
+    (OUTDIR / "diagnostic_band_below_kc.json").write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    def f(x, fmt):
+        return "—" if x is None else format(x, fmt)
+    md = ["# Rondas 3 y 3b de Cronos–Jeans: la banda inestable bajo k_c (diagnóstico a posteriori, sin letra)", "",
+          "Escrito el 18-oct **después** de ver el INDETERMINADO de la ronda 3b. La puerta UV de ambas rondas mide solo la banda k ≥ k_c "
+          "(`uv_rms`); con q > 1 los modos k < k_c con q·W(k) > 1 también crecen, con γ ∝ k, desde el redondeo. Definición: "
+          f"{doc['definition']}. **No cambia ninguna regla, puerta ni desenlace**: la ronda 3b sigue INDETERMINADA y la ronda 3 sigue A.", "",
+          "| ronda | corrida | t cierre previsto | t cierre medido | t banda > A_nl | banda en el cierre | banda máx | cierra antes | γ/k medido / instrumento | r² |",
+          "|---|---|---|---|---|---|---|---|---|---|"]
+    for x in rows:
+        before = {None: "— (estable)", True: "sí", False: "**no**"}[x["window_closed_before_band_nonlinear"]]
+        md.append(f"| {x['round']} | {x['run']} | {f(x['t_window_close_predicted'], '.3f')} | {f(x['t_window_close_measured'], '.3f')} | "
+                  f"{f(x['t_band_below_kc_over_A_nl'], '.3f')} | {f(x['band_below_kc_at_close'], '.1e')} | {x['band_below_kc_max']:.1e} | {before} | "
+                  f"{f(x['ratio_measured_over_instrument'], '.4f')} | {f(x['r2'], '.4f')} |")
+    md += ["", f"Ventanas que cerraron con la banda bajo k_c ya por encima de A_nl: {late or 'ninguna'}."]
+    (OUTDIR / "diagnostic_band_below_kc.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    print(f"diagnóstico (sin letra): ventanas cerradas con la banda bajo k_c no lineal: {late or 'ninguna'}")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for c in ("prereg", "run", "analyze"):
+    for c in ("prereg", "run", "analyze", "diagnose"):
         sub.add_parser(c)
     args = ap.parse_args()
-    return {"prereg": prereg, "run": cmd_run, "analyze": cmd_analyze}[args.cmd](args)
+    return {"prereg": prereg, "run": cmd_run, "analyze": cmd_analyze, "diagnose": cmd_diagnose}[args.cmd](args)
 
 
 if __name__ == "__main__":
