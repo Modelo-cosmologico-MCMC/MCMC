@@ -58,6 +58,17 @@ def test_outcome_pinned_indeterminate_by_the_energy_gate_of_the_b005_class():
                                                    "sweep_b005_eps0.025", "ctrlN_b005_N1e5"])
     assert d["sweep"]["b005"]["n_exit"] == 2 and not d["sweep"]["b005"]["power_law"]   # D2: el barrido a 0.05·A_S no está completo
     assert not d["saturating_control"]["above_exits"]                                   # D1: 'above' no puede salir
+    assert not d["saturating_control"]["sub_any_exit"]                                  # errata del 18-oct: 'sub' tampoco
+
+
+def test_letters_a_and_b_unreachable_by_construction():
+    """D1 y la errata del 18-oct: los dos puntos saturantes tienen ε_max por debajo del umbral del régimen débil, así que
+    ninguno puede «salir» — A (exige que salga 'above') y B (exige que salga 'sub') eran inalcanzables bajo 6fba6b53."""
+    pre = json.loads(PREREG.read_text(encoding="utf-8"))
+    weak = pre["instrument"]["weak_regime_eps_max"]
+    pts = pre["saturating_control"]["points"]
+    assert pts["sub"]["eps_max"] == pytest.approx(5.41e-9, rel=1e-3) and pts["sub"]["eps_max"] < weak
+    assert pts["above"]["eps_max"] < weak
 
 
 @pytest.mark.skipif(not (OUT / "per_cell_energy.json").exists(), reason="tabla por celda no escrita")

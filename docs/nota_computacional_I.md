@@ -1779,6 +1779,20 @@ salidas de cuatro. ε_soft = 0.2 y 0.1 agotan las 4 h en 40.0 y 10.4 Myr,
 con ε_c máx 2.2e-5 y 1.4e-4; 0.05 sale en 9.66 Myr y 0.025 en 0.477 Myr.
 Así que ni A ni B eran posibles, como anunciaba la declaración previa.
 
+**Errata (18-oct, revisión del autor).** La frase anterior no es exacta:
+la letra B **también era inalcanzable por construcción**. Exige que el
+brazo «sub» salga del régimen débil, y «sub» tiene ε_max = 5.41e-9 <
+10⁻³, así que ε_c nunca puede superar el umbral. Bajo la preinscripción
+`6fba6b53` solo eran alcanzables C e INDETERMINADO. La declaración previa,
+que decía «C, B (si…) e INDETERMINADO», no se edita. Re-ejecutar bajo la
+regla congelada, con los defectos declarados antes, fue lo correcto: la
+primera ejecución se había lanzado y se habían visto cifras parciales, de
+modo que retirar la preinscripción ya no era legítimo. El falsador de la
+fila `halo-capas-ronda3`, que describía ese suceso imposible, se reescribe
+en términos de contracción de M(<r_u) frente al newtoniano de la misma
+celda, con condiciones iniciales en equilibrio Newton + Cronos. La ronda 4
+no se corre (decisión del autor del 18-oct).
+
 **Lo medido, sin letra (E13):**
 
 | brazo | ε_soft | ds | t_weak [Myr] | \|ΔE/E\| | parada |

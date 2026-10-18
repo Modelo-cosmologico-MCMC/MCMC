@@ -1997,17 +1997,31 @@ claims:
       cualificación que no llegaron al instante de evaluación y 12 no
       tienen celda equivalente. Ninguna regla ni umbral se tocó tras ver
       los números; las rondas 1 y 2 y la cualificación quedan intactas.
+      ERRATA DEL 18-OCT (revisión del autor): la letra B también era
+      inalcanzable por construcción. Exige que el brazo «sub» salga del
+      régimen débil, y «sub» tiene ε_max = 5.41e-9 < 1e-3, así que ε_c no
+      puede superar el umbral. Bajo la preinscripción 6fba6b53 solo eran
+      alcanzables C e INDETERMINADO; la frase anterior «ni A ni B eran
+      posibles, como anunciaba la declaración previa» se corrige aquí (la
+      declaración previa decía «C, B (si…) e INDETERMINADO» y no se edita).
+      Re-ejecutar bajo la regla congelada, con los defectos declarados
+      antes, fue lo correcto: la primera ejecución se había lanzado y se
+      habían visto cifras parciales. La ronda 4 no se corre (decisión del
+      autor del 18-oct).
     implementation: cronos/halo_shells.py + scripts/run_halo_round3.py
     test: tests/test_halo_round3_lock.py + tests/test_halo_shells.py + tests/test_halo_shells_checkpoint.py + tests/test_halo_shells_saturating.py
     observable: "— (halo aislado sintético; ningún observable)"
     dataset: "—"
     falsifier: >-
-      una ronda 4 preinscrita que corrija D1 y D2, cualifique sus propias
-      celdas (regla por celda) y supere las puertas: t_weak independiente
-      de ε_soft a A_Sculptor (|p| ≤ 0.10) retiraría la lectura de la
-      adenda del autor; el brazo saturante sub-umbral saliendo del régimen
-      débil retiraría la candidatura de la forma saturante
-    evidence_level: comprobación interna (E8) bajo preinscripción congelada; INDETERMINADO por la puerta de energía (clase 0.05·A_Sculptor) y por el barrido a 0.05·A_Sculptor incompleto; la dependencia de t_weak con ε_soft y con ds a A_Sculptor se publica sin letra (E13); sin datos; no resultado observacional
+      con condiciones iniciales en equilibrio Newton + Cronos, una
+      contracción de M(<r_u) del brazo saturante sub-umbral frente al
+      newtoniano de la misma celda retiraría la candidatura de la forma
+      saturante; t_weak independiente de ε_soft a A_Sculptor (|p| ≤ 0.10)
+      bajo una preinscripción con puertas alcanzables retiraría la lectura
+      de la adenda del autor. Reescrito el 18-oct: el falsador anterior
+      («el brazo saturante sub-umbral saliendo del régimen débil»)
+      describía un suceso imposible, porque ε_max = 5.41e-9 < 1e-3
+    evidence_level: comprobación interna (E8) bajo preinscripción congelada; INDETERMINADO por la puerta de energía (clase 0.05·A_Sculptor) y por el barrido a 0.05·A_Sculptor incompleto; con la regla congelada solo C e INDETERMINADO eran alcanzables (errata del 18-oct); la dependencia de t_weak con ε_soft y con ds a A_Sculptor se publica sin letra (E13); sin datos; no resultado observacional
     status: interno
     artifact: results/2026-09-28_halo_round3
 

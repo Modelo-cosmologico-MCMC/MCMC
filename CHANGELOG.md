@@ -36,6 +36,15 @@ estado en que afirme exactamente lo que hace»).
   `results/2026-09-28_halo_round3/` (corridas, análisis, tabla por celda,
   registro de ejecución). Candado `tests/test_halo_round3_lock.py`.
 
+  **Errata del 18-oct (revisión del autor):** la letra B también era
+  inalcanzable por construcción. «sub» tiene ε_max = 5.41e-9 < 1e-3 y no
+  puede salir del régimen débil, así que bajo `6fba6b53` solo eran
+  alcanzables C e INDETERMINADO. La errata va fechada en la Nota I §3.38 y
+  en la fila; la declaración previa no se edita. El falsador de la fila se
+  reescribe: contracción de M(<r_u) frente al newtoniano de la misma
+  celda, con condiciones iniciales en equilibrio Newton + Cronos. La
+  ronda 4 no se corre.
+
 ## Sin publicar — septiembre de 2026
 
 - **Test del criterio de Cronos–Jeans, ronda 3 (30-sep, PR-4): desenlace A
