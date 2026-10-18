@@ -4,13 +4,13 @@
 
 Assumptions, completed derivations, calibrations, falsifiers and gaps, on one page. Every cell is generated from the canonical registry (`docs/claims_registry.yaml`) and the dictionary bridges table (`docs/diccionario_puentes.md`): what is shown is the registry, not a narrative. Statuses follow the epistemological errata FE-08-2026: "internal" means an internal consistency check passed (E8), never a physical demonstration. The registry is written in Spanish; the frame and the status vocabulary are translated here, and the per-claim texts are quoted verbatim in Spanish from the registry, which remains the source.
 
-Source: `docs/claims_registry.yaml`, sha256 `15b17577086b9c13eca111409fc0e22a976f5d042bec6446eaab8a188060f31a`; 72 rows.
+Source: `docs/claims_registry.yaml`, sha256 `69dbd273414971dc36db8ad4721630c61dea7943c8b9670299836746150b3eb6`; 73 rows.
 
 ## 1. Matrix by category
 
 | Category | Rows | Claims |
 |---|---|---|
-| Derivations and internal checks passed (E8: internal consistency check, not a physical demonstration) | 41 | `axiomas`, `constantes-estatuto`, `plano-dual`, `potencial-basal`, `monotonia-exclusion`, `florencia`, `rp-escalar`, `residuos`, `naturalidad-priors`, `suite-apendice-h`, `jax-crosscheck`, `fondo-cosmologico`, `cmb-fsigma8`, `canales-oscuros`, `mass-gap-reticulo`, `qudit-decoherencia`, `qudit-d5`, `dovekie-mocks-pipeline`, `perturbaciones-fsigma8-oos`, `mu-eta-atlas`, `dovekie-real-primera-aplicacion`, `bbn-g-empress`, `atlas-ppn`, `atlas-gauge-invariant`, `cronos-amplitud-unica`, `phi-ten-fondo-ley-cronos`, `diccionario-epsilon-c-saturante`, `criterio-cronos-jeans`, `test-criterio-cronos-jeans`, `test-criterio-cronos-jeans-ronda2`, `criterio-cronos-jeans-ronda3`, `halo-serie-resolucion-campo`, `nucleacion-salida-s0`, `nucleacion-gamma0`, `diagonal-j-requerido`, `vacio-2d-conversion-y-rotacion`, `halo-capas-ronda2`, `cualificacion-laminas-e8q`, `cualificacion-capas-e8q`, `s-clock-simulador-consistencia`, `nivel-a-halo-aislado` |
+| Derivations and internal checks passed (E8: internal consistency check, not a physical demonstration) | 42 | `axiomas`, `constantes-estatuto`, `plano-dual`, `potencial-basal`, `monotonia-exclusion`, `florencia`, `rp-escalar`, `beta-un-lazo-sextico`, `residuos`, `naturalidad-priors`, `suite-apendice-h`, `jax-crosscheck`, `fondo-cosmologico`, `cmb-fsigma8`, `canales-oscuros`, `mass-gap-reticulo`, `qudit-decoherencia`, `qudit-d5`, `dovekie-mocks-pipeline`, `perturbaciones-fsigma8-oos`, `mu-eta-atlas`, `dovekie-real-primera-aplicacion`, `bbn-g-empress`, `atlas-ppn`, `atlas-gauge-invariant`, `cronos-amplitud-unica`, `phi-ten-fondo-ley-cronos`, `diccionario-epsilon-c-saturante`, `criterio-cronos-jeans`, `test-criterio-cronos-jeans`, `test-criterio-cronos-jeans-ronda2`, `criterio-cronos-jeans-ronda3`, `halo-serie-resolucion-campo`, `nucleacion-salida-s0`, `nucleacion-gamma0`, `diagonal-j-requerido`, `vacio-2d-conversion-y-rotacion`, `halo-capas-ronda2`, `cualificacion-laminas-e8q`, `cualificacion-capas-e8q`, `s-clock-simulador-consistencia`, `nivel-a-halo-aislado` |
 | Assumptions: results conditional on declared hypotheses | 16 | `rp-no-estacionaria`, `kls-flujo`, `matriz-estabilidad`, `gea-newton-atlas`, `ciclo-victoria`, `circulo-delta0`, `fertilidad`, `cronos-v3`, `ciclo-pm`, `perfil-compuerta`, `jeans-dsph`, `5c-estructural`, `empalme-wkb`, `mu-eta-cronos`, `contenido-materia-lectura-operativa`, `oort-kz-cota-cronos` |
 | Calibrations: numbers fitted to data or anchored externally, with declared status | 4 | `funcional-masas`, `higgs-auditoria`, `wkb-calibrado`, `mapa-s-z-convencion` |
 | Preregistered: frozen protocols without an outcome yet | 0 | — |
@@ -44,6 +44,7 @@ What would refute or bound each claim, as declared in the registry (quoted in Sp
 | `monotonia-exclusion` | internal (E8) | contraejemplo numérico de la monotonía | — |
 | `florencia` | internal (E8) | firma distinta de −+++ en la cadena | — |
 | `rp-escalar` | internal (E8) | violación de RP en el juguete | — |
+| `beta-un-lazo-sextico` | internal (E8) | un error en el teorema de signo (un m̃² con F < 0 para R > R_c) o en las β frente al lado derecho exacto lo refutaría; la conclusión no cubre formas iniciales con R₀ < 25/12, truncamientos más altos, el sector de la inclinación η·χ ni esquemas con anomalía distinta de la LPA | results/2026-10-18_beta_one_loop_sextic |
 | `residuos` | internal (E8) | residuo fuera de la banda declarada; exclusión del −1.8 % por BBN al 95 % | results/2026-09-14_bbn_g |
 | `naturalidad-priors` | internal (E8) | cota violada bajo priors alternativos declarados | results/2026-08-04_landscape_priors |
 | `suite-apendice-h` | internal (E8) | cualquier comprobación del Ap. H en rojo | — |

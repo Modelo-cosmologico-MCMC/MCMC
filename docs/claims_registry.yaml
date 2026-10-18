@@ -164,6 +164,12 @@ claims:
       grande M0² cruza cero antes que D; para τ pequeño el descenso
       termina con D > 0): los colapsos no emergen del Cruce de Victoria
       en el rango explorado — publicado sin veredicto, depende de τ.
+      Candidatos a β del frente 2 cribados: el 1 (corriente de conversión)
+      no pasa (fila beta-extra-cribado); el 2 (β a un lazo del séxtico en
+      d = 1, 2, 3) queda excluido por derivación para el campo del reloj
+      (N = 2) con las formas por defecto: R₀ = 9/4 está por encima del umbral
+      R_c = 25/12 a partir del cual R = B²/(4C₀M₀²) solo crece (fila
+      beta-un-lazo-sextico, 18-oct).
     implementation: core/decade.py + core/s_clock.py
     test: tests/test_core_florencia_decade.py + tests/test_s_clock.py
     observable: "—"
@@ -207,7 +213,12 @@ claims:
       κ̂ = 1 y 2.11 divergen numéricamente (con B < 0 desaparece el vacío
       verdadero y Σ̇ crece sin cota) — límite del instrumento, publicado. La fila
       decada-discriminante no cambia. Ninguna regla ni ventana se tocó tras ver
-      los números.
+      los números. Informativo (18-oct, sin cambiar la letra): re-corridas las
+      celdas de la ventana y los controles canónicos con el criterio (i) en
+      forma integral, la integral nunca baja de cero (fracción del exigido 0),
+      R crece monótonamente hasta M₀² = 0 (S = 0.002–0.32 según δ₀ y τ) y
+      ninguna celda alcanza T₀ = 0 ni D = 0
+      (results/2026-10-18_beta_one_loop_sextic).
     implementation: core/beta_candidates.py + core/s_clock.py + scripts/run_beta_screening.py
     test: tests/test_beta_screening.py + tests/test_s_clock.py
     observable: "—"
@@ -221,6 +232,49 @@ claims:
     evidence_level: cribado diagnóstico (E13) bajo preinscripción congelada — «no pasa» bajo cierres declarados; ninguna letra sobre λ; ningún cruce D = 0 en 147 corridas
     status: resultado-negativo
     artifact: results/2026-09-28_beta_screening
+
+  - claim_id: beta-un-lazo-sextico
+    entity: Candidato 2 del cribado de β — las β a un lazo (LPA) del potencial séxtico del Basal en dimensión d = 1, 2, 3 no pueden producir D = 0 desde las formas por defecto con el campo del reloj (N = 2); derivación con teorema de signo y verificación numérica, sin letra (revisión del autor del 30-sep; Ap. L, Ruta II; 18-oct-2026)
+    law: "Def. 4.4 (jerarquía de Fokker–Planck: Polchinski en dimensión cero); Def. 8.4 y Prop. 8.1 (discriminante D = B² − 4C₀M₀², Década); (3.2) escalado M₀² = m̄²δ₀², B = b̄δ₀; Ap. L, Ruta II (grupo de renormalización entrópico en S)"
+    derivation: >-
+      core/beta_one_loop.py deriva las β de la aproximación de potencial local
+      para u(x) = ½M₀²x − (B/4)x² + (C₀/6)x³, x = |φ|², O(N), adimensionales y
+      hacia el infrarrojo, en dos esquemas declarados: Wetterich con regulador
+      de Litim (reproduce en d = 4 el coeficiente de libro 3λ²/(16π²)) y
+      Polchinski normalizado, que con N = 2 y sin términos de escala ES el
+      flujo canónico del reloj. Cada β está fijada por un test contra los
+      coeficientes de Taylor del lado derecho exacto. El cruce D = 0 depende
+      solo de R = B²/(4C₀M₀²), invariante bajo toda reescala (dimensión
+      canónica, dimensión anómala, normalizaciones): la d entra en la
+      trayectoria de los acoplos pero no en el flujo instantáneo de R. Formas
+      cerradas: en Polchinski d ln R/ds = (8aC₀/B)[(N+2)R − (N+4)] +
+      2bM₀²(12R − 1); en Wetterich d ln R/ds = 8C₀/(B(1+m̃²)⁴)·F(R, m̃²; N). Teorema
+      de signo con B, C₀ > 0: F > 0 para todo m̃² si R > R_c(N) =
+      (13N + 74)/(12(N + 2)) (N = 2: 25/12; N = 1: 29/12), y en Polchinski el
+      flujo de ln R es positivo si R > (N + 4)/(N + 2) y M₀² > 0. Con las formas
+      por defecto (m̄ = 1, b̄ = 3, C₀ = 1 ⟹ R₀ = 9/4) y N = 2, R solo crece en
+      toda d: D no cruza cero y el criterio (i) integral, que exige
+      ∫[2β_B/B − β_C₀/C₀ − β_M₀²/M₀²] = −ln R₀ = −0.811 antes de M₀² = 0, no se
+      alcanza (fracción 0). Con un escalar (N = 1) hay una ventana de masa en la
+      que R decrece (m̃² ∈ (0.0200, 0.0577) en R = 9/4), pero desde el escalado
+      (3.2) M₀² se anula antes de entrar en ella. Verificación numérica: 24
+      flujos (2 esquemas × N ∈ {1, 2} × d ∈ {1, 2, 3} × δ₀ ∈ {0.01, 0.03})
+      llegan a M₀² = 0 en s = 0.0005–0.0044 con R creciente, sin T₀ = 0 ni
+      D = 0; en el reloj s = τ·S y el flujo de acoplos es autónomo, así que vale
+      para todo τ. Esquema, regulador, truncamiento séxtico, N y la lectura de
+      los acoplos del reloj como adimensionales en k = Λ son declarados.
+    implementation: core/beta_one_loop.py + core/beta_candidates.py + scripts/run_beta_one_loop.py
+    test: tests/test_beta_one_loop.py
+    observable: "—"
+    dataset: "—"
+    falsifier: >-
+      un error en el teorema de signo (un m̃² con F < 0 para R > R_c) o en las
+      β frente al lado derecho exacto lo refutaría; la conclusión no cubre
+      formas iniciales con R₀ < 25/12, truncamientos más altos, el sector de
+      la inclinación η·χ ni esquemas con anomalía distinta de la LPA
+    evidence_level: derivación (E8) con teorema de signo y verificación numérica, sin letra; excluye el candidato 2 para N = 2 con las formas por defecto; no decide λ ni la ley
+    status: interno
+    artifact: results/2026-10-18_beta_one_loop_sextic
 
   - claim_id: kls-flujo
     entity: Flujo KLS integrado

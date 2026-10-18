@@ -4,13 +4,13 @@
 
 Supuestos, derivaciones completadas, calibraciones, falsadores y huecos, en una página. Cada celda se genera desde el registro canónico (`docs/claims_registry.yaml`) y la tabla de puentes del diccionario (`docs/diccionario_puentes.md`): lo que se muestra es el registro, no una narrativa. Los estatutos siguen la fe de erratas epistemológica FE-08-2026: «interno» es una comprobación interna superada (E8), nunca demostración física.
 
-Fuente: `docs/claims_registry.yaml`, sha256 `15b17577086b9c13eca111409fc0e22a976f5d042bec6446eaab8a188060f31a`; 72 filas.
+Fuente: `docs/claims_registry.yaml`, sha256 `69dbd273414971dc36db8ad4721630c61dea7943c8b9670299836746150b3eb6`; 73 filas.
 
 ## 1. Matriz por categoría
 
 | Categoría | Filas | Claims |
 |---|---|---|
-| Derivaciones y comprobaciones internas superadas (E8: comprobación interna, no demostración física) | 41 | `axiomas`, `constantes-estatuto`, `plano-dual`, `potencial-basal`, `monotonia-exclusion`, `florencia`, `rp-escalar`, `residuos`, `naturalidad-priors`, `suite-apendice-h`, `jax-crosscheck`, `fondo-cosmologico`, `cmb-fsigma8`, `canales-oscuros`, `mass-gap-reticulo`, `qudit-decoherencia`, `qudit-d5`, `dovekie-mocks-pipeline`, `perturbaciones-fsigma8-oos`, `mu-eta-atlas`, `dovekie-real-primera-aplicacion`, `bbn-g-empress`, `atlas-ppn`, `atlas-gauge-invariant`, `cronos-amplitud-unica`, `phi-ten-fondo-ley-cronos`, `diccionario-epsilon-c-saturante`, `criterio-cronos-jeans`, `test-criterio-cronos-jeans`, `test-criterio-cronos-jeans-ronda2`, `criterio-cronos-jeans-ronda3`, `halo-serie-resolucion-campo`, `nucleacion-salida-s0`, `nucleacion-gamma0`, `diagonal-j-requerido`, `vacio-2d-conversion-y-rotacion`, `halo-capas-ronda2`, `cualificacion-laminas-e8q`, `cualificacion-capas-e8q`, `s-clock-simulador-consistencia`, `nivel-a-halo-aislado` |
+| Derivaciones y comprobaciones internas superadas (E8: comprobación interna, no demostración física) | 42 | `axiomas`, `constantes-estatuto`, `plano-dual`, `potencial-basal`, `monotonia-exclusion`, `florencia`, `rp-escalar`, `beta-un-lazo-sextico`, `residuos`, `naturalidad-priors`, `suite-apendice-h`, `jax-crosscheck`, `fondo-cosmologico`, `cmb-fsigma8`, `canales-oscuros`, `mass-gap-reticulo`, `qudit-decoherencia`, `qudit-d5`, `dovekie-mocks-pipeline`, `perturbaciones-fsigma8-oos`, `mu-eta-atlas`, `dovekie-real-primera-aplicacion`, `bbn-g-empress`, `atlas-ppn`, `atlas-gauge-invariant`, `cronos-amplitud-unica`, `phi-ten-fondo-ley-cronos`, `diccionario-epsilon-c-saturante`, `criterio-cronos-jeans`, `test-criterio-cronos-jeans`, `test-criterio-cronos-jeans-ronda2`, `criterio-cronos-jeans-ronda3`, `halo-serie-resolucion-campo`, `nucleacion-salida-s0`, `nucleacion-gamma0`, `diagonal-j-requerido`, `vacio-2d-conversion-y-rotacion`, `halo-capas-ronda2`, `cualificacion-laminas-e8q`, `cualificacion-capas-e8q`, `s-clock-simulador-consistencia`, `nivel-a-halo-aislado` |
 | Supuestos: resultados condicionales a hipótesis declaradas | 16 | `rp-no-estacionaria`, `kls-flujo`, `matriz-estabilidad`, `gea-newton-atlas`, `ciclo-victoria`, `circulo-delta0`, `fertilidad`, `cronos-v3`, `ciclo-pm`, `perfil-compuerta`, `jeans-dsph`, `5c-estructural`, `empalme-wkb`, `mu-eta-cronos`, `contenido-materia-lectura-operativa`, `oort-kz-cota-cronos` |
 | Calibraciones: números ajustados o anclados fuera, con estatuto declarado | 4 | `funcional-masas`, `higgs-auditoria`, `wkb-calibrado`, `mapa-s-z-convencion` |
 | Preinscritos: protocolos congelados todavía sin desenlace | 0 | — |
@@ -44,6 +44,7 @@ Lo que refutaría o acotaría cada claim, tal como lo declara el registro, agrup
 | `monotonia-exclusion` | interno | contraejemplo numérico de la monotonía | — |
 | `florencia` | interno | firma distinta de −+++ en la cadena | — |
 | `rp-escalar` | interno | violación de RP en el juguete | — |
+| `beta-un-lazo-sextico` | interno | un error en el teorema de signo (un m̃² con F < 0 para R > R_c) o en las β frente al lado derecho exacto lo refutaría; la conclusión no cubre formas iniciales con R₀ < 25/12, truncamientos más altos, el sector de la inclinación η·χ ni esquemas con anomalía distinta de la LPA | results/2026-10-18_beta_one_loop_sextic |
 | `residuos` | interno | residuo fuera de la banda declarada; exclusión del −1.8 % por BBN al 95 % | results/2026-09-14_bbn_g |
 | `naturalidad-priors` | interno | cota violada bajo priors alternativos declarados | results/2026-08-04_landscape_priors |
 | `suite-apendice-h` | interno | cualquier comprobación del Ap. H en rojo | — |

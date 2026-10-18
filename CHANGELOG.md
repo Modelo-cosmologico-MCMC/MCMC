@@ -6,6 +6,28 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **Cribado de β: criterio (i) en forma integral y candidato 2 excluido por
+  derivación (18-oct, revisión del autor del 30-sep).**
+  `core.beta_candidates.integral_criterion` escribe el criterio (i) como
+  número: I(S) = ln R(S) − ln R(S₀), con R = B²/(4C₀M₀²), debe llegar a
+  −ln R(S₀) (−0.811 con las formas por defecto) antes de M₀² = 0. Se
+  publican la fracción alcanzada y los S de T₀ = 0 (R = 4/3), D = 0 (R = 1)
+  y M₀² = 0; el candidato 1 conserva su criterio congelado.
+  `core/beta_one_loop.py` deriva las β a un lazo (LPA) del séxtico O(N) en
+  dimensión d en dos esquemas declarados. Wetterich con regulador de Litim
+  reproduce 3λ²/(16π²) en d = 4; Polchinski con N = 2 y sin escala es el
+  flujo canónico del reloj. R es invariante bajo toda reescala, así que d
+  no entra en su flujo instantáneo. Teorema de signo: con B, C₀ > 0, R solo
+  crece si R > R_c(N) = (13N + 74)/(12(N + 2)) (Wetterich; N = 2: 25/12) o
+  si R > (N + 4)/(N + 2) con M₀² > 0 (Polchinski). Con las formas por
+  defecto (R₀ = 9/4) y el campo del reloj (N = 2) el candidato 2 no puede
+  producir D = 0 en ninguna d; 24 flujos de verificación llegan a M₀² = 0 con
+  R creciente. El candidato 1, re-corrido en su ventana con el criterio
+  nuevo, tampoco baja R (informativo; su letra no cambia). Fila nueva
+  `beta-un-lazo-sextico` (interno); `decada-discriminante` y
+  `beta-extra-cribado` lo registran; Nota I §3.40; artefacto
+  `results/2026-10-18_beta_one_loop_sextic/`. Sin letra sobre λ.
+
 - **Diccionario: Φ_ten del fondo derivado por la Def. 6.4, un solo hueco
   post-Florencia, y matriz compacta de claims en español e inglés (18-oct,
   revisión del autor del 30-sep).** La Ley de Cronos da N = r/r̄; en el fondo
