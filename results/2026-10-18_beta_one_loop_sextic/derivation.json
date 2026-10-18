@@ -1,0 +1,830 @@
+{
+ "title": "Candidato 2 del cribado de β: β a un lazo (LPA) del séxtico O(N) en d = 1, 2, 3 — derivación y verificación, sin letra",
+ "written_utc": "2026-10-18T12:01:54.906682+00:00",
+ "code_commit": "33dd9f96224d7ad0f5176b51d8197ce62d03235e",
+ "module": "core/beta_one_loop.py",
+ "default_forms": {
+  "m_bar": 1.0,
+  "b_bar": 3.0,
+  "C0": 1.0,
+  "R0": 2.25,
+  "required_integral": -0.8109302162163288
+ },
+ "c_d_litim": {
+  "1": 0.3183098861837907,
+  "2": 0.07957747154594767,
+  "3": 0.016886863940389626,
+  "4": 0.0031662869888230555
+ },
+ "thresholds": {
+  "1": {
+   "R_c_wetterich": 2.4166666666666665,
+   "R_star_polchinski": 1.6666666666666667
+  },
+  "2": {
+   "R_c_wetterich": 2.0833333333333335,
+   "R_star_polchinski": 1.5
+  },
+  "3": {
+   "R_c_wetterich": 1.8833333333333333,
+   "R_star_polchinski": 1.4
+  },
+  "8": {
+   "R_c_wetterich": 1.4833333333333334,
+   "R_star_polchinski": 1.2
+  },
+  "inf": {
+   "R_c_wetterich": 1.0833333333333333,
+   "R_star_polchinski": 1.0
+  }
+ },
+ "wetterich_windows": {
+  "N1_R1.3333": [
+   -0.012458479732739313,
+   0.15957577595540334
+  ],
+  "N1_R1.5000": [
+   -0.005829242733278607,
+   0.13247016937420525
+  ],
+  "N1_R2.0000": [
+   0.010723949878051963,
+   0.07842659679982861
+  ],
+  "N1_R2.2500": [
+   0.019968546768789758,
+   0.057637503872446684
+  ],
+  "N2_R1.3333": [
+   -0.008298890760600483,
+   0.15389276049240128
+  ],
+  "N2_R1.5000": [
+   0.0,
+   0.125
+  ],
+  "N2_R2.0000": [
+   0.02660777107899779,
+   0.060912488240289074
+  ],
+  "N2_R2.2500": null
+ },
+ "F_min_over_all_mass_at_R0": {
+  "1": -0.5393784716668795,
+  "2": 0.7186311803287206
+ },
+ "flows_from_clock_initial_conditions": [
+  {
+   "scheme": "wetterich_litim",
+   "d": 1.0,
+   "N": 1,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0007360348530918675,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0007360348530918675,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -7.275602787029402e-22,
+    0.01529850647600393,
+    1.0059621325244692
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": -4.440892098500627e-16,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "wetterich_litim",
+   "d": 1.0,
+   "N": 1,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0022081290919478886,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0022081290919478886,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -6.172303265520719e-18,
+    0.0458423536556189,
+    1.0363973120724916
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 4.440892098500625e-16,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  },
+  {
+   "scheme": "wetterich_litim",
+   "d": 2.0,
+   "N": 1,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0007363057932206373,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0007363057932206373,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -1.1169797858692864e-21,
+    0.01528725866896759,
+    1.0044829203284846
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 4.440892098500625e-16,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "wetterich_litim",
+   "d": 2.0,
+   "N": 1,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.002210568803983955,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.002210568803983955,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -1.0728631502755894e-17,
+    0.04574146269215827,
+    1.0318354782442294
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 4.440892098500625e-16,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  },
+  {
+   "scheme": "wetterich_litim",
+   "d": 3.0,
+   "N": 1,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.000736576999292598,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.000736576999292598,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    1.4088420010623577e-21,
+    0.015276010861622929,
+    1.003004796218492
+   ],
+   "R_end": 4.128522210688563e+16,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "wetterich_litim",
+   "d": 3.0,
+   "N": 1,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0022130157175004983,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0022130157175004983,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    5.195494578326106e-17,
+    0.04564057140071055,
+    1.0272836988300826
+   ],
+   "R_end": 9757192245471.424,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  },
+  {
+   "scheme": "wetterich_litim",
+   "d": 1.0,
+   "N": 2,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0005281791851890638,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0005281791851890638,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -1.0353576748776839e-17,
+    0.01734450497458107,
+    1.004522688403845
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": -2.220446049250313e-16,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "wetterich_litim",
+   "d": 1.0,
+   "N": 2,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.001583850645743895,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.001583850645743895,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -3.386678762260721e-18,
+    0.05211490973535097,
+    1.0282470075415986
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  },
+  {
+   "scheme": "wetterich_litim",
+   "d": 2.0,
+   "N": 2,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0005283186963787168,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0005283186963787168,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -6.490795129817798e-18,
+    0.017335351224288722,
+    1.003462392908626
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "wetterich_litim",
+   "d": 2.0,
+   "N": 2,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.001585105599339538,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.001585105599339538,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -5.2077382191479585e-17,
+    0.052032563491110115,
+    1.0249975702229457
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  },
+  {
+   "scheme": "wetterich_litim",
+   "d": 3.0,
+   "N": 2,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0005284583058786974,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0005284583058786974,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -4.810937311986444e-18,
+    0.01732619747239267,
+    1.0024026571926776
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "wetterich_litim",
+   "d": 3.0,
+   "N": 2,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0015863632080482532,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0015863632080482532,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -3.1196412962209036e-17,
+    0.05195021710915422,
+    1.0217532726849703
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 2.2204460492503128e-16,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  },
+  {
+   "scheme": "polchinski",
+   "d": 1.0,
+   "N": 1,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0014713912327550128,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0014713912327550128,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -5.489183065702179e-21,
+    0.015342852350292301,
+    1.005900163753069
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": -4.440892098500627e-16,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "polchinski",
+   "d": 1.0,
+   "N": 1,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0044076550634835525,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0044076550634835525,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -4.795945893857049e-19,
+    0.0464376454905313,
+    1.0177116045132577
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 2.2204460492503128e-16,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  },
+  {
+   "scheme": "polchinski",
+   "d": 2.0,
+   "N": 1,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.001472474259694439,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.001472474259694439,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -6.235006749160209e-19,
+    0.015320326806523003,
+    1.0029465405328628
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "polchinski",
+   "d": 2.0,
+   "N": 1,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.004417383025220329,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.004417383025220329,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -4.710029376395225e-18,
+    0.04623431639901677,
+    1.008799088171848
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  },
+  {
+   "scheme": "polchinski",
+   "d": 3.0,
+   "N": 1,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.00147355941514018,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.00147355941514018,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -2.9660747806399133e-21,
+    0.015297801229062734,
+    0.9999972579243692
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "polchinski",
+   "d": 3.0,
+   "N": 1,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0044271684531960115,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0044271684531960115,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    2.262183878967677e-20,
+    0.04603098465081085,
+    0.9999257120252982
+   ],
+   "R_end": 2.3417735672470412e+16,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  },
+  {
+   "scheme": "polchinski",
+   "d": 1.0,
+   "N": 2,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0010560663101126827,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0010560663101126827,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    4.8423764268283605e-21,
+    0.017375483174258077,
+    1.0042310845564302
+   ],
+   "R_end": 1.5521067304263846e+16,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": -2.220446049250313e-16,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "polchinski",
+   "d": 1.0,
+   "N": 2,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0031648447568376897,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0031648447568376897,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -1.516539849970237e-17,
+    0.052458306289236575,
+    1.012682198178208
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 4.440892098500625e-16,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  },
+  {
+   "scheme": "polchinski",
+   "d": 2.0,
+   "N": 2,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0010566241444566241,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0010566241444566241,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -3.3311733242896176e-21,
+    0.017357162566026048,
+    1.0021133708717895
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "polchinski",
+   "d": 2.0,
+   "N": 2,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.003169858156013386,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.003169858156013386,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -4.061795170035796e-20,
+    0.05229307154129522,
+    1.0063024952865225
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  },
+  {
+   "scheme": "polchinski",
+   "d": 3.0,
+   "N": 2,
+   "lam0": [
+    0.0001,
+    0.03,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.0010571827653418557,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.0010571827653418557,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    -9.485362479089397e-22,
+    0.01733884194305348,
+    0.9999978916668116
+   ],
+   "R_end": null,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.01
+  },
+  {
+   "scheme": "polchinski",
+   "d": 3.0,
+   "N": 2,
+   "lam0": [
+    0.0009,
+    0.09,
+    1.0
+   ],
+   "R0": 2.25,
+   "s_end": 0.003174892788823845,
+   "status": "A termination event occurred.",
+   "s_mass_zero": 0.003174892788823845,
+   "s_D_zero": null,
+   "s_T0_zero": null,
+   "s_C_zero": null,
+   "lam_end": [
+    4.5185615533728115e-20,
+    0.05212783568918666,
+    0.9999429303699388
+   ],
+   "R_end": 1.5035018923273658e+16,
+   "integral_criterion": {
+    "required": -0.8109302162163288,
+    "min_integral_while_M_positive": 0.0,
+    "R_monotone_increasing_while_M_positive": true,
+    "fraction_of_required": 0.0,
+    "reached": false
+   },
+   "delta0": 0.03
+  }
+ ],
+ "declared": {
+  "schemes": "Wetterich con regulador de Litim (c_d absorbido) y Polchinski normalizado (a = b = 1/2, el del reloj)",
+  "truncation": "séxtico en x = |φ|² alrededor del origen (el del reloj)",
+  "N": "2 = campo (φ_M, φ_E) del reloj; 1 = «un escalar»",
+  "initial_conditions": "escalado (3.2): M₀² = m̄²δ₀², B = b̄δ₀, C₀; acoplos adimensionales en k = Λ (convención)",
+  "time": "s = ln(Λ/k); en el reloj s = τ·S (diccionario τ no derivado): el flujo de acoplos es autónomo"
+ },
+ "status": "derivación (E8) y verificación numérica; sin letra; no es una corrida preinscrita del reloj"
+}

@@ -51,6 +51,12 @@ from dynamics.weak_field import (
 
 G_KPC = 4.30091e-6      # kpc·(km/s)²/M☉
 A_SCULPTOR = frozen_config().A_sculptor
+# Búsqueda de r_CJ (q = 1): horquilla [r_min, R_SEARCH_MAX_KPC]. Por defecto r_min = ε_soft/10 con el suavizado de
+# producción de las capas del frente 5 (b): por debajo de ε_soft el N-cuerpos no resuelve la cúspide, pero la raíz del
+# criterio CONTINUO se publica igual (revisión del autor, 30-sep). Antes la horquilla empezaba en 0.2 kpc (amplitud
+# principal) y 0.02 kpc (fracciones): r_CJ no existía en el módulo para A ≲ 0.07·A_S ni para 1e-4·A_S.
+EPS_SOFT_PRODUCTION_KPC = 0.1
+R_SEARCH_MAX_KPC = 5.0
 
 STATUS = ("derivación (E8): criterio local de inestabilidad ultravioleta de la ley "
           "ε_c = A·ρ^(3/2); aplicaciones sin datos ingeridos; expectativas declaradas (E13)")
@@ -79,10 +85,18 @@ def growth_rate_over_k(q: float, sigma_kms: float = 1.0) -> float:
 # ------------------------------------------------------------ (1) halo NFW
 def nfw_jeans_table(M200: float = 1e11, c: float = 10.0, H0: float = 67.86705532886631,
                     A: float = A_SCULPTOR, radii_kpc=(0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1.0, 1.5, 2.3, 5.0),
-                    amplitude_factors=(0.1, 0.05), v_well_stop_kms: float = 1000.0) -> dict:
+                    amplitude_factors=(0.1, 0.05), v_well_stop_kms: float = 1000.0,
+                    eps_soft_kpc: float = EPS_SOFT_PRODUCTION_KPC, r_min_kpc: float | None = None) -> dict:
     """q(r) en un NFW isótropo (Jeans) con la amplitud única; r_CJ y la
     masa dentro; r_CJ para fracciones de A; y a qué densidad equivale la
-    regla de parada v_well del Nivel A."""
+    regla de parada v_well del Nivel A.
+
+    r_CJ se busca en [r_min, R_SEARCH_MAX_KPC] con r_min = ε_soft/10 por defecto (o el r_min_kpc dado); la horquilla
+    usada se publica en la salida. Si q ≤ 1 ya en r_min, la raíz (si existe) está por debajo de la horquilla y se
+    devuelve None, nunca un valor extrapolado."""
+    r_min = float(eps_soft_kpc) / 10.0 if r_min_kpc is None else float(r_min_kpc)
+    if not 0.0 < r_min < R_SEARCH_MAX_KPC:
+        raise ValueError(f"r_min = {r_min} kpc fuera de (0, {R_SEARCH_MAX_KPC})")
     rho_crit = 3.0 * (H0 / 1000.0) ** 2 / (8.0 * np.pi * G_KPC)          # M☉/kpc³
     r200 = (3.0 * M200 / (4.0 * np.pi * 200.0 * rho_crit)) ** (1.0 / 3.0)
     rs = r200 / c
@@ -111,19 +125,24 @@ def nfw_jeans_table(M200: float = 1e11, c: float = 10.0, H0: float = 67.86705532
 
     def f_q1(r, fac=1.0):
         return 1.5 * C_KMS ** 2 * fac * A * (rho(r) * 1e-9) ** 1.5 - sig2(r)
-    r_CJ = brentq(f_q1, 0.2, 5.0)
-    r_CJ_frac = {}
-    for fac in amplitude_factors:
-        try:
-            r_CJ_frac[str(fac)] = float(brentq(lambda r: f_q1(r, fac), 0.02, 5.0))
-        except ValueError:
-            r_CJ_frac[str(fac)] = None
+
+    def root(fac):
+        if f_q1(r_min, fac) <= 0.0 or f_q1(R_SEARCH_MAX_KPC, fac) >= 0.0:
+            return None                            # sin cambio de signo en la horquilla publicada
+        return float(brentq(lambda r: f_q1(r, fac), r_min, R_SEARCH_MAX_KPC))
+    r_CJ = root(1.0)
+    r_CJ_frac = {str(fac): root(fac) for fac in amplitude_factors}
     eps_stop = (v_well_stop_kms / C_KMS) ** 2 / 2.0
     rho_stop = (eps_stop / A) ** (2.0 / 3.0)
+    m_cj = None if r_CJ is None else float(M(r_CJ))
     return {"M200": M200, "c": c, "H0": H0, "A": A, "r_s_kpc": rs, "r200_kpc": r200, "rows": rows,
-            "r_CJ_kpc": float(r_CJ), "M_within_r_CJ": float(M(r_CJ)), "r_CJ_for_A_fraction": r_CJ_frac,
+            "r_CJ_kpc": r_CJ, "M_within_r_CJ": m_cj, "r_CJ_for_A_fraction": r_CJ_frac,
+            "r_search_kpc": [r_min, R_SEARCH_MAX_KPC],
+            "r_min_rule": "ε_soft/10 por defecto" if r_min_kpc is None else "r_min dado por el llamador",
+            "eps_soft_kpc": float(eps_soft_kpc),
             "stop_rule": {"v_well_kms": v_well_stop_kms, "eps_c": eps_stop, "rho_msun_pc3": rho_stop,
-                          "r_kpc_holding_M_within_r_CJ": float((3.0 * M(r_CJ) / (4.0 * np.pi * rho_stop * 1e9)) ** (1.0 / 3.0))}}
+                          "r_kpc_holding_M_within_r_CJ": None if m_cj is None else
+                          float((3.0 * m_cj / (4.0 * np.pi * rho_stop * 1e9)) ** (1.0 / 3.0))}}
 
 
 # --------------------------------------------------- (2) vecindad solar

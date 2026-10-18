@@ -83,15 +83,58 @@ def delta_beta(candidate: str, M0_sq: float, B: float, C0: float, *, kappa: floa
     raise ValueError(f"candidato a β desconocido: {candidate!r} (declarados: {', '.join(CANDIDATES)})")
 
 
+R_T0_ZERO = 4.0 / 3.0       # T₀ = V(origen) − V(vacío verdadero) cambia de signo: b̄² = (16/3)·C₀·m̄² ⟺ R = 4/3
+R_D_ZERO = 1.0              # espinodal D = 0 ⟺ R = 1
+
+
+def integral_criterion(S, M0_sq, B, C0) -> dict:
+    """Criterio (i) en forma INTEGRAL (revisión del autor del 30-sep): con R = B²/(4C₀M₀²), D = 4C₀M₀²(R − 1), y
+
+        I(S) = ∫_{S₀}^{S} [2β_B/B − β_{C₀}/C₀ − β_{M₀²}/M₀²] dS = ln R(S) − ln R(S₀)
+
+    (el integrando es d ln R/dS con las β totales, canónicas más candidato), la espinodal exige I = −ln R(S₀) (−0.811 con las
+    formas por defecto) ANTES de M₀² = 0. Se publican el valor exigido, el mínimo de I mientras M₀² > 0 y su fracción del
+    exigido (un número, no solo «cruza / no cruza»), I al final del tramo con M₀² > 0, y los S de T₀ = 0 (R = 4/3), de D = 0
+    (R = 1) y de M₀² = 0. Para las preinscripciones congeladas desde el 18-oct; el cribado del candidato 1 conserva su (i)."""
+    S = np.asarray(S, dtype=float)
+    M = np.asarray(M0_sq, dtype=float)
+    B = np.asarray(B, dtype=float)
+    C = np.asarray(C0, dtype=float)
+    if not (S.shape == M.shape == B.shape == C.shape) or S.size == 0:
+        raise ValueError("integral_criterion: S, M0², B y C0 con la misma longitud, no vacía")
+    i_mass = np.nonzero(M <= 0.0)[0]
+    end = int(i_mass[0]) if i_mass.size else S.size            # tramo con M₀² > 0
+    if end == 0:
+        raise ValueError("integral_criterion: M₀² ≤ 0 ya en el punto inicial")
+    R = B[:end] ** 2 / (4.0 * C[:end] * M[:end])
+    lnR0 = float(np.log(R[0]))
+    required = -lnR0
+    integral = np.log(R) - lnR0
+
+    def first_below(level):
+        idx = np.nonzero(R <= level)[0]
+        return float(S[idx[0]]) if idx.size else None
+    i_min = float(np.min(integral))
+    return {"R_initial": float(R[0]), "required_integral": required,
+            "min_integral_while_M0sq_positive": i_min, "integral_at_end_of_positive_mass": float(integral[-1]),
+            # cerca de M₀² → 0⁺, ln R diverge: el valor final depende del muestreo; la monotonía, no
+            "R_monotone_increasing_while_M0sq_positive": bool(integral.size > 1 and np.all(np.diff(integral) >= -1e-12)),
+            "fraction_of_required": (i_min / required + 0.0) if required != 0.0 else None,     # + 0.0: sin «−0»
+            "reached_before_mass_zero": bool(i_min <= required),
+            "S_T0_zero": first_below(R_T0_ZERO), "S_D_zero": first_below(R_D_ZERO),
+            "S_mass_zero": float(S[i_mass[0]]) if i_mass.size else None,
+            "rule": "criterio (i) integral: I = ln R(S) − ln R(S₀) debe llegar a −ln R(S₀) antes de M₀² = 0; T₀ = 0 en R = 4/3"}
+
+
 def screening_report(S_crossings: list, D: np.ndarray, S: np.ndarray, M0_sq: np.ndarray, thresholds: list,
-                     tol_monotone: float = 0.0) -> dict:
+                     tol_monotone: float = 0.0, B=None, C0=None) -> dict:
     """Los tres criterios del cribado sobre una trayectoria (S, D, M₀²) y sus cruces D = 0.
 
     (i)   monótono: D no sube más de tol_monotone·|D₀| entre muestras antes del primer cruce, y M₀² > 0 en el
           primer cruce (si no hay cruce, (i) es False: no hay nada que cribar);
     (ii)  n_cruces ≥ 3;
     (iii) tabla S_cruce frente a los umbrales y cocientes S_{k+1}/S_k (Década = 10).
-    No decide λ."""
+    Con B y C0 añade el criterio (i) en forma integral (`integral_criterion`) y los S de T₀ = 0 y D = 0. No decide λ."""
     D = np.asarray(D, dtype=float); S = np.asarray(S, dtype=float); M = np.asarray(M0_sq, dtype=float)
     n = len(S_crossings)
     if n:
@@ -104,9 +147,12 @@ def screening_report(S_crossings: list, D: np.ndarray, S: np.ndarray, M0_sq: np.
     else:
         monotone, m_at_first, crit_i = None, None, False
     ratios = [S_crossings[k + 1] / S_crossings[k] for k in range(n - 1)] if n > 1 else []
-    return {"n_crossings": n, "S_crossings": list(S_crossings), "thresholds": list(thresholds),
-            "S_over_threshold": [S_crossings[k] / thresholds[k] for k in range(min(n, len(thresholds)))],
-            "ratios_successive": ratios, "decade_would_be": 10.0,
-            "D_monotone_before_first_crossing": monotone, "M0_sq_at_first_crossing": m_at_first,
-            "criterion_i": crit_i, "criterion_ii": bool(n >= 3), "passes_i_and_ii": bool(crit_i and n >= 3),
-            "status": "cribado diagnóstico (E13): pasa/no pasa (i)–(ii); ninguna letra sobre λ"}
+    out = {"n_crossings": n, "S_crossings": list(S_crossings), "thresholds": list(thresholds),
+           "S_over_threshold": [S_crossings[k] / thresholds[k] for k in range(min(n, len(thresholds)))],
+           "ratios_successive": ratios, "decade_would_be": 10.0,
+           "D_monotone_before_first_crossing": monotone, "M0_sq_at_first_crossing": m_at_first,
+           "criterion_i": crit_i, "criterion_ii": bool(n >= 3), "passes_i_and_ii": bool(crit_i and n >= 3),
+           "status": "cribado diagnóstico (E13): pasa/no pasa (i)–(ii); ninguna letra sobre λ"}
+    if B is not None and C0 is not None:
+        out["criterion_i_integral"] = integral_criterion(S, M, B, C0)
+    return out
