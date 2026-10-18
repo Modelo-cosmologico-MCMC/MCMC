@@ -23,7 +23,10 @@ from core.s_clock import (
     delta0_metastability_max_analytic,
     emergent_diagnostic,
     kappa1_tilt,
+    lapse_ley_de_cronos,
     naturalness_sweep,
+    phi_ten_background,
+    phi_ten_from_lapse,
     radial_landscape,
     run_clock,
     sextic_coupling_dimension,
@@ -109,6 +112,21 @@ def test_delivered_state_declares_unreadable(run):
     hs = run["checks"]["handshake_cosmology"]
     assert hs["newton_seal_9_3"]["pass"] and hs["lcdm_recovery_A_1"]["pass"]
     assert hs["dictionary"]["exists"] is False
+
+
+def test_phi_ten_background_follows_from_def_6_4(run):
+    """Def. 6.4 (N = r/r̄) en el fondo homogéneo: r = r̄ en todo punto ⟹ N ≡ 1 ⟹ Φ_ten = 0 exacto, para cualquier
+    tasa media (derivación del autor, 30-sep). Φ_ten ≠ 0 solo con r ≠ r̄ (perturbaciones); N = 0 congela el tiempo."""
+    for rbar in (1e-6, 1.0, 3.7e4):
+        assert np.all(lapse_ley_de_cronos(np.full(5, rbar), rbar) == 1.0)
+        assert np.all(phi_ten_from_lapse(lapse_ley_de_cronos(np.full(5, rbar), rbar)) == 0.0)
+    assert phi_ten_background() == 0.0
+    assert phi_ten_from_lapse(lapse_ley_de_cronos(2.0, 1.0)) == pytest.approx(np.log(2.0))
+    assert phi_ten_from_lapse(0.0) == -np.inf
+    with pytest.raises(ValueError):
+        lapse_ley_de_cronos(1.0, 0.0)
+    st = run["delivered_state"]
+    assert st["Phi_ten"] == 0.0 and "Def. 6.4" in st["Phi_ten_note"] and "perturbaciones" in st["Phi_ten_note"]
 
 
 def test_emergent_negative_control_frozen_couplings():
