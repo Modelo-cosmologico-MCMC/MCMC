@@ -96,3 +96,30 @@ def test_runs_cite_frozen_sha_lattice_and_filter():
     for p in (OUT / "runs").glob("*.json"):
         d = json.loads(p.read_text(encoding="utf-8"))
         assert d["preregistration_sha256"] == sha and d["lattice_exact"] is True and d["k_cut_frac"] == 0.5, p.name
+
+
+@pytest.mark.skipif(not (OUT / "cj_criterion_round3b.json").exists(), reason="ronda 3b sin analizar")
+def test_round3b_outcome_pinned_indeterminate_by_the_slowest_cell():
+    d = json.loads((OUT / "cj_criterion_round3b.json").read_text(encoding="utf-8"))
+    assert d["outcome"] == "INDETERMINADO" and d["preregistration_sha256"] == _sha(PREREG)
+    assert d["reasons"] == ["fase lineal no resuelta: ['q1.5_n4']"]
+    rows = {r["mode"]: r for r in d["table"]}
+    assert not rows[4]["linear_resolved"] and rows[4]["r2"] < 0.98
+    assert all(rows[n]["linear_resolved"] and rows[n]["rate_within_tol"] for n in (8, 16, 32))
+    assert d["beam_convergence"]["pass"] and d["excluded_cells_a_priori"] == []
+
+
+@pytest.mark.skipif(not (OUT / "diagnostic_band_below_kc.json").exists(), reason="diagnóstico no escrito")
+def test_band_below_kc_diagnostic_has_no_letter_and_reproduces():
+    doc = json.loads((OUT / "diagnostic_band_below_kc.json").read_text(encoding="utf-8"))
+    assert "outcome" not in doc and "verdict" not in doc and "sin letra" in doc["artifact"]
+    assert doc["windows_closed_after_band_nonlinear"] == ["q1.2_n4", "q2.0_n8", "q1.5_n4"]
+    m = _mod("run_cj_round3b")
+    run = json.loads((OUT / "runs" / "q1.5_n4.json").read_text(encoding="utf-8"))
+    t, a, band = m._band_below_kc(run, 4)
+    hi = json.loads(PREREG.read_text(encoding="utf-8"))["windows_and_T"]["q1.5_n4"]["window"][1]
+    i_close = next(i for i, x in enumerate(a) if x >= hi)
+    i_band = next(i for i, x in enumerate(band) if x >= 1e-2)
+    assert t[i_band] == pytest.approx(0.254, abs=1e-3) and t[i_close] == pytest.approx(0.294, abs=1e-3)
+    assert band[i_close] > 0.1
+    assert json.loads((ROUND3 / "cj_criterion_round3.json").read_text(encoding="utf-8"))["outcome"] == "A"

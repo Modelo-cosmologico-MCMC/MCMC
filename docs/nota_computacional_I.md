@@ -1721,6 +1721,79 @@ amplitud pequeña). Fila `criterio-cronos-jeans-ronda3`; artefacto
 `results/2026-09-28_cj_criterion_round3/`; la ronda 2 y la cualificación
 no se tocan.
 
+### 3.39 Test del criterio de Cronos–Jeans, ronda 3b: q = 1.5 — INDETERMINADO por la celda más lenta, y la puerta UV no cubría la banda inestable por debajo de k_c (18-oct-2026)
+
+La revisión del autor del 30-sep pedía q ∈ {0.8, 1.2, 1.5}; la ronda 3
+(§3.37) cubrió 0.8, 1.2 y 2.0, así que faltaba q = 1.5. La regla del
+programa obliga a cualificar antes de preinscribir: una **adenda de
+cualificación** en q = 1.5 con el instrumento de la ronda 3 (dos corridas
+sin siembra; sha256 `1a3283f3d200…`) midió γ_UV = 50.1 sin filtro y 43.5
+con k_c = ½ k_Nyquist, t_uv_nonlinear = 0.632 y 0.723, y la regla de #46
+no excluyó ninguna celda. La preinscripción (sha256 `d0c16affe650…`) se
+congeló después del generador y de la adenda, antes de toda corrida. Usa
+el instrumento, las tolerancias, las puertas y el control de haces de la
+ronda 3, comprobados campo a campo en el candado. Cuatro celdas más el
+control de haces, 1.3–3.6 min cada una, en un núcleo que había dejado
+libre la ronda 3 del halo.
+
+**Resultado bajo la regla congelada: INDETERMINADO.** La puerta de fase
+lineal falla en (q = 1.5, n = 4).
+
+| q | n | γ/k medido | γ/k instrumento (W(k)) | r² | puntos | UV máx (ventana) | fila |
+|---|---|---|---|---|---|---|---|
+| 1.5 | 4 | 0.4212 | 0.3420 | 0.9324 | 166 | 5.5e-3 | **no resuelto** |
+| 1.5 | 8 | 0.3395 | 0.3398 | 1.0000 | 135 | 7.2e-6 | dentro de tol. |
+| 1.5 | 16 | 0.3302 | 0.3312 | 1.0000 | 70 | 7.1e-8 | dentro de tol. |
+| 1.5 | 32 | 0.2924 | 0.2969 | 1.0000 | 40 | 7.4e-8 | dentro de tol. |
+
+Control de haces (n = 8, 512 haces con p = 8): 0.3396 frente a 0.3395,
+0.01 % (tolerancia 2 %). Las tres celdas resueltas quedan a −0.1 %, −0.3 %
+y −1.5 % de la predicción del instrumento. Se publican sin veredicto
+(E13): la regla no da letra con una puerta violada.
+
+**Diagnóstico a posteriori, sin letra** (`scripts/run_cj_round3b.py
+diagnose`, escrito después de ver el resultado). La puerta UV de las
+rondas 3 y 3b mide solo la banda k ≥ k_c. Pero el acoplo efectivo del
+instrumento es q·W(k), con W(k) = sinc⁴(kh/2)·sin(kh)/(kh) (W(k_c) =
+0.42), y todos los modos con q·W(k) > 1 crecen con γ ∝ k, también por
+debajo de k_c. En q = 1.5 son los modos n ≤ 88; el más rápido, n = 51,
+crece 8.5 veces más deprisa que n = 4.
+
+- La rms de esa banda (densidad depositada sin la banda UV ni el modo
+  sembrado) supera el mismo A_nl = 1e-2 en t = 0.254.
+- La ventana de n = 4 cierra en t = 0.294, con la banda ya en 0.11. Para
+  un crecimiento limpio estaba prevista en 0.396.
+- Las celdas n = 8 / 16 / 32 cierran en t = 0.200 / 0.103 / 0.058, antes
+  de que su banda cruce (0.259 / 0.261 / 0.185).
+
+La adenda de cualificación no registraba esa banda, y sin siembra queda
+mucho más abajo: los modos bajos valen ≤ 3.9e-10 en t = 0.4. Con n = 4
+sembrado, n = 32 vale 9.9e-6 ya en t = 0.2.
+
+**Matiz sobre la ronda 3**, con el mismo peso. El mismo diagnóstico sobre
+las corridas de la ronda 3 encuentra dos ventanas que cerraron con la
+banda por debajo de k_c ya por encima de A_nl:
+
+- (q = 1.2, n = 4) con 2.0e-2. En q = 1.2 la banda inestable es n ≤ 59 y
+  el modo más rápido, n = 34, va a 5.8 veces la tasa de n = 4.
+- (q = 2.0, n = 8) con 1.3e-2. En q = 2.0 la banda es n ≤ 114 y n = 66 va
+  a 10.9 veces.
+
+Sus tasas quedaron a +0.9 % y −0.15 % de la predicción, con r² ≥ 0.9998,
+así que la contaminación no se ve en ellas. La letra A de la ronda 3 se
+obtuvo bajo su regla congelada y **no cambia**. Lo que sí queda declarado
+es que su puerta UV no cubría esta banda.
+
+**Lo que se sigue.** La regla de exclusión de #46 no cubre la banda
+inestable por debajo de k_c. Una preinscripción que quiera medir
+(q = 1.5, n = 4) necesita una cualificación que mida esa banda en las
+mismas condiciones de siembra. Qué cambiar en el instrumento (otra
+amplitud de siembra, otro k_c, otro criterio de exclusión) lo decide el
+autor; aquí no se corre nada más. Fila `criterio-cronos-jeans-ronda3b`;
+artefacto `results/2026-10-18_cj_criterion_round3b_q1p5/` (cinco corridas,
+el análisis y el diagnóstico); la ronda 3, la cualificación de láminas y
+su adenda no se tocan.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
