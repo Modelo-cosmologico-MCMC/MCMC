@@ -1929,10 +1929,21 @@ claims:
       brazos A_Sculptor de ds = 0.04 y ε_soft ≤ 0.1 alcanzan el suelo de dt
       antes de salir (regla: la preinscripción debe declarar dt_min ≤ 1e-5,
       con el que la celda ds 0.04 / ε 0.1 sale en 0.551 Myr). 0.05·A_S no
-      sale en ninguna celda dentro del presupuesto (ε_c máx ≤ 4.9e-4). Coste:
-      el rango actualizado multiplica la pared ×3–4 (reordenación en cada
-      subpaso). Ninguna letra ni tolerancia se decide aquí: la cualificación
-      fija qué puertas puede congelar la ronda 3 y cuáles no.
+      sale en ninguna celda dentro del presupuesto (ε_c máx ≤ 4.6e-4; errata
+      del 18-oct, decía 4.9e-4, que es un |ΔE/E|). Coste: el rango
+      actualizado multiplica la pared ×3–4 (reordenación en cada subpaso).
+      Ninguna letra ni tolerancia se decide aquí: la cualificación fija qué
+      puertas puede congelar la ronda 3 y cuáles no. REGLA POR CELDA
+      (revisión del autor del 30-sep, vigente desde el 18-oct para
+      preinscripciones nuevas, no retroactiva): la puerta de una celda es
+      ≥ 3 × el suelo de la misma (brazo, N, ds, ε_soft, rango), evaluado en
+      t_weak para la energía de Cronos, con presupuesto de pared y
+      estacionariedad por celda; fallo cerrado si ninguna corrida de la
+      celda llega al instante de evaluación. Sobre esta cualificación
+      cualifica una de las 17 configuraciones de la ronda 3 del halo (el
+      control de N a A_Sculptor, N = 1e5): la celda de producción a N = 1e6
+      se cortó a 0.167 Myr antes de salir. Una ronda 4 con esa regla
+      necesita una cualificación en sus propias celdas.
     implementation: validation/qualification.py + scripts/qualify_shells.py + cronos/halo_shells.py
     test: tests/test_qualification.py + tests/test_instrument_extensions.py
     observable: "—"
@@ -1942,7 +1953,7 @@ claims:
       (6.8e-6) refutaría el suelo medido; una serie que midiera t_weak
       distinto de 0.15 Myr con dt_max = 0.15 en ε_soft ≤ 0.05 refutaría la
       cuantización declarada (E8-Q, no física)
-    evidence_level: cualificación de instrumento (E8-Q), sin letra — suelos, estacionariedad, salidas y coste medidos; la puerta newtoniana ×3 es inalcanzable para los brazos de Cronos y se publica antes de preinscribir
+    evidence_level: cualificación de instrumento (E8-Q), sin letra — suelos, estacionariedad, salidas y coste medidos; la puerta newtoniana ×3 es inalcanzable para los brazos de Cronos y se publica antes de preinscribir; con la regla por celda solo cualifica 1 de las 17 configuraciones de la ronda 3
     status: interno
     artifact: results/2026-09-28_qualification_shells
 
