@@ -1721,6 +1721,82 @@ amplitud pequeña). Fila `criterio-cronos-jeans-ronda3`; artefacto
 `results/2026-09-28_cj_criterion_round3/`; la ronda 2 y la cualificación
 no se tocan.
 
+### 3.40 Reloj S, frente 2: el criterio (i) del cribado escrito como integral, y el candidato 2 — las β a un lazo del séxtico en d = 1, 2, 3 — excluido por derivación para el campo del reloj (18-oct-2026)
+
+La revisión del autor del 30-sep hizo dos cosas con el cribado de β
+(§3.35). Primero, escribió el criterio (i) como un número. Con
+R = B²/(4C₀M₀²) el discriminante es D = 4C₀M₀²(R − 1), y la espinodal
+exige que la integral de 2β_B/B − β_{C₀}/C₀ − β_{M₀²}/M₀² a lo largo de
+S, que es exactamente ln R(S) − ln R(S₀), llegue a −ln R(S₀) antes de
+que M₀² se anule. Con las formas por defecto (m̄ = 1, b̄ = 3, C₀ = 1)
+R₀ = 9/4 y el valor exigido es −0.811. Por el camino hay un umbral
+anterior: T₀, la profundidad del vacío verdadero respecto del origen,
+cambia de signo en R = 4/3, a 0.523 de distancia en ln R. El cribado
+publica ahora los dos instantes, S(T₀ = 0) y S(D = 0), y la fracción del
+valor exigido que alcanza cada candidato
+(`core.beta_candidates.integral_criterion`, para las preinscripciones
+nuevas; el candidato 1 conserva su criterio congelado).
+
+Segundo, propuso el siguiente candidato: las β a un lazo del potencial
+séxtico en dimensión d = 1, 2, 3, que dependen de d por construcción y no
+son ad hoc. `core/beta_one_loop.py` las deriva en la aproximación de
+potencial local, para el campo O(N) del Basal en x = |φ|², en dos
+esquemas declarados. El de Wetterich con regulador de Litim reproduce
+en d = 4 el coeficiente de libro 3λ²/(16π²). El de Polchinski, con N = 2 y
+sin términos de escala, es exactamente el flujo canónico del reloj. Cada
+β está fijada por un test contra los coeficientes de Taylor del lado
+derecho exacto.
+
+**El resultado es una derivación, no una corrida.** R es invariante bajo
+toda reescala: dimensión canónica, dimensión anómala y normalización del
+campo y del potencial. Los términos de escala se cancelan en d ln R/ds,
+así que la dimensión entra en la trayectoria de los acoplos pero no en el
+flujo instantáneo de R. Las formas cerradas son
+
+| esquema | d ln R/ds |
+|---|---|
+| Polchinski | (8aC₀/B)·[(N+2)R − (N+4)] + 2bM₀²·(12R − 1) |
+| Wetterich (Litim) | 8C₀/(B(1+m̃²)⁴)·F(R, m̃²; N) |
+
+con F = (N+2)R − (N+4)(1+m̃²)² − 48Rm̃² − (N+50)Rm̃⁴ + 12(N+26)R²m̃⁴. El
+discriminante de F en m̃² es −4R²(N+26)(12(N+2)R − (13N+74)), así que
+para R > R_c(N) = (13N + 74)/(12(N + 2)) F es positiva para todo m̃² y R
+solo puede crecer. En Polchinski basta R > (N + 4)/(N + 2) con M₀² > 0.
+
+| N | R_c (Wetterich) | umbral de Polchinski |
+|---|---|---|
+| 1 | 29/12 = 2.417 | 5/3 |
+| 2 | 25/12 = 2.083 | 3/2 |
+| 3 | 1.883 | 7/5 |
+
+El campo del reloj tiene dos componentes (φ_M, φ_E), N = 2, y las formas
+por defecto dan R₀ = 9/4, por encima de 25/12. En los dos esquemas y en
+toda d, R crece, D no cruza cero y la fracción del valor exigido es 0. Con
+un solo escalar (N = 1), la lectura literal de la revisión, hay una
+ventana de masa en la que R decrece (m̃² entre 0.0200 y 0.0577 en
+R = 9/4). Pero desde el escalado (3.2), con M₀² ~ δ₀² y B ~ δ₀, la masa
+cae a cero antes de entrar en ella. La verificación numérica lo
+confirma en 24 flujos (dos esquemas, N = 1 y 2, d = 1, 2, 3 y δ₀ = 0.01 y
+0.03): todos llegan a M₀² = 0 en un tiempo de RG s entre 0.0005 y 0.0044,
+con R creciente y sin T₀ = 0 ni D = 0. En el reloj s = τ·S y el flujo de
+acoplos es autónomo, así que la conclusión vale para todo τ.
+
+El candidato 1, re-corrido en su ventana con el criterio nuevo, da lo
+mismo: la integral nunca baja de cero y ninguna celda alcanza T₀ = 0
+ni D = 0. Su letra congelada, «no pasa», no cambia.
+
+**Lectura.** El umbral R_c(N) dice qué haría falta para que un flujo a un
+lazo empujara hacia la espinodal: formas iniciales con b̄² < (25/3)C₀m̄²
+para N = 2. Con las formas por defecto, el Cruce de Victoria no sale de
+las correcciones a un lazo en ninguna dimensión. Quedan fuera de esta
+conclusión los truncamientos más altos, el sector de la inclinación η·χ
+y los esquemas con dimensión anómala distinta de la LPA. Esquema,
+regulador, truncamiento, N y la lectura de los acoplos del reloj como
+adimensionales en k = Λ son declarados. Es una derivación (E8), sin
+letra sobre λ ni sobre la ley. Fila `beta-un-lazo-sextico` (interno);
+artefacto `results/2026-10-18_beta_one_loop_sextic/`; la fila
+`decada-discriminante` lo registra.
+
 ## 4. Lo que estos resultados NO afirman
 
 - El círculo de δ₀ **no se cerró ni se rompió**: se volvió una ecuación
