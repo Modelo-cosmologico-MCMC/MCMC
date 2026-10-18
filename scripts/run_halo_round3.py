@@ -464,14 +464,95 @@ def cmd_analyze(_args) -> int:
     return 0
 
 
+def _same_cell_runs(qual: dict, spec: dict) -> list:
+    """Corridas de la cualificación en la MISMA celda que el brazo: clase, N, ds, ε_soft y rango actualizado."""
+    cls = spec.get("gate_class") or _arm_class(spec)
+    return [r for r in qual["runs"] if r["arm"] == cls and r["N"] == spec["N"] and abs(r["ds"] - spec["ds"]) < 1e-12
+            and abs(r["eps_soft"] - spec["eps_soft"]) < 1e-12 and bool(r["rank_update"])]
+
+
+def cmd_cells(_args) -> int:
+    """Tabla SIN LETRA anunciada en declaracion_previa_segunda_ejecucion.md (§3), escrita antes de que terminaran las
+    corridas: |ΔE/E| de cada brazo junto al suelo de la celda equivalente de la cualificación, con el criterio de la
+    revisión del autor del 30-sep (misma celda; mismo instante de evaluación: t_weak para los brazos de Cronos, t_end
+    para el newtoniano; varias corridas de la celda: el mayor suelo). La regla congelada, sus puertas por clase y su
+    letra no cambian: esta tabla no es una puerta ni entra en el desenlace."""
+    pre, psha = _load_prereg()
+    qual = load_qualification(QUALIFICATION)
+    if qual["_sha256"] != pre["qualification"]["sha256"]:
+        raise SystemExit("FALLO CERRADO: la cualificación de capas no es la que cita la preinscripción")
+    G, arms = pre["gates"], pre["arms"]
+    weak_max = pre["instrument"]["weak_regime_eps_max"]
+    rows, missing = {}, []
+    for arm, spec in arms.items():
+        p = RUNS / f"{arm}.json"
+        if not p.exists():
+            missing.append(arm)
+            continue
+        d = json.loads(p.read_text(encoding="utf-8"))
+        if d.get("preregistration_sha256") != psha:
+            raise SystemExit(f"FALLO CERRADO: {p.name} cita otra preinscripción")
+        key = "E_self" if spec["cronos"] else "E_grav_only"
+        e = [s["energy"][key] for s in d["snapshots"]]
+        dE = max(abs(x - e[0]) / abs(e[0]) for x in e)
+        cls = spec.get("gate_class") or _arm_class(spec)
+        evaluation = "t_weak" if spec["cronos"] else "t_end"
+        t_eval_myr = None if spec["cronos"] else spec["t_end_gyr"] * 1000.0
+        t_weak = _exit(d, weak_max)[0]
+        arm_reached = (t_weak is not None) if spec["cronos"] else bool(d["t_final_gyr"] * 1000.0 >= t_eval_myr * (1.0 - 1e-9))
+        same = _same_cell_runs(qual, spec)
+        if spec["cronos"]:
+            reached = [r for r in same if r.get("t_weak_myr") is not None]
+        else:
+            reached = [r for r in same if r.get("t_final_myr") is not None and r["t_final_myr"] >= t_eval_myr * (1.0 - 1e-9)]
+        status = "cualificada" if reached else ("sin celda equivalente" if not same else "no llegó al instante de evaluación")
+        floor = max(float(r["dE_rel_max"]) for r in reached) if reached else None
+        rows[arm] = {"cell": {"class": cls, "N": spec["N"], "ds": spec["ds"], "eps_soft": spec["eps_soft"], "rank_update": True},
+                     "evaluation": evaluation, "t_eval_myr": t_eval_myr, "dE_rel_max": dE, "arm_reached_evaluation": arm_reached,
+                     "t_weak_myr": None if t_weak is None else t_weak * 1000.0, "t_final_myr": d["t_final_gyr"] * 1000.0,
+                     "stop_reason": d["stop_reason"], "frozen_class_gate": G["tol_E_by_class"][cls],
+                     "qualification_status": status, "cell_floor": floor, "ratio_to_cell_floor": None if floor is None else dE / floor,
+                     "qualification_runs_same_cell": [{k: r.get(k) for k in ("key", "t_weak_myr", "t_final_myr", "dE_rel_max", "stop_reason", "wall_s")}
+                                                      for r in same]}
+    res = {"artifact": "tabla sin letra (declarada el 18-oct antes de la segunda ejecución); no es una puerta ni entra en el desenlace",
+           "preregistration_sha256": psha, "qualification_sha256": qual["_sha256"], "code_commit": _git_head(),
+           "written_utc": datetime.now(timezone.utc).isoformat(), "missing_runs": missing,
+           "criterion": "misma celda (clase, N, ds, ε_soft, rango actualizado) y mismo instante de evaluación (Cronos: t_weak; newtoniano: t_end); "
+                        "suelo = el mayor |ΔE/E| de las corridas de la celda que llegaron a ese instante",
+           "rows": rows,
+           "counts": {s: sum(1 for r in rows.values() if r["qualification_status"] == s)
+                      for s in ("cualificada", "no llegó al instante de evaluación", "sin celda equivalente")}}
+    (OUTDIR / "per_cell_energy.json").write_text(json.dumps(res, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    md = ["# Ronda 3 del halo — |ΔE/E| por celda frente a la cualificación (sin letra)", "",
+          "Tabla anunciada en `declaracion_previa_segunda_ejecucion.md` antes de la segunda ejecución. **No es una puerta ni cambia el "
+          "desenlace**: la letra la da `halo_round3.json` con la regla congelada (puertas por clase de brazo). Criterio de la revisión del "
+          f"autor del 30-sep: {res['criterion']}. Preinscripción `{psha[:12]}`; cualificación `{qual['_sha256'][:12]}`; "
+          f"corridas ausentes: {missing or 'ninguna'}.", "",
+          "| brazo | clase | N | ds | ε_soft | evaluación | \\|ΔE/E\\| del brazo | llegó | puerta congelada (clase) | celda en la cualificación | suelo de la celda | cociente |",
+          "|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    for arm, r in rows.items():
+        c = r["cell"]
+        fl = "—" if r["cell_floor"] is None else f"{r['cell_floor']:.2e}"
+        ra = "—" if r["ratio_to_cell_floor"] is None else f"{r['ratio_to_cell_floor']:.2f}"
+        md.append(f"| {arm} | {c['class']} | {c['N']} | {c['ds']} | {c['eps_soft']} | {r['evaluation']} | {r['dE_rel_max']:.2e} | "
+                  f"{'sí' if r['arm_reached_evaluation'] else 'no'} | {r['frozen_class_gate']:.2e} | {r['qualification_status']} | {fl} | {ra} |")
+    md += ["", "Recuento: " + "; ".join(f"{k}: {v}" for k, v in res["counts"].items()) + ".", "",
+           "Una celda «no llegó al instante de evaluación» tiene corridas en la cualificación, pero ninguna salió del régimen débil (Cronos) "
+           "o llegó a t_end (newtoniano) dentro de su pared; sus |ΔE/E| están en `per_cell_energy.json` y no son un suelo en t_weak."]
+    (OUTDIR / "per_cell_energy.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    print(f"tabla por celda (sin letra): {res['counts']}; ausentes: {missing or 'ninguna'}")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("prereg")
     r = sub.add_parser("run"); r.add_argument("--arms", type=str, default="")
     sub.add_parser("analyze")
+    sub.add_parser("cells")
     args = ap.parse_args()
-    return {"prereg": prereg, "run": cmd_run, "analyze": cmd_analyze}[args.cmd](args)
+    return {"prereg": prereg, "run": cmd_run, "analyze": cmd_analyze, "cells": cmd_cells}[args.cmd](args)
 
 
 if __name__ == "__main__":
