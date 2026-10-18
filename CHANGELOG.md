@@ -25,6 +25,35 @@ estado en que afirme exactamente lo que hace»).
   de no divergencia, de cobertura de filas, de fallo cerrado y de lenguaje
   del marco. README actualizado.
 
+- **Regla de puertas por celda (18-oct, revisión del autor del 30-sep a #46)**,
+  para las preinscripciones nuevas y no retroactiva: la ronda 3 del halo se
+  congeló el 30-sep con la regla por clase y la conserva. En
+  `validation/qualification.py`, la puerta de energía de una celda es ≥ 3 ×
+  el suelo de la misma celda (brazo, N, ds, ε_soft, rango), evaluado en
+  t_weak para los brazos de Cronos (`assert_cell_gate_attainable`). El
+  presupuesto de pared se declara por celda (`assert_wall_budget_attainable`)
+  y la estacionariedad newtoniana se exige por celda
+  (`assert_cell_stationarity_attainable`). Todo falla cerrado si ninguna
+  corrida de la celda llega al instante de evaluación; `cell_report` da el
+  diagnóstico sin fallar. Sobre la cualificación de capas del 28-sep, la regla
+  cualifica 1 de las 17 configuraciones de la ronda 3 (el control de N a
+  A_Sculptor): una ronda 4 necesita antes una cualificación en sus propias
+  celdas. Erratas: el ε_c máximo a 0.05·A_Sculptor en esa cualificación es
+  4.6e-4, no 4.9e-4 (Nota I §3.36 y fila `cualificacion-capas-e8q`). Nota I
+  §3.36, adenda del 18-oct; tests nuevos, incluidos los que fijan la
+  consecuencia sobre el artefacto congelado.
+
+- **Criterio de Cronos–Jeans: r_min como argumento (18-oct, revisión del autor del
+  30-sep).** `dynamics.cronos_jeans.nfw_jeans_table` busca r_CJ en
+  [r_min, 5] kpc con r_min = ε_soft/10 por defecto (0.01 kpc con el suavizado
+  de producción de 0.1 kpc) o el `r_min_kpc` dado, y publica la horquilla
+  (`r_search_kpc`, `r_min_rule`). Si q ≤ 1 ya en r_min devuelve None, nunca un
+  valor extrapolado. Antes la horquilla empezaba en 0.2 kpc para la amplitud
+  principal y en 0.02 kpc para las fracciones. Con la nueva, r_CJ(10⁻⁴·A_S) =
+  0.0115 kpc reproduce el valor del autor (0.011), que la adenda del informe
+  integral daba como no reproducible; r_CJ(A_S) = 0.709 kpc no cambia. Nota
+  fechada en el informe integral §18; tests nuevos.
+
 ## Sin publicar — septiembre de 2026
 
 - **Test del criterio de Cronos–Jeans, ronda 3 (30-sep, PR-4): desenlace A

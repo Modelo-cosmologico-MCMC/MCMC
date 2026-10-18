@@ -4,7 +4,7 @@
 
 Assumptions, completed derivations, calibrations, falsifiers and gaps, on one page. Every cell is generated from the canonical registry (`docs/claims_registry.yaml`) and the dictionary bridges table (`docs/diccionario_puentes.md`): what is shown is the registry, not a narrative. Statuses follow the epistemological errata FE-08-2026: "internal" means an internal consistency check passed (E8), never a physical demonstration. The registry is written in Spanish; the frame and the status vocabulary are translated here, and the per-claim texts are quoted verbatim in Spanish from the registry, which remains the source.
 
-Source: `docs/claims_registry.yaml`, sha256 `0ae29bb650e33e8ca7152c32a64ec9ef2040dc52d23e27cb50ea0430e6b0dbf4`; 72 rows.
+Source: `docs/claims_registry.yaml`, sha256 `15b17577086b9c13eca111409fc0e22a976f5d042bec6446eaab8a188060f31a`; 72 rows.
 
 ## 1. Matrix by category
 

@@ -45,6 +45,27 @@ def test_nfw_nivelA_reproduces_author_control():
     assert n["stop_rule"]["rho_msun_pc3"] == pytest.approx(4.32, rel=0.02)
 
 
+def test_r_cj_search_floor_is_eps_soft_over_ten_and_published():
+    """r_min = ε_soft/10 por defecto (revisión del autor del 30-sep); la horquilla se publica; con ella se reproduce
+    r_CJ(1e-4·A_S) ≈ 0.011 kpc, que la horquilla anterior (desde 0.02 kpc) no podía encontrar."""
+    n = nfw_jeans_table(amplitude_factors=(1e-4, 1e-5))
+    assert n["r_search_kpc"] == [pytest.approx(0.01), 5.0] and n["r_min_rule"] == "ε_soft/10 por defecto"
+    assert n["r_CJ_for_A_fraction"]["0.0001"] == pytest.approx(0.0115, abs=5e-4)
+    assert n["r_CJ_for_A_fraction"]["1e-05"] is None               # raíz por debajo de la horquilla: None, no extrapolada
+    low = nfw_jeans_table(amplitude_factors=(1e-5,), r_min_kpc=1e-3)
+    assert low["r_search_kpc"][0] == pytest.approx(1e-3) and low["r_CJ_for_A_fraction"]["1e-05"] == pytest.approx(0.0043, abs=3e-4)
+    assert nfw_jeans_table(eps_soft_kpc=0.2, amplitude_factors=())["r_search_kpc"][0] == pytest.approx(0.02)
+
+
+def test_main_r_cj_exists_for_small_amplitudes():
+    """La amplitud principal ya no exige r_CJ > 0.2 kpc: a 0.05·A_S coincide con la fracción 0.05 de A_S."""
+    small = nfw_jeans_table(A=0.05 * A_SCULPTOR, amplitude_factors=())
+    assert small["r_CJ_kpc"] == pytest.approx(nfw_jeans_table()["r_CJ_for_A_fraction"]["0.05"], rel=1e-9)
+    assert small["M_within_r_CJ"] > 0.0 and small["stop_rule"]["r_kpc_holding_M_within_r_CJ"] > 0.0
+    with pytest.raises(ValueError):
+        nfw_jeans_table(r_min_kpc=0.0)
+
+
 def test_solar_neighbourhood_reproduces_author_control():
     s = solar_neighbourhood_table()
     assert s["oort_limit_cronos_msun_pc3"] == pytest.approx(0.75, abs=0.02)
