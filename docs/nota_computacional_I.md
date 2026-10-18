@@ -1642,7 +1642,8 @@ queda cuantizado por el paso, no medido, y el barrido de suavizado de la
 ronda 3 debe declarar dt_max ≪ 0.15 Myr. Con dt_min = 1e-4 los brazos
 A_S de ds = 0.04 y ε_soft ≤ 0.1 tocan el suelo de dt antes de salir
 (regla: dt_min ≤ 1e-5). 0.05·A_S no sale en ninguna celda dentro del
-presupuesto (ε_c máx ≤ 4.9e-4). El rango actualizado cuesta ×3–4 en
+presupuesto (ε_c máx ≤ 4.6e-4; errata del 18-oct: decía 4.9e-4, que es el
+|ΔE/E| de una corrida, no un ε_c). El rango actualizado cuesta ×3–4 en
 pared.
 
 **Lectura.** Nada de esto es física ni letra: es lo que el instrumento
@@ -1654,6 +1655,43 @@ rango medido — eso es lo que la ronda 3 preinscribe. Filas
 `cualificacion-laminas-e8q` y `cualificacion-capas-e8q`; artefactos
 `results/2026-09-28_qualification_sheets/` y
 `results/2026-09-28_qualification_shells/`.
+
+**Adenda (18-oct-2026): la regla de puertas por celda.** La revisión del
+autor del 30-sep pidió cuatro cambios en la regla de puertas, ninguno en
+los artefactos. Llegó después de que #46 se fusionara y de que la ronda 3
+del halo se congelara con la regla por clase, así que no se aplica a esa
+ronda. Desde el 18-oct rige para las preinscripciones nuevas
+(`validation/qualification.py`):
+
+1. La puerta de energía de una celda es ≥ 3 × el suelo medido en la
+   **misma** celda, definida por (brazo, N, ds, ε_soft, rango), y no el
+   máximo de la rejilla.
+2. La puerta de energía de los brazos de Cronos se evalúa en **t_weak**.
+   Solo cuentan las corridas de la celda que salieron del régimen débil;
+   las cortadas antes por pared o por el suelo de dt no miden ese suelo.
+3. El presupuesto de pared se declara **por celda** y es alcanzable si la
+   misma celda llegó a su instante de evaluación con ese presupuesto.
+4. La estacionariedad newtoniana se exige **por celda**, medida hasta el
+   mismo instante.
+
+Si ninguna corrida de la celda llega al instante de evaluación, la puerta
+no se puede congelar (fallo cerrado). Con celdas idénticas, la puerta por
+celda comprueba que la corrida preinscrita no es peor que la de la
+cualificación en la misma configuración; la conservación absoluta la
+publica la cualificación.
+
+Aplicada a las 17 configuraciones de la ronda 3 del halo, la cualificación
+del 28-sep cualifica **una**: el control de N a A_Sculptor (N = 1e5). La
+celda de producción a A_Sculptor (N = 1e6) se cortó a 0.167 Myr, antes de
+salir, y 0.05·A_Sculptor no salió en ninguna celda. Ni siquiera tomando
+N = 1e5 como equivalente pasan de cinco brazos de Cronos, ninguno a
+0.05·A_Sculptor ni saturante. Una
+ronda 4 con esta regla necesita antes una cualificación en sus propias
+celdas, hasta t_weak y con presupuestos por celda. Dos precisiones a la
+revisión: el presupuesto de pared cortó 21 corridas de la cualificación
+(6 a A_Sculptor, una de ellas la de N = 1e6, 13 a 0.05·A_Sculptor y 2
+newtonianas), no nueve; y la peor estacionariedad newtoniana, 0.099 dex,
+es la de ε_soft = 0.025, no la de 0.2, que da 0.009 dex.
 
 ### 3.37 Test del criterio de Cronos–Jeans, ronda 3: con la banda ultravioleta controlada y la celda lenta excluida a priori, las once celdas reproducen la cinética exacta — desenlace A bajo la regla congelada (30-sep-2026)
 
