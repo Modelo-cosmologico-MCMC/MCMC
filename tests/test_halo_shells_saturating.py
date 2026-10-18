@@ -26,17 +26,24 @@ def test_saturating_G_matches_quadrature_and_form_functions():
         KernelCronosField(1.0, 0.1, 0.04, eps_form="otra")
 
 
+def _central_difference(f, r, m, i, h):
+    rp = r.copy(); rp[i] += h; f.update(rp, m, 0.0); Up = f.U_self_bins()
+    rm = r.copy(); rm[i] -= h; f.update(rm, m, 0.0); Um = f.U_self_bins()
+    return (Up - Um) / (2.0 * h)
+
+
 def _force_is_gradient(form_kwargs):
     rng = np.random.default_rng(5)
     r = np.sort(rng.uniform(0.05, 3.0, 400)); m = np.full(400, 2.5e8)      # M☉, kpc: ρ ~ 1e-2–1 M☉/pc³ en el centro
     f = KernelCronosField(1.0, eps_soft=0.1, ds=0.04, **form_kwargs)
     f.update(r, m, 0.0)
     U0 = f.U_self_bins()
-    i, h = 7, 1e-6
+    i, h = 7, 1e-4
     a_i = C_KMS ** 2 * f.deps_c_dr(np.array([r[i]]))[0]                   # aceleración de Cronos en la capa i (km/s)²/kpc
-    rp = r.copy(); rp[i] += h; f.update(rp, m, 0.0); Up = f.U_self_bins()
-    rm = r.copy(); rm[i] -= h; f.update(rm, m, 0.0); Um = f.U_self_bins()
-    dU_dr = (Up - Um) / (2.0 * h)
+    # Richardson sobre la diferencia centrada (h y h/2): quita el término O(h²) sin bajar a pasos donde manda el redondeo.
+    # Con la forma saturante, mover la capa 1e-6 kpc cambia U en 4.7e-12 relativo y el redondeo de U ya es ~1e-5 del
+    # cociente (medido: h = 0.9e-6 / 1.0e-6 / 1.1e-6 kpc dan −1.3e-5 / −0.55e-5 / −1.5e-5)
+    dU_dr = (4.0 * _central_difference(f, r, m, i, h / 2.0) - _central_difference(f, r, m, i, h)) / 3.0
     return a_i, -dU_dr / m[i], U0
 
 
