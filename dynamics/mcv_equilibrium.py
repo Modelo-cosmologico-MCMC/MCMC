@@ -181,13 +181,40 @@ def _residuals_exact(x, halo, sigma_over_m, t_age, plummer, rho_E):
     return [math.log(prof["rho_M"][0] / rho1), math.log(prof["M_M"][0] / float(nfw_mass(r1, halo["rho_s"], halo["r_s"])))]
 
 
+def _bilinear_common_zero(a, b, margin: float = 1.0) -> bool:
+    """¿Tienen los interpolantes bilineales de f1 y f2 en una celda (esquinas [[f00, f01], [f10, f11]]) un cero común
+    dentro de la celda ampliada [−margin, 1 + margin]²? (Las raíces de la cuadrática que deja eliminar s.)"""
+    def coef(f):
+        return f[0, 0], f[1, 0] - f[0, 0], f[0, 1] - f[0, 0], f[1, 1] - f[1, 0] - f[0, 1] + f[0, 0]
+    A1, B1, C1, D1 = coef(a)
+    A2, B2, C2, D2 = coef(b)
+    q2, q1, q0 = C2 * D1 - D2 * C1, A2 * D1 + C2 * B1 - B2 * C1 - D2 * A1, A2 * B1 - B2 * A1
+    if abs(q2) > 1e-300:
+        disc = q1 * q1 - 4.0 * q2 * q0
+        ts = [] if disc < 0.0 else [(-q1 + math.sqrt(disc)) / (2.0 * q2), (-q1 - math.sqrt(disc)) / (2.0 * q2)]
+    else:
+        ts = [-q0 / q1] if abs(q1) > 1e-300 else []
+    for t in ts:
+        if not -margin <= t <= 1.0 + margin:
+            continue
+        den, num = (B1 + D1 * t, A1 + C1 * t) if abs(B1 + D1 * t) > 1e-300 else (B2 + D2 * t, A2 + C2 * t)
+        if abs(den) < 1e-300 or -margin <= -num / den <= 1.0 + margin:
+            return True
+    return False
+
+
 def jeans_match(M200: float, c: float, sigma_over_m, t_age: float = T_AGE_DEFAULT, H0: float = H0_DEFAULT,
                 plummer: dict | None = None, rho_E: float = 0.0, sigma0_range=(0.5, 300.0), u_range=(1.0 + 1e-6, 1e10),
-                n_sigma: int = 72, n_u: int = 140) -> dict:
+                n_sigma: int = 72, n_u: int = 140, prefilter: bool = False) -> dict:
     """Empalme de Jeans isotermo con la envoltura NFW (M200, c): TODAS las soluciones (σ₀, ρ₀) en la rejilla, refinadas.
 
     Cada rama trae σ₀ (km/s), ρ₀ (M☉/kpc³), r₁ (kpc), r_c (kpc, ρ = ρ₀/2), la densidad y la masa en r₁ y su clase:
-    'con núcleo' la de menor ρ₀, 'densa' las demás. Sin solución en la rejilla, la lista va vacía (se declara)."""
+    'con núcleo' la de menor ρ₀, 'densa' las demás. Sin solución en la rejilla, la lista va vacía (se declara).
+
+    prefilter=True refina solo las celdas candidatas cuyo cero común bilineal cae en la celda o en sus vecinas: evita
+    los refinamientos redundantes cuando las curvas f1 = 0 y f2 = 0 corren casi paralelas (ramas densas). Con él se
+    pierden, a lo sumo, raíces FUERA de la rejilla que la búsqueda exhaustiva encuentra por azar (u > u_max); dentro de
+    la rejilla, las mismas ramas (tests/test_mcv_sculptor.py). Por defecto, la búsqueda exhaustiva."""
     halo = nfw_halo(M200, c, H0)
     sig = np.geomspace(*sigma0_range, n_sigma)
     u = np.geomspace(*u_range, n_u)
@@ -198,7 +225,7 @@ def jeans_match(M200: float, c: float, sigma_over_m, t_age: float = T_AGE_DEFAUL
             a, b = f1[i:i + 2, j:j + 2], f2[i:i + 2, j:j + 2]
             if not (np.all(np.isfinite(a)) and np.all(np.isfinite(b))):
                 continue
-            if a.min() < 0.0 < a.max() and b.min() < 0.0 < b.max():
+            if a.min() < 0.0 < a.max() and b.min() < 0.0 < b.max() and (not prefilter or _bilinear_common_zero(a, b)):
                 cands.append((math.log(math.sqrt(sig[i] * sig[i + 1])), math.log(math.sqrt(u[j] * u[j + 1]))))
     sols = []
     for x0 in cands:
