@@ -206,6 +206,10 @@ def cmd_analyze(_args) -> int:
             cells.append({"delta0": d0, "reset": reset, **L, "s_crossings": c, "stop": rec["cubic"]["stop"],
                           "s_crossings_quartic": rec["quartic"]["crossings"], "criterion_i": rec["cubic"].get("criterion_i"),
                           "criterion_i_integral": rec["cubic"].get("criterion_i_integral"),
+                          # lectura exacta de (i) integral (añadida tras ver los números; no toca la letra): R llega a 1
+                          # antes de M₀² = 0 ⟺ el primer cruce D = 0 ocurre con M₀² > 0. El campo de integral_criterion se
+                          # evalúa en una malla que termina en el cruce y su último punto depende del redondeo (R = 1 ± ε)
+                          "criterion_i_integral_exact": bool(c) and rec["cubic"]["lam_at_crossings"][0][0] > 0.0,
                           "criterion_ii": len(c) >= 3,
                           "criterion_iii": {"tau_placing_S1_at_0.009": tau_star,
                                             "S_at_that_tau": [s / tau_star for s in c] if tau_star else [],
@@ -234,7 +238,19 @@ def cmd_analyze(_args) -> int:
     md += ["", "## Reloj completo (complemento, sin letra)", ""] + [
         f"- δ₀ = {k['delta0']:g}, τ = {k['tau']:g}, escalón {'sí' if k['reset'] else 'no'}: {k['stop_reason']}; cruces S = "
         f"{[round(x, 6) for x in k['S_crossings']]}; inestabilidades de masa {k['n_mass_instabilities']}" for k in clocks]
-    md += ["", f"**Lectura**: {doc['reading']}."]
+    md += ["", "## Criterios de PR-6 (sin letra)", "",
+           "- (i), forma integral exacta (R llega a 1 antes de M₀² = 0, es decir, primer cruce con M₀² > 0): "
+           + ", ".join(f"δ₀ = {c['delta0']:g}/{'sí' if c['reset'] else 'no'}: {c.get('criterion_i_integral_exact')}" for c in cells) + ".",
+           "- (i), forma original (D monótono hasta el primer cruce): "
+           + ", ".join(f"{c['delta0']:g}/{'sí' if c['reset'] else 'no'}: {(c.get('criterion_i') or {}).get('D_monotone_decreasing_to_first_crossing')}"
+                       for c in cells) + ". Hacia el UV, D = 4C₀M₀²(R − 1) crece al principio aunque R decrezca, porque C₀M₀² crece.",
+           "- (iii): con el τ que pondría el primer cruce en S = 0.009, los otros dos caen en "
+           + "; ".join(f"{', '.join(f'{x:.4g}' for x in c['criterion_iii']['S_at_that_tau'])}" for c in cells if len(c.get('s_crossings', [])) >= 3)
+           + " (la Década pediría 0.099 y 0.999).", "",
+           "Nota del reloj completo: con τ = 1 y escalón, el segundo «cruce» en S = 624.8 cae en un único paso tras la reposición de "
+           "M₀² (el paisaje cambia tanto que dS de un paso supera el fin del recorrido): límite del instrumento, sin letra. Con "
+           "τ ≤ 0.1 el reloj termina en S = 1.001 antes de s = S·τ ≈ 0.17–0.19; con τ = 1 y δ₀ ≤ 0.01 agota max_steps antes.", ""]
+    md += [f"**Lectura**: {doc['reading']}."]
     (OUTDIR / "analysis.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print(f"sin escalón: {per_arm['reset_0']}; con escalón: {per_arm['reset_1']}")
     return 0

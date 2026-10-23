@@ -1,0 +1,764 @@
+{
+  "prereg_sha256": "0eb5b7b6036c957ab9c983f821293403e4ebed6a0de5ade74c3471cedfb69020",
+  "code_commit": "3c50b265ff6661476a06c132dadad18186a985f0",
+  "analyzed_utc": "2026-10-23T17:14:00.766192+00:00",
+  "letters_by_sub_arm": {
+    "reset_0": "C",
+    "reset_1": "C"
+  },
+  "worst_over_all_cells_reading": "C",
+  "cells": [
+    {
+      "delta0": 0.003,
+      "reset": false,
+      "n_crossings": 1,
+      "ratios": [],
+      "ratios_quartic": [],
+      "letter": "C",
+      "reason": "1 cruces (< 3)",
+      "s_crossings": [
+        0.18707489603227231
+      ],
+      "stop": "divergencia del flujo truncado (|λ_i| > 1e+08·escala)",
+      "s_crossings_quartic": [
+        0.12029476763087296
+      ],
+      "criterion_i": {
+        "D_monotone_decreasing_to_first_crossing": false,
+        "M0_sq_positive_at_first_crossing": true
+      },
+      "criterion_i_integral": {
+        "R_initial": 2.250000000000001,
+        "required_integral": -0.8109302162163292,
+        "min_integral_while_M0sq_positive": -0.8109302162163297,
+        "integral_at_end_of_positive_mass": -0.8109302162163297,
+        "R_monotone_increasing_while_M0sq_positive": false,
+        "fraction_of_required": 1.0000000000000004,
+        "reached_before_mass_zero": true,
+        "S_T0_zero": 0.11529578384780365,
+        "S_D_zero": 0.18707489603227231,
+        "S_mass_zero": null,
+        "rule": "criterio (i) integral: I = ln R(S) − ln R(S₀) debe llegar a −ln R(S₀) antes de M₀² = 0; T₀ = 0 en R = 4/3"
+      },
+      "criterion_i_integral_exact": true,
+      "criterion_ii": false,
+      "criterion_iii": {
+        "tau_placing_S1_at_0.009": 20.786099559141366,
+        "S_at_that_tau": [
+          0.009000000000000001
+        ],
+        "decade_thresholds": [
+          0.009000000000000001,
+          0.099,
+          0.999
+        ],
+        "ratios_successive": []
+      }
+    },
+    {
+      "delta0": 0.003,
+      "reset": true,
+      "n_crossings": 3,
+      "ratios": [
+        1.412274815155126,
+        1.154694622445728
+      ],
+      "ratios_quartic": [
+        1.4651155617285576,
+        1.1896974403641503
+      ],
+      "truncation_rel": [
+        0.03741534296752813,
+        0.03031348482794849
+      ],
+      "letter": "C",
+      "reason": "algún cociente fuera de [3, 30]",
+      "s_crossings": [
+        0.18707489603227231,
+        0.2642011642141418,
+        0.30507166356197024
+      ],
+      "stop": "3 cruces",
+      "s_crossings_quartic": [
+        0.12029476763087296,
+        0.17624573605051275,
+        0.20967910105439067
+      ],
+      "criterion_i": {
+        "D_monotone_decreasing_to_first_crossing": false,
+        "M0_sq_positive_at_first_crossing": true
+      },
+      "criterion_i_integral": {
+        "R_initial": 2.250000000000001,
+        "required_integral": -0.8109302162163292,
+        "min_integral_while_M0sq_positive": -0.8109302162163297,
+        "integral_at_end_of_positive_mass": -0.8109302162163297,
+        "R_monotone_increasing_while_M0sq_positive": false,
+        "fraction_of_required": 1.0000000000000004,
+        "reached_before_mass_zero": true,
+        "S_T0_zero": 0.11529578384780365,
+        "S_D_zero": 0.18707489603227231,
+        "S_mass_zero": null,
+        "rule": "criterio (i) integral: I = ln R(S) − ln R(S₀) debe llegar a −ln R(S₀) antes de M₀² = 0; T₀ = 0 en R = 4/3"
+      },
+      "criterion_i_integral_exact": true,
+      "criterion_ii": true,
+      "criterion_iii": {
+        "tau_placing_S1_at_0.009": 20.786099559141366,
+        "S_at_that_tau": [
+          0.009000000000000001,
+          0.012710473336396135,
+          0.014676715210276428
+        ],
+        "decade_thresholds": [
+          0.009000000000000001,
+          0.099,
+          0.999
+        ],
+        "ratios_successive": [
+          1.412274815155126,
+          1.154694622445728
+        ]
+      }
+    },
+    {
+      "delta0": 0.01,
+      "reset": false,
+      "n_crossings": 1,
+      "ratios": [],
+      "ratios_quartic": [],
+      "letter": "C",
+      "reason": "1 cruces (< 3)",
+      "s_crossings": [
+        0.18533513444720554
+      ],
+      "stop": "divergencia del flujo truncado (|λ_i| > 1e+08·escala)",
+      "s_crossings_quartic": [
+        0.11857976966955859
+      ],
+      "criterion_i": {
+        "D_monotone_decreasing_to_first_crossing": false,
+        "M0_sq_positive_at_first_crossing": true
+      },
+      "criterion_i_integral": {
+        "R_initial": 2.25,
+        "required_integral": -0.8109302162163288,
+        "min_integral_while_M0sq_positive": -0.8109302162163283,
+        "integral_at_end_of_positive_mass": -0.8109302162163283,
+        "R_monotone_increasing_while_M0sq_positive": false,
+        "fraction_of_required": 0.9999999999999994,
+        "reached_before_mass_zero": false,
+        "S_T0_zero": 0.11357455712747713,
+        "S_D_zero": null,
+        "S_mass_zero": null,
+        "rule": "criterio (i) integral: I = ln R(S) − ln R(S₀) debe llegar a −ln R(S₀) antes de M₀² = 0; T₀ = 0 en R = 4/3"
+      },
+      "criterion_i_integral_exact": true,
+      "criterion_ii": false,
+      "criterion_iii": {
+        "tau_placing_S1_at_0.009": 20.59279271635617,
+        "S_at_that_tau": [
+          0.009000000000000001
+        ],
+        "decade_thresholds": [
+          0.009000000000000001,
+          0.099,
+          0.999
+        ],
+        "ratios_successive": []
+      }
+    },
+    {
+      "delta0": 0.01,
+      "reset": true,
+      "n_crossings": 3,
+      "ratios": [
+        1.4161073661402808,
+        1.1557182292056745
+      ],
+      "ratios_quartic": [
+        1.471779565620993,
+        1.191567588233432
+      ],
+      "truncation_rel": [
+        0.039313544164699676,
+        0.031019117049314815
+      ],
+      "letter": "C",
+      "reason": "algún cociente fuera de [3, 30]",
+      "s_crossings": [
+        0.18533513444720554,
+        0.26245444909528703,
+        0.30332339115555595
+      ],
+      "stop": "3 cruces",
+      "s_crossings_quartic": [
+        0.11857976966955859,
+        0.17452328189570035,
+        0.20795628609904304
+      ],
+      "criterion_i": {
+        "D_monotone_decreasing_to_first_crossing": false,
+        "M0_sq_positive_at_first_crossing": true
+      },
+      "criterion_i_integral": {
+        "R_initial": 2.25,
+        "required_integral": -0.8109302162163288,
+        "min_integral_while_M0sq_positive": -0.8109302162163283,
+        "integral_at_end_of_positive_mass": -0.8109302162163283,
+        "R_monotone_increasing_while_M0sq_positive": false,
+        "fraction_of_required": 0.9999999999999994,
+        "reached_before_mass_zero": false,
+        "S_T0_zero": 0.11357455712747713,
+        "S_D_zero": null,
+        "S_mass_zero": null,
+        "rule": "criterio (i) integral: I = ln R(S) − ln R(S₀) debe llegar a −ln R(S₀) antes de M₀² = 0; T₀ = 0 en R = 4/3"
+      },
+      "criterion_i_integral_exact": true,
+      "criterion_ii": true,
+      "criterion_iii": {
+        "tau_placing_S1_at_0.009": 20.59279271635617,
+        "S_at_that_tau": [
+          0.009000000000000001,
+          0.012744966295262528,
+          0.014729589878046814
+        ],
+        "decade_thresholds": [
+          0.009000000000000001,
+          0.099,
+          0.999
+        ],
+        "ratios_successive": [
+          1.4161073661402808,
+          1.1557182292056745
+        ]
+      }
+    },
+    {
+      "delta0": 0.0554,
+      "reset": false,
+      "n_crossings": 1,
+      "ratios": [],
+      "ratios_quartic": [],
+      "letter": "C",
+      "reason": "1 cruces (< 3)",
+      "s_crossings": [
+        0.17433399686598558
+      ],
+      "stop": "divergencia del flujo truncado (|λ_i| > 1e+08·escala)",
+      "s_crossings_quartic": [
+        0.10832271033980313
+      ],
+      "criterion_i": {
+        "D_monotone_decreasing_to_first_crossing": false,
+        "M0_sq_positive_at_first_crossing": true
+      },
+      "criterion_i_integral": {
+        "R_initial": 2.250000000000001,
+        "required_integral": -0.8109302162163292,
+        "min_integral_while_M0sq_positive": -0.8109302162163288,
+        "integral_at_end_of_positive_mass": -0.8109302162163288,
+        "R_monotone_increasing_while_M0sq_positive": false,
+        "fraction_of_required": 0.9999999999999994,
+        "reached_before_mass_zero": false,
+        "S_T0_zero": 0.10378061844448365,
+        "S_D_zero": null,
+        "S_mass_zero": null,
+        "rule": "criterio (i) integral: I = ln R(S) − ln R(S₀) debe llegar a −ln R(S₀) antes de M₀² = 0; T₀ = 0 en R = 4/3"
+      },
+      "criterion_i_integral_exact": true,
+      "criterion_ii": false,
+      "criterion_iii": {
+        "tau_placing_S1_at_0.009": 19.370444096220616,
+        "S_at_that_tau": [
+          0.009000000000000001
+        ],
+        "decade_thresholds": [
+          0.009000000000000001,
+          0.099,
+          0.999
+        ],
+        "ratios_successive": []
+      }
+    },
+    {
+      "delta0": 0.0554,
+      "reset": true,
+      "n_crossings": 3,
+      "ratios": [
+        1.4411133684419613,
+        1.1624873851495063
+      ],
+      "ratios_quartic": [
+        1.514027868959185,
+        1.2037075915020183
+      ],
+      "truncation_rel": [
+        0.050595950404689116,
+        0.0354586268023982
+      ],
+      "letter": "C",
+      "reason": "algún cociente fuera de [3, 30]",
+      "s_crossings": [
+        0.17433399686598558,
+        0.2512350534574908,
+        0.29205758035169493
+      ],
+      "stop": "3 cruces",
+      "s_crossings_quartic": [
+        0.10832271033980313,
+        0.16400360229565522,
+        0.19741238111695802
+      ],
+      "criterion_i": {
+        "D_monotone_decreasing_to_first_crossing": false,
+        "M0_sq_positive_at_first_crossing": true
+      },
+      "criterion_i_integral": {
+        "R_initial": 2.250000000000001,
+        "required_integral": -0.8109302162163292,
+        "min_integral_while_M0sq_positive": -0.8109302162163288,
+        "integral_at_end_of_positive_mass": -0.8109302162163288,
+        "R_monotone_increasing_while_M0sq_positive": false,
+        "fraction_of_required": 0.9999999999999994,
+        "reached_before_mass_zero": false,
+        "S_T0_zero": 0.10378061844448365,
+        "S_D_zero": null,
+        "S_mass_zero": null,
+        "rule": "criterio (i) integral: I = ln R(S) − ln R(S₀) debe llegar a −ln R(S₀) antes de M₀² = 0; T₀ = 0 en R = 4/3"
+      },
+      "criterion_i_integral_exact": true,
+      "criterion_ii": true,
+      "criterion_iii": {
+        "tau_placing_S1_at_0.009": 19.370444096220616,
+        "S_at_that_tau": [
+          0.009000000000000001,
+          0.012970020315977654,
+          0.015077485002456838
+        ],
+        "decade_thresholds": [
+          0.009000000000000001,
+          0.099,
+          0.999
+        ],
+        "ratios_successive": [
+          1.4411133684419613,
+          1.1624873851495063
+        ]
+      }
+    }
+  ],
+  "ir_controls": [
+    {
+      "delta0": 0.003,
+      "reset": false,
+      "crossings": [],
+      "stop": "acoplos fuera del dominio (C₀ ≤ 0)"
+    },
+    {
+      "delta0": 0.003,
+      "reset": true,
+      "crossings": [],
+      "stop": "acoplos fuera del dominio (C₀ ≤ 0)"
+    },
+    {
+      "delta0": 0.01,
+      "reset": false,
+      "crossings": [],
+      "stop": "acoplos fuera del dominio (C₀ ≤ 0)"
+    },
+    {
+      "delta0": 0.01,
+      "reset": true,
+      "crossings": [],
+      "stop": "acoplos fuera del dominio (C₀ ≤ 0)"
+    },
+    {
+      "delta0": 0.0554,
+      "reset": false,
+      "crossings": [],
+      "stop": "acoplos fuera del dominio (C₀ ≤ 0)"
+    },
+    {
+      "delta0": 0.0554,
+      "reset": true,
+      "crossings": [],
+      "stop": "acoplos fuera del dominio (C₀ ≤ 0)"
+    }
+  ],
+  "clock_complement_without_letter": [
+    {
+      "delta0": 0.003,
+      "tau": 0.01,
+      "reset": false,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 11563,
+      "wall_s": 2.02,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 1.001022199316724,
+      "lam_final": [
+        0.0027740937235531827,
+        0.12913420242113505,
+        1.000238817857435
+      ]
+    },
+    {
+      "delta0": 0.003,
+      "tau": 0.1,
+      "reset": false,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 168249,
+      "wall_s": 23.65,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 293.15058938284943,
+      "lam_final": [
+        39.47271851438202,
+        354.0100344053391,
+        14.283511034680528
+      ]
+    },
+    {
+      "delta0": 0.003,
+      "tau": 1.0,
+      "reset": false,
+      "finished": false,
+      "diverged": false,
+      "stop_reason": "max_steps agotado",
+      "steps": 400000,
+      "wall_s": 58.23,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 0.001231789463561189,
+      "lam_final": [
+        8.862412406944219e-05,
+        0.02378148423763946,
+        1.0000013500311804
+      ]
+    },
+    {
+      "delta0": 0.003,
+      "tau": 0.01,
+      "reset": true,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 11563,
+      "wall_s": 1.96,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 1.001022199316724,
+      "lam_final": [
+        0.0027740937235531827,
+        0.12913420242113505,
+        1.000238817857435
+      ]
+    },
+    {
+      "delta0": 0.003,
+      "tau": 0.1,
+      "reset": true,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 168249,
+      "wall_s": 24.58,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 293.15058938284943,
+      "lam_final": [
+        39.47271851438202,
+        354.0100344053391,
+        14.283511034680528
+      ]
+    },
+    {
+      "delta0": 0.003,
+      "tau": 1.0,
+      "reset": true,
+      "finished": false,
+      "diverged": false,
+      "stop_reason": "max_steps agotado",
+      "steps": 400000,
+      "wall_s": 56.38,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 0.001231789463561189,
+      "lam_final": [
+        8.862412406944219e-05,
+        0.02378148423763946,
+        1.0000013500311804
+      ]
+    },
+    {
+      "delta0": 0.01,
+      "tau": 0.01,
+      "reset": false,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 2185,
+      "wall_s": 0.38,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 1.0010982075036596,
+      "lam_final": [
+        0.003705412719131687,
+        0.15015216087076608,
+        1.0003697176622157
+      ]
+    },
+    {
+      "delta0": 0.01,
+      "tau": 0.1,
+      "reset": false,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 48706,
+      "wall_s": 6.3,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 188.03800892229003,
+      "lam_final": [
+        90.0661460887004,
+        282.2932099517993,
+        108.65796937423917
+      ]
+    },
+    {
+      "delta0": 0.01,
+      "tau": 1.0,
+      "reset": false,
+      "finished": false,
+      "diverged": false,
+      "stop_reason": "max_steps agotado",
+      "steps": 400000,
+      "wall_s": 53.17,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 0.042112720432361174,
+      "lam_final": [
+        0.047857982914091074,
+        0.5387834252416005,
+        1.0171566482815995
+      ]
+    },
+    {
+      "delta0": 0.01,
+      "tau": 0.01,
+      "reset": true,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 2185,
+      "wall_s": 0.38,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 1.0010982075036596,
+      "lam_final": [
+        0.003705412719131687,
+        0.15015216087076608,
+        1.0003697176622157
+      ]
+    },
+    {
+      "delta0": 0.01,
+      "tau": 0.1,
+      "reset": true,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 48706,
+      "wall_s": 6.48,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 188.03800892229003,
+      "lam_final": [
+        90.0661460887004,
+        282.2932099517993,
+        108.65796937423917
+      ]
+    },
+    {
+      "delta0": 0.01,
+      "tau": 1.0,
+      "reset": true,
+      "finished": false,
+      "diverged": false,
+      "stop_reason": "max_steps agotado",
+      "steps": 400000,
+      "wall_s": 53.39,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 0.042112720432361174,
+      "lam_final": [
+        0.047857982914091074,
+        0.5387834252416005,
+        1.0171566482815995
+      ]
+    },
+    {
+      "delta0": 0.0554,
+      "tau": 0.01,
+      "reset": false,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 1976,
+      "wall_s": 0.32,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 1.005634544839503,
+      "lam_final": [
+        0.01217914392883896,
+        0.28704489798096267,
+        1.002019103596885
+      ]
+    },
+    {
+      "delta0": 0.0554,
+      "tau": 0.1,
+      "reset": false,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 6155,
+      "wall_s": 0.82,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 1.0015301506469658,
+      "lam_final": [
+        0.32627278954901556,
+        1.5236819484903568,
+        1.3201457189595462
+      ]
+    },
+    {
+      "delta0": 0.0554,
+      "tau": 1.0,
+      "reset": false,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "descenso detenido en la frontera (velocidad proyectada ≈ 0; S no avanza)",
+      "steps": 195374,
+      "wall_s": 27.34,
+      "S_crossings": [
+        0.1743398191156225
+      ],
+      "S_times_tau_crossings": [
+        0.1743398191156225
+      ],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 0.17436946237855583,
+      "lam_final": [
+        1.09200608662495,
+        3.8599226011499383,
+        3.411424099873439
+      ]
+    },
+    {
+      "delta0": 0.0554,
+      "tau": 0.01,
+      "reset": true,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 1976,
+      "wall_s": 0.35,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 1.005634544839503,
+      "lam_final": [
+        0.01217914392883896,
+        0.28704489798096267,
+        1.002019103596885
+      ]
+    },
+    {
+      "delta0": 0.0554,
+      "tau": 0.1,
+      "reset": true,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 6155,
+      "wall_s": 0.84,
+      "S_crossings": [],
+      "S_times_tau_crossings": [],
+      "ratios": [],
+      "n_mass_instabilities": 0,
+      "S_final": 1.0015301506469658,
+      "lam_final": [
+        0.32627278954901556,
+        1.5236819484903568,
+        1.3201457189595462
+      ]
+    },
+    {
+      "delta0": 0.0554,
+      "tau": 1.0,
+      "reset": true,
+      "finished": true,
+      "diverged": false,
+      "stop_reason": "S ≥ S_end (fin del recorrido)",
+      "steps": 97861,
+      "wall_s": 13.55,
+      "S_crossings": [
+        0.1743398191156225,
+        624.8366680998444
+      ],
+      "S_times_tau_crossings": [
+        0.1743398191156225,
+        624.8366680998444
+      ],
+      "ratios": [
+        3584.015810441168
+      ],
+      "n_mass_instabilities": 0,
+      "S_final": 624.8366680998444,
+      "lam_final": [
+        0.0030691599999999996,
+        25590.411768916638,
+        27938.393099461748
+      ]
+    }
+  ],
+  "reading": "cribado diagnóstico (E8, E13): ninguna letra decide λ ni el sentido del flujo (decisión 1 del autor)"
+}

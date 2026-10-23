@@ -4,7 +4,7 @@
 
 Supuestos, derivaciones completadas, calibraciones, falsadores y huecos, en una página. Cada celda se genera desde el registro canónico (`docs/claims_registry.yaml`) y la tabla de puentes del diccionario (`docs/diccionario_puentes.md`): lo que se muestra es el registro, no una narrativa. Los estatutos siguen la fe de erratas epistemológica FE-08-2026: «interno» es una comprobación interna superada (E8), nunca demostración física.
 
-Fuente: `docs/claims_registry.yaml`, sha256 `6a6f7d53f5c7b818803b9b951fbd5f8025a7e6869527e63101f2f07d94adb0d5`; 76 filas.
+Fuente: `docs/claims_registry.yaml`, sha256 `a39252be1040c50f2b52fa99677d02de1fddf6c393354960bc9b15e87de3b931`; 77 filas.
 
 ## 1. Matriz por categoría
 
@@ -14,7 +14,7 @@ Fuente: `docs/claims_registry.yaml`, sha256 `6a6f7d53f5c7b818803b9b951fbd5f8025a
 | Supuestos: resultados condicionales a hipótesis declaradas | 16 | `rp-no-estacionaria`, `kls-flujo`, `matriz-estabilidad`, `gea-newton-atlas`, `ciclo-victoria`, `circulo-delta0`, `fertilidad`, `cronos-v3`, `ciclo-pm`, `perfil-compuerta`, `jeans-dsph`, `5c-estructural`, `empalme-wkb`, `mu-eta-cronos`, `contenido-materia-lectura-operativa`, `oort-kz-cota-cronos` |
 | Calibraciones: números ajustados o anclados fuera, con estatuto declarado | 4 | `funcional-masas`, `higgs-auditoria`, `wkb-calibrado`, `mapa-s-z-convencion` |
 | Preinscritos: protocolos congelados todavía sin desenlace | 0 | — |
-| Resultados negativos: experimentos ejecutados con desenlace nulo o contrario, publicados como tales | 4 | `beta-extra-cribado`, `fp-beta-desenlace-a`, `desi-dr2-6a`, `ajustes-produccion` |
+| Resultados negativos: experimentos ejecutados con desenlace nulo o contrario, publicados como tales | 5 | `beta-extra-cribado`, `beta-candidato3-sentido-flujo`, `fp-beta-desenlace-a`, `desi-dr2-6a`, `ajustes-produccion` |
 | Huecos: huecos declarados, afirmaciones sin derivación y experimentos sin ejecutar (datos ausentes, fallo cerrado) | 7 | `decada-discriminante`, `5e-falsacion-cruzada`, `ngen-3`, `c-lieb-robinson-identificacion`, `diccionario-primordial-cosmologico`, `diccionario-unidad-S-post-florencia`, `sculptor-perfil-sigma-los` |
 
 ## 2. Puentes del diccionario primordial → cosmológico
@@ -118,6 +118,7 @@ Lo que refutaría o acotaría cada claim, tal como lo declara el registro, agrup
 | Claim | Estatuto | Falsador | Artefacto |
 |---|---|---|---|
 | `beta-extra-cribado` | resultado-negativo | un candidato, o un cierre de proyección derivado del tratado (no declarado), que pase (i)–(ii) en la ventana plausible; entonces la fila decada-discriminante se revisa. El cribado no excluye el término κΣ̇ê_E como término del Camino (vacío 2D): excluye que su contribución a las β, bajo estos cierres, produzca la Década | results/2026-09-28_beta_screening |
+| `beta-candidato3-sentido-flujo` | resultado-negativo | unas β, un sentido del flujo o un escalón del potencial derivados del tratado que den tres cruces con los dos cocientes en [7, 14]; la C no decide el sentido del flujo (decisión 1 del autor) ni λ, y vale para el séxtico truncado (hacia el UV la ecuación de Polchinski completa es una difusión hacia atrás) | results/2026-10-23_beta_candidate3 |
 | `fp-beta-desenlace-a` | resultado-negativo | la preinscripción enumeraba desenlaces; A se decidió con el espectro del punto preinscrito | results/2026-08-19_front2_fp_beta |
 | `desi-dr2-6a` | resultado-negativo | la señal exigiría ΔAIC/ΔBIC pro-MCMC con ε identificada; se observó lo contrario | results/2026-08-18_desi_dr2_background |
 | `ajustes-produccion` | resultado-negativo | la ventaja del corpus (A.6) exigía ΔBIC pro-MCMC; se midió lo contrario | results/2026-08-10_production_fit_v2 |

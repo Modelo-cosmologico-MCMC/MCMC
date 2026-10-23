@@ -6,6 +6,24 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **Candidato 3 del cribado de β, «sentido del flujo»: C en los dos
+  sub-brazos (23-oct, bloque P1 del autor; preinscripción congelada antes de
+  correr).** Las β canónicas del reloj se recorren hacia el UV (τ < 0) en el
+  flujo de acoplos, autónomo en S, hasta tres cruces D = 0 o S·|τ| = 50,
+  con δ₀ ∈ {0.003, 0.01, 0.0554} (`core/beta_candidate3.py`,
+  `scripts/run_beta_candidate3.py`, `results/2026-10-23_beta_candidate3/`).
+  - Sin escalón del potencial: un cruce (s ≈ 0.18) y después M₀² diverge.
+  - Con escalón: tres cruces con cocientes 1.41–1.44 y 1.15–1.16, fuera de
+    [3, 30].
+  - La variante cuártica mueve los cocientes un 3–5 % (puerta superada).
+  - El criterio (i) integral de PR-6 se cumple en las seis celdas; con el
+    escalón también se cumple (ii). La fila `decada-discriminante` recibe
+    una frase fechada.
+
+  Ninguna letra decide λ ni el sentido del flujo (decisión 1 del autor). La
+  preinscripción del frente 2 no se toca. Fila nueva
+  `beta-candidato3-sentido-flujo` (resultado-negativo).
+
 - **Lecturas a posteriori de las rondas 3 y 3b, sin letra y sin corridas
   (decisiones del autor del 18-oct sobre #51–#53).** Tres decisiones:
   - la ronda 4 del halo no se corre;
