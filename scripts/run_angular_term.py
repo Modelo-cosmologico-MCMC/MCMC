@@ -79,7 +79,8 @@ def one(delta0: float, A: float) -> dict:
             "steps": r["steps"], "theta_star": tv["theta"], "pi4_minus_theta_star": math.pi / 4.0 - tv["theta"],
             "delta_theta_analytic": math.asin(min(1.0, t / (4.0 * A))), "theta_final": float(th[-1]), "theta_max": float(th.max()),
             "crosses_diagonal": bool(th.max() > math.pi / 4.0), "theta_max_drop": float(np.max(np.maximum.accumulate(th) - th)),
-            "S_half_turn": float(S[int(np.argmax(half))]) if half.any() else None,
+            # sin giro (θ* = 0) o con el descenso terminado antes de θ*/2, no hay «medio giro»
+            "S_half_turn": float(S[int(np.argmax(half))]) if half.any() and tv["theta"] > 1e-6 else None,
             "S_end_radial": float(S[int(np.argmax(radial))]) if radial.any() else None, "S_final": float(S[-1]),
             "T0_full_over_law": clk.T0 / clk.T0_law, "rho_true_vacuum_over_rho_plus": tv["rho"] / math.sqrt(kappa_plus() * delta0)}
 
@@ -118,6 +119,8 @@ def main() -> int:
         md.append(f"| {r['delta0']:g} | {r['t']:.3f} | {r['A']:.4f} | {r['theta_star']:.4f} | {r['pi4_minus_theta_star']:.4f} | "
                   f"{r['delta_theta_analytic']:.4f} | {r['theta_final']:.4f} | {'sí' if r['crosses_diagonal'] else 'no'} | "
                   f"{r['theta_max_drop']:.1e} | {sh} | {sr} | {r['T0_full_over_law']:.4f} |")
+    md += ["", "«—» en S con medio giro: θ* = 0 (el vacío verdadero sigue en el polo de masa: el umbral t/4 es de primer orden) "
+           "o el descenso terminó (f ≥ 1 − ΔS) antes de θ*/2."]
     md += ["", "Bordes de la ventana (el superior exacto: el mayor A con punto de escape en el rayo θ = 0):", ""] + [
         f"- δ₀ = {d}: t = {e['t']:.4f}; t/4 = {e['lower_t_over_4']:.4f}; 1 + t/√2 = {e['upper_first_order']:.4f} (primer orden); "
         f"exacto {e['upper_exact']:.4f}" for d, e in doc["window_edges"].items()]
