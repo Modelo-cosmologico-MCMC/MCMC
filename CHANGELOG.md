@@ -6,6 +6,23 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **Cuarta ecuación, brazo «término angular», en el reloj y sin letra (23-oct,
+  bloque P1 del autor).** `ClockConfig.angular_A` añade V_ang = ½μ²χ², con
+  μ² = 4A(c̄/κ₊)δ₀², como cierre declarado junto a los dos del vacío 2D.
+  Por defecto está apagado y nada cambia. T₀ y ρ₊ pasan a ser los del
+  paisaje completo. `scripts/run_angular_term.py` barre A en la ventana
+  [t/4, 1 + t/√2] para δ₀ ∈ {0.003, 0.01, 0.0554}, con 30 celdas
+  (`results/2026-10-23_angular_term/`):
+  - ninguna cruza la diagonal, θ es monótona en todas y todos los
+    descensos terminan;
+  - con A = 1 reproduce las cifras del autor: θ* = 0.759 / 0.737 / 0.672
+    y S con medio giro 0.73 / 0.75 / 0.80;
+  - el borde superior exacto de la ventana es un 7 % mayor que su primer
+    orden 1 + t/√2.
+
+  La Prop. 3.5 es la decisión 2 del autor. Fila nueva
+  `cuarta-ecuacion-termino-angular` (interno).
+
 - **Lecturas a posteriori de las rondas 3 y 3b, sin letra y sin corridas
   (decisiones del autor del 18-oct sobre #51–#53).** Tres decisiones:
   - la ronda 4 del halo no se corre;
