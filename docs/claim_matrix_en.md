@@ -4,7 +4,7 @@
 
 Assumptions, completed derivations, calibrations, falsifiers and gaps, on one page. Every cell is generated from the canonical registry (`docs/claims_registry.yaml`) and the dictionary bridges table (`docs/diccionario_puentes.md`): what is shown is the registry, not a narrative. Statuses follow the epistemological errata FE-08-2026: "internal" means an internal consistency check passed (E8), never a physical demonstration. The registry is written in Spanish; the frame and the status vocabulary are translated here, and the per-claim texts are quoted verbatim in Spanish from the registry, which remains the source.
 
-Source: `docs/claims_registry.yaml`, sha256 `6a6f7d53f5c7b818803b9b951fbd5f8025a7e6869527e63101f2f07d94adb0d5`; 76 rows.
+Source: `docs/claims_registry.yaml`, sha256 `816316ea7569a1d74915b8dd66691e6c21b8d8b2c3af2ebe7cca50fd6a16172c`; 77 rows.
 
 ## 1. Matrix by category
 
@@ -15,7 +15,7 @@ Source: `docs/claims_registry.yaml`, sha256 `6a6f7d53f5c7b818803b9b951fbd5f8025a
 | Calibrations: numbers fitted to data or anchored externally, with declared status | 4 | `funcional-masas`, `higgs-auditoria`, `wkb-calibrado`, `mapa-s-z-convencion` |
 | Preregistered: frozen protocols without an outcome yet | 0 | — |
 | Negative results: executed experiments with a null or contrary outcome, published as such | 4 | `beta-extra-cribado`, `fp-beta-desenlace-a`, `desi-dr2-6a`, `ajustes-produccion` |
-| Gaps: declared gaps, claims without a derivation, and experiments not run (missing data, fail-closed) | 7 | `decada-discriminante`, `5e-falsacion-cruzada`, `ngen-3`, `c-lieb-robinson-identificacion`, `diccionario-primordial-cosmologico`, `diccionario-unidad-S-post-florencia`, `sculptor-perfil-sigma-los` |
+| Gaps: declared gaps, claims without a derivation, and experiments not run (missing data, fail-closed) | 8 | `decada-discriminante`, `5e-falsacion-cruzada`, `ngen-3`, `c-lieb-robinson-identificacion`, `diccionario-primordial-cosmologico`, `diccionario-unidad-S-post-florencia`, `sculptor-perfil-sigma-los`, `umbrales-retraccion-maestro` |
 
 ## 2. Bridges of the primordial → cosmological dictionary
 
@@ -133,3 +133,4 @@ What would refute or bound each claim, as declared in the registry (quoted in Sp
 | `diccionario-primordial-cosmologico` | declared gap | — (no hay afirmación contrastable hasta que exista la fórmula) | results/2026-09-21_s_clock |
 | `diccionario-unidad-S-post-florencia` | declared gap | — (no hay afirmación contrastable hasta que Σ̇_post y T_sellada se deriven) | results/2026-09-21_s_clock |
 | `sculptor-perfil-sigma-los` | experiment not run | C si los dos bins internos del perfil binado excluyen el pico central predicho a > 3σ para todo β del brazo (la expectativa declarada, E13: el perfil observado es plano) | results/2026-09-21_sculptor_profile |
+| `umbrales-retraccion-maestro` | declared gap | — (hueco de coherencia del texto, no afirmación contrastable; lo cierra una decisión del autor sobre (708) frente al Cuadro 19 y sobre los VEV) | — |

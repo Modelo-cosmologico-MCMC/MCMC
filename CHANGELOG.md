@@ -6,6 +6,22 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **Umbrales de pérdida de dimensión del Maestro: hueco declarado con test
+  (23-oct, bloque P1 del autor; sin corridas del interior).**
+  `core/retraction_thresholds.py` y `tests/test_retraction_thresholds.py`
+  reproducen las tres incoherencias del guion p1_comprobaciones.py:
+  - orden: la ec. (708) exige T_crit decrecientes y el Cuadro 19 las da
+    crecientes;
+  - valores: la ec. (709) con los VEV del Cuadro 32 da 0–0.38 en los tres
+    primeros tramos con cualquier asignación de índices (también leyendo
+    v_n en lugar de v_n²), donde el Cuadro 19 pone 10⁻³, 0.002 y 0.9;
+  - época: la ec. (699) con Ω_m = 0.315 da T_eff(hoy) = −0.370 y el umbral
+    10⁻³ de S_mx en z = 0.2964 (hace 3.5 Gyr), contra la ec. (556).
+
+  Sin letra: la lectura del lapso pone el giro del Cuadro 19 literal en
+  r = 10 r_s. Fila nueva `umbrales-retraccion-maestro` (hueco-declarado).
+  El interior espera a las decisiones 3–5 del autor.
+
 - **Lecturas a posteriori de las rondas 3 y 3b, sin letra y sin corridas
   (decisiones del autor del 18-oct sobre #51–#53).** Tres decisiones:
   - la ronda 4 del halo no se corre;
