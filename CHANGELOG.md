@@ -6,6 +6,29 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **MCV (c), módulo de equilibrio (23-oct, bloque P0 del autor, MCV-a; sin
+  datos).** Por decisión del autor, la materia oscura de los halos es la
+  MCV: energía sellada atrapada en los pozos, en equilibrio por
+  autointercambio e intercambio con la ECV. La fuerza local +c²∇ε_c(ρ_m)
+  de la Cor. 11.3(c) deja de ser la MCV. `dynamics/mcv_equilibrium.py`
+  contiene:
+  - envoltura NFW;
+  - núcleo isotermo con bariones de Plummer y la ECV (−2ρ_E) en el
+    potencial;
+  - r₁ por la tasa de autointercambio con ⟨v_rel⟩ = 4σ/√π;
+  - empalme de Kaplinghat, Tulin y Yu que devuelve todas las ramas («con
+    núcleo» y «densas»);
+  - r_c, t_c de Essig et al. y la cúspide junto a un agujero negro de
+    Shapiro y Paschalidis.
+
+  Reproduce las cifras de referencia del autor: σ₀ = 10.99 km/s, ρ₀ =
+  0.0693 M☉/pc³, r₁ = 0.878 kpc y r_c = 0.408 kpc para 1e9 M☉ (c = 15,
+  σ_x/m = 2 cm²/g); t_c = 44.9 Gyr para 1e12 M☉ (c = 10, σ_x/m = 10
+  cm²/g). Las ramas coinciden con una solución autosemejante independiente
+  (`tests/test_mcv_equilibrium.py`). Fila nueva `mcv-equilibrio-c`
+  (condicional); `contenido-materia-lectura-operativa` registra que la
+  lectura fuerte ya tiene módulo. Vistas regeneradas (77 claims).
+
 - **Lecturas a posteriori de las rondas 3 y 3b, sin letra y sin corridas
   (decisiones del autor del 18-oct sobre #51–#53).** Tres decisiones:
   - la ronda 4 del halo no se corre;
