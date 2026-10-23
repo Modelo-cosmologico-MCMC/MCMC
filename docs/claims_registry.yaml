@@ -1496,16 +1496,30 @@ claims:
       predicción. Estado: walker2009 (CDS J/AJ/137/3100, table4) sigue
       DATA_UNAVAILABLE (CDS/VizieR 403 vía proxy, 21-sep 14:10 UTC): el
       analizador registra el fallo cerrado como resultado explícito; la
-      regla no se toca hasta la ingesta.
-    implementation: scripts/run_sculptor_profile.py + dynamics/cronos_jeans.py
-    test: tests/test_front5_local_dsph_lock.py
+      regla no se toca hasta la ingesta. ACTUALIZACIÓN DEL 23-OCT (PR-W,
+      bloque P0 del autor): el binning preinscrito está implementado
+      (dynamics/walker_binning.py; analyze_catalogue en el script) y el
+      ANEXO de binning se congeló antes de los bytes
+      (binning_annex.json, sha256 2a067315…, commit posterior al
+      generador) con lo que la regla no fijaba: lectura del esquema por
+      el ReadMe de CDS con fallo cerrado, unidad «estrella» con épocas
+      repetidas, P_M = mínimo de las épocas, centro J2000 (01h00m09.4s,
+      −33°42′33″) y D = 79 kpc (transcritos sin acceso a la fuente;
+      verificación del autor pendiente antes de los bytes), radio
+      circular, R_bin = mediana, puertas de reproducción de la
+      predicción y del centroide, orden de letras puertas → C → B → A →
+      INDETERMINADO. La preinscripción y sus reglas no se tocan; las
+      rutas de descarga quedan alineadas con data/sources.yaml
+      (data/raw/walker2009, manifest de la capa de datos).
+    implementation: scripts/run_sculptor_profile.py + dynamics/cronos_jeans.py + dynamics/walker_binning.py
+    test: tests/test_front5_local_dsph_lock.py + tests/test_walker_binning.py
     observable: perfil de dispersión de velocidades en la línea de visión σ_los(R) de Sculptor
-    dataset: walker2009 (DATA_UNAVAILABLE)
+    dataset: walker2009 (DATA_UNAVAILABLE; rutas alineadas con data/sources.yaml el 23-oct)
     falsifier: >-
       C si los dos bins internos del perfil binado excluyen el pico
       central predicho a > 3σ para todo β del brazo (la expectativa
       declarada, E13: el perfil observado es plano)
-    evidence_level: experimento-no-ejecutado — preinscripción congelada con predicción y regla; fallo cerrado por datos no disponibles
+    evidence_level: experimento-no-ejecutado — preinscripción congelada con predicción y regla; binning implementado y anexo congelado antes de los bytes (23-oct); fallo cerrado por datos no disponibles
     status: experimento-no-ejecutado
     artifact: results/2026-09-21_sculptor_profile
 

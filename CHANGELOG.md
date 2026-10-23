@@ -6,6 +6,37 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **PR-W: binning de Walker et al. 2009 y anexo congelado antes de los bytes
+  (23-oct, bloque P0 del autor; sin bytes).** El stub «binning no
+  implementado» de `scripts/run_sculptor_profile.py` se sustituye por el
+  binning de la regla congelada de «perfil σ_los(R) de Sculptor»
+  (`dynamics/walker_binning.py`):
+  - el esquema se lee de la descripción byte a byte del ReadMe de CDS, y
+    toda ambigüedad en los papeles (posición, velocidad heliocéntrica y su
+    error, probabilidad de pertenencia) falla cerrado como «esquema no
+    confirmado»;
+  - las épocas repetidas se combinan en una fila por estrella (mismo
+    identificador o < 1″);
+  - bins de igual número ⌊N/150 + ½⌋ en R ≤ 1 kpc, con σ = √(s² − ⟨e²⟩)
+    y σ_err = σ/√(2N);
+  - letras con el orden puertas → C → B → A → INDETERMINADO.
+
+  El anexo (`results/2026-09-21_sculptor_profile/binning_annex.json`,
+  sha256 2a067315…) se congeló en un commit posterior al generador, con
+  walker2009 sin manifest ni bytes. Fija lo que la regla no fijaba:
+  - el centro J2000 y D = 79 kpc (la distancia de R_half = 260 pc), ambos
+    con verificación del autor pendiente antes de los bytes;
+  - R_bin = mediana y el reparto del resto;
+  - las puertas de reproducción de la predicción y del centroide;
+  - lo que se publica sin letra: la columna newtoniana y D = 75 y 83 kpc.
+
+  La preinscripción (sha256 604f9c25…) no se toca.
+  `scripts/download_data.py` pasa de «walker09» (un TSV de VizieR en
+  `data/dsph`) a «walker2009» con los ficheros de `data/sources.yaml`:
+  ReadMe y table2–5.dat de cdsarc en `data/raw/walker2009`, con el
+  manifest de la capa de datos en SCHEMA_UNVERIFIED. El modo `schema`
+  prepara el schema_report del día de los bytes.
+
 - **Lecturas a posteriori de las rondas 3 y 3b, sin letra y sin corridas
   (decisiones del autor del 18-oct sobre #51–#53).** Tres decisiones:
   - la ronda 4 del halo no se corre;
