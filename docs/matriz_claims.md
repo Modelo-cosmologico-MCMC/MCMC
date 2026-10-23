@@ -4,7 +4,7 @@
 
 Supuestos, derivaciones completadas, calibraciones, falsadores y huecos, en una página. Cada celda se genera desde el registro canónico (`docs/claims_registry.yaml`) y la tabla de puentes del diccionario (`docs/diccionario_puentes.md`): lo que se muestra es el registro, no una narrativa. Los estatutos siguen la fe de erratas epistemológica FE-08-2026: «interno» es una comprobación interna superada (E8), nunca demostración física.
 
-Fuente: `docs/claims_registry.yaml`, sha256 `5aff6c9643af58d9d325156f5ee7a6d8dfa845599e635312f1ddc2d36f0971ac`; 77 filas.
+Fuente: `docs/claims_registry.yaml`, sha256 `28b8f0d7a244efea6ec7f1161b4accdd517b448bc8353ea615ac7d217591d638`; 78 filas.
 
 ## 1. Matriz por categoría
 
@@ -13,7 +13,7 @@ Fuente: `docs/claims_registry.yaml`, sha256 `5aff6c9643af58d9d325156f5ee7a6d8dfa
 | Derivaciones y comprobaciones internas superadas (E8: comprobación interna, no demostración física) | 45 | `axiomas`, `constantes-estatuto`, `plano-dual`, `potencial-basal`, `monotonia-exclusion`, `florencia`, `rp-escalar`, `beta-un-lazo-sextico`, `residuos`, `naturalidad-priors`, `suite-apendice-h`, `jax-crosscheck`, `fondo-cosmologico`, `cmb-fsigma8`, `canales-oscuros`, `mass-gap-reticulo`, `qudit-decoherencia`, `qudit-d5`, `dovekie-mocks-pipeline`, `perturbaciones-fsigma8-oos`, `mu-eta-atlas`, `dovekie-real-primera-aplicacion`, `bbn-g-empress`, `atlas-ppn`, `atlas-gauge-invariant`, `cronos-amplitud-unica`, `phi-ten-fondo-ley-cronos`, `diccionario-epsilon-c-saturante`, `criterio-cronos-jeans`, `test-criterio-cronos-jeans`, `test-criterio-cronos-jeans-ronda2`, `criterio-cronos-jeans-ronda3`, `criterio-cronos-jeans-ronda3b`, `halo-serie-resolucion-campo`, `nucleacion-salida-s0`, `nucleacion-gamma0`, `diagonal-j-requerido`, `vacio-2d-conversion-y-rotacion`, `halo-capas-ronda2`, `cualificacion-laminas-e8q`, `cualificacion-capas-e8q`, `halo-capas-ronda3`, `lecturas-rondas3-3b`, `s-clock-simulador-consistencia`, `nivel-a-halo-aislado` |
 | Supuestos: resultados condicionales a hipótesis declaradas | 17 | `rp-no-estacionaria`, `kls-flujo`, `matriz-estabilidad`, `gea-newton-atlas`, `ciclo-victoria`, `circulo-delta0`, `fertilidad`, `cronos-v3`, `ciclo-pm`, `perfil-compuerta`, `jeans-dsph`, `5c-estructural`, `empalme-wkb`, `mu-eta-cronos`, `contenido-materia-lectura-operativa`, `mcv-equilibrio-c`, `oort-kz-cota-cronos` |
 | Calibraciones: números ajustados o anclados fuera, con estatuto declarado | 4 | `funcional-masas`, `higgs-auditoria`, `wkb-calibrado`, `mapa-s-z-convencion` |
-| Preinscritos: protocolos congelados todavía sin desenlace | 0 | — |
+| Preinscritos: protocolos congelados todavía sin desenlace | 1 | `sculptor-mcv-c` |
 | Resultados negativos: experimentos ejecutados con desenlace nulo o contrario, publicados como tales | 4 | `beta-extra-cribado`, `fp-beta-desenlace-a`, `desi-dr2-6a`, `ajustes-produccion` |
 | Huecos: huecos declarados, afirmaciones sin derivación y experimentos sin ejecutar (datos ausentes, fallo cerrado) | 7 | `decada-discriminante`, `5e-falsacion-cruzada`, `ngen-3`, `c-lieb-robinson-identificacion`, `diccionario-primordial-cosmologico`, `diccionario-unidad-S-post-florencia`, `sculptor-perfil-sigma-los` |
 
@@ -113,6 +113,12 @@ Lo que refutaría o acotaría cada claim, tal como lo declara el registro, agrup
 | `higgs-auditoria` | calibrado | — | — |
 | `wkb-calibrado` | calibrado | — | — |
 | `mapa-s-z-convencion` | calibrado | una C(S) derivada que desplace los umbrales post-Florencia fuera de los escalones calibrados obligaría a recalibrar los canales | — |
+
+### Preinscritos: protocolos congelados todavía sin desenlace
+
+| Claim | Estatuto | Falsador | Artefacto |
+|---|---|---|---|
+| `sculptor-mcv-c` | preinscrito | C: el perfil binado no cabe con ningún σ_x/m ≤ 50 cm²/g, ninguna rama ni envoltura de la caja; una B señalaría que solo cabe forzando el modelo. Ninguna letra calibra σ_x/m global: eso se prueba fuera de la muestra en SPARC | results/2026-10-23_mcv_sculptor |
 
 ### Resultados negativos: experimentos ejecutados con desenlace nulo o contrario, publicados como tales
 

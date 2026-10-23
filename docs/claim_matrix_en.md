@@ -4,7 +4,7 @@
 
 Assumptions, completed derivations, calibrations, falsifiers and gaps, on one page. Every cell is generated from the canonical registry (`docs/claims_registry.yaml`) and the dictionary bridges table (`docs/diccionario_puentes.md`): what is shown is the registry, not a narrative. Statuses follow the epistemological errata FE-08-2026: "internal" means an internal consistency check passed (E8), never a physical demonstration. The registry is written in Spanish; the frame and the status vocabulary are translated here, and the per-claim texts are quoted verbatim in Spanish from the registry, which remains the source.
 
-Source: `docs/claims_registry.yaml`, sha256 `5aff6c9643af58d9d325156f5ee7a6d8dfa845599e635312f1ddc2d36f0971ac`; 77 rows.
+Source: `docs/claims_registry.yaml`, sha256 `28b8f0d7a244efea6ec7f1161b4accdd517b448bc8353ea615ac7d217591d638`; 78 rows.
 
 ## 1. Matrix by category
 
@@ -13,7 +13,7 @@ Source: `docs/claims_registry.yaml`, sha256 `5aff6c9643af58d9d325156f5ee7a6d8dfa
 | Derivations and internal checks passed (E8: internal consistency check, not a physical demonstration) | 45 | `axiomas`, `constantes-estatuto`, `plano-dual`, `potencial-basal`, `monotonia-exclusion`, `florencia`, `rp-escalar`, `beta-un-lazo-sextico`, `residuos`, `naturalidad-priors`, `suite-apendice-h`, `jax-crosscheck`, `fondo-cosmologico`, `cmb-fsigma8`, `canales-oscuros`, `mass-gap-reticulo`, `qudit-decoherencia`, `qudit-d5`, `dovekie-mocks-pipeline`, `perturbaciones-fsigma8-oos`, `mu-eta-atlas`, `dovekie-real-primera-aplicacion`, `bbn-g-empress`, `atlas-ppn`, `atlas-gauge-invariant`, `cronos-amplitud-unica`, `phi-ten-fondo-ley-cronos`, `diccionario-epsilon-c-saturante`, `criterio-cronos-jeans`, `test-criterio-cronos-jeans`, `test-criterio-cronos-jeans-ronda2`, `criterio-cronos-jeans-ronda3`, `criterio-cronos-jeans-ronda3b`, `halo-serie-resolucion-campo`, `nucleacion-salida-s0`, `nucleacion-gamma0`, `diagonal-j-requerido`, `vacio-2d-conversion-y-rotacion`, `halo-capas-ronda2`, `cualificacion-laminas-e8q`, `cualificacion-capas-e8q`, `halo-capas-ronda3`, `lecturas-rondas3-3b`, `s-clock-simulador-consistencia`, `nivel-a-halo-aislado` |
 | Assumptions: results conditional on declared hypotheses | 17 | `rp-no-estacionaria`, `kls-flujo`, `matriz-estabilidad`, `gea-newton-atlas`, `ciclo-victoria`, `circulo-delta0`, `fertilidad`, `cronos-v3`, `ciclo-pm`, `perfil-compuerta`, `jeans-dsph`, `5c-estructural`, `empalme-wkb`, `mu-eta-cronos`, `contenido-materia-lectura-operativa`, `mcv-equilibrio-c`, `oort-kz-cota-cronos` |
 | Calibrations: numbers fitted to data or anchored externally, with declared status | 4 | `funcional-masas`, `higgs-auditoria`, `wkb-calibrado`, `mapa-s-z-convencion` |
-| Preregistered: frozen protocols without an outcome yet | 0 | — |
+| Preregistered: frozen protocols without an outcome yet | 1 | `sculptor-mcv-c` |
 | Negative results: executed experiments with a null or contrary outcome, published as such | 4 | `beta-extra-cribado`, `fp-beta-desenlace-a`, `desi-dr2-6a`, `ajustes-produccion` |
 | Gaps: declared gaps, claims without a derivation, and experiments not run (missing data, fail-closed) | 7 | `decada-discriminante`, `5e-falsacion-cruzada`, `ngen-3`, `c-lieb-robinson-identificacion`, `diccionario-primordial-cosmologico`, `diccionario-unidad-S-post-florencia`, `sculptor-perfil-sigma-los` |
 
@@ -113,6 +113,12 @@ What would refute or bound each claim, as declared in the registry (quoted in Sp
 | `higgs-auditoria` | calibrated | — | — |
 | `wkb-calibrado` | calibrated | — | — |
 | `mapa-s-z-convencion` | calibrated | una C(S) derivada que desplace los umbrales post-Florencia fuera de los escalones calibrados obligaría a recalibrar los canales | — |
+
+### Preregistered: frozen protocols without an outcome yet
+
+| Claim | Status | Falsifier (registry text, Spanish) | Artefact |
+|---|---|---|---|
+| `sculptor-mcv-c` | preregistered | C: el perfil binado no cabe con ningún σ_x/m ≤ 50 cm²/g, ninguna rama ni envoltura de la caja; una B señalaría que solo cabe forzando el modelo. Ninguna letra calibra σ_x/m global: eso se prueba fuera de la muestra en SPARC | results/2026-10-23_mcv_sculptor |
 
 ### Negative results: executed experiments with a null or contrary outcome, published as such
 

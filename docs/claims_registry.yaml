@@ -1390,7 +1390,7 @@ claims:
       M☉/pc³). Elegir rama es decisión de cada preinscripción.
     implementation: dynamics/mcv_equilibrium.py
     test: tests/test_mcv_equilibrium.py
-    observable: "σ_los(R) de las enanas (preinscripción de Sculptor con la MCV (c), pendiente) y curvas de rotación de SPARC (banco de mecanismos, pendiente)"
+    observable: "σ_los(R) de las enanas (preinscripción de Sculptor con la MCV (c), congelada el 23-oct: fila sculptor-mcv-c) y curvas de rotación de SPARC (banco de mecanismos, pendiente)"
     dataset: "— (ninguno: los bytes de Walker 2009, SPARC y Li+2020 no se han descargado)"
     falsifier: >-
       la preinscripción de Sculptor con la MCV (c), cuya letra C es que el
@@ -1402,6 +1402,48 @@ claims:
     status: condicional
     artifact: "—"
 
+
+  - claim_id: sculptor-mcv-c
+    entity: La MCV (c) en Sculptor — el perfil σ_los(R) binado de Walker et al. 2009 (binning de PR-W) frente al Jeans isotermo con autointercambio empalmado con una envoltura NFW de molestia, con las estrellas de Plummer (Υ⋆ ∈ {1, 2, 3}) en el potencial y σ_x/m global; preinscripción y banco de modelos congelados antes de los bytes (23-oct-2026)
+    law: "decisión (c) del autor (fila mcv-equilibrio-c): ∇²Φ = 4πG(ρ_b + ρ_M − 2ρ_E); Γ_x(r₁)·t_edad = 1 con ⟨v_rel⟩ = 4σ/√π; núcleo isotermo con los bariones dentro de Φ empalmado con NFW (Kaplinghat, Tulin y Yu 2016); Jeans esférico con β constante para el trazador"
+    derivation: >-
+      bloque P0 del autor del 23-oct (P0-b). Preinscripción congelada
+      (sha256 2ed76f7f0bf4…) en un commit posterior al generador, con
+      walker2009 sin manifest ni bytes. Modelo: estrellas de Plummer del
+      montaje del 5E (a = 260 pc, M⋆ = Υ⋆·2.6e6 L☉) en el potencial de la
+      MCV en equilibrio (ρ_E = 0) y de las propias estrellas; σ_los(R) por
+      Jeans con β del brazo de la ley local. Envoltura de molestia: c =
+      c200 de Dutton y Macciò 2014 por 10^(0.11·k); previas log10 M200 ∈
+      [8.5, 10.5] y |k| ≤ 2; caja log10 M200 ∈ [7.5, 11.5] y |k| ≤ 5.
+      Banco de modelos congelado (sha256 311f919057f1…): todas las ramas
+      del empalme en 13 275 puntos (15 σ_x/m de 0.01 a 50 cm²/g × 3 Υ⋆ ×
+      295 envolturas). Usa el prefiltro bilineal del empalme, comprobado
+      frente a la búsqueda exhaustiva en 240 puntos al azar sin diferencias
+      dentro del dominio. «Cabe» con un σ_x/m: prueba χ² al 5 % con
+      ν = N_bins − 2. A: cabe con σ_x/m ≤ 10, rama con núcleo y envoltura
+      en las previas. B: solo cabe en la rama densa, con la envoltura fuera
+      de las previas o con 10 < σ_x/m ≤ 50 (este último caso, precisión del
+      ejecutor). C: no cabe con ningún σ_x/m ≤ 50 en la caja.
+      INDETERMINADO: puertas, entre ellas las del binning, la de
+      reproducción del banco y la búsqueda exhaustiva en el punto decisivo.
+      Expectativa E13: A con σ_x/m pequeño. Dato previo del autor
+      reproducido sin letra: con 10⁹ M☉ y c = 20, σ_x/m = 0.3 y Υ⋆ = 2 dan
+      M(<r_½) = 2.02×10⁷ M☉, frente a M_half = 4σ²R_half/G = 2.05×10⁷; con
+      σ_x/m ≥ 2, la materia de la MCV dentro de r_½ cae a 0.86–1.27×10⁷.
+      Corre el mismo día que la ley local (sculptor-perfil-sigma-los), cuya
+      preinscripción no se toca.
+    implementation: dynamics/mcv_sculptor.py + dynamics/mcv_equilibrium.py + dynamics/walker_binning.py + scripts/run_mcv_sculptor.py
+    test: tests/test_mcv_sculptor.py
+    observable: perfil de dispersión de velocidades en la línea de visión σ_los(R) de Sculptor, binado con el anexo de PR-W
+    dataset: walker2009 (DATA_UNAVAILABLE)
+    falsifier: >-
+      C: el perfil binado no cabe con ningún σ_x/m ≤ 50 cm²/g, ninguna rama
+      ni envoltura de la caja; una B señalaría que solo cabe forzando el
+      modelo. Ninguna letra calibra σ_x/m global: eso se prueba fuera de la
+      muestra en SPARC
+    evidence_level: preinscrito — modelo, banco, regla y expectativa congelados antes de los bytes; el analizador falla cerrado mientras walker2009 no esté AVAILABLE
+    status: preinscrito
+    artifact: results/2026-10-23_mcv_sculptor
   - claim_id: criterio-cronos-jeans
     entity: El criterio de Cronos–Jeans — la ley local ε_c = A·ρ^(3/2) es ultravioleta-inestable donde q ≡ (3/2)c²ε_c/σ² > 1; con A_Sculptor el halo del Nivel A, el propio Sculptor congelado y la vecindad solar caen dentro (derivación del autor, 21-sep-2026)
     law: "Def. 11.1 + Prop. 11.2 (potencial efectivo Ψ = Φ_N − c²ε_c) + Cor. 11.3c; respuesta de Boltzmann del medio colisionless isotermo"

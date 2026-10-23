@@ -6,6 +6,25 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **MCV-b: la MCV (c) en Sculptor, preinscrita antes de los bytes (23-oct,
+  bloque P0 del autor).** El perfil σ_los(R) binado con PR-W se compara con
+  el Jeans isotermo con autointercambio de la MCV (c), con las estrellas de
+  Plummer (Υ⋆ ∈ {1, 2, 3}) en el potencial y σ_x/m global
+  (`dynamics/mcv_sculptor.py`, `scripts/run_mcv_sculptor.py`).
+  - La envoltura (M200, c) es de molestia: c200 de Dutton y Macciò 2014,
+    con previas declaradas.
+  - Banco de 13 275 modelos con todas las ramas del empalme, congelado con
+    su sha256 antes de los bytes.
+  - `jeans_match(prefilter=True)`, opcional: sin diferencias frente a la
+    búsqueda exhaustiva dentro del dominio en 240 puntos al azar.
+  - Letras A/B/C/INDETERMINADO del autor; «cabe» es una prueba χ² al 5 %.
+  - Expectativa E13: A con σ_x/m pequeño.
+  - Reproduce sin letra el dato previo del autor: 2.02×10⁷ M☉ con
+    σ_x/m = 0.3.
+
+  Fila nueva `sculptor-mcv-c` (preinscrito). La preinscripción de la ley
+  local no se toca: las dos corren el mismo día.
+
 - **PR-W: binning de Walker et al. 2009 y anexo congelado antes de los bytes
   (23-oct, bloque P0 del autor; sin bytes).** El stub «binning no
   implementado» de `scripts/run_sculptor_profile.py` se sustituye por el
