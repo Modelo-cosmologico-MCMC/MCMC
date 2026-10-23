@@ -1333,9 +1333,16 @@ claims:
       Cronos domine la gravedad dentro de ~0.9 kpc de un halo de 1e11 M☉
       (fila cronos-amplitud-unica): las dos lecturas no pueden convivir
       sin decirlo; esta fila fija la operativa y declara la fuerte como
-      frente. El Nivel A mide la consecuencia de la operativa.
-    implementation: cosmology/background.py + cosmology/dark_channels.py
-    test: tests/test_dark_channels.py
+      frente. El Nivel A mide la consecuencia de la operativa. ACTUALIZACIÓN
+      DEL 23-OCT: la lectura fuerte tiene módulo. Por decisión del autor, la
+      materia oscura de los halos es la MCV (c), energía sellada atrapada en
+      los pozos y en equilibrio por autointercambio e intercambio con la
+      ECV, implementada como Jeans isotermo empalmado con una envoltura NFW
+      en dynamics/mcv_equilibrium.py (fila mcv-equilibrio-c, condicional,
+      sin datos). La fuerza local +c²∇ε_c(ρ_m) de la Cor. 11.3(c) deja de
+      ser la MCV.
+    implementation: cosmology/background.py + cosmology/dark_channels.py + dynamics/mcv_equilibrium.py
+    test: tests/test_dark_channels.py + tests/test_mcv_equilibrium.py
     observable: "— (fija qué predice el modelo operativo: enanas ΛCDM + corrección Cronos de amplitud A_Sculptor)"
     dataset: "—"
     falsifier: >-
@@ -1350,7 +1357,48 @@ claims:
       INESTABLE dentro de r_CJ = 0.71 kpc (q = (3/2)c²ε_c/σ² > 1, tasa ∝
       k): la lectura operativa conserva la CDM para las curvas pero
       desestabiliza los centros y rompe K_z en la vecindad solar
-    evidence_level: declaración de estatuto; la lectura fuerte no tiene módulo ni artefacto; el Nivel A ejecutado no la decide (INDETERMINADO); la ley local a A_Sculptor es inestable dentro de r_CJ en halos NFW (derivación 21-sep)
+    evidence_level: declaración de estatuto; la lectura fuerte tiene módulo desde el 23-oct (MCV (c), fila mcv-equilibrio-c) pero ningún artefacto con datos; el Nivel A ejecutado no la decide (INDETERMINADO); la ley local a A_Sculptor es inestable dentro de r_CJ en halos NFW (derivación 21-sep)
+    status: condicional
+    artifact: "—"
+
+  - claim_id: mcv-equilibrio-c
+    entity: La MCV (c) — la materia del vacío capturada en los pozos, en equilibrio por autointercambio e intercambio con la ECV — como núcleo isotermo de Jeans empalmado con una envoltura NFW, con el tiempo de colapso gravotérmico y la cúspide junto a un agujero negro (decisiones del autor del 14, 18, 21 y 23-oct-2026; sin datos)
+    law: "decisión (c) del autor, confirmada el 23-oct: ∇²Φ = 4πG(ρ_b + ρ_M − 2ρ_E) con N = 1 + Φ/c²; Γ_x = ρ_M·(σ_x/m)·⟨v_rel⟩ con ⟨v_rel⟩ = 4σ/√π y Γ_x(r₁)·t_edad = 1; ρ_M = ρ_M0·exp[−(Φ − Φ₀)/σ₀²] dentro de r₁; ρ_M y M(<r) continuos en r₁ (Kaplinghat, Tulin y Yu 2016)"
+    derivation: >-
+      decisiones del autor, no derivadas aquí. La MCV es la energía sellada
+      atrapada en los pozos: la misma sustancia que la ECV, con masa ínfima
+      pero no nula, anterior a los agujeros negros. Su concentración la
+      frena el equilibrio por dos canales, autointercambio e intercambio con
+      la ECV (decisión (c), confirmada el 23-oct). σ_x/m y ξ son globales:
+      se calibran una vez y se prueban fuera de la muestra, y su derivación
+      desde el sellado sigue abierta. La fuerza local +c²∇ε_c(ρ_m) de la
+      Cor. 11.3(c) deja de ser la MCV; sus filas quedan como resultados
+      sobre la ley local. Módulo dynamics/mcv_equilibrium.py: envoltura NFW
+      (M200 a 200·ρ_crit), núcleo isotermo con los bariones de Plummer y la
+      ECV (−2ρ_E) en el potencial, r₁ por la tasa de autointercambio, y un
+      empalme que devuelve TODAS las ramas (la de menor ρ₀, «con núcleo»;
+      las demás, «densas»), encontradas en una rejilla en (σ₀, ρ₀/ρ(r₁)),
+      refinadas y comprobadas contra la solución autosemejante sin
+      bariones. Además, r_c donde ρ = ρ₀/2, t_c de Essig et al. (2019) y la
+      cúspide ρ ∝ r^{−(3+a)/4} junto a un agujero negro (Shapiro y
+      Paschalidis 2014), empalmada con ρ₀ en el radio de influencia. Cifras
+      de referencia del autor (t_edad = 10 Gyr, H0 = 67.4, β = 0.75),
+      reproducidas: 1e9 M☉ con c = 15 y σ_x/m = 2 cm²/g sin bariones dan
+      una sola rama con σ₀ = 10.99 km/s, ρ₀ = 0.0693 M☉/pc³, r₁ = 0.878 kpc
+      y r_c = 0.408 kpc; t_c(1e12 M☉, c = 10, σ_x/m = 10 cm²/g) = 44.9 Gyr.
+      Con σ_x/m = 50 cm²/g el mismo halo tiene dos ramas (ρ₀ = 0.021 y 0.45
+      M☉/pc³). Elegir rama es decisión de cada preinscripción.
+    implementation: dynamics/mcv_equilibrium.py
+    test: tests/test_mcv_equilibrium.py
+    observable: "σ_los(R) de las enanas (preinscripción de Sculptor con la MCV (c), pendiente) y curvas de rotación de SPARC (banco de mecanismos, pendiente)"
+    dataset: "— (ninguno: los bytes de Walker 2009, SPARC y Li+2020 no se han descargado)"
+    falsifier: >-
+      la preinscripción de Sculptor con la MCV (c), cuya letra C es que el
+      perfil no quepa con ningún σ_x/m ≤ 50 cm²/g, y el brazo MCV (c) del
+      banco de mecanismos de SPARC, con σ_x/m calibrado en media muestra y
+      probado en la otra; un σ_x/m global que no sirviera a la vez para
+      enanas y espirales refutaría su carácter global
+    evidence_level: decisión del autor implementada como módulo (condicional), sin datos ni letra; cifras de referencia del autor reproducidas
     status: condicional
     artifact: "—"
 
