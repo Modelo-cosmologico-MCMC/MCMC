@@ -1450,6 +1450,59 @@ claims:
     status: condicional
     artifact: "—"
 
+  - claim_id: gravotermico-1d-borde-ecv
+    entity: Código gravotérmico 1D de la MCV (c) — fluido conductivo con autointercambio y borde de ECV, comprobado frente al t_c de Essig et al. (2019) y la pendiente autosemejante de Balberg et al. (2002); sin datos ni letra (24-oct-2026)
+    law: "bloque P1 del autor del 23-oct (código gravotérmico 1D, fluido conductivo con autointercambio y borde de ECV); definición del borde del 24-oct («el borde de ECV corresponde al punto de intercambio entre la burbuja de MCV y la ECV fuera de la influencia del punto gravitacional y térmico»); ec. 6 del bloque, t_c ≈ (150/β)/[(σ_x/m)·ρ_s·r_s·√(4πGρ_s)] con β entre 0.45 y 0.75"
+    derivation: >-
+      La MCV de un halo aislado como fluido conductor en equilibrio
+      hidrostático (Lynden-Bell y Eggleton 1980; Balberg, Shapiro e Inagaki
+      2002; Pollack, Spergel y Steinhardt 2015), con σ_x/m constante y la
+      conductividad de los regímenes SMFP y LMFP; C es la β de la ec. 6.
+      Capas lagrangianas, conducción implícita y relajación adiabática al
+      equilibrio; unidades r_s, ρ_s y v₀ = √(4πGρ_s)·r_s, con σ̂ =
+      (σ_x/m)·ρ_s·r_s. El borde de ECV es una pared fija en r_b con dos
+      brazos, cerrado (sin intercambio) e intercambio (contacto térmico con
+      la ECV a la temperatura del punto de intercambio). Que esté fuera de
+      la influencia se comprueba en cada corrida, con tres condiciones. El
+      flujo conductivo que llega al borde queda por debajo de 10⁻⁶ del
+      máximo. Duplicar r_b mueve t_c menos de 10⁻³. Al pasar a Gyr, r_b no
+      cae dentro de r200. El intercambio de masa con la ECV (ec. 7 del
+      bloque) no está implementado, porque su ley por halo no está dada.
+      Corridas desde el NFW, con 150 capas y el borde en 100 r_s. Con σ̂ =
+      0.01, C·σ̂·t_c = 151.9, dentro de la banda [120, 180] declarada antes
+      de la primera corrida del colapso. Con σ̂ = 0.001 y con C = 0.45 sale
+      lo mismo (2.6·10⁻⁵). Con 300 capas cambia un +0.7 % y con el paso a
+      la mitad un −0.3 %. Hacia el régimen SMFP el colapso se alarga, un
+      1.7 % con σ̂ = 0.3 y un 18 % con σ̂ = 1. El núcleo llega a 2.48 ρ_s
+      en 0.12 t_c y después colapsa. Lejos del núcleo (ρ/ρ_c entre 10⁻⁶ y
+      10⁻³, 400 capas) la pendiente es −2.18, frente a −2.19 de Balberg et
+      al.; la ventana se fijó tras ver que junto al núcleo la pendiente pasa
+      de −2.4, como en la esfera isoterma. Los brazos cerrado e intercambio
+      coinciden a 3·10⁻⁸. Duplicar el borde mueve t_c 7.6·10⁻⁵ en 100 r_s,
+      1.5·10⁻⁴ en 80 r_s, 1.2·10⁻³ en 40 r_s y 5.3 % en 10 r_s, el r200 de
+      un halo con c = 10. En 10 r_s además llega flujo al borde (2.1·10⁻⁶
+      del máximo). La influencia que mide la duplicación es mecánica: la
+      pared comprime adiabáticamente la capa del borde al expandirse el
+      interior. En esta serie, el punto de intercambio fuera de la influencia
+      está a 80 r_s o más, varias veces r200. Para el halo de referencia del
+      autor (10¹² M☉, c = 10, σ_x/m = 10 cm²/g) da 46.0 Gyr, frente a los
+      44.9 Gyr de la fórmula.
+    implementation: dynamics/gravothermal.py + scripts/run_gravothermal.py
+    test: tests/test_gravothermal.py
+    observable: "— (evolución interna de un halo aislado; ningún dato)"
+    dataset: "—"
+    falsifier: >-
+      sin letra. Como instrumento lo invalidaría cualquiera de tres
+      resultados, y no se da ninguno. Uno, un C·σ̂·t_c fuera de [120, 180]
+      en el régimen LMFP. Otro, una pendiente autosemejante fuera de
+      [−2.3, −2.1]. El tercero, un borde por defecto cuya duplicación
+      moviera t_c más de 10⁻³. No pone a prueba la MCV (c): eso lo hacen
+      las preinscripciones con datos (fila sculptor-mcv-c y el banco de
+      SPARC)
+    evidence_level: comprobación interna (E8) sin letra; reproduce el t_c de Essig et al. (2019) y la pendiente de Balberg et al. (2002); el borde por defecto (100 r_s) pasa las comprobaciones de influencia y el de 10 r_s no
+    status: interno
+    artifact: results/2026-10-24_gravothermal
+
 
   - claim_id: sculptor-mcv-c
     entity: La MCV (c) en Sculptor — el perfil σ_los(R) binado de Walker et al. 2009 (binning de PR-W) frente al Jeans isotermo con autointercambio empalmado con una envoltura NFW de molestia, con las estrellas de Plummer (Υ⋆ ∈ {1, 2, 3}) en el potencial y σ_x/m global; preinscripción y banco de modelos congelados antes de los bytes (23-oct-2026)
