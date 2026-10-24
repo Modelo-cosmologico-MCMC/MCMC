@@ -2123,6 +2123,45 @@ claims:
     status: interno
     artifact: results/2026-09-22_vacuum_2d
 
+
+  - claim_id: cuarta-ecuacion-termino-angular
+    entity: Cuarta ecuación, brazo «término angular» — V_ang = ½μ²χ² con μ² = 4A(c̄/κ₊)δ₀² como cierre declarado del reloj S (ClockConfig.angular_A); barrido de A en la ventana sin letra — el campo se acerca a la diagonal sin cruzarla, con θ monótona, en las 30 celdas (23-oct-2026)
+    law: "Def. 2.2 / Prop. 3.5 (diagonal dual: «cruza la diagonal en S ≃ 1»); Def. 3.1 y Prop. 3.4 (Basal con −η·χ, T₀ = c̄δ₀³); condiciones del 22-sep para el término (mínimo en la diagonal, ∝ ρ² junto al origen, simetría Mp ↔ Ep); decisión del autor del 23-oct (término angular)"
+    derivation: >-
+      bloque P1 del autor del 23-oct. El término más simple que cumple las
+      tres condiciones del 22-sep es una masa para el modo de desequilibrio
+      χ = (φ_M − φ_E)/√2. A es la única escala nueva: el término vale A·T₀
+      en el anillo del vacío, sobre el polo de masa, y entra en las β por
+      ser polinómico. En el reloj, con angular_A (None por defecto, sin
+      cambio), suma ½μ²χ² a V y a ∇V, la masa ½μ²(cos θ − sin θ)² al rayo
+      de nucleación, y T₀ y ρ₊ del paisaje completo (mínimo global en el
+      cuadrante). Barrido de A en la ventana [t/4, 1 + t/√2], con t =
+      ηρ₊/T₀ = 0.105 / 0.192 / 0.453 para δ₀ = 0.003 / 0.01 / 0.0554: nueve
+      puntos medios logarítmicos y A = 1, modo impuesto (S ≡ f). Ninguna
+      celda cruza π/4, θ es monótona en todas y todos los descensos
+      terminan. Con A = 1 reproduce las cifras del guion del autor: θ* =
+      0.759 / 0.737 / 0.672, S con medio giro 0.733 / 0.752 / 0.801 y
+      T₀/ley = 1.0008 / 1.0028 / 1.0155. π/4 − θ* coincide con arcsin(t/4A)
+      cuando θ* > 0; cerca del borde inferior, θ* = 0 (el umbral t/4 es de
+      primer orden). El borde superior exacto, el mayor A con punto de
+      escape en el rayo θ = 0, es 1.150 / 1.216 / 1.408 frente a 1 + t/√2 =
+      1.075 / 1.136 / 1.320. La llegada coincide con S → 1 por
+      construcción, porque el vacío verdadero está allí. Con este término
+      la Prop. 3.5 tendría que decir «se acerca a la diagonal al completar
+      la descarga»: es la decisión 2 del autor. La predicción del 22-sep
+      («cruce en S = 1 ± 0.05») no se puede someter a prueba con él.
+    implementation: core/s_clock.py + scripts/run_angular_term.py
+    test: tests/test_angular_term.py
+    observable: "— (recorrido interno del reloj; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      sin letra. Lo que haría cruzar la diagonal es que la inclinación
+      cambie de signo (brazo (i) del 22-sep, fila
+      vacio-2d-conversion-y-rotacion) o un término que no se anule en ella;
+      una derivación de A desde la ontología fijaría su valor
+    evidence_level: comprobación interna (E8) sin letra; reproduce las cifras del autor con A = 1; ningún cruce de la diagonal en el barrido; la redacción de la Prop. 3.5 queda para la decisión 2 del autor
+    status: interno
+    artifact: results/2026-10-23_angular_term
   - claim_id: halo-capas-ronda2
     entity: Frente 5 (b), ronda 2 — la serie de resolución del campo de Cronos con un código de CAPAS ESFÉRICAS (campo conservativo por núcleo, subpasos por capa, interior refinado), bajo preinscripción congelada; desenlace INDETERMINADO por puertas del instrumento (suelo de dt en los brazos finos a A_Sculptor, energía en los brazos a 0.05·A_Sculptor) (22-sep-2026)
     law: "Def. 11.1 / Prop. 11.2 / Cor. 11.3 (Ley de Cronos débil: ε_c = Aρ^{3/2}, fuerza +c²∇ε_c, fricción con compuerta, lapso); criterio de Cronos–Jeans (fila test-criterio-cronos-jeans: q = (3/2)c²ε_c/σ², γ ∝ k); A_Sculptor del 5E como hipótesis"

@@ -273,6 +273,12 @@ class ClockConfig:
     #      referencia); en f = f_× el potencial es O(2)-simétrico y después el
     #      polo de espacio es el mínimo. None = inclinación fija.
     tilt_cross_f: float | None = None
+    # cuarta ecuación (decisión del autor del 23-oct, brazo «término angular»): V_ang = ½μ²χ² con
+    #      μ² = 4A·(c̄/κ₊)·δ0², masa del modo de desequilibrio χ = (φ_M − φ_E)/√2 (mínimo en la diagonal, ∝ ρ²
+    #      junto al origen, simétrica bajo Mp ↔ Ep). A es la única escala nueva: el término vale A·T₀ en el
+    #      anillo del vacío, sobre el polo de masa. Cierre DECLARADO junto a los dos del vacío 2D; None = sin
+    #      término. Con él, T₀ y ρ₊ son los del paisaje completo (mínimo global en el cuadrante físico).
+    angular_A: float | None = None
     # cribado de β (PR-6, modo emergente): candidato declarado que se AÑADE a las β canónicas
     # (None = solo canónicas), cierre de proyección, κ̂ propio (None = kappa_conv) y escalón
     # del potencial en cada cruce D = 0 (M0² repuesto a su valor inicial, como en τ_d)
@@ -313,23 +319,25 @@ def sextic_coupling_dimension(d: int) -> float:
 
 def radial_landscape(delta0: float, theta: float = 0.0, m_bar: float = M_BAR,
                      b_bar: float = B_BAR, e_bar: float = E_BAR,
-                     C0: float = C0_DEFAULT) -> dict:
+                     C0: float = C0_DEFAULT, mass_extra: float = 0.0) -> dict:
     """Puntos estacionarios de V0(ρ; θ fijo) CON la inclinación −η·χ,
     χ = ρ(cos θ − sin θ)/√2.
 
     dV/dρ = M0²ρ − Bρ³ + C0ρ⁵ − η(cos θ − sin θ)/√2. Tres raíces positivas
     ⟹ falso vacío, barrera y vacío verdadero (metastable); una sola ⟹ la
     inclinación ha borrado la barrera (sin falso vacío: no hay S0 que
-    nuclear). Devuelve ρ y V de cada punto, o None si no existe.
+    nuclear). Devuelve ρ y V de cada punto, o None si no existe. mass_extra suma
+    ½·mass_extra·ρ² en el rayo (el término angular ½μ²χ² da ½μ²(cos θ − sin θ)²·ρ²/2).
     """
     p = scaled_params(delta0, m_bar, b_bar, e_bar)
     tilt = p["eta"] * (np.cos(theta) - np.sin(theta)) / np.sqrt(2.0)
+    m_ray = p["M0_sq"] + mass_extra
 
     def dV(r):
-        return p["M0_sq"] * r - p["B"] * r ** 3 + C0 * r ** 5 - tilt
+        return m_ray * r - p["B"] * r ** 3 + C0 * r ** 5 - tilt
 
     def V(r):
-        return (0.5 * p["M0_sq"] * r ** 2 - 0.25 * p["B"] * r ** 4 + (C0 / 6.0) * r ** 6
+        return (0.5 * m_ray * r ** 2 - 0.25 * p["B"] * r ** 4 + (C0 / 6.0) * r ** 6
                 - tilt * r)
     D = p["B"] ** 2 - 4.0 * C0 * p["M0_sq"]
     r_max = 1.6 * np.sqrt((p["B"] + np.sqrt(max(D, 0.0))) / (2.0 * C0)) if D >= 0 else 2.0 * np.sqrt(delta0)
@@ -531,8 +539,17 @@ class SClock:
         self.lam0 = np.array([p["M0_sq"], p["B"], c.C0])
         self.eta = p["eta"]
         self.T0_law = T0_analytic(c.delta0, c.m_bar, c.b_bar, c.C0)
-        self.land = radial_landscape(c.delta0, c.theta_nuc, c.m_bar, c.b_bar, c.e_bar, c.C0)
+        if c.angular_A is not None and c.angular_A < 0.0:
+            raise ValueError("angular_A ≥ 0 (masa del modo de desequilibrio)")
+        self.mu2 = (0.0 if c.angular_A is None else
+                    4.0 * c.angular_A * c_bar(c.m_bar, c.b_bar, c.C0) / kappa_plus(c.m_bar, c.b_bar, c.C0) * c.delta0 ** 2)
+        ct = np.cos(c.theta_nuc) - np.sin(c.theta_nuc)
+        self.land = radial_landscape(c.delta0, c.theta_nuc, c.m_bar, c.b_bar, c.e_bar, c.C0,
+                                     mass_extra=0.5 * self.mu2 * ct ** 2)
         if not self.land["metastable"] or self.land["rho_esc"] is None:
+            if self.mu2 > 0.0:
+                raise ValueError(f"Sin punto de escape en el rayo θ = {c.theta_nuc:g} con el término angular (A = "
+                                 f"{c.angular_A:g}): el rayo no tiene un vacío más profundo que el falso (A ≥ 1 + t/√2)")
             raise ValueError(
                 f"Sin falso vacío metastable en δ0 = {c.delta0:g}: la inclinación borra la "
                 f"barrera (δ0_max = {delta0_metastability_max(c.m_bar, c.b_bar, c.e_bar, c.C0, c.theta_nuc):.4g}); "
@@ -541,6 +558,12 @@ class SClock:
         self.V_fv = self.land["V_fv"]
         self.x_plus0 = self.land["rho_tv"] ** 2
         self.eta0 = self.eta                  # inclinación del paisaje de referencia (f, T₀, V_fv)
+        self.true_vacuum_2d = None
+        if self.mu2 > 0.0:
+            # con el término angular el vacío verdadero sale del rayo: T₀ y ρ₊ del paisaje completo
+            self.true_vacuum_2d = self._true_vacuum_2d()
+            self.T0 = float(self.V_fv - self.true_vacuum_2d["V"])
+            self.x_plus0 = float(self.true_vacuum_2d["rho"] ** 2)
         if c.tilt_cross_f is not None and not (0.0 < c.tilt_cross_f <= 1.0):
             raise ValueError("tilt_cross_f debe estar en (0, 1]")
         if c.kappa_conv < 0.0:
@@ -599,7 +622,7 @@ class SClock:
         with np.errstate(over="ignore", invalid="ignore"):
             x = np.float64(phi[0] ** 2 + phi[1] ** 2)
             chi = (phi[0] - phi[1]) / np.sqrt(2.0)
-            return float(0.5 * M0_sq * x - 0.25 * B * x ** 2 + (C0 / 6.0) * x ** 3 - eta * chi)
+            return float(0.5 * M0_sq * x - 0.25 * B * x ** 2 + (C0 / 6.0) * x ** 3 - eta * chi + 0.5 * self.mu2 * chi ** 2)
 
     def _grad(self, phi: np.ndarray, lam: np.ndarray, eta: float | None = None) -> np.ndarray:
         M0_sq, B, C0 = lam
@@ -607,8 +630,27 @@ class SClock:
         with np.errstate(over="ignore", invalid="ignore"):
             x = np.float64(phi[0] ** 2 + phi[1] ** 2)
             radial = M0_sq - B * x + C0 * x ** 2
-            return np.array([radial * phi[0] - eta / np.sqrt(2.0),
-                             radial * phi[1] + eta / np.sqrt(2.0)])
+            ang = self.mu2 * (phi[0] - phi[1]) / 2.0          # ∂(½μ²χ²)/∂φ_M = μ²χ/√2 = −∂/∂φ_E
+            return np.array([radial * phi[0] - eta / np.sqrt(2.0) + ang,
+                             radial * phi[1] + eta / np.sqrt(2.0) - ang])
+
+    def _true_vacuum_2d(self) -> dict:
+        """Mínimo global del paisaje completo (acoplos iniciales, η₀, término angular) en el cuadrante físico, desde
+        13 direcciones del anillo ρ₊ (L-BFGS-B con cotas φ ≥ 0)."""
+        from scipy.optimize import minimize
+        c = self.cfg
+        scale = c.delta0 ** 3
+        rp = np.sqrt(kappa_plus(c.m_bar, c.b_bar, c.C0) * c.delta0)
+        best = None
+        for th in np.linspace(0.0, np.pi / 2.0, 13):
+            r = minimize(lambda q: self._V(q, self.lam0, self.eta0) / scale, np.array([rp * np.cos(th), rp * np.sin(th)]),
+                         jac=lambda q: self._grad(q, self.lam0, self.eta0) / scale, bounds=[(0.0, None), (0.0, None)],
+                         method="L-BFGS-B", options={"ftol": 1e-15, "gtol": 1e-13})
+            if best is None or r.fun < best.fun:
+                best = r
+        q = best.x
+        return {"phi": q.tolist(), "V": float(self._V(q, self.lam0, self.eta0)), "theta": float(np.arctan2(q[1], q[0])),
+                "rho": float(np.hypot(q[0], q[1]))}
 
     def _eta_eff(self, f_ref: float) -> float:
         """Rotación de la inclinación (brazo i): η_eff = η₀(1 − f/f_×); η₀ si no se pide."""
@@ -851,7 +893,7 @@ class SClock:
             if not emergent:
                 # brazo (i): con la inclinación rotada el vacío efectivo no es el de referencia y f
                 # puede no alcanzar 1 − ε_res; el descenso termina cuando la velocidad proyectada ≈ 0
-                finished = done_descent or (c.tilt_cross_f is not None and vnorm_small)
+                finished = done_descent or ((c.tilt_cross_f is not None or c.angular_A is not None) and vnorm_small)
                 stop_reason = (None if not finished else "residuo de descarga alcanzado" if done_descent
                                else "descenso completado en el paisaje efectivo (∇V_eff ≈ 0; f de referencia < 1 − ε_res)")
             else:
