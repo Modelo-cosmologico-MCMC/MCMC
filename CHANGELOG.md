@@ -6,6 +6,19 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **La fuerza de la ECV en el código gravotérmico y la pared en R₀ (24-oct,
+  documento vivo del autor, PR-63), sin letra.** El equilibrio hidrostático
+  suma la repulsión de la ECV, con masa efectiva m − (2/3)·q_E·r³, y la pared
+  puede seguir al R₀ de la masa del propio código (`ecv_config`). Con q_E = 0
+  el código es el de #61. Resultados (`results/2026-10-24_gravothermal_ecv/`):
+  - t_c baja un 7.6 / 2.9 / 1.5 / 1.0 % para c = 5 / 10 / 15 / 20, las cifras
+    del documento, y el cambio no depende de la resolución;
+  - la comprobación de resolución del documento (duplicar las capas mueve t_c
+    menos de 10⁻³) no pasa con 150 capas (6.5·10⁻³) y pasa con 600 (4·10⁻⁴);
+  - una pared más allá de R₀ falla cerrado; la fuerza neta en la pared es nula.
+
+  Fila nueva `gravotermico-fuerza-ecv-borde-libre` (condicional).
+
 - **Radio de aceleración nula de la ECV, el borde estático (24-oct, documento
   vivo del autor, PR-62), sin datos.** Con la gravedad del bloque, la ECV
   repele, y la aceleración neta junto a un halo se anula en

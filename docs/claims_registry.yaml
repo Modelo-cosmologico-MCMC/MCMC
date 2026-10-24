@@ -1536,6 +1536,46 @@ claims:
     status: condicional
     artifact: "—"
 
+  - claim_id: gravotermico-fuerza-ecv-borde-libre
+    entity: La fuerza de la ECV en el código gravotérmico 1D y la pared en R₀ — el equilibrio hidrostático con la repulsión de la ECV y el borde de ECV en el radio de aceleración nula de la masa del propio código, que acortan el colapso entre un 1 % y un 7.6 % según la concentración (24-oct-2026; sin datos ni letra)
+    law: "gravedad del bloque P0 del 23-oct, ∇²Φ = 4πG(ρ_b + ρ_M − 2ρ_E), en el equilibrio hidrostático, dp/dr = −ρ·[GM/r² − (8πG/3)ρ_E·r]; decisiones 1 y 2 del documento vivo del 24-oct (el borde en R₀ y una pared que lo sigue)"
+    derivation: >-
+      PR-63 del documento vivo del 24-oct. En unidades del código, la masa
+      efectiva del equilibrio es m − (2/3)·q_E·r³, con q_E = ρ_E/ρ_s
+      constante, y la energía suma el potencial −(q_E/3)·r² de la ECV. Con
+      q_E = 0 el código es el de #61. La pared «R0» sigue al radio de
+      aceleración nula de la masa del código, R₀³ = (3/2)·M/q_E; sin
+      intercambio de masa no se mueve, y la fuerza neta en ella es nula
+      (≤ 5·10⁻¹⁵ de la atracción). Una pared más allá de R₀ falla cerrado:
+      allí la ECV empuja hacia fuera y la pared sujetaría gas que se
+      escaparía. Duplicar el borde deja de ser una comprobación con la
+      fuerza de la ECV; la sustituye duplicar las capas, que tiene que mover
+      t_c menos de 10⁻³. Corridas con σ̂ = 0.01 y la pared en el R₀
+      autoconsistente: la fuerza acorta el colapso un 7.6 / 2.9 / 1.5 /
+      1.0 % para c = 5 / 10 / 15 / 20, y el cambio no depende de la
+      resolución (−2.88 % con 145 capas, −2.92 % con 1153 para c = 10); son
+      las cifras del documento. La comprobación de resolución no pasa con
+      el espaciado del documento (150 capas hasta 100 r_s): la
+      discretización de t_c es del 0.6 %. Pasa con 600 capas hasta 100 r_s
+      (4·10⁻⁴ para las cuatro concentraciones). El flujo conductivo al
+      borde queda por debajo de 2·10⁻⁷ del máximo. En el halo de
+      referencia del autor (10¹² M☉, c = 10, σ_x/m = 10 cm²/g), t_c pasa de
+      46.38 Gyr (pared fija en 100 r_s, sin la fuerza) a 45.05 Gyr (pared
+      en R₀, con ella), frente a los 44.88 Gyr de la fórmula de Essig.
+    implementation: dynamics/gravothermal.py + scripts/run_gravothermal_ecv.py
+    test: tests/test_gravothermal_ecv.py
+    observable: "— (evolución interna de un halo aislado; ningún dato)"
+    dataset: "—"
+    falsifier: >-
+      sin letra. Como instrumento lo invalidaría cualquiera de tres
+      resultados, y no se da ninguno: que con q_E = 0 no reprodujera #61,
+      que la fuerza neta en la pared no fuera nula, o que la comprobación de
+      resolución fallara con el espaciado de referencia. No pone a prueba la
+      MCV (c); el borde en R₀ depende de las decisiones 1 y 2 del autor
+    evidence_level: comprobación interna (E8) sin letra; reproduce las cifras del documento vivo del 24-oct; la pared en R₀ es condicional a las decisiones 1 y 2 del autor
+    status: condicional
+    artifact: results/2026-10-24_gravothermal_ecv
+
 
   - claim_id: sculptor-mcv-c
     entity: La MCV (c) en Sculptor — el perfil σ_los(R) binado de Walker et al. 2009 (binning de PR-W) frente al Jeans isotermo con autointercambio empalmado con una envoltura NFW de molestia, con las estrellas de Plummer (Υ⋆ ∈ {1, 2, 3}) en el potencial y σ_x/m global; preinscripción y banco de modelos congelados antes de los bytes (23-oct-2026)
