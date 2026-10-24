@@ -20,17 +20,30 @@ ESQUEMA. Capas lagrangianas de masa fija (la central es la esfera de radio r_min
 El paso se adapta para que ninguna capa cambie u en más de eps; si cambia más de 2·eps, el paso se repite con la mitad.
 
 EL BORDE DE ECV. Definición del autor (24-oct): «el borde de ECV corresponde al punto de intercambio entre la burbuja de
-MCV y la ECV fuera de la influencia del punto gravitacional y térmico». En el código es un radio fijo r_b, la pared donde
-la burbuja toca la ECV, con dos brazos:
+MCV y la ECV fuera de la influencia del punto gravitacional y térmico». En el código es una pared en r_b donde la burbuja
+toca la ECV, con dos brazos térmicos:
   - «cerrado»: sin intercambio, L(r_b) = 0;
   - «intercambio»: contacto térmico con una ECV que conserva la temperatura que tiene en el punto de intercambio (la
     inicial de la capa del borde).
+La pared puede ser:
+  - «fija» en r_b (100 r_s por defecto; sin la fuerza de la ECV queda como control numérico);
+  - «R0»: la pared sigue al radio de aceleración nula R₀ de la masa del propio código (dynamics/ecv_border.py), con la
+    fuerza de la ECV en el equilibrio. Sin intercambio de masa no se mueve. Se construye con `ecv_config`.
 Que el borde esté fuera de la influencia se COMPRUEBA en cada corrida, no se supone:
   - térmica: el flujo conductivo que llega a la capa del borde, frente al máximo del halo, queda por debajo de THERMAL_TOL;
-  - gravitatoria y mecánica: duplicar r_b mueve t_c menos de BORDER_TOL (`border_shift`);
+  - sin la fuerza de la ECV y con la pared fija: duplicar r_b mueve t_c menos de BORDER_TOL (`border_shift`);
+  - con la fuerza de la ECV: duplicar el número de capas mueve t_c menos de RESOLUTION_TOL (`resolution_shift`), y la
+    fuerza neta en la pared es nula dentro de la discretización. Duplicar el borde deja de tener sentido: más allá de R₀
+    la ECV empuja hacia fuera, y una pared más lejana sujetaría gas que se escaparía. Por eso falla cerrado una pared más
+    allá de R₀;
   - al pasar a unidades físicas, r_b no puede caer dentro de r200 (`collapse_time_gyr`).
 El intercambio de MASA con la ECV en el borde (atrapamiento y escape de la ec. 7 del bloque) no está implementado: su ley
 por halo no está dada y f_h(a) no está definida.
+
+LA FUERZA DE LA ECV (documento vivo del 24-oct, PR-63). Con la gravedad del bloque, ∇²Φ = 4πG(ρ_b + ρ_M − 2ρ_E), el
+equilibrio hidrostático pasa a dp/dr = −ρ·[GM/r² − (8πG/3)ρ_E·r]: en unidades del código, la masa efectiva es
+m − (2/3)·q_E·r³, con q_E = ρ_E/ρ_s constante (ρ_E del fondo ΛCDM; su variación por Q es de segundo orden), y la energía
+suma el potencial −(q_E/3)·r² de la ECV. Con q_E = 0 el código es el de #61, cifra a cifra.
 
 CONDICIÓN INICIAL. NFW truncado en r_b con la presión del NFW completo, p(r) = ∫_r^∞ ρ·GM/r'² dr', relajado al equilibrio
 discreto con la pared en r_b.
@@ -48,6 +61,7 @@ from dataclasses import asdict, dataclass, replace
 import numpy as np
 from scipy.integrate import quad
 from scipy.linalg.lapack import dgtsv
+from scipy.optimize import brentq
 
 from dynamics.mcv_equilibrium import (
     CM2_PER_G_TO_KPC2_PER_MSUN,
@@ -62,8 +76,10 @@ A_COEF = math.sqrt(16.0 / math.pi)
 B_COEF = 25.0 * math.sqrt(math.pi) / 32.0
 C_DEFAULT = 0.75
 BORDERS = ("cerrado", "intercambio")
+WALLS = ("fija", "R0")
 THERMAL_TOL = 1e-6        # flujo que llega a la capa del borde / máximo del halo
-BORDER_TOL = 1e-3         # cambio relativo de t_c al duplicar r_b
+BORDER_TOL = 1e-3         # cambio relativo de t_c al duplicar r_b (pared fija sin la fuerza de la ECV)
+RESOLUTION_TOL = 1e-3     # cambio relativo de t_c al duplicar las capas (con la fuerza de la ECV)
 
 
 @dataclass(frozen=True)
@@ -77,6 +93,8 @@ class GravothermalConfig:
     eps: float = 1e-3                 # cambio relativo máximo de u por paso
     rho_stop: float = 1e8             # ρ_c/ρ_s que marca el colapso
     max_steps: int = 1_000_000
+    q_E: float = 0.0                  # ρ_E/ρ_s: la repulsión de la ECV en el equilibrio (0: sin ella, como #61)
+    wall: str = "fija"                # «fija» en r_border, o «R0» (sigue a R₀; r_border es el R₀ inicial)
 
 
 def _tridiagonal(lower, diag, upper, rhs):
@@ -98,19 +116,39 @@ def nfw_density(r):
     return 1.0 / (r * (1.0 + r) ** 2)
 
 
+def zero_acceleration_radius_code(M_tot: float, q_E: float) -> float:
+    """R₀ en r_s para una masa M_tot (unidades de 4πρ_s r_s³) rodeada de ECV con q_E = ρ_E/ρ_s: R₀³ = (3/2)·M_tot/q_E."""
+    return (1.5 * M_tot / q_E) ** (1.0 / 3.0)
+
+
+def r0_selfconsistent_code(q_E: float) -> float:
+    """R₀ autoconsistente del NFW prolongado, en r_s: la raíz de x³ = (3/2)·m(x)/q_E (la de dynamics/ecv_border.py)."""
+    if not 0.0 < q_E < 0.1:
+        raise ValueError(f"q_E = {q_E} fuera de dominio")
+    return brentq(lambda x: x ** 3 - 1.5 * float(nfw_mass(x)) / q_E, 1.0, 1e8, xtol=1e-14, rtol=1e-14)
+
+
 class GravothermalHalo:
     """Estado lagrangiano: bordes r_0 = 0 < r_1 < … < r_N = r_b, masas dM de las N capas y energía específica u."""
 
     def __init__(self, cfg: GravothermalConfig):
         if cfg.border not in BORDERS:
             raise ValueError(f"borde {cfg.border!r} fuera de {BORDERS}")
-        if not (cfg.sigma_hat > 0.0 and cfg.C > 0.0 and 0.0 < cfg.r_min < cfg.r_border and cfg.n_shells >= 8):
+        if cfg.wall not in WALLS:
+            raise ValueError(f"pared {cfg.wall!r} fuera de {WALLS}")
+        if not (cfg.sigma_hat > 0.0 and cfg.C > 0.0 and 0.0 < cfg.r_min < cfg.r_border and cfg.n_shells >= 8
+                and cfg.q_E >= 0.0):
             raise ValueError("configuración fuera de dominio")
+        if cfg.wall == "R0" and (cfg.q_E <= 0.0 or abs(cfg.r_border / r0_selfconsistent_code(cfg.q_E) - 1.0) > 1e-9):
+            raise ValueError("la pared «R0» necesita q_E > 0 y r_border = R₀ autoconsistente (usa ecv_config)")
         self.cfg = cfg
         self.r = np.concatenate([[0.0], np.geomspace(cfg.r_min, cfg.r_border, cfg.n_shells)])
         M = nfw_mass(self.r)
         self.dM = np.diff(M)
         self.M = M[1:]                                      # masa dentro del borde exterior de cada capa
+        if cfg.q_E > 0.0 and cfg.r_border > zero_acceleration_radius_code(self.M[-1], cfg.q_E) * (1.0 + 1e-9):
+            raise ValueError(f"con la fuerza de la ECV, la pared (r_b = {cfg.r_border:g} r_s) queda más allá de R₀ = "
+                             f"{zero_acceleration_radius_code(self.M[-1], cfg.q_E):.4g} r_s: sujetaría gas que se escaparía")
         rc = self.r_centre
         p = np.array([quad(lambda x: nfw_density(x) * nfw_mass(x) / x ** 2, x0, np.inf, limit=200)[0] for x0 in rc])
         self.K = p / nfw_density(rc) * self.rho ** (-2.0 / 3.0)
@@ -131,26 +169,34 @@ class GravothermalHalo:
         return ((self.r[1:] ** 3 + self.r[:-1] ** 3) / 2.0) ** (1.0 / 3.0)
 
     def hydrostatic_residual(self) -> float:
-        """max |dp/dM + M/r⁴| / (M/r⁴) en los bordes interiores."""
+        """max |dp/dM + m_ef/r⁴| / (M/r⁴) en los bordes interiores, con m_ef = M − (2/3)·q_E·r³."""
         n = len(self.dM)
         p = self.K * self.rho ** (5.0 / 3.0)
-        g = self.M[:n - 1] / self.r[1:n] ** 4
-        return float(np.max(np.abs((p[1:] - p[:-1]) / (0.5 * (self.dM[:-1] + self.dM[1:])) + g) / g))
+        ri, Mi = self.r[1:n], self.M[:n - 1]
+        g = Mi / ri ** 4
+        g_eff = (Mi - (2.0 / 3.0) * self.cfg.q_E * ri ** 3) / ri ** 4
+        return float(np.max(np.abs((p[1:] - p[:-1]) / (0.5 * (self.dM[:-1] + self.dM[1:])) + g_eff) / g))
+
+    def wall_net_force(self) -> float:
+        """Fuerza neta en la pared en unidades de la atracción allí: (M − (2/3)·q_E·r_b³)/M; nula en R₀."""
+        return float((self.M[-1] - (2.0 / 3.0) * self.cfg.q_E * self.r[-1] ** 3) / self.M[-1])
 
     def relax(self, tol: float = 1e-12, itmax: int = 50) -> int:
-        """Equilibrio hidrostático adiabático (K fijo por capa); r_0 = 0 y r_N = r_b fijos."""
+        """Equilibrio hidrostático adiabático (K fijo por capa), con la fuerza de la ECV; r_0 = 0 y r_N fijos."""
         n = len(self.dM)
         dMb = 0.5 * (self.dM[:-1] + self.dM[1:])          # masa entre los centros de dos capas vecinas
         Mi = self.M[:n - 1]
+        q = self.cfg.q_E
         for it in range(itmax):
             r = self.r
             vol = (r[1:] ** 3 - r[:-1] ** 3) / 3.0
             p = self.K * (self.dM / vol) ** (5.0 / 3.0)
             ri = r[1:n]
-            R = (p[1:] - p[:-1]) / dMb + Mi / ri ** 4
+            R = (p[1:] - p[:-1]) / dMb + (Mi - (2.0 / 3.0) * q * ri ** 3) / ri ** 4
             dp_out = (5.0 / 3.0) * p * (-(r[1:] ** 2) / vol)  # ∂p_k/∂(borde exterior de k)
             dp_in = (5.0 / 3.0) * p * (r[:-1] ** 2 / vol)     # ∂p_k/∂(borde interior de k)
-            dx = _tridiagonal(-dp_in[1:n - 1] / dMb[1:], (dp_in[1:] - dp_out[:-1]) / dMb - 4.0 * Mi / ri ** 5,
+            dx = _tridiagonal(-dp_in[1:n - 1] / dMb[1:],
+                              (dp_in[1:] - dp_out[:-1]) / dMb - 4.0 * Mi / ri ** 5 + (2.0 / 3.0) * q / ri ** 2,
                               dp_out[1:n - 1] / dMb[:-1], -R)
             lam = 1.0
             while True:
@@ -220,8 +266,11 @@ class GravothermalHalo:
         return dt
 
     def energy(self) -> float:
-        """E = Σ u·dM − Σ G·M·dM/r (con la masa y el radio de cada capa en su centro)."""
-        return float(np.sum(self.u * self.dM) - np.sum((self.M - 0.5 * self.dM) * self.dM / self.r_centre))
+        """E = Σ u·dM − Σ G·M·dM/r − Σ (q_E/3)·r²·dM (con la masa y el radio de cada capa en su centro; el último término
+        es el potencial de la ECV)."""
+        rc = self.r_centre
+        return float(np.sum(self.u * self.dM) - np.sum((self.M - 0.5 * self.dM) * self.dM / rc)
+                     - (self.cfg.q_E / 3.0) * np.sum(rc ** 2 * self.dM))
 
 
 def self_similar_slope(halo: GravothermalHalo, window: tuple[float, float] = (1e-6, 1e-3)) -> dict:
@@ -242,6 +291,7 @@ def run_collapse(cfg: GravothermalConfig, snapshot_rho: tuple[float, ...] = ()) 
     halo = GravothermalHalo(cfg)
     e0 = halo.energy()
     rho_c0 = float(halo.rho[0])
+    wall_force0 = halo.wall_net_force()
     rho_min, t_min = math.inf, 0.0
     l_max = l_edge = l_exchange = 0.0
     pending = sorted(snapshot_rho)
@@ -265,7 +315,8 @@ def run_collapse(cfg: GravothermalConfig, snapshot_rho: tuple[float, ...] = ()) 
             "rho_c_min": rho_min, "t_core_max": t_min, "energy_rel_change": (halo.energy() - e0) / abs(e0),
             "border_flux_rel": edge_rel, "exchange_flux_rel": l_exchange / l_max,
             "border_u_rel_change": float(abs(halo.u[-1] / halo.u_init[-1] - 1.0)),
-            "outside_thermal_influence": bool(edge_rel < THERMAL_TOL), "snapshots": snapshots}
+            "outside_thermal_influence": bool(edge_rel < THERMAL_TOL), "wall_net_force": wall_force0,
+            "snapshots": snapshots}
 
 
 def with_border(cfg: GravothermalConfig, r_border: float) -> GravothermalConfig:
@@ -274,10 +325,36 @@ def with_border(cfg: GravothermalConfig, r_border: float) -> GravothermalConfig:
     return replace(cfg, r_border=r_border, n_shells=n)
 
 
+def ecv_config(sigma_hat: float, c: float, z: float = 0.0, base: GravothermalConfig | None = None) -> GravothermalConfig:
+    """Halo con la fuerza de la ECV y la pared «R0»: q_E = ρ_E/ρ_s del NFW con concentración c (M200 a 200ρ_c(z),
+    Planck 2018) y el borde en su R₀ autoconsistente, con el espaciado de las capas de `base`."""
+    from dynamics.ecv_border import rho_s_over_rho_ecv
+
+    base = base or GravothermalConfig(sigma_hat=sigma_hat)
+    q_E = 1.0 / rho_s_over_rho_ecv(c, z)
+    return replace(with_border(base, r0_selfconsistent_code(q_E)), sigma_hat=sigma_hat, q_E=q_E, wall="R0")
+
+
+def resolution_shift(cfg: GravothermalConfig) -> dict:
+    """t_c con n y con 2n − 1 capas en el mismo intervalo: con la fuerza de la ECV, la comprobación de que el borde no
+    depende de la discretización (cambio relativo por debajo de RESOLUTION_TOL), junto a la térmica de las dos corridas."""
+    coarse = run_collapse(cfg)
+    fine = run_collapse(replace(cfg, n_shells=2 * cfg.n_shells - 1))
+    if not (coarse["collapsed"] and fine["collapsed"]):
+        return {"coarse": coarse, "fine": fine, "rel": None, "converged": False}
+    rel = fine["t_c"] / coarse["t_c"] - 1.0
+    return {"coarse": coarse, "fine": fine, "rel": rel,
+            "converged": bool(abs(rel) < RESOLUTION_TOL and coarse["outside_thermal_influence"]
+                              and fine["outside_thermal_influence"])}
+
+
 def border_shift(cfg: GravothermalConfig, factor: float = 2.0) -> dict:
     """t_c con el borde en r_b y en factor·r_b (mismo espaciado): el borde está fuera de la influencia gravitatoria y
     mecánica si el cambio relativo queda por debajo de BORDER_TOL, y fuera de la térmica si ninguna de las dos corridas
-    lleva flujo al borde."""
+    lleva flujo al borde. Solo para la pared fija sin la fuerza de la ECV (control): con ella, alejar la pared la deja más
+    allá de R₀, y la comprobación es `resolution_shift`."""
+    if cfg.q_E > 0.0 or cfg.wall != "fija":
+        raise ValueError("duplicar el borde solo vale para la pared fija sin la fuerza de la ECV; usa resolution_shift")
     near = run_collapse(cfg)
     far = run_collapse(with_border(cfg, factor * cfg.r_border))
     if not (near["collapsed"] and far["collapsed"]):
@@ -299,12 +376,15 @@ def sigma_hat(sigma_over_m: float, rho_s: float, r_s: float) -> float:
 
 
 def collapse_time_gyr(M200: float, c: float, sigma_over_m: float, cfg: GravothermalConfig | None = None,
-                      H0: float = H0_DEFAULT) -> dict:
+                      H0: float = H0_DEFAULT, ecv: bool = False) -> dict:
     """t_c del código para una envoltura NFW (M200 a 200·ρ_crit) en Gyr, junto al t_c de Essig et al. (2019) con β = C.
+    Con ecv = True, la fuerza de la ECV y la pared en el R₀ autoconsistente (`ecv_config`, con el espaciado de cfg).
     Falla cerrado si el borde de ECV cae dentro de r200 (dentro de la influencia gravitatoria del halo)."""
     halo = nfw_halo(M200, c, H0)
     sh = sigma_hat(sigma_over_m, halo["rho_s"], halo["r_s"])
     cfg = replace(cfg or GravothermalConfig(sigma_hat=sh), sigma_hat=sh)
+    if ecv:
+        cfg = ecv_config(sh, c, base=cfg)
     if cfg.r_border < c:
         raise ValueError(f"el borde de ECV (r_b = {cfg.r_border} r_s) cae dentro de r200 = {c} r_s")
     res = run_collapse(cfg)
