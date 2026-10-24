@@ -169,7 +169,13 @@ claims:
       d = 1, 2, 3) queda excluido por derivación para el campo del reloj
       (N = 2) con las formas por defecto: R₀ = 9/4 está por encima del umbral
       R_c = 25/12 a partir del cual R = B²/(4C₀M₀²) solo crece (fila
-      beta-un-lazo-sextico, 18-oct).
+      beta-un-lazo-sextico, 18-oct). Candidato 3 (23-oct, fila
+      beta-candidato3-sentido-flujo): las β canónicas recorridas hacia el UV
+      (τ < 0) SÍ llevan D a cero con M₀² > 0, y con el escalón del potencial
+      dan tres cruces (criterios (i) integral y (ii) de PR-6), pero sus
+      cocientes, 1.4 y 1.16, quedan lejos de la Década: letra C bajo
+      preinscripción congelada. λ sigue sin derivar; el sentido del flujo es
+      la decisión 1 del autor.
     implementation: core/decade.py + core/s_clock.py
     test: tests/test_core_florencia_decade.py + tests/test_s_clock.py
     observable: "—"
@@ -232,6 +238,48 @@ claims:
     evidence_level: cribado diagnóstico (E13) bajo preinscripción congelada — «no pasa» bajo cierres declarados; ninguna letra sobre λ; ningún cruce D = 0 en 147 corridas
     status: resultado-negativo
     artifact: results/2026-09-28_beta_screening
+
+  - claim_id: beta-candidato3-sentido-flujo
+    entity: Candidato 3 del cribado de β — las β canónicas del reloj recorridas hacia el UV (τ < 0, FPClosure(flow_sign=−1)), letra C en los dos sub-brazos bajo preinscripción congelada; sin escalón, un cruce D = 0 y divergencia del séxtico truncado; con escalón, tres cruces con cocientes 1.4 y 1.16 (23-oct-2026)
+    law: "Def. 4.4 (Polchinski en dimensión cero, a = b = 1/2); Def. 8.4 y Prop. 8.1 (D = B² − 4C₀M₀², Ley de la Década); Ap. L.2, ec. (790) del Maestro (k_S ∝ e^{−S/λ_S}: flujo hacia el IR) frente a la ec. (218) (cada colapso abre un grado de libertad dimensional)"
+    derivation: >-
+      bloque P1 del autor del 23-oct. El flujo de acoplos del reloj es
+      dλ/dS = flow_sign·τ·β(λ), autónomo en S: en s = |τ|·S los cocientes
+      S_{k+1}/S_k no dependen de τ. Preinscripción congelada (sha256
+      0eb5b7b6036c…) en un commit posterior al generador y antes de ninguna
+      corrida hacia el UV (el integrador se comprobó con flujos de juguete y
+      con el control hacia el IR). Letras del autor sobre los dos primeros
+      cocientes: A en [7, 14]; B fuera de [7, 14] y dentro de [3, 30]; C
+      menos de tres cruces o fuera de [3, 30]; INDETERMINADO puertas o
+      truncamiento > 10 %. Desde el escalado (3.2) con R₀ = 9/4, hasta tres
+      cruces o S·|τ| = 50, δ₀ ∈ {0.003, 0.01, 0.0554}. Sin escalón del
+      potencial, un cruce en s = 0.187 / 0.185 / 0.174 y después M₀² diverge
+      (dM₀²/ds = 8aB + 2bM₀⁴): C. Con escalón (M₀² repuesto en cada cruce),
+      tres cruces en s ≈ 0.18, 0.26 y 0.30: cocientes 1.41–1.44 y
+      1.15–1.16, fuera de [3, 30], C. La variante cuártica (E₄ como cuarto
+      acoplo) los mueve un 3–5 % (puerta superada). Criterio (i) de PR-6:
+      la forma integral se cumple en las seis celdas (primer cruce con
+      M₀² > 0); la original (D monótono) no, porque hacia el UV
+      D = 4C₀M₀²(R − 1) crece al principio aunque R decrezca. Con el τ que
+      pondría el primer cruce en S = 0.009, los otros dos caen en
+      S ≈ 0.013 y 0.015, no en 0.099 y 0.999. Controles hacia el IR: sin
+      cruces. Reloj completo (complemento, sin letra): con τ = 1 y
+      δ₀ = 0.0554 reproduce el primer cruce en S = 0.17434; con τ ≤ 0.1
+      termina antes del cruce; con escalón, el segundo «cruce» cae en un
+      único paso tras la reposición (límite del instrumento).
+    implementation: core/beta_candidate3.py + scripts/run_beta_candidate3.py + core/fokker_planck_beta.py + core/s_clock.py
+    test: tests/test_beta_candidate3.py
+    observable: "—"
+    dataset: "—"
+    falsifier: >-
+      unas β, un sentido del flujo o un escalón del potencial derivados del
+      tratado que den tres cruces con los dos cocientes en [7, 14]; la C no
+      decide el sentido del flujo (decisión 1 del autor) ni λ, y vale para el
+      séxtico truncado (hacia el UV la ecuación de Polchinski completa es una
+      difusión hacia atrás)
+    evidence_level: cribado diagnóstico (E8, E13) bajo preinscripción congelada — C en los dos sub-brazos (cocientes 1.4 y 1.16 con escalón; un solo cruce sin él); truncamiento cuártico 3–5 %; ninguna letra sobre λ ni sobre el sentido del flujo
+    status: resultado-negativo
+    artifact: results/2026-10-23_beta_candidate3
 
   - claim_id: beta-un-lazo-sextico
     entity: Candidato 2 del cribado de β — las β a un lazo (LPA) del potencial séxtico del Basal en dimensión d = 1, 2, 3 no pueden producir D = 0 desde las formas por defecto con el campo del reloj (N = 2); derivación con teorema de signo y verificación numérica, sin letra (revisión del autor del 30-sep; Ap. L, Ruta II; 18-oct-2026)

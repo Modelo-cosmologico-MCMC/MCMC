@@ -1,0 +1,57 @@
+# Preinscripción — Cribado del candidato 3 a las β del frente 2: el sentido del flujo (β canónicas del reloj hacia el UV, τ < 0)
+
+Congelada 2026-10-23T17:07:25.378154+00:00 en el commit `54e927dac` (contiene el generador), ANTES de ninguna corrida. sha256 de `preregistration.json`: `0eb5b7b6036c957ab9c983f821293403e4ebed6a0de5ade74c3471cedfb69020`.
+
+**Pregunta**: ¿Producen las β canónicas del reloj, recorridas hacia el UV, tres cruces D = 0 con cocientes de Década?
+
+## Declarado
+
+- **flow_sign**: -1
+- **closure**: Polchinski en dimensión cero, a = b = 1/2 (core/fokker_planck_beta.py)
+- **delta0_grid**: [0.003, 0.01, 0.0554]
+- **reset_arms**: [False, True]
+- **initial_couplings**: escalado (3.2): (M₀², B, C₀) = (m̄²δ₀², b̄δ₀, C₀) con m̄ = 1, b̄ = 3, C₀ = 1 (R₀ = 9/4)
+- **truncation_cost**: variante cuártica beta_functions_quartic con E₄ como cuarto acoplo (E₄(0) = 0); D sigue siendo B² − 4C₀M₀²
+- **clock_complement**: {'tau_grid': [0.01, 0.1, 1.0], 'mode': 'emergent, couplings_flow, FPClosure(flow_sign=−1, τ)', 'reading': 'sin letra: el reloj se detiene en S = 1.001 (S·|τ| ≤ 1.001·τ)'}
+- **controls**: el mismo flujo hacia el IR (flow_sign = +1), sin letra (resultado publicado: sin cruces)
+- **criteria_pr6**: (i) D monótono hasta el primer cruce con M₀² > 0 en él, y su forma integral (para preinscripciones desde el 18-oct); (ii) n_cruces ≥ 3; (iii) S de los cruces frente a 0.009/0.099/0.999 y cocientes sucesivos — se publican junto a la letra
+
+## Reglas (congeladas)
+
+- **evaluated_on**: flujo de acoplos dλ/ds = flow_sign·β(λ) con s = |τ|·S (autónomo en S; los cocientes no dependen de τ), desde el escalado (3.2) de las formas por defecto, hasta tres cruces D = 0 o s = s_max
+- **s_max**: 50.0
+- **n_crossings_max**: 3
+- **A_interval**: [7.0, 14.0]
+- **C_outside**: [3.0, 30.0]
+- **truncation_max_rel**: 0.1
+- **letters**: {'A': 'los dos primeros cocientes S_{k+1}/S_k en [7, 14]', 'B': 'tres cruces con algún cociente fuera de [7, 14] pero dentro de [3, 30]', 'C': 'menos de tres cruces o algún cociente fuera de [3, 30]', 'INDETERMINADO': 'puertas numéricas o truncamiento > 10 % en algún cociente'}
+- **per_cell**: letra por celda (δ₀, sub-brazo); la global de cada sub-brazo es la peor sobre δ₀ con el orden A < B < INDETERMINADO < C (precisión del ejecutor: los sub-brazos son hipótesis distintas y se publican con el mismo peso; la peor sobre todas las celdas se publica también, como lectura)
+- **numerical_gates**: ['el integrador termina en los tres flujos de la celda (cúbico, cúbico con tolerancia estricta, cuártico)', 'convergencia: mismo número de cruces, mismo final y cada cruce a ≤ convergence_rel entre rtol y rtol_tight']
+- **truncation_gate**: con tres cruces cúbicos, el cuártico (beta_functions_quartic, E₄(0) = 0) debe dar tres cruces y mover cada uno de los dos cocientes ≤ 10 %; con menos de tres cruces cúbicos, el cuártico no debe dar tres (si los da, la C depende del truncamiento): si no, INDETERMINADO
+- **ends**: un flujo termina en tres cruces, en s = s_max, en la divergencia de un acoplo (|λ_i| > blowup·escala_i: final resuelto del séxtico truncado, no puerta) o con C₀ ≤ 0 (fuera del dominio)
+- **convergence_rel**: 1e-06
+- **rtol**: 1e-10
+- **rtol_tight**: 1e-12
+- **blowup**: 100000000.0
+- **method**: LSODA
+- **order**: puertas → C → B → A
+- **no_letter_on_lambda**: True
+- **front2_prereg_untouched**: True
+
+## Exploración del autor, sin letra
+
+con τ < 0 se cumple el criterio (i) en los cuatro δ₀ probados (los flujos llegan a T₀ = 0 y a D = 0); (ii) y (iii) no se han calculado, para no ver el resultado antes de preinscribirlo.
+
+## Comprobaciones antes de congelar
+
+el integrador se comprobó con flujos de juguete con cruces analíticos y con el control hacia el IR (sin cruces, resultado ya publicado); ningún cruce del flujo hacia el UV se calculó antes de congelar.
+
+## Expectativa (E13)
+
+C en los dos sub-brazos, por razonamiento y sin cálculo de cruces. Hacia el UV, dM₀²/ds = 8aB + 2bM₀⁴ > 0: M₀² crece sin cota. Sin escalón, D no vuelve a cruzar tras el primer cruce: menos de tres cruces. Con escalón, M₀² vuelve a su valor inicial en cada cruce mientras B y C₀ siguen creciendo, y nada en las β hace crecer los intervalos entre cruces en progresión geométrica: lo esperable son cocientes de orden 1–2, fuera de [3, 30]. Una A sería sorprendente y no decidiría λ ni el sentido del flujo (decisión 1 del autor); el S del primer cruce escala con 1/|τ| y no prueba nada.
+
+## Lo que no puede decidir
+
+- λ (la Década) ni el sentido del flujo en S: decisión 1 del autor
+- la ecuación de Polchinski completa hacia el UV (difusión hacia atrás): vale para el séxtico truncado; el cuártico mide solo el primer escalón del truncamiento
+- nada observable: recorrido interno del reloj (E8)

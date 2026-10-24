@@ -4,7 +4,7 @@
 
 Assumptions, completed derivations, calibrations, falsifiers and gaps, on one page. Every cell is generated from the canonical registry (`docs/claims_registry.yaml`) and the dictionary bridges table (`docs/diccionario_puentes.md`): what is shown is the registry, not a narrative. Statuses follow the epistemological errata FE-08-2026: "internal" means an internal consistency check passed (E8), never a physical demonstration. The registry is written in Spanish; the frame and the status vocabulary are translated here, and the per-claim texts are quoted verbatim in Spanish from the registry, which remains the source.
 
-Source: `docs/claims_registry.yaml`, sha256 `d0e9bb93cddeb77a4aeba67af0c6b2b028b7499e83ed9fefd8483651b4f10e9f`; 79 rows.
+Source: `docs/claims_registry.yaml`, sha256 `efaac660163dc9379ae35dc66edd7ee47a20bf8d4342f51d73c38003f7d307d8`; 80 rows.
 
 ## 1. Matrix by category
 
@@ -14,7 +14,7 @@ Source: `docs/claims_registry.yaml`, sha256 `d0e9bb93cddeb77a4aeba67af0c6b2b028b
 | Assumptions: results conditional on declared hypotheses | 17 | `rp-no-estacionaria`, `kls-flujo`, `matriz-estabilidad`, `gea-newton-atlas`, `ciclo-victoria`, `circulo-delta0`, `fertilidad`, `cronos-v3`, `ciclo-pm`, `perfil-compuerta`, `jeans-dsph`, `5c-estructural`, `empalme-wkb`, `mu-eta-cronos`, `contenido-materia-lectura-operativa`, `mcv-equilibrio-c`, `oort-kz-cota-cronos` |
 | Calibrations: numbers fitted to data or anchored externally, with declared status | 4 | `funcional-masas`, `higgs-auditoria`, `wkb-calibrado`, `mapa-s-z-convencion` |
 | Preregistered: frozen protocols without an outcome yet | 1 | `sculptor-mcv-c` |
-| Negative results: executed experiments with a null or contrary outcome, published as such | 4 | `beta-extra-cribado`, `fp-beta-desenlace-a`, `desi-dr2-6a`, `ajustes-produccion` |
+| Negative results: executed experiments with a null or contrary outcome, published as such | 5 | `beta-extra-cribado`, `beta-candidato3-sentido-flujo`, `fp-beta-desenlace-a`, `desi-dr2-6a`, `ajustes-produccion` |
 | Gaps: declared gaps, claims without a derivation, and experiments not run (missing data, fail-closed) | 8 | `decada-discriminante`, `5e-falsacion-cruzada`, `ngen-3`, `c-lieb-robinson-identificacion`, `diccionario-primordial-cosmologico`, `diccionario-unidad-S-post-florencia`, `sculptor-perfil-sigma-los`, `umbrales-retraccion-maestro` |
 
 ## 2. Bridges of the primordial → cosmological dictionary
@@ -125,6 +125,7 @@ What would refute or bound each claim, as declared in the registry (quoted in Sp
 | Claim | Status | Falsifier (registry text, Spanish) | Artefact |
 |---|---|---|---|
 | `beta-extra-cribado` | negative result | un candidato, o un cierre de proyección derivado del tratado (no declarado), que pase (i)–(ii) en la ventana plausible; entonces la fila decada-discriminante se revisa. El cribado no excluye el término κΣ̇ê_E como término del Camino (vacío 2D): excluye que su contribución a las β, bajo estos cierres, produzca la Década | results/2026-09-28_beta_screening |
+| `beta-candidato3-sentido-flujo` | negative result | unas β, un sentido del flujo o un escalón del potencial derivados del tratado que den tres cruces con los dos cocientes en [7, 14]; la C no decide el sentido del flujo (decisión 1 del autor) ni λ, y vale para el séxtico truncado (hacia el UV la ecuación de Polchinski completa es una difusión hacia atrás) | results/2026-10-23_beta_candidate3 |
 | `fp-beta-desenlace-a` | negative result | la preinscripción enumeraba desenlaces; A se decidió con el espectro del punto preinscrito | results/2026-08-19_front2_fp_beta |
 | `desi-dr2-6a` | negative result | la señal exigiría ΔAIC/ΔBIC pro-MCMC con ε identificada; se observó lo contrario | results/2026-08-18_desi_dr2_background |
 | `ajustes-produccion` | negative result | la ventaja del corpus (A.6) exigía ΔBIC pro-MCMC; se midió lo contrario | results/2026-08-10_production_fit_v2 |

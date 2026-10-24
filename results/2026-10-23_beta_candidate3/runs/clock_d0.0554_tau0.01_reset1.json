@@ -1,0 +1,1 @@
+{"delta0": 0.0554, "tau": 0.01, "reset": true, "finished": true, "diverged": false, "stop_reason": "S ≥ S_end (fin del recorrido)", "steps": 1976, "wall_s": 0.35, "S_crossings": [], "S_times_tau_crossings": [], "ratios": [], "n_mass_instabilities": 0, "S_final": 1.005634544839503, "lam_final": [0.01217914392883896, 0.28704489798096267, 1.002019103596885]}
