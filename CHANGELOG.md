@@ -6,6 +6,23 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **Intercambio de masa en el borde de ECV (24-oct, documento vivo del autor,
+  PR-64), sin letra.** `dynamics/ecv_exchange.py` da la ley de borde por
+  halo: barrido autoalimentado, y condensación y evaporación de
+  Hertz–Knudsen o de Onsager lineal. En el código gravotérmico, la capa del
+  borde gana o pierde masa con ella, con todas sus combinaciones en el borde
+  (decisión del autor del 24-oct sobre el brazo de dos sentidos). Masa y
+  energía cierran (`results/2026-10-24_gravothermal_exchange/`):
+  - con el NFW prolongado se reproducen las tasas del documento (evaporación
+    0.051·H; neto +0.21·H con ξ = 1 y +0.08·H con ξ = 0.5 para c = 10);
+  - con la fuerza de la ECV, la capa del borde del propio código es más densa
+    y más caliente: ξ_eq = 0.33 y evaporación 0.10·H. La decisión 6 del
+    documento mezcla las dos afueras;
+  - en el halo del autor, t_c cambia entre −2.0 % (barrido y evaporación) y
+    +3.0 % (brazo A con ξ = 1, 3.7 veces la masa), y los cambios convergen.
+
+  Fila nueva `intercambio-masa-borde-ecv` (condicional).
+
 - **La fuerza de la ECV en el código gravotérmico y la pared en R₀ (24-oct,
   documento vivo del autor, PR-63), sin letra.** El equilibrio hidrostático
   suma la repulsión de la ECV, con masa efectiva m − (2/3)·q_E·r³, y la pared

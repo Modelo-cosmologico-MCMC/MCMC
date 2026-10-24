@@ -1576,6 +1576,63 @@ claims:
     status: condicional
     artifact: results/2026-10-24_gravothermal_ecv
 
+  - claim_id: intercambio-masa-borde-ecv
+    entity: El intercambio de masa entre la burbuja de MCV y la ECV en el borde R₀ — la ley de borde por halo (barrido, condensación y evaporación) con sus tasas y en el código gravotérmico, con todas sus combinaciones en el borde (24-oct-2026; sin datos ni letra)
+    law: "ley de borde del documento vivo del 24-oct, Ṁ_x = 4πR₀²·[ξ_s·ρ_E·Ṙ₀ + (ν_b/√(2π))·(ξ·ρ_E − ρ_b)], con sus decisiones 3, 4 y 6; decisión del autor del 24-oct sobre el brazo de dos sentidos («probar todas las posibilidades con las consecuencias a la ontología»)"
+    derivation: >-
+      PR-64 del documento vivo del 24-oct. El módulo dynamics/ecv_exchange.py
+      da las tasas por unidad de masa y en unidades de H.
+      El barrido se alimenta del crecimiento total, porque M incluye lo
+      atrapado. El contacto tiene forma de Hertz–Knudsen o su límite lineal
+      de Onsager, con producción de entropía ≥ 0 en las dos.
+      Hay tres afueras: el NFW prolongado (las cifras del documento), la capa
+      del borde del código y la media del entorno.
+      Con el NFW prolongado reproduce las cifras del documento: evaporación
+      0.062 / 0.051 / 0.046 / 0.043·H para c = 5 / 10 / 15 / 20; neto
+      +0.198 / +0.206 / +0.210 / +0.212 con ξ = 1 y +0.068 / +0.078 /
+      +0.082 / +0.084 con ξ = 0.5; ξ_eq = 0.237 / 0.199 / 0.181 / 0.169.
+      Con la media del entorno, 0.159·H y ξ_eq = 0.46.
+      Con la fuerza de la ECV en el equilibrio (PR-63), la capa del borde
+      del propio código es más densa y más caliente que el NFW prolongado: el
+      gas se acumula contra la pared. Da ξ_eq = 0.393 / 0.330 / 0.299 / 0.281
+      y una evaporación de 0.120 / 0.100 / 0.090 / 0.084·H. La decisión 6
+      del documento («la capa del borde del propio código: equilibrio con ξ ≈
+      0.2») mezcla las dos afueras: sus cifras son las del NFW prolongado.
+      En el código gravotérmico, la capa del borde gana o pierde masa con
+      esa ley, la pared sigue a R₀ y la capa se parte o se funde para
+      mantener la resolución. Lo que entra lleva la energía de efusión de la
+      ECV (2ν_ecv²) y lo que sale la de la capa del borde (2ν_b²): así el
+      equilibrio del contacto es estacionario también en energía. Masa y
+      energía cierran: el cambio de la energía es lo que trae el intercambio
+      menos el trabajo sobre la pared, salvo la deriva del propio código
+      (≤ 1.4·10⁻³ de |E|).
+      Halo del autor (10¹² M☉, c = 10, 10 cm²/g), con la fuerza de la ECV y
+      580 capas; sin intercambio, t_c = 45.05 Gyr. Con cada ley de borde, t_c
+      y masa final:
+      brazo A (barrido y condensación, ξ_s = ξ = 0.2 / 0.5 / 1),
+      +0.27 / +1.16 / +3.02 % con 1.20 / 1.66 / 3.66 veces la masa;
+      contacto reversible con ξ = 0.2 / 0.33 (su equilibrio) / 0.5 / 1,
+      −0.86 / −0.05 / +0.10 / +0.99 %;
+      barrido y contacto con ξ = 0.5 / 1, +0.15 / +1.33 %;
+      evaporación sola, −1.76 % con 0.84 veces la masa; barrido y
+      evaporación, −1.99 %; Onsager lineal con ξ = 1, +0.54 %.
+      Los cambios convergen con el doble de capas.
+    implementation: dynamics/ecv_exchange.py + dynamics/gravothermal.py + scripts/run_gravothermal_exchange.py
+    test: tests/test_ecv_exchange.py
+    observable: "— (evolución interna de un halo aislado y tasas por halo; ningún dato)"
+    dataset: "—"
+    falsifier: >-
+      sin letra. Como instrumento lo invalidaría cualquiera de tres
+      resultados, y no se da ninguno: que la masa o la energía del
+      intercambio no cerraran, que el flujo no se anulara en el equilibrio
+      del contacto, o que los cambios de t_c dependieran de la resolución. La
+      ley se elige por la ontología; aquí se prueban todas las del borde
+      (decisión del autor del 24-oct), y la letra es de la preinscripción del
+      ajuste del fondo
+    evidence_level: comprobación interna (E8) sin letra; reproduce las tasas por halo del documento vivo del 24-oct; la ley de borde y sus afueras son cierres declarados (decisiones 3, 4 y 6 del autor)
+    status: condicional
+    artifact: results/2026-10-24_gravothermal_exchange
+
 
   - claim_id: sculptor-mcv-c
     entity: La MCV (c) en Sculptor — el perfil σ_los(R) binado de Walker et al. 2009 (binning de PR-W) frente al Jeans isotermo con autointercambio empalmado con una envoltura NFW de molestia, con las estrellas de Plummer (Υ⋆ ∈ {1, 2, 3}) en el potencial y σ_x/m global; preinscripción y banco de modelos congelados antes de los bytes (23-oct-2026)
