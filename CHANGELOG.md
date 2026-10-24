@@ -6,6 +6,28 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **Código gravotérmico 1D de la MCV (c) con borde de ECV, sin letra (24-oct,
+  bloque P1 del autor; borde definido por el autor el 24-oct).**
+  `dynamics/gravothermal.py` trata la MCV de un halo aislado como fluido
+  conductivo con autointercambio: σ_x/m constante, regímenes SMFP y LMFP,
+  conducción implícita y relajación hidrostática. El borde de ECV es una
+  pared en r_b con dos brazos, cerrado e intercambio térmico. El autor lo
+  define como «el punto de intercambio entre la burbuja de MCV y la ECV fuera
+  de la influencia del punto gravitacional y térmico», y que esté fuera de la
+  influencia se comprueba en cada corrida. Resultados de
+  `scripts/run_gravothermal.py` (`results/2026-10-24_gravothermal/`):
+  - C·σ̂·t_c = 151.9, frente a los 150 de Essig et al. (2019). Queda dentro
+    de la banda [120, 180] declarada antes de correr y es universal en el
+    régimen LMFP;
+  - la pendiente autosemejante lejos del núcleo es −2.18 (Balberg et al.
+    2002: −2.19);
+  - duplicar el borde mueve t_c 7.6·10⁻⁵ con el borde en 100 r_s y un 5.3 %
+    con el borde en r200 de un halo con c = 10 (10 r_s), donde además llega
+    flujo. El primer borde fuera de la influencia de la serie está en 80 r_s.
+
+  El intercambio de masa con la ECV no está implementado. Fila nueva
+  `gravotermico-1d-borde-ecv` (interno).
+
 - **Cuarta ecuación, brazo «término angular», en el reloj y sin letra (23-oct,
   bloque P1 del autor).** `ClockConfig.angular_A` añade V_ang = ½μ²χ², con
   μ² = 4A(c̄/κ₊)δ₀², como cierre declarado junto a los dos del vacío 2D.
