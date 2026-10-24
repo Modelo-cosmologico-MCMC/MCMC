@@ -1503,6 +1503,39 @@ claims:
     status: interno
     artifact: results/2026-10-24_gravothermal
 
+  - claim_id: radio-aceleracion-nula-ecv
+    entity: Radio de aceleración nula de la ECV — R₀ = (3M/8πρ_E)^(1/3), el borde estático entre la burbuja de MCV de un halo y el océano de ECV, a 5.27·r200 hoy, con su variante autoconsistente del NFW prolongado (24-oct-2026; sin datos)
+    law: "gravedad del bloque P0 del 23-oct, ∇²Φ = 4πG(ρ_b + ρ_M − 2ρ_E); definición del borde del autor del 24-oct («el punto de intercambio entre la burbuja de MCV y la ECV fuera de la influencia del punto gravitacional y térmico»); decisión 1 del documento vivo del 24-oct (dónde está el borde)"
+    derivation: >-
+      La ECV (w = −1) repele. Junto a una masa M la aceleración neta es
+      −GM/r² + (8πG/3)·ρ_E·r, y se anula en R₀ = (3M/8πρ_E)^(1/3). De ahí
+      salen tres identidades exactas, sin ninguna elección. R₀ es la cima de
+      la barrera entre el halo y el océano: el potencial tiene allí su
+      máximo y más allá la ECV empuja hacia fuera. La ECV dentro de R₀ es
+      M/2, así que si el halo crece el borde barre dM/2. La densidad media
+      de una burbuja es 2ρ_E, la condición que anula la deceleración del
+      fondo: con toda la materia en burbujas, su volumen igualaría al del
+      universo en z_acc = (2Ω_Λ/Ω_m)^(1/3) − 1 = 0.632. Con la masa M200,
+      R₀/r200 = (100·E²(z)/Ω_Λ)^(1/3) = 5.27 hoy y 7.76 en z = 1, igual para
+      todas las masas. Con la masa del NFW prolongado hasta R₀, R₀ = 37.0 /
+      68.3 / 99.0 / 129.4 r_s para c = 5 / 10 / 15 / 20, con 2.78 / 2.19 /
+      1.97 / 1.85 veces M200 dentro. Para 10¹² M☉ con c = 10, r200 = 212 kpc
+      y R₀ = 1446 kpc. Las cifras reproducen las del documento vivo del
+      24-oct (cosmología de Planck 2018). El módulo no tiene dinámica; que
+      el borde de ECV esté en R₀ es la decisión 1 del autor.
+    implementation: dynamics/ecv_border.py
+    test: tests/test_ecv_border.py
+    observable: "— (geometría del borde; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      las identidades son exactas dada la gravedad del bloque; cambiarían
+      con otra ecuación de Poisson para la ECV. Dónde está el borde lo fija
+      la decisión 1 del autor (R₀ con M200, R₀ autoconsistente o la pared
+      fija de control)
+    evidence_level: derivación exacta desde la gravedad del bloque (E8), sin datos; su uso como borde de ECV es condicional a la decisión 1 del autor
+    status: condicional
+    artifact: "—"
+
 
   - claim_id: sculptor-mcv-c
     entity: La MCV (c) en Sculptor — el perfil σ_los(R) binado de Walker et al. 2009 (binning de PR-W) frente al Jeans isotermo con autointercambio empalmado con una envoltura NFW de molestia, con las estrellas de Plummer (Υ⋆ ∈ {1, 2, 3}) en el potencial y σ_x/m global; preinscripción y banco de modelos congelados antes de los bytes (23-oct-2026)

@@ -6,6 +6,21 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **Radio de aceleración nula de la ECV, el borde estático (24-oct, documento
+  vivo del autor, PR-62), sin datos.** Con la gravedad del bloque, la ECV
+  repele, y la aceleración neta junto a un halo se anula en
+  R₀ = (3M/8πρ_E)^(1/3), la cima de la barrera entre el halo y el océano
+  (`dynamics/ecv_border.py`). Identidades exactas:
+  - la ECV dentro de R₀ es M/2;
+  - R₀/r200 = (100·E²(z)/Ω_Λ)^(1/3) para todas las masas: 5.27 hoy y 7.76
+    en z = 1;
+  - con toda la materia en burbujas, estas llenarían el espacio en
+    z_acc = 0.632.
+
+  El R₀ autoconsistente del NFW prolongado es 37.0 / 68.3 / 99.0 / 129.4 r_s
+  para c = 5 / 10 / 15 / 20. Su uso como borde es la decisión 1 del autor.
+  Fila nueva `radio-aceleracion-nula-ecv` (condicional).
+
 - **Código gravotérmico 1D de la MCV (c) con borde de ECV, sin letra (24-oct,
   bloque P1 del autor; borde definido por el autor el 24-oct).**
   `dynamics/gravothermal.py` trata la MCV de un halo aislado como fluido
