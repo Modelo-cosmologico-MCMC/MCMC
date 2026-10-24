@@ -4,18 +4,18 @@
 
 Assumptions, completed derivations, calibrations, falsifiers and gaps, on one page. Every cell is generated from the canonical registry (`docs/claims_registry.yaml`) and the dictionary bridges table (`docs/diccionario_puentes.md`): what is shown is the registry, not a narrative. Statuses follow the epistemological errata FE-08-2026: "internal" means an internal consistency check passed (E8), never a physical demonstration. The registry is written in Spanish; the frame and the status vocabulary are translated here, and the per-claim texts are quoted verbatim in Spanish from the registry, which remains the source.
 
-Source: `docs/claims_registry.yaml`, sha256 `f37f3eae637fca6953523b0cdc2d67551bb8bb68f0dda369a5db852aaee21cf6`; 77 rows.
+Source: `docs/claims_registry.yaml`, sha256 `cbe51f36ff40e92cafeaebf90e8326718e76bc86a892ce4de8f1e2d9c5e3cebe`; 81 rows.
 
 ## 1. Matrix by category
 
 | Category | Rows | Claims |
 |---|---|---|
 | Derivations and internal checks passed (E8: internal consistency check, not a physical demonstration) | 46 | `axiomas`, `constantes-estatuto`, `plano-dual`, `potencial-basal`, `monotonia-exclusion`, `florencia`, `rp-escalar`, `beta-un-lazo-sextico`, `residuos`, `naturalidad-priors`, `suite-apendice-h`, `jax-crosscheck`, `fondo-cosmologico`, `cmb-fsigma8`, `canales-oscuros`, `mass-gap-reticulo`, `qudit-decoherencia`, `qudit-d5`, `dovekie-mocks-pipeline`, `perturbaciones-fsigma8-oos`, `mu-eta-atlas`, `dovekie-real-primera-aplicacion`, `bbn-g-empress`, `atlas-ppn`, `atlas-gauge-invariant`, `cronos-amplitud-unica`, `phi-ten-fondo-ley-cronos`, `diccionario-epsilon-c-saturante`, `criterio-cronos-jeans`, `test-criterio-cronos-jeans`, `test-criterio-cronos-jeans-ronda2`, `criterio-cronos-jeans-ronda3`, `criterio-cronos-jeans-ronda3b`, `halo-serie-resolucion-campo`, `nucleacion-salida-s0`, `nucleacion-gamma0`, `diagonal-j-requerido`, `vacio-2d-conversion-y-rotacion`, `cuarta-ecuacion-termino-angular`, `halo-capas-ronda2`, `cualificacion-laminas-e8q`, `cualificacion-capas-e8q`, `halo-capas-ronda3`, `lecturas-rondas3-3b`, `s-clock-simulador-consistencia`, `nivel-a-halo-aislado` |
-| Assumptions: results conditional on declared hypotheses | 16 | `rp-no-estacionaria`, `kls-flujo`, `matriz-estabilidad`, `gea-newton-atlas`, `ciclo-victoria`, `circulo-delta0`, `fertilidad`, `cronos-v3`, `ciclo-pm`, `perfil-compuerta`, `jeans-dsph`, `5c-estructural`, `empalme-wkb`, `mu-eta-cronos`, `contenido-materia-lectura-operativa`, `oort-kz-cota-cronos` |
+| Assumptions: results conditional on declared hypotheses | 17 | `rp-no-estacionaria`, `kls-flujo`, `matriz-estabilidad`, `gea-newton-atlas`, `ciclo-victoria`, `circulo-delta0`, `fertilidad`, `cronos-v3`, `ciclo-pm`, `perfil-compuerta`, `jeans-dsph`, `5c-estructural`, `empalme-wkb`, `mu-eta-cronos`, `contenido-materia-lectura-operativa`, `mcv-equilibrio-c`, `oort-kz-cota-cronos` |
 | Calibrations: numbers fitted to data or anchored externally, with declared status | 4 | `funcional-masas`, `higgs-auditoria`, `wkb-calibrado`, `mapa-s-z-convencion` |
-| Preregistered: frozen protocols without an outcome yet | 0 | — |
-| Negative results: executed experiments with a null or contrary outcome, published as such | 4 | `beta-extra-cribado`, `fp-beta-desenlace-a`, `desi-dr2-6a`, `ajustes-produccion` |
-| Gaps: declared gaps, claims without a derivation, and experiments not run (missing data, fail-closed) | 7 | `decada-discriminante`, `5e-falsacion-cruzada`, `ngen-3`, `c-lieb-robinson-identificacion`, `diccionario-primordial-cosmologico`, `diccionario-unidad-S-post-florencia`, `sculptor-perfil-sigma-los` |
+| Preregistered: frozen protocols without an outcome yet | 1 | `sculptor-mcv-c` |
+| Negative results: executed experiments with a null or contrary outcome, published as such | 5 | `beta-extra-cribado`, `beta-candidato3-sentido-flujo`, `fp-beta-desenlace-a`, `desi-dr2-6a`, `ajustes-produccion` |
+| Gaps: declared gaps, claims without a derivation, and experiments not run (missing data, fail-closed) | 8 | `decada-discriminante`, `5e-falsacion-cruzada`, `ngen-3`, `c-lieb-robinson-identificacion`, `diccionario-primordial-cosmologico`, `diccionario-unidad-S-post-florencia`, `sculptor-perfil-sigma-los`, `umbrales-retraccion-maestro` |
 
 ## 2. Bridges of the primordial → cosmological dictionary
 
@@ -103,6 +103,7 @@ What would refute or bound each claim, as declared in the registry (quoted in Sp
 | `empalme-wkb` | conditional | δ_H incompatible al refinar el empalme | results/2026-08-01_empalme_wkb |
 | `mu-eta-cronos` | conditional | firma cerrada sin parámetros adicionales — µ − 1 = 2(Σ − 1), η < 1, cola k² — pero con amplitud ~1e-12 a la A única del modelo: ningún contraste RSD+lensing previsto la alcanza; una medida de µ − 1 ≠ 0 escala-dependiente a gran escala NO podría atribuirse al canal Cronos con A_Sculptor. Atlas queda falsable vía el mismo ε_K que BBN | results/2026-09-13_mu_eta_cronos + results/2026-09-17_cronos_amplitude_validity |
 | `contenido-materia-lectura-operativa` | conditional | un ajuste del fondo o de halos que exigiera Ω_cdm → 0 con Cronos a A_Sculptor refutaría la lectura operativa a favor de la fuerte; hoy no hay tal ajuste. El Nivel A (halo CDM + Cronos a A_Sculptor) puede refutar la operativa si el interior colapsa de forma incompatible con las enanas observadas — ejecutado el 17/18-sep con desenlace INDETERMINADO (fila nivel-a-halo-aislado), sin veredicto sobre la operativa. Derivación del 21-sep (fila criterio-cronos-jeans): con la ley local ε_c = A·ρ^(3/2) y A_Sculptor, el halo NFW de 1e11 M☉ es INESTABLE dentro de r_CJ = 0.71 kpc (q = (3/2)c²ε_c/σ² > 1, tasa ∝ k): la lectura operativa conserva la CDM para las curvas pero desestabiliza los centros y rompe K_z en la vecindad solar | — |
+| `mcv-equilibrio-c` | conditional | la preinscripción de Sculptor con la MCV (c), cuya letra C es que el perfil no quepa con ningún σ_x/m ≤ 50 cm²/g, y el brazo MCV (c) del banco de mecanismos de SPARC, con σ_x/m calibrado en media muestra y probado en la otra; un σ_x/m global que no sirviera a la vez para enanas y espirales refutaría su carácter global | — |
 | `oort-kz-cota-cronos` | conditional | condicional a la losa declarada (banda ×4) y a la forma ε_c = A·ρ^{3/2} (diccionario); los valores ya verificados no movieron ninguna letra; la exclusión de A_Sculptor (z ≈ 51) sobrevive a cualquier altura de la losa en la banda (z ≥ 11.9 con h×2) | results/2026-09-21_oort_kz |
 
 ### Calibrations: numbers fitted to data or anchored externally, with declared status
@@ -114,11 +115,18 @@ What would refute or bound each claim, as declared in the registry (quoted in Sp
 | `wkb-calibrado` | calibrated | — | — |
 | `mapa-s-z-convencion` | calibrated | una C(S) derivada que desplace los umbrales post-Florencia fuera de los escalones calibrados obligaría a recalibrar los canales | — |
 
+### Preregistered: frozen protocols without an outcome yet
+
+| Claim | Status | Falsifier (registry text, Spanish) | Artefact |
+|---|---|---|---|
+| `sculptor-mcv-c` | preregistered | C: el perfil binado no cabe con ningún σ_x/m ≤ 50 cm²/g, ninguna rama ni envoltura de la caja; una B señalaría que solo cabe forzando el modelo. Ninguna letra calibra σ_x/m global: eso se prueba fuera de la muestra en SPARC | results/2026-10-23_mcv_sculptor |
+
 ### Negative results: executed experiments with a null or contrary outcome, published as such
 
 | Claim | Status | Falsifier (registry text, Spanish) | Artefact |
 |---|---|---|---|
 | `beta-extra-cribado` | negative result | un candidato, o un cierre de proyección derivado del tratado (no declarado), que pase (i)–(ii) en la ventana plausible; entonces la fila decada-discriminante se revisa. El cribado no excluye el término κΣ̇ê_E como término del Camino (vacío 2D): excluye que su contribución a las β, bajo estos cierres, produzca la Década | results/2026-09-28_beta_screening |
+| `beta-candidato3-sentido-flujo` | negative result | unas β, un sentido del flujo o un escalón del potencial derivados del tratado que den tres cruces con los dos cocientes en [7, 14]; la C no decide el sentido del flujo (decisión 1 del autor) ni λ, y vale para el séxtico truncado (hacia el UV la ecuación de Polchinski completa es una difusión hacia atrás) | results/2026-10-23_beta_candidate3 |
 | `fp-beta-desenlace-a` | negative result | la preinscripción enumeraba desenlaces; A se decidió con el espectro del punto preinscrito | results/2026-08-19_front2_fp_beta |
 | `desi-dr2-6a` | negative result | la señal exigiría ΔAIC/ΔBIC pro-MCMC con ε identificada; se observó lo contrario | results/2026-08-18_desi_dr2_background |
 | `ajustes-produccion` | negative result | la ventaja del corpus (A.6) exigía ΔBIC pro-MCMC; se midió lo contrario | results/2026-08-10_production_fit_v2 |
@@ -134,3 +142,4 @@ What would refute or bound each claim, as declared in the registry (quoted in Sp
 | `diccionario-primordial-cosmologico` | declared gap | — (no hay afirmación contrastable hasta que exista la fórmula) | results/2026-09-21_s_clock |
 | `diccionario-unidad-S-post-florencia` | declared gap | — (no hay afirmación contrastable hasta que Σ̇_post y T_sellada se deriven) | results/2026-09-21_s_clock |
 | `sculptor-perfil-sigma-los` | experiment not run | C si los dos bins internos del perfil binado excluyen el pico central predicho a > 3σ para todo β del brazo (la expectativa declarada, E13: el perfil observado es plano) | results/2026-09-21_sculptor_profile |
+| `umbrales-retraccion-maestro` | declared gap | — (hueco de coherencia del texto, no afirmación contrastable; lo cierra una decisión del autor sobre (708) frente al Cuadro 19 y sobre los VEV) | — |

@@ -35,10 +35,15 @@ Reglas en vigor (preinscripción, apartado `if_data_unavailable`):
   queda ABIERTO; el resultado estructural 5C permanece con su
   alcance declarado.
 
-Desbloqueo: añadir `astroweb.cwru.edu` y `vizier.cds.unistra.fr` a la
-configuración de red del entorno; después
-`python scripts/download_data.py sparc && python
-scripts/download_data.py walker09` genera `manifest.json` con sha256,
-tamaño, fecha y cita — y la primera acción del análisis es el
+Desbloqueo: añadir `astroweb.cwru.edu` y `cdsarc.cds.unistra.fr` a la
+configuración de red del entorno (o entregar los bytes a mano en el
+raw_dir: el script no descarga lo que ya está, lo verifica y lo
+registra); después `python scripts/download_data.py sparc` genera
+`manifest.json` con sha256, tamaño, fecha y cita, y `python
+scripts/download_data.py walker2009` (rutas alineadas con
+`data/sources.yaml` el 23-oct-2026: ReadMe y table2–5.dat de CDS en
+`data/raw/walker2009`) escribe `data/manifests/walker2009.json` en
+SCHEMA_UNVERIFIED. La primera acción del análisis es el
 `schema_report.md` (inspección del fichero real ANTES de asumir
-columnas: `python -m dynamics.sparc_data --inspect`).
+columnas: `python -m dynamics.sparc_data --inspect`; para Walker,
+`python scripts/run_sculptor_profile.py schema`).

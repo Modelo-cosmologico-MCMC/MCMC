@@ -2,13 +2,16 @@
 """Descarga de los catálogos observacionales públicos a data/.
 
 Uso:
-    python scripts/download_data.py [pantheon|sparc|boss_eboss|planck2018|all]
+    python scripts/download_data.py [pantheon|sparc|walker2009|boss_eboss|planck2018|all]
 
-Solo usa la biblioteca estándar (urllib + hashlib). Cada descarga se
-verifica por SHA-256: si el registro tiene un checksum fijado, la descarga
-se rechaza en caso de no coincidir; si aún no lo tiene (None), el script
-imprime el checksum calculado para fijarlo en este registro (trust on
-first use, documentado).
+Solo usa la biblioteca estándar (urllib + hashlib), salvo el manifest de
+los datasets de la capa de datos (data/sources.yaml, hoy walker2009), que
+escribe mcmc_ontology.data_registry. Cada descarga se verifica por
+SHA-256: si el registro tiene un checksum fijado, la descarga se rechaza
+en caso de no coincidir; si aún no lo tiene (None), el script imprime el
+checksum calculado para fijarlo en este registro (trust on first use,
+documentado). Si el fichero ya está en su destino (bytes entregados a
+mano), no se descarga: se verifica y se registra igual.
 
 Catálogos y licencias/condiciones:
 
@@ -71,21 +74,31 @@ DOWNLOADS = {
             None,  # ABIERTO: tabla maestra (Lelli, McGaugh & Schombert 2016)
         ),
     ],
-    "walker09": [
+    # Alineado con data/sources.yaml (23-oct-2026): los ficheros oficiales
+    # de CDS (ReadMe + tablas) en el raw_dir del registro, no una
+    # exportación TSV de VizieR.
+    "walker2009": [
         (
-            ("https://vizier.cds.unistra.fr/viz-bin/asu-tsv?"
-             "-source=J/AJ/137/3100&-out.all&-out.max=unlimited"),
-            DATA / "dsph" / "walker2009_vizier.tsv",
+            f"https://cdsarc.cds.unistra.fr/ftp/J/AJ/137/3100/{name}",
+            DATA / "raw" / "walker2009" / name,
             None,  # ABIERTO: fijar solo tras la primera descarga real
-        ),
+        )
+        for name in ("ReadMe", "table2.dat", "table3.dat", "table4.dat",
+                     "table5.dat")
     ],
 }
+
+# Datasets de la capa de datos (data/sources.yaml): su manifest va a
+# data/manifests/<dataset>.json en estado SCHEMA_UNVERIFIED hasta que el
+# schema_report confirme columnas y unidades (require_available falla
+# cerrado mientras tanto). Los demás conservan el manifest.json legado.
+REGISTRY_DATASETS = ("walker2009",)
 
 # Citas por dataset (van al manifest de procedencia):
 CITATIONS = {
     "pantheon": "Scolnic et al. 2022 (ApJ 938, 113); Brout et al. 2022",
     "sparc": "Lelli, McGaugh & Schombert 2016 (AJ 152, 157) — SPARC",
-    "walker09": "Walker, Mateo & Olszewski 2009 (AJ 137, 3100)",
+    "walker2009": "Walker, Mateo & Olszewski 2009 (AJ 137, 3100)",
 }
 
 # --- Cronómetros cósmicos: compilación estándar (31 puntos) ---
@@ -243,6 +256,31 @@ def write_manifest(dataset: str, url: str, dest: Path,
     print(f"[man ] {shown}")
 
 
+def write_registry_manifest(dataset: str, done: list) -> Path:
+    """Manifest de la capa de datos tras una descarga REAL (sha256
+    computados, nunca a mano): data/manifests/<dataset>.json en estado
+    SCHEMA_UNVERIFIED — ningún likelihood lo consume hasta el
+    schema_report."""
+    sys.path.insert(0, str(DATA.parent))
+    from mcmc_ontology.data_registry import write_manifest as registry_manifest
+    p = registry_manifest(
+        dataset,
+        [{"file": dest.name, "sha256": digest, "bytes": dest.stat().st_size}
+         for _, dest, digest in done],
+        source=" + ".join(sorted({url.rsplit("/", 1)[0] for url, _, _ in done})),
+        version="sin versión en la fuente (fecha en retrieved_utc)",
+        citation=CITATIONS.get(dataset, "ver data/sources.yaml"),
+        state="SCHEMA_UNVERIFIED",
+        transformations=["copia literal de la fuente (sin transformación "
+                         "de contenido)"])
+    try:
+        shown = p.relative_to(DATA.parent)
+    except ValueError:
+        shown = p
+    print(f"[man ] {shown} (SCHEMA_UNVERIFIED: falta el schema_report)")
+    return p
+
+
 def write_compiled_tables() -> None:
     """Escribe las tablas compiladas (con referencias) que no se descargan."""
     targets = {
@@ -264,9 +302,15 @@ def main(argv: list[str]) -> None:
     for key, entries in DOWNLOADS.items():
         if what not in (key, "all"):
             continue
+        done = []
         for url, dest, sha in entries:
             digest = download(url, dest, sha)
-            write_manifest(key, url, dest, digest)
+            if key in REGISTRY_DATASETS:
+                done.append((url, dest, digest))
+            else:
+                write_manifest(key, url, dest, digest)
+        if done:
+            write_registry_manifest(key, done)
     print("\nHecho. Recuerda citar cada catálogo según su cabecera/licencia.")
 
 

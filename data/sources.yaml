@@ -52,6 +52,14 @@ datasets:
       probabilidad de pertenencia) — σ_los(R) se derivará con
       selección de miembros y binning PREINSCRITOS, no de bins de
       figura.
+    download: >
+      python scripts/download_data.py walker2009 (ReadMe y table2–5.dat
+      desde cdsarc al raw_dir; si los bytes ya están en el raw_dir no
+      descarga, verifica y registra) escribe data/manifests/walker2009.json
+      en SCHEMA_UNVERIFIED; el schema_report, escrito con la salida de
+      python scripts/run_sculptor_profile.py schema, lo lleva a AVAILABLE.
+      Binning congelado en
+      results/2026-09-21_sculptor_profile/binning_annex.json (23-oct-2026).
 
   desi_dr2_bao:
     role: background_cosmology
