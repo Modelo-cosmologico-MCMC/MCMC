@@ -1633,6 +1633,64 @@ claims:
     status: condicional
     artifact: results/2026-10-24_gravothermal_exchange
 
+  - claim_id: brazo-dos-sentidos-todas-las-posibilidades
+    entity: Q(z) del intercambio MCV–ECV sumado sobre los halos y todas las posibilidades del brazo de dos sentidos — 24 combinaciones de atrapamiento y escape, cada una con sus consecuencias para la ontología y su respuesta en el balance de hoy Δ (24-oct-2026; sin datos ni letra)
+    law: "ec. 7 del bloque, ρ̇_M + 3Hρ_M = Q y ρ̇_E = −Q; documento vivo del 24-oct, Q(z) = a⁻³·P_océano·∫(dn_c/dM)·Ṁ_x·dM con P_océano = e^(−N_b), sus nueve leyes y sus decisiones 3, 5 y 6; decisión del autor del 24-oct sobre el brazo de dos sentidos («probar todas las posibilidades con las consecuencias a la ontología»)"
+    derivation: >-
+      PR-65 del documento vivo del 24-oct. El módulo cosmology/halo_exchange.py
+      suma cada ley por halo sobre la función de masa de halos anfitriones,
+      solo donde la burbuja toca océano libre.
+      La función de masa es Sheth–Tormen, con Press–Schechter de control,
+      y M_min = 10⁸ M☉. El océano es la porosidad e^(−N_b), con 1 − N_b de
+      control, y k = 1. La concentración es c(M, z) de Dutton y Macciò 2014,
+      o c = 10 como en el documento. Hay tres afueras.
+      Con el modelo del documento reproduce su tabla de Δ (diferencia
+      máxima 5·10⁻⁵), con f_h(0) = 0.576 y P_océano(z = 1) = 0.428.
+      Las nueve leyes van con sus consecuencias para la ontología: dónde
+      actúan, si tienen mecanismo, su constante, si se apagan cuando las
+      burbujas llenan el espacio y su encaje.
+      Atrapamiento: T1 reparto del fondo, T2 volumen de la burbuja, T3
+      barrido, T4 dilatación temporal y Tc condensación. Escape: E1
+      constante, E2 evaporación, E3 reversión en el océano y E4 objeto
+      crítico. Su producto, junto con el barrido más la condensación, da
+      las 24 combinaciones de dos sentidos. De cada una se publica Δ con
+      constantes 0.1 / 0.3 / 1, la constante de equilibrio, los signos que
+      alcanza, cuándo actúa y Δ integrando desde z = 20.
+      Resultados (NFW prolongado):
+      - Contacto: Δ = −0.006 / +0.006 / +0.045, con equilibrio en ξ = 0.205.
+        Con la capa del borde del código: −0.017 / −0.003 / +0.044, con
+        equilibrio en ξ = 0.340.
+      - Barrido y contacto: −0.001 / +0.025 / +0.168.
+      - La ec. 7 tal como está (T1 + E1 con ξ_e = 0.3): −0.218 / −0.115 /
+        +0.139.
+      - Las combinaciones con E4 no tienen escape apreciable. T1 + E2
+        equilibra con ξ = 0.03 y Tc + E1 con ξ = 3.6.
+      - Las leyes de borde actúan en z ≈ 0.5–2 y se apagan cuando las
+        burbujas llenan el espacio; T1, T2 y E1 no se apagan.
+      La ley de borde completa del documento hace que el barrido se
+      alimente también del contacto. Con eso, barrido y contacto (ξ_s = 0.3)
+      dan +0.0698 con ξ = 1, frente a la suma simple del documento, +0.0625.
+      Dos consecuencias quedan ocultas al integrar desde z = 6:
+      - E3 literal vaciaría la materia de la edad oscura: desde z = 1100 con
+        ξ_e = 0.3 quedaría un 30 % en z = 20, y las combinaciones con E3
+        cambian al integrar desde z = 20.
+      - Las afueras del entorno tienen un equilibrio que se mueve con la
+        época, ξ_eq = Ω_m(1+z)³/Ω_Λ: con ξ = 1 el contacto escapa desde
+        z = 0.30.
+    implementation: cosmology/halo_exchange.py + scripts/run_halo_exchange.py
+    test: tests/test_halo_exchange.py
+    observable: "— (balance de hoy Δ con H de ΛCDM; ningún dato hasta la preinscripción del ajuste del fondo)"
+    dataset: "—"
+    falsifier: >-
+      sin letra. Ninguna cifra elige la ley: la letra es de la preinscripción
+      del ajuste del fondo, con las letras del 21-oct sobre Δ y todos los
+      brazos congelados antes de los datos. Como instrumento lo invalidaría
+      no reproducir la tabla del documento con su propio modelo, o que la
+      suma sobre la función de masa no recuperara f_h
+    evidence_level: cálculo interno (E8) sin datos ni letra; reproduce las cifras del documento vivo del 24-oct; las leyes, la normalización de T4 y las afueras son cierres declarados
+    status: condicional
+    artifact: results/2026-10-24_halo_exchange
+
 
   - claim_id: sculptor-mcv-c
     entity: La MCV (c) en Sculptor — el perfil σ_los(R) binado de Walker et al. 2009 (binning de PR-W) frente al Jeans isotermo con autointercambio empalmado con una envoltura NFW de molestia, con las estrellas de Plummer (Υ⋆ ∈ {1, 2, 3}) en el potencial y σ_x/m global; preinscripción y banco de modelos congelados antes de los bytes (23-oct-2026)
