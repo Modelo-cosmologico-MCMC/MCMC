@@ -54,3 +54,5 @@ data/sparc/*.zip
 external/
 !data/raw/bbn_abundances/*
 !data/raw/ppn_bounds/*
+# walker2009 (≤ 1 MB): se commitea con su manifest el día de los bytes (23-oct-2026, PR-W)
+!data/raw/walker2009/*

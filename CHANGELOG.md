@@ -6,6 +6,79 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **MCV-b: la MCV (c) en Sculptor, preinscrita antes de los bytes (23-oct,
+  bloque P0 del autor).** El perfil σ_los(R) binado con PR-W se compara con
+  el Jeans isotermo con autointercambio de la MCV (c), con las estrellas de
+  Plummer (Υ⋆ ∈ {1, 2, 3}) en el potencial y σ_x/m global
+  (`dynamics/mcv_sculptor.py`, `scripts/run_mcv_sculptor.py`).
+  - La envoltura (M200, c) es de molestia: c200 de Dutton y Macciò 2014,
+    con previas declaradas.
+  - Banco de 13 275 modelos con todas las ramas del empalme, congelado con
+    su sha256 antes de los bytes.
+  - `jeans_match(prefilter=True)`, opcional: sin diferencias frente a la
+    búsqueda exhaustiva dentro del dominio en 240 puntos al azar.
+  - Letras A/B/C/INDETERMINADO del autor; «cabe» es una prueba χ² al 5 %.
+  - Expectativa E13: A con σ_x/m pequeño.
+  - Reproduce sin letra el dato previo del autor: 2.02×10⁷ M☉ con
+    σ_x/m = 0.3.
+
+  Fila nueva `sculptor-mcv-c` (preinscrito). La preinscripción de la ley
+  local no se toca: las dos corren el mismo día.
+
+- **PR-W: binning de Walker et al. 2009 y anexo congelado antes de los bytes
+  (23-oct, bloque P0 del autor; sin bytes).** El stub «binning no
+  implementado» de `scripts/run_sculptor_profile.py` se sustituye por el
+  binning de la regla congelada de «perfil σ_los(R) de Sculptor»
+  (`dynamics/walker_binning.py`):
+  - el esquema se lee de la descripción byte a byte del ReadMe de CDS, y
+    toda ambigüedad en los papeles (posición, velocidad heliocéntrica y su
+    error, probabilidad de pertenencia) falla cerrado como «esquema no
+    confirmado»;
+  - las épocas repetidas se combinan en una fila por estrella (mismo
+    identificador o < 1″);
+  - bins de igual número ⌊N/150 + ½⌋ en R ≤ 1 kpc, con σ = √(s² − ⟨e²⟩)
+    y σ_err = σ/√(2N);
+  - letras con el orden puertas → C → B → A → INDETERMINADO.
+
+  El anexo (`results/2026-09-21_sculptor_profile/binning_annex.json`,
+  sha256 2a067315…) se congeló en un commit posterior al generador, con
+  walker2009 sin manifest ni bytes. Fija lo que la regla no fijaba:
+  - el centro J2000 y D = 79 kpc (la distancia de R_half = 260 pc), ambos
+    con verificación del autor pendiente antes de los bytes;
+  - R_bin = mediana y el reparto del resto;
+  - las puertas de reproducción de la predicción y del centroide;
+  - lo que se publica sin letra: la columna newtoniana y D = 75 y 83 kpc.
+
+  La preinscripción (sha256 604f9c25…) no se toca.
+  `scripts/download_data.py` pasa de «walker09» (un TSV de VizieR en
+  `data/dsph`) a «walker2009» con los ficheros de `data/sources.yaml`:
+  ReadMe y table2–5.dat de cdsarc en `data/raw/walker2009`, con el
+  manifest de la capa de datos en SCHEMA_UNVERIFIED. El modo `schema`
+  prepara el schema_report del día de los bytes.
+
+- **MCV (c), módulo de equilibrio (23-oct, bloque P0 del autor, MCV-a; sin
+  datos).** Por decisión del autor, la materia oscura de los halos es la
+  MCV: energía sellada atrapada en los pozos, en equilibrio por
+  autointercambio e intercambio con la ECV. La fuerza local +c²∇ε_c(ρ_m)
+  de la Cor. 11.3(c) deja de ser la MCV. `dynamics/mcv_equilibrium.py`
+  contiene:
+  - envoltura NFW;
+  - núcleo isotermo con bariones de Plummer y la ECV (−2ρ_E) en el
+    potencial;
+  - r₁ por la tasa de autointercambio con ⟨v_rel⟩ = 4σ/√π;
+  - empalme de Kaplinghat, Tulin y Yu que devuelve todas las ramas («con
+    núcleo» y «densas»);
+  - r_c, t_c de Essig et al. y la cúspide junto a un agujero negro de
+    Shapiro y Paschalidis.
+
+  Reproduce las cifras de referencia del autor: σ₀ = 10.99 km/s, ρ₀ =
+  0.0693 M☉/pc³, r₁ = 0.878 kpc y r_c = 0.408 kpc para 1e9 M☉ (c = 15,
+  σ_x/m = 2 cm²/g); t_c = 44.9 Gyr para 1e12 M☉ (c = 10, σ_x/m = 10
+  cm²/g). Las ramas coinciden con una solución autosemejante independiente
+  (`tests/test_mcv_equilibrium.py`). Fila nueva `mcv-equilibrio-c`
+  (condicional); `contenido-materia-lectura-operativa` registra que la
+  lectura fuerte ya tiene módulo. Vistas regeneradas (77 claims).
+
 - **Lecturas a posteriori de las rondas 3 y 3b, sin letra y sin corridas
   (decisiones del autor del 18-oct sobre #51–#53).** Tres decisiones:
   - la ronda 4 del halo no se corre;
