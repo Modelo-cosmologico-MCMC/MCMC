@@ -37,8 +37,19 @@ Que el borde esté fuera de la influencia se COMPRUEBA en cada corrida, no se su
     la ECV empuja hacia fuera, y una pared más lejana sujetaría gas que se escaparía. Por eso falla cerrado una pared más
     allá de R₀;
   - al pasar a unidades físicas, r_b no puede caer dentro de r200 (`collapse_time_gyr`).
-El intercambio de MASA con la ECV en el borde (atrapamiento y escape de la ec. 7 del bloque) no está implementado: su ley
-por halo no está dada y f_h(a) no está definida.
+
+EL INTERCAMBIO DE MASA CON LA ECV (documento vivo del 24-oct, PR-64). Con la pared «R0», la capa del borde gana o pierde
+masa con la ley de borde de dynamics/ecv_exchange.py, con su ρ_b y su ν_b:
+  - barrido (ξ_s): autoalimentado, porque el borde avanza con la masa que atrapa;
+  - condensación (ξ·ρ_E) y evaporación (ρ_b), en forma de Hertz–Knudsen o en su límite lineal de Onsager.
+El brazo A (solo atrapamiento) es barrido y condensación; los de dos sentidos, cualquier combinación con evaporación.
+Lo que entra lleva la energía de efusión de la ECV (2ν_ecv² por unidad de masa), lo que sale la de la capa del borde
+(2ν_b²), lo barrido entra con u_ecv y un borde que retrocede suelta MCV con u_b. La pared sigue al R₀ de la nueva masa, y
+la capa del borde se parte o se funde con su vecina para mantener la resolución. Masa y energía cierran: el cambio de la
+energía es lo que trae el intercambio menos el trabajo sobre la pared, salvo la deriva del propio código. Las leyes
+repartidas por el pozo o fuera del halo (reparto del fondo, volumen de la burbuja, dilatación temporal, escape constante,
+reversión en el océano, objeto crítico) no actúan en el borde de un halo aislado: van en la suma sobre la función de masa
+(PR-65).
 
 LA FUERZA DE LA ECV (documento vivo del 24-oct, PR-63). Con la gravedad del bloque, ∇²Φ = 4πG(ρ_b + ρ_M − 2ρ_E), el
 equilibrio hidrostático pasa a dp/dr = −ρ·[GM/r² − (8πG/3)ρ_E·r]: en unidades del código, la masa efectiva es
@@ -63,6 +74,7 @@ from scipy.integrate import quad
 from scipy.linalg.lapack import dgtsv
 from scipy.optimize import brentq
 
+from dynamics.ecv_exchange import CONTACT_FORMS, HK
 from dynamics.mcv_equilibrium import (
     CM2_PER_G_TO_KPC2_PER_MSUN,
     G_KPC,
@@ -95,6 +107,14 @@ class GravothermalConfig:
     max_steps: int = 1_000_000
     q_E: float = 0.0                  # ρ_E/ρ_s: la repulsión de la ECV en el equilibrio (0: sin ella, como #61)
     wall: str = "fija"                # «fija» en r_border, o «R0» (sigue a R₀; r_border es el R₀ inicial)
+    xi: float = 0.0                   # contacto: condensación ξ·ρ_E de la ECV en la capa del borde (0: ninguna)
+    xi_s: float = 0.0                 # barrido: fracción de la ECV barrida por el borde que queda atrapada
+    evaporation: bool = False         # contacto: evaporación de la MCV del borde hacia la ECV (E2)
+    contact_form: str = "hertz-knudsen"   # o «onsager-lineal» (su límite lineal; necesita ξ > 0 y evaporación)
+
+    @property
+    def exchange(self) -> bool:
+        return self.xi != 0.0 or self.xi_s != 0.0 or self.evaporation
 
 
 def _tridiagonal(lower, diag, upper, rhs):
@@ -141,6 +161,13 @@ class GravothermalHalo:
             raise ValueError("configuración fuera de dominio")
         if cfg.wall == "R0" and (cfg.q_E <= 0.0 or abs(cfg.r_border / r0_selfconsistent_code(cfg.q_E) - 1.0) > 1e-9):
             raise ValueError("la pared «R0» necesita q_E > 0 y r_border = R₀ autoconsistente (usa ecv_config)")
+        if cfg.exchange:
+            if cfg.wall != "R0":
+                raise ValueError("el intercambio de masa ocurre en el punto de intercambio: necesita la pared «R0»")
+            if not 0.0 <= cfg.xi_s < 2.0 or cfg.contact_form not in CONTACT_FORMS:
+                raise ValueError("intercambio fuera de dominio (0 ≤ ξ_s < 2; forma de Hertz–Knudsen u Onsager lineal)")
+            if cfg.contact_form == "onsager-lineal" and not (cfg.xi > 0.0 and cfg.evaporation):
+                raise ValueError("la forma de Onsager lineal es el contacto completo: necesita ξ > 0 y evaporación")
         self.cfg = cfg
         self.r = np.concatenate([[0.0], np.geomspace(cfg.r_min, cfg.r_border, cfg.n_shells)])
         M = nfw_mass(self.r)
@@ -158,6 +185,9 @@ class GravothermalHalo:
         self.relax()
         self.u_ecv = float(self.u[-1])                     # la ECV en el punto de intercambio
         self.u_init = self.u.copy()
+        self.M_init = float(self.M[-1])
+        self.exchange_log = {"condensed": 0.0, "evaporated": 0.0, "swept": 0.0, "energy_in": 0.0, "energy_out": 0.0,
+                             "energy_brought": 0.0, "wall_work": 0.0, "splits": 0, "merges": 0}
 
     @property
     def rho(self):
@@ -245,19 +275,109 @@ class GravothermalHalo:
             rhs[-1] += c[-1] * g_ecv * self.u_ecv
         return _tridiagonal(-c[1:] * g_in[1:], 1.0 + c * (g_in + g_out), -c[:-1] * g_out[:-1], rhs)
 
+    def exchange_rates(self) -> dict:
+        """El intercambio de masa en la capa del borde (dynamics/ecv_exchange.py), en unidades del código: masa en
+        4πρ_s r_s³ por r_s/v₀, con R₀ = r_N, ρ_b y ν_b de la capa del borde. El flujo entrante lleva la energía de efusión
+        de la ECV, 2ν_ecv² por unidad de masa, y el saliente la de la capa del borde, 2ν_b²; así el equilibrio del contacto
+        (ρ_b = ξρ_E con T_b = T_ecv) lo es en masa y en energía. La ECV barrida entra con u_ecv, y un borde que retrocede
+        suelta MCV con u_b. El barrido se alimenta del propio intercambio (halo aislado, sin acreción)."""
+        cfg = self.cfg
+        area = float(self.r[-1]) ** 2
+        rho_b, u_b = float(self.rho[-1]), float(self.u[-1])
+        nu_b, nu2_e = math.sqrt(u_b / 1.5), self.u_ecv / 1.5
+        if cfg.contact_form == "onsager-lineal":
+            contact = area * HK * rho_b * nu_b * math.log(cfg.xi * cfg.q_E / rho_b)
+            cond, evap = max(contact, 0.0), max(-contact, 0.0)
+        else:
+            cond = area * HK * nu_b * cfg.xi * cfg.q_E
+            evap = area * HK * nu_b * rho_b if cfg.evaporation else 0.0
+            contact = cond - evap
+        total = contact / (1.0 - 0.5 * cfg.xi_s)
+        sweep = total - contact
+        energy_in = 2.0 * nu2_e * max(cond, 0.0) + (self.u_ecv * sweep if sweep > 0.0 else 0.0)
+        energy_out = 2.0 * nu_b ** 2 * (evap + max(-cond, 0.0)) + (-u_b * sweep if sweep < 0.0 else 0.0)
+        return {"condensation": cond, "evaporation": evap, "contact": contact, "sweep": sweep, "total": total,
+                "energy_in": energy_in, "energy_out": energy_out, "rho_b": rho_b, "nu_b": nu_b}
+
+    def _border_potential_energy(self) -> float:
+        """El término de la capa del borde en el potencial de energy(), con la geometría actual."""
+        rc = float(self.r_centre[-1])
+        return float(-(self.M[-1] - 0.5 * self.dM[-1]) * self.dM[-1] / rc - (self.cfg.q_E / 3.0) * rc ** 2 * self.dM[-1])
+
+    def _apply_exchange(self, rates: dict, dt: float, u_new) -> None:
+        """Suma a la capa del borde la masa y la energía interna del intercambio durante dt (explícito), y registra la
+        energía que trae, interna y potencial, con la geometría del paso."""
+        dm = rates["total"] * dt
+        dU = (rates["energy_in"] - rates["energy_out"]) * dt
+        U = u_new[-1] * self.dM[-1] + dU
+        pot_before = self._border_potential_energy()
+        self.dM[-1] += dm
+        self.M[-1] += dm
+        u_new[-1] = U / self.dM[-1]
+        log = self.exchange_log
+        log["energy_brought"] += dU + self._border_potential_energy() - pot_before
+        log["condensed"] += max(rates["condensation"], 0.0) * dt
+        log["evaporated"] += (rates["evaporation"] + max(-rates["condensation"], 0.0)) * dt
+        log["swept"] += rates["sweep"] * dt
+        log["energy_in"] += rates["energy_in"] * dt
+        log["energy_out"] += rates["energy_out"] * dt
+
+    def _move_wall(self) -> None:
+        """La pared «R0» sigue al radio de aceleración nula de la masa del código; registra el trabajo p·dV."""
+        r_old, r_new = float(self.r[-1]), zero_acceleration_radius_code(float(self.M[-1]), self.cfg.q_E)
+        p_b = float(self.K[-1] * self.rho[-1] ** (5.0 / 3.0))
+        self.exchange_log["wall_work"] += p_b * (r_new ** 3 - r_old ** 3) / 3.0
+        self.r[-1] = r_new
+
+    def _regrid_border(self) -> None:
+        """Mantiene la resolución en el borde: parte la capa del borde en dos de igual masa y densidad si pesa más del
+        doble que su vecina, y la funde con ella si pesa menos de un cuarto (sin cambiar masa ni energía interna)."""
+        if self.dM[-1] > 2.0 * self.dM[-2]:
+            r_in, r_out = float(self.r[-2]), float(self.r[-1])
+            r_mid = ((r_in ** 3 + r_out ** 3) / 2.0) ** (1.0 / 3.0)
+            half = 0.5 * self.dM[-1]
+            self.r = np.concatenate([self.r[:-1], [r_mid, r_out]])
+            self.dM = np.concatenate([self.dM[:-1], [half, half]])
+            self.K = np.concatenate([self.K, [self.K[-1]]])
+            self.u = np.concatenate([self.u, [self.u[-1]]])
+            self.u_init = np.concatenate([self.u_init, [self.u_init[-1]]])
+            self.exchange_log["splits"] += 1
+        elif self.dM[-1] < 0.25 * self.dM[-2]:
+            m = self.dM[-2] + self.dM[-1]
+            U = self.u[-2] * self.dM[-2] + self.u[-1] * self.dM[-1]
+            self.r = np.concatenate([self.r[:-2], [self.r[-1]]])
+            self.dM = np.concatenate([self.dM[:-2], [m]])
+            self.u = np.concatenate([self.u[:-2], [U / m]])
+            self.K = np.concatenate([self.K[:-2], [(self.u[-1] / 1.5) * self.rho[-1] ** (-2.0 / 3.0)]])
+            self.u_init = self.u_init[:-1]
+            self.exchange_log["merges"] += 1
+        else:
+            return
+        self.M = np.cumsum(self.dM)
+
     def step(self) -> float:
         eps = self.cfg.eps
         if self._dt is None:
             L = self.luminosity()
             dudt = -(L[1:] - L[:-1]) / self.dM
             self._dt = eps * float(np.min(self.u / np.maximum(np.abs(dudt), 1e-300)))
+        rates = self.exchange_rates() if self.cfg.exchange else None
+        if rates is not None:                               # el intercambio no cambia la capa del borde más de eps por paso
+            self._dt = min(self._dt, eps * self.dM[-1] / max(abs(rates["total"]), 1e-300),
+                           eps * self.u[-1] * self.dM[-1] / max(abs(rates["energy_in"] - rates["energy_out"]), 1e-300))
         while True:
             u_new = self._conduct(self._dt)
             change = float(np.max(np.abs(u_new / self.u - 1.0)))
             if change <= 2.0 * eps:
                 break
             self._dt *= 0.5
+        if rates is not None:
+            self._apply_exchange(rates, self._dt, u_new)
         self.K = (u_new / 1.5) * self.rho ** (-2.0 / 3.0)
+        if rates is not None:
+            self._move_wall()
+            self.u = u_new
+            self._regrid_border()
         self.relax()
         dt = self._dt
         self.t += dt
@@ -292,6 +412,8 @@ def run_collapse(cfg: GravothermalConfig, snapshot_rho: tuple[float, ...] = ()) 
     e0 = halo.energy()
     rho_c0 = float(halo.rho[0])
     wall_force0 = halo.wall_net_force()
+    r_wall0 = float(halo.r[-1])
+    rates0 = halo.exchange_rates() if cfg.exchange else None
     rho_min, t_min = math.inf, 0.0
     l_max = l_edge = l_exchange = 0.0
     pending = sorted(snapshot_rho)
@@ -316,7 +438,15 @@ def run_collapse(cfg: GravothermalConfig, snapshot_rho: tuple[float, ...] = ()) 
             "border_flux_rel": edge_rel, "exchange_flux_rel": l_exchange / l_max,
             "border_u_rel_change": float(abs(halo.u[-1] / halo.u_init[-1] - 1.0)),
             "outside_thermal_influence": bool(edge_rel < THERMAL_TOL), "wall_net_force": wall_force0,
-            "snapshots": snapshots}
+            "wall_net_force_end": halo.wall_net_force(), "snapshots": snapshots,
+            "exchange": None if rates0 is None else {
+                "initial_rates": rates0, "initial_rate_per_mass": rates0["total"] / halo.M_init,
+                "mass_ratio_end": float(halo.M[-1]) / halo.M_init, "wall_ratio_end": float(halo.r[-1]) / r_wall0,
+                "n_shells_end": len(halo.dM),
+                # E_fin − E_ini − (energía traída por el intercambio) + (trabajo sobre la pared), frente a |E_ini|
+                "energy_budget_residual": (halo.energy() - e0 - halo.exchange_log["energy_brought"]
+                                           + halo.exchange_log["wall_work"]) / abs(e0),
+                **halo.exchange_log}}
 
 
 def with_border(cfg: GravothermalConfig, r_border: float) -> GravothermalConfig:
@@ -333,6 +463,18 @@ def ecv_config(sigma_hat: float, c: float, z: float = 0.0, base: GravothermalCon
     base = base or GravothermalConfig(sigma_hat=sigma_hat)
     q_E = 1.0 / rho_s_over_rho_ecv(c, z)
     return replace(with_border(base, r0_selfconsistent_code(q_E)), sigma_hat=sigma_hat, q_E=q_E, wall="R0")
+
+
+def code_outskirts(c: float, z: float = 0.0, base: GravothermalConfig | None = None) -> dict:
+    """Las afueras de la decisión 6 tal como las da el propio código: ρ_b y ν_b de la capa del borde del halo relajado con
+    la fuerza de la ECV y la pared en R₀ (en el formato de dynamics/ecv_exchange.nfw_outskirts; 600 capas hasta 100 r_s
+    por defecto). Sin la fuerza de la ECV, la capa del borde converge al NFW prolongado; con ella, el gas se acumula
+    contra la pared y el borde es más denso y más caliente."""
+    from dynamics.ecv_exchange import nfw_outskirts
+
+    o = nfw_outskirts(c, z)
+    h = GravothermalHalo(ecv_config(0.01, c, z, base=base or GravothermalConfig(sigma_hat=0.01, n_shells=600)))
+    return {**o, "rho_b": float(h.rho[-1]), "nu_b": math.sqrt(float(h.u[-1]) / 1.5), "n_shells": len(h.dM)}
 
 
 def resolution_shift(cfg: GravothermalConfig) -> dict:
