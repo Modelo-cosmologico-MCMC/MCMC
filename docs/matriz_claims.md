@@ -4,7 +4,7 @@
 
 Supuestos, derivaciones completadas, calibraciones, falsadores y huecos, en una página. Cada celda se genera desde el registro canónico (`docs/claims_registry.yaml`) y la tabla de puentes del diccionario (`docs/diccionario_puentes.md`): lo que se muestra es el registro, no una narrativa. Los estatutos siguen la fe de erratas epistemológica FE-08-2026: «interno» es una comprobación interna superada (E8), nunca demostración física.
 
-Fuente: `docs/claims_registry.yaml`, sha256 `28b8f0d7a244efea6ec7f1161b4accdd517b448bc8353ea615ac7d217591d638`; 78 filas.
+Fuente: `docs/claims_registry.yaml`, sha256 `d0e9bb93cddeb77a4aeba67af0c6b2b028b7499e83ed9fefd8483651b4f10e9f`; 79 filas.
 
 ## 1. Matriz por categoría
 
@@ -15,7 +15,7 @@ Fuente: `docs/claims_registry.yaml`, sha256 `28b8f0d7a244efea6ec7f1161b4accdd517
 | Calibraciones: números ajustados o anclados fuera, con estatuto declarado | 4 | `funcional-masas`, `higgs-auditoria`, `wkb-calibrado`, `mapa-s-z-convencion` |
 | Preinscritos: protocolos congelados todavía sin desenlace | 1 | `sculptor-mcv-c` |
 | Resultados negativos: experimentos ejecutados con desenlace nulo o contrario, publicados como tales | 4 | `beta-extra-cribado`, `fp-beta-desenlace-a`, `desi-dr2-6a`, `ajustes-produccion` |
-| Huecos: huecos declarados, afirmaciones sin derivación y experimentos sin ejecutar (datos ausentes, fallo cerrado) | 7 | `decada-discriminante`, `5e-falsacion-cruzada`, `ngen-3`, `c-lieb-robinson-identificacion`, `diccionario-primordial-cosmologico`, `diccionario-unidad-S-post-florencia`, `sculptor-perfil-sigma-los` |
+| Huecos: huecos declarados, afirmaciones sin derivación y experimentos sin ejecutar (datos ausentes, fallo cerrado) | 8 | `decada-discriminante`, `5e-falsacion-cruzada`, `ngen-3`, `c-lieb-robinson-identificacion`, `diccionario-primordial-cosmologico`, `diccionario-unidad-S-post-florencia`, `sculptor-perfil-sigma-los`, `umbrales-retraccion-maestro` |
 
 ## 2. Puentes del diccionario primordial → cosmológico
 
@@ -140,3 +140,4 @@ Lo que refutaría o acotaría cada claim, tal como lo declara el registro, agrup
 | `diccionario-primordial-cosmologico` | hueco-declarado | — (no hay afirmación contrastable hasta que exista la fórmula) | results/2026-09-21_s_clock |
 | `diccionario-unidad-S-post-florencia` | hueco-declarado | — (no hay afirmación contrastable hasta que Σ̇_post y T_sellada se deriven) | results/2026-09-21_s_clock |
 | `sculptor-perfil-sigma-los` | experimento-no-ejecutado | C si los dos bins internos del perfil binado excluyen el pico central predicho a > 3σ para todo β del brazo (la expectativa declarada, E13: el perfil observado es plano) | results/2026-09-21_sculptor_profile |
+| `umbrales-retraccion-maestro` | hueco-declarado | — (hueco de coherencia del texto, no afirmación contrastable; lo cierra una decisión del autor sobre (708) frente al Cuadro 19 y sobre los VEV) | — |
