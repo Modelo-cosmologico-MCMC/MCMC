@@ -1381,9 +1381,16 @@ claims:
       Cronos domine la gravedad dentro de ~0.9 kpc de un halo de 1e11 M☉
       (fila cronos-amplitud-unica): las dos lecturas no pueden convivir
       sin decirlo; esta fila fija la operativa y declara la fuerte como
-      frente. El Nivel A mide la consecuencia de la operativa.
-    implementation: cosmology/background.py + cosmology/dark_channels.py
-    test: tests/test_dark_channels.py
+      frente. El Nivel A mide la consecuencia de la operativa. ACTUALIZACIÓN
+      DEL 23-OCT: la lectura fuerte tiene módulo. Por decisión del autor, la
+      materia oscura de los halos es la MCV (c), energía sellada atrapada en
+      los pozos y en equilibrio por autointercambio e intercambio con la
+      ECV, implementada como Jeans isotermo empalmado con una envoltura NFW
+      en dynamics/mcv_equilibrium.py (fila mcv-equilibrio-c, condicional,
+      sin datos). La fuerza local +c²∇ε_c(ρ_m) de la Cor. 11.3(c) deja de
+      ser la MCV.
+    implementation: cosmology/background.py + cosmology/dark_channels.py + dynamics/mcv_equilibrium.py
+    test: tests/test_dark_channels.py + tests/test_mcv_equilibrium.py
     observable: "— (fija qué predice el modelo operativo: enanas ΛCDM + corrección Cronos de amplitud A_Sculptor)"
     dataset: "—"
     falsifier: >-
@@ -1398,10 +1405,93 @@ claims:
       INESTABLE dentro de r_CJ = 0.71 kpc (q = (3/2)c²ε_c/σ² > 1, tasa ∝
       k): la lectura operativa conserva la CDM para las curvas pero
       desestabiliza los centros y rompe K_z en la vecindad solar
-    evidence_level: declaración de estatuto; la lectura fuerte no tiene módulo ni artefacto; el Nivel A ejecutado no la decide (INDETERMINADO); la ley local a A_Sculptor es inestable dentro de r_CJ en halos NFW (derivación 21-sep)
+    evidence_level: declaración de estatuto; la lectura fuerte tiene módulo desde el 23-oct (MCV (c), fila mcv-equilibrio-c) pero ningún artefacto con datos; el Nivel A ejecutado no la decide (INDETERMINADO); la ley local a A_Sculptor es inestable dentro de r_CJ en halos NFW (derivación 21-sep)
     status: condicional
     artifact: "—"
 
+  - claim_id: mcv-equilibrio-c
+    entity: La MCV (c) — la materia del vacío capturada en los pozos, en equilibrio por autointercambio e intercambio con la ECV — como núcleo isotermo de Jeans empalmado con una envoltura NFW, con el tiempo de colapso gravotérmico y la cúspide junto a un agujero negro (decisiones del autor del 14, 18, 21 y 23-oct-2026; sin datos)
+    law: "decisión (c) del autor, confirmada el 23-oct: ∇²Φ = 4πG(ρ_b + ρ_M − 2ρ_E) con N = 1 + Φ/c²; Γ_x = ρ_M·(σ_x/m)·⟨v_rel⟩ con ⟨v_rel⟩ = 4σ/√π y Γ_x(r₁)·t_edad = 1; ρ_M = ρ_M0·exp[−(Φ − Φ₀)/σ₀²] dentro de r₁; ρ_M y M(<r) continuos en r₁ (Kaplinghat, Tulin y Yu 2016)"
+    derivation: >-
+      decisiones del autor, no derivadas aquí. La MCV es la energía sellada
+      atrapada en los pozos: la misma sustancia que la ECV, con masa ínfima
+      pero no nula, anterior a los agujeros negros. Su concentración la
+      frena el equilibrio por dos canales, autointercambio e intercambio con
+      la ECV (decisión (c), confirmada el 23-oct). σ_x/m y ξ son globales:
+      se calibran una vez y se prueban fuera de la muestra, y su derivación
+      desde el sellado sigue abierta. La fuerza local +c²∇ε_c(ρ_m) de la
+      Cor. 11.3(c) deja de ser la MCV; sus filas quedan como resultados
+      sobre la ley local. Módulo dynamics/mcv_equilibrium.py: envoltura NFW
+      (M200 a 200·ρ_crit), núcleo isotermo con los bariones de Plummer y la
+      ECV (−2ρ_E) en el potencial, r₁ por la tasa de autointercambio, y un
+      empalme que devuelve TODAS las ramas (la de menor ρ₀, «con núcleo»;
+      las demás, «densas»), encontradas en una rejilla en (σ₀, ρ₀/ρ(r₁)),
+      refinadas y comprobadas contra la solución autosemejante sin
+      bariones. Además, r_c donde ρ = ρ₀/2, t_c de Essig et al. (2019) y la
+      cúspide ρ ∝ r^{−(3+a)/4} junto a un agujero negro (Shapiro y
+      Paschalidis 2014), empalmada con ρ₀ en el radio de influencia. Cifras
+      de referencia del autor (t_edad = 10 Gyr, H0 = 67.4, β = 0.75),
+      reproducidas: 1e9 M☉ con c = 15 y σ_x/m = 2 cm²/g sin bariones dan
+      una sola rama con σ₀ = 10.99 km/s, ρ₀ = 0.0693 M☉/pc³, r₁ = 0.878 kpc
+      y r_c = 0.408 kpc; t_c(1e12 M☉, c = 10, σ_x/m = 10 cm²/g) = 44.9 Gyr.
+      Con σ_x/m = 50 cm²/g el mismo halo tiene dos ramas (ρ₀ = 0.021 y 0.45
+      M☉/pc³). Elegir rama es decisión de cada preinscripción.
+    implementation: dynamics/mcv_equilibrium.py
+    test: tests/test_mcv_equilibrium.py
+    observable: "σ_los(R) de las enanas (preinscripción de Sculptor con la MCV (c), congelada el 23-oct: fila sculptor-mcv-c) y curvas de rotación de SPARC (banco de mecanismos, pendiente)"
+    dataset: "— (ninguno: los bytes de Walker 2009, SPARC y Li+2020 no se han descargado)"
+    falsifier: >-
+      la preinscripción de Sculptor con la MCV (c), cuya letra C es que el
+      perfil no quepa con ningún σ_x/m ≤ 50 cm²/g, y el brazo MCV (c) del
+      banco de mecanismos de SPARC, con σ_x/m calibrado en media muestra y
+      probado en la otra; un σ_x/m global que no sirviera a la vez para
+      enanas y espirales refutaría su carácter global
+    evidence_level: decisión del autor implementada como módulo (condicional), sin datos ni letra; cifras de referencia del autor reproducidas
+    status: condicional
+    artifact: "—"
+
+
+  - claim_id: sculptor-mcv-c
+    entity: La MCV (c) en Sculptor — el perfil σ_los(R) binado de Walker et al. 2009 (binning de PR-W) frente al Jeans isotermo con autointercambio empalmado con una envoltura NFW de molestia, con las estrellas de Plummer (Υ⋆ ∈ {1, 2, 3}) en el potencial y σ_x/m global; preinscripción y banco de modelos congelados antes de los bytes (23-oct-2026)
+    law: "decisión (c) del autor (fila mcv-equilibrio-c): ∇²Φ = 4πG(ρ_b + ρ_M − 2ρ_E); Γ_x(r₁)·t_edad = 1 con ⟨v_rel⟩ = 4σ/√π; núcleo isotermo con los bariones dentro de Φ empalmado con NFW (Kaplinghat, Tulin y Yu 2016); Jeans esférico con β constante para el trazador"
+    derivation: >-
+      bloque P0 del autor del 23-oct (P0-b). Preinscripción congelada
+      (sha256 2ed76f7f0bf4…) en un commit posterior al generador, con
+      walker2009 sin manifest ni bytes. Modelo: estrellas de Plummer del
+      montaje del 5E (a = 260 pc, M⋆ = Υ⋆·2.6e6 L☉) en el potencial de la
+      MCV en equilibrio (ρ_E = 0) y de las propias estrellas; σ_los(R) por
+      Jeans con β del brazo de la ley local. Envoltura de molestia: c =
+      c200 de Dutton y Macciò 2014 por 10^(0.11·k); previas log10 M200 ∈
+      [8.5, 10.5] y |k| ≤ 2; caja log10 M200 ∈ [7.5, 11.5] y |k| ≤ 5.
+      Banco de modelos congelado (sha256 311f919057f1…): todas las ramas
+      del empalme en 13 275 puntos (15 σ_x/m de 0.01 a 50 cm²/g × 3 Υ⋆ ×
+      295 envolturas). Usa el prefiltro bilineal del empalme, comprobado
+      frente a la búsqueda exhaustiva en 240 puntos al azar sin diferencias
+      dentro del dominio. «Cabe» con un σ_x/m: prueba χ² al 5 % con
+      ν = N_bins − 2. A: cabe con σ_x/m ≤ 10, rama con núcleo y envoltura
+      en las previas. B: solo cabe en la rama densa, con la envoltura fuera
+      de las previas o con 10 < σ_x/m ≤ 50 (este último caso, precisión del
+      ejecutor). C: no cabe con ningún σ_x/m ≤ 50 en la caja.
+      INDETERMINADO: puertas, entre ellas las del binning, la de
+      reproducción del banco y la búsqueda exhaustiva en el punto decisivo.
+      Expectativa E13: A con σ_x/m pequeño. Dato previo del autor
+      reproducido sin letra: con 10⁹ M☉ y c = 20, σ_x/m = 0.3 y Υ⋆ = 2 dan
+      M(<r_½) = 2.02×10⁷ M☉, frente a M_half = 4σ²R_half/G = 2.05×10⁷; con
+      σ_x/m ≥ 2, la materia de la MCV dentro de r_½ cae a 0.86–1.27×10⁷.
+      Corre el mismo día que la ley local (sculptor-perfil-sigma-los), cuya
+      preinscripción no se toca.
+    implementation: dynamics/mcv_sculptor.py + dynamics/mcv_equilibrium.py + dynamics/walker_binning.py + scripts/run_mcv_sculptor.py
+    test: tests/test_mcv_sculptor.py
+    observable: perfil de dispersión de velocidades en la línea de visión σ_los(R) de Sculptor, binado con el anexo de PR-W
+    dataset: walker2009 (DATA_UNAVAILABLE)
+    falsifier: >-
+      C: el perfil binado no cabe con ningún σ_x/m ≤ 50 cm²/g, ninguna rama
+      ni envoltura de la caja; una B señalaría que solo cabe forzando el
+      modelo. Ninguna letra calibra σ_x/m global: eso se prueba fuera de la
+      muestra en SPARC
+    evidence_level: preinscrito — modelo, banco, regla y expectativa congelados antes de los bytes; el analizador falla cerrado mientras walker2009 no esté AVAILABLE
+    status: preinscrito
+    artifact: results/2026-10-23_mcv_sculptor
   - claim_id: criterio-cronos-jeans
     entity: El criterio de Cronos–Jeans — la ley local ε_c = A·ρ^(3/2) es ultravioleta-inestable donde q ≡ (3/2)c²ε_c/σ² > 1; con A_Sculptor el halo del Nivel A, el propio Sculptor congelado y la vecindad solar caen dentro (derivación del autor, 21-sep-2026)
     law: "Def. 11.1 + Prop. 11.2 (potencial efectivo Ψ = Φ_N − c²ε_c) + Cor. 11.3c; respuesta de Boltzmann del medio colisionless isotermo"
@@ -1544,16 +1634,30 @@ claims:
       predicción. Estado: walker2009 (CDS J/AJ/137/3100, table4) sigue
       DATA_UNAVAILABLE (CDS/VizieR 403 vía proxy, 21-sep 14:10 UTC): el
       analizador registra el fallo cerrado como resultado explícito; la
-      regla no se toca hasta la ingesta.
-    implementation: scripts/run_sculptor_profile.py + dynamics/cronos_jeans.py
-    test: tests/test_front5_local_dsph_lock.py
+      regla no se toca hasta la ingesta. ACTUALIZACIÓN DEL 23-OCT (PR-W,
+      bloque P0 del autor): el binning preinscrito está implementado
+      (dynamics/walker_binning.py; analyze_catalogue en el script) y el
+      ANEXO de binning se congeló antes de los bytes
+      (binning_annex.json, sha256 2a067315…, commit posterior al
+      generador) con lo que la regla no fijaba: lectura del esquema por
+      el ReadMe de CDS con fallo cerrado, unidad «estrella» con épocas
+      repetidas, P_M = mínimo de las épocas, centro J2000 (01h00m09.4s,
+      −33°42′33″) y D = 79 kpc (transcritos sin acceso a la fuente;
+      verificación del autor pendiente antes de los bytes), radio
+      circular, R_bin = mediana, puertas de reproducción de la
+      predicción y del centroide, orden de letras puertas → C → B → A →
+      INDETERMINADO. La preinscripción y sus reglas no se tocan; las
+      rutas de descarga quedan alineadas con data/sources.yaml
+      (data/raw/walker2009, manifest de la capa de datos).
+    implementation: scripts/run_sculptor_profile.py + dynamics/cronos_jeans.py + dynamics/walker_binning.py
+    test: tests/test_front5_local_dsph_lock.py + tests/test_walker_binning.py
     observable: perfil de dispersión de velocidades en la línea de visión σ_los(R) de Sculptor
-    dataset: walker2009 (DATA_UNAVAILABLE)
+    dataset: walker2009 (DATA_UNAVAILABLE; rutas alineadas con data/sources.yaml el 23-oct)
     falsifier: >-
       C si los dos bins internos del perfil binado excluyen el pico
       central predicho a > 3σ para todo β del brazo (la expectativa
       declarada, E13: el perfil observado es plano)
-    evidence_level: experimento-no-ejecutado — preinscripción congelada con predicción y regla; fallo cerrado por datos no disponibles
+    evidence_level: experimento-no-ejecutado — preinscripción congelada con predicción y regla; binning implementado y anexo congelado antes de los bytes (23-oct); fallo cerrado por datos no disponibles
     status: experimento-no-ejecutado
     artifact: results/2026-09-21_sculptor_profile
 
@@ -2513,3 +2617,34 @@ claims:
     evidence_level: experimento numérico preinscrito EJECUTADO con desenlace INDETERMINADO — ni A ni B ni C; instrumento (campo medio esférico con malla fija y retardo, N = 4e5) no convergido en el interior, y el problema continuo es mal puesto dentro de r_CJ = 0.71 kpc (derivación 21-sep); no demostración física (E8); el signo de las bandas no es señal (E13)
     status: interno
     artifact: results/2026-09-17_cronos_halo_nivelA
+
+  - claim_id: umbrales-retraccion-maestro
+    entity: Umbrales de pérdida de dimensión del Maestro (§4.4 y Ap. G, ecs. 699–711 y Cuadro 19; Ap. L, Cuadro 32) — tres incoherencias al aplicarlos tal como están escritos (orden, valores, época), registradas como hueco declarado (23-oct-2026); sin corridas del interior del objeto crítico
+    law: "ec. (699) T_eff = (Mp − Ep)/(Mp + Ep); ec. (700) S_mx donde T_eff = 10⁻³; ec. (708) T_crit(3+1D) > T_crit(3D) > T_crit(2D) > T_crit(1D) con T_eff decreciente (711); ec. (709) T_crit,n = (ṽ_n − ṽ_{n+1})/(ṽ_n + ṽ_{n+1}); ec. (710) S_ret = 1.001, 0.999, 0.099, 0.009; Cuadro 19 ≈10⁻³, ≈0.002, ≈0.9, ≈1; Cuadro 32 v_n² ∝ √(j(j+1))"
+    derivation: >-
+      bloque P1 del autor del 23-oct, con las cifras de su guion
+      p1_comprobaciones.py. (1) Orden: (708) exige tensiones críticas
+      decrecientes (el tiempo se pierde primero) y el Cuadro 19 las da
+      crecientes; al pie de la letra se perderían primero la polaridad y
+      el giro. (2) Valores: (709) con los VEV del Cuadro 32 da 0.209,
+      0.382, 0.000 (índices del Cuadro 32) o 0.146, 0.209, 0.382 (índices
+      del Ap. G, con v_0 = V0D o v_0 = 0) en los tres primeros tramos,
+      también leyendo v_n en lugar de v_n² (entre 0 y 0.2), donde el
+      Cuadro 19 pone 10⁻³, 0.002 y 0.9; el Cuadro 19 cita los VEV de un
+      «Cuadro 2 del Tratado Técnico» no localizado en el Proyecto. (3)
+      Época: (699) con Ω_m = 0.315 da T_eff(hoy) = −0.370 y el umbral 10⁻³
+      de (700) en z = 0.2964, hace 3.5 Gyr, contra (556), S_ext(t₀) ≃ 90 <
+      S_mx. Sin letra: la lectura del lapso (N² = 1 − r_s/r) pone el giro
+      del Cuadro 19 literal en r = 10 r_s, fuera de la ISCO; con el orden
+      de (708) toda la secuencia cabe dentro de r = 1.001 r_s. Las
+      decisiones 3–5 del autor (orden y valores; variable del interior;
+      qué ocurre al perder el tiempo) cierran o mantienen el hueco; hasta
+      entonces no se corre el interior.
+    implementation: core/retraction_thresholds.py
+    test: tests/test_retraction_thresholds.py
+    observable: "—"
+    dataset: "—"
+    falsifier: "— (hueco de coherencia del texto, no afirmación contrastable; lo cierra una decisión del autor sobre (708) frente al Cuadro 19 y sobre los VEV)"
+    evidence_level: hueco declarado con test que reproduce las tres incoherencias (comprobación interna del texto, E8); sin datos, sin corridas del interior
+    status: hueco-declarado
+    artifact: "—"

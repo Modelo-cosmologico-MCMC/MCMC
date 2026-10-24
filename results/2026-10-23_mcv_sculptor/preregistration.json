@@ -1,0 +1,989 @@
+{
+  "title": "La MCV (c) en Sculptor: el perfil σ_los(R) binado de Walker et al. 2009 frente al Jeans isotermo con autointercambio empalmado con una envoltura NFW de molestia",
+  "frozen_utc": "2026-10-23T20:42:49.575387+00:00",
+  "code_commit": "1e0615b02b603e4a0904bd4eb9db51c41c5afbb4",
+  "generator": "scripts/run_mcv_sculptor.py prereg",
+  "generator_commit_must_precede_freeze": true,
+  "ordered_by": "bloque P0 del autor del 23-oct-2026 (P0-b, MCV-b): preinscripción de Sculptor con la MCV (c), congelada antes de los bytes",
+  "dataset_state_at_freeze": "walker2009 sin manifest y sin bytes: ningún byte del catálogo visto",
+  "observable": {
+    "definition": "σ_los(R) binado con el binning de PR-W: los bins, σ_obs y σ_err de dynamics.walker_binning con los números del anexo congelado, y sus puertas (esquema, centroide, N_bins ≥ 4, σ definida en todo bin)",
+    "annex_file": "results/2026-09-21_sculptor_profile/binning_annex.json",
+    "annex_sha256": "2a06731525a4f3b254ead5d997880847515d3041c036e7682ba47ea1c4d66073",
+    "local_law_prereg_sha256": "604f9c254c7e8283949137d23bb75fb4200b5341a369b1b89f06622ce53af002",
+    "local_law_untouched": "la preinscripción de la ley local no se toca; las dos corren el mismo día"
+  },
+  "model": {
+    "equations": [
+      "∇²Φ = 4πG(ρ_b + ρ_M − 2ρ_E), con ρ_E = 0 en Sculptor (la ECV de fondo es ~1e-6 de ρ_M0)",
+      "Γ_x = ρ_M·(σ_x/m)·⟨v_rel⟩, ⟨v_rel⟩ = 4σ/√π; r₁: Γ_x(r₁)·t_edad = 1 con la densidad NFW",
+      "r < r₁: ρ_M = ρ_M0·exp[−(Φ − Φ₀)/σ₀²] con las estrellas de Plummer dentro de Φ",
+      "empalme en r₁ con la envoltura NFW: ρ_M y M(<r) continuos (Kaplinghat, Tulin y Yu 2016)"
+    ],
+    "implementation": "dynamics/mcv_equilibrium.py (jeans_match, dm_profile) + dynamics/mcv_sculptor.py",
+    "stars": "trazador de Plummer del montaje congelado del 5E: a = R_half = 260 pc, L_V = 2.6e6 L☉, M⋆ = Υ⋆·L_V, Υ⋆ ∈ {1, 2, 3} (molestia discreta), también en el potencial",
+    "jeans": "Jeans esférico con β constante del brazo de la ley local (−0.5, 0, +0.3; molestia discreta), dynamics/jeans.py (malla de 800 radios hasta 120a; proyección hasta 120a)",
+    "branches": "todas las ramas del empalme: 'con núcleo' la de menor ρ₀, 'densa' las demás; se descartan las raíces fuera del dominio de la rejilla del empalme (σ₀ ∈ [0.5, 300] km/s, u = ρ₀/ρ_env(r₁) ≤ 1e10) y las que tienen r₁ ≥ r200",
+    "t_age_gyr": 10.0,
+    "H0": 67.4
+  },
+  "nuisance": {
+    "envelope": "c = c200_DM14(M200)·10^(0.11·k): mediana de Dutton y Macciò 2014 (c200, z = 0, log10 c = 0.905 − 0.101·log10[M200/(10¹² h⁻¹ M☉)], h = 0.674), extrapolada por debajo de su rango simulado, y k la desviación en unidades de su dispersión (0.11 dex)",
+    "prior": "log10 M200 ∈ [8.5, 10.5] y |k| ≤ 2 (dos dispersiones): incluye las envolturas del dato previo (10⁹ con c = 20, k ≈ +0.7; 3×10⁹ con c = 15, k ≈ 0)",
+    "box": "log10 M200 ∈ [7.5, 11.5] y |k| ≤ 5: la caja en que B y C se evalúan",
+    "grid": "fina en las previas (0.125 dex en M200, 0.5 en k) y gruesa en la caja (0.25 dex, 1 en k): 295 envolturas; el mínimo de χ² se toma sobre la rejilla congelada, sin refinamiento"
+  },
+  "sigma_over_m": {
+    "grid_cm2_g": [
+      0.01,
+      0.03,
+      0.1,
+      0.2,
+      0.3,
+      0.5,
+      0.7,
+      1.0,
+      2.0,
+      3.0,
+      5.0,
+      10.0,
+      20.0,
+      30.0,
+      50.0
+    ],
+    "global": "un solo valor para el sistema; cada valor de la rejilla se ajusta por separado (σ_x/m no se ajusta en continuo)"
+  },
+  "fit": {
+    "chi2": "χ² = Σ_bins [(σ_mod(R_bin) − σ_obs)/σ_err]², minimizado sobre (M200, c) de la región, Υ⋆ y β",
+    "nu": "ν = N_bins − 2 (las dos coordenadas de la envoltura)",
+    "fits": "«cabe» con un σ_x/m ⇔ p(χ² ≥ χ²_mín | ν) ≥ 0.05 (prueba χ² al 5 %)"
+  },
+  "rules": {
+    "A": "existe σ_x/m ≤ 10 cm²/g de la rejilla con el que cabe la rama con núcleo con la envoltura dentro de las previas",
+    "B": "no A, pero existe σ_x/m ≤ 50 cm²/g con el que cabe alguna rama con alguna envoltura de la caja: solo en la rama densa, solo con la envoltura fuera de las previas o solo con 10 < σ_x/m ≤ 50 (este último caso lo añade el ejecutor: el texto del autor no lo nombra y es «cabe forzando», no A ni C)",
+    "C": "no cabe con ningún σ_x/m ≤ 50 cm²/g, ninguna rama ni envoltura de la caja",
+    "INDETERMINADO": "puertas: walker2009 no AVAILABLE; las del binning de PR-W (esquema, centroide, N_bins < 4, σ sin definir); ν < 2; sha256 del banco distinto del congelado; los puntos de reproducción no se reproducen (ramas o σ_los a 1e-6); la búsqueda exhaustiva del empalme en el punto decisivo no da las mismas ramas que el banco; C con el mejor ajuste en el borde de la caja",
+    "order": "puertas → A → B → C (mutuamente excluyentes por construcción)",
+    "verdict": "una letra; ninguna es afirmación sobre el tratado (E8): sitúa el equilibrio (c) frente a la forma y la amplitud del perfil de un sistema"
+  },
+  "spec": {
+    "t_age_gyr": 10.0,
+    "H0": 67.4,
+    "rho_E": 0.0,
+    "plummer_a_kpc": 0.26,
+    "L_V_Lsun": 2600000.0,
+    "upsilon": [
+      1.0,
+      2.0,
+      3.0
+    ],
+    "beta_arm": [
+      -0.5,
+      0.0,
+      0.3
+    ],
+    "sigma_over_m_grid": [
+      0.01,
+      0.03,
+      0.1,
+      0.2,
+      0.3,
+      0.5,
+      0.7,
+      1.0,
+      2.0,
+      3.0,
+      5.0,
+      10.0,
+      20.0,
+      30.0,
+      50.0
+    ],
+    "sigma_over_m_A_max": 10.0,
+    "sigma_over_m_C_max": 50.0,
+    "c_relation": {
+      "a": 0.905,
+      "b": -0.101,
+      "h": 0.674,
+      "scatter_dex": 0.11
+    },
+    "prior": {
+      "logM": [
+        8.5,
+        10.5
+      ],
+      "k_abs_max": 2.0
+    },
+    "grid_prior": {
+      "logM": [
+        8.5,
+        10.5
+      ],
+      "dlogM": 0.125,
+      "k_abs_max": 2.0,
+      "dk": 0.5
+    },
+    "grid_box": {
+      "logM": [
+        7.5,
+        11.5
+      ],
+      "dlogM": 0.25,
+      "k_abs_max": 5.0,
+      "dk": 1.0
+    },
+    "domain": {
+      "sigma0_range": [
+        0.5,
+        300.0
+      ],
+      "u_max": 10000000000.0
+    },
+    "jeans": {
+      "n_r": 800,
+      "r_max_over_a": 120.0
+    },
+    "fit": {
+      "p_min": 0.05,
+      "n_fitted": 2,
+      "nu_min": 2
+    },
+    "prefilter": true
+  },
+  "bank": {
+    "file": "results/2026-10-23_mcv_sculptor/model_bank.json",
+    "sha256": "311f919057f1fbe8dad29fd45fe7dd03c124ca0338c0993139ba3087fc9c3de8",
+    "code_commit": "1e0615b02b603e4a0904bd4eb9db51c41c5afbb4",
+    "n_points": 13275,
+    "points_without_branch": 2049,
+    "points_with_dense_branches": 2252,
+    "dropped_outside_domain": 52,
+    "dropped_r1_beyond_r200": 0
+  },
+  "prefilter_check": {
+    "file": "results/2026-10-23_mcv_sculptor/prefilter_check.json",
+    "sha256": "17f90df161fc848db5067bcb4d4e49d7d4678114c1da52d00039fa9cd687316c",
+    "n": 240,
+    "seed": 20261023,
+    "differences_in_domain": 0,
+    "outside_domain_roots_only_exhaustive": 2,
+    "reading": "el banco usa el prefiltro bilineal del empalme; dentro del dominio da las mismas ramas que la búsqueda exhaustiva; las raíces fuera del dominio (u > 1e10) que la exhaustiva encuentra por azar se descartan por regla en ambos casos"
+  },
+  "reproduction_gate": {
+    "points": [
+      {
+        "point": [
+          0.3,
+          2.0,
+          9.0,
+          0.0
+        ],
+        "branches": [
+          [
+            9.507332410381768,
+            4.109474493732221,
+            298916458.25641584,
+            0.24862216127870235,
+            "con núcleo"
+          ]
+        ]
+      },
+      {
+        "point": [
+          2.0,
+          2.0,
+          9.5,
+          -1.0
+        ],
+        "branches": [
+          [
+            15.24414112424085,
+            8.308711198276722,
+            56538486.599092945,
+            1.3882419813101208,
+            "con núcleo"
+          ]
+        ]
+      },
+      {
+        "point": [
+          10.0,
+          1.0,
+          9.0,
+          1.0
+        ],
+        "branches": [
+          [
+            13.475441606035291,
+            48.33752271352423,
+            74419175.59843321,
+            2.267855192682499,
+            "con núcleo"
+          ],
+          [
+            15.53636558096226,
+            2769.958349858762,
+            3698854763.254572,
+            2.405812506132206,
+            "densa"
+          ]
+        ]
+      },
+      {
+        "point": [
+          50.0,
+          3.0,
+          10.5,
+          0.0
+        ],
+        "branches": [
+          [
+            35.85599910456396,
+            131.40468659274583,
+            15206262.876707371,
+            20.105021739116424,
+            "con núcleo"
+          ],
+          [
+            38.50056642581572,
+            681.0861248093559,
+            73402082.50127955,
+            20.6703200246121,
+            "densa"
+          ]
+        ]
+      },
+      {
+        "point": [
+          0.01,
+          1.0,
+          8.5,
+          2.0
+        ],
+        "branches": [
+          [
+            1.8109847513364004,
+            2.956474095383964,
+            33869029824.532803,
+            0.004065879629844694,
+            "con núcleo"
+          ]
+        ]
+      },
+      {
+        "point": [
+          5.0,
+          3.0,
+          11.0,
+          -3.0
+        ],
+        "branches": [
+          [
+            38.67658202664901,
+            6.5308677068826455,
+            7006421.604877643,
+            9.217586401361839,
+            "con núcleo"
+          ]
+        ]
+      },
+      {
+        "point": [
+          20.0,
+          2.0,
+          8.0,
+          0.0
+        ],
+        "branches": [
+          [
+            7.27115193083022,
+            91.73156143550752,
+            130866667.40852565,
+            1.084948115606692,
+            "con núcleo"
+          ],
+          [
+            8.236445186781896,
+            9726.667480202512,
+            12250046377.310072,
+            1.1424844652408868,
+            "densa"
+          ],
+          [
+            7.91338344220299,
+            3856345.101237492,
+            5055069815419.523,
+            1.1237466559559688,
+            "densa"
+          ],
+          [
+            7.966003879290624,
+            20073008.06316726,
+            26138786518167.742,
+            1.1268325140974083,
+            "densa"
+          ]
+        ]
+      },
+      {
+        "point": [
+          1.0,
+          3.0,
+          10.0,
+          2.0
+        ],
+        "branches": [
+          [
+            28.499918860546227,
+            15.823942668284595,
+            115189939.22780617,
+            2.454342796641177,
+            "con núcleo"
+          ]
+        ]
+      }
+    ],
+    "sigma_los_reference": [
+      {
+        "point": [
+          0.3,
+          2.0,
+          9.0,
+          0.0
+        ],
+        "branch": "con núcleo",
+        "rho0": 298916458.25641584,
+        "sigma_los_kms": {
+          "-0.5": [
+            6.951169428546113,
+            7.661240267364588,
+            8.173952687852731,
+            8.548526307738996,
+            9.019776515998162
+          ],
+          "0.0": [
+            8.534956611221881,
+            8.426303135163172,
+            8.187165023177508,
+            8.159271823466884,
+            8.461297511082515
+          ],
+          "0.3": [
+            9.977735474959037,
+            9.000956892398364,
+            8.119511149175594,
+            7.778351409545995,
+            7.94968450042945
+          ]
+        }
+      },
+      {
+        "point": [
+          2.0,
+          2.0,
+          9.5,
+          -1.0
+        ],
+        "branch": "con núcleo",
+        "rho0": 56538486.599092945,
+        "sigma_los_kms": {
+          "-0.5": [
+            4.904757649549294,
+            5.519457062991267,
+            6.442222266023943,
+            7.94927109021814,
+            9.628820657180931
+          ],
+          "0.0": [
+            6.162252728827881,
+            6.26176286332866,
+            6.6380154010442025,
+            7.73177204272213,
+            9.133003336418094
+          ],
+          "0.3": [
+            7.371232164189175,
+            6.870101096589039,
+            6.742921494036076,
+            7.48969807421337,
+            8.662492917870717
+          ]
+        }
+      },
+      {
+        "point": [
+          10.0,
+          1.0,
+          9.0,
+          1.0
+        ],
+        "branch": "con núcleo",
+        "rho0": 74419175.59843321,
+        "sigma_los_kms": {
+          "-0.5": [
+            4.867949446002558,
+            5.512014165703511,
+            6.553731770685111,
+            8.120422055281104,
+            9.446120649123785
+          ],
+          "0.0": [
+            6.147334665067807,
+            6.287088158761159,
+            6.758200494541763,
+            7.85454960889558,
+            8.892681704129883
+          ],
+          "0.3": [
+            7.381942103362645,
+            6.919885304384164,
+            6.861194449366296,
+            7.567802751395105,
+            8.376815864371771
+          ]
+        }
+      },
+      {
+        "point": [
+          10.0,
+          1.0,
+          9.0,
+          1.0
+        ],
+        "branch": "densa",
+        "rho0": 3698854763.254572,
+        "sigma_los_kms": {
+          "-0.5": [
+            14.820362418484336,
+            15.381716435911681,
+            14.350720717216769,
+            12.455317816670961,
+            11.236968769438242
+          ],
+          "0.0": [
+            17.54965654736725,
+            16.324782870625857,
+            14.01736766513363,
+            11.683265024368376,
+            10.423172919923957
+          ],
+          "0.3": [
+            19.892998449620457,
+            16.938545149966686,
+            13.606281270832028,
+            10.972462839657945,
+            9.700288652684769
+          ]
+        }
+      }
+    ],
+    "R_pc": [
+      50.0,
+      100.0,
+      200.0,
+      400.0,
+      700.0
+    ],
+    "tolerance_rel": 1e-06
+  },
+  "prior_datum_without_letter": {
+    "r_half_3d_kpc": 0.3466666666666667,
+    "M_half_wolf_msun": 20466738.43442434,
+    "rows": [
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 0.3,
+        "ups": null,
+        "M_dm": 17512022.161102295,
+        "M_tot": 17512022.161102295,
+        "sigma0": 10.03550307002528,
+        "r1_kpc": 0.2995950931122592
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 0.3,
+        "ups": 1.0,
+        "M_dm": 17512022.161102295,
+        "M_tot": 18843222.161102295,
+        "sigma0": 10.589392751872166,
+        "r1_kpc": 0.3109204971545013
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 0.3,
+        "ups": 2.0,
+        "M_dm": 17512022.161102295,
+        "M_tot": 20174422.161102295,
+        "sigma0": 11.11965810924703,
+        "r1_kpc": 0.3215002961170472
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 0.3,
+        "ups": 3.0,
+        "M_dm": 17512022.161102295,
+        "M_tot": 21505622.161102295,
+        "sigma0": 11.627506558366235,
+        "r1_kpc": 0.33140615915804095
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 0.5,
+        "ups": null,
+        "M_dm": 17049975.10636497,
+        "M_tot": 17049975.10636497,
+        "sigma0": 11.071281672887622,
+        "r1_kpc": 0.4477666227568567
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 0.5,
+        "ups": 1.0,
+        "M_dm": 16989459.293646723,
+        "M_tot": 18320659.293646723,
+        "sigma0": 11.604441903352969,
+        "r1_kpc": 0.46111605235913594
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 0.5,
+        "ups": 2.0,
+        "M_dm": 16942431.77269295,
+        "M_tot": 19604831.77269295,
+        "sigma0": 12.10454957315027,
+        "r1_kpc": 0.4733392765625299
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 0.5,
+        "ups": 3.0,
+        "M_dm": 16906833.523744594,
+        "M_tot": 20900433.523744594,
+        "sigma0": 12.576509780345226,
+        "r1_kpc": 0.4846245259630583
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 1.0,
+        "ups": null,
+        "M_dm": 14453884.161548465,
+        "M_tot": 14453884.161548465,
+        "sigma0": 12.010144574300096,
+        "r1_kpc": 0.7070157843930418
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 1.0,
+        "ups": 1.0,
+        "M_dm": 14665044.127028419,
+        "M_tot": 15996244.127028419,
+        "sigma0": 12.454887779156502,
+        "r1_kpc": 0.7213941113164271
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 1.0,
+        "ups": 2.0,
+        "M_dm": 14867940.190851385,
+        "M_tot": 17530340.190851383,
+        "sigma0": 12.872213455544788,
+        "r1_kpc": 0.7346108774131089
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 1.0,
+        "ups": 3.0,
+        "M_dm": 15063096.287473626,
+        "M_tot": 19056696.287473626,
+        "sigma0": 13.266515176188008,
+        "r1_kpc": 0.7468656228062673
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 2.0,
+        "ups": null,
+        "M_dm": 11539764.334543793,
+        "M_tot": 11539764.334543793,
+        "sigma0": 12.550299033567589,
+        "r1_kpc": 1.0428868946286505
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 2.0,
+        "ups": 1.0,
+        "M_dm": 12150036.836694555,
+        "M_tot": 13481236.836694555,
+        "sigma0": 12.910411219052591,
+        "r1_kpc": 1.057769606096724
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 2.0,
+        "ups": 2.0,
+        "M_dm": 12728926.613538917,
+        "M_tot": 15391326.613538917,
+        "sigma0": 13.252905360679485,
+        "r1_kpc": 1.0716853559211823
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 2.0,
+        "ups": 3.0,
+        "M_dm": 13279639.613951158,
+        "M_tot": 17273239.613951158,
+        "sigma0": 13.580028689607008,
+        "r1_kpc": 1.0847679843640967
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 5.0,
+        "ups": null,
+        "M_dm": 8568830.494765641,
+        "M_tot": 8568830.494765641,
+        "sigma0": 12.864315291101633,
+        "r1_kpc": 1.6310968913279764
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 5.0,
+        "ups": 1.0,
+        "M_dm": 9578233.915187938,
+        "M_tot": 10909433.915187938,
+        "sigma0": 13.150095325893574,
+        "r1_kpc": 1.6473527453461072
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 5.0,
+        "ups": 2.0,
+        "M_dm": 10621085.135553624,
+        "M_tot": 13283485.135553624,
+        "sigma0": 13.429333907923068,
+        "r1_kpc": 1.6630175446492568
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 5.0,
+        "ups": 3.0,
+        "M_dm": 11693046.464643454,
+        "M_tot": 15686646.464643452,
+        "sigma0": 13.702501458843276,
+        "r1_kpc": 1.6781393773056896
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 10.0,
+        "ups": null,
+        "M_dm": 7132585.519200588,
+        "M_tot": 7132585.519200588,
+        "sigma0": 12.919185106054371,
+        "r1_kpc": 2.2134640882932235
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 10.0,
+        "ups": 1.0,
+        "M_dm": 8417264.524461957,
+        "M_tot": 9748464.524461957,
+        "sigma0": 13.178809677354892,
+        "r1_kpc": 2.2322431432582137
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 10.0,
+        "ups": 2.0,
+        "M_dm": 9882484.988956617,
+        "M_tot": 12544884.988956617,
+        "sigma0": 13.441497800116267,
+        "r1_kpc": 2.2509990352662794
+      },
+      {
+        "M200": 1000000000.0,
+        "c": 20.0,
+        "som": 10.0,
+        "ups": 3.0,
+        "M_dm": 11555257.568831243,
+        "M_tot": 15548857.568831243,
+        "sigma0": 13.708547193213455,
+        "r1_kpc": 2.269822019123426
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 0.3,
+        "ups": null,
+        "M_dm": 19141538.718348317,
+        "M_tot": 19141538.718348317,
+        "sigma0": 11.808712758888648,
+        "r1_kpc": 0.38090375283438654
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 0.3,
+        "ups": 1.0,
+        "M_dm": 19070083.294760995,
+        "M_tot": 20401283.294760995,
+        "sigma0": 12.444577645622703,
+        "r1_kpc": 0.3963335713790376
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 0.3,
+        "ups": 2.0,
+        "M_dm": 18995661.91108338,
+        "M_tot": 21658061.91108338,
+        "sigma0": 13.039889424874534,
+        "r1_kpc": 0.41049522315092124
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 0.3,
+        "ups": 3.0,
+        "M_dm": 18923849.64000308,
+        "M_tot": 22917449.64000308,
+        "sigma0": 13.599928464270606,
+        "r1_kpc": 0.4235789400956095
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 0.5,
+        "ups": null,
+        "M_dm": 16685032.162187053,
+        "M_tot": 16685032.162187053,
+        "sigma0": 13.589722792390504,
+        "r1_kpc": 0.6096355038348195
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 0.5,
+        "ups": 1.0,
+        "M_dm": 16695185.894523663,
+        "M_tot": 18026385.894523665,
+        "sigma0": 14.109199961259696,
+        "r1_kpc": 0.6254392698840147
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 0.5,
+        "ups": 2.0,
+        "M_dm": 16722704.270606207,
+        "M_tot": 19385104.270606205,
+        "sigma0": 14.594098296171977,
+        "r1_kpc": 0.6399377116907883
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 0.5,
+        "ups": 3.0,
+        "M_dm": 16762980.341259915,
+        "M_tot": 20756580.341259915,
+        "sigma0": 15.050078178185766,
+        "r1_kpc": 0.6533575856517767
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 1.0,
+        "ups": null,
+        "M_dm": 12072070.880584937,
+        "M_tot": 12072070.880584937,
+        "sigma0": 15.288809185674012,
+        "r1_kpc": 1.0246977512501645
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 1.0,
+        "ups": 1.0,
+        "M_dm": 12454861.549381707,
+        "M_tot": 13786061.549381707,
+        "sigma0": 15.642108896031274,
+        "r1_kpc": 1.0387858687402356
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 1.0,
+        "ups": 2.0,
+        "M_dm": 12825062.852678955,
+        "M_tot": 15487462.852678955,
+        "sigma0": 15.979341847567124,
+        "r1_kpc": 1.0520672548130856
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 1.0,
+        "ups": 3.0,
+        "M_dm": 13183932.860930443,
+        "M_tot": 17177532.860930443,
+        "sigma0": 16.302450818140098,
+        "r1_kpc": 1.0646448315615653
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 2.0,
+        "ups": null,
+        "M_dm": 8564082.608200327,
+        "M_tot": 8564082.608200327,
+        "sigma0": 16.32744334955166,
+        "r1_kpc": 1.5734349403369674
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 2.0,
+        "ups": 1.0,
+        "M_dm": 9090190.053180167,
+        "M_tot": 10421390.053180167,
+        "sigma0": 16.57158871509998,
+        "r1_kpc": 1.5859445034259299
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 2.0,
+        "ups": 2.0,
+        "M_dm": 9619962.620435461,
+        "M_tot": 12282362.620435461,
+        "sigma0": 16.809679937520052,
+        "r1_kpc": 1.5980365979529718
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 2.0,
+        "ups": 3.0,
+        "M_dm": 10152977.058947178,
+        "M_tot": 14146577.058947176,
+        "sigma0": 17.042160037414952,
+        "r1_kpc": 1.6097437272882507
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 5.0,
+        "ups": null,
+        "M_dm": 5692930.506778838,
+        "M_tot": 5692930.506778838,
+        "sigma0": 17.012527883664156,
+        "r1_kpc": 2.5444733383498632
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 5.0,
+        "ups": 1.0,
+        "M_dm": 6216632.044057787,
+        "M_tot": 7547832.044057787,
+        "sigma0": 17.178029069949638,
+        "r1_kpc": 2.556160308557227
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 5.0,
+        "ups": 2.0,
+        "M_dm": 6774191.341225277,
+        "M_tot": 9436591.341225278,
+        "sigma0": 17.342848041173617,
+        "r1_kpc": 2.5677279964439865
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 5.0,
+        "ups": 3.0,
+        "M_dm": 7367066.058851698,
+        "M_tot": 11360666.058851697,
+        "sigma0": 17.50708285125677,
+        "r1_kpc": 2.579185174468987
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 10.0,
+        "ups": null,
+        "M_dm": 4416586.48731329,
+        "M_tot": 4416586.48731329,
+        "sigma0": 17.199860381975654,
+        "r1_kpc": 3.5095492629525578
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 10.0,
+        "ups": 1.0,
+        "M_dm": 4916051.505738286,
+        "M_tot": 6247251.505738286,
+        "sigma0": 17.335237400747506,
+        "r1_kpc": 3.5217076023648692
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 10.0,
+        "ups": 2.0,
+        "M_dm": 5468097.986589979,
+        "M_tot": 8130497.986589979,
+        "sigma0": 17.472050453714726,
+        "r1_kpc": 3.5339324401281513
+      },
+      {
+        "M200": 3000000000.0,
+        "c": 15.0,
+        "som": 10.0,
+        "ups": 3.0,
+        "M_dm": 6078888.016707888,
+        "M_tot": 10072488.016707886,
+        "sigma0": 17.610520546669655,
+        "r1_kpc": 3.5462422075471167
+      }
+    ],
+    "author_statement": "la rama con núcleo llega a 2.05×10⁷ M☉ con σ_x/m ≈ 0.3–0.5 cm²/g y envolturas de 10⁹ (c = 20) a 3×10⁹ M☉ (c = 15); con σ_x/m ≥ 2 se queda en 0.7–1.4×10⁷"
+  },
+  "expectation_E13": "A, con σ_x/m pequeño. El dato previo del autor (reproducido aquí sin letra) dice que la rama con núcleo alcanza la masa de media luz de Sculptor (M(<r_½) ≈ 2.05×10⁷ M☉, el estimador 4σ²R_half/G con σ = 9.2 km/s) con σ_x/m ≈ 0.3–0.5 cm²/g y envolturas de 10⁹–3×10⁹ M☉ dentro de las previas, y que con σ_x/m ≥ 2 se queda corta; un perfil casi plano de ≈ 9–10 km/s hasta 1 kpc es lo que da una esfera isoterma con una envoltura así. Si el perfil binado exige más masa central que esas envolturas, la expectativa pasa a B (rama densa o envoltura fuera de las previas); C no se espera. El número no es señal: una A dice que el equilibrio (c) acomoda a Sculptor con algún σ_x/m, no que lo prediga; si solo cabe en el extremo σ_x/m ≲ 0.1 no distingue la MCV de la materia oscura fría (se publica el intervalo de σ_x/m que cabe), y σ_x/m global solo se prueba fuera de la muestra (PR-S)",
+  "without_letter": [
+    "intervalos de σ_x/m que caben (A y cualquiera)",
+    "mejor ajuste por σ_x/m con su Υ⋆, β, envoltura y rama",
+    "t_c gravotérmico (β = 0.45 y 0.75) de los mejores ajustes frente a t_edad",
+    "χ²_ν y p de cada categoría"
+  ],
+  "what_this_cannot_decide": [
+    "σ_x/m global: un sistema no lo calibra (se prueba fuera de la muestra en PR-S)",
+    "el término de la ECV (ρ_E = 0 aquí) y el intercambio con ella",
+    "la anisotropía más allá de β constante, la elipticidad, las binarias, las mareas",
+    "la evolución gravotérmica (el equilibrio se supone; t_c se publica sin letra)"
+  ]
+}
