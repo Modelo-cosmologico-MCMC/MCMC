@@ -6,6 +6,26 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **Todas las posibilidades del brazo de dos sentidos, con sus consecuencias
+  para la ontología (24-oct, decisión del autor y PR-65 del documento vivo),
+  sin datos ni letra.** `cosmology/halo_exchange.py` suma cada ley por halo
+  sobre la función de masa de Sheth–Tormen, solo donde la burbuja toca
+  océano libre (porosidad e^(−N_b)), y combina cada atrapamiento (T1, T2,
+  T3, T4, Tc y barrido con condensación) con cada escape (E1, E2, E3, E4).
+  Son 24 combinaciones (`results/2026-10-24_halo_exchange/`):
+  - con el modelo del documento se reproduce su tabla de Δ (5·10⁻⁵);
+  - de cada combinación se publican sus consecuencias, Δ en una rejilla de
+    constantes, su equilibrio, los signos que alcanza y cuándo actúa;
+  - hay dos consecuencias que la integración desde z = 6 ocultaba. E3
+    literal vaciaría la materia de la edad oscura (un 30 % en z = 20 desde el
+    CMB con ξ_e = 0.3). Las afueras del entorno tienen un equilibrio que se
+    mueve con z;
+  - con la ley de borde completa, el barrido se alimenta también del
+    contacto: +0.070 frente a la suma simple del documento, +0.0625.
+
+  Ninguna cifra elige la ley; la letra es de la preinscripción del ajuste del
+  fondo. Fila nueva `brazo-dos-sentidos-todas-las-posibilidades` (condicional).
+
 - **Intercambio de masa en el borde de ECV (24-oct, documento vivo del autor,
   PR-64), sin letra.** `dynamics/ecv_exchange.py` da la ley de borde por
   halo: barrido autoalimentado, y condensación y evaporación de
