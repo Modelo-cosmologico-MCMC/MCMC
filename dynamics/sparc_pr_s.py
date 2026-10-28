@@ -82,6 +82,13 @@ EXECUTOR_FINDINGS = [
     {"id": "H8", "hallazgo": "Faltan entradas del corpus y de la literatura: la Tabla 45 del Unificado, el valor de c₁, "
      "las previas exactas de Li+2020 y el montaje de 2610.05871 (arxiv.org no es accesible desde la sesión).",
      "opciones": "que el autor las transcriba", "efecto": "E8-Q y la lectura r_c(M200) fallan cerrado sin ellas"},
+    {"id": "H9", "hallazgo": "Con discos sintéticos de tres tamaños (0.5, 1 y 2 veces R_ref) y h_z = 0.15·R_d, el escalón "
+     "previsto S_pred vale 0.30 dex con ρ* = 0.001 y 0.024–0.032 dex con ρ* = 0.01–0.03, entre 2 y 8 veces lo del documento "
+     "del 26-oct (0.10–0.14 y 0.004–0.007, con los discos de la predicción congelada): g_C ∝ 1/R_d crece en los discos "
+     "compactos. Con σ_S ≈ 0.005 dex, el escalón con ρ* = 0.01–0.03 podría ser comprobable. Con ρ* = 0.001, la ley "
+     "predice g_C ≥ g_obs en la mitad de esos discos.", "opciones": "revisar la expectativa E13 del escalón con el "
+     "reparto de R_d de SPARC antes de congelar, o dejarla como está", "efecto": "solo la expectativa E13; las letras "
+     "no cambian"},
 ]
 
 # Las cinco decisiones del documento del 28-oct: ninguna bloquea PR-S. Lo que hace el código con cada una.

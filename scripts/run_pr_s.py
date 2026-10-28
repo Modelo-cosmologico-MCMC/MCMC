@@ -376,7 +376,9 @@ def draft_document() -> dict:
             "MCV (c): A o B (Ren et al. 2019 ajustan 135 galaxias con σ/m = 3 cm²/g y la c–M de Planck).",
             "Riesgo: si SPARC calibra σ_x/m ~ 2–3 cm²/g con a ≥ 0, la rama con núcleo de Sculptor se queda corta; en la "
             "rama densa, Sculptor tendría t_c de 150–740 Gyr (incoherente salvo que σ_x/m crezca mucho a baja velocidad).",
-            "Escalón: con ρ* = 0.001, comprobable; con ρ* = 0.01–0.03, INDETERMINADO por no comprobable.",
+            "Escalón: con ρ* = 0.001, comprobable; con ρ* = 0.01–0.03, INDETERMINADO por no comprobable (documento del "
+            "26-oct, con los discos de la predicción congelada). Salvedad: con discos compactos el escalón previsto es "
+            "entre 2 y 8 veces mayor y podría ser comprobable (hallazgo H9).",
             "Lectura literal del escalón: C."],
         "decisiones_pendientes": pr.PENDING_DECISIONS,
         "decisiones_28oct_que_no_bloquean": pr.DECISIONS_28OCT,

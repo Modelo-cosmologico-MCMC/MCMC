@@ -61,7 +61,7 @@ def test_pending_decisions_and_findings_are_written():
     ids = [d["id"] for d in pr.PENDING_DECISIONS]
     assert ids == ["27oct-1", "27oct-2", "27oct-3", "27oct-4", "26oct-1", "26oct-2", "26oct-3", "26oct-4", "26oct-5",
                    "26oct-6"]
-    assert [h["id"] for h in pr.EXECUTOR_FINDINGS] == [f"H{i}" for i in range(1, 9)]
+    assert [h["id"] for h in pr.EXECUTOR_FINDINGS] == [f"H{i}" for i in range(1, 10)]
 
 
 def test_population_a0_is_recovered_on_mond_galaxies():
