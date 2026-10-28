@@ -5,8 +5,8 @@ Uso:
     python scripts/download_data.py [pantheon|sparc|walker2009|boss_eboss|planck2018|all]
 
 Solo usa la biblioteca estándar (urllib + hashlib), salvo el manifest de
-los datasets de la capa de datos (data/sources.yaml, hoy walker2009), que
-escribe mcmc_ontology.data_registry. Cada descarga se verifica por
+los datasets de la capa de datos (data/sources.yaml, hoy walker2009 y
+sparc), que escribe mcmc_ontology.data_registry. Cada descarga se verifica por
 SHA-256: si el registro tiene un checksum fijado, la descarga se rechaza
 en caso de no coincidir; si aún no lo tiene (None), el script imprime el
 checksum calculado para fijarlo en este registro (trust on first use,
@@ -62,17 +62,16 @@ DOWNLOADS = {
             "abf806d966485e64afdb359c87bffc0ecc00d05eff0a31ced66f247385df0fdc",
         ),
     ],
+    # Alineado con data/sources.yaml (27-oct-2026, PR-S): los cinco ficheros del registro en su raw_dir, no dos en
+    # data/sparc/; el manifest va a data/manifests/sparc.json.
     "sparc": [
         (
-            "http://astroweb.cwru.edu/SPARC/Rotmod_LTG.zip",
-            DATA / "sparc" / "Rotmod_LTG.zip",
+            f"http://astroweb.cwru.edu/SPARC/{name}",
+            DATA / "raw" / "sparc" / name,
             None,  # ABIERTO: fijar solo tras la primera descarga real
-        ),
-        (
-            "http://astroweb.cwru.edu/SPARC/SPARC_Lelli2016c.mrt",
-            DATA / "sparc" / "SPARC_Lelli2016c.mrt",
-            None,  # ABIERTO: tabla maestra (Lelli, McGaugh & Schombert 2016)
-        ),
+        )
+        for name in ("SPARC_Lelli2016c.mrt", "MassModels_Lelli2016c.mrt", "Rotmod_LTG.zip", "RAR.mrt",
+                     "RARbins.mrt")
     ],
     # Alineado con data/sources.yaml (23-oct-2026): los ficheros oficiales
     # de CDS (ReadMe + tablas) en el raw_dir del registro, no una
@@ -92,7 +91,7 @@ DOWNLOADS = {
 # data/manifests/<dataset>.json en estado SCHEMA_UNVERIFIED hasta que el
 # schema_report confirme columnas y unidades (require_available falla
 # cerrado mientras tanto). Los demás conservan el manifest.json legado.
-REGISTRY_DATASETS = ("walker2009",)
+REGISTRY_DATASETS = ("walker2009", "sparc")
 
 # Citas por dataset (van al manifest de procedencia):
 CITATIONS = {

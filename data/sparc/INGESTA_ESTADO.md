@@ -1,4 +1,22 @@
-# ESTADO DE INGESTA: DATA_UNAVAILABLE (actualizado 18-ago-2026)
+# ESTADO DE INGESTA: DATA_UNAVAILABLE (actualizado 27-oct-2026)
+
+ACTUALIZACIÓN 27-oct-2026 (rama mcv/pr-s-sparc-instrument, PR-S): rutas
+alineadas con `data/sources.yaml`, sin bytes. `python scripts/download_data.py
+sparc` baja (o verifica, si el autor los deja a mano) los CINCO ficheros del
+registro (`SPARC_Lelli2016c.mrt`, `MassModels_Lelli2016c.mrt`,
+`Rotmod_LTG.zip`, `RAR.mrt`, `RARbins.mrt`) en `data/raw/sparc/` y escribe
+`data/manifests/sparc.json` en SCHEMA_UNVERIFIED (antes: dos ficheros en
+`data/sparc/` y un `manifest.json` legado que nadie consumía por el registro).
+`dynamics/sparc_data.py` solo da el catálogo por
+`mcmc_ontology.data_registry.require_available("sparc")`: sin manifest,
+DATA_UNAVAILABLE; con el manifest sin esquema confirmado, SCHEMA_UNVERIFIED;
+en los dos casos falla cerrado. La primera acción con bytes es
+`python -m dynamics.sparc_data --inspect`, que escribe
+`data/manifests/sparc.schema_report.md` (descripción byte a byte literal de
+cada MRT, cabeceras de Rotmod_LTG y papeles asignables o el motivo por el que
+no lo son); el autor lo confirma y el manifest pasa a AVAILABLE. Los bytes
+siguen siendo tarea del autor (descarga en el navegador y sha256).
+
 
 ACTUALIZACIÓN 18-ago-2026 (rama infra/observational-data-registry):
 nueva sonda tras el merge del PR #10 — `astroweb.cwru.edu`,
