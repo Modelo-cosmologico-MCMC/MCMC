@@ -409,7 +409,8 @@ def _md(doc: dict) -> str:
     lines += ["", "## Respaldo", "", doc["respaldo"] + "."]
     lines += ["", "## Fuera y declarado", ""] + [f"- {k}: {v}" for k, v in doc["fuera_y_declarado"].items()]
     lines += ["", "## Expectativas E13 (antes de congelar)", ""] + [f"- {x}" for x in doc["expectativas_E13"]]
-    lines += ["", "## No se toca", ""] + [f"- {k}: {v}" for k, v in doc["no_se_toca"].items()]
+    lines += ["", "## No se toca", ""] + [f"- {k}: `{v['fichero']}`, sha256 `{v['sha256']}`" if isinstance(v, dict)
+                                          else f"- {k}: {v}" for k, v in doc["no_se_toca"].items()]
     lines += ["", "El resto (brazos, especificaciones, letras y escalón) está en `preregistration_draft.json`.", ""]
     return "\n".join(lines)
 

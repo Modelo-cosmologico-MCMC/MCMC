@@ -57,24 +57,24 @@ PENDING_DECISIONS = [
 EXECUTOR_FINDINGS = [
     {"id": "H1", "hallazgo": "Con la rejilla sola, χ²_mín queda cuantizado: el paso de las molestias (Υ y D en ±2σ) y "
      "el de (ρ₀, σ₀) mueven χ²_mín más de 0.5 en galaxias con errores pequeños.",
-     "opciones": "rejilla sola (documento) | rejilla y refinado local en rejillas que se estrechan (propuesta, "
+     "opciones": "rejilla sola (documento), o rejilla y refinado local en rejillas que se estrechan (propuesta, "
      "FIT_SPEC['zoom'])", "efecto": "la comprobación de resolución de scripts/run_pr_s.py checks da las cifras"},
     {"id": "H2", "hallazgo": "En las letras del escalón, δ_pred = log(1 + g_C/g_obs) del documento queda por debajo del "
      "escalón que deja la propia ley aditiva cuando g_C ~ g_obs (ρ* = 0.001): la A sería inalcanzable.",
-     "opciones": "«documento» | «autoconsistente», log[g_obs/(g_obs − g_C)]", "efecto": "solo ρ* = 0.001"},
+     "opciones": "«documento», o «autoconsistente», log[g_obs/(g_obs − g_C)]", "efecto": "solo ρ* = 0.001"},
     {"id": "H3", "hallazgo": "Para la forma saturante, 1.5·c²·ε_c/σ₀² (fórmula de C3 y de la enmienda 7) no es el q que "
      "decide la estabilidad de Cronos–Jeans, c²·ρ·ε_c'(ρ)/σ₀²; coinciden solo en la ley débil. Con ρ ≫ ρ* el segundo es "
      "cientos de veces menor: con ρ* = 0.001, q < 1 en vez de 0.5–9.3.",
      "opciones": "publicar los dos (hecho)", "efecto": "cambia la premisa de la alternativa de la decisión 27oct-4"},
     {"id": "H4", "hallazgo": "El punto fijo t_edad = t_W(c(t_edad)) tiene dos raíces por núcleo: una junto al borde "
      "(c ≈ c₁, t_W → 0, inestable) y la estable; las dos son envolturas autoconsistentes.",
-     "opciones": "todas, y el ajuste toma el mejor χ² (hecho) | solo la estable", "efecto": "lectura de memoria"},
+     "opciones": "todas, y el ajuste toma el mejor χ² (hecho), o solo la estable", "efecto": "lectura de memoria"},
     {"id": "H5", "hallazgo": "«ECV por debajo de 1e-4 de la atracción dentro de 10·R_d» depende del tamaño del disco "
      "(1.7e-4 con R_d = 2 kpc en 1e11 M☉); la forma de C1 (≤ 6e-5 hasta 0.1·r200) se cumple.",
      "opciones": "test con C1 (hecho)", "efecto": "ninguno sobre las letras"},
     {"id": "H6", "hallazgo": "El candado anti-ajuste del 5E vigila dynamics/*sparc*.py y prohíbe la maquinaria de "
      "optimización: la física general del brazo (raíces del empalme) va en dynamics/mcv_baryons.py y el ajuste a SPARC "
-     "es en rejilla.", "opciones": "mantener el candado tal cual (hecho) | ampliarlo a mano", "efecto": "ninguno"},
+     "es en rejilla.", "opciones": "mantener el candado tal cual (hecho), o ampliarlo a mano", "efecto": "ninguno"},
     {"id": "H7", "hallazgo": "Precisiones del ejecutor que el documento no fija: χ² = datos + previas (−2 ln de las "
      "previas); ΛCDM-1 con log c ∈ [0, 2]; Υ_b solo con bulbo; r₁ < r200; rangos de (ρ₀, σ₀); paso de los nodos "
      "(0.04 en ln r); χ²_ν de E8-Q = χ²_datos/(N − k_halo); la a₀ poblacional con la RAR de un parámetro.",
