@@ -8,6 +8,11 @@ ESTATUTO: los parámetros de abajo son calibración fiducial; las
 validaciones del corpus (núcleo 2.3 kpc en halo de 1e11 M_sun, RMSE
 SPARC 12%→4.5%, subhalos −45%) se obtuvieron con el esquema anterior y
 están PENDIENTES de reproducción con Cronos v3 (frente abierto nº 5).
+
+ETIQUETA (enmienda 5 del 27-oct): «calibración fiducial sin origen en el
+corpus». Da r_core(1e11 M_sun) = 12.6 kpc, sin fuente en los tratados
+(J.6.2 da 1.8 kpc): queda FUERA de PR-S, que compara r_c(M200) con J.6.2,
+la pendiente 0.35 de U (166) y la Tabla 45 del Unificado.
 """
 
 from __future__ import annotations

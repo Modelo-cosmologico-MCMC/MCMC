@@ -1421,7 +1421,13 @@ claims:
       se calibran una vez y se prueban fuera de la muestra, y su derivación
       desde el sellado sigue abierta. La fuerza local +c²∇ε_c(ρ_m) de la
       Cor. 11.3(c) deja de ser la MCV; sus filas quedan como resultados
-      sobre la ley local. Módulo dynamics/mcv_equilibrium.py: envoltura NFW
+      sobre la ley local. σ_x/m es un parámetro efectivo de la tasa de
+      autointercambio Γ_x de la energía sellada, no la sección eficaz de una
+      partícula nueva (enmienda 1 del 27-oct): una A no se lee como prueba de
+      una partícula. Antecedentes del corpus de la decisión (c): Maestro
+      §5.1.1 (la MCV como ECV atrapada) y §3.20.2 (núcleos por saturación
+      central y autointeracciones); el perfil pseudoisotermo se llama ρ_M, no
+      ρ_id. Módulo dynamics/mcv_equilibrium.py: envoltura NFW
       (M200 a 200·ρ_crit), núcleo isotermo con los bariones de Plummer y la
       ECV (−2ρ_E) en el potencial, r₁ por la tasa de autointercambio, y un
       empalme que devuelve TODAS las ramas (la de menor ρ₀, «con núcleo»;
@@ -1438,7 +1444,7 @@ claims:
       M☉/pc³). Elegir rama es decisión de cada preinscripción.
     implementation: dynamics/mcv_equilibrium.py
     test: tests/test_mcv_equilibrium.py
-    observable: "σ_los(R) de las enanas (preinscripción de Sculptor con la MCV (c), congelada el 23-oct: fila sculptor-mcv-c) y curvas de rotación de SPARC (banco de mecanismos, pendiente)"
+    observable: "σ_los(R) de las enanas (preinscripción de Sculptor con la MCV (c), congelada el 23-oct: fila sculptor-mcv-c) y curvas de rotación de SPARC (PR-S, instrumento sin congelar: fila pr-s-banco-sparc-mcv-c)"
     dataset: "— (ninguno: los bytes de Walker 2009, SPARC y Li+2020 no se han descargado)"
     falsifier: >-
       la preinscripción de Sculptor con la MCV (c), cuya letra C es que el
@@ -1449,6 +1455,50 @@ claims:
     evidence_level: decisión del autor implementada como módulo (condicional), sin datos ni letra; cifras de referencia del autor reproducidas
     status: condicional
     artifact: "—"
+
+  - claim_id: pr-s-banco-sparc-mcv-c
+    entity: PR-S — banco de mecanismos sobre SPARC con el brazo MCV (c), letras del escalón de la RAR, ingesta alineada con el registro y lecturas sin letra de las enmiendas del 27 y del 28-oct (instrumento sin datos, sin congelar)
+    law: "documentos del autor del 26-oct (PR-S desde la ontología), del 27-oct (enmiendas 1–8) y del 28-oct (su bloque sustituye al del 27-oct: puntos 0–12); la MCV (c) de la fila mcv-equilibrio-c con bariones tabulados M_b = r·V_bar²/G y la ECV en Φ; letra de la MCV (c) sobre la mitad B frente a ΛCDM-2; letras del escalón sobre la predicción 9566a2ac0457"
+    derivation: >-
+      Ingesta alineada con data/sources.yaml: cinco ficheros en
+      data/raw/sparc, manifest data/manifests/sparc.json en SCHEMA_UNVERIFIED,
+      schema_report antes del parser y lector byte a byte que falla cerrado.
+      Física general del brazo en dynamics/mcv_baryons.py: núcleo isotermo
+      con bariones tabulados y la ECV, mapa inverso (ρ₀, σ₀) → (M200, c, r₁)
+      que cubre todas las ramas, empalme directo con bariones generales
+      (reproduce jeans_match con Plummer a 1e-9) y la edad desde la
+      concentración (todas las raíces del punto fijo). Ajuste a galaxias en
+      rejilla, sin maquinaria de optimización (candado del 5E sobre
+      dynamics/*sparc*.py), en dynamics/mcv_sparc.py, con un refinado local
+      en rejillas como propuesta. Banco (ΛCDM-1, ΛCDM-2, MOND, MCMC-C,
+      MCMC-J62, Burkert libre para E8-Q), reparto A/B, calibración en A,
+      letras con puertas, E8-Q y resolución en dynamics/sparc_bank.py; letras
+      del escalón con las dos formas de δ_pred en dynamics/rar_step_letters.py;
+      el análisis completo en dynamics/sparc_pr_s.py. Cifras de los
+      documentos reproducidas sin datos: r_½(1e11) = 1.29 / 2.56 / 3.75 /
+      4.87 kpc con σ_x/m = 0.3 / 1 / 3 / 10; 1.81 / 2.56 / 2.81 kpc con
+      t_edad = 5 / 10 / 12.5 Gyr; (1, 5 Gyr) = (0.5, 10 Gyr); 0.22 cm²/g para
+      el r_c de J.6.2; el mapa inverso devuelve la envoltura a 1e-8; C1 y C2.
+      Cosmología fija y declarada (PLANCK18, ρ_E constante, sin ley de Q ni
+      de H). Nueve hallazgos del ejecutor (H1–H9), entre ellos que con la
+      rejilla sola χ²_mín queda cuantizado, que la forma del documento de
+      δ_pred hace inalcanzable la A del escalón con ρ* = 0.001, que, para la
+      forma saturante, 1.5·c²·ε_c/σ₀² no es el q de Cronos–Jeans y que el
+      escalón previsto crece en los discos compactos (entre 2 y 8 veces la
+      expectativa E13 del 26-oct, que queda con esa salvedad).
+    implementation: dynamics/mcv_baryons.py + dynamics/mcv_sparc.py + dynamics/sparc_bank.py + dynamics/rar_step_letters.py + dynamics/sparc_pr_s.py + dynamics/sparc_data.py + scripts/run_pr_s.py + scripts/download_data.py
+    test: tests/test_mcv_sparc.py + tests/test_sparc_bank.py + tests/test_rar_step_letters.py + tests/test_sparc_data.py + tests/test_sparc_pr_s.py + tests/test_front5e_lock.py
+    observable: "curvas de rotación de SPARC (Rotmod_LTG) y la RAR: letra de la MCV (c) sobre la mitad B frente a ΛCDM-2 y letras del escalón por punto (ε_max, ρ*)"
+    dataset: "— (ninguno: SPARC sin manifest en data/manifests/sparc.json; las tablas de Li+2020, sin bajar)"
+    falsifier: >-
+      la letra C de la MCV (c) sobre la mitad B (mediana de Δχ²(MCV − ΛCDM-2)
+      positiva con IC95 bootstrap que excluye 0 y menos de un tercio de las
+      galaxias con Δχ² negativo) y, para la ley local saturante, la letra C del
+      escalón (S ≤ S_pred − 3σ_S); sin letra, una calibración con B fuera de la
+      región del 95 % de A contradiría el carácter global de σ_x/m
+    evidence_level: "instrumento sin datos (E8), sin congelar: la preinscripción espera las decisiones del autor (cuatro del 27-oct, seis del 26-oct y los hallazgos H1–H9); respaldo en la rama mcv/pr-s-sparc-instrument-wip"
+    status: experimento-no-ejecutado
+    artifact: results/2026-10-27_pr_s/preregistration_draft.json + results/2026-10-27_pr_s/checks.json
 
   - claim_id: gravotermico-1d-borde-ecv
     entity: Código gravotérmico 1D de la MCV (c) — fluido conductivo con autointercambio y borde de ECV, comprobado frente al t_c de Essig et al. (2019) y la pendiente autosemejante de Balberg et al. (2002); sin datos ni letra (24-oct-2026)

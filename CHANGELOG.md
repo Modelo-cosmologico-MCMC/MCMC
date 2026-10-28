@@ -6,6 +6,36 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — octubre de 2026
 
+- **PR-S, instrumento sin datos y sin congelar (bloques del autor del 26, 27 y
+  28-oct).** Respaldo previo en la rama `mcv/pr-s-sparc-instrument-wip`
+  («borrador sin congelar», sin bytes, sin `frozen_utc` y sin resultados).
+  - Ingesta alineada con `data/sources.yaml`: cinco ficheros en
+    `data/raw/sparc/` y manifest `data/manifests/sparc.json` en
+    SCHEMA_UNVERIFIED. El schema_report va antes del parser, y el lector byte
+    a byte falla cerrado.
+  - Brazo MCV (c): la física general en `dynamics/mcv_baryons.py` (mapa
+    inverso que cubre todas las ramas) y el ajuste en rejilla a las galaxias
+    en `dynamics/mcv_sparc.py`. El candado anti-ajuste del 5E queda intacto.
+  - Banco con seis brazos, reparto A/B, calibración en A, letras sobre B con
+    sus puertas, E8-Q y resolución en `dynamics/sparc_bank.py`. Las letras del
+    escalón van en `dynamics/rar_step_letters.py` y el análisis completo, que
+    falla cerrado, en `dynamics/sparc_pr_s.py`.
+  - Enmiendas del 27-oct: σ_x/m como parámetro efectivo, alcance de cada
+    letra, memoria del halo, rama densa y colapso, lapse, r_c(M200), cúspide
+    fuera y q_CJ(0) cruzado.
+  - Enmiendas del 28-oct: cosmología fija y declarada, S_local operativa, el
+    gap fuera y los símbolos sin choques.
+  - Se reproducen sin datos las cifras de los documentos (r_½ por σ_x/m y por
+    edad, el control (σ_x/m)·t_edad, 0.22 cm²/g para J.6.2, C1 y C2).
+  - Hay nueve hallazgos del ejecutor para el autor (H1–H9). El último, H9:
+    el escalón previsto crece en los discos compactos, y la expectativa E13
+    del escalón lleva esa salvedad; las letras no cambian.
+
+  `scripts/run_pr_s.py freeze` se niega mientras falte una decisión. Fila nueva
+  `pr-s-banco-sparc-mcv-c` (experimento-no-ejecutado), y en `mcv-equilibrio-c`
+  el texto de la enmienda 1. `cronos/halo_profile.py` lleva la etiqueta
+  «calibración fiducial sin origen en el corpus».
+
 - **Todas las posibilidades del brazo de dos sentidos, con sus consecuencias
   para la ontología (24-oct, decisión del autor y PR-65 del documento vivo),
   sin datos ni letra.** `cosmology/halo_exchange.py` suma cada ley por halo
