@@ -1,0 +1,509 @@
+{
+ "estado": "BORRADOR — no congelado; no es una preinscripción. Se congela solo con las decisiones del autor (decisiones_autor.json) y antes de cualquier byte de SPARC o de Li+2020.",
+ "fecha": "2026-10-28",
+ "generator": "scripts/run_pr_s.py draft",
+ "code_commit": "390e8292dd54307b8df96c1d7d49ad713828d757",
+ "ordenado_por": {
+  "26-oct": "PR-S desde la ontología (https://claude.ai/artifact/MtXFLxRgx59VxS8ek3nbiX)",
+  "27-oct": "PR-S frente a la ontología (https://claude.ai/artifact/BaZVZaDTmxw5P96GcQXR4z)",
+  "28-oct": "revisión de la evaluación cosmológica y ajuste fino de PR-S (https://claude.ai/artifact/Bmm1d5tMgQjEateRk64Qwb); su bloque sustituye al del 27-oct"
+ },
+ "respaldo": "rama mcv/pr-s-sparc-instrument-wip (commit «borrador sin congelar», paso 0 del bloque del 28-oct); la congelación se hace en mcv/pr-s-sparc-instrument, con el texto final y antes de los bytes",
+ "cosmologia_fija": {
+  "fondo": "PLANCK18 de dynamics/ecv_border.py",
+  "h": 0.674,
+  "Omega_m": 0.315,
+  "Omega_L": 0.685,
+  "rho_E": "Ω_Λ·ρ_crit,0, constante",
+  "H0": "H0_DEFAULT = 67.4 de dynamics/mcv_equilibrium.py",
+  "leyes_de_Q_o_de_H": "ninguna (ni las de #65 ni la constante de la evaluación)",
+  "t_edad": "con el t(a) de ese fondo; retroceso hasta z = 1 = 7.95 Gyr",
+  "motivo": "con la ley constante de la evaluación (ξ_0 = 0.06), R₀ en z = 1 cambiaría ×0.986 y t_edad entre +0.15 % y +0.74 %, frente al ±29 % de la c–M y al 30–55 % que la edad mueve el núcleo"
+ },
+ "S_local_operativa": "S_local = ∫N·dS (Fundamentos, 6.3). En PR-S su análogo operativo es t_edad(c), la historia física acumulada del halo, y ΔN(0) mide cuánto más despacio corre el centro: S_local y S_g coinciden a 3e-6. Sin letra y sin parámetros nuevos",
+ "simbolos": "ε solo con subíndice (ε_c, ε_max); el q₀ del 27-oct es q_CJ(0), el del criterio de Cronos–Jeans; q no se usa para la deceleración",
+ "no_se_toca": {
+  "5E (ley local con A_S)": {
+   "fichero": "results/2026-08-16_front5e_sparc/preregistration.json",
+   "sha256": "4b2ecdff2f39cbd0e1f8326989cd90fef3621eab0de8ad736f143e0e615ad704"
+  },
+  "Sculptor con la MCV (c)": {
+   "fichero": "results/2026-10-23_mcv_sculptor/preregistration.json",
+   "sha256": "2ed76f7f0bf4e8c5364d5bc9811a67e7712bdac95bc915ccf22093f7c4aee006"
+  },
+  "escalón de la RAR (predicción)": {
+   "fichero": "results/2026-09-22_dictionary_eps_c/rar_step_prediction.json",
+   "sha256": "9566a2ac04570e07b3b588cb73abbef774fc4545265aad54db5e401bfb074548"
+  },
+  "A_Sculptor": 6.201588782789579e-07,
+  "ρ*, q_S y la RAR congelada": "intactos"
+ },
+ "ingesta": {
+  "ficheros": [
+   "SPARC_Lelli2016c.mrt",
+   "MassModels_Lelli2016c.mrt",
+   "Rotmod_LTG.zip",
+   "RAR.mrt",
+   "RARbins.mrt"
+  ],
+  "raw_dir": "data/raw/sparc",
+  "manifest": "data/manifests/sparc.json (SCHEMA_UNVERIFIED)",
+  "schema_report": "data/manifests/sparc.schema_report.md, antes del parser",
+  "fallo_cerrado": "sin el dataset AVAILABLE no hay catálogo (dynamics.sparc_data)"
+ },
+ "sigma_x_m": "parámetro efectivo de la tasa de autointercambio Γ_x de la energía sellada, no la sección eficaz de una partícula nueva (enmienda 1); σ_x/m(v) = σ₁₀₀·(⟨v_rel⟩/100 km/s)^(−a), ⟨v_rel⟩ = 4σ₀/√π",
+ "antecedentes_del_corpus": "Maestro §5.1.1 (la MCV como ECV atrapada) y §3.20.2 (núcleos por saturación central y autointeracciones), antecedentes de la decisión (c); el perfil pseudoisotermo se llama ρ_M, no ρ_id",
+ "brazos": {
+  "ΛCDM-1": {
+   "halo": "nfw",
+   "parametros_de_halo": 2,
+   "previa": "plana",
+   "termino_ECV": true
+  },
+  "ΛCDM-2": {
+   "halo": "nfw",
+   "parametros_de_halo": 2,
+   "previa": "c–M",
+   "termino_ECV": true
+  },
+  "MOND": {
+   "halo": null,
+   "parametros_de_halo": 0,
+   "previa": null,
+   "termino_ECV": false
+  },
+  "MCMC-C": {
+   "halo": null,
+   "parametros_de_halo": 0,
+   "previa": null,
+   "termino_ECV": true
+  },
+  "MCMC-J62": {
+   "halo": "j62",
+   "parametros_de_halo": 1,
+   "previa": "plana",
+   "termino_ECV": true
+  },
+  "Burkert libre (E8-Q)": {
+   "halo": "burkert",
+   "parametros_de_halo": 2,
+   "previa": "plana",
+   "termino_ECV": true
+  },
+  "MOND a₀ libre": {
+   "halo": "mond_free",
+   "parametros_de_halo": 1,
+   "previa": "plana",
+   "termino_ECV": false
+  },
+  "MCV (c)": "dynamics/mcv_sparc.fit_mcv"
+ },
+ "molestias": "Υ_d y Υ_b lognormales (0.5 y 0.7, 0.1 dex), D e i gaussianas con los errores del catálogo, idénticas en todos los brazos; i perfilada",
+ "especificaciones": {
+  "FIT_SPEC": {
+   "log_rho0": [
+    4.5,
+    11.5
+   ],
+   "dlog_rho0": 0.025,
+   "log_sigma0": [
+    0.5,
+    2.6
+   ],
+   "dlog_sigma0": 0.025,
+   "upsilon_disk": {
+    "center": 0.5,
+    "dex": 0.1
+   },
+   "upsilon_bulge": {
+    "center": 0.7,
+    "dex": 0.1
+   },
+   "k_grid": [
+    -2.0,
+    -1.0,
+    0.0,
+    1.0,
+    2.0
+   ],
+   "inclination": {
+    "k_range": 4.0,
+    "n_grid": 41,
+    "n_newton": 4
+   },
+   "log_M200": [
+    9.0,
+    13.5
+   ],
+   "c_relation": {
+    "a": 0.905,
+    "b": -0.101,
+    "h": 0.674,
+    "scatter_dex": 0.11
+   },
+   "nodes": {
+    "r_lo": 1e-05,
+    "r_hi": 1000.0,
+    "h": 0.04
+   },
+   "require_r1_inside_r200": true,
+   "chunk": 4096,
+   "zoom": {
+    "enabled": false,
+    "dk0": 1.0,
+    "tol_dex": 0.0002,
+    "tol_k": 0.002,
+    "max_levels": 12,
+    "k_abs_max": 5.0
+   }
+  },
+  "BANK_SPEC": {
+   "nfw": {
+    "log_M200": [
+     9.0,
+     13.5
+    ],
+    "dlog_M200": 0.02,
+    "log_c": [
+     0.0,
+     2.0
+    ],
+    "dlog_c": 0.01
+   },
+   "burkert": {
+    "log_rho": [
+     5.0,
+     11.0
+    ],
+    "dlog_rho": 0.02,
+    "log_rc": [
+     -1.0,
+     2.0
+    ],
+    "dlog_rc": 0.01
+   },
+   "j62": {
+    "log_M200": [
+     9.0,
+     13.5
+    ],
+    "dlog_M200": 0.005,
+    "log_rstar": [
+     -0.5,
+     1.5
+    ],
+    "dlog_rstar": 0.025
+   },
+   "mond_free": {
+    "log_a0": [
+     -11.0,
+     -9.0
+    ],
+    "dlog_a0": 0.005
+   },
+   "sigma100_grid": [
+    0.1,
+    0.2,
+    0.5,
+    1.0,
+    2.0,
+    3.0,
+    5.0,
+    10.0,
+    20.0,
+    50.0
+   ],
+   "a_grid": [
+    -1.0,
+    -0.5,
+    0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0
+   ],
+   "calibration_delta_2lnL": 5.99,
+   "letters": {
+    "n_boot": 10000,
+    "seed": 20261027,
+    "n_B_min": 40,
+    "max_frac_no_match": 0.1
+   },
+   "quality_cut": {
+    "Q_max": 2,
+    "inc_min_deg": 30.0,
+    "n_points_min": 5
+   },
+   "split_salt": "PR-S",
+   "e8q": {
+    "chi2nu_rel_tol": 0.1,
+    "frac_min": 0.9,
+    "a0_ref": 1.13e-10,
+    "a0_ref_err": 2e-12,
+    "n_sigma": 2.0
+   },
+   "resolution": {
+    "delta_chi2_max": 0.5,
+    "frac_min": 0.95
+   }
+  },
+  "STEP_SPEC": {
+   "window_in": [
+    0.8,
+    1.3
+   ],
+   "windows_out": [
+    [
+     0.5,
+     0.7
+    ],
+    [
+     1.6,
+     2.5
+    ]
+   ],
+   "min_points": 2,
+   "n_gal_min": 20,
+   "zeta": 0.15,
+   "zeta_sensitivity": [
+    0.1,
+    0.2
+   ],
+   "ups_disk": 0.5,
+   "ups_bul": 0.7,
+   "testable_sigma": 3.0,
+   "A_tol_sigma": 2.0,
+   "C_sigma": 3.0,
+   "n_boot": 10000,
+   "seed": 20261026,
+   "literal_window": [
+    1.6,
+    2.5
+   ],
+   "g_dagger_bounds_si": [
+    1e-11,
+    1e-09
+   ]
+  }
+ },
+ "letras_MCV": "sobre B frente a ΛCDM-2: A — mediana de Δχ² < 0 con IC95 bootstrap que excluye 0 y más de la mitad negativas; C — mediana > 0 con IC95 que excluye 0 y menos de un tercio negativas; B — el resto; INDETERMINADO — puertas (E8-Q, n_B < 40, más del 10 % de B sin empalme, calibración en el borde, bytes sin manifiesto). Orden: puertas, A, C, B.",
+ "alcance_de_cada_letra": {
+  "MCV (c), letra sobre la mitad B": {
+   "prueba": "que la MCV en equilibrio por autointercambio, con un σ_x/m(v) único para todas las galaxias, describe los discos fuera de la muestra",
+   "no_puede_decir": "nada sobre el intercambio con la ECV, el borde R₀, el punto de ruptura ni el origen de la MCV; un modelo de materia oscura autointeractuante sin ontología daría la misma letra (Ren et al. 2019)",
+   "A": "el freno por equilibrio con una sola ley de autointercambio basta para los discos",
+   "C": "excluye esa ley de autointercambio con la forma declarada, no la MCV como energía atrapada ni el intercambio con la ECV",
+   "lectura_fuerte_u_operativa": "ninguna letra decide entre la lectura fuerte y la operativa del fondo"
+  },
+  "MCMC-C (5E)": {
+   "prueba": "la ley local ε_c = A_S·ρ^(3/2) con bariones solos y A congelada",
+   "no_puede_decir": "nada sobre la MCV (c); A_S ya está «excluida bajo regla congelada» por Oort–K_z, con bytes no verificados"
+  },
+  "Escalón de la RAR": {
+   "prueba": "la forma saturante de ε_c y su densidad ρ*",
+   "no_puede_decir": "con ρ* = 0.01–0.03 la letra esperada es INDETERMINADO por no comprobable; no informa sobre la MCV"
+  },
+  "MCMC-J62": {
+   "prueba": "el tratado escrito (Maestro J.6.2), con r⋆ libre",
+   "no_puede_decir": "no es la MCV (c): su pendiente 1/3 no sale del equilibrio"
+  },
+  "Lecturas sin letra": {
+   "prueba": "universalidad de σ_x/m, proximidad al colapso (rama densa), escala r_c(M200), cruce con Sculptor, historia física acumulada del halo (memoria), lapse y q_CJ(0) cruzado",
+   "no_puede_decir": "ninguna da letra"
+  }
+ },
+ "escalon": "letras por punto (ε_max, ρ*) de la predicción 9566a2ac0457 con el estadístico de ventanas; la lectura literal, aparte; las dos formas de δ_pred (hallazgo H2)",
+ "lecturas_sin_letra": [
+  "globalidad de σ_x/m (calibración con B dentro de la región del 95 % de A)",
+  "ramas: fracción en la rama densa y con c a más de 2σ, frente al brillo superficial",
+  "r_c(M200) frente a J.6.2 (control), la pendiente 0.35 de U (166), «∼0.4 en SPARC» y la Tabla 45 del Unificado",
+  "SPARC → Sculptor: σ_x/m(v) calibrado en el ⟨v_rel⟩ de Sculptor",
+  "memoria del halo: t_edad por galaxia desde la concentración (c₁ congelado), recalibración en A, prueba en B, Δχ² frente a t_edad = 10 Gyr y cambio de la calibración; o 6/10/13 Gyr",
+  "rama densa y colapso: t_c por galaxia (β = 0.75 y 0.45) con el σ_x/m calibrado y la envoltura ajustada; la rama densa con t_c > t_edad, marcada; variante con la rama densa solo si t_c ≤ t_edad",
+  "lapse: ΔN(0) = |Φ(0)|/c² y σ₀ por galaxia",
+  "q_CJ(0) cruzado (antes q0): si el 5E o el escalón reciben A, q_CJ(0) = 1.5c²ε_c/σ₀² (y c²ρε_c'/σ₀²) de cada galaxia",
+  "banco: BIC con k completo, preferencias por pares, ΔBIC frente a ΛCDM-2, a₀ por galaxia frente al brillo"
+ ],
+ "fuera_y_declarado": {
+  "cuspide_del_agujero_negro": "la cúspide de MCV junto al agujero negro (ec. 5 del bloque) no entra en PR-S: con M_BH de 1e5–1e6 M☉ y σ₀ = 20–50 km/s, r_h = 0.2–11 pc; con 1e7–1e8 M☉ y σ₀ = 100–150 km/s, r_h = 2–43 pc; como mucho 43 pc, por debajo de los radios de SPARC",
+  "gap": "un gap que cambiara las masas de forma diferencial está acotado en torno a 1e-7 (Δμ/μ en z = 0.89, Bagdonaite et al. 2013, PRL 111, 231101); uno universal lo absorben Υ y las unidades: no entra en PR-S",
+  "cronos/halo_profile.py": "fuera de PR-S: calibración fiducial sin origen en el corpus (12.6 kpc en 1e11 M☉)",
+  "intercambio_con_la_ECV": "no se ve en SPARC (C1); se prueba en el fondo y en el borde"
+ },
+ "expectativas_E13": [
+  "MCV (c): A o B (Ren et al. 2019 ajustan 135 galaxias con σ/m = 3 cm²/g y la c–M de Planck).",
+  "Riesgo: si SPARC calibra σ_x/m ~ 2–3 cm²/g con a ≥ 0, la rama con núcleo de Sculptor se queda corta; en la rama densa, Sculptor tendría t_c de 150–740 Gyr (incoherente salvo que σ_x/m crezca mucho a baja velocidad).",
+  "Escalón: con ρ* = 0.001, comprobable; con ρ* = 0.01–0.03, INDETERMINADO por no comprobable (documento del 26-oct, con los discos de la predicción congelada). Salvedad: con discos compactos el escalón previsto es entre 2 y 8 veces mayor y podría ser comprobable (hallazgo H9).",
+  "Lectura literal del escalón: C."
+ ],
+ "decisiones_pendientes": [
+  {
+   "id": "27oct-1",
+   "decision": "Enmiendas 1–4 (σ_x/m efectivo y alcance de las letras; memoria del halo; rama densa y colapso; lapse)",
+   "recomendacion": "las cuatro, antes de congelar",
+   "alternativa": "dejarlas para otra ronda, con el riesgo de leer una A sin su alcance",
+   "en_el_codigo": "las cuatro están implementadas; ninguna toca la letra"
+  },
+  {
+   "id": "27oct-2",
+   "decision": "Relación de época de formación para t_edad",
+   "recomendacion": "c = c₁·a₀/a_c de Wechsler et al. (2002) con c₁ congelado antes de los bytes (Wechsler: c₁ ≈ 4.1 para c_vir)",
+   "alternativa": "tres valores fijos (6, 10 y 13 Gyr) como sensibilidad, sin relación",
+   "en_el_codigo": "los dos modos; falta el valor de c₁"
+  },
+  {
+   "id": "27oct-3",
+   "decision": "Rama densa",
+   "recomendacion": "lectura de coherencia con t_c y la variante restringida (solo t_c ≤ t_edad) como sensibilidad, sin letra",
+   "alternativa": "publicar solo la fracción",
+   "en_el_codigo": "las dos (mcv_sparc.restricted_fit)"
+  },
+  {
+   "id": "27oct-4",
+   "decision": "Ley local en la lapse de la MCV",
+   "recomendacion": "mantener la separación del 18-oct con la lectura cruzada de q_CJ(0)",
+   "alternativa": "brazo combinado sin letra con la forma saturante de ρ* = 0.01–0.03",
+   "en_el_codigo": "la lectura cruzada; el brazo combinado no (ver el hallazgo H3, que cambia su premisa)"
+  },
+  {
+   "id": "26oct-1",
+   "decision": "J.6.2 en el banco",
+   "recomendacion": "control MCMC-J62 con r⋆ libre en A; el factor de época, señalado como incoherencia del Maestro",
+   "alternativa": "retirarlo y comparar solo la pendiente",
+   "en_el_codigo": "el brazo MCMC-J62 con r⋆ en rejilla"
+  },
+  {
+   "id": "26oct-2",
+   "decision": "Forma de σ_x/m(v)",
+   "recomendacion": "ley de potencias (σ₁₀₀, a) con la constante como sub-brazo anidado",
+   "alternativa": "solo constante",
+   "en_el_codigo": "la rejilla (σ₁₀₀, a) completa; a = 0 es la constante"
+  },
+  {
+   "id": "26oct-3",
+   "decision": "Reparto A/B",
+   "recomendacion": "por sha256 del identificador",
+   "alternativa": "aleatorio con semilla congelada",
+   "en_el_codigo": "los dos (sparc_bank.split_halves)"
+  },
+  {
+   "id": "26oct-4",
+   "decision": "Letras del escalón",
+   "recomendacion": "lectura aditiva con ventanas; la literal, aparte",
+   "alternativa": "solo la literal",
+   "en_el_codigo": "las dos (dynamics/rar_step_letters.py)"
+  },
+  {
+   "id": "26oct-5",
+   "decision": "Previas del halo",
+   "recomendacion": "c–M de Dutton y Macciò (0.11 dex), las de Sculptor",
+   "alternativa": "la c–M de 2610.05871, si difiere",
+   "en_el_codigo": "DM14; la otra exige transcribirla"
+  },
+  {
+   "id": "26oct-6",
+   "decision": "Lo que pide #65 (afueras, E3, datos del fondo)",
+   "recomendacion": "afueras = capa del borde del código; E3 fuera hasta tener vacíos; datos del fondo, del autor",
+   "alternativa": "—",
+   "en_el_codigo": "no es de PR-S"
+  }
+ ],
+ "decisiones_28oct_que_no_bloquean": [
+  {
+   "id": "28oct-1",
+   "decision": "Lectura de la energía sellada",
+   "recomendacion": "(a) operativa para los ajustes y (b) como frente de derivación de C(S), sin decidir la ley de Cronos antes de Walker",
+   "en_PR_S": "nada: PR-S usa (a)"
+  },
+  {
+   "id": "28oct-2",
+   "decision": "Ley constante de la evaluación",
+   "recomendacion": "brazo de control en el catálogo de #65, como ξ_0, fuera de PR-S",
+   "en_PR_S": "nada (fuera de PR-S y no ahora)"
+  },
+  {
+   "id": "28oct-3",
+   "decision": "S_local en PR-S",
+   "recomendacion": "lectura operativa con t_edad(c) y ΔN(0), sin letra",
+   "en_PR_S": "texto «S_local operativa» (punto 10), sin parámetros nuevos"
+  },
+  {
+   "id": "28oct-4",
+   "decision": "Respaldo de la rama",
+   "recomendacion": "sí, con las cinco condiciones",
+   "en_PR_S": "hecho: mcv/pr-s-sparc-instrument-wip, commit «borrador sin congelar»"
+  },
+  {
+   "id": "28oct-5",
+   "decision": "Nombres",
+   "recomendacion": "ξ_0 para la ley constante, q_dec para la deceleración y q_CJ(0) en PR-S",
+   "en_PR_S": "q_CJ(0) en el código y en el texto; ε solo con subíndice (punto 12)"
+  }
+ ],
+ "hallazgos_del_ejecutor": [
+  {
+   "id": "H1",
+   "hallazgo": "Con la rejilla sola, χ²_mín queda cuantizado: el paso de las molestias (Υ y D en ±2σ) y el de (ρ₀, σ₀) mueven χ²_mín más de 0.5 en galaxias con errores pequeños.",
+   "opciones": "rejilla sola (documento), o rejilla y refinado local en rejillas que se estrechan (propuesta, FIT_SPEC['zoom'])",
+   "efecto": "la comprobación de resolución de scripts/run_pr_s.py checks da las cifras"
+  },
+  {
+   "id": "H2",
+   "hallazgo": "En las letras del escalón, δ_pred = log(1 + g_C/g_obs) del documento queda por debajo del escalón que deja la propia ley aditiva cuando g_C ~ g_obs (ρ* = 0.001): la A sería inalcanzable.",
+   "opciones": "«documento», o «autoconsistente», log[g_obs/(g_obs − g_C)]",
+   "efecto": "solo ρ* = 0.001"
+  },
+  {
+   "id": "H3",
+   "hallazgo": "Para la forma saturante, 1.5·c²·ε_c/σ₀² (fórmula de C3 y de la enmienda 7) no es el q que decide la estabilidad de Cronos–Jeans, c²·ρ·ε_c'(ρ)/σ₀²; coinciden solo en la ley débil. Con ρ ≫ ρ* el segundo es cientos de veces menor: con ρ* = 0.001, q < 1 en vez de 0.5–9.3.",
+   "opciones": "publicar los dos (hecho)",
+   "efecto": "cambia la premisa de la alternativa de la decisión 27oct-4"
+  },
+  {
+   "id": "H4",
+   "hallazgo": "El punto fijo t_edad = t_W(c(t_edad)) tiene dos raíces por núcleo: una junto al borde (c ≈ c₁, t_W → 0, inestable) y la estable; las dos son envolturas autoconsistentes.",
+   "opciones": "todas, y el ajuste toma el mejor χ² (hecho), o solo la estable",
+   "efecto": "lectura de memoria"
+  },
+  {
+   "id": "H5",
+   "hallazgo": "«ECV por debajo de 1e-4 de la atracción dentro de 10·R_d» depende del tamaño del disco (1.7e-4 con R_d = 2 kpc en 1e11 M☉); la forma de C1 (≤ 6e-5 hasta 0.1·r200) se cumple.",
+   "opciones": "test con C1 (hecho)",
+   "efecto": "ninguno sobre las letras"
+  },
+  {
+   "id": "H6",
+   "hallazgo": "El candado anti-ajuste del 5E vigila dynamics/*sparc*.py y prohíbe la maquinaria de optimización: la física general del brazo (raíces del empalme) va en dynamics/mcv_baryons.py y el ajuste a SPARC es en rejilla.",
+   "opciones": "mantener el candado tal cual (hecho), o ampliarlo a mano",
+   "efecto": "ninguno"
+  },
+  {
+   "id": "H7",
+   "hallazgo": "Precisiones del ejecutor que el documento no fija: χ² = datos + previas (−2 ln de las previas); ΛCDM-1 con log c ∈ [0, 2]; Υ_b solo con bulbo; r₁ < r200; rangos de (ρ₀, σ₀); paso de los nodos (0.04 en ln r); χ²_ν de E8-Q = χ²_datos/(N − k_halo); la a₀ poblacional con la RAR de un parámetro.",
+   "opciones": "aceptarlas o fijar otras",
+   "efecto": "todas entran en la preinscripción"
+  },
+  {
+   "id": "H8",
+   "hallazgo": "Faltan entradas del corpus y de la literatura: la Tabla 45 del Unificado, el valor de c₁, las previas exactas de Li+2020 y el montaje de 2610.05871 (arxiv.org no es accesible desde la sesión).",
+   "opciones": "que el autor las transcriba",
+   "efecto": "E8-Q y la lectura r_c(M200) fallan cerrado sin ellas"
+  },
+  {
+   "id": "H9",
+   "hallazgo": "Con discos sintéticos de tres tamaños (0.5, 1 y 2 veces R_ref) y h_z = 0.15·R_d, el escalón previsto S_pred vale 0.30 dex con ρ* = 0.001 y 0.024–0.032 dex con ρ* = 0.01–0.03, entre 2 y 8 veces lo del documento del 26-oct (0.10–0.14 y 0.004–0.007, con los discos de la predicción congelada): g_C ∝ 1/R_d crece en los discos compactos. Con σ_S ≈ 0.005 dex, el escalón con ρ* = 0.01–0.03 podría ser comprobable. Con ρ* = 0.001, la ley predice g_C ≥ g_obs en la mitad de esos discos.",
+   "opciones": "revisar la expectativa E13 del escalón con el reparto de R_d de SPARC antes de congelar, o dejarla como está",
+   "efecto": "solo la expectativa E13; las letras no cambian"
+  }
+ ],
+ "codigo": [
+  "dynamics/mcv_baryons.py",
+  "dynamics/mcv_sparc.py",
+  "dynamics/sparc_bank.py",
+  "dynamics/rar_step_letters.py",
+  "dynamics/sparc_pr_s.py",
+  "dynamics/sparc_data.py",
+  "scripts/run_pr_s.py",
+  "scripts/download_data.py"
+ ]
+}
