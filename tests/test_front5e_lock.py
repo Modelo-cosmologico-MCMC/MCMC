@@ -119,8 +119,9 @@ def test_prereg_frozen_fields_pinned():
 def test_missing_data_fails_closed():
     """Sin datos SPARC ingeridos, el análisis debe FALLAR CERRADO
     (excepción con estatuto), nunca fabricar fixtures observacionales.
-    (Vigila las MISMAS rutas que usa la maquinaria: data/sparc/.)"""
-    manifest = REPO / "data" / "sparc" / "manifest.json"
+    (Vigila las MISMAS rutas que usa la maquinaria: el manifest del
+    registro, data/manifests/sparc.json, alineado el 27-oct-2026.)"""
+    manifest = REPO / "data" / "manifests" / "sparc.json"
     if manifest.exists():
         pytest.skip("datos SPARC presentes: este candado aplica al caso sin datos")
     from dynamics.sparc_data import load_sparc_catalogue

@@ -32,6 +32,14 @@ datasets:
     citation: "Lelli, McGaugh & Schombert 2016 (AJ 152, 157)"
     checksum: pending
     state: DATA_UNAVAILABLE   # host denegado por el proxy (18-ago-2026)
+    download: >
+      python scripts/download_data.py sparc (los cinco ficheros desde
+      astroweb.cwru.edu/SPARC al raw_dir; si los bytes ya están en el
+      raw_dir no descarga, verifica y registra) escribe
+      data/manifests/sparc.json en SCHEMA_UNVERIFIED; el schema_report,
+      python -m dynamics.sparc_data --inspect, escribe
+      data/manifests/sparc.schema_report.md y, confirmado por el autor,
+      lo lleva a AVAILABLE. Rutas alineadas el 27-oct-2026 (PR-S).
 
   walker2009:
     role: dsph_kinematics
