@@ -101,7 +101,7 @@ claims:
     artifact: "—"
 
   - claim_id: residuo-falso-vacio-c4
-    entity: Residuo de desequilibrio del falso vacío dentro del dominio físico C4 — ⟨χ⟩ ≃ (ē/2m̄²)·δ₀, la mitad del valor de la Prop. 3.4, que es el mínimo sin restringir (φ_E < 0); el reloj S compara el valor que mide con el de C4 (11-nov-2026)
+    entity: Residuo de desequilibrio del falso vacío dentro del dominio físico C4 — ⟨χ⟩ ≃ (ē/2m̄²)·δ₀, la mitad del valor de la Prop. 3.4, que es el mínimo sin restringir (φ_E < 0); el reloj S compara el valor que mide con el de C4 (12-nov-2026)
     law: "Prop. 3.4 (residuo ⟨χ⟩ ≃ (ē/m̄²)·δ₀); Def. 2.1 y C4 (dominio físico: primer cuadrante del Plano Dual); Def. 3.1 (Basal con −η·χ)"
     derivation: >-
       revisión profunda del 10-nov-2026 (hallazgo 4) y PR R1 del plan de
@@ -212,7 +212,7 @@ claims:
       dan tres cruces (criterios (i) integral y (ii) de PR-6), pero sus
       cocientes, 1.4 y 1.16, quedan lejos de la Década: letra C bajo
       preinscripción congelada. λ sigue sin derivar; el sentido del flujo es
-      la decisión 1 del autor. Nota del 11-nov-2026 (fila
+      la decisión 1 del autor. Nota del 12-nov-2026 (fila
       cruce-victoria-retorno): con un solo Potencial Basal, el cruce D = 0
       del estado ocupado es un retorno al origen y no un colapso hacia
       fuera, porque en la espinodal el vacío ocupado vale +E₀/6 y alcanzarla
@@ -231,7 +231,7 @@ claims:
     artifact: results/2026-09-21_s_clock
 
   - claim_id: cruce-victoria-retorno
-    entity: Cruce de Victoria del estado ocupado como retorno — con un solo Potencial Basal séxtico, en la espinodal D = 0 el vacío ocupado vale +E₀/6, por encima del origen; alcanzarla exige re-tensar el estado en más de una Tensión Primordial, y lo que el cruce dispara es la vuelta del campo a ρ = 0 (11-nov-2026)
+    entity: Cruce de Victoria del estado ocupado como retorno — con un solo Potencial Basal séxtico, en la espinodal D = 0 el vacío ocupado vale +E₀/6, por encima del origen; alcanzarla exige re-tensar el estado en más de una Tensión Primordial, y lo que el cruce dispara es la vuelta del campo a ρ = 0 (12-nov-2026)
     law: "Def. 8.4 y Obs. 8.6 (discriminante, espinodal y Cruce de Victoria); Prop. 8.5 (fusión de puntos fijos del flujo radial); Teo. 4.5 (Monotonía, con acoplos fijos); Def. 3.3 y Prop. 3.4 (Tensión Primordial); Axioma 8, Lema 10.3 y Prop. 10.7 (retorno y Techo W_máx)"
     derivation: >-
       revisión profunda del 10-nov-2026 (hallazgo 1) y PR R3 del plan de
