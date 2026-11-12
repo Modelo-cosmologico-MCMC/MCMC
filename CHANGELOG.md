@@ -6,6 +6,29 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — noviembre de 2026
 
+- **El collado de la cuarta ecuación y el umbral A_c (revisión profunda del
+  10-nov, hallazgo 2; PR R2 del plan del 11-nov), comprobación interna sin
+  letra.** Con el término angular ½μ²χ², salir de S₀ por el polo de masa y
+  llegar junto a la diagonal se excluyen. `core/angular_term.py` da las
+  formas cerradas (`results/2026-11-12_angular_saddle/`):
+  - los puntos críticos interiores están en los anillos κ₊ y κ₋ con χ = η/μ².
+    El de κ₊ es el vacío, a arcsin(t/4A) de la diagonal (el θ* del registro);
+    el de κ₋ es el collado, que existe si A ≥ A_c = (t/4)·√(2κ₊/κ₋) = 0.098 /
+    0.178 / 0.419 para δ₀ = 0.003 / 0.01 / 0.0554;
+  - con A = 1 el collado está a 0.069 / 0.126 / 0.301 rad de la diagonal y
+    la barrera del rayo del polo es 2.58 / 2.34 / 1.78 veces la suya;
+  - con salida por el polo (A ≤ A_c) el vacío queda a 0.2735 rad (15.7°) o
+    más de la diagonal, sea cual sea δ₀;
+  - corrida de consistencia con `theta_nuc` en el collado: de la rotación
+    desde el polo queda el último 5.6 / 10.6 / 27.9 %. Con A = 0.8·A_c el
+    descenso desde el polo acaba a 0.3444 rad de la diagonal.
+
+  El rayo declarado del reloj sigue siendo θ = 0 y las cifras del 23-oct no
+  cambian: valen como descenso desde ese rayo. Qué mitad de la Prop. 3.5 se
+  conserva es la decisión 2 del autor. Fila nueva `cuarta-ecuacion-collado`
+  (interno) y nota en `cuarta-ecuacion-termino-angular`, que conserva su
+  estatuto.
+
 - **El Cruce de Victoria del estado ocupado es un retorno (revisión profunda
   del 10-nov, hallazgo 1; PR R3 del plan del 11-nov), comprobación interna.**
   Con un solo Potencial Basal séxtico, la espinodal D = 0 no dispara un

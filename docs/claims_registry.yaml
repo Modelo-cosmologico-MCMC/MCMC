@@ -2481,7 +2481,13 @@ claims:
       construcción, porque el vacío verdadero está allí. Con este término
       la Prop. 3.5 tendría que decir «se acerca a la diagonal al completar
       la descarga»: es la decisión 2 del autor. La predicción del 22-sep
-      («cruce en S = 1 ± 0.05») no se puede someter a prueba con él.
+      («cruce en S = 1 ± 0.05») no se puede someter a prueba con él. Nota
+      del 12-nov-2026 (fila cuarta-ecuacion-collado): el rayo θ = 0 no es
+      el collado si A > A_c, con A_c = (t/4)·√(2κ₊/κ₋) = 0.098 / 0.178 /
+      0.419 para los tres δ₀. Con A = 1 el collado de salida está a 0.069 /
+      0.126 / 0.301 rad de la diagonal y la barrera del rayo del polo es de
+      1.8 a 2.6 veces más alta que la suya. Las cifras de esta fila valen
+      como descenso desde el rayo declarado.
     implementation: core/s_clock.py + scripts/run_angular_term.py
     test: tests/test_angular_term.py
     observable: "— (recorrido interno del reloj; ningún observable)"
@@ -2494,6 +2500,54 @@ claims:
     evidence_level: comprobación interna (E8) sin letra; reproduce las cifras del autor con A = 1; ningún cruce de la diagonal en el barrido; la redacción de la Prop. 3.5 queda para la decisión 2 del autor
     status: interno
     artifact: results/2026-10-23_angular_term
+
+  - claim_id: cuarta-ecuacion-collado
+    entity: Cuarta ecuación, brazo «término angular» — collado de salida de S₀ y umbral A_c; con ½μ²χ², la salida por el polo de masa y la llegada junto a la diagonal se excluyen; corrida de consistencia del reloj con θ_nuc en el collado, sin letra (12-nov-2026)
+    law: "Def. 2.2 / Prop. 3.5 (salida de S₀ hacia el polo de masa y cruce de la diagonal en S ≃ 1); Def. 3.1 y Prop. 3.2 (Basal, anillos κ₊ y κ₋); decisión del autor del 23-oct (término angular, fila cuarta-ecuacion-termino-angular)"
+    derivation: >-
+      revisión profunda del 10-nov-2026 (hallazgo 2) y PR R2 del plan de
+      acción del 11-nov. Con V = V₀ + ½μ²χ², μ² = 4A(c̄/κ₊)δ₀², el gradiente
+      se anula en el interior del cuadrante solo si R(ρ²) = M₀² − Bρ² + C₀ρ⁴
+      = 0 y χ = η/μ² (core/angular_term.py). El punto del anillo κ₊ es el
+      vacío, a arcsin(t/4A) de la diagonal: es el θ* del registro. El del
+      anillo κ₋ es el collado, a arcsin((t/4A)·√(κ₊/κ₋)) de la diagonal, con
+      un autovalor negativo del hessiano. El collado interior existe si A ≥
+      A_c = (t/4)·√(2κ₊/κ₋) = 0.098 / 0.178 / 0.419 para δ₀ = 0.003 / 0.01 /
+      0.0554; por debajo, el collado está sobre la frontera φ_E = 0 y la
+      salida es por el polo. Con salida por el polo el vacío queda a
+      arcsin√(κ₋/2κ₊) = 0.2735 rad (15.7°) o más de la diagonal, sea cual sea
+      δ₀ (entre 24.1° y 4.1° según las formas). Con A = 1, el de las cifras
+      del 23-oct, el collado está en θ = 0.716 / 0.659 / 0.484 rad, a 0.069
+      / 0.126 / 0.301 de la diagonal, y la barrera del rayo del polo es 2.58
+      / 2.34 / 1.78 veces la del collado; en esa barrera ∂V/∂φ_E < 0, así
+      que no es un collado. Vacío y collado comparten χ, de modo que
+      sin(d_collado) = √(κ₊/κ₋)·sin(d_vacío): acercar el vacío a la diagonal
+      aleja el collado del polo. Corrida de consistencia
+      (results/2026-11-12_angular_saddle): con θ_nuc en el collado el reloj
+      arranca en θ = 0.716 / 0.659 / 0.484 y termina en 0.740 / 0.715 /
+      0.649, con θ monótona, sin cruzar la diagonal y con las identidades
+      del descenso; de la rotación desde el polo queda el último 5.6 / 10.6
+      / 27.9 %. Con A = 0.8·A_c la salida es por el polo y el descenso acaba
+      a 0.3444 rad de la diagonal en los tres δ₀. Los θ* del registro (0.759
+      / 0.737 / 0.672) siguen saliendo con el rayo declarado θ = 0, que no
+      cambia. Tres comprobaciones «derivadas» del reloj, escritas para el
+      rayo del polo sin término angular, no se superan en estos brazos y se
+      publican con su motivo.
+    implementation: core/angular_term.py + scripts/run_angular_saddle.py
+    test: tests/test_angular_saddle.py
+    observable: "— (recorrido interno del reloj; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      sin letra. Lo refutaría un punto crítico interior fuera de los anillos
+      κ₊ y κ₋, o un collado más bajo sobre el rayo del polo con A > A_c. Si
+      el rayo θ = 0 forma parte de la ontología como condición impuesta
+      (suposición S3 de la revisión), las cifras del 23-oct valen tal cual y
+      esta fila solo dice que esa condición no sale de la dinámica. Qué
+      mitad de la Prop. 3.5 se conserva (salida por el polo, llegada a la
+      diagonal o un segundo colapso angular) es la decisión 2 del autor
+    evidence_level: comprobación interna (E8) con forma cerrada y verificación numérica, sin datos ni letra; corrida de consistencia con θ_nuc en el collado; no cambia el rayo declarado del reloj ni las cifras del 23-oct
+    status: interno
+    artifact: results/2026-11-12_angular_saddle
   - claim_id: halo-capas-ronda2
     entity: Frente 5 (b), ronda 2 — la serie de resolución del campo de Cronos con un código de CAPAS ESFÉRICAS (campo conservativo por núcleo, subpasos por capa, interior refinado), bajo preinscripción congelada; desenlace INDETERMINADO por puertas del instrumento (suelo de dt en los brazos finos a A_Sculptor, energía en los brazos a 0.05·A_Sculptor) (22-sep-2026)
     law: "Def. 11.1 / Prop. 11.2 / Cor. 11.3 (Ley de Cronos débil: ε_c = Aρ^{3/2}, fuerza +c²∇ε_c, fricción con compuerta, lapso); criterio de Cronos–Jeans (fila test-criterio-cronos-jeans: q = (3/2)c²ε_c/σ², γ ∝ k); A_Sculptor del 5E como hipótesis"

@@ -1,0 +1,545 @@
+{
+  "title": "Cuarta ecuación, brazo «término angular»: el collado de salida de S₀ y el umbral A_c, sin letra",
+  "written_utc": "2026-11-12T07:52:11.794130+00:00",
+  "code_commit": "fcc8cdb8ca639c60a610a9d9415104afecd9802b",
+  "generator": "scripts/run_angular_saddle.py",
+  "form": "V = V₀ + ½μ²χ², μ² = 4A(c̄/κ₊)δ₀² (ClockConfig.angular_A); puntos críticos interiores en R(ρ²) = 0 con χ = η/μ²",
+  "closed_forms": {
+    "t": "η·ρ₊/T₀ = ē·√(κ₊δ₀)/c̄",
+    "A_c": "(t/4)·√(2κ₊/κ₋)",
+    "vacuum": "anillo κ₊, a arcsin(t/4A) de la diagonal",
+    "saddle": "anillo κ₋, a arcsin((t/4A)·√(κ₊/κ₋)) de la diagonal; existe si A ≥ A_c",
+    "bound": "con salida por el polo el vacío queda a arcsin√(κ₋/2κ₊) o más de la diagonal",
+    "V_saddle": "V₀_radial(x₋) − η²/(2μ²)"
+  },
+  "min_distance_with_pole_exit_rad": 0.2734872901415568,
+  "min_distance_with_pole_exit_deg": 15.669667475581011,
+  "vacuum_vs_saddle": [
+    {
+      "vacuum_distance": 0.2,
+      "saddle_distance": 0.5469950279640116,
+      "saddle_angle_from_pole": 0.23840313543343672
+    },
+    {
+      "vacuum_distance": 0.1,
+      "saddle_distance": 0.2644384487622888,
+      "saddle_angle_from_pole": 0.5209597146351594
+    },
+    {
+      "vacuum_distance": 0.05,
+      "saddle_distance": 0.13122344211654136,
+      "saddle_angle_from_pole": 0.6541747212809069
+    }
+  ],
+  "grid": "δ₀ ∈ [0.003, 0.01, 0.0554]; A = 1 (cifras del 23-oct) y A = 0.8·A_c; modo impuesto (S ≡ f)",
+  "rows": [
+    {
+      "delta0": 0.003,
+      "t": 0.1053976754868083,
+      "A_c": 0.09755764762171726,
+      "A_ref": {
+        "A": 1.0,
+        "landscape": {
+          "delta0": 0.003,
+          "A": 1.0,
+          "t": 0.1053976754868083,
+          "A_c": 0.09755764762171726,
+          "exit_route": "collado interior",
+          "vacuum": {
+            "rho": 0.08862337144483776,
+            "chi": 0.002335174336022471,
+            "theta": 0.7590456945415011,
+            "distance_to_diagonal": 0.02635246885594722,
+            "phi": [
+              0.06429564643903725,
+              0.060993211222528695
+            ]
+          },
+          "saddle": {
+            "rho": 0.03385111569432114,
+            "chi": 0.002335174336022471,
+            "theta": 0.7163596590653211,
+            "distance_to_diagonal": 0.06903850433212722,
+            "phi": [
+              0.025530549619124033,
+              0.022228114402615462
+            ]
+          },
+          "hessian_eigenvalues_vacuum": [
+            1.1553289743705329e-05,
+            0.00010538285154753794
+          ],
+          "hessian_eigenvalues_saddle": [
+            -1.5342394768183847e-05,
+            1.1530865274438573e-05
+          ],
+          "gradient_norm_vacuum": 1.207769163393564e-21,
+          "gradient_norm_saddle": 3.970466940254532e-23,
+          "pole_ray_barrier_is_a_saddle": false,
+          "barriers": {
+            "pole_ray_barrier": 6.279480920005266e-09,
+            "saddle_barrier": 2.4336936850149255e-09,
+            "ratio": 2.580226492212291,
+            "V_saddle": 2.421357519900014e-09,
+            "V_false_vacuum": -1.2336165114911857e-11
+          },
+          "min_distance_with_pole_exit": 0.2734872901415568
+        },
+        "run_from_saddle_ray": {
+          "delta0": 0.003,
+          "A": 1.0,
+          "theta_saddle": 0.7163596590653211,
+          "theta_start": 0.7163596590653211,
+          "theta_final": 0.7396638132870761,
+          "theta_star": 0.7590456947270838,
+          "rotation_done": 0.023304154221755025,
+          "rotation_left_from_saddle": 0.04268603566176277,
+          "rotation_from_pole_ray": 0.7590456947270838,
+          "fraction_of_pole_rotation_left": 0.0562364505303078,
+          "theta_max_drop": 0.0,
+          "crosses_diagonal": false,
+          "rho_barrier_on_ray_over_rho_saddle": 1.0,
+          "S_final": 0.9990009314348735,
+          "f_final": 0.9990009314347127,
+          "T0_full_over_law": 1.0013801459581406,
+          "S_equals_f_pass": true,
+          "monotonia_pass": true,
+          "finished": true,
+          "stop_reason": "residuo de descarga alcanzado",
+          "steps": 1534,
+          "derived_checks_failed": [
+            "S0/T0_tilt_first_order",
+            "S0/delta0_max_closed_form",
+            "descent/exit_to_mass_pole_3_5"
+          ],
+          "status": "corrida de consistencia (E8), sin letra: θ_nuc en el collado es una lectura, no la forma declarada"
+        },
+        "run_from_pole_ray": {
+          "delta0": 0.003,
+          "A": 1.0,
+          "eps_res": 0.001,
+          "theta_start": 0.0,
+          "theta_final": 0.7366683828687547,
+          "theta_star": 0.7590456947270838,
+          "distance_to_diagonal_final": 0.04872978052869359,
+          "distance_to_diagonal_vacuum": 0.02635246867036445,
+          "theta_max_drop": 0.0,
+          "crosses_diagonal": false,
+          "S_final": 0.9990010590980956,
+          "S_equals_f_pass": true,
+          "monotonia_pass": true,
+          "finished": true,
+          "stop_reason": "residuo de descarga alcanzado",
+          "steps": 5902,
+          "derived_checks_failed": [
+            "S0/T0_tilt_first_order",
+            "descent/exit_to_mass_pole_3_5"
+          ]
+        }
+      },
+      "below_A_c": {
+        "A": 0.07804611809737382,
+        "landscape": {
+          "delta0": 0.003,
+          "A": 0.07804611809737382,
+          "t": 0.1053976754868083,
+          "A_c": 0.09755764762171726,
+          "exit_route": "polo",
+          "vacuum": {
+            "rho": 0.08862337144483776,
+            "chi": 0.02992044182273106,
+            "theta": 0.4410178442390283,
+            "distance_to_diagonal": 0.34438031915842,
+            "phi": [
+              0.08014367940771276,
+              0.037829784789811326
+            ]
+          },
+          "saddle": null,
+          "hessian_eigenvalues_vacuum": [
+            7.987501354903939e-07,
+            0.00010547747834865553
+          ],
+          "hessian_eigenvalues_saddle": null,
+          "gradient_norm_vacuum": 1.2010706481685364e-21,
+          "gradient_norm_saddle": null,
+          "pole_ray_barrier_is_a_saddle": true,
+          "barriers": {
+            "pole_ray_barrier": 2.084925969027666e-09,
+            "saddle_barrier": null,
+            "ratio": null,
+            "V_saddle": null,
+            "V_false_vacuum": -1.9321021081950204e-11
+          },
+          "min_distance_with_pole_exit": 0.2734872901415568
+        },
+        "distance_closed_form": 0.34438031915841993,
+        "run_from_pole_ray_converged": {
+          "delta0": 0.003,
+          "A": 0.07804611809737382,
+          "eps_res": 1e-09,
+          "theta_start": 0.0,
+          "theta_final": 0.44093205277481945,
+          "theta_star": 0.4410178401978965,
+          "distance_to_diagonal_final": 0.34446611062262883,
+          "distance_to_diagonal_vacuum": 0.34438032319955175,
+          "theta_max_drop": 0.0,
+          "crosses_diagonal": false,
+          "S_final": 0.9999999990002492,
+          "S_equals_f_pass": true,
+          "monotonia_pass": true,
+          "finished": true,
+          "stop_reason": "residuo de descarga alcanzado",
+          "steps": 200878,
+          "derived_checks_failed": [
+            "S0/T0_tilt_first_order",
+            "descent/exit_to_mass_pole_3_5"
+          ]
+        }
+      }
+    },
+    {
+      "delta0": 0.01,
+      "t": 0.19242894790911397,
+      "A_c": 0.17811508086518255,
+      "A_ref": {
+        "A": 1.0,
+        "landscape": {
+          "delta0": 0.01,
+          "A": 1.0,
+          "t": 0.19242894790911397,
+          "A_c": 0.17811508086518255,
+          "exit_route": "collado interior",
+          "vacuum": {
+            "rho": 0.16180339887498948,
+            "chi": 0.0077839144534082375,
+            "theta": 0.7372723512555834,
+            "distance_to_diagonal": 0.04812581214186484,
+            "phi": [
+              0.11978387004176974,
+              0.10877575265340785
+            ]
+          },
+          "saddle": {
+            "rho": 0.06180339887498948,
+            "chi": 0.0077839144534082375,
+            "theta": 0.6591164118578138,
+            "distance_to_diagonal": 0.1262817515396345,
+            "phi": [
+              0.04885766747293818,
+              0.03784955008457629
+            ]
+          },
+          "hessian_eigenvalues_vacuum": [
+            0.00012813620871123782,
+            0.0011711542500803549
+          ],
+          "hessian_eigenvalues_saddle": [
+            -0.00016965272931082233,
+            0.00012730240160254157
+          ],
+          "gradient_norm_vacuum": 1.7603850729573873e-20,
+          "gradient_norm_saddle": 1.5071685288458516e-21,
+          "pole_ray_barrier_is_a_saddle": false,
+          "barriers": {
+            "pole_ray_barrier": 2.0728927321612526e-07,
+            "saddle_barrier": 8.848034050069658e-08,
+            "ratio": 2.342772101046484,
+            "V_saddle": 8.695553808575209e-08,
+            "V_false_vacuum": -1.5248024149444917e-09
+          },
+          "min_distance_with_pole_exit": 0.2734872901415568
+        },
+        "run_from_saddle_ray": {
+          "delta0": 0.01,
+          "A": 1.0,
+          "theta_saddle": 0.6591164118578138,
+          "theta_start": 0.6591164118578138,
+          "theta_final": 0.7148206388632752,
+          "theta_star": 0.7372723534128699,
+          "rotation_done": 0.055704227005461404,
+          "rotation_left_from_saddle": 0.07815594155505612,
+          "rotation_from_pole_ray": 0.7372723534128699,
+          "fraction_of_pole_rotation_left": 0.10600687953816311,
+          "theta_max_drop": 0.0,
+          "crosses_diagonal": false,
+          "rho_barrier_on_ray_over_rho_saddle": 1.0000000000000002,
+          "S_final": 0.9990003772840709,
+          "f_final": 0.9990003772838749,
+          "T0_full_over_law": 1.0045361511605977,
+          "S_equals_f_pass": true,
+          "monotonia_pass": true,
+          "finished": true,
+          "stop_reason": "residuo de descarga alcanzado",
+          "steps": 2265,
+          "derived_checks_failed": [
+            "S0/T0_tilt_first_order",
+            "S0/delta0_max_closed_form",
+            "descent/exit_to_mass_pole_3_5"
+          ],
+          "status": "corrida de consistencia (E8), sin letra: θ_nuc en el collado es una lectura, no la forma declarada"
+        },
+        "run_from_pole_ray": {
+          "delta0": 0.01,
+          "A": 1.0,
+          "eps_res": 0.001,
+          "theta_start": 0.0,
+          "theta_final": 0.7148453053546605,
+          "theta_star": 0.7372723534128699,
+          "distance_to_diagonal_final": 0.07055285804278777,
+          "distance_to_diagonal_vacuum": 0.04812580998457838,
+          "theta_max_drop": 0.0,
+          "crosses_diagonal": false,
+          "S_final": 0.9990009778815276,
+          "S_equals_f_pass": true,
+          "monotonia_pass": true,
+          "finished": true,
+          "stop_reason": "residuo de descarga alcanzado",
+          "steps": 5893,
+          "derived_checks_failed": [
+            "S0/T0_tilt_first_order",
+            "descent/exit_to_mass_pole_3_5"
+          ]
+        }
+      },
+      "below_A_c": {
+        "A": 0.14249206469214604,
+        "landscape": {
+          "delta0": 0.01,
+          "A": 0.14249206469214604,
+          "t": 0.19242894790911397,
+          "A_c": 0.17811508086518255,
+          "exit_route": "polo",
+          "vacuum": {
+            "rho": 0.16180339887498948,
+            "chi": 0.05462700305610264,
+            "theta": 0.4410178442390283,
+            "distance_to_diagonal": 0.34438031915842,
+            "phi": [
+              0.14632167017688852,
+              0.06906742158315164
+            ]
+          },
+          "saddle": null,
+          "hessian_eigenvalues_vacuum": [
+            1.6190141369318886e-05,
+            0.001172936216770784
+          ],
+          "hessian_eigenvalues_saddle": null,
+          "gradient_norm_vacuum": 1.761537984033053e-20,
+          "gradient_norm_saddle": null,
+          "pole_ray_barrier_is_a_saddle": true,
+          "barriers": {
+            "pole_ray_barrier": 6.699299867869146e-08,
+            "saddle_barrier": null,
+            "ratio": null,
+            "V_saddle": null,
+            "V_false_vacuum": -2.303874583866417e-09
+          },
+          "min_distance_with_pole_exit": 0.2734872901415568
+        },
+        "distance_closed_form": 0.34438031915841993,
+        "run_from_pole_ray_converged": {
+          "delta0": 0.01,
+          "A": 0.14249206469214604,
+          "eps_res": 1e-09,
+          "theta_start": 0.0,
+          "theta_final": 0.44095393086541307,
+          "theta_star": 0.44101784482895773,
+          "distance_to_diagonal_final": 0.3444442325320352,
+          "distance_to_diagonal_vacuum": 0.34438031856849055,
+          "theta_max_drop": 0.0,
+          "crosses_diagonal": false,
+          "S_final": 0.9999999990003174,
+          "S_equals_f_pass": true,
+          "monotonia_pass": true,
+          "finished": true,
+          "stop_reason": "residuo de descarga alcanzado",
+          "steps": 114012,
+          "derived_checks_failed": [
+            "S0/T0_tilt_first_order",
+            "descent/exit_to_mass_pole_3_5"
+          ]
+        }
+      }
+    },
+    {
+      "delta0": 0.0554,
+      "t": 0.45292395163369653,
+      "A_c": 0.4192331099222988,
+      "A_ref": {
+        "A": 1.0,
+        "landscape": {
+          "delta0": 0.0554,
+          "A": 1.0,
+          "t": 0.45292395163369653,
+          "A_c": 0.4192331099222988,
+          "exit_route": "collado interior",
+          "vacuum": {
+            "rho": 0.38083997029821354,
+            "chi": 0.043122886071881625,
+            "theta": 0.671923808141515,
+            "distance_to_diagonal": 0.1134743552559333,
+            "phi": [
+              0.298055094356187,
+              0.2370701240246621
+            ]
+          },
+          "saddle": {
+            "rho": 0.14546792437941714,
+            "chi": 0.043122886071881625,
+            "theta": 0.4844325285708734,
+            "distance_to_diagonal": 0.3009656348265749,
+            "phi": [
+              0.12873029285732113,
+              0.06774532252579626
+            ]
+          },
+          "hessian_eigenvalues_vacuum": [
+            0.0038862679514708506,
+            0.03599103509357725
+          ],
+          "hessian_eigenvalues_saddle": [
+            -0.005040534507681139,
+            0.0037407351897896677
+          ],
+          "gradient_norm_vacuum": 2.6613624440999867e-18,
+          "gradient_norm_saddle": 1.0127641290302439e-19,
+          "pole_ray_barrier_is_a_saddle": false,
+          "barriers": {
+            "pole_ray_barrier": 2.3519719497772806e-05,
+            "saddle_barrier": 1.3228639869010222e-05,
+            "ratio": 1.7779393596518378,
+            "V_saddle": 1.178080890335644e-05,
+            "V_false_vacuum": -1.4478309656537827e-06
+          },
+          "min_distance_with_pole_exit": 0.2734872901415568
+        },
+        "run_from_saddle_ray": {
+          "delta0": 0.0554,
+          "A": 1.0,
+          "theta_saddle": 0.4844325285708734,
+          "theta_start": 0.4844325285708733,
+          "theta_final": 0.6491085156677296,
+          "theta_star": 0.6719238081358134,
+          "rotation_done": 0.16467598709685632,
+          "rotation_left_from_saddle": 0.18749127956494005,
+          "rotation_from_pole_ray": 0.6719238081358134,
+          "fraction_of_pole_rotation_left": 0.2790365176746991,
+          "theta_max_drop": 0.0,
+          "crosses_diagonal": false,
+          "rho_barrier_on_ray_over_rho_saddle": 1.0,
+          "S_final": 0.9990001736067244,
+          "f_final": 0.9990001736065429,
+          "T0_full_over_law": 1.023027153328987,
+          "S_equals_f_pass": true,
+          "monotonia_pass": true,
+          "finished": true,
+          "stop_reason": "residuo de descarga alcanzado",
+          "steps": 3743,
+          "derived_checks_failed": [
+            "S0/T0_tilt_first_order",
+            "descent/exit_to_mass_pole_3_5"
+          ],
+          "status": "corrida de consistencia (E8), sin letra: θ_nuc en el collado es una lectura, no la forma declarada"
+        },
+        "run_from_pole_ray": {
+          "delta0": 0.0554,
+          "A": 1.0,
+          "eps_res": 0.001,
+          "theta_start": 0.0,
+          "theta_final": 0.6491908026279374,
+          "theta_star": 0.6719238081358134,
+          "distance_to_diagonal_final": 0.1362073607695109,
+          "distance_to_diagonal_vacuum": 0.11347435526163485,
+          "theta_max_drop": 0.0,
+          "crosses_diagonal": false,
+          "S_final": 0.9990000175948089,
+          "S_equals_f_pass": true,
+          "monotonia_pass": true,
+          "finished": true,
+          "stop_reason": "residuo de descarga alcanzado",
+          "steps": 5888,
+          "derived_checks_failed": [
+            "S0/T0_tilt_first_order",
+            "descent/exit_to_mass_pole_3_5"
+          ]
+        }
+      },
+      "below_A_c": {
+        "A": 0.33538648793783904,
+        "landscape": {
+          "delta0": 0.0554,
+          "A": 0.33538648793783904,
+          "t": 0.45292395163369653,
+          "A_c": 0.4192331099222988,
+          "exit_route": "polo",
+          "vacuum": {
+            "rho": 0.38083997029821354,
+            "chi": 0.1285766947172722,
+            "theta": 0.4410178442390283,
+            "distance_to_diagonal": 0.34438031915842,
+            "phi": [
+              0.34440030871789584,
+              0.1625654032436244
+            ]
+          },
+          "saddle": null,
+          "hessian_eigenvalues_vacuum": [
+            0.0011666226275276687,
+            0.03609014133157558
+          ],
+          "hessian_eigenvalues_saddle": null,
+          "gradient_norm_vacuum": 2.7105054312137608e-20,
+          "gradient_norm_saddle": null,
+          "pole_ray_barrier_is_a_saddle": true,
+          "barriers": {
+            "pole_ray_barrier": 7.005367923083841e-06,
+            "saddle_barrier": null,
+            "ratio": null,
+            "V_saddle": null,
+            "V_false_vacuum": -1.986951259705946e-06
+          },
+          "min_distance_with_pole_exit": 0.2734872901415568
+        },
+        "distance_closed_form": 0.34438031915841993,
+        "run_from_pole_ray_converged": {
+          "delta0": 0.0554,
+          "A": 0.33538648793783904,
+          "eps_res": 1e-09,
+          "theta_start": 0.0,
+          "theta_final": 0.4409754736565771,
+          "theta_star": 0.44101784353592377,
+          "distance_to_diagonal_final": 0.3444226897408712,
+          "distance_to_diagonal_vacuum": 0.3443803198615245,
+          "theta_max_drop": 0.0,
+          "crosses_diagonal": false,
+          "S_final": 0.9999999990002213,
+          "S_equals_f_pass": true,
+          "monotonia_pass": true,
+          "finished": true,
+          "stop_reason": "residuo de descarga alcanzado",
+          "steps": 51226,
+          "derived_checks_failed": [
+            "S0/T0_tilt_first_order",
+            "descent/exit_to_mass_pole_3_5"
+          ]
+        }
+      }
+    }
+  ],
+  "derived_checks_failed_seen": {
+    "S0/T0_tilt_first_order": "la corrección de la inclinación a T₀ a primer orden es la del Basal sin término angular",
+    "S0/delta0_max_closed_form": "la bisección de δ₀_max busca hasta δ₀ = 2 y junto a la diagonal el máximo es mayor",
+    "descent/exit_to_mass_pole_3_5": "exige θ final < 0.35: con el término angular el campo no se queda en el polo"
+  },
+  "summary": {
+    "interior_saddle_at_A_ref": true,
+    "pole_ray_barrier_is_a_saddle_at_A_ref": false,
+    "pole_exit_below_A_c": true,
+    "any_crossing": false,
+    "identities_pass_all": true,
+    "unexplained_failed_checks": []
+  },
+  "reading": "sin letra (E8, E13): con ½μ²χ², salir por el polo de masa y llegar junto a la diagonal se excluyen. Con A = 1 el collado más bajo ya está cerca de la diagonal y la barrera del rayo del polo es de 1.8 a 2.6 veces más alta; con A ≤ A_c la salida es por el polo y el vacío queda a 15.7° o más de la diagonal. Las cifras del 23-oct valen como descenso desde el rayo θ = 0, que es la forma declarada del reloj. Qué mitad de la Prop. 3.5 se conserva es la decisión 2 del autor"
+}
