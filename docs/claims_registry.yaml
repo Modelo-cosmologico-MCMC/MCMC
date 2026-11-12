@@ -101,7 +101,7 @@ claims:
     artifact: "—"
 
   - claim_id: residuo-falso-vacio-c4
-    entity: Residuo de desequilibrio del falso vacío dentro del dominio físico C4 — ⟨χ⟩ ≃ (ē/2m̄²)·δ₀, la mitad del valor de la Prop. 3.4, que es el mínimo sin restringir (φ_E < 0); el reloj S compara el valor que mide con el de C4 (11-nov-2026)
+    entity: Residuo de desequilibrio del falso vacío dentro del dominio físico C4 — ⟨χ⟩ ≃ (ē/2m̄²)·δ₀, la mitad del valor de la Prop. 3.4, que es el mínimo sin restringir (φ_E < 0); el reloj S compara el valor que mide con el de C4 (12-nov-2026)
     law: "Prop. 3.4 (residuo ⟨χ⟩ ≃ (ē/m̄²)·δ₀); Def. 2.1 y C4 (dominio físico: primer cuadrante del Plano Dual); Def. 3.1 (Basal con −η·χ)"
     derivation: >-
       revisión profunda del 10-nov-2026 (hallazgo 4) y PR R1 del plan de

@@ -4,7 +4,7 @@
 
 Supuestos, derivaciones completadas, calibraciones, falsadores y huecos, en una página. Cada celda se genera desde el registro canónico (`docs/claims_registry.yaml`) y la tabla de puentes del diccionario (`docs/diccionario_puentes.md`): lo que se muestra es el registro, no una narrativa. Los estatutos siguen la fe de erratas epistemológica FE-08-2026: «interno» es una comprobación interna superada (E8), nunca demostración física.
 
-Fuente: `docs/claims_registry.yaml`, sha256 `7382ce9b9a5a5cfc9df21f9bbccd3a31842a8f55e529f91ead437c1ef0114f0d`; 87 filas.
+Fuente: `docs/claims_registry.yaml`, sha256 `01aa48db28fc9375128de4f16d1a71e7f511cfff60e57f465c3be7b526b22b37`; 87 filas.
 
 ## 1. Matriz por categoría
 
