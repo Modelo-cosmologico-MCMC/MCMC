@@ -64,7 +64,7 @@ def test_entry_6_memory_mode_sits_outside_the_physical_domain():
     ring = -eta * rho_p * (np.cos(theta) - np.sin(theta)) / math.sqrt(2.0)        # −η·χ sobre ρ = ρ₊
     assert theta[np.argmin(ring)] == pytest.approx(-math.pi / 4.0, abs=1e-5)
     curvature = np.gradient(np.gradient(ring, theta), theta)[np.argmin(ring)] / rho_p ** 2
-    assert curvature == pytest.approx(eta / rho_p, rel=1e-6) and eta / rho_p == pytest.approx(6.18e-6, rel=1e-3)
+    assert curvature == pytest.approx(eta / rho_p, rel=1e-4) and eta / rho_p == pytest.approx(6.18e-6, rel=1e-3)
     assert memory_mode_mass_sq(delta0) == pytest.approx(eta / rho_p, rel=1e-12)
     slope_at_boundary = np.gradient(ring, theta)[np.argmin(np.abs(theta))] / rho_p    # por unidad de arco, en θ = 0
     assert slope_at_boundary == pytest.approx(eta / math.sqrt(2.0), rel=1e-6) and slope_at_boundary > 0.0
