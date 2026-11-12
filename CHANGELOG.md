@@ -6,6 +6,28 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — noviembre de 2026
 
+- **Positividad por reflexión del propio Camino con difusión (revisión
+  profunda del 10-nov, hallazgo 3; PR R4 del plan del 11-nov), comprobación
+  interna.** El Camino es de primer orden con difusión; el Teo. 7.1 se prueba
+  para una acción de segundo orden. El puente es la acción de
+  Onsager–Machlup: el generador de Fokker–Planck simetrizado es H_FP =
+  (Θ/G)·a†a ≥ 0, con modo cero e^(−V/2Θ), y su núcleo de transferencia es
+  semidefinido positivo. `core/reflection_positivity.py` lo comprueba en el
+  corte del polo de masa (δ_H = 0.0554, Θ entre ΔV_b/6 y ΔV_b):
+  - autovalor mínimo nulo a 1e-11 y residuo relativo del modo cero de 1e-16;
+  - el potencial de sitio es U_FP, no V₀: vale −0.348 / +0.432 / −6.243 en
+    falso vacío, barrera y vacío, y con Θ = ΔV_b/6 tiene un pozo junto a los
+    tres;
+  - la brecha es la tasa de Kramers (cociente 0.94 / 0.91 / 0.93 / 1.09) y va
+    como δ₀², no como δ₀;
+  - control negativo: con el balance detallado roto la simetrización falla.
+
+  Θ es la D_ent declarada de la nucleación, que nada fija. Vale en una
+  dimensión y no es el Teo. 7.1 ni lo sustituye: sobre qué acción se enuncia
+  es la decisión 3 del autor. El juguete escalar que ya existía no cambia.
+  Fila nueva `rp-camino-onsager-machlup` (interno) y nota en `rp-escalar`,
+  que conserva su estatuto.
+
 - **El collado de la cuarta ecuación y el umbral A_c (revisión profunda del
   10-nov, hallazgo 2; PR R2 del plan del 11-nov), comprobación interna sin
   letra.** Con el término angular ½μ²χ², salir de S₀ por el polo de masa y

@@ -166,13 +166,73 @@ claims:
   - claim_id: rp-escalar
     entity: RP escalar
     law: "Cap. 7 (Teo. 7.1)"
-    derivation: demostración en el modelo juguete implementado
+    derivation: >-
+      demostración en el modelo juguete implementado. Nota del 12-nov-2026
+      (fila rp-camino-onsager-machlup): el juguete es el de una acción de
+      segundo orden en S con V₀ como potencial de sitio, la de la ec. (7.1).
+      El Camino es de primer orden con difusión, y su positividad sale de
+      otra acción, la de Onsager–Machlup, con otro potencial de sitio y una
+      constante Θ. Las dos comprobaciones conviven en el mismo módulo; sobre
+      cuál se enuncia el Teo. 7.1 es la decisión 3 del autor.
     implementation: core/reflection_positivity.py
     test: tests/test_core_reflection.py
     observable: "—"
     dataset: "—"
     falsifier: violación de RP en el juguete
     evidence_level: juguete demostrado
+    status: interno
+    artifact: "—"
+
+  - claim_id: rp-camino-onsager-machlup
+    entity: Positividad por reflexión del propio Camino con difusión — el generador de Fokker–Planck simetrizado es ≥ 0 con modo cero e^(−V/2Θ) y su núcleo de transferencia es semidefinido positivo, por Onsager–Machlup; comprobado en el corte del polo de masa, en una dimensión y con Θ declarada (12-nov-2026)
+    law: "Def. 4.4 (Flujo del Camino con difusión, primer orden en S); Teo. 7.1 y ec. (7.1) (positividad de Florencia para una acción de segundo orden); Cor. 7.2 (reconstrucción OS); Lema 7.3 (Precedencia); Prop. 3.5 (nucleación, escape de Kramers con D_ent declarada)"
+    derivation: >-
+      revisión profunda del 10-nov-2026 (hallazgo 3) y PR R4 del plan de
+      acción del 11-nov. El Capítulo 4 define el Camino como flujo de
+      gradiente con difusión, de primer orden en S; el Teo. 7.1 se prueba
+      para una acción de segundo orden con V₀ como potencial de sitio. El
+      puente es exacto: la medida de trayectorias del Camino con difusión Θ
+      es exp(−A) con la acción de Onsager–Machlup, de coeficiente cinético
+      G/(4Θ) y potencial de sitio U_FP = |∇V|²/(4ΘG) − ∇²V/(2G). Su
+      generador de Fokker–Planck, simetrizado con e^(−V/2Θ), es H_FP =
+      (Θ/G)·a†a con a = ∇ + ∇V/(2Θ): es ≥ 0 y tiene el modo cero
+      e^(−V/2Θ). Comprobado en el corte del polo de masa con δ_H = 0.0554
+      (core/reflection_positivity.py; en malla H_FP = BᵀB con B bidiagonal,
+      que cumple el balance detallado exactamente) y Θ entre ΔV_b/6 y ΔV_b:
+      autovalor mínimo nulo a 1e-11 o mejor en unidades de δ₀²/G, residuo
+      relativo del modo cero de 1e-16, y núcleo de transferencia
+      exp(−a·H_FP) simétrico y semidefinido positivo. Tres cosas cambian
+      respecto del juguete de la fila rp-escalar. Primera, el potencial de
+      sitio no es V₀: U_FP vale −V″/2G en cada punto crítico (−0.348, +0.432
+      y −6.243 en falso vacío, barrera y vacío) y con Θ = ΔV_b/6 tiene un
+      pozo junto a cada uno, también en la cima de la barrera; con Θ ≥
+      ΔV_b/3 ese pozo se pierde. Segunda, la brecha del espectro es una
+      tasa, la de Kramers: cociente 0.94 / 0.91 / 0.93 / 1.09 para Θ =
+      ΔV_b/6, /3, /2 y /1. Con la forma integral de Kramers, que cuenta la
+      pared junto al falso vacío, la brecha coincide al 0.3 % con barrera
+      de 6Θ, también en δ₀ = 0.01, donde la fórmula gaussiana se aparta un
+      19 %. El nivel siguiente es del orden de V″ del falso vacío (0.54–0.89
+      frente a 0.70). Sin inclinación el espectro escalado no depende de
+      δ₀: brecha y niveles van como δ₀², mientras que con la acción de (7.1)
+      la brecha es una frecuencia, ∝ δ₀. Tercera, entra una constante, Θ,
+      que es la D_ent declarada de la nucleación y que nada fija. Control
+      negativo: con una fuerza no conservativa sobre un corte periódico
+      (afinidad de ciclo 1) el generador simetrizado deja de ser simétrico,
+      su espectro se hace complejo y el núcleo pierde la simetría (un 12 %).
+    implementation: core/reflection_positivity.py
+    test: tests/test_camino_onsager_machlup.py
+    observable: "— (comprobación interna; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      un autovalor negativo de H_FP o del núcleo de transferencia con
+      balance detallado, o una brecha que no siga la tasa de Kramers al
+      bajar Θ. Fuera del alcance comprobado quedan dos dimensiones (el
+      enunciado general es un teorema conocido de procesos reversibles y no
+      se rehace aquí), el ruido multiplicativo o una rigidez no constante
+      (suposición S4 de la revisión, que cambia la forma de U_FP) y los
+      acoplos en movimiento (sin estacionariedad no hay un H_FP
+      independiente de S)
+    evidence_level: comprobación interna (E8) en un corte unidimensional con Θ declarada, sin datos ni letra; no es el Teorema 7.1 ni lo sustituye, y sobre qué acción se enuncia es la decisión 3 del autor
     status: interno
     artifact: "—"
 
