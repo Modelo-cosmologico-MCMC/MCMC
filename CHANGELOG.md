@@ -6,6 +6,27 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — noviembre de 2026
 
+- **Lista de erratas para la v36 (PR R5 del plan del 11-nov), solo
+  documentación.** `docs/erratas_v36_lista_2026-11-12.md` reúne las erratas
+  del Tratado v35 que la revisión del 10 y 11-nov dejó señaladas y que no
+  requieren decisión del autor. No es una fe de erratas: la FE-08-2026 sigue
+  vigente y nada de la lista es canon hasta que el autor lo adopte.
+  - Cinco sin decisión: el residuo de la Prop. 3.4 dentro de C4, su
+    inclinación «subdominante», la hipótesis «con acoplos fijos» del Teo.
+    4.5, los dos papeles del Lema 7.3 y el balance del Ap. B.3, que no
+    conserva el total.
+  - Tres pendientes del informe del 5-nov: el Modo de Memoria (Prop. 10.2)
+    evaluado fuera de C4, las dos normalizaciones de β₃ y la frase de A.6
+    sobre w frente a la Λ_rel de A.3.
+  - Cinco fórmulas atribuidas a los tratados de 2025, con su álgebra
+    rehecha, como «pendiente de confirmar la cita»: ninguna es una errata
+    hasta entonces.
+  - Aparte, lo que espera las decisiones 1, 2 y 3 y lo que señalan otros
+    informes sin desarrollarse aquí.
+
+  `tests/test_erratas_v36.py` fija las cifras que el documento da por
+  comprobadas en el repositorio. Sin fila nueva en el registro.
+
 - **Positividad por reflexión del propio Camino con difusión (revisión
   profunda del 10-nov, hallazgo 3; PR R4 del plan del 11-nov), comprobación
   interna.** El Camino es de primer orden con difusión; el Teo. 7.1 se prueba
