@@ -62,7 +62,15 @@ O(3)/O(4) es solo control negativo. C — «el colapso» es D = 0 (Cruce de
 Victoria, Def. 8.4 / Obs. 8.6), el gatillo del estado OCUPADO;
 `inestabilidad_masa` (M0² = 0, el falso vacío que el campo ya abandonó)
 es diagnóstico. A — la T₀ del Lema 10.3 es la del paisaje completo
-(core.delta0_circle.DECISION_A). El transporte
+(core.delta0_circle.DECISION_A). LO QUE ESE EVENTO ES (revisión del
+10-nov-2026, `core.decade.outer_vacuum_energy`; comprobación interna, E8):
+el evento D = 0 del estado ocupado es un RETORNO. En la espinodal el vacío
+ocupado vale +E0/6, por encima del origen; alcanzarla exige que los acoplos
+re-tensen el estado en más de una Tensión Primordial (1.13 a 1.67·T₀ con
+las formas por defecto, `core.decade.retension_cost`), y lo que el cruce
+dispara es la vuelta del campo a ρ = 0, no un colapso hacia fuera. El modo
+'emergent' sigue registrando el cruce igual que antes (su comportamiento no
+cambia); dónde vive el Cruce de Victoria es la decisión 1 del autor. El transporte
 azimutal hasta la diagonal (Prop. 3.5) no lo produce el Basal solo: se
 publica el θ del flujo y se impone el perfil declarado para la entrega.
 Los cuantos de confirmación (V3D en 1,000 y Florencia en 1,001 tras el
@@ -1314,7 +1322,14 @@ def emergent_diagnostic(delta0: float, tau: float = 1.0, **kwargs) -> dict:
     """Modo DIAGNÓSTICO: acoplos por las β de Fokker–Planck (cierre
     canónico) con diccionario τ declarado; el reloj es S = ∫Σ̇dσ/T₀ y los
     colapsos se disparan donde D(S) cruza cero. Publica dónde caerían
-    frente a los umbrales de la Década; NO decide λ (frente 2)."""
+    frente a los umbrales de la Década; NO decide λ (frente 2).
+
+    El evento D = 0 del estado ocupado es un RETORNO (revisión del
+    10-nov-2026): en la espinodal el vacío ocupado queda en +E0/6, por
+    encima del origen, y el campo vuelve a ρ = 0 (`core.decade`:
+    `outer_vacuum_energy`, `retension_cost`, `adiabatic_B_ramp`). El modo
+    lo registra como «colapso_kD» por la decisión C del 22-sep; su lectura
+    como reinicio o como cascada es la decisión 1 del autor."""
     fp = FPClosure(tau=tau)
     out = SClock(ClockConfig(delta0=delta0, thresholds="emergent", couplings_flow=True,
                              fp=fp, **kwargs)).run()

@@ -212,7 +212,15 @@ claims:
       dan tres cruces (criterios (i) integral y (ii) de PR-6), pero sus
       cocientes, 1.4 y 1.16, quedan lejos de la Década: letra C bajo
       preinscripción congelada. λ sigue sin derivar; el sentido del flujo es
-      la decisión 1 del autor.
+      la decisión 1 del autor. Nota del 11-nov-2026 (fila
+      cruce-victoria-retorno): con un solo Potencial Basal, el cruce D = 0
+      del estado ocupado es un retorno al origen y no un colapso hacia
+      fuera, porque en la espinodal el vacío ocupado vale +E₀/6 y alcanzarla
+      cuesta más de una Tensión Primordial. Es lo esperable de los negativos
+      de esta fila (D no cruza cero con flujos hacia el infrarrojo y el
+      candidato 3 solo lo alcanza hacia el ultravioleta), sin ser una
+      demostración para esos flujos. Dónde vive el Cruce de Victoria es la
+      decisión 1 del plan del 11-nov.
     implementation: core/decade.py + core/s_clock.py
     test: tests/test_core_florencia_decade.py + tests/test_s_clock.py
     observable: "—"
@@ -221,6 +229,52 @@ claims:
     evidence_level: interna demostrada; λ=10 calibrado; diagnóstico emergente del reloj S sin cruce en el rango explorado
     status: claim-no-derivado
     artifact: results/2026-09-21_s_clock
+
+  - claim_id: cruce-victoria-retorno
+    entity: Cruce de Victoria del estado ocupado como retorno — con un solo Potencial Basal séxtico, en la espinodal D = 0 el vacío ocupado vale +E₀/6, por encima del origen; alcanzarla exige re-tensar el estado en más de una Tensión Primordial, y lo que el cruce dispara es la vuelta del campo a ρ = 0 (11-nov-2026)
+    law: "Def. 8.4 y Obs. 8.6 (discriminante, espinodal y Cruce de Victoria); Prop. 8.5 (fusión de puntos fijos del flujo radial); Teo. 4.5 (Monotonía, con acoplos fijos); Def. 3.3 y Prop. 3.4 (Tensión Primordial); Axioma 8, Lema 10.3 y Prop. 10.7 (retorno y Techo W_máx)"
+    derivation: >-
+      revisión profunda del 10-nov-2026 (hallazgo 1) y PR R3 del plan de
+      acción del 11-nov. Con r = B²/(4C₀M₀²) y E₀ = M₀³/√C₀, el vacío
+      exterior del Basal radial vale V(x₊) = −E₀·t(r), con t(r) = r^(3/2)/3
+      − √r/2 + (r − 1)^(3/2)/3 (core.decade.outer_vacuum_energy; comprobado
+      por sustitución directa con 30 dígitos). Límites: t(9/4) = c̄ =
+      0.840847 con las formas por defecto, t(4/3) = 0 y t(1) = −1/6. Tres
+      regímenes: para r > 4/3, x₊ es el vacío verdadero y hay Tensión
+      Primordial; para 1 < r < 4/3 los papeles se invierten (x₊ es el falso
+      vacío y el origen el verdadero); para r < 1 (D < 0) el único mínimo es
+      el origen. En D = 0 el vacío ocupado vale +E₀/6. Llegar ahí desde el
+      estado que dejó la salida de S₀ (r₀ = 9/4, V = −T₀) cuesta W_ret = T₀
+      + E₀′/6, siempre mayor que T₀: 1.198·T₀ si solo baja B, 1.669·T₀ si
+      solo sube M₀² y 1.132·T₀ si solo sube C₀ (core.decade.retension_cost).
+      El retorno libera después 0.198, 0.669 y 0.132·T₀. Demostración
+      dinámica (core.decade.adiabatic_B_ramp): bajando B despacio con el
+      campo en x₊, V/E₀ pasa de −0.8408 a un máximo de +0.1678 en r = 0.994
+      (+1/6 en r = 1 para una rampa infinitamente lenta) y el campo cae a ρ
+      = 0; la subida total es 1.1996·T₀. Consecuencias, sin elegir lectura:
+      un solo séxtico admite dos transiciones cuesta abajo, la salida
+      (origen → x₊, si r > 4/3) y el retorno (x₊ → origen, si r < 4/3); y la
+      Monotonía leída sobre todo el reloj no puede valer a la vez que el
+      gatillo D = 0 del estado ocupado. Ya estaba señalado que T₀ = 0 (r =
+      4/3) precede a D = 0 (nota computacional §3.40); lo nuevo es la
+      inversión de papeles, el valor +E₀/6, el coste W_ret y la dirección
+      del colapso. El reloj S no cambia: el modo emergente registra el
+      cruce como antes y su docstring dice ahora que ese evento es un
+      retorno.
+    implementation: core/decade.py + core/s_clock.py
+    test: tests/test_victoria_return.py
+    observable: "— (comprobación interna; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      un flujo de acoplos derivado que lleve el estado ocupado a D = 0 sin
+      subir su energía, o un potencial distinto en cada tramo dimensional
+      (suposición S1 de la revisión), en cuyo caso el resultado pasa a decir
+      que cada tramo necesita su propia tensión. Dónde vive el Cruce de
+      Victoria (reinicio del ciclo, gatillo con fuente declarada, un Basal
+      por tramo o cascada latente) es la decisión 1 del autor
+    evidence_level: comprobación interna (E8) con forma cerrada y verificación numérica, sin datos ni letra; vale para un único Potencial Basal y no elige la lectura de la cascada
+    status: interno
+    artifact: "—"
 
   - claim_id: beta-extra-cribado
     entity: Cribado preinscrito de candidatos a β del frente 2 en el reloj S — primer candidato, la contribución del término κΣ̇ê_E a las β vía la Def. 4.4, NO PASA los criterios (i)–(ii) bajo los cierres declarados (28-sep-2026)

@@ -6,6 +6,27 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — noviembre de 2026
 
+- **El Cruce de Victoria del estado ocupado es un retorno (revisión profunda
+  del 10-nov, hallazgo 1; PR R3 del plan del 11-nov), comprobación interna.**
+  Con un solo Potencial Basal séxtico, la espinodal D = 0 no dispara un
+  colapso hacia fuera: destruye el vacío exterior y devuelve el campo al
+  origen. `core/decade.py` lo expone con forma cerrada:
+  - `outer_vacuum_energy(r)` = −t(r), con r = B²/(4C₀M₀²) y t(r) = r^(3/2)/3
+    − √r/2 + (r − 1)^(3/2)/3. t(9/4) = c̄ = 0.840847, t(4/3) = 0 y t(1) =
+    −1/6: en D = 0 el vacío ocupado vale +E₀/6, por encima del origen;
+  - `retension_cost(r0, camino)`: llegar a D = 0 desde el estado que dejó la
+    salida de S₀ cuesta 1.198 / 1.669 / 1.132·T₀ si solo baja B, solo sube
+    M₀² o solo sube C₀. Siempre más de una Tensión Primordial;
+  - `adiabatic_B_ramp()`: bajando B despacio con el campo en el vacío
+    ocupado, V/E₀ sube de −0.8408 a +0.1678 y el campo cae a ρ = 0.
+
+  El docstring del modo emergente del reloj S dice ahora que el evento D = 0
+  del estado ocupado es un retorno. El comportamiento del reloj no cambia y
+  la decisión C del 22-sep sigue declarada tal cual. No elige dónde vive el
+  Cruce de Victoria: es la decisión 1 del autor. Fila nueva
+  `cruce-victoria-retorno` (interno) y nota en `decada-discriminante`, que
+  conserva su estatuto.
+
 - **Residuo del falso vacío dentro del dominio físico C4 (revisión profunda
   del 10-nov, hallazgo 4; PR R1 del plan del 11-nov), comprobación interna.**
   La Prop. 3.4 y `core.basal.chi_residue` dan ⟨χ⟩ ≃ (ē/m̄²)·δ₀. Ese es el
