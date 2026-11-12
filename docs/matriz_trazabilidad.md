@@ -10,6 +10,7 @@ Trazabilidad explícita del programa (propuesta del análisis v36, punto 8; el A
 | Constantes por estatuto | Ap. F | `mcmc_ontology/constants.py` | `tests/test_potential.py` | F.2-F.4 + C6 |
 | Plano Dual | Cap. 2 | `core/dual_plane.py` | `tests/test_core_foundation.py` | interna demostrada |
 | Potencial Basal, T₀ = c̄δ₀³ | Cap. 3 | `core/basal.py` | `tests/test_core_foundation.py` | interna demostrada (exponente medido) |
+| Residuo de desequilibrio del falso vacío dentro del dominio físico C4 — ⟨χ⟩ ≃ (ē/2m̄²)·δ₀, la mitad del valor de la Prop. 3.4, que es el mínimo sin restringir (φ_E < 0); el reloj S compara el valor que mide con el de C4 (11-nov-2026) | Prop. 3.4 (residuo ⟨χ⟩ ≃ (ē/m̄²)·δ₀); Def. 2.1 y C4 (dominio físico: primer cuadrante del Plano Dual); Def. 3.1 (Basal con −η·χ) | `core/basal.py` + `core/s_clock.py` | `tests/test_chi_residue_c4.py` | comprobación interna (E8) con forma cerrada y verificación numérica, sin datos ni letra; es una errata de factor 2 propuesta para la v36, no un resultado físico |
 | Monotonía y Exclusión | Cap. 4 | `core/path_flow.py` | `tests/test_core_foundation.py` | interna demostrada |
 | Cadena de Álgebras y Florencia | Caps. 5-6 | `core/florencia.py` | `tests/test_core_florencia_decade.py` | interna demostrada (firma −+++) |
 | RP escalar | Cap. 7 (Teo. 7.1) | `core/reflection_positivity.py` | `tests/test_core_reflection.py` | juguete demostrado |

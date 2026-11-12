@@ -4,6 +4,28 @@ Formato: cada versión lista lo que el repositorio AFIRMA tras ella —
 el contrato de honestidad manda («cada commit deja el repositorio en un
 estado en que afirme exactamente lo que hace»).
 
+## Sin publicar — noviembre de 2026
+
+- **Residuo del falso vacío dentro del dominio físico C4 (revisión profunda
+  del 10-nov, hallazgo 4; PR R1 del plan del 11-nov), comprobación interna.**
+  La Prop. 3.4 y `core.basal.chi_residue` dan ⟨χ⟩ ≃ (ē/m̄²)·δ₀. Ese es el
+  mínimo sin restringir, que cae en φ_E < 0. Dentro del dominio físico C4
+  (el primer cuadrante del Plano Dual) el falso vacío está sobre la frontera
+  φ_E = 0 y el residuo es la mitad, (ē/2m̄²)·δ₀:
+  - `core.basal.chi_residue_c4` da el valor de C4. `chi_residue` conserva su
+    valor, y su docstring dice ahora que es el mínimo sin restringir;
+  - la comprobación `chi_residue_3_4` del reloj S compara el falso vacío que
+    mide con el valor de C4 y la pasa: cociente 1.005 / 1.016 / 1.113 en δ₀ =
+    0.003 / 0.01 / 0.0554, con tolerancia 3·δ₀. Antes publicaba los dos
+    números juntos sin compararlos;
+  - el estado entregado lleva también `chi_residue_c4`;
+  - el mínimo sin restringir solo existe por debajo de δ₀ = 0.0514, la mitad
+    del δ₀ máximo de C4: en δ_H = 0.0554 no existe.
+
+  Ninguna cifra publicada se mueve y el comportamiento por defecto del reloj
+  no cambia. Es una errata de factor 2 propuesta para la v36, no un resultado
+  físico. Fila nueva `residuo-falso-vacio-c4` (interno).
+
 ## Sin publicar — octubre de 2026
 
 - **Todas las posibilidades del brazo de dos sentidos, con sus consecuencias
