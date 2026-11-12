@@ -137,7 +137,8 @@ def test_negative_control_broken_detailed_balance():
     c = detailed_balance_control()
     rev, brk = c["reversible"], c["broken"]
     assert rev["symmetric"] and rev["asymmetry"] < 1e-12 and rev["kernel_asymmetry"] < 1e-10
-    assert rev["max_abs_imag_eigenvalue"] == 0.0 and rev["min_real_eigenvalue"] > -1e-6 * rev["gap"]
+    # espectro real y ≥ 0 salvo redondeo (el resolvedor no simétrico puede dar partes imaginarias ínfimas)
+    assert rev["max_abs_imag_eigenvalue"] < 1e-6 * rev["gap"] and rev["min_real_eigenvalue"] > -1e-6 * rev["gap"]
     assert rev["zero_mode_residual"] < 1e-12 and abs(rev["kolmogorov_cycle_affinity"]) < 1e-10
     assert not brk["symmetric"] and brk["asymmetry"] > 1e-3 and brk["kernel_asymmetry"] > 0.05
     assert brk["max_abs_imag_eigenvalue"] > 1.0 and brk["zero_mode_residual"] > 1e-6
