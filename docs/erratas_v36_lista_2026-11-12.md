@@ -134,7 +134,7 @@ confirme la cita.**
 
 | N.º | Fórmula atribuida | La cuenta | Estatuto |
 |---|---|---|---|
-| 9 | t_rel(S) = (λ/kα)·ln cosh(S/λ) con derivada ∝ λ | d/dS = tanh(S/λ)/(kα): el factor es 1/(kα), sin λ. Con λ = 10⁻² la diferencia es un factor 100 | Pendiente de confirmar la cita |
+| 9 | Derivada de t_rel(S) = (λ/kα)·ln cosh(S/λ) con el factor λ/(kα) | d/dS = tanh(S/λ)/(kα): el factor es 1/(kα), sin λ. Con λ = 10⁻² la diferencia es un factor 100 | Pendiente de confirmar la cita |
 | 10 | Mínimos de V = −μ²Φ² + λΦ⁴ | Están en Φ = ±μ/√(2λ), con profundidad −μ⁴/(4λ) | Pendiente de confirmar la cita |
 | 11 | η = ε·exp(ε·N) con ε_CTP = 0.001/0.099 = 0.0101 | Es creciente en N: η ≥ ε_CTP para N ≥ 0. No puede dar 6·10⁻¹⁰ | Pendiente de confirmar la cita |
 | 12 | Balance de tres sectores | Las tres ecuaciones suman (η_dir − δ_dir)·ρ_m − 2κ_lat·ρ_lat: no cierra salvo η_dir = δ_dir y κ_lat = 0 | Pendiente de confirmar la cita; el Ap. B.3 es la entrada 5 |
