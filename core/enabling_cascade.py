@@ -165,6 +165,8 @@ class CascadeConfig:
     noise_floor: float = 0.0                    # suelo de ruido: |q̂_k| ≥ suelo en cada paso para las direcciones sembradas
                                                 # (0 = dinámica exacta de una semilla inicial; > 0 emula una fuente continua)
     dS_step: float = 2e-4                       # paso: h = min(d_sigma_hat del reloj, dS_step·T_total/Σ̇); resuelve los colapsos rápidos
+    amplitude_representation: str = "linear"    # 'linear': se integra q̂_k (ronda 1) | 'log': se integra ln q̂_k, que no
+                                                # se agota cuando la semilla decae por debajo de lo que el flotante representa
     max_sigma_hat: float = 400.0                # guarda del recorrido en σ̂
     v_tol: float = 1e-10                        # fin: velocidad proyectada < v_tol·T_total/ρ̂₊
     record_every: int = 5
@@ -191,6 +193,8 @@ class CascadeClock:
             raise ValueError("noise_floor ≥ 0")
         if not k.dS_step > 0.0:
             raise ValueError("dS_step > 0")
+        if k.amplitude_representation not in ("linear", "log"):
+            raise ValueError("amplitude_representation: 'linear' | 'log'")
         if not (k.gate_Delta > 0.0 and 0.0 < k.gate_theta):
             raise ValueError("compuerta: θ_g > 0 y Δ_g > 0")
         self.base = SClock(c)                               # paisaje, punto de escape y T₀ del reloj, sin tocarlo
@@ -338,6 +342,31 @@ class CascadeClock:
             v[1] = 0.0
         return v, -sum(gi * vi for gi, vi in zip(g, v))
 
+    def latent_rates(self, y) -> list[float]:
+        """r_k tal que ∂V̂/∂q̂_k = r_k·q̂_k: todo el gradiente latente es proporcional a la amplitud (V̂ es par en q̂_k), de
+        modo que d ln q̂_k/dσ̂ = −r_k/G es regular aunque q̂_k sea diminuta."""
+        a, e, q1, q2, q3 = y
+        W1, W2, W3 = self.W
+        m1 = self._gate((a * a + e * e) / self.x_plus_hat)[0]
+        m2_, d2, _ = self._gate(q1 * q1)
+        m3, d3, _ = self._gate(q2 * q2)
+        return [W1 * (m1 + q1 * q1) + W2 * q2 * q2 * d2, W2 * (m2_ + q2 * q2) + W3 * q3 * q3 * d3, W3 * (m3 + q3 * q3)]
+
+    def _velocity_log(self, s) -> tuple[list[float], float]:
+        """El mismo flujo en las variables (φ̂_M, φ̂_E, ln q̂_1, ln q̂_2, ln q̂_3): d ln q̂_k/dσ̂ = −r_k/G. Una dirección sin
+        sembrar (ln q̂ = −∞) no se mueve. Σ̇ es la misma cantidad que en la representación lineal."""
+        y = [s[0], s[1]] + [math.exp(v) if v > -math.inf else 0.0 for v in s[2:]]
+        g = self.grad_hat(y)
+        va, ve = -g[0] / self.G, -g[1] / self.G
+        if y[0] <= 0.0 and va < 0.0:
+            va = 0.0
+        if y[1] <= 0.0 and ve < 0.0:
+            ve = 0.0
+        r = self.latent_rates(y)
+        dl = [-rj / self.G if v > -math.inf else 0.0 for rj, v in zip(r, s[2:])]
+        sprod = -(g[0] * va + g[1] * ve) + sum((rj * qj) ** 2 for rj, qj in zip(r, y[2:])) / self.G
+        return [va, ve] + dl, sprod
+
     def run(self) -> dict:
         k, c = self.cfg, self.cfg.clock
         th = c.theta_nuc
@@ -360,6 +389,15 @@ class CascadeClock:
         max_steps = int(math.ceil(k.max_sigma_hat / h_max)) * 20
         underflow = []                                  # direcciones sembradas que el flotante ha llevado a 0 exacto
         h_min_used = h_max
+        log_repr = k.amplitude_representation == "log"
+        vel = self._velocity_log if log_repr else self._velocity
+        ln_floor = math.log(k.noise_floor) if k.noise_floor > 0.0 else -math.inf
+
+        def to_y(st):
+            return [st[0], st[1]] + [math.exp(v) if v > -math.inf else 0.0 for v in st[2:]] if log_repr else st
+
+        # estado integrado: las amplitudes o sus logaritmos (−∞ para una dirección sin sembrar)
+        st = ([y[0], y[1]] + [math.log(q) if q > 0.0 else -math.inf for q in y[2:]]) if log_repr else y
 
         def record(sprod):
             x = y[0] * y[0] + y[1] * y[1]
@@ -367,21 +405,22 @@ class CascadeClock:
             for kk, vv in zip(keys, vals):
                 rec[kk].append(vv)
 
-        v1, s1 = self._velocity(y)
+        v1, s1 = vel(st)
         record(s1)
         while n < max_steps and sigma < k.max_sigma_hat:
             n += 1
             # el reloj no avanza más de dS_step por paso: con Σ̇ grande (colapso rápido de un sector) el paso se acorta
             h = h_max if s1 <= 0.0 else min(h_max, k.dS_step * T_total / s1)
             h_min_used = min(h_min_used, h)
-            y2 = [yi + 0.5 * h * vi for yi, vi in zip(y, v1)]
-            v2, s2 = self._velocity(y2)
-            y3 = [yi + 0.5 * h * vi for yi, vi in zip(y, v2)]
-            v3, s3 = self._velocity(y3)
-            y4 = [yi + h * vi for yi, vi in zip(y, v3)]
-            v4, s4 = self._velocity(y4)
-            y_new = [yi + (h / 6.0) * (a1 + 2.0 * a2 + 2.0 * a3 + a4) for yi, a1, a2, a3, a4 in zip(y, v1, v2, v3, v4)]
-            y_new[0], y_new[1] = max(y_new[0], 0.0), max(y_new[1], 0.0)
+            st2 = [yi + 0.5 * h * vi for yi, vi in zip(st, v1)]
+            v2, s2 = vel(st2)
+            st3 = [yi + 0.5 * h * vi for yi, vi in zip(st, v2)]
+            v3, s3 = vel(st3)
+            st4 = [yi + h * vi for yi, vi in zip(st, v3)]
+            v4, s4 = vel(st4)
+            st_new = [yi + (h / 6.0) * (a1 + 2.0 * a2 + 2.0 * a3 + a4) for yi, a1, a2, a3, a4 in zip(st, v1, v2, v3, v4)]
+            st_new[0], st_new[1] = max(st_new[0], 0.0), max(st_new[1], 0.0)
+            y_new = to_y(st_new)
             if not all(math.isfinite(v) for v in y_new):
                 stop_reason = f"divergencia numérica en el paso {n} (se publica, no se reescala)"
                 break
@@ -392,15 +431,18 @@ class CascadeClock:
                 # fuente continua declarada: una dirección sembrada no baja del suelo; su trabajo se publica
                 touched = False
                 for j in range(N_MODES):
-                    if k.seeds[j] > 0.0 and abs(y_new[2 + j]) < k.noise_floor:
-                        y_new[2 + j] = k.noise_floor
+                    if k.seeds[j] > 0.0 and (st_new[2 + j] < ln_floor if log_repr else abs(y_new[2 + j]) < k.noise_floor):
+                        st_new[2 + j] = ln_floor if log_repr else k.noise_floor
                         touched = True
                 if touched:
+                    y_new = to_y(st_new)
                     V_floor = self.V_hat(y_new)
                     W_floor += V_floor - V_new
                     V_new = V_floor
             for j in range(N_MODES):
-                if k.seeds[j] > 0.0 and y_new[2 + j] == 0.0 and (j + 1) not in underflow:
+                # en la representación lineal el flotante puede llevar la amplitud a 0 exacto (criterio de la ronda 1; un
+                # subnormal que ya no crece no llega a 0 y se ve en que la corrida no termina)
+                if not log_repr and k.seeds[j] > 0.0 and y_new[2 + j] == 0.0 and (j + 1) not in underflow:
                     underflow.append(j + 1)
             f_new = (V_start - V_new) / T_total
             min_sprod = min(min_sprod, s1, s2, s3, s4)
@@ -427,12 +469,13 @@ class CascadeClock:
                           "sigma_hat": sigma + w * h, "status": "derivado (Y_k = ½: media habilitación)"}
                     halves[j + 1] = ev
                     events.append(ev)
-            y, S_int, f_val, V_prev, sigma = y_new, S_new, f_new, V_new, sigma + h
+            y, st, S_int, f_val, V_prev, sigma = y_new, st_new, S_new, f_new, V_new, sigma + h
             kap, lam_min, Yk = kap_new, lam_new, Y_new
-            v1, s1 = self._velocity(y)
-            vnorm = math.sqrt(sum(vi * vi for vi in v1))
+            v1, s1 = vel(st)
+            # la velocidad del criterio de parada es la del espacio de estados (φ̂, q̂) en las dos representaciones
+            vnorm = math.sqrt(sum(vi * vi for vi in (self._velocity(y)[0] if log_repr else v1)))
             # una dirección sembrada y todavía inestable no ha terminado aunque su velocidad sea diminuta
-            pending = any(y[2 + j] != 0.0 and kap[j] <= 0.0 for j in range(N_MODES))
+            pending = any((k.seeds[j] > 0.0 if log_repr else y[2 + j] != 0.0) and kap[j] <= 0.0 for j in range(N_MODES))
             finished = vnorm < k.v_tol * v_scale and not pending
             if n % k.record_every == 0 or finished:
                 record(s1)
@@ -510,6 +553,7 @@ class CascadeClock:
             "n_triggers": len(triggers), "n_collapses": len(collapses),
             "checks": checks, "steps": n, "finished": bool(finished), "stop_reason": stop_reason,
             "h_max": h_max, "h_min_used": h_min_used, "underflow_modes": underflow,
+            "amplitude_representation": k.amplitude_representation,
             "sigma_hat_final": sigma, "S_final": S_int, "f_final": f_val})
 
 

@@ -184,6 +184,80 @@ def test_equal_weights_give_three_collapses_and_fail_the_letter_rule():
     assert L["letter"] == "C" and L["ratios"] == pytest.approx([2.06, 1.50], abs=0.01)   # la regla no da A por construcción
 
 
+def test_log_representation_matches_the_linear_one_on_the_toy(toy):
+    r = run_cascade(0.01, clock_kwargs=RADIAL, amplitude_representation="log")
+    assert r["amplitude_representation"] == "log" and toy["amplitude_representation"] == "linear"
+    assert r["finished"] and r["n_collapses"] == 3 and r["S_triggers"] == pytest.approx(toy["S_triggers"], abs=1e-6)
+    assert [c["sigma_hat"] for c in r["collapses"]] == pytest.approx([c["sigma_hat"] for c in toy["collapses"]], abs=1e-4)
+    ck = r["checks"]
+    assert ck["monotonia_4_5"]["pass"] and ck["S_equals_f_identity"]["pass"] and ck["estado_final"]["stable"]
+    assert r["f_final"] == pytest.approx(1.0, abs=1e-12) and r["underflow_modes"] == []
+
+
+def test_latent_gradient_is_proportional_to_the_amplitude():
+    cc = CascadeClock(CascadeConfig(clock=ClockConfig(delta0=0.0554)))
+    rng = np.random.default_rng(7)
+    for _ in range(50):
+        y = [rng.uniform(0.2, 1.8), rng.uniform(0.0, 0.8)] + list(rng.uniform(1e-3, 1.2, 3))
+        g, r = cc.grad_hat(y), cc.latent_rates(y)
+        assert [rj * qj for rj, qj in zip(r, y[2:])] == pytest.approx(g[2:], rel=1e-12, abs=1e-12)
+
+
+def test_log_velocity_is_the_linear_velocity_divided_by_the_amplitude():
+    """Equivalencia de las ecuaciones (condición del autor para la ronda 2): d ln q̂_k/dσ̂ = (dq̂_k/dσ̂)/q̂_k, con el mismo
+    flujo en el Plano Dual y la misma producción entrópica."""
+    import math
+    for d0, clock in ((0.01, RADIAL), (0.0554, {})):
+        cc = CascadeClock(CascadeConfig(clock=ClockConfig(delta0=d0, **clock)))
+        rng = np.random.default_rng(11)
+        for _ in range(60):
+            y = [rng.uniform(0.2, 1.8), rng.uniform(0.0, 0.8)] + list(10.0 ** rng.uniform(-12, 0.1, 3))
+            v_lin, s_lin = cc._velocity(y)
+            v_log, s_log = cc._velocity_log([y[0], y[1]] + [math.log(q) for q in y[2:]])
+            assert v_log[:2] == pytest.approx(v_lin[:2], rel=1e-13, abs=1e-15)
+            assert [vl * q for vl, q in zip(v_log[2:], y[2:])] == pytest.approx(v_lin[2:], rel=1e-12, abs=1e-300)
+            assert s_log == pytest.approx(s_lin, rel=1e-12, abs=1e-300)
+
+
+def test_log_representation_keeps_null_states_null():
+    """Conservación de los estados físicamente nulos: una dirección sin sembrar (ln q̂ = −∞) sigue en cero exacto, y sin
+    q_1 las direcciones superiores no se abren aunque estén sembradas."""
+    r = run_cascade(0.01, clock_kwargs=RADIAL, amplitude_representation="log", seeds=(0.0, 0.0, 0.0))
+    assert r["checks"]["sellos_como_asentamientos"]["Y_final"] == [0.0, 0.0, 0.0]
+    assert [e["kind"] for e in r["events"]] == ["gatillo_1"] and r["n_collapses"] == 0 and r["finished"]
+    assert r["f_final"] == pytest.approx(r["T0_basal_hat"] / r["T_total_hat"], rel=1e-9)
+    broken = run_cascade(0.01, clock_kwargs=RADIAL, amplitude_representation="log", seeds=(0.0, 1e-6, 1e-6))
+    assert broken["checks"]["sellos_como_asentamientos"]["Y_final"][0] == 0.0 and broken["n_collapses"] == 0
+    assert [e["kind"] for e in broken["events"]] == ["gatillo_1"] and broken["finished"]
+    lin = run_cascade(0.01, clock_kwargs=RADIAL, seeds=(0.0, 1e-6, 1e-6))
+    assert broken["f_final"] == pytest.approx(lin["f_final"], rel=1e-9)
+
+
+def test_log_representation_converges_under_step_halving():
+    """Convergencia numérica: con el paso a la mitad (el del reloj y el límite en S) los tres gatillos no se mueven."""
+    kw = {"amplitude_representation": "log", "max_sigma_hat": 3.4}
+    a = run_cascade(0.01, clock_kwargs=RADIAL, **kw)
+    b = run_cascade(0.01, clock_kwargs={**RADIAL, "d_sigma_hat": 2.5e-4}, dS_step=1e-4, **kw)
+    Sa, Sb = [_events(a)[f"gatillo_{k}"]["S"] for k in (1, 2, 3)], [_events(b)[f"gatillo_{k}"]["S"] for k in (1, 2, 3)]
+    assert max(abs(x - y) / y for x, y in zip(Sa, Sb)) < 1e-5              # la puerta congelada pide 1e-4
+
+
+def test_log_representation_carries_a_seed_the_float_cannot():
+    """El modo de fallo de la ronda 1, en un juguete sin inclinación: con el sector de q_2 tan pesado como en δ₀ = 0.0554
+    (W_2 = 439) y una semilla que decae por debajo de 4.9e-324 con la compuerta cerrada, la representación lineal se queda
+    en un subnormal que no crece y la dirección no se habilita; la logarítmica la abre."""
+    kw = {"clock_kwargs": RADIAL, "shares": (0.009, 0.09, 1.174, 0.001), "seeds": (1e-6, 1e-60, 1e-6), "max_sigma_hat": 6.0}
+    lin, log = run_cascade(0.01, **kw), run_cascade(0.01, amplitude_representation="log", **kw)
+    assert lin["W"][1] == pytest.approx(438.7, abs=0.5)
+    assert [e["kind"] for e in lin["events"]] == ["gatillo_1", "habilitacion_1", "gatillo_2"]     # q_2 no se habilita
+    assert lin["checks"]["estado_final"]["reduced_hessian_min_eigenvalue"] < 0.0                  # y queda inestable
+    kinds = [e["kind"] for e in log["events"]]
+    assert kinds[:5] == ["gatillo_1", "habilitacion_1", "gatillo_2", "habilitacion_2", "gatillo_3"]
+    assert _events(log)["gatillo_2"]["S"] == pytest.approx(_events(lin)["gatillo_2"]["S"], abs=1e-6)
+    with pytest.raises(ValueError):
+        CascadeClock(CascadeConfig(amplitude_representation="cuadrática"))
+
+
 def test_letter_rule():
     assert cascade_letter([0.009, 0.099, 0.999], RULES)["letter"] == "A"
     assert cascade_letter([0.01, 0.1, 0.5], RULES)["letter"] == "B"
