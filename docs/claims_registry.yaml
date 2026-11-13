@@ -336,6 +336,90 @@ claims:
     status: interno
     artifact: "—"
 
+  - claim_id: cascada-habilitacion-latente
+    entity: Cascada de habilitación con direcciones latentes — cribado preinscrito en el reloj S completo (decisiones 4, 5 y 7 del autor), en dos rondas; ronda 1 INDETERMINADO por el instrumento (el flotante agotaba la semilla de q_2); ronda 2, con las amplitudes en logaritmo y no ciega, A en los tres δ₀ con cocientes 11.2–11.3 y 10.1 (13-nov-2026)
+    law: "Prop. 8.1 (Ley de la Década, λ = 10 calibrado); Def. 8.4 y Obs. 8.6 (gatillo de cada colapso); Teo. 4.5 (Monotonía, con acoplos fijos); Def. 3.3 y Prop. 3.4 (Tensión Primordial); Cap. 6 (Cadena de Álgebras); decisiones 4, 5 y 7 del autor del 13-nov-2026 (docs/decisiones_autor_2026-11-13.md)"
+    derivation: >-
+      R6 del plan del 11-nov, abierto por las decisiones del autor del
+      13-nov (latente primero; los q_k como parámetros de orden de modos de
+      estructuración emergente de la Unidad Dual, descripción efectiva y no
+      demostración de emergencia dimensional; pesos por una ley de escala de
+      un número λ). Al Basal completo del reloj se le añaden tres amplitudes
+      q_1, q_2, q_3 con sectores cuárticos y una compuerta m_k² =
+      −tanh((Y_{k−1} − θ_g)/Δ_g) que abre cada dirección cuando el tramo
+      anterior ha avanzado θ_g = 0.9 (core/enabling_cascade.py). Con λ = 10
+      los pesos son 0.9 %, 9 %, 90 % y 0.1 % de la tensión nominal, respecto
+      de la Tensión Primordial medida. Un solo potencial y acoplos fijos, de
+      modo que la Monotonía se comprueba paso a paso. S ≡ f cuenta la
+      tensión total del potencial ampliado. El evento es la pérdida de
+      estabilidad del hessiano reducido en la dirección q_k (gatillo),
+      seguida de su habilitación. Antes de congelar, el instrumento
+      reprodujo el juguete radial de la revisión del 11-nov (gatillos
+      0.008643 / 0.097822 / 0.990063, tensión total 93.20 frente a 93.43,
+      retraso por semilla 1.29 / 1.51 / 1.72, sin semilla f = 0.0090) y, sin
+      semilla, el descenso del reloj por defecto a 1e-13. Hallazgo sobre
+      ese oráculo, su tercer gatillo (σ̂ = 1.675) dependía de un suelo
+      numérico de su integrador; con la dinámica exacta cae en σ̂ = 3.18 y en
+      S el umbral es el mismo. Preinscripción congelada (sha256
+      9040df79900a…) en un commit posterior al generador y antes de ninguna
+      corrida con inclinación y semilla. Regla, A si los dos cocientes de
+      gatillos caen en [7, 14], B si uno, C si ninguno o menos de tres
+      colapsos, INDETERMINADO por puertas o controles; letra por δ₀ y global
+      la peor. RONDA 1, letra global INDETERMINADO. En δ₀ = 0.003, A, con
+      gatillos en S = 0.008662 / 0.097837 / 0.990064, cocientes 11.295 y
+      10.120, mayor ΔV/T_total = 1e-15 y las siete puertas y los siete
+      controles superados (sin semilla, sin compuerta y con la jerarquía
+      rota no hay cascada; con pesos iguales la regla da C). En δ₀ = 0.01,
+      INDETERMINADO por el control de la semilla 1e-9; el brazo base da
+      0.008675 / 0.097847 / 0.990064 (11.279 y 10.118). En δ₀ = 0.0554,
+      INDETERMINADO porque el brazo base no termina. La causa es del
+      instrumento. Con la inclinación la Tensión Primordial medida sube un
+      7 %, un 13 % y un 30 %, los pesos crecen (W_2 = 361, 381 y 439 frente a
+      336 en el juguete) y, mientras su compuerta está cerrada, la semilla
+      de q_2 decae por debajo de 4.9e-324, el menor número que el flotante
+      representa; queda en un subnormal que ya no crece. El segundo gatillo
+      sí se dispara en esas celdas. Lectura a posteriori, sin letra, con un
+      suelo de ruido de 1e-18 (fuente continua en lugar de semilla inicial)
+      la cascada se completa en los tres δ₀ con cocientes 11.24–11.30 y
+      10.12. Sensibilidad sin letra, los cocientes siguen a λ (8.2 y 7.1 con
+      λ = 7; 15.4 y 14.1 con λ = 14), de modo que la A solo sale para λ entre
+      7 y 13. La Década entra por λ y no sale de la dinámica.
+      RONDA 2, abierta por el autor el 13-nov
+      (docs/decision_autor_2026-11-13_r6_ronda2.md) con una única
+      modificación admitida, integrar y_k = ln q_k. Como todo el
+      gradiente latente es proporcional a la amplitud, d ln q_k/dσ =
+      −r_k/G es regular y la semilla no se agota. Antes de ejecutar se
+      verificaron, con juguetes sin inclinación, la equivalencia de las
+      ecuaciones (velocidades a 1e-12, gatillos a 1e-6), la conservación
+      de los estados nulos (una dirección sin sembrar sigue en cero
+      exacto) y la convergencia (gatillos a 1e-5 con el paso a la
+      mitad). Preinscripción nueva (sha256 629cf13a25d6…) con las
+      reglas, las puertas, los controles, los brazos y la rejilla de la
+      ronda 1 sin tocar; declara que no es ciega y lleva escritas las
+      cifras ya conocidas. Letra global A. En δ₀ = 0.003, 0.01 y 0.0554
+      hay tres colapsos completos y en orden, con gatillos en S =
+      0.008662 / 0.097837 / 0.990064, 0.008675 / 0.097847 / 0.990064 y
+      0.008706 / 0.097871 / 0.990064, y cocientes 11.295 y 10.120,
+      11.279 y 10.118, 11.242 y 10.116. Las siete puertas y los siete
+      controles se superan en los tres (mayor ΔV/T_total = 1e-15; con el
+      paso a la mitad los gatillos cambian menos de 2e-6; con semilla
+      1e-3 y 1e-9, menos de 3e-4; sin semilla, sin compuerta y con la
+      jerarquía rota no hay cascada; con pesos iguales la regla da C).
+      Las 55 celdas terminan, también las de la compuerta que en la
+      ronda 1 quedaban detenidas (con θ_g = 0.95, cocientes 10.98 y
+      10.15). Los gatillos caen un 3–4 %, un 1.2 % y un 0.9 % por debajo
+      de 0.009, 0.099 y 0.999. La ronda 2 no es una confirmación
+      independiente, porque sus cocientes ya se conocían, y la A no dice
+      nada sobre λ, que entra a mano.
+    implementation: core/enabling_cascade.py + scripts/run_enabling_cascade.py + core/s_clock.py
+    test: tests/test_enabling_cascade.py + tests/test_enabling_cascade_lock.py
+    observable: "— (recorrido interno del reloj; ningún observable)"
+    dataset: "—"
+    falsifier: "con una representación que no agote la semilla, menos de tres colapsos completos, un orden distinto de V1D, V2D, V3D, un cociente de gatillos fuera de [7, 14] con λ = 10, una subida de V mayor que el redondeo, o una cascada sin semilla o sin compuerta. Ninguna letra puede decidir λ, que entra a mano (la coincidencia con la Ley de la Década es una hipótesis pendiente de derivación, decisión 7), ni que un parámetro de orden q_k sea una dimensión espacial (decisión 5). La compuerta es un acople postulado con dos números elegidos"
+    evidence_level: comprobación interna (E8) en dos rondas bajo preinscripción congelada; ronda 1 INDETERMINADO por el instrumento (el flotante agotaba la semilla de q_2); ronda 2, la misma regla con las amplitudes en logaritmo, A en los tres δ₀, no ciega y sin valor de confirmación independiente; λ calibrado, no derivado; no es una derivación de la Década ni de la emergencia dimensional
+    status: interno
+    artifact: results/2026-11-13_enabling_cascade + results/2026-11-13_enabling_cascade_round2
+
   - claim_id: beta-extra-cribado
     entity: Cribado preinscrito de candidatos a β del frente 2 en el reloj S — primer candidato, la contribución del término κΣ̇ê_E a las β vía la Def. 4.4, NO PASA los criterios (i)–(ii) bajo los cierres declarados (28-sep-2026)
     law: "Def. 4.4 (jerarquía de Fokker–Planck, deriva más difusión); Def. 8.4 y Prop. 8.1 (discriminante D = B² − 4C₀M₀², Ley de la Década); §14.2 (frente 2)"

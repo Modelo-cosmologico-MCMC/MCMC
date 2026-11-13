@@ -6,6 +6,53 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — noviembre de 2026
 
+- **Cascada de habilitación con direcciones latentes (R6 del plan del 11-nov;
+  decisiones 4, 5 y 7 del autor del 13-nov): ronda 1 INDETERMINADO por el
+  instrumento; ronda 2, con las amplitudes en logaritmo y no ciega, A en los
+  tres δ₀.** `docs/decisiones_autor_2026-11-13.md` recoge literalmente las
+  decisiones 4, 5, 7 y 8. `core/enabling_cascade.py` añade al Basal completo
+  del reloj tres amplitudes q_k (parámetros de orden de modos de
+  estructuración emergente; descripción efectiva, no demostración de
+  emergencia dimensional) con sectores cuárticos, una compuerta que abre cada
+  dirección cuando el tramo anterior ha avanzado θ_g = 0.9, y pesos por la ley
+  de escala de un número (con λ = 10: 0.9 %, 9 %, 90 % y 0.1 %). Un solo
+  potencial y acoplos fijos: la Monotonía se comprueba paso a paso.
+  `core.s_clock.cascade_clock` es el atajo; el reloj por defecto no cambia y,
+  sin semilla, el modo reproduce su descenso a 1e-13. El instrumento reproduce
+  el juguete de la revisión del 11-nov (gatillos 0.008643 / 0.097822 /
+  0.990063, tensión total 93.20, retraso por semilla 1.29 / 1.51 / 1.72). Dos
+  precisiones sobre ese oráculo: su tercer gatillo (σ̂ = 1.675) dependía de un
+  suelo numérico de su integrador (con la dinámica exacta cae en σ̂ = 3.18, y
+  en S el umbral es el mismo), y sus 0.9916 y 0.7924 están leídos una muestra
+  tarde (convergidos, 0.99006 y 0.7737). Cribado bajo preinscripción congelada
+  (`results/2026-11-13_enabling_cascade`, sha256 9040df79900a…): A si los dos
+  cocientes de gatillos caen en [7, 14], con siete puertas y siete controles.
+  **Letra global: INDETERMINADO.** En δ₀ = 0.003, A (cocientes 11.295 y
+  10.120; todas las puertas y controles superados). En δ₀ = 0.01 falla el
+  control de la semilla 1e-9 y en δ₀ = 0.0554 el brazo base no termina. La
+  causa es del instrumento: con la inclinación los pesos crecen (W_2 = 361,
+  381 y 439 frente a 336 en el juguete) y la semilla de q_2 decae por debajo
+  de 4.9e-324, el menor número que el flotante representa, mientras su
+  compuerta está cerrada. Lectura a posteriori, sin letra
+  (`lectura_a_posteriori.md`): con una fuente continua (suelo de 1e-18) la
+  cascada se completa en los tres δ₀ con cocientes 11.24–11.30 y 10.12; y los
+  cocientes siguen a λ (la A solo sale para λ entre 7 y 13). **Ronda 2**,
+  abierta por el autor el mismo día
+  (`docs/decision_autor_2026-11-13_r6_ronda2.md`) con una única modificación
+  admitida: integrar y_k = ln q_k, que no agota la semilla
+  (`amplitude_representation="log"`; la ruta lineal no cambia). Antes de
+  ejecutar se verificaron con juguetes sin inclinación la equivalencia de las
+  ecuaciones, la conservación de los estados nulos y la convergencia.
+  Preinscripción nueva (`results/2026-11-13_enabling_cascade_round2`, sha256
+  629cf13a25d6…) con las reglas, los controles y los brazos de la ronda 1 sin
+  tocar. **Letra global: A.** Tres colapsos completos y en orden en los tres
+  δ₀, con cocientes 11.295 y 10.120, 11.279 y 10.118, 11.242 y 10.116; las
+  siete puertas y los siete controles superados; las 55 celdas terminan. No es
+  ciega (sus cocientes ya se conocían por la ronda 1) y no vale como
+  confirmación independiente. Fila nueva `cascada-habilitacion-latente`
+  (interno). No afirma que λ = 10 esté derivado ni que q_k sea una dimensión
+  espacial.
+
 - **Lista de erratas para la v36 (PR R5 del plan del 11-nov), solo
   documentación.** `docs/erratas_v36_lista_2026-11-12.md` reúne las erratas
   del Tratado v35 que la revisión del 10 y 11-nov dejó señaladas y que no

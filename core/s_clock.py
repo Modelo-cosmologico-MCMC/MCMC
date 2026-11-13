@@ -76,6 +76,14 @@ publica el θ del flujo y se impone el perfil declarado para la entrega.
 Los cuantos de confirmación (V3D en 1,000 y Florencia en 1,001 tras el
 residuo de descarga ε_res, F.3) se declaran, no se producen.
 
+MODO OPCIONAL «CASCADA DE HABILITACIÓN» (R6, decisiones 4, 5 y 7 del autor
+del 13-nov-2026; `core.enabling_cascade`, atajo `cascade_clock`): los
+colapsos no se imponen ni se leen en D = 0; los produce la pérdida de
+estabilidad de tres direcciones latentes con pesos fijados por una ley
+de escala de un número. Un solo potencial y acoplos fijos: la Monotonía
+queda activa. Vive en su módulo y no cambia nada de este; con las
+semillas a cero reproduce este descenso paso a paso.
+
 Estatuto: comprobación interna (E8) — cada comprobación lleva su
 etiqueta «derivado / impuesto / declarado / publicado». El interruptor
 'emergent' solo tendrá estatuto cuando el frente 2 entregue τ(S).
@@ -1316,6 +1324,18 @@ def run_clock(delta0: float = 0.01, **kwargs) -> dict:
     """Atajo: un recorrido completo con la configuración por defecto
     (modo 'imposed', acoplos congelados) y δ₀ dado."""
     return SClock(ClockConfig(delta0=delta0, **kwargs)).run()
+
+
+def cascade_clock(delta0: float = 0.01, **kwargs) -> dict:
+    """Modo opcional «cascada de habilitación» (R6): el reloj con tres
+    direcciones latentes cuyo evento de colapso es la pérdida de
+    estabilidad del hessiano (`core.enabling_cascade.run_cascade`).
+    Comprobación interna (E8); no deriva λ ni la emergencia dimensional.
+    El modo por defecto de este módulo no cambia."""
+    # import diferido: ese módulo importa este
+    from .enabling_cascade import run_cascade
+
+    return run_cascade(delta0, **kwargs)
 
 
 def emergent_diagnostic(delta0: float, tau: float = 1.0, **kwargs) -> dict:

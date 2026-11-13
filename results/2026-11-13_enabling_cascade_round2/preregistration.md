@@ -1,0 +1,163 @@
+# Preinscripción — Cribado de la cascada de habilitación: tres direcciones latentes con pesos por una ley de escala de un número, en el reloj S completo — ronda 2 (amplitudes en logaritmo)
+
+Congelada 2026-11-13T12:01:38.406520+00:00 en el commit `6bcf25443` (contiene el generador), ANTES de ninguna corrida con letra. sha256 de `preregistration.json`: `629cf13a25d66f6187361e992d7e7f8d14a6a7742cfdd6da24023902610d5a24`.
+
+**Pregunta**: Con el Basal del reloj y tres direcciones latentes cuyos pesos salen de la ley de escala con λ = 10, ¿hay tres colapsos completos, en orden, con los dos cocientes de umbrales en [7, 14], y se cumplen la Monotonía y los controles?
+
+## Decisiones del autor (13-nov-2026)
+
+Acta: `docs/decisiones_autor_2026-11-13.md` (sha256 `f947e1aa4fd565abf0c50f246cc2d8fee4f1940dc58505b84aa19353f1e234be`).
+
+- **Decisión 4**: «Latente primero».
+- **Decisión 5**: «Los tres q_k no representan tres nuevas esencias fundamentales independientes. Los interpreto como parámetros de orden asociados a modos de estructuración emergente de la Unidad Dual. […] El modelo R6 puede utilizar tres amplitudes q_k como descripción efectiva de estas transiciones, pero su interpretación como modos emergentes deberá justificarse mediante una dinámica común derivada de la Unidad Dual. Su mera introducción no constituye una demostración de emergencia dimensional.»
+- **Decisión 7**: «Adopto provisionalmente una progresión geométrica de razón λ para los pesos del Basal, q_1 y q_2, con un peso residual para q_3, de forma que los cuatro permanezcan normalizados. Para λ = 10, la distribución propuesta es 0,9 %, 9 %, 90 % y 0,1 %, respectivamente. […] El resultado deberá contrastarse mediante simulaciones del sistema completo, pruebas de estabilidad y controles negativos.»
+
+## Declarado
+
+- **delta0_grid**: [0.003, 0.01, 0.0554]
+- **clock**: reloj por defecto (core/s_clock.py): rayo θ_nuc = 0, punto de escape, acoplos fijos, con la inclinación (ē = 1), G = 1, d_sigma_hat = 5e-4
+- **model**: V̂ = V̂0 + Σ_k W_k·[½·m_k²·q̂_k² + ¼·q̂_k⁴], m_k² = −tanh((Y_{k−1} − θ_g)/Δ_g), Y_0 = ρ̂²/ρ̂₊², Y_k = q̂_k² (core/enabling_cascade.py); flujo de gradiente puro en las cinco variables con la rigidez G del reloj
+- **base**: {'lam_scale': 10.0, 'gate_theta': 0.9, 'gate_Delta': 0.05, 'seeds': [1e-06, 1e-06, 1e-06], 'dS_step': 0.0002, 'noise_floor': 0.0, 'tension_reference': 'measured', 'gated': True, 'amplitude_representation': 'log'}
+- **base_clock**: {'d_sigma_hat': 0.0005}
+- **scale_law**: fracciones (λ−1)/λ³, (λ−1)/λ², (λ−1)/λ, 1/λ³ de la tensión nominal; con λ = 10: [0.009, 0.09, 0.9, 0.001]; W_k = 4·(profundidad nominal), respecto de la T₀ MEDIDA
+- **lambda**: λ = 10 del canon (mcmc_ontology.constants.LAMBDA_DECADE): CALIBRADO, no derivado
+- **S**: S ≡ f = (V_inicial − V)/T_total, con T_total del potencial ampliado (mínimo en el dominio físico)
+- **events**: gatillo_k: el autovalor del hessiano reducido (dirección radial del Plano Dual y direcciones latentes) asociado a q_k pasa de positivo a no positivo; habilitacion_k: Y_k cruza ½; colapso_kD: los dos, con el S del gatillo
+- **integrator**: RK4 con paso h = min(d_sigma_hat, dS_step·T_total/Σ̇), proyectado sobre φ̂ ≥ 0 como el reloj; las amplitudes latentes se integran en logaritmo
+- **letter_arms**: ['base']
+- **gate_arms**: ['convergencia']
+- **control_arms**: ['sin_semilla', 'semilla_1e-3', 'semilla_1e-9', 'suelo_1e-18', 'sin_compuerta', 'jerarquia_rota', 'pesos_iguales']
+- **sensitivity_arms**: ['lambda_5', 'lambda_7', 'lambda_14', 'lambda_20', 'referencia_ley', 'theta_0.8', 'theta_0.95', 'Delta_0.02', 'Delta_0.1']
+- **reference_without_letter**: juguete radial del oráculo: δ₀ = 0.01 con ē = 0 (cifras ya públicas en la revisión del 11-nov)
+
+### Brazos
+
+| Brazo | Cambia en el modelo | Cambia en el reloj |
+|---|---|---|
+| base | — | — |
+| convergencia | {"dS_step": 0.0001} | {"d_sigma_hat": 0.00025} |
+| semilla_1e-3 | {"seeds": [0.001, 0.001, 0.001]} | — |
+| semilla_1e-9 | {"seeds": [1e-09, 1e-09, 1e-09]} | — |
+| sin_semilla | {"seeds": [0.0, 0.0, 0.0]} | — |
+| suelo_1e-18 | {"noise_floor": 1e-18} | — |
+| sin_compuerta | {"gated": false} | — |
+| jerarquia_rota | {"seeds": [0.0, 1e-06, 1e-06]} | — |
+| pesos_iguales | {"shares": [1.0, 1.0, 1.0, 1.0]} | — |
+| lambda_5 | {"lam_scale": 5.0, "noise_floor": 1e-18} | — |
+| lambda_7 | {"lam_scale": 7.0, "noise_floor": 1e-18} | — |
+| lambda_14 | {"lam_scale": 14.0, "noise_floor": 1e-18} | — |
+| lambda_20 | {"lam_scale": 20.0, "noise_floor": 1e-18} | — |
+| referencia_ley | {"tension_reference": "law"} | — |
+| theta_0.8 | {"gate_theta": 0.8} | — |
+| theta_0.95 | {"gate_theta": 0.95} | — |
+| Delta_0.02 | {"gate_Delta": 0.02} | — |
+| Delta_0.1 | {"gate_Delta": 0.1} | — |
+
+## Reglas (congeladas)
+
+- **evaluated_on**: los S de los gatillos de los tres colapsos completos (gatillo y habilitación) del brazo base, por δ₀
+- **A_interval**: [7.0, 14.0]
+- **n_collapses_required**: 3
+- **letters**:
+    - A: los dos cocientes S_{k+1}/S_k en [7, 14]
+    - B: uno de los dos en [7, 14]
+    - C: ninguno en [7, 14], o menos de tres colapsos completos
+    - INDETERMINADO: alguna puerta numérica o algún control obligatorio falla
+- **order**: puertas → controles → C → B → A
+- **per_cell**: letra por δ₀; la global es la peor con el orden A < B < INDETERMINADO < C
+- **gates**:
+    - finished: el descenso del brazo base termina (velocidad proyectada ≈ 0, ninguna dirección sembrada inestable), sin divergencia y sin subdesbordamiento de una dirección sembrada
+    - monotonia_max_dV_over_T_total: 1e-12
+    - identity_max_abs_diff: 1e-06
+    - trigger_is_min_eigenvalue: en cada colapso el autovalor que cruza cero es el mínimo del hessiano reducido
+    - hierarchy: los colapsos salen en el orden V1D, V2D, V3D
+    - final_state: hessiano reducido definido positivo al final y |V_final − V_mín| ≤ final_V_tol·T_total
+    - final_V_tol: 1e-09
+    - convergence_rel: 0.0001
+    - convergence: con el paso a la mitad (d_sigma_hat y dS_step) hay el mismo número de colapsos y cada S de gatillo cambia ≤ convergence_rel en valor relativo
+- **controls**:
+    - sin_semilla: con las tres semillas a cero no hay ningún colapso completo y f final coincide con la parte del Basal, T₀/T_total, a no_seed_rel
+    - no_seed_rel: 1e-06
+    - semilla: con semilla 1e-3 y 1e-9 hay los mismos colapsos y cada S de gatillo cambia ≤ seed_rel respecto de 1e-6
+    - seed_rel: 0.001
+    - suelo: con un suelo de ruido de 1e-18 (fuente continua en lugar de semilla inicial) cada S de gatillo cambia ≤ seed_rel
+    - sin_compuerta: sin compuerta (m_k² ≡ +1) no hay ningún gatillo ni colapso
+    - jerarquia_rota: con q_1 sin sembrar y q_2, q_3 sembradas no hay ningún colapso completo
+    - pesos_iguales: con el reparto 1:1:1:1 la regla de letras da C (la A no sale por construcción)
+- **sensitivity_without_letter**: barrido de λ (5, 7, 14, 20; con el suelo de 1e-18 para que el flotante no apague q_2), referencia de los pesos c̄·δ₀³ en lugar de la T₀ medida, y compuerta (θ_g = 0.8 y 0.95; Δ_g = 0.02 y 0.1): se publican con la lectura de la regla, sin letra
+- **published_without_letter**:
+    - desviación de cada gatillo respecto de 0.009 / 0.099 / 0.999
+    - recuento de números elegidos: con la ley de escala, λ, θ_g y Δ_g; con pesos independientes, tres pesos, θ_g y Δ_g
+    - el juguete radial del oráculo (sin inclinación), como referencia ya pública
+- **no_letter_on_lambda**: True
+
+## Decisión del autor que abre la ronda 2
+
+Acta: `docs/decision_autor_2026-11-13_r6_ronda2.md` (sha256 `fcc2fd72846a0ec6953070a0d8420e0ac4f160099c1bf021d87e41eca33427f4`). Texto literal:
+
+> R6 — Apertura de ronda 2 mediante integración logarítmica
+>
+> Decisión del autor: Sí, abrir la ronda 2 conservando íntegramente el modelo físico de la ronda 1.
+>
+> La primera ronda de R6 obtiene una letra global INDETERMINADO: el caso (\delta_0=0,003) recibe A, con cocientes 11,3 y 10,1 y controles superados; los casos (\delta_0=0,01) y (\delta_0=0,0554) no pudieron integrarse debido al subdesbordamiento numérico de las amplitudes de los modos.
+>
+> Considero necesario distinguir una pérdida de precisión de la representación numérica de una verdadera ausencia de activación dimensional.
+>
+> Por ello, autorizo una segunda ronda con las mismas ecuaciones físicas, condiciones iniciales, pesos, compuertas, controles, brazos, valores de (\delta_0) y criterios de aceptación.
+>
+> La única modificación admitida es sustituir la integración directa de las amplitudes positivas (q_k) por una formulación matemáticamente equivalente en (y_k=\ln q_k), incluyendo el tratamiento logarítmico de los acoplamientos y eventos que lo requieran.
+>
+> Antes de ejecutarla deberán verificarse la equivalencia de las ecuaciones, la conservación de los estados físicamente nulos y la convergencia numérica.
+>
+> La nueva preinscripción quedará congelada antes de realizar las corridas.
+>
+> Se declara expresamente que esta segunda ronda no es ciega, puesto que ya se conocen los resultados y cocientes de la primera. No se interpretará como una confirmación estadísticamente independiente.
+>
+> El brazo con fuente continua de ruido permanecerá como hipótesis física alternativa y no sustituirá el brazo principal.
+>
+> El objetivo de la ronda 2 es determinar si los casos anteriormente no integrables admiten una trayectoria numérica estable y si, bajo las reglas originales, se activan realmente los modos de estructuración de V1D, V2D y V3D.
+>
+> La letra final se asignará exclusivamente conforme a los criterios previamente congelados, conservando íntegramente los resultados negativos e indeterminados.
+
+### Cómo se cumple cada condición
+
+- **same_model**: mismas ecuaciones físicas, condiciones iniciales, pesos, compuertas, controles, brazos, valores de δ₀ y criterios de aceptación que la ronda 1
+- **only_change**: integrar y_k = ln q_k en lugar de q_k, con el tratamiento logarítmico de los acoplamientos y eventos que lo requieran
+- **verified_before_run**:
+    - equivalencia de las ecuaciones: tests/test_enabling_cascade.py: test_latent_gradient_is_proportional_to_the_amplitude, test_log_velocity_is_the_linear_velocity_divided_by_the_amplitude y test_log_representation_matches_the_linear_one_on_the_toy (gatillos a 1e-6)
+    - conservación de los estados físicamente nulos: test_log_representation_keeps_null_states_null (una dirección sin sembrar sigue en cero exacto; sin q_1 no se abren las superiores)
+    - convergencia numérica: test_log_representation_converges_under_step_halving (paso a la mitad, gatillos a 1e-5); en la ronda, la puerta de convergencia congelada, celda a celda
+- **not_blind**: esta segunda ronda no es ciega, puesto que ya se conocen los resultados y cocientes de la primera; no se interpretará como una confirmación estadísticamente independiente
+- **noise_source_arm**: el brazo con fuente continua de ruido permanece como hipótesis física alternativa y no sustituye al brazo principal: sigue siendo un control, sin letra
+- **objective**: determinar si los casos antes no integrables admiten una trayectoria numérica estable y si, bajo las reglas originales, se activan los modos de estructuración de V1D, V2D y V3D
+- **letter**: la letra se asigna solo por los criterios ya congelados; la ronda 1 queda como salió
+
+## Ronda anterior y lo que cambia
+
+- **Ronda 1**: `results/2026-11-13_enabling_cascade`, preinscripción `9040df79900a505a8f96282d5b2a80dfc3785533820209f3fd95f713333d1286`, letra global INDETERMINADO. Causa: en la representación lineal el flotante agota la semilla de q_2 mientras su compuerta está cerrada (por debajo de 4.9e-324) en δ₀ = 0.01 con semilla 1e-9 y en δ₀ = 0.0554; el segundo gatillo se dispara y la dirección no se habilita (lectura_a_posteriori.md).
+- **Lo que cambia**: solo la representación de las amplitudes latentes: se integra ln q̂_k (amplitude_representation = 'log'; d ln q̂_k/dσ̂ = −r_k/G con ∂V̂/∂q̂_k = r_k·q̂_k) en todos los brazos. Reglas, puertas, controles, brazos, rejilla de δ₀ y tolerancias son los de la ronda 1, sin tocar.
+- **Lo que ya se conoce**: la ronda 2 NO es ciega: estas cifras de la ronda 1 se conocen al congelar. En el juguete radial la representación logarítmica reproduce los gatillos de la lineal a 1e-6 (tests). Ninguna celda con inclinación se ha corrido con la representación logarítmica antes de congelar.
+    - ronda 1, brazo base, δ₀ = 0.003: letra A; gatillos [0.008661820460462905, 0.09783666471649964, 0.9900635841028218]; cocientes [11.295161930806294, 10.119555761346929]
+    - ronda 1, brazo base, δ₀ = 0.01: letra INDETERMINADO; gatillos [0.00867499637378727, 0.09784712188377852, 0.9900636819913949]; cocientes [11.27921184836889, 10.118475259470372]
+    - ronda 1, brazo base, δ₀ = 0.0554: letra INDETERMINADO; gatillos [0.008705537495906917]; cocientes []
+    - ronda 1, suelo de ruido 1e-18, δ₀ = 0.003: gatillos [0.008661820460462905, 0.09783666471649964, 0.9900633696558337]; cocientes [11.295161930806294, 10.119553569459168]
+    - ronda 1, suelo de ruido 1e-18, δ₀ = 0.01: gatillos [0.00867499637378727, 0.09784712188377852, 0.9900635326299478]; cocientes [11.27921184836889, 10.118473732992697]
+    - ronda 1, suelo de ruido 1e-18, δ₀ = 0.0554: gatillos [0.008705537495906917, 0.09787118643398617, 0.9900637439197602]; cocientes [11.242405937600322, 10.115987963296586]
+
+## Comprobaciones antes de congelar
+
+las tres verificaciones que el autor pide antes de ejecutar se hicieron con juguetes sin inclinación y están en la suite: equivalencia de las ecuaciones (la velocidad en logaritmo es la lineal dividida por la amplitud, y los gatillos coinciden a 1e-6), conservación de los estados nulos (una dirección sin sembrar sigue en cero exacto) y convergencia (paso a la mitad, gatillos a 1e-5). Además, aguanta semillas de 1e-30 y abre la dirección que la representación lineal deja en un subnormal. Ninguna celda con inclinación se corrió con la representación logarítmica antes de congelar.
+
+el fallo de la ronda 1 no se vio en el juguete porque allí W_2 = 336 y el redondeo de los subnormales deja crecer la amplitud; con W_2 ≥ 361 no.
+
+## Expectativa (E13, escrita antes de congelar)
+
+A en los tres δ₀, con cocientes entre 11.24 y 11.30 y 10.12. No es una expectativa ciega: son los valores de la ronda 1 (brazo base en δ₀ = 0.003 y 0.01; brazo con suelo de ruido en los tres). Lo que la ronda 2 puede añadir es que la semilla inicial, integrada sin agotarse, complete la cascada en δ₀ = 0.0554 y supere los controles de semilla en los tres δ₀. Si un control falla ahora, ya no será por el flotante. La A sigue sin decir nada sobre λ, que entra a mano.
+
+## Lo que no puede decidir
+
+- λ = 10: entra como número calibrado de la ley de escala; la coincidencia con la Ley de la Década es una hipótesis pendiente de derivación (decisión 7)
+- que un parámetro de orden q_k sea una dimensión espacial: son tres amplitudes añadidas; su interpretación como modos emergentes exige una dinámica común derivada de la Unidad Dual (decisión 5)
+- la compuerta: es un acople postulado, con dos números elegidos
+- si el colapso es nucleado o espinodal (decisión 6, pendiente; R7)
+- nada observable: recorrido interno del reloj (E8)
