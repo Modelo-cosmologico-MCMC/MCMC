@@ -9,7 +9,10 @@ LO QUE ES. Un solo bucle en σ que integra a la vez:
   V = V(falso vacío) — el campo emerge sin velocidad y con la tensión del
   falso vacío (Prop. 3.5). Con la inclinación el falso vacío no está en
   el origen sino en ρ_fv ≃ η/(√2·M0²) sobre el eje θ = 0 (el residuo
-  ⟨χ⟩ ≃ (ē/m̄²)·δ0 de la Prop. 3.4), y la barrera solo existe por debajo
+  de la Prop. 3.4 dentro del dominio físico C4: ⟨χ⟩ = ρ_fv/√2 ≃
+  (ē/2m̄²)·δ0, la mitad de (ē/m̄²)·δ0, que es el mínimo sin restringir y
+  cae en φ_E < 0; la comprobación `chi_residue_3_4` compara el valor
+  medido con el de C4), y la barrera solo existe por debajo
   de un δ0 máximo que el módulo calcula (`delta0_metastability_max`):
   la metastabilidad de la Obs. 8.6 (D(S0) > 0) es necesaria, no
   suficiente, cuando la inclinación es O(δ0^{7/2}) frente a T₀ = O(δ0³);
@@ -90,6 +93,7 @@ from .basal import (
     T0_numeric,
     c_bar,
     chi_residue,
+    chi_residue_c4,
     kappa_plus,
     quasi_cancellation_ok,
     scaled_params,
@@ -1014,6 +1018,19 @@ class SClock:
         corr = self.T0 / self.T0_law - 1.0
         first = k1 * np.sqrt(c.delta0)
         ld = self.land
+        # residuo del falso vacío (Prop. 3.4): lo que el reloj mide en su rayo de nucleación frente al valor dentro del
+        # dominio físico C4, (ē/2m̄²)·δ0. En el rayo θ_nuc la estacionariedad lineal es m_rayo·ρ = η·(cos θ − sin θ)/√2
+        # con m_rayo = M0² + ½μ²(cos θ − sin θ)², así que la referencia es la de C4 por (cos θ − sin θ)²·M0²/m_rayo:
+        # exactamente la de C4 con la configuración por defecto (θ_nuc = 0, sin término angular)
+        ct = np.cos(c.theta_nuc) - np.sin(c.theta_nuc)
+        chi_fv = ld["rho_fv"] * ct / np.sqrt(2.0)
+        chi_c4 = chi_residue_c4(c.delta0, c.m_bar, c.e_bar)
+        chi_ray = chi_c4 * ct ** 2 * self.lam0[0] / (self.lam0[0] + 0.5 * self.mu2 * ct ** 2)
+        chi_an = chi_residue(c.delta0, c.m_bar, c.e_bar)
+        # sin inclinación (ē = 0) o sobre la diagonal (cos θ = sin θ) no hay residuo que comparar
+        chi_ratio = chi_fv / chi_ray if chi_ray > 0.0 else None
+        # tolerancia: el doble de la corrección relativa de primer orden, (b̄ē²/2m̄⁶)·δ0 — 3·δ0 con las formas por defecto
+        chi_tol = c.b_bar * c.e_bar ** 2 / c.m_bar ** 6 * c.delta0
         return {"quasi_cancellation_3_3": {"pass": quasi_cancellation_ok(c.m_bar, c.b_bar, c.C0), "status": "derivado"},
                 "T0_tilt_first_order": {"kappa1": k1, "kappa1_form": "ē·(cos θ − sin θ)·√κ₊/(√2·c̄)",
                                         "predicted_correction": first, "measured_correction": corr,
@@ -1048,8 +1065,20 @@ class SClock:
                                    "note": "la corrección de la inclinación es O(δ0^{1/2}) relativa (Prop. 3.4: η·ρ₊ = O(δ0^{7/2}))",
                                    "status": "derivado"},
                 "measure_normalizable_3_1": {"pass": measure_normalizable(c.delta0, c.C0), "status": "derivado"},
-                "chi_residue_3_4": {"analytic": chi_residue(c.delta0, c.m_bar, c.e_bar),
-                                    "false_vacuum_chi": ld["rho_fv"] * (np.cos(c.theta_nuc) - np.sin(c.theta_nuc)) / np.sqrt(2.0),
+                "chi_residue_3_4": {"analytic": chi_an,
+                                    "false_vacuum_chi": chi_fv,
+                                    "analytic_c4": chi_c4, "reference_on_ray": chi_ray,
+                                    "ratio_false_vacuum_over_c4": chi_ratio,
+                                    "ratio_false_vacuum_over_analytic": chi_fv / chi_an if chi_an > 0.0 else None,
+                                    "tolerance": chi_tol,
+                                    "pass": None if chi_ratio is None else bool(abs(chi_ratio - 1.0) < chi_tol),
+                                    "note": "`analytic` = (ē/m̄²)·δ0 es el mínimo sin restringir (φ_E < 0, fuera del dominio "
+                                            "físico C4); dentro de C4 el falso vacío está en φ_E = 0 y el residuo es "
+                                            "`analytic_c4` = (ē/2m̄²)·δ0, la mitad. Se compara el valor medido con el de C4 "
+                                            "(`reference_on_ray`: en el rayo θ_nuc y con el término angular, el de C4 por "
+                                            "(cos θ − sin θ)²·M0²/m_rayo; el de C4 sin más con la configuración por "
+                                            "defecto). Tolerancia: el doble de la corrección relativa de primer orden, "
+                                            "(b̄ē²/2m̄⁶)·δ0, es decir 3·δ0 con las formas por defecto",
                                     "status": "derivado"},
                 "nucleation": {"mode": c.nucleation, "x_esc": self.x_esc, "x_esc_over_x_plus": self.x_esc / self.x_plus0,
                                "bounce": None if self.bounce is None else
@@ -1180,6 +1209,8 @@ class SClock:
                 "c_eff_sealed_u": u_frozen, "m_eff_sealed": m_frozen,
                 "theta_flow": float(dual["theta"]), "chi_flow": float(dual["chi"]), "rho_flow": float(dual["rho"]),
                 "theta_imposed": THETA_DIAGONAL, "chi_residue_analytic_3_4": chi_residue(c.delta0, c.m_bar, c.e_bar),
+                # el residuo dentro del dominio físico C4 (la mitad): el que un ciclo siguiente heredaría como semilla
+                "chi_residue_c4": chi_residue_c4(c.delta0, c.m_bar, c.e_bar),
                 "delta0_input": c.delta0,
                 "delta0_next_cycle": None,
                 "delta0_next_cycle_note": "F_Vic(δ₀) exige γ_R (frente 4): no calculado (core.victoria.STATUS_LYDIA)",

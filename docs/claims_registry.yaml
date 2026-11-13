@@ -100,6 +100,43 @@ claims:
     status: interno
     artifact: "—"
 
+  - claim_id: residuo-falso-vacio-c4
+    entity: Residuo de desequilibrio del falso vacío dentro del dominio físico C4 — ⟨χ⟩ ≃ (ē/2m̄²)·δ₀, la mitad del valor de la Prop. 3.4, que es el mínimo sin restringir (φ_E < 0); el reloj S compara el valor que mide con el de C4 (12-nov-2026)
+    law: "Prop. 3.4 (residuo ⟨χ⟩ ≃ (ē/m̄²)·δ₀); Def. 2.1 y C4 (dominio físico: primer cuadrante del Plano Dual); Def. 3.1 (Basal con −η·χ)"
+    derivation: >-
+      revisión profunda del 10-nov-2026 (hallazgo 4) y PR R1 del plan de
+      acción del 11-nov. Junto al origen V ≃ ½M₀²ρ² − η·χ. Su mínimo sin
+      restringir está en φ_M = −φ_E = η/(√2·M₀²), con φ_E < 0, y da χ =
+      η/M₀² = (ē/m̄²)·δ₀: es la fórmula de la Prop. 3.4 y de
+      core.basal.chi_residue, pero cae fuera del dominio físico. Dentro del
+      dominio ∂V/∂φ_E = M₀²φ_E + η/√2 > 0, así que el falso vacío queda
+      sobre la frontera φ_E = 0, en φ_M ≃ η/(√2·M₀²), y χ = φ_M/√2 ≃
+      (ē/2m̄²)·δ₀ (core.basal.chi_residue_c4). Cociente medido/C4 = 1.005 /
+      1.016 / 1.113 en δ₀ = 0.003 / 0.01 / 0.0554; la desviación es la
+      corrección de primer orden, (b̄ē²/2m̄⁶)·δ₀ = 1.5·δ₀ con las formas por
+      defecto, más O(δ₀²). El Flujo del Camino proyectado sobre el cuadrante
+      acaba en ese punto. El mínimo sin restringir solo existe por debajo de
+      δ₀ = 0.0514, la mitad del δ₀ máximo de C4: en δ_H = 0.0554 no existe.
+      El reloj S publicaba los dos números juntos sin compararlos (analytic
+      = 0.01 y false_vacuum_chi = 0.005078 con δ₀ = 0.01). Ahora la
+      comprobación chi_residue_3_4 compara el valor medido con el de C4, con
+      tolerancia 3·δ₀ para las formas por defecto, y el estado entregado
+      lleva también chi_residue_c4. chi_residue conserva su valor y ninguna
+      cifra publicada se mueve.
+    implementation: core/basal.py + core/s_clock.py
+    test: tests/test_chi_residue_c4.py
+    observable: "— (comprobación interna; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      un falso vacío del cuadrante físico fuera de φ_E = 0, o un cociente
+      medido/C4 que se aparte de 1 en más de 3·δ₀ con las formas por
+      defecto. Si la Prop. 3.4 quiso dar el mínimo sin restringir, su
+      fórmula es correcta pero no describe un estado del dominio
+      (suposición S5 de la revisión)
+    evidence_level: comprobación interna (E8) con forma cerrada y verificación numérica, sin datos ni letra; es una errata de factor 2 propuesta para la v36, no un resultado físico
+    status: interno
+    artifact: "—"
+
   - claim_id: monotonia-exclusion
     entity: Monotonía y Exclusión
     law: "Cap. 4"

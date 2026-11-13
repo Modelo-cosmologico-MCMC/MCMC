@@ -22,6 +22,15 @@ con T0 = 0 ⟺ δ0 = 0 (Axioma 3, Def. 3.3). La inclinación en el vacío
 verdadero es η·ρ+ = O(δ0^{7/2}) (subdominante) y el residuo de
 desequilibrio ⟨χ⟩ ≃ (ē/m̄²)·δ0.
 
+RESIDUO DENTRO DEL DOMINIO FÍSICO (revisión del 10-nov-2026, hallazgo 4).
+(ē/m̄²)·δ0 es el mínimo SIN RESTRINGIR de ½M0²ρ² − η·χ: cae en φE =
+−η/(√2·M0²) < 0, fuera del dominio físico C4 del tratado (el primer
+cuadrante del Plano Dual, φM ≥ 0 y φE ≥ 0; no confundir con el sello
+S_1,001, que el repositorio también llama C4). Dentro del dominio el falso
+vacío está sobre la frontera φE = 0, en φM ≃ η/(√2·M0²), y el residuo es la
+mitad: ⟨χ⟩ ≃ (ē/2m̄²)·δ0 (`chi_residue_c4`). `chi_residue` conserva su
+valor: es la fórmula de la Prop. 3.4 tal como está escrita.
+
 Control negativo (§3.2): con δ0 = 0 el paisaje es plano hasta sexto
 orden (V0 = C0·ρ⁶/6) y el estado es estrictamente inerte — no hay salida.
 """
@@ -116,5 +125,25 @@ def T0_numeric(delta0: float, m_bar: float = M_BAR, b_bar: float = B_BAR,
 def chi_residue(delta0: float, m_bar: float = M_BAR,
                 e_bar: float = E_BAR) -> float:
     """Residuo de desequilibrio del falso vacío: ⟨χ⟩ ≃ (ē/m̄²)·δ0
-    (Prop. 3.4) — la semilla del Modo de Memoria (Cap. 10)."""
+    (Prop. 3.4) — la semilla del Modo de Memoria (Cap. 10).
+
+    Es el mínimo SIN RESTRINGIR del Potencial Basal junto al origen
+    (½M0²ρ² − η·χ): φM = −φE = η/(√2·M0²), con φE < 0, fuera del dominio
+    físico C4 (primer cuadrante). El residuo del falso vacío que el
+    Plano Dual admite es `chi_residue_c4`, la mitad."""
     return (e_bar / m_bar ** 2) * delta0
+
+
+def chi_residue_c4(delta0: float, m_bar: float = M_BAR,
+                   e_bar: float = E_BAR) -> float:
+    """Residuo de desequilibrio del falso vacío DENTRO del dominio físico
+    C4 (primer cuadrante del Plano Dual): ⟨χ⟩ ≃ (ē/2m̄²)·δ0.
+
+    Con φE ≥ 0 el falso vacío queda sobre la frontera φE = 0 (allí
+    ∂V/∂φE = +η/√2 > 0: la ligadura está activa) y φM resuelve
+    M0²·φM ≃ η/√2, de modo que χ = φM/√2 ≃ η/(2·M0²): la mitad de
+    `chi_residue`. Es el orden dominante; la corrección relativa es
+    (b̄ē²/2m̄⁶)·δ0 (1.5·δ0 con las formas por defecto). Comprobación
+    interna (E8): no cambia ninguna cifra del repositorio; el reloj S la
+    compara con el falso vacío que mide (`chi_residue_3_4`)."""
+    return 0.5 * (e_bar / m_bar ** 2) * delta0
