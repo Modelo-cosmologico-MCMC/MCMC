@@ -6,6 +6,50 @@ estado en que afirme exactamente lo que hace»).
 
 ## Sin publicar — noviembre de 2026
 
+- **El collado de la cuarta ecuación y el umbral A_c (revisión profunda del
+  10-nov, hallazgo 2; PR R2 del plan del 11-nov), comprobación interna sin
+  letra.** Con el término angular ½μ²χ², salir de S₀ por el polo de masa y
+  llegar junto a la diagonal se excluyen. `core/angular_term.py` da las
+  formas cerradas (`results/2026-11-12_angular_saddle/`):
+  - los puntos críticos interiores están en los anillos κ₊ y κ₋ con χ = η/μ².
+    El de κ₊ es el vacío, a arcsin(t/4A) de la diagonal (el θ* del registro);
+    el de κ₋ es el collado, que existe si A ≥ A_c = (t/4)·√(2κ₊/κ₋) = 0.098 /
+    0.178 / 0.419 para δ₀ = 0.003 / 0.01 / 0.0554;
+  - con A = 1 el collado está a 0.069 / 0.126 / 0.301 rad de la diagonal y
+    la barrera del rayo del polo es 2.58 / 2.34 / 1.78 veces la suya;
+  - con salida por el polo (A ≤ A_c) el vacío queda a 0.2735 rad (15.7°) o
+    más de la diagonal, sea cual sea δ₀;
+  - corrida de consistencia con `theta_nuc` en el collado: de la rotación
+    desde el polo queda el último 5.6 / 10.6 / 27.9 %. Con A = 0.8·A_c el
+    descenso desde el polo acaba a 0.3444 rad de la diagonal.
+
+  El rayo declarado del reloj sigue siendo θ = 0 y las cifras del 23-oct no
+  cambian: valen como descenso desde ese rayo. Qué mitad de la Prop. 3.5 se
+  conserva es la decisión 2 del autor. Fila nueva `cuarta-ecuacion-collado`
+  (interno) y nota en `cuarta-ecuacion-termino-angular`, que conserva su
+  estatuto.
+
+- **El Cruce de Victoria del estado ocupado es un retorno (revisión profunda
+  del 10-nov, hallazgo 1; PR R3 del plan del 11-nov), comprobación interna.**
+  Con un solo Potencial Basal séxtico, la espinodal D = 0 no dispara un
+  colapso hacia fuera: destruye el vacío exterior y devuelve el campo al
+  origen. `core/decade.py` lo expone con forma cerrada:
+  - `outer_vacuum_energy(r)` = −t(r), con r = B²/(4C₀M₀²) y t(r) = r^(3/2)/3
+    − √r/2 + (r − 1)^(3/2)/3. t(9/4) = c̄ = 0.840847, t(4/3) = 0 y t(1) =
+    −1/6: en D = 0 el vacío ocupado vale +E₀/6, por encima del origen;
+  - `retension_cost(r0, camino)`: llegar a D = 0 desde el estado que dejó la
+    salida de S₀ cuesta 1.198 / 1.669 / 1.132·T₀ si solo baja B, solo sube
+    M₀² o solo sube C₀. Siempre más de una Tensión Primordial;
+  - `adiabatic_B_ramp()`: bajando B despacio con el campo en el vacío
+    ocupado, V/E₀ sube de −0.8408 a +0.1678 y el campo cae a ρ = 0.
+
+  El docstring del modo emergente del reloj S dice ahora que el evento D = 0
+  del estado ocupado es un retorno. El comportamiento del reloj no cambia y
+  la decisión C del 22-sep sigue declarada tal cual. No elige dónde vive el
+  Cruce de Victoria: es la decisión 1 del autor. Fila nueva
+  `cruce-victoria-retorno` (interno) y nota en `decada-discriminante`, que
+  conserva su estatuto.
+
 - **Residuo del falso vacío dentro del dominio físico C4 (revisión profunda
   del 10-nov, hallazgo 4; PR R1 del plan del 11-nov), comprobación interna.**
   La Prop. 3.4 y `core.basal.chi_residue` dan ⟨χ⟩ ≃ (ē/m̄²)·δ₀. Ese es el

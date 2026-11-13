@@ -212,7 +212,15 @@ claims:
       dan tres cruces (criterios (i) integral y (ii) de PR-6), pero sus
       cocientes, 1.4 y 1.16, quedan lejos de la Década: letra C bajo
       preinscripción congelada. λ sigue sin derivar; el sentido del flujo es
-      la decisión 1 del autor.
+      la decisión 1 del autor. Nota del 12-nov-2026 (fila
+      cruce-victoria-retorno): con un solo Potencial Basal, el cruce D = 0
+      del estado ocupado es un retorno al origen y no un colapso hacia
+      fuera, porque en la espinodal el vacío ocupado vale +E₀/6 y alcanzarla
+      cuesta más de una Tensión Primordial. Es lo esperable de los negativos
+      de esta fila (D no cruza cero con flujos hacia el infrarrojo y el
+      candidato 3 solo lo alcanza hacia el ultravioleta), sin ser una
+      demostración para esos flujos. Dónde vive el Cruce de Victoria es la
+      decisión 1 del plan del 11-nov.
     implementation: core/decade.py + core/s_clock.py
     test: tests/test_core_florencia_decade.py + tests/test_s_clock.py
     observable: "—"
@@ -221,6 +229,52 @@ claims:
     evidence_level: interna demostrada; λ=10 calibrado; diagnóstico emergente del reloj S sin cruce en el rango explorado
     status: claim-no-derivado
     artifact: results/2026-09-21_s_clock
+
+  - claim_id: cruce-victoria-retorno
+    entity: Cruce de Victoria del estado ocupado como retorno — con un solo Potencial Basal séxtico, en la espinodal D = 0 el vacío ocupado vale +E₀/6, por encima del origen; alcanzarla exige re-tensar el estado en más de una Tensión Primordial, y lo que el cruce dispara es la vuelta del campo a ρ = 0 (12-nov-2026)
+    law: "Def. 8.4 y Obs. 8.6 (discriminante, espinodal y Cruce de Victoria); Prop. 8.5 (fusión de puntos fijos del flujo radial); Teo. 4.5 (Monotonía, con acoplos fijos); Def. 3.3 y Prop. 3.4 (Tensión Primordial); Axioma 8, Lema 10.3 y Prop. 10.7 (retorno y Techo W_máx)"
+    derivation: >-
+      revisión profunda del 10-nov-2026 (hallazgo 1) y PR R3 del plan de
+      acción del 11-nov. Con r = B²/(4C₀M₀²) y E₀ = M₀³/√C₀, el vacío
+      exterior del Basal radial vale V(x₊) = −E₀·t(r), con t(r) = r^(3/2)/3
+      − √r/2 + (r − 1)^(3/2)/3 (core.decade.outer_vacuum_energy; comprobado
+      por sustitución directa con 30 dígitos). Límites: t(9/4) = c̄ =
+      0.840847 con las formas por defecto, t(4/3) = 0 y t(1) = −1/6. Tres
+      regímenes: para r > 4/3, x₊ es el vacío verdadero y hay Tensión
+      Primordial; para 1 < r < 4/3 los papeles se invierten (x₊ es el falso
+      vacío y el origen el verdadero); para r < 1 (D < 0) el único mínimo es
+      el origen. En D = 0 el vacío ocupado vale +E₀/6. Llegar ahí desde el
+      estado que dejó la salida de S₀ (r₀ = 9/4, V = −T₀) cuesta W_ret = T₀
+      + E₀′/6, siempre mayor que T₀: 1.198·T₀ si solo baja B, 1.669·T₀ si
+      solo sube M₀² y 1.132·T₀ si solo sube C₀ (core.decade.retension_cost).
+      El retorno libera después 0.198, 0.669 y 0.132·T₀. Demostración
+      dinámica (core.decade.adiabatic_B_ramp): bajando B despacio con el
+      campo en x₊, V/E₀ pasa de −0.8408 a un máximo de +0.1678 en r = 0.994
+      (+1/6 en r = 1 para una rampa infinitamente lenta) y el campo cae a ρ
+      = 0; la subida total es 1.1996·T₀. Consecuencias, sin elegir lectura:
+      un solo séxtico admite dos transiciones cuesta abajo, la salida
+      (origen → x₊, si r > 4/3) y el retorno (x₊ → origen, si r < 4/3); y la
+      Monotonía leída sobre todo el reloj no puede valer a la vez que el
+      gatillo D = 0 del estado ocupado. Ya estaba señalado que T₀ = 0 (r =
+      4/3) precede a D = 0 (nota computacional §3.40); lo nuevo es la
+      inversión de papeles, el valor +E₀/6, el coste W_ret y la dirección
+      del colapso. El reloj S no cambia: el modo emergente registra el
+      cruce como antes y su docstring dice ahora que ese evento es un
+      retorno.
+    implementation: core/decade.py + core/s_clock.py
+    test: tests/test_victoria_return.py
+    observable: "— (comprobación interna; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      un flujo de acoplos derivado que lleve el estado ocupado a D = 0 sin
+      subir su energía, o un potencial distinto en cada tramo dimensional
+      (suposición S1 de la revisión), en cuyo caso el resultado pasa a decir
+      que cada tramo necesita su propia tensión. Dónde vive el Cruce de
+      Victoria (reinicio del ciclo, gatillo con fuente declarada, un Basal
+      por tramo o cascada latente) es la decisión 1 del autor
+    evidence_level: comprobación interna (E8) con forma cerrada y verificación numérica, sin datos ni letra; vale para un único Potencial Basal y no elige la lectura de la cascada
+    status: interno
+    artifact: "—"
 
   - claim_id: beta-extra-cribado
     entity: Cribado preinscrito de candidatos a β del frente 2 en el reloj S — primer candidato, la contribución del término κΣ̇ê_E a las β vía la Def. 4.4, NO PASA los criterios (i)–(ii) bajo los cierres declarados (28-sep-2026)
@@ -2427,7 +2481,13 @@ claims:
       construcción, porque el vacío verdadero está allí. Con este término
       la Prop. 3.5 tendría que decir «se acerca a la diagonal al completar
       la descarga»: es la decisión 2 del autor. La predicción del 22-sep
-      («cruce en S = 1 ± 0.05») no se puede someter a prueba con él.
+      («cruce en S = 1 ± 0.05») no se puede someter a prueba con él. Nota
+      del 12-nov-2026 (fila cuarta-ecuacion-collado): el rayo θ = 0 no es
+      el collado si A > A_c, con A_c = (t/4)·√(2κ₊/κ₋) = 0.098 / 0.178 /
+      0.419 para los tres δ₀. Con A = 1 el collado de salida está a 0.069 /
+      0.126 / 0.301 rad de la diagonal y la barrera del rayo del polo es de
+      1.8 a 2.6 veces más alta que la suya. Las cifras de esta fila valen
+      como descenso desde el rayo declarado.
     implementation: core/s_clock.py + scripts/run_angular_term.py
     test: tests/test_angular_term.py
     observable: "— (recorrido interno del reloj; ningún observable)"
@@ -2440,6 +2500,54 @@ claims:
     evidence_level: comprobación interna (E8) sin letra; reproduce las cifras del autor con A = 1; ningún cruce de la diagonal en el barrido; la redacción de la Prop. 3.5 queda para la decisión 2 del autor
     status: interno
     artifact: results/2026-10-23_angular_term
+
+  - claim_id: cuarta-ecuacion-collado
+    entity: Cuarta ecuación, brazo «término angular» — collado de salida de S₀ y umbral A_c; con ½μ²χ², la salida por el polo de masa y la llegada junto a la diagonal se excluyen; corrida de consistencia del reloj con θ_nuc en el collado, sin letra (12-nov-2026)
+    law: "Def. 2.2 / Prop. 3.5 (salida de S₀ hacia el polo de masa y cruce de la diagonal en S ≃ 1); Def. 3.1 y Prop. 3.2 (Basal, anillos κ₊ y κ₋); decisión del autor del 23-oct (término angular, fila cuarta-ecuacion-termino-angular)"
+    derivation: >-
+      revisión profunda del 10-nov-2026 (hallazgo 2) y PR R2 del plan de
+      acción del 11-nov. Con V = V₀ + ½μ²χ², μ² = 4A(c̄/κ₊)δ₀², el gradiente
+      se anula en el interior del cuadrante solo si R(ρ²) = M₀² − Bρ² + C₀ρ⁴
+      = 0 y χ = η/μ² (core/angular_term.py). El punto del anillo κ₊ es el
+      vacío, a arcsin(t/4A) de la diagonal: es el θ* del registro. El del
+      anillo κ₋ es el collado, a arcsin((t/4A)·√(κ₊/κ₋)) de la diagonal, con
+      un autovalor negativo del hessiano. El collado interior existe si A ≥
+      A_c = (t/4)·√(2κ₊/κ₋) = 0.098 / 0.178 / 0.419 para δ₀ = 0.003 / 0.01 /
+      0.0554; por debajo, el collado está sobre la frontera φ_E = 0 y la
+      salida es por el polo. Con salida por el polo el vacío queda a
+      arcsin√(κ₋/2κ₊) = 0.2735 rad (15.7°) o más de la diagonal, sea cual sea
+      δ₀ (entre 24.1° y 4.1° según las formas). Con A = 1, el de las cifras
+      del 23-oct, el collado está en θ = 0.716 / 0.659 / 0.484 rad, a 0.069
+      / 0.126 / 0.301 de la diagonal, y la barrera del rayo del polo es 2.58
+      / 2.34 / 1.78 veces la del collado; en esa barrera ∂V/∂φ_E < 0, así
+      que no es un collado. Vacío y collado comparten χ, de modo que
+      sin(d_collado) = √(κ₊/κ₋)·sin(d_vacío): acercar el vacío a la diagonal
+      aleja el collado del polo. Corrida de consistencia
+      (results/2026-11-12_angular_saddle): con θ_nuc en el collado el reloj
+      arranca en θ = 0.716 / 0.659 / 0.484 y termina en 0.740 / 0.715 /
+      0.649, con θ monótona, sin cruzar la diagonal y con las identidades
+      del descenso; de la rotación desde el polo queda el último 5.6 / 10.6
+      / 27.9 %. Con A = 0.8·A_c la salida es por el polo y el descenso acaba
+      a 0.3444 rad de la diagonal en los tres δ₀. Los θ* del registro (0.759
+      / 0.737 / 0.672) siguen saliendo con el rayo declarado θ = 0, que no
+      cambia. Tres comprobaciones «derivadas» del reloj, escritas para el
+      rayo del polo sin término angular, no se superan en estos brazos y se
+      publican con su motivo.
+    implementation: core/angular_term.py + scripts/run_angular_saddle.py
+    test: tests/test_angular_saddle.py
+    observable: "— (recorrido interno del reloj; ningún observable)"
+    dataset: "—"
+    falsifier: >-
+      sin letra. Lo refutaría un punto crítico interior fuera de los anillos
+      κ₊ y κ₋, o un collado más bajo sobre el rayo del polo con A > A_c. Si
+      el rayo θ = 0 forma parte de la ontología como condición impuesta
+      (suposición S3 de la revisión), las cifras del 23-oct valen tal cual y
+      esta fila solo dice que esa condición no sale de la dinámica. Qué
+      mitad de la Prop. 3.5 se conserva (salida por el polo, llegada a la
+      diagonal o un segundo colapso angular) es la decisión 2 del autor
+    evidence_level: comprobación interna (E8) con forma cerrada y verificación numérica, sin datos ni letra; corrida de consistencia con θ_nuc en el collado; no cambia el rayo declarado del reloj ni las cifras del 23-oct
+    status: interno
+    artifact: results/2026-11-12_angular_saddle
   - claim_id: halo-capas-ronda2
     entity: Frente 5 (b), ronda 2 — la serie de resolución del campo de Cronos con un código de CAPAS ESFÉRICAS (campo conservativo por núcleo, subpasos por capa, interior refinado), bajo preinscripción congelada; desenlace INDETERMINADO por puertas del instrumento (suelo de dt en los brazos finos a A_Sculptor, energía en los brazos a 0.05·A_Sculptor) (22-sep-2026)
     law: "Def. 11.1 / Prop. 11.2 / Cor. 11.3 (Ley de Cronos débil: ε_c = Aρ^{3/2}, fuerza +c²∇ε_c, fricción con compuerta, lapso); criterio de Cronos–Jeans (fila test-criterio-cronos-jeans: q = (3/2)c²ε_c/σ², γ ∝ k); A_Sculptor del 5E como hipótesis"
