@@ -8,7 +8,8 @@ estado en que afirme exactamente lo que hace»).
 
 - **Cascada de habilitación con direcciones latentes (R6 del plan del 11-nov;
   decisiones 4, 5 y 7 del autor del 13-nov): ronda 1 INDETERMINADO por el
-  instrumento.** `docs/decisiones_autor_2026-11-13.md` recoge literalmente las
+  instrumento; ronda 2, con las amplitudes en logaritmo y no ciega, A en los
+  tres δ₀.** `docs/decisiones_autor_2026-11-13.md` recoge literalmente las
   decisiones 4, 5, 7 y 8. `core/enabling_cascade.py` añade al Basal completo
   del reloj tres amplitudes q_k (parámetros de orden de modos de
   estructuración emergente; descripción efectiva, no demostración de
@@ -35,10 +36,22 @@ estado en que afirme exactamente lo que hace»).
   compuerta está cerrada. Lectura a posteriori, sin letra
   (`lectura_a_posteriori.md`): con una fuente continua (suelo de 1e-18) la
   cascada se completa en los tres δ₀ con cocientes 11.24–11.30 y 10.12; y los
-  cocientes siguen a λ (la A solo sale para λ entre 7 y 13). Una ronda 2 con
-  las mismas reglas integraría ln q_k, que no agota la semilla; abrirla es
-  decisión del autor. Fila nueva `cascada-habilitacion-latente` (interno). No
-  afirma que λ = 10 esté derivado ni que q_k sea una dimensión espacial.
+  cocientes siguen a λ (la A solo sale para λ entre 7 y 13). **Ronda 2**,
+  abierta por el autor el mismo día
+  (`docs/decision_autor_2026-11-13_r6_ronda2.md`) con una única modificación
+  admitida: integrar y_k = ln q_k, que no agota la semilla
+  (`amplitude_representation="log"`; la ruta lineal no cambia). Antes de
+  ejecutar se verificaron con juguetes sin inclinación la equivalencia de las
+  ecuaciones, la conservación de los estados nulos y la convergencia.
+  Preinscripción nueva (`results/2026-11-13_enabling_cascade_round2`, sha256
+  629cf13a25d6…) con las reglas, los controles y los brazos de la ronda 1 sin
+  tocar. **Letra global: A.** Tres colapsos completos y en orden en los tres
+  δ₀, con cocientes 11.295 y 10.120, 11.279 y 10.118, 11.242 y 10.116; las
+  siete puertas y los siete controles superados; las 55 celdas terminan. No es
+  ciega (sus cocientes ya se conocían por la ronda 1) y no vale como
+  confirmación independiente. Fila nueva `cascada-habilitacion-latente`
+  (interno). No afirma que λ = 10 esté derivado ni que q_k sea una dimensión
+  espacial.
 
 - **Lista de erratas para la v36 (PR R5 del plan del 11-nov), solo
   documentación.** `docs/erratas_v36_lista_2026-11-12.md` reúne las erratas

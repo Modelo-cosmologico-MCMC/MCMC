@@ -337,7 +337,7 @@ claims:
     artifact: "—"
 
   - claim_id: cascada-habilitacion-latente
-    entity: Cascada de habilitación con direcciones latentes — cribado preinscrito en el reloj S completo (decisiones 4, 5 y 7 del autor); ronda 1 INDETERMINADO por el instrumento, con A en δ₀ = 0.003 y sin letra en 0.01 y 0.0554 porque el flotante agota la semilla de q_2 (13-nov-2026)
+    entity: Cascada de habilitación con direcciones latentes — cribado preinscrito en el reloj S completo (decisiones 4, 5 y 7 del autor), en dos rondas; ronda 1 INDETERMINADO por el instrumento (el flotante agotaba la semilla de q_2); ronda 2, con las amplitudes en logaritmo y no ciega, A en los tres δ₀ con cocientes 11.2–11.3 y 10.1 (13-nov-2026)
     law: "Prop. 8.1 (Ley de la Década, λ = 10 calibrado); Def. 8.4 y Obs. 8.6 (gatillo de cada colapso); Teo. 4.5 (Monotonía, con acoplos fijos); Def. 3.3 y Prop. 3.4 (Tensión Primordial); Cap. 6 (Cadena de Álgebras); decisiones 4, 5 y 7 del autor del 13-nov-2026 (docs/decisiones_autor_2026-11-13.md)"
     derivation: >-
       R6 del plan del 11-nov, abierto por las decisiones del autor del
@@ -384,14 +384,41 @@ claims:
       10.12. Sensibilidad sin letra, los cocientes siguen a λ (8.2 y 7.1 con
       λ = 7; 15.4 y 14.1 con λ = 14), de modo que la A solo sale para λ entre
       7 y 13. La Década entra por λ y no sale de la dinámica.
+      RONDA 2, abierta por el autor el 13-nov
+      (docs/decision_autor_2026-11-13_r6_ronda2.md) con una única
+      modificación admitida, integrar y_k = ln q_k. Como todo el
+      gradiente latente es proporcional a la amplitud, d ln q_k/dσ =
+      −r_k/G es regular y la semilla no se agota. Antes de ejecutar se
+      verificaron, con juguetes sin inclinación, la equivalencia de las
+      ecuaciones (velocidades a 1e-12, gatillos a 1e-6), la conservación
+      de los estados nulos (una dirección sin sembrar sigue en cero
+      exacto) y la convergencia (gatillos a 1e-5 con el paso a la
+      mitad). Preinscripción nueva (sha256 629cf13a25d6…) con las
+      reglas, las puertas, los controles, los brazos y la rejilla de la
+      ronda 1 sin tocar; declara que no es ciega y lleva escritas las
+      cifras ya conocidas. Letra global A. En δ₀ = 0.003, 0.01 y 0.0554
+      hay tres colapsos completos y en orden, con gatillos en S =
+      0.008662 / 0.097837 / 0.990064, 0.008675 / 0.097847 / 0.990064 y
+      0.008706 / 0.097871 / 0.990064, y cocientes 11.295 y 10.120,
+      11.279 y 10.118, 11.242 y 10.116. Las siete puertas y los siete
+      controles se superan en los tres (mayor ΔV/T_total = 1e-15; con el
+      paso a la mitad los gatillos cambian menos de 2e-6; con semilla
+      1e-3 y 1e-9, menos de 3e-4; sin semilla, sin compuerta y con la
+      jerarquía rota no hay cascada; con pesos iguales la regla da C).
+      Las 55 celdas terminan, también las de la compuerta que en la
+      ronda 1 quedaban detenidas (con θ_g = 0.95, cocientes 10.98 y
+      10.15). Los gatillos caen un 3–4 %, un 1.2 % y un 0.9 % por debajo
+      de 0.009, 0.099 y 0.999. La ronda 2 no es una confirmación
+      independiente, porque sus cocientes ya se conocían, y la A no dice
+      nada sobre λ, que entra a mano.
     implementation: core/enabling_cascade.py + scripts/run_enabling_cascade.py + core/s_clock.py
     test: tests/test_enabling_cascade.py + tests/test_enabling_cascade_lock.py
     observable: "— (recorrido interno del reloj; ningún observable)"
     dataset: "—"
     falsifier: "con una representación que no agote la semilla, menos de tres colapsos completos, un orden distinto de V1D, V2D, V3D, un cociente de gatillos fuera de [7, 14] con λ = 10, una subida de V mayor que el redondeo, o una cascada sin semilla o sin compuerta. Ninguna letra puede decidir λ, que entra a mano (la coincidencia con la Ley de la Década es una hipótesis pendiente de derivación, decisión 7), ni que un parámetro de orden q_k sea una dimensión espacial (decisión 5). La compuerta es un acople postulado con dos números elegidos"
-    evidence_level: comprobación interna (E8) bajo preinscripción congelada; ronda 1 INDETERMINADO por puertas y controles del instrumento (el flotante agota la semilla de q_2 en dos de los tres δ₀; A en δ₀ = 0.003); lectura a posteriori publicada sin letra; λ calibrado, no derivado; no es una derivación de la Década ni de la emergencia dimensional
+    evidence_level: comprobación interna (E8) en dos rondas bajo preinscripción congelada; ronda 1 INDETERMINADO por el instrumento (el flotante agotaba la semilla de q_2); ronda 2, la misma regla con las amplitudes en logaritmo, A en los tres δ₀, no ciega y sin valor de confirmación independiente; λ calibrado, no derivado; no es una derivación de la Década ni de la emergencia dimensional
     status: interno
-    artifact: results/2026-11-13_enabling_cascade
+    artifact: results/2026-11-13_enabling_cascade + results/2026-11-13_enabling_cascade_round2
 
   - claim_id: beta-extra-cribado
     entity: Cribado preinscrito de candidatos a β del frente 2 en el reloj S — primer candidato, la contribución del término κΣ̇ê_E a las β vía la Def. 4.4, NO PASA los criterios (i)–(ii) bajo los cierres declarados (28-sep-2026)
